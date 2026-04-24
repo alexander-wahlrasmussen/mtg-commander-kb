@@ -1,0 +1,21 @@
+# Sync output — generated build artifact
+_sync_drop/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Obsidian — workspace state changes on every open/close
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Excel temp files
+~$*.xlsx
+~$*.xls
