@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -v \"^\\\\.\\\\.$\")"
+      "Bash(grep -v \"^\\\\.\\\\.$\")",
+      "Bash(python \"C:\\\\Users\\\\Alex\\\\Projects\\\\MTGDecks\\\\deck_safe_collection_builder.py\" collection/moxfield_haves_2026-04-24-2112Z.csv --deck-dir ./decks/ -o collection/deck_safe_collection.xlsx)",
+      "Bash(python -c ' *)",
+      "Bash(python C:/Users/Alex/Projects/MTGDecks/deck_safe_collection_builder.py collection/moxfield_haves_2026-04-24-2112Z.csv --deck-dir ./decks/ -o collection/deck_safe_collection.xlsx --no-google)",
+      "Bash(python -)"
     ]
   }
 }
