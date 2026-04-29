@@ -28,21 +28,20 @@ Key rulings: The upkeep trigger counts zombies at resolution, so instant-speed z
 
 ## What the Deck Does
 
-The deck floods the board with zombies through tribal synergy, token generation, and reanimation, then exploits zombie count for passive drain, card advantage, and lethal combat. Every zombie entering the battlefield simultaneously grows the army (Champion of the Perished, Diregraf Colossus), replaces itself on death (Wilhelt, Headless Rider), triggers card draw (Kindred Discovery, Undead Augur), and increases the upkeep drain from The Scarab God.
+The deck floods the board with zombies through tribal synergy, token generation, and reanimation, then exploits zombie count for passive drain, card advantage, and lethal combat. Every zombie entering the battlefield simultaneously grows the army (Diregraf Colossus, Necroduality), replaces itself on death (Wilhelt, the Rotcleaver), triggers card draw (Kindred Discovery, Undead Augur), and increases the upkeep drain from The Scarab God.
 
-### Layer 1 — Zombie Lords (7 pieces)
+### Layer 1 — Zombie Lords (6 pieces)
 
 The deck runs a deep lord package that turns individually weak zombies into a lethal combat force:
 
 - **Death Baron:** +1/+1 and deathtouch to all zombies and skeletons. Deathtouch makes every zombie token a credible blocker and forces unfavorable blocks from opponents.
-- **Diregraf Captain:** +1/+1 to zombies, drains 1 life from target opponent whenever a zombie you control dies. Dual-role: lord + death trigger payoff.
 - **Lord of the Accursed:** +1/+1 to zombies, tap to give all zombies menace until end of turn. Menace with a wide board is frequently unblockable.
 - **Undead Warchief:** +2/+1 to zombies, zombie spells cost {1} less. The biggest stat boost in the package and the only cost reducer.
 - **Cemetery Reaper:** +1/+1 to zombies, pay {2}{B} and tap to exile a creature card from a graveyard and create a 2/2 zombie token. Lord + graveyard hate + token generation on one card.
 - **Zombie Master:** Gives all zombies swampwalk and "{B}: Regenerate this permanent." With Urborg, Tomb of Yawgmoth in play, swampwalk is unblockable. Regeneration protects against destroy-based removal and damage-based wipes.
 - **Narfi, Betrayer King:** +1/+1 to snow and zombie creatures. Costs {3}{U}{B} but can return from graveyard to battlefield for {S}{S}{S} — self-recurring lord that doesn't need to be cast from hand.
 
-With two lords in play, 2/2 zombie tokens become 4/4s. Three lords make them 5/5s or larger. The density ensures at least one lord is in play at almost any point in the game.
+With two lords in play, 2/2 zombie tokens become 4/4s. Three lords make them 5/5s or larger. Diregraf Captain is in the sideboard as a seventh lord and a death-trigger drain payoff.
 
 **Mikaeus, the Unhallowed** functions as a pseudo-lord — he gives all non-Human creatures +1/+1 and undying. He's not a zombie himself, but the +1/+1 buff to the entire army is a lord-equivalent stat boost, and undying means every zombie comes back once after dying. This makes board wipes cost opponents two wipes to fully clear the board.
 
@@ -55,41 +54,49 @@ With two lords in play, 2/2 zombie tokens become 4/4s. Three lords make them 5/5
 - **Wilhelt, the Rotcleaver:** Whenever a zombie you control dies (if it didn't have decayed), create a 2/2 zombie with decayed. Also, at the beginning of your end step, sacrifice a zombie to draw a card. Replacement engine — every zombie death creates a new body.
 - **Crowded Crypt:** Whenever a creature you control dies, put a corpse counter on Crowded Crypt. Pay {4}{B}{B}, sacrifice Crowded Crypt: create X 2/2 zombie tokens, where X is the number of corpse counters on it. Tracks deaths throughout the game, then converts them into a single massive board.
 
-### Layer 3 — Card Draw and Selection (5 pieces)
+### Layer 3 — Card Draw and Selection (6 pieces)
 
 - **Kindred Discovery:** Whenever a zombie enters the battlefield or attacks, draw a card. In a zombie tribal deck, this draws 3–6 cards per turn cycle once the engine is running. The single strongest draw engine in the deck — if it resolves, the game is often over.
 - **Skullclamp:** Equip to a 1/1 or decayed 2/2 token (Wilhelt tokens die immediately to the -1 toughness). Draw 2 per death. With Gravecrawler or token generators, this is repeatable draw.
 - **Graveborn Muse:** At your upkeep, draw X and lose X life, where X is the number of zombies you control. Powerful but dangerous — with 5+ zombies, the life loss adds up quickly. The Scarab God's drain on opponents partially offsets this.
 - **Cryptbreaker:** Tap, discard a card: create a 2/2 zombie token. Tap three untapped zombies: draw a card and lose 1 life. Early-game token generator that transitions to a draw engine once the board develops.
+- **Bone Miser:** Whenever you discard a creature card, add {B}; whenever you discard a noncreature card, draw a card. Pairs directly with Cryptbreaker — every discard becomes either ramp into another zombie or a free card. Also fuels the graveyard for reanimation.
 - **Undead Augur / Midnight Reaper:** Whenever a zombie you control dies, draw a card and lose 1 life. Death-trigger draw that stacks with Wilhelt's replacement tokens. Two copies of this effect provide reliable draw through creature deaths.
 - **Black Market Connections:** Steady incremental draw, Treasure, and token generation.
 
-### Layer 4 — Reanimation, Recursion, and Tutoring (8 pieces)
+### Layer 4 — Reanimation, Recursion, and Tutoring (10 pieces)
 
-- **Living Death:** Each player sacrifices all creatures, then returns all creature cards from their graveyard to the battlefield. In a deck designed to stock the graveyard (Buried Alive, Entomb, self-mill, natural creature deaths), this is a one-sided mass reanimation. The single most explosive card in the deck.
-- **Zombie Apocalypse:** Return all zombie creature cards from your graveyard to the battlefield, then destroy all humans. Asymmetric mass reanimation for zombies specifically — no risk of returning opponents' creatures.
+- **Living Death:** Each player sacrifices all creatures, then returns all creature cards from their graveyard to the battlefield. In a deck designed to stock the graveyard (Buried Alive, Entomb, Stitcher's Supplier self-mill, natural creature deaths), this is a one-sided mass reanimation. The single most explosive card in the deck.
 - **Agadeem's Awakening:** MDFC that enters as a tapped land or casts as a mass reanimation spell returning creatures with different mana values. Late-game, this is Living Death #2. Zero deckbuilding cost since it occupies a land slot.
+- **Rot Hulk:** When Rot Hulk enters, return X zombie creature cards from your graveyard to the battlefield, where X equals the number of opponents. In a four-player pod, that's three free reanimations on a single ETB. Recurrable via Reanimate, Necromancy, or The Scarab God's activated ability for repeated mass reanimation. Replaces Zombie Apocalypse as the deck's asymmetric zombie-only mass reanimation.
+- **Liliana, Death's Majesty:** Six-mana planeswalker. +1 creates a 2/2 zombie token and mills 2 — fuels both the board and the graveyard simultaneously. -3 reanimates any creature from any graveyard. -7 destroys all non-zombie creatures. All three modes serve the deck's plan; the +1/-3 axis is a self-sufficient reanimation engine that survives one round of removal.
 - **Reanimate:** One mana to put any creature from any graveyard onto the battlefield. Life cost equal to its mana value is trivial at 40 life. Entomb + Reanimate on turn 2 = Grave Titan or Gray Merchant.
 - **Necromancy:** Reanimation at flash speed. Deploy at end of turn or in response to an opponent's attack. Flash reanimation is uniquely powerful because it lets you "hold up interaction" while actually deploying threats. Bring back Gray Merchant at instant speed for a surprise drain.
 - **Dread Return:** Reanimate a creature. Has flashback — sacrifice three creatures to cast from graveyard. With expendable zombie tokens, the flashback cost is trivial.
 - **Victimize:** Sacrifice a creature, return two creature cards from graveyard to the battlefield. Net +1 creature, and the sacrificed creature triggers death payoffs.
-- **Buried Alive / Entomb:** Tutor-quality graveyard setup. Buried Alive puts three creatures into the graveyard; Entomb puts one at instant speed for {B}. Both set up Living Death, Reanimate, Necromancy, Dread Return, and The Scarab God's activated ability. Entomb specifically enables turn-1 setup into turn-2 Reanimate — the fastest play the deck can make.
+- **Buried Alive / Entomb:** Tutor-quality graveyard setup. Buried Alive puts three creatures into the graveyard; Entomb puts one at instant speed for {B}. Both set up Living Death, Reanimate, Necromancy, Dread Return, Rot Hulk, Liliana DM's -3, and The Scarab God's activated ability. Entomb specifically enables turn-1 setup into turn-2 Reanimate — the fastest play the deck can make.
+- **Stitcher's Supplier:** One-mana 1/1 zombie that mills 3 on ETB and again when it dies. Cheap, repeatable graveyard fill that turns on every reanimation spell in the deck. Pairs with Carrion Feeder as a free sac outlet to immediately trigger the death mill.
 - **Demonic Tutor:** Finds whatever the deck needs for the current board state. Against graveyard hate: Feed the Swarm. Against combo: Fierce Guardianship or Counterspell. Against an open board: Living Death, Kindred Discovery, or Rooftop Storm. This is the single card that transforms the deck's inconsistency into precision.
 
-### Layer 5 — Drain and Damage Acceleration (6 pieces)
+### Layer 5 — Drain and Damage Acceleration (4 pieces)
 
 Beyond The Scarab God's upkeep drain:
 
 - **Gray Merchant of Asphodel:** Drains each opponent for your black devotion on ETB. In a deck with Death Baron ({B}{B}{B}), Undead Warchief ({2}{B}{B}), Liliana ({4}{B}{B}), Black Market Connections, and Phyrexian mana symbols throughout, devotion of 6–10 is routine. That's 6–10 life drained from each opponent on a single ETB — and you gain all of it. Recurrable via Reanimate, Necromancy, Victimize, Dread Return, or The Scarab God's activated ability for repeated burst drain. This is the deck's highest-impact single card for closing games.
 - **Shepherd of Rot:** Tap: each player loses 1 life for each zombie you control. Instant-speed, no mana cost, hits all opponents simultaneously. With 8 zombies, tapping Shepherd deals 8 to each opponent (and to you).
 - **Gempalm Polluter:** Cycle for {1}{B}: each opponent loses life equal to the number of zombies you control. Uncounterable (cycling is a special action), instant speed, draws a card. Premium finisher.
-- **Plague Belcher:** Drains 1 life from target opponent when a zombie you control dies. Stacks with Diregraf Captain for 2 drain per zombie death.
-- **Diregraf Captain:** (Listed under lords, but the death-trigger drain is a kill-line component.)
+- **Plague Belcher:** Drains 1 life from target opponent when a zombie you control dies. The mainboard's only death-trigger drain payoff after Diregraf Captain moved to the sideboard — pairs with Carrion Feeder and Warren Soultrader as the engine for the deck's Rule 0 combo line.
 - **Lost Monarch of Ifnir:** Afflict 3 on itself and all other zombies. Whenever a zombie deals combat damage to a player, mill three cards and may return a creature from graveyard to hand. Punishes blocking (afflict 3 per blocked zombie) while rewarding attacks with self-mill and recursion.
+
+### Layer 6 — Sacrifice and Discard Outlets (3 pieces)
+
+- **Carrion Feeder:** One-mana 1/1 zombie with a free sacrifice ability. Each zombie sacrificed grows it +1/+1 permanently. The free outlet is what makes the engine sing — sacrifice Stitcher's Supplier on ETB to mill 3, sacrifice Gravecrawler at instant speed for a Plague Belcher drain trigger, sacrifice tokens to threshold the graveyard for Living Death. Carrion Feeder enables most of the deck's death-trigger lines and the Rule 0 combo loop.
+- **Warren Soultrader:** Tap, sacrifice a creature: create a Treasure, lose 1 life. Mana-positive sacrifice outlet that doubles as the Rule 0 combo's mana engine.
+- **Cryptbreaker:** (Also listed under draw.) Tap and discard to create a 2/2 zombie. With Bone Miser in play, every discard adds {B} or draws a card — Cryptbreaker becomes a one-card engine that produces a token, draws or ramps, and fuels the graveyard simultaneously.
 
 ### The Play Pattern
 
-Turn 1–2: Deploy a 1-drop zombie (Gravecrawler, Champion of the Perished, Cryptbreaker) or a mana rock. Entomb + Reanimate enables a turn-2 Grave Titan or Gray Merchant for explosive openings. Turn 3–4: Deploy zombie lords and token generators. Board grows to 3–5 zombies. Turn 5: Cast The Scarab God. Upkeep drain begins — 3–5 per opponent. Scry 3–5 sculpts draws to find Kindred Discovery, mass reanimation, or Gray Merchant. Turn 6–8: Deploy Kindred Discovery or Rooftop Storm to accelerate. Board grows to 8+ zombies. Drain hits 8+ per opponent per upkeep, plus combat damage with lord-pumped creatures. Demonic Tutor finds the closer that matches the board state. If opponents wipe the board, Living Death, Zombie Apocalypse, or Agadeem's Awakening rebuild instantly. Cyclonic Rift clears opponents' boards for a lethal alpha strike. Turn 7–9: Accumulated drain, combat damage, Gray Merchant recursion, and finishers (Gempalm Polluter, Shepherd of Rot) close the game.
+Turn 1–2: Deploy a 1-drop zombie (Gravecrawler, Carrion Feeder, Stitcher's Supplier, Cryptbreaker) or a mana rock. Stitcher's Supplier on turn 1 immediately mills 3 cards into the graveyard, setting up turn-2 Reanimate or Entomb-into-Reanimate for an early Grave Titan or Gray Merchant. Turn 3–4: Deploy zombie lords and token generators. Board grows to 3–5 zombies. Turn 5: Cast The Scarab God. Upkeep drain begins — 3–5 per opponent. Scry 3–5 sculpts draws to find Kindred Discovery, mass reanimation, or Gray Merchant. Turn 6–8: Deploy Kindred Discovery or Rooftop Storm to accelerate. Board grows to 8+ zombies. Drain hits 8+ per opponent per upkeep, plus combat damage with lord-pumped creatures. Demonic Tutor finds the closer that matches the board state. If opponents wipe the board, Living Death, Agadeem's Awakening, or Rot Hulk rebuild instantly; Liliana DM's -3 reanimates a key piece even through graveyard pressure. Cyclonic Rift clears opponents' boards for a lethal alpha strike. Turn 7–9: Accumulated drain, combat damage, Gray Merchant recursion, and finishers (Gempalm Polluter, Shepherd of Rot) close the game.
 
 -----
 
@@ -117,21 +124,21 @@ Lost Monarch of Ifnir adds afflict 3 to the entire zombie army, punishing blocki
 
 ### Line 4 — Aristocrats Drain (Death Triggers)
 
-Diregraf Captain and Plague Belcher each drain an opponent for 1 life per zombie death. With both in play, every zombie that dies deals 2 drain to a target opponent. Warren Soultrader (sacrifice a creature: create a Treasure, lose 1 life) and Ghoulcaller Gisa provide sacrifice outlets. Mikaeus's undying means each zombie dies twice before staying dead, doubling the death triggers.
+Plague Belcher drains an opponent for 1 life per zombie death. Carrion Feeder and Warren Soultrader provide free or near-free sacrifice outlets, and Ghoulcaller Gisa converts a single creature into many tokens to feed the engine. Mikaeus's undying means each zombie dies twice before staying dead, doubling the death triggers. Diregraf Captain in the sideboard would double the per-death drain to 2 if the meta favored it.
 
 ### Line 5 — Mass Reanimation into Burst Drain
 
-Buried Alive or Entomb stocks the graveyard with high-impact zombies (Grave Titan, Gray Merchant, Diregraf Captain). Living Death, Zombie Apocalypse, or Agadeem's Awakening brings them all back simultaneously. A single Living Death resolving with 8+ zombies in the graveyard creates a board that threatens lethal drain on the next upkeep — and if Gray Merchant is among the returned creatures, the drain starts immediately on ETB.
+Buried Alive or Entomb stocks the graveyard with high-impact zombies (Grave Titan, Gray Merchant, Rot Hulk). Living Death, Agadeem's Awakening, or a Rot Hulk ETB brings them all back simultaneously. A single Living Death resolving with 8+ zombies in the graveyard creates a board that threatens lethal drain on the next upkeep — and if Gray Merchant is among the returned creatures, the drain starts immediately on ETB. Rot Hulk specifically returns a zombie per opponent on ETB, making it a self-contained 4-for-1 in any pod.
 
-This line functions as a recovery kill — the deck is at its most dangerous immediately after a board wipe, when both graveyards are full and Living Death creates a massive asymmetry.
+This line functions as a recovery kill — the deck is at its most dangerous immediately after a board wipe, when both graveyards are full and Living Death creates a massive asymmetry. Stitcher's Supplier on the way out also mills 3 fresh cards into the yard, often deepening the pile mid-recovery.
 
 ### Line 6 — Rooftop Storm Explosion
 
 Rooftop Storm makes all zombie spells cost {0}. With Necroduality doubling every zombie cast and Diregraf Colossus creating additional tokens per cast, emptying a hand of 4 zombies creates 4 + 4 copies + 4+ Colossus tokens = 12+ zombies in a single turn. Kindred Discovery draws a card per zombie entering, refueling the hand immediately. The following upkeep, Scarab God drains 12+ from each opponent.
 
-### Line 7 — Warren Soultrader Infinite (Rule 0)
+### Line 7 — Warren Soultrader Loop (Rule 0)
 
-Warren Soultrader + Gravecrawler + Diregraf Captain or Plague Belcher is a three-card infinite loop. Sacrifice Gravecrawler to Warren Soultrader (create Treasure, lose 1 life) → spend Treasure to recast Gravecrawler for {B} → repeat. Each cycle drains an opponent for 1 (or 2 with both payoffs). Self-limiting by your life total — at 40 life, deals up to 39 damage. Flagged for pod Rule 0 discussion.
+Warren Soultrader + Gravecrawler + Plague Belcher is a three-card mana-neutral loop. Sacrifice Gravecrawler to Warren Soultrader (create Treasure, lose 1 life) → spend Treasure to recast Gravecrawler for {B} → repeat. Each cycle drains an opponent for 1 via Plague Belcher's death trigger. Self-limiting by your life total — at 40 life, deals up to 39 damage. Carrion Feeder is a free alternate outlet for the same loop, but without a Treasure-style mana source the loop becomes mana-limited rather than indefinite. Flagged for pod Rule 0 discussion.
 
 -----
 
@@ -139,19 +146,21 @@ Warren Soultrader + Gravecrawler + Diregraf Captain or Plague Belcher is a three
 
 ### Core Loop: 5/5
 
-The loop is "deploy zombies → zombies generate more zombies → zombie count drives drain, draw, and combat." 25+ cards in the deck directly serve the zombie tribal engine: 7 lords plus Mikaeus, 6 token generators, 6 drain payoffs (including Gray Merchant), 8 recursion/reanimation/tutor pieces, plus Rooftop Storm. Every creature in the deck except Wonder and Mikaeus is a zombie or creates zombies. Mikaeus gives all non-Humans +1/+1 and undying, making him functionally part of the tribal engine despite not being a zombie himself.
+The loop is "deploy zombies → zombies generate more zombies → zombie count drives drain, draw, and combat." 24+ cards directly serve the engine: 4 token generators, 2 token enchantments, 8 reanimation/recursion spells, Rot Hulk's ETB mass reanimation, Liliana Death's Majesty as a self-contained token+reanimation engine, Rooftop Storm cost reduction, two free sacrifice outlets (Carrion Feeder, Warren Soultrader), Stitcher's Supplier as graveyard fuel, Bone Miser as a discard payoff, and Gravecrawler/Narfi as self-recurring zombies. On top of that engine, 6 lords and Mikaeus multiply combat output, 5 drain payoffs and 6 draw engines convert the engine's output into wins, and Demonic Tutor finds whichever piece is missing. Every creature in the deck except Wonder and Mikaeus is a zombie or creates zombies.
 
 The commander is the primary drain payoff, but the 99 alone is unmistakably a zombie tribal deck — cover the commander and the identity is immediately obvious from the lord density, death triggers, and tribal-specific spells.
 
-**Checkpoint:** Cover the commander. 7 lords, Mikaeus, Kindred Discovery, Necroduality, Rooftop Storm, Living Death, Zombie Apocalypse, Buried Alive, 15+ zombie creatures. The strategy is unmistakable.
+**Checkpoint:** Cover the commander. 6 lords, Mikaeus, Kindred Discovery, Necroduality, Rooftop Storm, Living Death, Rot Hulk, Buried Alive, 15+ zombie creatures. The strategy is unmistakable.
 
 ### Kill Reliability: 4/5
 
-Seven closing lines spanning drain, burst ETB damage, combat, death triggers, mass reanimation, and explosive casting. Gray Merchant provides the burst finisher the deck previously lacked — a single recurrable ETB that removes 15–30% of each opponent's life total per resolution. Cyclonic Rift creates deterministic lethal alpha strikes from developed boards. Demonic Tutor finds whichever closer matches the current board state.
+Seven named closing lines spanning Scarab God upkeep drain, Gray Merchant burst ETB, lord-pumped combat with Cyclonic Rift, aristocrats death triggers (Plague Belcher), mass reanimation into burst drain, Rooftop Storm explosion, and the Warren Soultrader Rule 0 loop. Gray Merchant's recurrable ETB removes 15–30% of each opponent's life total per resolution. Cyclonic Rift creates deterministic lethal alpha strikes from developed boards. Demonic Tutor finds whichever closer matches the current board state.
 
-The fastest reliable kill from engine-online (5+ zombies, Scarab God in play) is 2–3 turns through Gray Merchant recursion plus stacked drain and combat. Entomb + Reanimate enables a turn-2 Grave Titan or Gray Merchant for explosive openings that previous builds couldn't achieve.
+The fastest reliable kill from engine-online (5+ zombies, Scarab God in play) is 2–3 turns through Gray Merchant recursion plus stacked drain and combat. Stitcher's Supplier on turn 1 plus Entomb + Reanimate on turn 2 enables a turn-2 Grave Titan or Gray Merchant — the deck's fastest opening. Carrion Feeder as a free sac outlet adds a new instant-speed line: hold up B, sacrifice Gravecrawler at end of turn for a Plague Belcher death trigger, recast for {B} next turn.
 
-All kill lines still depend on the shared resource of zombie/creature count on the battlefield — a board wipe weakens everything simultaneously. This structural dependency on a single resource type is what prevents a 5. But Demonic Tutor's ability to find mass reanimation (Living Death, Zombie Apocalypse, Agadeem's Awakening) after a wipe means the recovery-into-kill line is now reliably accessible rather than draw-dependent.
+The cut of Diregraf Captain to the sideboard halved the per-death drain output (now 1 per zombie death from Plague Belcher only, vs. 2 with both). The aristocrats kill line is materially slower than before, but the other six lines are unchanged or improved (Rot Hulk replaces Zombie Apocalypse with ETB tempo and Scarab God recurrence; Liliana DM provides a fourth reanimation axis). Net: the line that got slower wasn't the primary one.
+
+All kill lines still depend on the shared resource of zombie/creature count on the battlefield — a board wipe weakens everything simultaneously. This structural dependency on a single resource type is what prevents a 5. But Demonic Tutor's ability to find mass reanimation (Living Death, Agadeem's Awakening, Rot Hulk, Liliana DM) after a wipe means the recovery-into-kill line is reliably accessible rather than draw-dependent.
 
 **Checkpoint:** Engine-online, 8 zombies, Scarab God in play, Gray Merchant in graveyard. Upkeep drains 8, Reanimate Gray Merchant for 8+ devotion drain, Shepherd of Rot drains 8. That's 24–32 per opponent in a single turn cycle. Lethal in one cycle if devotion is high enough.
 
@@ -161,16 +170,16 @@ The Scarab God's death trigger is the deck's best structural advantage. When The
 
 Beyond the commander, the deck has layered recovery:
 
-- **Mass reanimation (3 pieces):** Living Death, Zombie Apocalypse, and Agadeem's Awakening rebuild the entire board from the graveyard after a wipe. Three mass reanimation options means you're likely to have access to at least one.
+- **Mass reanimation (3 pieces + 1 ETB):** Living Death and Agadeem's Awakening reanimate everything from the graveyard. Rot Hulk's ETB returns one zombie per opponent — equivalent to a small mass reanimation, and recurrable through The Scarab God's activated ability. Liliana, Death's Majesty's -3 is a fourth, planeswalker-based reanimation source. Multiple options means you're likely to have access to at least one after a wipe.
 - **Targeted reanimation (4 pieces):** Reanimate, Necromancy (flash speed), Dread Return (flashback from GY), Victimize. Deep targeted reanimation means every key creature lost can be recovered.
 - **Self-recurring creatures:** Gravecrawler returns from graveyard for {B} with any zombie in play. Narfi returns from graveyard for {S}{S}{S}. These restart the engine without requiring reanimation spells.
 - **Undying (Mikaeus):** Every non-Human creature comes back once after dying with a +1/+1 counter. Board wipes cost opponents two wipes to fully clear.
-- **Death replacement:** Wilhelt and Headless Rider create replacement zombies on creature deaths, making 1-for-1 removal nearly pointless.
+- **Death replacement:** Wilhelt creates a 2/2 decayed replacement zombie on each non-decayed zombie death — 1-for-1 removal trades a creature for a token rather than clearing a slot. Headless Rider in the sideboard would stack with this for two replacement tokens per death.
 - **Tutor recovery:** Demonic Tutor finds the right recovery tool for the situation — Living Death after a wipe, Feed the Swarm against Rest in Peace, Fierce Guardianship to protect against the next wipe.
 
 Doesn't reach 5 because graveyard hate cripples multiple recovery lines simultaneously. Rest in Peace, Leyline of the Void, and Dauthi Voidwalker shut off the entire reanimation package, Gravecrawler, Narfi, and The Scarab God's activated ability. The deck has Feed the Swarm and counterspells to answer these, and Demonic Tutor can find Feed the Swarm, but a resolved Rest in Peace before the deck finds an answer is still devastating.
 
-**Checkpoint:** Cyclonic Rift on turn 7. Scarab God returns to hand (death trigger). Replay for 5 mana next turn. Demonic Tutor for Living Death or Zombie Apocalypse. Full board recovery in 1–2 turns.
+**Checkpoint:** Cyclonic Rift on turn 7. Scarab God returns to hand (death trigger). Replay for 5 mana next turn. Demonic Tutor for Living Death, Rot Hulk, or Agadeem's Awakening. Full board recovery in 1–2 turns.
 
 ### Interaction Profile: 4/5
 
@@ -193,17 +202,17 @@ Doesn't reach 5 because Feed the Swarm remains the only answer to enchantments, 
 
 ### Total: 17/20 — Structurally excellent. Pilot skill is the main variable.
 
-The upgrades directly addressed both weak axes. Gray Merchant, Cyclonic Rift, and Demonic Tutor transformed kill reliability from "grind and hope" into "find the right closer and execute." Fierce Guardianship and Force of Negation gave the deck genuine stack presence without sacrificing board development. The Core Loop remains elite, Durability is unchanged, and the deck now converts strong positions into wins reliably.
+Re-audited 2026-04-29 after the Diregraf Captain / Headless Rider / Champion of the Perished / Zombie Apocalypse / Thought Vessel cut and the Bone Miser / Carrion Feeder / Stitcher's Supplier / Liliana DM / Rot Hulk / Polluted Delta inclusion. Same 5/4/4/4 = 17/20 as the prior build. The swap traded one death-trigger drain payoff (Diregraf Captain) and one death-replacement zombie (Headless Rider) for cheaper graveyard fuel (Stitcher's Supplier), a free sac outlet (Carrion Feeder), a discard payoff (Bone Miser), a fourth reanimation axis (Liliana DM), and a creature-based mass reanimation (Rot Hulk) — net lateral, with marginal gains on early-game speed and post-wipe recovery offsetting losses on the aristocrats kill line.
 
 -----
 
 ## Expected Kill Window
 
-**Goldfish: T7–9.** Entomb + Reanimate enables a turn-2 Gray Merchant or Grave Titan, accelerating the clock by 2 turns over the pre-upgrade version. Scarab God typically resolves turn 5. Board grows to 8+ zombies by turn 6–7 with token generators. Demonic Tutor finds the right closer. Gray Merchant recursion or stacked drain + combat closes by turn 7–9 uncontested.
+**Goldfish: T7–9.** Stitcher's Supplier on turn 1 dumps 3 cards into the graveyard immediately; Entomb + Reanimate on turn 2 brings back Grave Titan or Gray Merchant. Scarab God typically resolves turn 5. Board grows to 8+ zombies by turn 6–7 with token generators. Demonic Tutor finds the right closer. Gray Merchant recursion or stacked drain + combat closes by turn 7–9 uncontested.
 
-**Through interaction: T9–12.** A board wipe on turn 6–7 resets zombie count. Recovery now takes 1–2 turns (Demonic Tutor finds mass reanimation, three mass reanimation options increase likelihood of natural draws). Fierce Guardianship and Force of Negation protect key turns without mana investment. Cyclonic Rift creates lethal alpha strikes that bypass normal combat math. Games against interaction-heavy pods close by turn 9–12.
+**Through interaction: T9–12.** A board wipe on turn 6–7 resets zombie count. Recovery takes 1–2 turns (Demonic Tutor finds mass reanimation; Living Death, Agadeem's Awakening, Rot Hulk's ETB, and Liliana DM's -3 are four distinct reanimation axes). Fierce Guardianship and Force of Negation protect key turns without mana investment. Cyclonic Rift creates lethal alpha strikes that bypass normal combat math. Games against interaction-heavy pods close by turn 9–12.
 
-The 2–3 turn gap between goldfish and through-interaction is tighter than the pre-upgrade version because free counterspells protect key development turns and Demonic Tutor ensures the right recovery tool is available post-wipe.
+The 2–3 turn gap between goldfish and through-interaction is held tight by free counterspells protecting key development turns and Demonic Tutor ensuring the right recovery tool is available post-wipe.
 
 -----
 
@@ -216,9 +225,9 @@ The 2–3 turn gap between goldfish and through-interaction is tighter than the 
 
 All three GC slots are occupied — no further Game Changers can be added without a swap.
 
-**Notable non-GC power cards:** Force of Negation, Kindred Discovery, Rooftop Storm, Living Death, Necroduality, Skullclamp, Gray Merchant of Asphodel, Reanimate, Necromancy, Entomb, Mikaeus the Unhallowed, Liliana Dreadhorde General, Toxic Deluge, Buried Alive, Agadeem's Awakening.
+**Notable non-GC power cards:** Force of Negation, Kindred Discovery, Rooftop Storm, Living Death, Necroduality, Skullclamp, Gray Merchant of Asphodel, Reanimate, Necromancy, Entomb, Mikaeus the Unhallowed, Liliana Dreadhorde General, Liliana Death's Majesty, Rot Hulk, Toxic Deluge, Buried Alive, Agadeem's Awakening.
 
-**Infinite combos:** Warren Soultrader + Gravecrawler + a drain payoff (Diregraf Captain or Plague Belcher) forms a three-card infinite loop. Sacrifice Gravecrawler to Warren Soultrader (create a Treasure, lose 1 life) → spend the Treasure to recast Gravecrawler from the graveyard for {B} → repeat. Each cycle drains one opponent for 1 (Plague Belcher) or 1 to target opponent (Diregraf Captain). The loop is self-limiting by your life total — each cycle costs you 1 life, so you can loop as many times as you have life points minus 1. At 40 life, this deals up to 39 damage. With both Diregraf Captain and Plague Belcher, each cycle drains 2 per iteration. This should be flagged for pod Rule 0 discussion per B3 guidelines, as it is a three-card infinite that can assemble naturally. Demonic Tutor could find the missing piece, but the loop doesn't consistently assemble before turn 6.
+**Infinite combos:** Warren Soultrader + Gravecrawler + Plague Belcher forms a three-card combo loop. Sacrifice Gravecrawler to Warren Soultrader (create a Treasure, lose 1 life) → spend the Treasure to recast Gravecrawler from the graveyard for {B} → Plague Belcher drain trigger → repeat. Each cycle drains a target opponent for 1. The loop is self-limiting by your life total — each cycle costs you 1 life, so you can loop as many times as you have life points minus 1. At 40 life, this deals up to 39 damage. Carrion Feeder is a free alternate sac outlet but without a Treasure-style mana source the loop becomes mana-limited. This should be flagged for pod Rule 0 discussion per B3 guidelines, as it is a three-card combo that can assemble naturally. Demonic Tutor could find the missing piece, but the loop doesn't consistently assemble before turn 6.
 
 **Extra turns:** None.
 
@@ -230,7 +239,7 @@ All three GC slots are occupied — no further Game Changers can be added withou
 
 The zombie tribal archetype has distinctive pod characteristics:
 
-1. **Grinds through attrition.** Board wipes against this deck are often counterproductive — they stock the graveyard for Living Death, Zombie Apocalypse, Agadeem's Awakening, and The Scarab God's activated ability. Mikaeus's undying means the first wipe doesn't even fully clear the board. Opponents who wipe repeatedly may be helping the zombie player more than hurting them.
+1. **Grinds through attrition.** Board wipes against this deck are often counterproductive — they stock the graveyard for Living Death, Agadeem's Awakening, Rot Hulk, Liliana DM's -3, and The Scarab God's activated ability. Mikaeus's undying means the first wipe doesn't even fully clear the board. Opponents who wipe repeatedly may be helping the zombie player more than hurting them.
 2. **Passive inevitability.** The Scarab God's upkeep drain doesn't require an attack, a tap, or mana. Once zombie count is high, opponents are on a clock whether they interact or not. This creates natural pressure without painting a visible target.
 3. **Genuine stack presence.** Fierce Guardianship and Force of Negation give the deck two free counterspells. Against the pod's combo player, this is a credible deterrent — the deck can tap out to develop the board and still threaten to stop a win attempt. Three additional paid counterspells provide backup.
 4. **Punishes creature-heavy metas.** Noxious Ghoul's -1/-1 per zombie ETB is devastating against token strategies and small-creature decks. Cemetery Reaper and The Scarab God exile opponents' creature graveyards, denying recursion strategies. Death Baron's deathtouch makes every zombie a credible blocker.
@@ -260,7 +269,7 @@ Both are Dimir and use the graveyard, but the resource they exploit is completel
 | Commander role | Active drain + reanimation | Passive doubler (doubles death triggers) |
 | Kill speed | Moderate-fast (2–3 turns from engine) | Fast (2–3 turns from engine) |
 | Color access | UB (counters + card draw) | WB (removal + protection) |
-| Sacrifice density | Light (Warren Soultrader, Ghoulcaller Gisa) | Heavy (6+ sac outlets, engine depends on it) |
+| Sacrifice density | Moderate (Carrion Feeder, Warren Soultrader, Ghoulcaller Gisa) | Heavy (6+ sac outlets, engine depends on it) |
 
 Both decks drain opponents through creature deaths, but Teysa actively feeds the death trigger engine through sacrifice loops while Scarab God drains passively through upkeep triggers. Gray Merchant appears in both decks as a recurrable burst finisher. Different colors, different roles for tokens, no engine overlap beyond Gray Merchant.
 
@@ -283,17 +292,16 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 | Card | Role | Notes |
 |---|---|---|
+| Champion of the Perished | One-drop counter accumulator | +1/+1 counter whenever a zombie enters under your control. Cut for Carrion Feeder as the preferred one-drop — Carrion Feeder is a free sac outlet plus a counter accumulator. |
+| Diregraf Captain | Lord + death-trigger drain | +1/+1 to zombies, drains 1 from target opponent per zombie death. Stacks with Plague Belcher for 2 drain per death. Bring in against decks that don't run early board wipes — pairs into the Warren Soultrader Rule 0 line. |
 | Dread Summons | Mass mill + token generation | Each player mills X, create a 2/2 zombie for each creature milled. Scales with table's creature density. |
 | Dreadhorde Invasion | Steady token generation | Creates a 1/1 Army token at upkeep (amass 1). Slow but consistent — survives board wipes as an enchantment. |
-| Endless Ranks of the Dead | Exponential tokens | Half your zombie count as new tokens each upkeep. Win-more — devastating when ahead, useless when behind. |
 | Fleshbag Marauder | Edict removal | Forces each player to sacrifice a creature on ETB. Recurrable via Scarab God, Reanimate. Hits hexproof/indestructible creatures. |
+| Headless Rider | Death replacement | Whenever a non-token zombie dies, create a 2/2 zombie token. Stacks with Wilhelt for two replacement tokens per death. Bring in against creature-removal-heavy metas. |
 | Lich Lord of Unx | Alternate drain + mill | Tap {U}{B}: create a 1/1 zombie. Pay {U}{U}{B}{B}: each opponent loses X life and mills X cards, where X = zombies. Mana-intensive but provides both tokens and a direct kill. |
-| Liliana, Death's Majesty | Planeswalker reanimation | +1 creates a 2/2 zombie and mills 2. -3 reanimates a creature from graveyard. -7 destroys all non-zombie creatures. All three modes serve the deck's plan. |
-| Mindless Conscription | Enchantment token engine | Creates zombie tokens on draw triggers — pairs with Kindred Discovery for exponential growth. Risk of self-decking if unchecked. |
-| Phyrexian Arena | Steady draw | One card per upkeep for 1 life. Consistent but slow. Cut for Necromancy in the current build. |
-| Poppet Stitcher | Spellcast tokens | Creates 2/2 zombies on instant/sorcery casts. Transforms to make all tokens 3/3. Cut for Gray Merchant — deck runs too few instants/sorceries to trigger reliably. |
-| Rot Hulk | Mass reanimation on ETB | When Rot Hulk enters, return X zombie creature cards from graveyard to the battlefield, where X = opponents. In a 4-player pod, that's 3 free reanimations. |
-| Undead Alchemist | Mill-to-zombie conversion | Replaces zombie combat damage with mill; milled creatures become zombie tokens. Devastating against creature-heavy decks, useless against creatureless combo. |
+| Tainted Isle | Mana fixing | Lifeless Lair land — taps for {U} or {B} with a swamp in play. Held back as a swap if the mana base needs more black access. |
+| Thought Vessel | Ramp + no max hand | Two-mana colorless rock that lifts the hand-size cap. Cut for graveyard fillers; bring in if the deck is leaning harder on Necropotence-style draw. |
+| Zombie Apocalypse | Asymmetric mass reanimation | Return all zombies from your graveyard, destroy all humans. Replaced in main by Rot Hulk's ETB reanimation, but a strong sideboard option against decks where Rot Hulk's mana cost is prohibitive. |
 
 -----
 
@@ -309,11 +317,10 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Demonic Tutor
 1 Fierce Guardianship
 
-### Zombie Lords (7)
+### Zombie Lords (6)
 
 1 Cemetery Reaper
 1 Death Baron
-1 Diregraf Captain
 1 Lord of the Accursed
 1 Narfi, Betrayer King
 1 Undead Warchief
@@ -341,19 +348,24 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 ### Zombie Synergy Creatures (5)
 
-1 Champion of the Perished
+1 Bone Miser
 1 Cryptbreaker
 1 Gravecrawler
-1 Headless Rider
 1 Noxious Ghoul
+1 Stitcher's Supplier
 
 ### Non-Zombie Creatures (1)
 
 1 Mikaeus, the Unhallowed
 
-### Sacrifice / Value (1)
+### Sacrifice / Value (2)
 
+1 Carrion Feeder
 1 Warren Soultrader
+
+### Mass Reanimation Creature (1)
+
+1 Rot Hulk
 
 ### Draw Engines (5)
 
@@ -372,7 +384,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Hordewing Skaab
 1 Wonder
 
-### Reanimation / Recursion (9)
+### Reanimation / Recursion (8)
 
 1 Agadeem's Awakening
 1 Buried Alive
@@ -382,14 +394,14 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Necromancy
 1 Reanimate
 1 Victimize
-1 Zombie Apocalypse
 
 ### Cost Reduction (1)
 
 1 Rooftop Storm
 
-### Planeswalkers (1)
+### Planeswalkers (2)
 
+1 Liliana, Death's Majesty
 1 Liliana, Dreadhorde General
 
 ### Counterspells (3)
@@ -416,10 +428,9 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 1 Lightning Greaves
 
-### Draw Artifacts (2)
+### Draw Artifacts (1)
 
 1 Skullclamp
-1 Thought Vessel
 
 ### Mana Rocks (6)
 
@@ -445,8 +456,8 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Fetid Pools
 1 Flooded Strand
 1 Morphic Pool
+1 Polluted Delta
 1 Sunken Hollow
-1 Tainted Isle
 1 Watery Grave
 1 Three Tree City
 
@@ -459,5 +470,5 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 ### Basic Lands (18)
 
 7 Snow-Covered Island
-4 Snow-Covered Swamp
-7 Swamp
+2 Snow-Covered Swamp
+9 Swamp

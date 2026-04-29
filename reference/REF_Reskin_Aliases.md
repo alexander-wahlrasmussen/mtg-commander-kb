@@ -33,11 +33,18 @@ Reskin cards are mechanically identical to an existing MTG card but printed unde
 |---|---|
 | Paradise Chocobo | Birds of Paradise |
 
+### Lord of the Rings
+
+| Reskin name | Original MTG card |
+|---|---|
+| Morgul-Knife | Shadowspear |
+
 ### Other / mechanical analogues
 
 | Name | Mechanical analogue | Notes |
 |---|---|---|
 | Bayo / Electro | Electro Assaulting Battery | Split/DFC; verify face matching when searching collection |
+| Ellie's Rage | Dictate of Erebos | Set TBC |
 
 ---
 
