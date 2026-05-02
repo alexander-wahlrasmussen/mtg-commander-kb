@@ -7,7 +7,10 @@
       "Bash(python C:/Users/Alex/Projects/MTGDecks/deck_safe_collection_builder.py collection/moxfield_haves_2026-04-24-2112Z.csv --deck-dir ./decks/ -o collection/deck_safe_collection.xlsx --no-google)",
       "Bash(python -)",
       "Bash(python *)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(awk -F, '$9 ~ /\"2026-04-\\(0[3-9]|[12][0-9]|3[01]\\)/ || $9 ~ /\"2026-\\(05|06|07|08|09|1[0-2]\\)/' \"C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\moxfield_haves_2026-04-29-1826Z.csv\")",
+      "Bash(awk -F, '$9 ~ /\"2026-04-\\(0[3-9]|[12][0-9]|3[01]\\)/ || $9 ~ /\"2026-\\(05|06|07|08|09|1[0-2]\\)/ {print $3}' \"C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\moxfield_haves_2026-04-29-1826Z.csv\")",
+      "Bash(awk *)"
     ]
   }
 }

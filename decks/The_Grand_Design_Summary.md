@@ -7,7 +7,7 @@
 |**Commander**       |Atraxa, Grand Unifier (WUBG)                     |
 |**Archetype**       |Reanimator / Flicker / Creature Toolbox          |
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
-|**Game Changers**   |Fierce Guardianship, Seedborn Muse, Cyclonic Rift|
+|**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
 |**Kill Window**     |Goldfish: T6–8 · Through interaction: T8–11      |
 
@@ -19,17 +19,17 @@ Atraxa is a 7-mana 7/7 with flying, vigilance, deathtouch, and lifelink. When sh
 
 The deck abuses this ETB through three interlocking engines:
 
-**Reanimation Engine (9 spells + Karmic Guide):** The deck’s primary reanimation targets in the early game are Razaketh (repeatable tutor), Vilis (massive draw), and Elesh Norn (ETB doubler) — dumped into the graveyard via Entomb, Buried Alive, or Fauna Shaman, then reanimated for 1–3 mana. Atraxa herself can only be reanimated after she has been cast from the command zone at least once and you choose to send her to the graveyard instead of back to the command zone when she dies. Early game: reanimate bombs. Mid-to-late game: reanimate Atraxa for cheap re-entry.
+**Reanimation Engine (9 spells + Karmic Guide):** The deck’s primary reanimation targets in the early game are Razaketh (repeatable tutor), Vilis (massive draw), and Elesh Norn (ETB doubler) — dumped into the graveyard via Buried Alive (deterministic), Grisly Salvage (instant-speed mill 5), or Fauna Shaman (slow but recurring), then reanimated for 1–3 mana. Atraxa herself can only be reanimated after she has been cast from the command zone at least once and you choose to send her to the graveyard instead of back to the command zone when she dies. Early game: reanimate bombs. Mid-to-late game: reanimate Atraxa for cheap re-entry.
 
 **Flicker Engine (7 pieces):** Ephemerate, Thassa Deep-Dwelling, Soulherder, Panharmonicon, Restoration Angel, Ghostly Flicker, and Displacer Kitten blink creatures to re-trigger ETBs. Panharmonicon and Elesh Norn Mother of Machines each add one additional ETB trigger — with both in play, each ETB fires 3 times total (base + 1 from Panharmonicon + 1 from Elesh Norn). Note: Elesh Norn also shuts off all opponents’ ETB triggers.
 
 **Creature Toolbox (Birthing Pod + tutors):** Birthing Pod sacrifices a creature to find the next mana value up, directly to the battlefield. Activated at sorcery speed, once per turn. The deck has a complete creature chain from MV 1 through MV 8:
 
 - MV 1: Birds of Paradise
-- MV 2: Fauna Shaman, Grand Abolisher, Sakura-Tribe Elder
+- MV 2: Fauna Shaman, Grand Abolisher, Bloom Tender
 - MV 3: Ranger-Captain of Eos, Eternal Witness
 - MV 4: Restoration Angel, Glen Elendra Archmage
-- MV 5: Karmic Guide, Reveillark, Sidisi, Seedborn Muse, Soulherder
+- MV 5: Karmic Guide, Reveillark, Sidisi, Soulherder
 - MV 6: Sun Titan
 - MV 7: Atraxa (from command zone first, then graveyard), Elesh Norn
 - MV 8: Razaketh, Vilis
@@ -46,7 +46,7 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 
 Finale searches your library or graveyard for a creature with MV ≤X, puts it onto the battlefield, and if X≥10, ALL your creatures get +X/+X and haste until end of turn. At X=10, that’s +10/+10 and haste to everything. With even 3 creatures on board, that’s 30+ power with haste and trample (if any creature has it). Lethal to the table.
 
-12 mana is achievable by turn 6–7 with Sol Ring, Arcane Signet, Carpet of Flowers (often adds 3–5 mana from opponents’ Islands), and Seedborn Muse untapping everything on opponents’ turns.
+12 mana is achievable by turn 6–7 with Sol Ring, Arcane Signet, Carpet of Flowers (often adds 3–5 mana from opponents’ Islands), and Bloom Tender producing WUBG (4 mana) per tap once Atraxa is on the battlefield.
 
 The haste clause also solves the Living Death timing problem — if you cast Living Death to rebuild your board (everything has summoning sickness), casting Finale the following turn gives everything haste, making summoning sickness irrelevant.
 
@@ -60,7 +60,7 @@ Opponents must either remove Defense before your upkeep or keep their creature c
 
 ### Kill Line 3: Razaketh Reanimation → Tutor Chain
 
-**Setup:** Entomb or Buried Alive dumps Razaketh into graveyard. Reanimate brings him back for 1 mana (pay 8 life).
+**Setup:** Buried Alive or Grisly Salvage dumps Razaketh into graveyard. Reanimate brings him back for 1 mana (pay 8 life).
 
 Razaketh’s ability: pay 2 life, sacrifice another creature, search your library for any card. No tap required — activate as many times as you have life and creatures.
 
@@ -105,7 +105,7 @@ Each cycle: tutor 2 cards, return a utility creature, costs 4 life. Continue unt
 
 Note: Phyrexian Tower does NOT enable this loop because it taps (one sacrifice per turn cycle). Razaketh’s sacrifice ability has no tap requirement, enabling multiple activations per turn.
 
-Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Sakura-Tribe Elder (1/1), Grand Abolisher (2/2), Glen Elendra Archmage (2/2). Note: Ranger-Captain of Eos is 3/3 and is NOT a valid Reveillark target.
+Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Bloom Tender (1/2), Grand Abolisher (2/2), Glen Elendra Archmage (2/2). Note: Ranger-Captain of Eos is 3/3 and is NOT a valid Reveillark target.
 
 ### Kill Line 7: Birthing Pod Chain — Incremental Inevitability
 
@@ -161,13 +161,13 @@ The deck draws 5–7 cards per Atraxa ETB, making it highly likely to find Final
 
 9 reanimation spells for the primary targets (all cleanly hit legendary creatures except Persist, which chains through Karmic Guide). Living Death and Dread Return work from the graveyard. Karmic Guide provides creature-based reanimation that works with the flicker engine. Fauna Shaman dumps targets into graveyard while finding replacements.
 
-Atraxa can only be reanimated after dying from the battlefield at least once (she starts in the command zone, not the library — Entomb and Buried Alive cannot put her into the graveyard directly). The early reanimation targets are Razaketh, Vilis, and Elesh Norn, which are often better early targets anyway.
+Atraxa can only be reanimated after dying from the battlefield at least once (she starts in the command zone, not the library — Buried Alive and Grisly Salvage cannot put her into the graveyard directly). The early reanimation targets are Razaketh, Vilis, and Elesh Norn, which are often better early targets anyway.
 
 ### Interaction: 4/5
 
-**Counterspells (5 spells + 1 creature):**
+**Counterspells (6 spells + 1 creature):**
 
-- Fierce Guardianship (GC) — free with Atraxa in play, noncreature spells only
+- Force of Will (GC) — free (pitch a blue card, lose 1 life), counters ANY spell on ANY turn. 5 mana hard-cast.
 - Force of Negation — free on **opponents’ turns only** (pitch a blue card), noncreature spells only. On your own turn it costs 1UU.
 - Counterspell — 2 mana, counters ANY spell
 - Mana Drain — 2 mana, counters ANY spell, generates mana
@@ -175,18 +175,18 @@ Atraxa can only be reanimated after dying from the battlefield at least once (sh
 - Dovin’s Veto — 2 mana, uncounterable, noncreature spells only
 - Glen Elendra Archmage — sacrifice to counter a noncreature spell. Persist returns her with a -1/-1 counter for one more use (2 total per cycle). Flickering removes the counter for 2 more. Not unlimited — 2 per flicker cycle.
 
-**Only Counterspell and Mana Drain can counter creature spells.** Flash creatures and creature-based combos are a gap in the counter suite.
+**Counterspell, Mana Drain, and Force of Will can counter creature spells.** The previous gap on flash creatures and creature-based combos is closed by Force of Will.
 
-**On your own turn:** 2 free spells (Fierce Guardianship, Deadly Rollick). Force of Negation costs full price.
+**On your own turn:** 2 free spells (Force of Will, Deadly Rollick). Force of Negation costs full price.
 **On opponents’ turns:** 3 free spells (add Force of Negation).
 
-**Removal (6):** Cyclonic Rift (GC, asymmetric bounce), Deadly Rollick (free with Atraxa), Swords to Plowshares, Path to Exile, Generous Gift, Beast Within, Toxic Deluge
+**Removal (6):** Cyclonic Rift (GC, asymmetric bounce), Deadly Rollick (free with Atraxa), Swords to Plowshares, Path to Exile, Generous Gift, Assassin’s Trophy, Toxic Deluge
 
 **Proactive disruption (2):** Teferi Time Raveler (opponents can only cast at sorcery speed — note: Teferi’s abilities are loyalty abilities, not ETBs; flickering resets his loyalty but does not trigger Panharmonicon or Elesh Norn), Grand Abolisher (your-turn protection)
 
 **Protection (4):** Heroic Intervention, Flawless Maneuver, Veil of Summer (blue/black only), Lightning Greaves
 
-**Total: 20 interaction and protection pieces.** Excellent quantity and mostly tutorable through the creature engine. The 4/5 ceiling comes from the noncreature-only limitation on most counters and the inability to tutor for noncreature interaction (no Demonic Tutor or Vampiric Tutor — both Game Changers).
+**Total: 20 interaction and protection pieces.** Excellent quantity and mostly tutorable through the creature engine. The 4/5 ceiling comes from the inability to tutor for noncreature interaction (no Demonic Tutor or Vampiric Tutor — both Game Changers, and adding either would push the deck past the 3-GC bracket cap).
 
 -----
 
@@ -194,8 +194,8 @@ Atraxa can only be reanimated after dying from the battlefield at least once (sh
 
 Exactly 3 Game Changers:
 
-1. **Fierce Guardianship** — free counter with commander in play
-1. **Seedborn Muse** — untap on every opponent’s turn
+1. **Force of Will** — free counter (pitch a blue card, lose 1 life), counters any spell on any turn
+1. **Rhystic Study** — passive card-draw engine; opponents pay 1 or you draw
 1. **Cyclonic Rift** — asymmetric board wipe
 
 **Notable non-GC power cards:** Razaketh, Finale of Devastation, Defense of the Heart, Birthing Pod, Chord of Calling, Force of Negation, Teferi Time Raveler, Mana Drain, Deadly Rollick, Glen Elendra Archmage, Ranger-Captain of Eos, Elesh Norn Mother of Machines, Karmic Guide, Reveillark, Sidisi Undead Vizier, Panharmonicon, Veil of Summer, Carpet of Flowers, Sun Titan, Phyrexian Tower.
@@ -210,8 +210,8 @@ Exactly 3 Game Changers:
 
 ### Game Changers (3)
 
-1 Fierce Guardianship
-1 Seedborn Muse
+1 Force of Will
+1 Rhystic Study
 1 Cyclonic Rift
 
 ### Flicker Engine (7)
@@ -224,7 +224,7 @@ Exactly 3 Game Changers:
 1 Ghostly Flicker
 1 Displacer Kitten
 
-### Reanimation (9)
+### Reanimation & Graveyard Filler (9)
 
 1 Reanimate
 1 Animate Dead
@@ -234,7 +234,7 @@ Exactly 3 Game Changers:
 1 Dread Return
 1 Persist
 1 Buried Alive
-1 Entomb
+1 Grisly Salvage
 
 ### Creatures — Value & Finishers (12)
 
@@ -247,7 +247,7 @@ Exactly 3 Game Changers:
 1 Sidisi, Undead Vizier
 1 Eternal Witness
 1 Fauna Shaman
-1 Sakura-Tribe Elder
+1 Bloom Tender
 1 Birds of Paradise
 1 Grand Abolisher
 
@@ -284,7 +284,7 @@ Exactly 3 Game Changers:
 1 Swords to Plowshares
 1 Path to Exile
 1 Generous Gift
-1 Beast Within
+1 Assassin's Trophy
 1 Toxic Deluge
 1 Deadly Rollick
 
@@ -320,7 +320,7 @@ Exactly 3 Game Changers:
 1 Misty Rainforest
 1 Flooded Strand
 1 Marsh Flats
-1 Boseiju, Who Endures
+1 Bojuka Bog
 1 Otawara, Soaring City
 1 Eiganjo, Seat of the Empire
 1 Yavimaya, Cradle of Growth
@@ -344,8 +344,14 @@ Exactly 3 Game Changers:
 
 |Card                     |Role                                     |Est. Price|
 |-------------------------|-----------------------------------------|----------|
+|Force of Will            |Free counter (any spell, any turn) — GC  |~$70      |
+|Rhystic Study            |Passive card-draw engine — GC            |~$50      |
+|Bloom Tender             |MV-2 ramp creature; WUBG with Atraxa     |~$30      |
 |Force of Negation        |Free counter (opponents’ turns)          |~$35      |
 |Razaketh, the Foulblooded|Repeatable creature tutor / sac outlet   |~$15      |
+|Assassin’s Trophy        |2-mana removal (any permanent)           |~$8       |
+|Bojuka Bog               |Utility land — graveyard hate            |~$3       |
+|Grisly Salvage           |Instant-speed mill 5 (graveyard filler)  |~$0.50    |
 |Atraxa, Grand Unifier    |Commander                                |~$15      |
 |Birthing Pod             |Repeatable creature chain                |~$12      |
 |Defense of the Heart     |Automatic 2-creature tutor               |~$10      |
@@ -369,16 +375,19 @@ Exactly 3 Game Changers:
 |Persist                  |Cheap reanimate (nonlegendary only)      |~$2       |
 |Reflecting Pool          |4-color fixing                           |~$3       |
 |City of Brass            |4-color fixing                           |~$5       |
-|**Total**                |                                         |**~$210** |
+|**Total**                |                                         |**~$372** |
 
 ### Conflict cards (need extra copies):
 
-|Card              |Shared with               |Fix cost|
-|------------------|--------------------------|--------|
-|Reanimate         |Teysa, Sauron             |~$2     |
-|Animate Dead      |Sauron                    |~$3     |
-|Necromancy        |Sauron                    |~$4     |
-|Buried Alive      |Sauron                    |~$2     |
-|Swan Song         |Loam Cycle, Sauron        |~$3     |
-|Temple Garden     |Bumbleflower, Toph, Sythis|~$10    |
-|**Conflict total**|                          |**~$24**|
+|Card              |Shared with                                          |Fix cost|
+|------------------|-----------------------------------------------------|--------|
+|Reanimate         |Teysa, Sauron                                        |~$2     |
+|Animate Dead      |Sauron                                               |~$3     |
+|Necromancy        |Sauron                                               |~$4     |
+|Buried Alive      |Sauron                                               |~$2     |
+|Swan Song         |Loam Cycle, Sauron                                   |~$3     |
+|Temple Garden     |Bumbleflower, Toph, Sythis                           |~$10    |
+|Bojuka Bog        |6+ decks (zero-surplus per Collection_Master_Status) |~$3     |
+|**Conflict total**|                                                     |**~$27**|
+
+*Note: post-swap shared-card analysis needs `WF_Deck_Safe_Collection.md` re-run to be exact. Bloom Tender, Rhystic Study, Force of Will, Assassin’s Trophy, and Grisly Salvage may also create new conflicts depending on other decks’ demand.*

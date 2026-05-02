@@ -31,14 +31,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = REPO_ROOT / "_sync_drop"
 
 # Folders whose contents are recursively included.
-INCLUDE_DIRS = ["reference", "workflows", "templates", "decks", "collection"]
+INCLUDE_DIRS = ["decks", "collection"]
 
 # Top-level files to include explicitly.
 INCLUDE_TOP_LEVEL = [
-    "README.md",
     "Deck_Index.md",
     "Collection_Master_Status.md",
-    "SYNC.md",
 ]
 
 # File extensions that are eligible for sync.
