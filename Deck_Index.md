@@ -10,7 +10,6 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------- |
 | The Loam Cycle         | Teval, the Balanced Scale   | Sultai |     19/20 | Graveyard value             | Elite                   |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite                   |
-| Divine Constellation   | Sythis, Harvest's Hand      | GW     |     19/20 | Enchantress                 | Elite                   |
 | The Calamity Tax       | Glarb, Calamity's Augur     | Sultai |     18/20 | Control / tax               | Elite                   |
 | Lightning War          | Fire Lord Azula             | Grixis |     18/20 | Spellslinger / burn         | Elite                   |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     17/20 | Tokens / The Ring           | Elite                   |
