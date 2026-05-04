@@ -133,7 +133,7 @@ Ad Nauseam, Jeska's Will, Natural Order, Survival of the Fittest, Gifts Ungiven,
 | The Loam Cycle (Teval) | Fierce Guardianship, Crop Rotation, Field of the Dead | **3/3** | Originally assessed as 1/3 — needs summary update |
 | Curse of the Scarab | — | 0/3 | |
 | Crystal Sickness (Golbez) | — | 0/3 | Needs full audit |
-| Replication Crisis (Satya) | Fierce Guardianship, Cyclonic Rift | **2/3** | Deflecting Swat removed from GC list Oct 2025 — free slot |
+| Replication Crisis (Satya) | Fierce Guardianship, Cyclonic Rift, The One Ring | **3/3** | The One Ring added 2026-05-04 to fill slot opened by Deflecting Swat delisting (Swat remains in deck, no longer counts) |
 | Diminishing Returns (Teysa) | Farewell | **1/3** | Originally assessed as 0/3 — Farewell added Feb 2026 |
 | Genome Project (Kuja) | Necropotence | 1/3 | |
 | Earthbend the Meta (Toph) | Crop Rotation, Field of the Dead, Smothering Tithe | **3/3** | Doubling Season was mislabeled — corrected April 2026 |
@@ -142,5 +142,6 @@ Ad Nauseam, Jeska's Will, Natural Order, Survival of the Fittest, Gifts Ungiven,
 | Lightning War (Azula) | Jeska's Will, Mystical Tutor | 2/3 | |
 | The Dark Lord's Army (Sauron) | Orcish Bowmasters, Cyclonic Rift, Demonic Tutor | 3/3 | |
 | The Jasmine Dragon (Iroh) | — | 0/3 | Needs full audit |
-| The Grand Design (Atraxa) | Fierce Guardianship, Seedborn Muse, Cyclonic Rift | 3/3 | |
+| The Grand Design (Atraxa) | Force of Will, Rhystic Study, Cyclonic Rift | 3/3 | Updated 2026-05-02 per swap doc |
 | **The Exile's Return (Zuko)** | **Jeska's Will, Enlightened Tutor, Teferi's Protection** | **3/3** | |
+| The Calamity Tax (Glarb) | Seedborn Muse, Fierce Guardianship, Demonic Tutor | **3/3** | Verified 2026-05-04 |

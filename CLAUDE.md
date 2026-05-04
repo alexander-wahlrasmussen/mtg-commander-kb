@@ -42,6 +42,8 @@ If a summary and decklist disagree on what cards are in a deck, the `.txt` wins.
 
 ## Hard rules when editing decklists
 
+- **Read every card before recommending it — and before *writing about* it.** Use the local Scryfall data — do not pattern-match from the name, art, or memory. Run `python scripts/card_lookup.py "Card Name"` (or `--fuzzy` for partial names) to get oracle text, type line, color identity, and legality. Read the commander's full text before acting on the deck *or drafting a proposal/strategy doc about it* — proposals are not exempt; the Hashaton 2026-05-02 incident showed that an entire commander proposal can read as internally coherent while resting on hallucinated card text. Card-text misreads have been the most frequent source of bad recommendations. Non-negotiable for UB sets and any unfamiliar card. Refresh the data with `python scripts/update_scryfall_data.py` when a new set releases. If Scryfall data isn't available, say so explicitly and refuse to draft from memory rather than guessing.
+- **Verify cross-deck availability before recommending a swap or addition.** A card in the Moxfield collection may be physically deployed in another deck. Check `collection/deck_safe_collection.xlsx` (Shared Cards / Shopping List tabs) or grep `decks/*.txt` for the card name. High-value staples (counterspells, tutors, fast mana, premium removal) are the most likely to already be in use.
 - **Never modify a `.txt` decklist without bumping the date in the filename.** The dated filename is the version history. If you change `the-exiles-return-20260424.txt`, rename it `the-exiles-return-<today>.txt` and move the old version to `archive/old_decklists/`.
 - **Never declare a card unowned without checking `REF_Reskin_Aliases.md` first.** Universes Beyond cards print under different names; the alias table resolves them.
 - **Never assume Game Changer status.** Always check `REF_Game_Changers_List.md`. The list changes. Doubling Season is not a GC. Deflecting Swat was removed in October 2025.
@@ -93,8 +95,7 @@ Builds the master collection spreadsheet from the Moxfield CSV and all decklists
 python $DECKSAFE_REPO/deck_safe_collection_builder.py \
   collection/moxfield_haves_YYYYMMDDHHMMZ.csv \
   --deck-dir ./decks/ \
-  -o collection/deck_safe_collection.xlsx \
-  --no-google
+  -o collection/deck_safe_collection.xlsx
 ```
 
 Output `collection/deck_safe_collection.xlsx` is committed. See `WF_Deck_Safe_Collection.md` for full invocation options.

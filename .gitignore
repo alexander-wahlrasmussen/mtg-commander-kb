@@ -19,3 +19,7 @@ desktop.ini
 # Excel temp files
 ~$*.xlsx
 ~$*.xls
+
+# Scryfall bulk data — large, refresh with scripts/update_scryfall_data.py
+collection/oracle-cards.json
+collection/rulings.json

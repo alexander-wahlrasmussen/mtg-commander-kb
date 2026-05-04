@@ -53,7 +53,7 @@
 ### 4. Sakura-Tribe Elder → Bloom Tender
 
 - Sakura-Tribe Elder: 1G, 1/1 Snake, sac to fetch a basic land tapped.
-- Bloom Tender: **1G, 1/2**, T: add one mana of each color among permanents you control.
+- Bloom Tender: **1G, 1/1**, T: add one mana of each color among permanents you control.
 - **Why it works:**
   - **Pod chain:** MV-2 slot preserved (Birds → Bloom Tender → MV-3 like Eternal Witness).
   - **Reveillark loop:** Bloom Tender is power 1, so Reveillark can return it from the graveyard.
@@ -78,14 +78,14 @@
 ### 6. Entomb → Grisly Salvage
 
 - Entomb: **1B instant**, search your library for any card and put it directly into your graveyard.
-- Grisly Salvage: **1BG instant (3 mana)**, mill 5 cards from the top of your library, then return a creature or land card from among them to your hand.
+- Grisly Salvage: **BG instant (2 mana)**, mill 5 cards from the top of your library, then return a creature or land card from among them to your hand.
 - **Why it works:**
   - Preserves Entomb's *role* — getting reanimation targets into the graveyard at instant speed. Mills 5 cards, which has good odds of hitting at least one of Razaketh / Vilis / Elesh Norn (3 of the deck's fattest creatures).
   - **Instant speed matches Entomb's tempo:** mill at end of opp's turn → reanimate on yours.
   - **Card-selection bonus:** the "return a creature or land to hand" clause grabs Karmic Guide or Reveillark for the reanimation chain, or a missing land drop.
 - **Loss:**
   - **Random mill, not deterministic:** unlike Entomb (find Razaketh exactly), Grisly Salvage is a probability play. ~50% to mill at least one of the 3 primary reanimation targets in 5 cards. If it whiffs on big creatures, you still get card advantage from the creature-to-hand clause.
-  - Mana cost up by 1 (2 → 3) and demands a green source alongside black.
+  - Same total mana cost (2), but demands a green source alongside black instead of mono-B.
 - **In-collection alternatives considered (and rejected):**
   - *Final Parting* — originally proposed; **unavailable**, held in Loam Cycle.
   - *Diabolic Intent* — both copies deployed (Exile's Return, Dark Lord's Army).
@@ -117,7 +117,7 @@
 
 | Axis              | Before     | After      | Notes                                                                                                |
 | ----------------- | ---------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| Core Loop         | 5          | 5          | Pod chain intact via Bloom Tender; reanimation enabler count steady via Final Parting                |
+| Core Loop         | 5          | 5          | Pod chain intact via Bloom Tender; reanimation enabler count steady via Grisly Salvage               |
 | Kill Reliability  | 5          | 5          | Bloom Tender restores mana for Finale-X≥10; reanimation chain unchanged                              |
 | Durability        | 5          | 5          | Rhystic Study refills post-wipe; reanimation suite intact (9 spells)                                 |
 | Interaction       | 4          | 4          | Counter count steady; Force of Will closes the creature-counter gap; Trophy ≥ Beast Within           |

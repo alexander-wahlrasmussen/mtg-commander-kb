@@ -34,22 +34,23 @@ The deck ramps aggressively into a massive land count, uses Glarb's top-of-libra
 
 ### Layer 1 — Ramp / Lands Engine (20+ pieces)
 
-The deck runs 41 lands plus 20+ ramp pieces that aggressively accelerate land count. Extra land drop creatures (Exploration, Azusa, Oracle of Mul Daya, Icetill Explorer) stack with Glarb's ability to play lands from the top, enabling 3–4 land drops per turn. Land tutors (Farseek, Nature's Lore, Three Visits, Skyshroud Claim, Hour of Promise, Open the Way, Tempt with Discovery, Pir's Whim, Sowing Mycospawn, Titania's Command, Espers to Magicite) ensure consistent ramp. Nissa Resurgent Animist and Lotus Cobra generate mana on landfall. Cabal Coffers + Urborg, Tomb of Yawgmoth produces 12–20+ black mana from a single land tap in the mid-to-late game.
+The deck runs 39 lands plus 20+ ramp pieces that aggressively accelerate land count. Extra land drop creatures (Exploration, Azusa, Oracle of Mul Daya, Icetill Explorer) stack with Glarb's ability to play lands from the top, enabling 3–4 land drops per turn. Land tutors (Farseek, Nature's Lore, Three Visits, Skyshroud Claim, Hour of Promise, Open the Way, Tempt with Discovery, Pir's Whim, Sowing Mycospawn, Titania's Command, Omenpath Journey, Planar Genesis) ensure consistent ramp. Nissa Resurgent Animist and Lotus Cobra generate mana on landfall. Cabal Coffers + Urborg, Tomb of Yawgmoth produces 12–20+ black mana from a single land tap in the mid-to-late game.
 
 ### Layer 2 — Top-of-Library Value Engine
 
 Glarb's {T}: Surveil 2 sculpts the top of the library, clearing sub-4 MV cards and positioning lands or big spells for free casting. **Seedborn Muse** (Game Changer) transforms this: Glarb untaps during each opponent's untap step, allowing surveil 2 on every player's turn — four activations per turn cycle in a 4-player game. With flash enablers (High Fae Trickster, Valley Floodcaller, Alchemist's Refuge), MV4+ sorceries can also be cast on opponents' turns.
 
-Valley Floodcaller has a critical secondary interaction: every noncreature spell cast untaps all Frogs you control (and gives them +1/+1). Since Glarb is a Frog, each noncreature spell untaps him for another surveil 2, enabling chains through the library on a single turn.
+Valley Floodcaller has two distinct roles. First, it is a full flash enabler — "You may cast noncreature spells as though they had flash" — allowing MV4+ sorceries from the top on any turn independently of High Fae Trickster. Second, every noncreature spell cast untaps all Birds, Frogs, Otters, and Rats you control (and gives them +1/+1). Since Glarb is a Frog, each noncreature spell untaps him for another surveil 2, enabling chains through the library on a single turn.
 
 ### Layer 3 — Copy / Multiplication Payoffs
 
-Four copy effects multiply the impact of high-value creatures:
+Five copy effects multiply the impact of high-value creatures:
 
 - **Rite of Replication** (kicked, 9 mana) — 5 copies of any creature
 - **Doppelgang** ({X}{X}{X}{G}{U}) — X copies of X permanents, scaling with mana
 - **Flash Photography** (4 mana, flashback 6 mana) — copy any permanent, castable twice
 - **Mirrorform** (6 mana, instant) — ALL nonland permanents you control become copies of one target
+- **Espers to Magicite** ({3}{B}, instant) — exiles all opponents' graveyards, then creates an artifact token copy of any exiled creature card; doubles as graveyard hate
 
 **Starfield Vocalist** doubles all ETB triggers from permanents entering the battlefield (Panharmonicon on a 4-mana creature body with warp {1}{U}), amplifying every copy that enters.
 
@@ -125,13 +126,13 @@ Docked from 5 because every kill line requires either massive mana accumulation 
 
 ### Durability: 4/5
 
-Strong structural resilience across multiple dimensions. Glarb costs 3 mana — recastable at 5, 7, 9 without meaningful tempo loss. Land advantage survives every board wipe (41 lands stay on the battlefield). Reanimate and Noxious Revival recover killed creatures. Lumra returns all lands from graveyard to battlefield on ETB. Icetill Explorer replays lands from graveyard with self-mill fueling it. The ramp density (20+ pieces) means the engine rebuilds fast.
+Strong structural resilience across multiple dimensions. Glarb costs 3 mana — recastable at 5, 7, 9 without meaningful tempo loss. Land advantage survives every board wipe (39 lands stay on the battlefield). Reanimate and Noxious Revival recover killed creatures. Lumra returns all lands from graveyard to battlefield on ETB. Icetill Explorer replays lands from graveyard with self-mill fueling it. The ramp density (20+ pieces) means the engine rebuilds fast.
 
 Seedborn Muse is a key accelerant but not a hard dependency — without it, the deck functions at reduced speed but the core engine (ramp → Glarb top-casting) still works. The commander is important but trivially cheap to recast. The sheer mass of redundant ramp pieces means no single removal spell derails the plan.
 
 Docked from 5 because the finisher creature pool is thin: Archon, Kokusho, Gray Merchant, Massacre Wurm = 4 cards. If multiple are exiled (Swords, Path, Farewell), the copy effects lose their best targets. Torment of Hailfire doesn't need creatures, which provides resilience — but the copy-based kills become significantly weaker. Graveyard hate (Rest in Peace, Dauthi Voidwalker) shuts off Reanimate, Noxious Revival, Lumra's land return, and Icetill Explorer simultaneously.
 
-*Checkpoint: Cyclonic Rift on turn 7. Lands stay (41 of them). Recast Glarb for 5 mana. Surveil to find next threat. Noxious Revival puts best card on top for free casting. Threatening again in 1–2 turns.*
+*Checkpoint: Cyclonic Rift on turn 7. Lands stay (39 of them). Recast Glarb for 5 mana. Surveil to find next threat. Noxious Revival puts best card on top for free casting. Threatening again in 1–2 turns.*
 
 ### Interaction Profile: 5/5
 
@@ -139,7 +140,7 @@ Docked from 5 because the finisher creature pool is thin: Archon, Kokusho, Gray 
 
 **Counterspells (5, including 3 free):** Fierce Guardianship (free with commander), Force of Negation (free with blue card), Pact of Negation (free, pay 5 on upkeep), Mana Drain ({U}{U}, generates mana), Swan Song ({U})
 
-**Free/Cheap Removal (4):** Deadly Rollick (free with commander), Force of Vigor (free with green card), Submerge (free if opponent has Forest), V.A.T.S. (split second, exiles)
+**Free/Cheap Removal (4):** Deadly Rollick (free with commander), Force of Vigor (free with green card), Submerge (free if opponent has Forest), V.A.T.S. (split second, destroys any number of creatures with equal toughness)
 
 **Sweepers (3):** Toxic Deluge (scalable, ignores indestructible), Culling Ritual (destroys all MV2- nonlands, generates mana), The Meathook Massacre (scalable -X/-X + ongoing drain)
 
@@ -157,7 +158,7 @@ Five counterspells including three that cost zero mana. Four free removal spells
 |---|---|---|---|
 | Core Loop | 5 | Seedborn + Glarb = 3–4 activations per turn cycle | — |
 | Kill Reliability | 4 | Torment + Coffers = 1-turn kill from engine-online | No deterministic combo; X-kills need massive mana |
-| Durability | 4 | 41 lands survive everything; 3-mana commander | Thin finisher creature pool; exile vulnerability |
+| Durability | 4 | 39 lands survive everything; 3-mana commander | Thin finisher creature pool; exile vulnerability |
 | Interaction | 5 | 20 pieces including 3 free counters + 4 free removal | — |
 
 -----
@@ -200,8 +201,8 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 | Deck Card Name | Original MTG Name | Notes |
 |---|---|---|
-| Ba Sing Se | *Verify — likely ATLA land* | Check alias system |
-| Espers to Magicite | *Verify — likely FF ramp spell* | Check alias system |
+| Ba Sing Se | Ba Sing Se | ATLA original card — {T}: Add {G}; Earthbend 2 ability; not a reskin of an existing card |
+| Espers to Magicite | Espers to Magicite | FF original card — {3}{B} instant; exiles opponents' graveyards + creates artifact-token creature copy; not a ramp spell |
 | Flash Photography | Flash Photography | FF original (not a reskin) |
 
 -----
@@ -225,17 +226,17 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Oracle of Mul Daya
 1 Icetill Explorer
 
-### Landfall Payoffs (3)
+### Landfall Payoffs (2)
 
 1 Lotus Cobra
 1 Nissa, Resurgent Animist
-1 Blossoming Tortoise
 
-### Land Recursion / Self-Mill (1)
+### Land Recursion (2)
 
 1 Lumra, Bellow of the Woods
+1 Blossoming Tortoise
 
-### Land Tutors / Ramp (11)
+### Land Tutors / Ramp (12)
 
 1 Farseek
 1 Nature's Lore
@@ -247,7 +248,8 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Pir's Whim
 1 Sowing Mycospawn
 1 Titania's Command
-1 Espers to Magicite
+1 Omenpath Journey
+1 Planar Genesis
 
 ### Mana (1)
 
@@ -268,12 +270,13 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 High Fae Trickster
 1 Valley Floodcaller
 
-### Copy Effects (4)
+### Copy Effects (5)
 
 1 Rite of Replication
 1 Doppelgang
 1 Flash Photography
 1 Mirrorform
+1 Espers to Magicite
 
 ### ETB Doubler (1)
 
@@ -324,7 +327,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Veil of Summer
 1 Blasphemous Edict
 
-### Lands (41)
+### Lands (39)
 
 1 Bayou
 1 Tropical Island
@@ -350,7 +353,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Golgari Rot Farm
 1 Undercity Sewers
 1 Underground Mortuary
-1 Dol Amroth
+1 Minamo, School at Water's Edge
 1 Ba Sing Se
 1 Agadeem's Awakening
 1 Polluted Delta
@@ -365,8 +368,6 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Urza's Cave
 1 Horizon of Progress
 1 Forest
-1 Omenpath Journey
-1 Planar Genesis
 
 -----
 

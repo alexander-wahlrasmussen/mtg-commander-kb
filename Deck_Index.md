@@ -19,7 +19,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite                   |
 | Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite                   |
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite                   |
-| Lorehold Spirits       | Quintorius                  | Boros  |     17/20 | Spirits / reanimator        | Elite (upgraded precon) |
+| Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     17/20 | Spirits / graveyard cycling | Elite (audited 2026-05-03; 18/20 once Goblin Bombardment arrives) |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                   |
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   | ~14–15/20 | [needs audit]               | Solid                   |
 | Radiation Sickness     | Wise Mothman                | Sultai |     14/20 | Rad / toxic                 | Solid                   |
@@ -37,7 +37,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 ## Outstanding work
 
 - **H2:** Ms. Bumbleflower formal summary — still the open High Priority item.
-- **Lorehold Spirits:** shopping list complete (~€109). Physical acquisition pending.
+- **Lorehold Spirits:** upgrade pass applied 2026-05-03. Goblin Bombardment placeholder pending physical purchase — combo line offline until acquired.
 - **Proxy list:** 35 cards for cross-deck testing, physical testing not yet completed.
 
 ---

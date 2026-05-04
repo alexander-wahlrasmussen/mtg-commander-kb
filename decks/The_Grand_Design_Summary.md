@@ -105,7 +105,7 @@ Each cycle: tutor 2 cards, return a utility creature, costs 4 life. Continue unt
 
 Note: Phyrexian Tower does NOT enable this loop because it taps (one sacrifice per turn cycle). Razaketh’s sacrifice ability has no tap requirement, enabling multiple activations per turn.
 
-Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Bloom Tender (1/2), Grand Abolisher (2/2), Glen Elendra Archmage (2/2). Note: Ranger-Captain of Eos is 3/3 and is NOT a valid Reveillark target.
+Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Bloom Tender (1/1), Grand Abolisher (2/2), Glen Elendra Archmage (2/2). Note: Ranger-Captain of Eos is 3/3 and is NOT a valid Reveillark target.
 
 ### Kill Line 7: Birthing Pod Chain — Incremental Inevitability
 
@@ -304,7 +304,7 @@ Exactly 3 Game Changers:
 1 Nature’s Lore
 1 Farseek
 
-### Lands (38)
+### Lands (39)
 
 1 Command Tower
 1 Exotic Orchard

@@ -4,64 +4,72 @@
 
 | Field | Value |
 |---|---|
-| **Commander** | Satya, Aetherflux Genius ({1}{U}{R}{W}, 3/4 Legendary Creature — Human Artificer) |
+| **Commander** | Satya, Aetherflux Genius ({1}{U}{R}{W}, 3/5 Legendary Creature — Human Artificer) |
 | **Colors** | Jeskai (URW) |
 | **Archetype** | ETB / Token Combo |
-| **Bracket** | 3 (3 Game Changers; Combat Celebrant 2-card infinite with commander requires combat step, not early) |
-| **Game Changers** | Fierce Guardianship, Cyclonic Rift, Deflecting Swat |
-| **Conversion Check** | **17/20** (5/4/4/4) |
+| **Bracket** | 3 (3 Game Changers) |
+| **Game Changers** | Fierce Guardianship, Cyclonic Rift, The One Ring (Deflecting Swat remains in deck as a free redirect but no longer counts toward the GC cap as of Oct 2025) |
+| **Conversion Check** | **17/20** (5/4/4/4) — *needs rescore after 2026-05-04 swap pass* |
 | **Kill Window** | Goldfish: T5–7 · Through interaction: T7–10 |
+| **Last swap pass** | 2026-05-04 — 6 cards swapped to add a real infinite (Sword of F&F + AA), token multiplier (Anointed Procession + Adeline), draw engine (Bident, The One Ring), premium ETB (Solitude). See bottom of summary. |
 
 -----
 
 ## Commander Rules Text
 
-Satya has two abilities:
+**Satya, Aetherflux Genius — {1}{U}{R}{W}, 3/5 Legendary Creature — Human Artificer**
 
-1. **Aetherflux trigger:** At the beginning of combat on your turn, you may pay {E}{E}. If you do, create a tapped and attacking token that's a copy of another creature you control. That token gains haste. Sacrifice it at the beginning of the next end step.
-2. **Energy generation:** Whenever Satya or another creature enters the battlefield under your control, you get {E}.
+- **Menace, haste**
+- Whenever Satya **attacks**, create a tapped and attacking token that's a copy of up to one other target **nontoken** creature you control. **You get {E}{E}** (two energy counters). At the beginning of the next end step, sacrifice that token **unless you pay an amount of {E} equal to its mana value**.
 
-Key rulings: The token copy enters tapped and attacking, bypassing any "when this attacks" restrictions. The token has all abilities of the copied creature, including ETB triggers. The token dies at end step unless something changes its status (Brudiclad converting it into a different token). Every creature entering — including the token itself — generates energy, so each Satya activation partially refunds the {E}{E} cost.
+Key implications:
+- The trigger is **on attack**, not at beginning of combat. Satya must declare-attack each turn for the engine to fire. Aurelia / Helm of the Host / Sword of Feast and Famine etc. that grant additional Satya attacks are direct multipliers.
+- Energy is **gained for free** on each Satya attack, not paid. Tokens are kept by paying mana value in {E} at end step (e.g. an Inferno Titan token costs 6{E} to keep). Three attacks bank enough energy to keep one Inferno Titan; six attacks bank enough to keep two.
+- The token must copy a **nontoken** creature. Brudiclad-converted tokens cannot be Satya targets.
+- Token copies of creatures without haste cannot attack again in extra combats unless **Brudiclad** ("creature tokens you control have haste") is in play or the copied creature itself has haste. This matters for Aggravated Assault / Aurelia loops.
+- ETB and "when this attacks" abilities of the copied creature both trigger on the token (it's an ETB *and* enters attacking).
 
 -----
 
 ## What the Deck Does
 
-The deck abuses Satya's ability to create hasty token copies of ETB creatures every combat. Each copy triggers enter-the-battlefield abilities, and each entering creature generates energy to fuel the next copy.
+Satya's "whenever attacks" trigger creates a free token copy of any nontoken creature you control, plus 2 free energy. The deck stacks ETB creatures for Satya to repeatedly copy, with token doublers and a real combat-loop kill line.
 
-**Layer 1 — ETB Creatures (15 pieces):** The deck runs 15 creatures with strong ETB effects that Satya can copy:
+**Layer 1 — ETB Creatures (16 pieces):** Satya's copy targets, ranked by impact:
 
-- **Value ETBs:** Cloudblazer (draw 2, gain 2), Wall of Omens (draw 1), Knight of the White Orchid (fetch Plains if behind), Snapcaster Mage (flashback an instant/sorcery)
-- **Board impact ETBs:** Inferno Titan (deal 3 damage split), Reflector Mage (bounce a creature), Skyclave Apparition (exile nonland permanent ≤5 MV), Loran of the Third Path (destroy artifact/enchantment), Zealous Conscripts (steal any permanent), Siege-Gang Commander (create 3 goblin tokens)
-- **Token/pump ETBs:** Angel of Invention (fabricate 2 + anthem), Blade Splicer (create 3/3 golem with first strike)
-- **Utility ETBs:** Charming Prince (scry 2, or flicker another creature, or gain 3), Restoration Angel (flash, flicker a non-Angel)
+- **Value ETBs:** Cloudblazer (draw 2, gain 2), Wall of Omens (draw 1), Knight of the White Orchid (fetch Plains if behind), Snapcaster Mage (flashback an instant/sorcery), Archivist of Oghma (draw on opponent search)
+- **Board impact ETBs:** Inferno Titan (deal 3 damage), Reflector Mage (bounce a creature), Skyclave Apparition (exile nonland permanent ≤5 MV), Loran of the Third Path (destroy artifact/enchantment), Zealous Conscripts (steal any permanent), Solitude (exile a creature, lifelink)
+- **Token/pump ETBs:** Angel of Invention (fabricate 2 + anthem), Blade Splicer (create 3/3 golem with first strike), Siege-Gang Commander (create 3 goblin tokens), Adeline (Satya copy of Adeline doesn't fire her trigger from entering attacking, but a real attack with Adeline + Satya generates 3 humans/turn for the Brudiclad pile)
+- **Utility ETBs:** Restoration Angel (flash, flicker a non-Angel)
 
-**Layer 2 — Extra Combats (3 pieces):** Each extra combat gives Satya another activation. Combat Celebrant (exert for extra combat — goes infinite with Satya since each token copy is a new creature that hasn't exerted), Lightning Runner (energy-based extra combats), Aggravated Assault (mana-based infinite combats).
+**Layer 2 — Combat Engine (1 piece):** Aggravated Assault gives an extra combat for {3}{R}{R} (sorcery speed). Combined with **Sword of Feast and Famine** equipped to Satya, each combat untaps all lands → infinite combats.
 
-**Layer 3 — ETB Doublers and Multipliers (4 pieces):** Panharmonicon (doubles artifact and creature ETBs), Elesh Norn Mother of Machines (doubles your ETBs, shuts off opponents'), Strionic Resonator (copies any triggered ability), Phelia Exuberant Shepherd (flickers a permanent on each attack, re-triggering its ETB).
+**Layer 3 — ETB Doublers / Token Multipliers (5 pieces):** Panharmonicon (doubles ETBs), Elesh Norn Mother of Machines (doubles your ETBs, shuts off opponents'), Strionic Resonator (copies triggers — including Satya's attack trigger for a second token), Phelia Exuberant Shepherd (flickers a permanent on each attack, re-triggering its ETB), **Anointed Procession** (doubles every token Satya creates, every Adeline trigger, every Siege-Gang trigger, every Brudiclad Myr).
 
-**Layer 4 — Token Conversion (1 piece):** Brudiclad, Telchor Engineer creates a Myr token at beginning of combat, then can make all your tokens become copies of any one token. Convert goblin tokens, Myr tokens, and the Satya copy token into copies of Inferno Titan or Angel of Invention for a lethal swing.
+**Layer 4 — Token Conversion (1 piece):** Brudiclad converts your token pile into copies of one token. Satya tokens, Adeline humans, Siege-Gang goblins, Angel of Invention servos, and the Brudiclad Myr can all become Inferno Titan copies for a lethal swing. Brudiclad-converted tokens shed Satya's EoT-sacrifice trigger.
 
-**The play pattern:** Turns 1–3: ramp with signets and talismans. Turn 4: deploy Satya. Turn 5+: attack, spend {E}{E} to copy the best ETB creature, trigger its ability, generate energy back, hold up countermagic during opponents' turns. Each combat produces incremental advantage — a free Reflector Mage bounce, a free Inferno Titan ping, a free Cloudblazer draw. The deck snowballs through repeated ETB triggers rather than a single explosive turn.
+**The play pattern:** Turns 1–3: ramp. Turn 4: Satya (or hold for a protected turn). Turn 5+: attack — make a token, gain 2 energy, trigger an ETB. Each attack is pure value. Goal turns 6–8: equip Sword of F&F + activate AA, or Brudiclad-convert into a lethal alpha strike.
 
 -----
 
 ## Kill Lines
 
-**Line 1 — Combat Celebrant Infinite Combats (primary, 2-card with commander)**
-Satya + Combat Celebrant on the battlefield. At beginning of combat, Satya copies Celebrant. The token enters tapped and attacking with haste. Exert the token for an extra combat phase. In the new combat, Satya triggers again, copies Celebrant again, new token exerts again. This loops infinitely — each token is a new creature that hasn't exerted. Satya + whatever other creatures you control attack infinite times. Requires Satya to survive combat and no instant-speed removal during the sequence.
+**Line 1 — Sword of F&F + Aggravated Assault (infinite combats, 3 cards including commander)**
+Equip Sword of Feast and Famine to Satya (menace + haste makes her hard to chump). Activate AA in main phase. Combat: Satya attacks, deals combat damage to a player → untap all lands. Post-combat main: AA again. Repeat indefinitely. Each loop also generates: a Satya token + 2 energy. With Anointed Procession, two tokens. With Brudiclad in play, all tokens become haste copies of whatever you chose.
 
-**Line 2 — Aggravated Assault Infinite Combats**
-Aggravated Assault costs {3}{R}{R} for each extra combat. Goldspan Dragon creates a Treasure on attack, and any Treasure it generates produces 2 mana. A Satya token copy of Goldspan attacks, creates a Treasure (2 mana from Goldspan's ability), plus the real Goldspan's Treasure = 4 mana from treasures + whatever lands are untapped. With 5+ total mana per combat, this goes infinite. Professional Face-Breaker provides backup treasure generation.
+Earliest realistic assembly: turn 6 (Satya turn 4, Sword + equip turn 5, AA turn 6).
 
-**Line 3 — Brudiclad Token Conversion**
-Brudiclad at beginning of combat creates a Myr, then converts all tokens into copies of one token. If you've accumulated goblin tokens (Siege-Gang Commander), golem tokens (Blade Splicer), servo tokens (Angel of Invention), and a Satya copy of Inferno Titan — Brudiclad converts them all into Inferno Titan copies. Each deals 3 damage on attack, and you're swinging with 5+ Inferno Titans.
+**Line 2 — Brudiclad Token Conversion (alpha strike, no infinite required)**
+Sequencing: Turn N combat — Brudiclad's beginning-of-combat trigger fires *before* Satya attacks. The conversion that matters is **the following combat phase**. By that point, the Satya copy of Inferno Titan / Adeline / etc. is on the field. Brudiclad converts all your tokens (Myr, goblins from Siege-Gang, servos from Angel of Invention, humans from Adeline, the Satya token) into copies of the chosen token. Brudiclad-converted tokens **shed Satya's EoT-sacrifice clause** (the delayed trigger sticks to the original Satya token only), so the conversion also preserves them.
+
+**Line 3 — Adeline + Anointed Procession Token Flood**
+With Adeline + Anointed Procession on board: each attack generates ~6 1/1 humans (3 per opponent in pod, doubled). Plus Satya's token (also doubled = 2). Plus Adeline herself (* power = creature count, often 8+ on a flooded board). Brudiclad on top converts the swarm. This is a 3–4 card alpha that doesn't need infinite combats.
 
 **Line 4 — Zealous Conscripts Steal**
-Satya copies Zealous Conscripts → steal an opponent's best permanent (it enters tapped and attacking alongside your team). With Panharmonicon, steal two permanents. With repeated combats (Celebrant or Aggravated Assault), steal one permanent per combat indefinitely.
+Satya copies Zealous Conscripts → steal an opponent's best permanent. Strionic Resonator copies Satya's attack trigger → second steal. Aggravated Assault → one steal per combat.
 
 **Line 5 — Value Grind**
-No single combo — just repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each combat. Cloudblazer copies draw 2 each combat. Skyclave Apparition copies exile a permanent each combat. Most pods can't survive 3–4 turns of this without running out of resources.
+Repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each combat. Cloudblazer copies draw 2 each combat. Skyclave Apparition copies exile a permanent each combat. Most pods can't survive 3–4 turns of this without running out of resources.
 
 -----
 
@@ -122,20 +130,6 @@ Phelia, Exuberant Shepherd replaced Inspiring Overseer. She's a repeatable flick
 
 **What Inspiring Overseer did:** Drew 1 card and gained 1 life on ETB. Functional but the weakest ETB in the creature suite. The deck already has 6+ card draw sources. Phelia's repeatable flicker is engine-quality; Overseer was filler-quality.
 
-## Cursed Mirror Sidegrade (MH3, Optional)
-
-Cursed Mirror replaced Coalition Relic. This is a **sidegrade, not a strict upgrade:**
-
-**What Cursed Mirror does:** 3-mana rock, taps for {R} only. On ETB, becomes a copy of any creature on the battlefield until end of turn with haste. One free attack as the best creature on the board, then stays as a rock.
-
-**What Coalition Relic did:** 3-mana rock, taps for any color. Can charge for a burst turn (5 mana on turn 4).
-
-**Tradeoff:** Cursed Mirror's one-shot creature copy with haste is fun and occasionally high-impact (copy an opponent's bomb, or copy your own Inferno Titan for a surprise 6/6 haste swing). But it only makes {R}, and this is a 3-color deck with double-white (Elesh Norn {3}{W}{W}) and blue-heavy counters. Coalition Relic's any-color flexibility is genuinely valuable.
-
-**Note:** Cursed Mirror does NOT re-trigger the copied creature's ETB — it enters as an artifact, then becomes a copy after ETB resolution. The creature copy gets haste from the Mirror's text, but any ETB the copied creature has does not fire. This limits the upside compared to Satya's copies, which do enter as the creature and trigger ETBs.
-
-**Recommendation:** Keep this swap if you want the more exciting card. Revert to Coalition Relic if you notice color problems in practice.
-
 -----
 
 ## Bracket 3 Compliance
@@ -143,9 +137,11 @@ Cursed Mirror replaced Coalition Relic. This is a **sidegrade, not a strict upgr
 **Game Changers (3 of 3):**
 1. Fierce Guardianship — free counterspell with commander in play
 2. Cyclonic Rift — asymmetric board wipe
-3. Deflecting Swat — free redirect with commander in play
+3. The One Ring — protection turn + scaling card draw (added 2026-05-04 to fill the slot opened by Deflecting Swat's GC delisting)
 
-**Infinite combos:** Combat Celebrant + Satya is a 2-card infinite using the commander, but it requires a successful attack step (earliest realistic turn 5) and doesn't violate B3's "no early two-card infinite combos" restriction. Aggravated Assault combo is 3-card.
+*Note:* Deflecting Swat remains in the deck as a free redirect but no longer counts toward the GC cap.
+
+**Infinite combos:** Sword of Feast and Famine (equipped to a connecting attacker — typically Satya, who has menace + haste) + Aggravated Assault = infinite combat phases. Each combat: Satya deals damage, untaps all lands, post-combat main re-activates AA. Earliest realistic assembly turn ~6.
 
 **Extra turns:** None.
 
@@ -190,7 +186,7 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 
 1 Fierce Guardianship
 1 Cyclonic Rift
-1 Deflecting Swat
+1 The One Ring
 
 ### ETB Creatures — Value (5)
 
@@ -200,37 +196,37 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 1 Snapcaster Mage
 1 Archivist of Oghma
 
-### ETB Creatures — Board Impact (5)
+### ETB Creatures — Board Impact (6)
 
 1 Inferno Titan
 1 Reflector Mage
 1 Skyclave Apparition
 1 Loran of the Third Path
 1 Zealous Conscripts
+1 Solitude
 
-### ETB Creatures — Tokens/Pump (3)
+### ETB Creatures — Tokens/Pump (4)
 
 1 Angel of Invention
 1 Blade Splicer
 1 Siege-Gang Commander
+1 Adeline, Resplendent Cathar
 
-### ETB Creatures — Utility (2)
+### ETB Creatures — Utility (1)
 
-1 Charming Prince
 1 Restoration Angel
 
-### Extra Combats (3)
+### Combat Engine (1)
 
-1 Combat Celebrant
-1 Lightning Runner
 1 Aggravated Assault
 
-### ETB Doublers / Multipliers (4)
+### ETB Doublers / Token Multipliers (5)
 
 1 Panharmonicon
 1 Elesh Norn, Mother of Machines
 1 Strionic Resonator
 1 Phelia, Exuberant Shepherd
+1 Anointed Procession
 
 ### Token Conversion (1)
 
@@ -245,18 +241,17 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 
 1 Ranger-Captain of Eos
 
-### Stax / Draw (2)
+### Stax / Draw (3)
 
 1 Esper Sentinel
 1 Mystic Remora
+1 Bident of Thassa
 
-### Counterspells (5)
+### Counterspells (3)
 
 1 Counterspell
 1 Swan Song
 1 An Offer You Can't Refuse
-1 Arcane Denial
-1 Reprieve
 
 ### Removal (5)
 
@@ -271,10 +266,11 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 1 Abrade
 1 Prismari Command
 
-### Flexible Interaction (2)
+### Flexible Interaction (3)
 
 1 Narset's Reversal
 1 Expansion/Explosion
+1 Deflecting Swat
 
 ### Protection (4)
 
@@ -283,22 +279,22 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 1 Slip Out the Back
 1 Lightning Greaves
 
-### Equipment (1)
+### Equipment (2)
 
 1 Swiftfoot Boots
+1 Sword of Feast and Famine
 
 ### Card Selection (2)
 
 1 Ponder
 1 Preordain
 
-### Ramp (11)
+### Ramp (10)
 
 1 Sol Ring
 1 Arcane Signet
 1 Fellwar Stone
 1 Mind Stone
-1 Cursed Mirror
 1 Azorius Signet
 1 Boros Signet
 1 Izzet Signet
@@ -334,3 +330,29 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 5 Island
 3 Mountain
 5 Plains
+
+-----
+
+## Swap Log
+
+### 2026-05-04 — Audit-driven upgrade pass (6 cards)
+
+The audit found the advertised primary kill line (Combat Celebrant + Satya 2-card infinite) was broken — tokens that enter "tapped and attacking" cannot be exerted. Six in-collection swaps were applied to (a) install a real infinite, (b) multiply the token engine, and (c) shore up draw and survivability.
+
+| Out | In | Rationale |
+|---|---|---|
+| Combat Celebrant | Adeline, Resplendent Cathar | Broken infinite → "whenever you attack" 1/1 token generator (≈3/attack in pod). Stacks with Anointed Procession and Brudiclad for an alpha lethal. |
+| Lightning Runner | Sword of Feast and Famine | Slow 8-energy extra-combat → equip to Satya (menace + haste), combat damage untaps all lands, AA loops infinitely. |
+| Charming Prince | Anointed Procession | Redundant flicker (Phelia + Restoration Angel cover) → doubles every Satya token *and* every Adeline trigger. |
+| Arcane Denial | Solitude | Card-disadvantage counter → premium ETB target, free evoke from a white card. |
+| Reprieve | Bident of Thassa | Worst counter (gives opp a card) → 1 card/creature/turn from combat damage. Force-attack mode is a niche bonus. |
+| Coalition Relic | The One Ring *(GC)* | Slow 3-mana rock → fills the GC slot opened by Deflecting Swat's Oct 2025 delisting. ETB protection turn covers the deck's wrath-recovery weakness; scaling card draw addresses thin draw suite. |
+
+### Knock-on rules notes flagged during audit (do not misplay)
+
+- **Tokens entering "tapped and attacking" do NOT trigger "whenever ~ attacks" abilities.** Satya copies of Goldspan, Lightning Runner, Bident-bearers, etc. do not fire those creatures' attack triggers. ETB triggers DO fire.
+- **Skullclamp-style tricks require post-combat equip** (sorcery-speed equip). Not relevant to current deck after swaps but flagged for any future Skullclamp consideration.
+- **Brudiclad-converted tokens shed Satya's EoT-sacrifice clause** (it's a delayed trigger tied to the original Satya token). This is the cleanest way to keep tokens alive without paying energy.
+- **Sword of F&F + AA loop relies on Satya (the equipped creature) connecting**, not the tokens. Menace + haste + 5 toughness makes this reliable but not guaranteed against decks with 2+ blockers.
+
+Pending: Conversion Check rescore. Working theory: Kill Reliability rebounds to 4/5 (real infinite restored), Core Loop holds at 5/5, Durability climbs to 4/5 (One Ring), Interaction holds at 4/5 — projected **17/20** unchanged but with a more stable composition.
