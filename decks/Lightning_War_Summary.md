@@ -12,7 +12,7 @@
 
 ## Commander Rules Text
 
-- **Firebending 2:** Whenever Azula attacks, add {R}{R}. This mana persists through all combat steps, lost at second main phase.
+- **Firebending 2:** Whenever Azula attacks, add {R}{R}. **This mana lasts until end of combat.** (Without a mana-retention piece like Ozai or Leyline Tyrant, the firebending mana evaporates before main phase 2.)
 - **Spell Copy:** Whenever you cast a spell while Azula is attacking, copy that spell. You may choose new targets for the copy. A copy of a permanent spell becomes a token.
 - **Key rulings:** The copy resolves before the original. Copies are not "cast" (no re-triggers from cast-trigger creatures). X values are preserved. Additional costs paid on the original apply to the copy.
 
@@ -20,13 +20,15 @@
 
 ## What the Deck Is Trying to Do
 
-Azula turns your combat phase into the most dangerous part of the turn cycle. Every spell you cast while she's attacking is doubled — instants natively, and everything else when a flash enabler is online. Between combats, mana storage preserves firebending mana so it compounds rather than drains.
+Azula turns your combat phase into the most dangerous part of the turn cycle. Every spell you cast while she's attacking is copied — instants natively, and everything else when a flash enabler is online. Mana retention pieces preserve firebending mana past end-of-combat so it compounds rather than drains.
 
 **Layer 1 — Flash Enablers** (4 cards: Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind) unlock the commander's full potential. Without one, you're limited to instants and flash permanents (~65% of spells). With one, every card in the deck is live for doubling during combat. Borne Upon a Wind is a one-shot version that cantrips — doubled by Azula, it draws two cards.
 
-**Layer 2 — Mana Storage** (2 cards: Ozai the Phoenix King, Leyline Tyrant) preserves firebending mana between combats. Ozai converts ALL unspent mana to red and gains flying + indestructible at 6+ stored mana. Leyline Tyrant stores red mana and explodes for damage when it dies. Both are critical for the Aggravated Assault combo.
+**Layer 2 — Mana Retention** (2 cards: Ozai the Phoenix King, Leyline Tyrant) preserves firebending mana past end-of-combat. Ozai retains *all* unspent mana (re-coloring it red) and gains flying + indestructible at 6+ stored mana. Leyline Tyrant retains only red mana but pings for damage on death. **Required for the Aggravated Assault combo** — Azula's firebending mana otherwise evaporates at end of combat, so it cannot reach main phase 2 where Aggravated Assault must be activated.
 
-**Layer 3 — Native Flash Density** (~20 instants and flash permanents) means the deck functions even without a dedicated flash enabler. Cunning Nightbonder makes flash spells uncounterable and cheaper. Hullbreaker Horror, Opposition Agent, Faerie Mastermind, Snapcaster Mage, Vendilion Clique, and others provide flash bodies that Azula copies into token duplicates.
+**Layer 3 — Engine Amplifier** (1 card: Twinning Staff) adds +1 copy whenever a copy effect triggers. Azula's "copy that spell" + Twinning Staff = 2 copies (3 total resolving spells per cast). The biggest payoff is on Past in Flames, Yawgmoth's Will, and Jeska's Will turns, where one cast triples instead of doubles.
+
+**Layer 4 — Native Flash Density** (~20 instants and flash permanents) means the deck functions even without a dedicated flash enabler. Cunning Nightbonder makes flash spells uncounterable and cheaper. Hullbreaker Horror, Opposition Agent, Faerie Mastermind, Snapcaster Mage, Vendilion Clique, and others provide flash bodies that Azula copies into token duplicates.
 
 The play pattern: turns 1–3 ramp and hold interaction. Turn 4 cast Azula. Turn 5+ attack with Azula, generate firebending mana, cast spells during combat for doubled value. Between turns, you hold up counterspells and flash threats. You never choose between developing and disrupting — development happens during combat, disruption happens on everyone else's turn.
 
@@ -37,10 +39,10 @@ Against your pod's combo player specifically: you hold mana up during their turn
 ## Kill Lines
 
 **Line 1 — Aggravated Assault Infinite Combats (primary, 3-card combo)**
-Azula (firebending 2) + Ozai the Phoenix King (firebending 4, all unspent mana becomes red) = 6R per combat. Aggravated Assault costs {3}{R}{R} = 5 total. Net +1R per combat = infinite combat phases with a 7/7 flying indestructible trampler and a 4/4 commander. Alternative mana sources: Leyline Tyrant storing mana across turns, Irma copying Ozai for doubled firebending, or enough lands + rituals to cover the 5-mana activation.
+Azula (firebending 2) + Ozai the Phoenix King (firebending 4, all unspent mana becomes red and *persists indefinitely*) = 6R per combat. Aggravated Assault costs **{3}{R} = 4 total** and is **sorcery-speed only** — activate during main phase 2 to chain to a new combat. Net **+2R per combat** = infinite combat phases with a 7/7 flying indestructible trampler and a 4/4 commander. Ozai is required because firebending mana otherwise drains at end of combat; Leyline Tyrant alone only retains red (insufficient — Azula's 2R alone doesn't cover the 4-mana activation). Irma copying Ozai (after Irma's beginning-of-combat retarget) gives a second firebending-4 attacker for +4R per combat.
 
 **Line 2 — Graveyard storm with flash enabler**
-Flash enabler online + Yawgmoth's Will or Past in Flames during Azula's combat = replay your entire graveyard of instants and sorceries, each doubled by Azula. After a few turns of casting cantrips and interaction, your graveyard is deep. This is a non-infinite line that can deal 40+ damage in a single combat through doubled burn, doubled removal clearing blockers, and doubled rituals generating mana for more spells.
+Flash enabler online + Yawgmoth's Will or Past in Flames during Azula's combat = replay your entire graveyard of instants and sorceries, each copied by Azula (and tripled if Twinning Staff is out). After a few turns of casting cantrips and interaction, your graveyard is deep. This is a non-infinite line that can deal 40+ damage in a single combat through copied burn, copied removal clearing blockers, and copied rituals generating mana for more spells.
 
 **Line 3 — Jeska's Will explosions**
 Jeska's Will during combat with Azula attacking = doubled. Two Jeska's Wills = add R equal to twice an opponent's hand size (typically 10–14R) plus exile top 6 cards of your library to cast this turn (each cast also doubled by Azula). This single card often generates enough mana and spells to kill one or two players in the same combat step.
@@ -62,7 +64,7 @@ Four distinct kill lines including one deterministic infinite (Aggravated Assaul
 
 ### Axis 3: Durability — 4/5
 
-Premium mana base (3 fetches, 3 shocks, Cavern of Souls, Gemstone Caverns, Command Beacon, Reflecting Pool). Commander protection suite (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon). 4 flash enablers and 2 mana storage pieces — losing one doesn't collapse the engine. Graveyard recursion (Yawgmoth's Will, Past in Flames, Snapcaster Mage) provides recovery. 3 MDFCs smooth land/spell ratios.
+Premium mana base (3 fetches, 3 shocks, Cavern of Souls, Gemstone Caverns, Command Beacon, Reflecting Pool). Commander protection suite (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon). 4 flash enablers and 2 mana retention pieces — losing one doesn't collapse the engine. Graveyard recursion (Yawgmoth's Will, Past in Flames, Snapcaster Mage, Lost in Memories) provides recovery. **6 MDFCs** (Agadeem's Awakening, Malakir Rebirth, Valakut Awakening, Hydroelectric Specimen, Sink into Stupor, Waterlogged Teachings) smooth land/spell ratios.
 
 Loses a point because Rest in Peace shuts down graveyard lines, and the deck lacks enchantment removal outside of Vandalblast (artifacts only) and bouncing with Hullbreaker Horror.
 
@@ -137,25 +139,28 @@ Azula is the only Grixis deck in the collection. No engine overlap with any exis
 1 High Fae Trickster
 1 Borne Upon a Wind
 
-### Mana Storage (2)
+### Mana Retention (2)
 1 Ozai, the Phoenix King
 1 Leyline Tyrant
 
 ### Combo Piece (1)
 1 Aggravated Assault
 
-### Flash Value Creatures (7)
+### Engine Amplifier (1)
+1 Twinning Staff
+
+### Flash Value Creatures (6)
 1 Cunning Nightbonder
 1 Faerie Mastermind
 1 Hullbreaker Horror
 1 Hydroelectric Specimen
 1 Snapcaster Mage
 1 Vendilion Clique
-1 Vivi Ornitier
 
-### Non-Flash Value Creatures (2)
+### Non-Flash Value Creatures (3)
 1 Irma, Part-Time Mutant
 1 Nightscape Familiar
+1 Vivi Ornitier
 
 ### Counterspells (5)
 1 Deflecting Swat
@@ -185,12 +190,11 @@ Azula is the only Grixis deck in the collection. No engine overlap with any exis
 1 Silver Shroud Costume
 1 March of Swirling Mist
 
-### Card Draw / Selection (7)
+### Card Draw / Selection (6)
 1 Consider
 1 Consult the Star Charts
 1 Demand Answers
 1 Frantic Search
-1 Lost in Memories
 1 Sazacap's Brew
 1 Thrill of Possibility
 
@@ -198,21 +202,22 @@ Azula is the only Grixis deck in the collection. No engine overlap with any exis
 1 Yawgmoth's Will
 1 Past in Flames
 1 Necromancy
-1 Flash Photography
+1 Lost in Memories
 
 ### Rituals (2)
 1 Dark Ritual
 1 Desperate Ritual
 
-### ATLA Spells (3)
+### Themed / UB-Set Spells (3)
 1 Fated Firepower
 1 Redirect Lightning
 1 Vivi's Persistence
 
-### Utility Spells (3)
+### Utility Spells (4)
 1 Observed Stasis
 1 Mystical Teachings
 1 Waterlogged Teachings
+1 Flash Photography
 
 ### Artifacts (1)
 1 Brotherhood Regalia
@@ -220,10 +225,9 @@ Azula is the only Grixis deck in the collection. No engine overlap with any exis
 ### The Unagi (1)
 1 The Unagi of Kyoshi Island
 
-### Ramp (5)
+### Ramp (4)
 1 Arcane Signet
 1 Fellwar Stone
-1 Talisman of Creativity
 1 Talisman of Dominance
 1 Talisman of Indulgence
 
@@ -266,3 +270,25 @@ Azula is the only Grixis deck in the collection. No engine overlap with any exis
 
 ### Utility Land (1)
 1 Bojuka Bog
+
+---
+
+## Audit Note (2026-05-05)
+
+Summary corrected against decklist `lightning-war-20260413-153124.txt` and verified Scryfall card text:
+
+- **Azula firebending text**: corrected from "lost at second main phase" → "lasts until end of combat" (actual oracle text). Combo dependency on Ozai/Leyline Tyrant clarified.
+- **Aggravated Assault cost**: corrected from `{3}{R}{R} = 5` → **`{3}{R} = 4`**. Net combat margin updated from +1R to +2R. Sorcery-speed restriction added.
+- **Twinning Staff added** to section breakdown — was in the .txt main deck but absent from the summary's category listing. Now classified as Engine Amplifier (Layer 3).
+- **Talisman of Creativity removed** from Ramp section — actually in sideboard (`SIDEBOARD:` line of .txt), not main deck.
+- **Lost in Memories** moved Card Draw → Graveyard Recursion (it's a flash Aura that grants flashback to graveyard cards via combat damage).
+- **Flash Photography** moved Graveyard Recursion → Utility Spells (it's a permanent-copy sorcery; flashback is secondary).
+- **Vivi Ornitier** moved Flash Value Creatures → Non-Flash Value Creatures (no flash; once-per-turn mana ability).
+- **MDFC count**: corrected from 3 → **6** (added Hydroelectric Specimen, Sink into Stupor, Waterlogged Teachings — all have land back faces).
+- **"ATLA Spells" → "Themed / UB-Set Spells"**: section name was misleading; Fated Firepower is Theros block, Redirect Lightning is Strixhaven Lesson, Vivi's Persistence is Final Fantasy.
+
+**Cross-deck conflicts**: None for this deck. (DeckSafe shows Bojuka Bog at -1 across 7 decks, but Lightning War has a physical copy allocated; the deficit lies in a different deck.) All other shared cards have surplus copies.
+
+**GC compliance**: 3/3 (Fierce Guardianship, Opposition Agent, Jeska's Will) — verified against current GC list. `REF_Game_Changers_List.md` updated 2026-05-05.
+
+**Card count**: 99 main + 1 commander = 100 ✓.

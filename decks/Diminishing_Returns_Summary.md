@@ -29,13 +29,29 @@ Key rulings: Teysa doubles the number of triggers, not the effect of each trigge
 
 The deck converts creatures into damage through a three-part engine:
 
-**Layer 1 — Sacrifice Outlets (8 permanents + 1 land):** Viscera Seer (free, scry), Carrion Feeder (free, grows), Yahenni (free, indestructible), Woe Strider (free, scry), Ashnod's Altar (free, {C}{C}), Phyrexian Altar (free, any color), Altar of Dementia (free, mill), Priest of Forgotten Gods ({T} + sac 2, draws + mana + edict), Phyrexian Tower (land, sac for {B}{B}). Skullclamp and Soldevi Adnate also function as pseudo-sac outlets. Razaketh sacrifices creatures to tutor.
+**Layer 1 — Sacrifice Outlets (8 permanents + 1 land):** Viscera Seer (free, scry), Carrion Feeder (free, grows), Yahenni (free, indestructible), Woe Strider (free, scry), Ashnod's Altar (free, {C}{C}), Phyrexian Altar (free, any color), Altar of Dementia (free, mill), Priest of Forgotten Gods ({T} + sac 2, draws + mana + edict), Phyrexian Tower (land, sac for {B}{B}). Skullclamp and Soldevi Adnate also function as pseudo-sac outlets (Adnate sacs a black or artifact creature for {B} equal to its mana value). Razaketh sacrifices creatures to tutor. Endrek Sahr generates Thrull tokens that become sac fodder (X 1/1s per creature spell cast, where X is the spell's mana value); Teysa grants those tokens vigilance and lifelink.
 
-**Layer 2 — Death Trigger Payoffs (8 pieces):** Zulaport Cutthroat (drain 1 per death), Nadier's Nightblade (drain 1 per token death), Mirkwood Bats (drain 1 per token ETB/death), Agent of the Iron Throne (drain 1 per death), Syr Konrad (damage 1 per creature entering or leaving graveyard), Midnight Reaper (draw per nontoken death), Morbid Opportunist (draw per opponent's-turn death), Desecrated Tomb (bat token per creature leaving graveyard). All of these are doubled by Teysa.
+**Layer 2 — Death-Triggered Payoffs (doubled by Teysa):**
+- **Zulaport Cutthroat** — each opponent loses 1 per creature you control dying. Pure death trigger; doubled.
+- **Elas il-Kor, Sadistic Pilgrim** — {W}{B} 2/2 Deathtouch. Death trigger: each opponent loses 1 per other creature you control dying. Stacks with Zulaport — both Teysa-doubled, so every creature death drains each opponent for 4. Also gains 1 life per other creature ETB (not doubled by Teysa, but pads the K'rrik life bill).
+- **The Meathook Massacre** — {X}{B}{B} legendary Enchantment. ETB: every creature gets -X/-X (flexible board wipe / pinpoint removal). Plus *two* death triggers, both doubled by Teysa: a creature you control dying drains each opponent for 1; a creature an opponent controls dying gains you 1. With Teysa: 2 drain on yours dying, 2 lifegain on theirs.
+- **Nadier's Nightblade** — each opponent loses 1 whenever a *token* you control leaves the battlefield. Doubled by Teysa when the token leaves *by dying* (per Teysa rulings, "leaves the battlefield" triggers are doubled if caused by a creature dying).
+- **Agent of the Iron Throne** — *an Enchantment (Background), not a creature.* Grants Teysa the trigger "whenever an artifact or creature you control is put into a graveyard from the battlefield, each opponent loses 1 life." The granted ability *is* on Teysa, so when a creature dies, Teysa's own ability triggers and is then doubled by Teysa.
+- **Midnight Reaper** — 1 damage to you, draw a card on each *nontoken* creature you control dying. Doubled. Note: Endrek's Thrull tokens dying does NOT trigger Reaper.
+- **Syr Konrad** — 1 damage to each opponent. Death-on-battlefield half is doubled. The other clauses (creature card entering graveyard from non-battlefield zones; creature card leaving your graveyard) are not death triggers and are not doubled.
+- **Vindictive Lich** — modal death trigger; with Teysa, two separate triggers, each picking 1+ modes, each constrained to different players within that trigger. You can pick "lose 5" twice on different (or same) opponents.
+- **Kokusho, the Evening Star** — death trigger drain 5 / gain 15. Doubled to 10 / 30.
+- **Sephiroth, Fabled SOLDIER** — front face: 1 to a single target opponent on each creature death. Teysa doubles, so each death = 2 triggers; Sephiroth transforms after **2** creature deaths (not 4) once Teysa is out.
 
-**Layer 3 — Recursive Creatures and Reanimation:** Gravecrawler recasts from graveyard for {B} if you control a Zombie (Gray Merchant, Midnight Reaper, Fleshbag Marauder are Zombies). Reanimate, Animate Dead, Necromancy, Victimize, and Living Death recycle high-value creatures. K'rrik reduces the mana cost of all black spells by converting {B} to 2 life, accelerating the entire engine by 1–2 turns.
+**Layer 2b — Engine Pieces NOT Doubled by Teysa:**
+- **Gray Merchant of Asphodel** — *ETB trigger*, not death. Sacrificing and reanimating Gary triggers the drain on each ETB but Teysa does not double it. With K'rrik (3 devotion from {B/P}{B/P}{B/P}), Teysa (1 from {W}{B}), Gary himself (2 from {B}{B}), devotion is 6 minimum: each opponent loses 6, you gain 18.
+- **Mirkwood Bats** — triggers on creating *or sacrificing* a token. Token creation triggers are not death triggers; sacrifice triggers are not death triggers per Teysa rulings. Not doubled. Note that *non-token* creature deaths (Gravecrawler, Gary, Kokusho) do not trigger Mirkwood Bats at all.
+- **Morbid Opportunist** — death trigger, but capped at "only once each turn." Teysa's doubling effectively does nothing.
+- **Desecrated Tomb** — triggers on creature cards leaving your graveyard, which is not a creature dying.
 
-**The play pattern:** Deploy a sac outlet and a drain payoff in the early game. Land Teysa to double all death triggers. Sacrifice creatures, drain the table, draw cards off the deaths, replay creatures from graveyard or via reanimation. Each cycle generates more resources than it costs. Razaketh tutors any missing piece. K'rrik lets you pay life instead of black mana, and the drain triggers pay the life back with interest.
+**Layer 3 — Recursive Creatures and Reanimation:** Gravecrawler recasts from graveyard for {B} if you control a Zombie. On-board Zombies in the 99: Gravecrawler itself, Gray Merchant, Midnight Reaper, Stitcher's Supplier. Reanimate, Animate Dead, Necromancy, Victimize, and Living Death recycle high-value creatures. K'rrik converts each {B} pip in any cost to 2 life (he changes how you pay {B}, not what generic costs), enabling explosive starts where Dark Ritual costs 2 life and yields {B}{B}{B}.
+
+**The play pattern:** Deploy a sac outlet and a drain payoff in the early game. Land Teysa to double the death-triggered payoffs. Sacrifice creatures, drain the table, draw cards off the deaths, replay creatures from graveyard or via reanimation. Razaketh tutors any missing piece. K'rrik lets you pay life instead of black mana, and the drain triggers pay the life back with interest.
 
 -----
 
@@ -45,7 +61,7 @@ The deck converts creatures into damage through a three-part engine:
 Gravecrawler + Phyrexian Altar + any Zombie on the battlefield + any drain payoff. Sacrifice Gravecrawler to Phyrexian Altar for {B}. Recast Gravecrawler for {B}. Each cycle triggers drain payoffs, doubled by Teysa. Repeat until all opponents are dead. This is mana-neutral and deterministic once assembled. Requires 4 pieces (Gravecrawler, Phyrexian Altar, a Zombie, a drain piece), but Razaketh can tutor all of them.
 
 **Line 2 — Gray Merchant Recursion**
-Gray Merchant of Asphodel drains each opponent for your devotion to black. Teysa doubles the trigger. With K'rrik ({B/P}{B/P}{B/P} = 3 devotion), Teysa ({W}{B} = 1), and Gary himself ({B}{B} = 2), devotion is 6 minimum. Doubled by Teysa: each opponent loses 12, you gain 36. Sacrifice Gary, reanimate him with Animate Dead / Necromancy / Victimize, drain again. Each cycle gains more life than you spend.
+Gray Merchant's drain is an ETB trigger, so Teysa does *not* double it. Each ETB still drains for devotion. With K'rrik ({B/P}{B/P}{B/P} = 3 devotion), Teysa ({W}{B} = 1), and Gary himself ({B}{B} = 2), devotion is 6 minimum: each opponent loses 6, you gain 18. Sacrifice Gary, reanimate him with Animate Dead / Necromancy / Victimize, drain again. Two ETBs in a 4-player pod = 36 life off the table; three usually closes once Teysa-doubled deaths from Gary triggering Zulaport / Agent / Sephiroth / Lich are added on top.
 
 **Line 3 — Kokusho Drain Chain**
 Kokusho dies → each opponent loses 5, you gain 15. Teysa doubles: each opponent loses 10, you gain 30. Sacrifice and reanimate repeatedly. Two Kokusho deaths (doubled) = 60 life drained from the table.
@@ -69,14 +85,14 @@ K'rrik, Son of Yawgmoth converts every {B} in any mana cost to 2 life. This tran
 | Animate Dead | {1}{B} | {1} + 2 life |
 | Necromancy | {2}{B} | {2} + 2 life |
 | Living Death | {3}{B}{B} | {3} + 4 life |
-| Gray Merchant | {3}{B}{B} | {3} + 4 life (then drain 12+ back) |
-| Kokusho | {4}{B}{B} | {4} + 4 life (then drain 30 back) |
+| Gray Merchant | {3}{B}{B} | {3} + 4 life (drain ~6+ per ETB; Gary is *not* Teysa-doubled — ETB trigger) |
+| Kokusho | {4}{B}{B} | {4} + 4 life (Teysa-doubled death: drain 30 from the table per resolution) |
 | Gravecrawler | {B} | 2 life (free with Phyrexian Altar) |
 | Victimize | {2}{B} + sac | {2} + 2 life + sac |
 
-K'rrik also contributes 3 devotion to black (his {B/P}{B/P}{B/P} counts), boosting Gray Merchant drains. He has lifelink, partially offsetting life payments. He enables turn 3–4 explosive starts (Dark Ritual for 2 life → chain into reanimation) that the deck previously couldn't achieve until turn 5–6.
+K'rrik also contributes 3 devotion to black ({B/P}{B/P}{B/P} counts toward devotion), boosting Gray Merchant ETB drains. He has lifelink, partially offsetting life payments. He enables turn 3–4 explosive starts (Dark Ritual for 2 life → chain into reanimation) that the deck previously couldn't achieve until turn 5–6.
 
-The life cost is a non-issue in this deck. Every drain trigger gains life. A single doubled Gray Merchant or Kokusho death repays any life K'rrik spent.
+The life cost is a non-issue in this deck. Every drain trigger gains life. A single Gary ETB or Teysa-doubled Kokusho death repays any life K'rrik spent.
 
 -----
 
@@ -84,7 +100,7 @@ The life cost is a non-issue in this deck. Every drain trigger gains life. A sin
 
 ### Core Loop: 5/5
 
-The loop is "sacrifice creatures → death triggers doubled by Teysa → drain opponents, draw cards, generate tokens → sacrifice again." 26+ cards directly serve this loop across three layers (9 sac outlets counting Phyrexian Tower, 8 death trigger payoffs, 5 reanimation spells, plus Gravecrawler, K'rrik, Dark Ritual, and card draw creatures). The loop is immediately identifiable from the decklist. Teysa is a powerful accelerant (doubling triggers is massive) but the deck still functions without her — sacrificing creatures to drain is the plan regardless; Teysa makes it twice as fast.
+The loop is "sacrifice creatures → Teysa-doubled death triggers (Layer 2) plus untoubled engine pieces (Layer 2b) → drain opponents, draw cards, generate tokens → sacrifice again." 26+ cards directly serve this loop across three layers (9 sac outlets counting Phyrexian Tower, 8 death-triggered payoffs, 4 engine pieces not doubled, 5 reanimation spells, plus Gravecrawler, K'rrik, Dark Ritual, and card-draw creatures). The loop is immediately identifiable from the decklist. Teysa is a powerful accelerant (doubling death triggers is massive on Kokusho, Sephiroth, Lich, Zulaport) but the deck still functions without her — sacrificing creatures to drain is the plan regardless.
 
 **Checkpoint:** Cover the commander. The 99 screams aristocrats sacrifice — sac outlets, drain payoffs, recursive creatures, reanimation. Unmistakable.
 
@@ -111,7 +127,7 @@ Doesn't reach 5 because the deck fundamentally needs creatures on the battlefiel
 12 interaction pieces across multiple types:
 
 - **Targeted removal (5):** Swords to Plowshares, Path to Exile, Generous Gift, Feed the Swarm, Cathar Commando
-- **Edict effects (3):** Fleshbag Marauder, Merciless Executioner, Plaguecrafter — each doubled by Teysa, forcing opponents to sacrifice 2 permanents
+- **Edict effects (2):** Merciless Executioner, Plaguecrafter — these are *ETB* triggers, not death triggers, so Teysa does **not** double them. Each still forces every opponent to sacrifice once. (Fleshbag Marauder is in the maybeboard, not the maindeck.)
 - **Board wipes (2):** Toxic Deluge, Farewell
 - **Protection (5):** Teferi's Protection, Flawless Maneuver, Selfless Spirit, Grand Abolisher, Lightning Greaves
 - **Creature protection (2):** Giver of Runes, Mother of Runes
@@ -179,31 +195,36 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 1 Altar of Dementia
 1 Priest of Forgotten Gods
 
-### Death Trigger Payoffs (8)
+### Death-Triggered Payoffs — Teysa-doubled (9)
 
 1 Zulaport Cutthroat
+1 Elas il-Kor, Sadistic Pilgrim
+1 The Meathook Massacre
 1 Nadier's Nightblade
-1 Mirkwood Bats
 1 Agent of the Iron Throne
 1 Syr Konrad, the Grim
 1 Midnight Reaper
+1 Kokusho, the Evening Star
+1 Sephiroth, Fabled SOLDIER
+
+### Engine Pieces — Not Teysa-doubled (4)
+
+1 Gray Merchant of Asphodel
+1 Mirkwood Bats
 1 Morbid Opportunist
 1 Desecrated Tomb
 
-### Drain Bombs (3)
+### Token Generator (1)
 
-1 Gray Merchant of Asphodel
-1 Kokusho, the Evening Star
-1 Sephiroth, Fabled SOLDIER
+1 Endrek Sahr, Master Breeder
 
 ### Mana Acceleration (2)
 
 1 K'rrik, Son of Yawgmoth
 1 Dark Ritual
 
-### Edict Creatures (3)
+### Edict Creatures (2)
 
-1 Fleshbag Marauder
 1 Merciless Executioner
 1 Plaguecrafter
 
@@ -215,7 +236,7 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 1 Victimize
 1 Living Death
 
-### Tutor / Payoff (2)
+### Tutor / Death-Trigger Payoff (2)
 
 1 Razaketh, the Foulblooded
 1 Vindictive Lich
@@ -225,12 +246,10 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 1 Gravecrawler
 1 Stitcher's Supplier
 
-### Card Draw (5)
+### Card Draw (3)
 
 1 Dark Confidant
-1 Welcoming Vampire
 1 Skullclamp
-1 Black Market Connections
 1 Soldevi Adnate
 
 ### Commander Protection (5)
@@ -309,3 +328,7 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 1 Gemstone Caverns
 8 Plains
 8 Swamp
+
+### Maybeboard
+
+1 Fleshbag Marauder — third edict effect, currently held out of the main 99

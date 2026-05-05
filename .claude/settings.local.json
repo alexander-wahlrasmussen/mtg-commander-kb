@@ -16,7 +16,8 @@
       "WebSearch",
       "WebFetch(domain:gatherer.wizards.com)",
       "WebFetch(domain:edhrec.com)",
-      "Bash(Move-Item *)"
+      "Bash(Move-Item *)",
+      "PowerShell(Move-Item *)"
     ]
   }
 }
