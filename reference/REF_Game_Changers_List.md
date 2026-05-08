@@ -138,7 +138,7 @@ Ad Nauseam, Jeska's Will, Natural Order, Survival of the Fittest, Gifts Ungiven,
 | Genome Project (Kuja) | Necropotence | 1/3 | |
 | Earthbend the Meta (Toph) | Crop Rotation, Field of the Dead, Smothering Tithe | **3/3** | Verified 2026-05-06; Doubling Season was mislabeled, corrected April 2026 |
 | Ms. Bumbleflower | — | 0/3 | Needs full audit |
-| Eldrazi Stampede (Wanderer) | — | 0/3 | |
+| Eldrazi Stampede Chaos (Wanderer) | Ancient Tomb, Mana Vault | 2/3 | Verified 2026-05-08 |
 | Lightning War (Azula) | Fierce Guardianship, Opposition Agent, Jeska's Will | **3/3** | Verified 2026-05-05; Mystical Tutor was cut |
 | The Dark Lord's Army (Sauron) | Orcish Bowmasters, Cyclonic Rift, Demonic Tutor | 3/3 | |
 | The Jasmine Dragon (Iroh) | — | 0/3 | Needs full audit |

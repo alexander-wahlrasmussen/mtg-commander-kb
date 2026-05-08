@@ -19,14 +19,14 @@ In a 4-player game, Sauron triggers 3+ amass before your next turn just from nor
 ### The Core Loop
 
 1. **Opponents cast spells** → Sauron amasses Orcs 1 (Army grows passively)
-1. **Army connects** (via Cover of Darkness / Corsairs of Umbar / Rogue’s Passage / Shizo) → Ring tempts you
-1. **Ring temptation** → Discard hand, draw 4 → Sheoldred drains 8 life (gain 4, opponent loses 4)
-1. **Sacrifice Army** to Goblin Bombardment / Yawgmoth / Braids / Deadly Dispute / Phyrexian Tower for value
+1. **Army connects** (via Cover of Darkness / Corsairs of Umbar / Rogue’s Passage) → Ring tempts you
+1. **Ring temptation under Sauron** → Discard hand, draw 4 → +8 life to you (Sheoldred fires on your 4 draws). Defensive cushion, not opponent drain — opponents bleed when *they* draw, not when you do.
+1. **Sacrifice Army** to Goblin Bombardment / Yawgmoth / Braids / Skullclamp / Deadly Dispute for value
 1. **Army reforms free** on the next opponent’s spell → Return to step 1
 
 ### Kill Lines
 
-**Line 1 — Sheoldred Drain:** Each Ring temptation with Sheoldred out is an 8-life swing. Call of the Ring triggers Ring temptation every upkeep, making this automatic. Wound Reflection doubles all life loss for lethal math.
+**Line 1 — Drain:** Sheoldred + Underworld Dreams + Bowmasters punish opponents’ card draws — 3 life per draw (Sheoldred 2, Underworld Dreams 1) plus a Bowmasters ping on bonus draws. Wound Reflection doubles opponents’ life loss at end step. Gray Merchant ETB closes from a stocked board (devotion to black is high here). Sauron’s own discard-and-draw ability gains *you* 8 life per Ring tempt under Sheoldred — a defensive cushion that lets the slow drain finish the game.
 
 **Line 2 — Voltron Army:** The Army grows via amass stacking across the turn cycle. With evasion, a 10+ power unblockable token closes games in 2–3 swings.
 
@@ -36,7 +36,7 @@ In a 4-player game, Sauron triggers 3+ amass before your next turn just from nor
 
 ### The Oppression Package
 
-The deck runs Dictate of Erebos (flash), Propaganda, Underworld Dreams, and Wound Reflection to create a tax-and-drain web that makes every action opponents take painful. Braids, Arisen Nightmare forces end-step sacrifices or gives you cards + drain. Yawgmoth provides repeatable sacrifice + draw + removal via -1/-1 counters, and his proliferate grows amass counters.
+The deck runs Ellie’s Rage (Dictate of Erebos, flash), Propaganda, Underworld Dreams, and Wound Reflection to create a tax-and-drain web that makes every action opponents take painful. Braids, Arisen Nightmare forces end-step sacrifices or gives you cards + drain. Yawgmoth provides repeatable sacrifice + draw + removal via -1/-1 counters, and his proliferate grows amass counters. Strionic Resonator copies Sauron’s amass trigger (or Saruman’s, or Pitiless Plunderer’s treasure trigger) for explosive turns. Barad-dûr is a hidden amass engine — `{X}{X}{B}, {T}` to amass Orcs X if a creature died this turn.
 
 ### What Makes It Distinct
 
@@ -61,17 +61,17 @@ Four distinct closing lines (drain, voltron Army, aristocrats grind, graveyard r
 
 ### Durability — 5/5
 
-The Army token reforms for free whenever any opponent casts a spell — this is zero-cost recovery baked into the commander’s text. A board wipe kills the Army, but the next spell anyone casts brings it back. Sauron himself has ward (sacrifice a legendary artifact or legendary creature), making targeted removal extremely costly. The reanimation package (Reanimate, Animate Dead, Necromancy, Living Death, Agadeem’s Awakening) recovers key creatures. Card draw is redundant across Call of the Ring, Black Market Connections, Ringsight, Ring temptation itself, Yawgmoth, and cantrips.
+The Army token reforms for free whenever any opponent casts a spell — this is zero-cost recovery baked into the commander’s text. A board wipe kills the Army, but the next spell anyone casts brings it back. Sauron himself has ward (sacrifice a legendary artifact or legendary creature), making targeted removal extremely costly. The reanimation package (Reanimate, Animate Dead, Necromancy, Living Death, Agadeem’s Awakening) recovers key creatures. Card draw is redundant across Call of the Ring, Black Market Connections, Ring temptation itself, Yawgmoth, Ledger Shredder, Skullclamp, Sensei’s Divining Top, and cantrips. Tutors: Demonic Tutor, Diabolic Intent, Ringsight (color-of-legendary tutor — Sauron is BUR, so it hits anything).
 
 ### Interaction — 5/5
 
-13 interaction pieces across multiple types and speeds:
+15 interaction pieces across multiple types and speeds:
 
-- **Counterspells (6):** Counterspell, Mana Drain, Force of Negation, Swan Song, An Offer You Can’t Refuse, Deflecting Swat
+- **Counterspells (6):** Counterspell, Mana Drain, Force of Negation, Swan Song, It’ll Quench Ya! (Mana Leak variant), Deflecting Swat
 - **Creature removal (4):** Go for the Throat, Deadly Rollick, Claim the Precious, Yawgmoth (-1/-1 counters)
 - **Catch-all removal (1):** Chaos Warp
 - **Enchantment removal (1):** Feed the Swarm
-- **Board wipes (2):** Blasphemous Act, Toxic Deluge, Cyclonic Rift
+- **Board wipes (3):** Blasphemous Act, Toxic Deluge, Cyclonic Rift
 
 Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana-positive — the deck can interact without falling behind on tempo. Every counterspell opponents cast to fight you also triggers Sauron’s amass.
 
@@ -106,7 +106,7 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Mauhúr, Uruk-hai Captain  
 4 Nazgûl  
 1 Baleful Strix  
-1 Dauthi Voidwalker  
+1 Ledger Shredder  
 1 Snapcaster Mage  
 1 Corsairs of Umbar  
 1 Yawgmoth, Thran Physician  
@@ -117,18 +117,18 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 ### Enchantments (11)
 
 1 Call of the Ring  
-1 Ringsight  
 1 Underworld Dreams  
 1 Black Market Connections  
 1 Goblin Bombardment  
-1 Dictate of Erebos  
+1 Ellie’s Rage *(Dictate of Erebos)*  
 1 Animate Dead  
 1 Necromancy  
 1 Cover of Darkness  
 1 Wound Reflection  
-1 Propaganda
+1 Propaganda  
+1 March from the Black Gate
 
-### Artifacts (9)
+### Artifacts (11)
 
 1 Sol Ring  
 1 Arcane Signet  
@@ -138,12 +138,14 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Lightning Greaves  
 1 Skullclamp  
 1 Lotus Petal  
-1 Strionic Resonator
+1 Strionic Resonator  
+1 Sensei’s Divining Top  
+1 Nihil Spellbomb
 
 ### Instants (13)
 
 1 Counterspell  
-1 An Offer You Can’t Refuse  
+1 It’ll Quench Ya!  
 1 Swan Song  
 1 Cyclonic Rift  
 1 Mana Drain  
@@ -156,7 +158,7 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Deflecting Swat  
 1 Dark Ritual
 
-### Sorceries (12)
+### Sorceries (10)
 
 1 Demonic Tutor  
 1 Diabolic Intent  
@@ -165,11 +167,9 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Blasphemous Act  
 1 Toxic Deluge  
 1 Feed the Swarm  
-1 March from the Black Gate  
+1 Ringsight  
 1 Night’s Whisper  
-1 Faithless Looting  
-1 Ponder  
-1 Preordain
+1 Faithless Looting
 
 ### Lands (36)
 
@@ -179,7 +179,6 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 The Black Gate  
 1 Rogue’s Passage  
 1 Shizo, Death’s Storehouse  
-1 Phyrexian Tower  
 1 Otawara, Soaring City  
 1 Polluted Delta  
 1 Bloodstained Mire  
@@ -199,6 +198,15 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Undercity Sewers  
 1 Crumbling Necropolis  
 1 Agadeem’s Awakening  
-5 Swamp  
+6 Swamp  
 3 Island  
 2 Mountain
+
+### Sideboard (not counted in 99)
+
+1 Phyrexian Tower  
+1 Dauthi Voidwalker  
+1 An Offer You Can’t Refuse  
+1 Arcane Denial  
+1 Ponder  
+1 Preordain

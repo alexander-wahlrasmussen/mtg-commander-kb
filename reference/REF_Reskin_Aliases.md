@@ -46,6 +46,7 @@ Reskin cards are mechanically identical to an existing MTG card but printed unde
 | Bayo / Electro | Electro Assaulting Battery | Split/DFC; verify face matching when searching collection |
 | Ellie's Rage | Dictate of Erebos | Set TBC |
 | Merata, Neuron Hacker | Lady Octopus, Inspired Inventor | User-applied custom name (cyber theme); printed card is from Marvel set. Confirmed 2026-05-06. |
+| Green Dragon Inn | Homeward Path | User-applied custom name (Tolkien tavern theme); printed card is `Homeward Path` (C16). Confirmed 2026-05-08. |
 
 ---
 
