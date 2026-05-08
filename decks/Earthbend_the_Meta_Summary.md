@@ -38,7 +38,7 @@ Key properties:
 - **Return clause** fires on death OR exile, not on bounce. Cyclonic Rift bouncing an earthbent land sends it to your hand — no return trigger. Swords to Plowshares exiling it DOES trigger the return. This matters for threat assessment.
 - **Return clause** is a delayed triggered ability. It can be countered by Stifle effects (rare, but be aware). The land returns as a non-creature land — no counters, no creature status, just a land entering tapped.
 - **Stacking earthbend** on an already-animated land works. The land gets additional +1/+1 counters, its base power/toughness resets to 0/0 (then counters apply), it gains haste again (redundant), and a NEW return clause is created. Multiple return clauses are independent — each one tries to return the land, but only the first one that fires does anything (the land is only in one zone).
-- **The animated land keeps all types and subtypes.** A Forest that gets earthbent is still a Forest creature land. It can still tap for {G}. This is important for mana sequencing during combat — earthbent lands can attack AND tap for mana if they have vigilance (from Earthbending Student or Teysa tokens).
+- **The animated land keeps all types and subtypes.** A Forest that gets earthbent is still a Forest creature land. It can still tap for {G}. This is important for mana sequencing during combat — earthbent lands can attack AND tap for mana if they have vigilance (from Earthbending Student's static, or Felidar Retreat's mode 2).
 - **Colorless.** Earthbend does not give the land a color. The resulting creature is typically colorless, which matters for protection spells and color-specific removal.
 
 ### Toph's Artifact-Land Bridge
@@ -61,14 +61,17 @@ The bridge creates the following triggers when an artifact enters:
 
 The deck's answer to commander dependency:
 
-1. Liquimetal Coating (or Liquimetal Torque) targets Toph → Toph becomes an artifact
-2. Toph's own static makes her a land (nontoken artifact you control = land)
-3. Earthbend targets Toph → she becomes a 0/0 creature with +N/+N counters, gains haste, gains the return clause
-4. If Toph dies or is exiled → she returns to the battlefield tapped. Choose to let her go to the graveyard (not the command zone) and the return clause brings her back with no commander tax
+1. Liquimetal Coating (or Liquimetal Torque) targets Toph → Toph becomes an artifact **until end of turn**.
+2. Toph's own static makes her a land (nontoken artifact you control = land) for the duration of the Liquimetal effect.
+3. Earthbend targets Toph (legal because she's a land right now) → she becomes a 0/0 creature with N +1/+1 counters, gains haste, gains the return clause. Effective stats while earthbent: **N/N** (the 0/0 setting overrides her base 3/3).
+4. End of turn: Liquimetal expires. Toph stops being an artifact, stops being a land via her own static. The earthbend continuous effect persists — she remains a 0/0 creature with counters and the return clause attached.
+5. If Toph dies → choose to let her go to the graveyard (not the command zone) → the return clause fires → Toph returns to the battlefield tapped, as her base self (3/3 again). No commander tax.
 
-This line is the primary answer to repeated commander removal, which the summary identifies as the deck's biggest structural weakness. Both Liquimetal Coating and Liquimetal Torque enable it — having two copies of this effect is intentional redundancy, not excess.
+This line is the primary answer to repeated commander removal. Both Liquimetal Coating and Liquimetal Torque enable it — having two copies is intentional redundancy.
 
-**Timing note:** You need to earthbend Toph BEFORE she would be targeted for removal. The ideal sequence is: play Toph → next turn, use Liquimetal to make her an artifact → earthbend her at end step → she now has the return clause for all future removal. The earthbend trigger targets, so you must do this during your end step (from Toph's own trigger) or whenever another earthbend source fires.
+**Stat downgrade tradeoff:** While the protection line is set up, Toph is a 2/2 (0/0 + 2 counters from earthbend 2) instead of her base 3/3. Worth it for the return clause; just be aware she hits softer in combat than she looks.
+
+**Timing note:** You need to earthbend Toph BEFORE she would be targeted for removal. The ideal sequence is: play Toph → next turn, use Liquimetal to make her an artifact → earthbend her at end step (from her own trigger) or via another earthbend source on the same turn → she now has the return clause for all future removal. Earthbend targets the land at the time the trigger resolves, and Toph must be a land at that moment — so the Liquimetal effect must still be active when the earthbend triggers resolves.
 
 ### Zuran Orb + Earthbent Lands
 
@@ -97,7 +100,7 @@ When earthbend places +1/+1 counters, multiple replacement effects can modify th
 3. The Earth Crystal: "If one or more +1/+1 counters would be placed on a creature you control, twice that many are placed instead" → 6 counters
 4. Doubling Season: "If an effect would place one or more counters, it places twice that many instead" → 12 counters
 
-All Will Be One then triggers: "Whenever one or more counters are put on a permanent you control or a player, deal that much damage to any target" → 12 damage from a single earthbend 2.
+All Will Be One then triggers: "Whenever you put one or more counters on a permanent or player, this enchantment deals that much damage to **target opponent, creature an opponent controls, or planeswalker an opponent controls**" → 12 damage from a single earthbend 2. Note the target restriction — All Will Be One cannot target your own creatures or yourself, only opponents and their permanents.
 
 **Important:** All Will Be One triggers once per EVENT, not once per counter. It sees the final number after all replacement effects have applied. Multiple earthbend triggers in the same turn each create separate events — each one triggers All Will Be One independently.
 
@@ -123,7 +126,7 @@ With Entish Restoration fetching 3 basics (3 landfall triggers starting from 1 S
 
 ### Purphoros, God of the Forge — Key Rulings
 
-Purphoros deals 2 damage to each opponent whenever a CREATURE enters the battlefield under your control. Not artifacts, not lands — creatures specifically.
+Purphoros deals 2 damage to each opponent whenever **another** creature enters the battlefield under your control. Not artifacts, not lands — creatures specifically. He doesn't trigger on his own ETB (the "another" qualifier excludes himself).
 
 - Token creatures entering trigger Purphoros: Scute Swarm tokens, Felidar Retreat cats, Field of the Dead zombies, Awaken the Woods dryads (they are creature tokens)
 - Nontoken creatures entering trigger Purphoros: any creature spell resolving, earthbent lands are creatures (but they were already on the battlefield — earthbend doesn't cause them to "enter")
@@ -144,9 +147,11 @@ The four Toph variants in the deck all have DIFFERENT card names: Toph Earthbend
 
 ### Annie Joins Up — Doubled Triggers
 
-Annie Joins Up: "Whenever a legendary creature enters the battlefield under your control, it deals damage equal to its power to target opponent or planeswalker. Triggered abilities of legendary creatures you control trigger an additional time."
+Annie Joins Up actual text: "When Annie Joins Up enters, it deals 5 damage to target creature or planeswalker an opponent controls. If a triggered ability of a legendary creature you control triggers, that ability triggers an additional time."
 
-This doubles Toph commander's earthbend trigger (earthbend 2 fires twice = two different lands animated per end step). It also doubles Tannuk's landfall damage trigger, Avatar Kyoshi's earthbend 8 trigger, and any other legendary creature's triggered ability. It does NOT double replacement effects (Hardened Scales, Doubling Season).
+Two effects: (1) a one-time ETB that deals **fixed 5 damage** to one creature or planeswalker an opponent controls, and (2) a static that doubles triggered abilities of legendary creatures you control. There is **no** "whenever a legendary creature enters, it deals damage equal to its power" effect — that was a hallucination in the previous version of this summary.
+
+The doubling effect is the real engine piece. It doubles Toph commander's end-step earthbend trigger (earthbend 2 fires twice = two different lands animated per end step). It also doubles Tannuk's landfall damage trigger, Avatar Kyoshi's beginning-of-combat earthbend 8 trigger, all the legendary Toph variants' triggers, and any other legendary creature's triggered ability. Per the rulings: "Replacement effects are unaffected" — so it does NOT double Hardened Scales, Doubling Season, or The Earth Crystal (those are replacement effects, not triggered abilities).
 
 -----
 
@@ -220,7 +225,7 @@ With 6+ lands, each landfall creates a copy of Scute Swarm. Each copy triggers o
 Each landfall triggers an extra combat phase. With multiple land drops per turn (Entish Restoration getting 2–3 basics, Awaken the Woods, Crop Rotation + earthbent land for two triggers), Moraug creates 3–5 combat phases. Earthbent land-creatures with double strike (Toph, Greatest Earthbender) swing for lethal through accumulated combat steps.
 
 **Line 4 — Toph Greatest Earthbender Double Strike**
-Toph Greatest Earthbender gives all land creatures double strike. Earthbent lands with 4–12 counters (after amplifiers) swing for 8–24 double strike damage each. With 3–4 earthbent lands, that's lethal.
+Toph Greatest Earthbender ETB earthbends X (X = mana spent to cast — typically 4, can be discounted by Earth Crystal's "green spells cost {1} less" to 3). She also has a static "Land creatures you control have double strike." Earthbent lands with 4–12 counters (after amplifiers) swing for 8–24 double strike damage each. With 3–4 earthbent lands, that's lethal.
 
 **Line 5 — All Will Be One Burn**
 Each +1/+1 counter placed deals that much damage. With the amplifier suite (Hardened Scales + Doubling Season + Earth Crystal), a single earthbend 2 deals 12+ damage. Multiple earthbend sources per turn (Toph commander + Toph Hardheaded Teacher casting spells + Toph Earthbending Master attacking) stack the damage. Annie Joins Up doubling legendary triggers multiplies this further.
@@ -301,7 +306,7 @@ Doesn't reach 5 because the non-earthbent enchantments and artifacts (Hardened S
 - **Targeted removal (5):** Path to Exile, Swords to Plowshares, Beast Within, Generous Gift, Origin of Metalbending
 - **Artifact/enchantment removal (2):** Haywire Mite (exile), Boseiju Who Endures (channel)
 - **Land tutor as removal (1):** Crop Rotation finding Boseiju = instant-speed artifact/enchantment/land destruction
-- **Protection (3):** Galadriel's Dismissal (phase out), Earthshape (earthbend 3 + hexproof/indestructible for creatures), Collective Resistance (flexible escalate)
+- **Protection (3):** Galadriel's Dismissal (phase out, kicker phases out an entire opponent's board), Earthshape (earthbend 3 + each creature you control with **power ≤ that land's power** gains hexproof and indestructible until EOT, plus YOU gain hexproof — only protects small creatures unless the earthbent land is amplified), Collective Resistance (flexible escalate — destroy artifact, destroy enchantment, hexproof+indestructible to a creature)
 - **Commander protection (2):** Liquimetal Coating + Liquimetal Torque enabling the earthbend return clause on Toph
 
 Going from 1 stack answer to 3 (Deflecting Swat + REB + Pyroblast) is the most impactful change. Against the pod's combo player, having three answers to a resolved spell across a game is realistic draw probability in a 99-card deck. Generous Gift replaces the self-destructive board wipes with a surgical instant-speed catch-all.
@@ -496,14 +501,17 @@ Both are lands-matter decks but use completely different resources. Teval recurs
 1 Lightning Greaves
 1 Swiftfoot Boots
 
-### Ramp (6)
+### Ramp (5)
 
 1 Sol Ring
 1 Arcane Signet
 1 Farseek
 1 Nature's Lore
 1 Entish Restoration
-1 Brightglass Gearhulk
+
+### Tutor (1)
+
+1 Brightglass Gearhulk  *(4/4 first-strike trample artifact creature; ETB tutors up to 2 artifact, creature, or enchantment cards with MV ≤ 1 — eligible targets in this deck: Hardened Scales, Esper Sentinel, Sol Ring, Sylvan Safekeeper, Haywire Mite)*
 
 ### MDFC Land/Spells (2)
 
@@ -535,3 +543,9 @@ Both are lands-matter decks but use completely different resources. Teval recurs
 5 Forest
 2 Mountain
 3 Plains
+
+-----
+
+## Changelog
+
+- **2026-05-06:** Full card-text re-audit. Fixed material errors: Annie Joins Up was described with a hallucinated "whenever a legendary creature enters, deal damage equal to its power" trigger — actual is fixed 5 ETB damage to one creature/PW + the legendary triggered-ability doubler (the doubler is the real engine piece); All Will Be One target restriction added (target opponent / creature an opponent controls / planeswalker an opponent controls — not "any target"); Earthshape protection clause clarified (creatures with power ≤ that land's power, plus YOU gain hexproof — meaningful restriction on big creatures unless the earthbent land is amplified). Fixed minor errors: cross-deck contamination "Teysa tokens" replaced with "Felidar Retreat mode 2" as the second vigilance source; Brightglass Gearhulk moved out of Ramp into a new Tutor section (it's a tutor for MV ≤ 1 artifact/creature/enchantment cards, not ramp); Purphoros "another creature" qualifier restored; Liquimetal protection line annotated with the until-end-of-turn temporality and the Toph 3/3 → 2/2 stat downgrade while earthbent; Toph Greatest Earthbender ETB earthbend X = mana spent now noted alongside her double strike static. Game Changers verified 3/3 (Field of the Dead, Smothering Tithe, Crop Rotation). 100 cards confirmed. No card swaps applied.

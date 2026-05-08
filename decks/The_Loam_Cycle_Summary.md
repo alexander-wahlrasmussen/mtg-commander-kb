@@ -1,6 +1,6 @@
 # The Loam Cycle — Teval, the Balanced Scale
 
-**Status:** revised 2026-05-03 after a full card-text audit. The previous version contained material errors (wrong Game Changer count, wrong Ripples of Undeath text, mischaracterized Teval, phantom card references). All card text below verified against local Scryfall data.
+**Status:** re-verified 2026-05-06. Previous full audit 2026-05-03. All card text claims spot-checked against local Scryfall data. Minor wording fixes this pass: Drownyard Temple framing (it's a land, not a cast), Otawara reclassified as bounce (not removal), Loam Loop math corrected (~9 mill per cycle with Hedron Crab, not 6).
 
 ## Quick Reference
 
@@ -31,7 +31,7 @@ The deck has redundant recursion past the commander: Muldrotha, Meren, Crucible,
 - **Self-mill creatures:** Hedron Crab (landfall mill 3 — fetchlands compound this), Stitcher's Supplier (mill 3 on enter and on death), Sidisi, Brood Tyrant (mill 3 on enter and on attack; creature cards milled from library make 2/2 zombies), World Shaper (optional mill 3 on attack; mass land reanimation on death).
 - **Self-mill spells:** Life from the Loam (dredge 3, return up to 3 lands — the engine's backbone), Grapple with the Past (mill 3 + retrieve a creature or land), Frantic Search (draw 2, discard 2, untap up to 3 lands — effectively free filtering).
 - **Discard outlets / selection:** Psychic Frog (discard pumps with +1/+1 counter, draws on combat damage to a player or planeswalker; flying costs exiling 3 from yard so use sparingly), Tortured Existence (discard a creature → return a creature from yard to hand, repeatable for {B}), Ripples of Undeath (first main phase mill 3; pay {1} and 3 life to put one of those into your hand).
-- **Scry-ish dredge fuel from the manabase:** Cephalid Coliseum (threshold ability — 7+ in yard — sac for target player draws 3 / discards 3, useful as a self-discard outlet on demand), Fetid Pools (cycling), Drownyard Temple (free to cast, pay {3} to recur from graveyard — looping fuel for sac costs and Crop Rotation).
+- **Scry-ish dredge fuel from the manabase:** Cephalid Coliseum (threshold ability — 7+ in yard — sac for target player draws 3 / discards 3, useful as a self-discard outlet on demand), Fetid Pools (cycling), Drownyard Temple (no mana cost to play; pay {3} to return from graveyard tapped — looping fuel for sac costs and Crop Rotation).
 - **Fetchlands** (Misty Rainforest, Verdant Catacombs, Prismatic Vista, Terramorphic Expanse) trigger Hedron Crab and feed the loam loop directly.
 
 **Half 2 — Exploit the Graveyard:**
@@ -43,10 +43,10 @@ The deck has redundant recursion past the commander: Muldrotha, Meren, Crucible,
 
 ### The Loam Loop
 
-The signature play pattern. Life from the Loam returns 3 lands from graveyard to hand (typically fetchlands). Play one, crack it (the fetch hits the graveyard, Hedron Crab mills 3, Gitrog draws a card). Next draw step, dredge Life from the Loam back instead of drawing (mills 3 more). Each cycle:
+The signature play pattern. Life from the Loam returns 3 lands from graveyard to hand (typically fetchlands). Play one (Hedron Crab landfall mill 3), crack it (fetch sacrificed → Gitrog draws once for the land hitting yard; searched land enters → Hedron Crab landfall mill 3 again). Next draw step, dredge Life from the Loam back instead of drawing (mills 3 more). Each cycle with Hedron Crab in play:
 
-- Mills 6 cards (3 from dredge + 3 from one Hedron Crab landfall trigger)
-- Triggers Gitrog **once** if at least one land card hit your graveyard during the cycle (Gitrog draws once per simultaneous batch, not per land)
+- Mills ~9 cards (3 from dredge + 6 from two Hedron Crab landfall triggers — fetch enters, then searched land enters)
+- Triggers Gitrog separately for each batch of land cards entering your graveyard (sac'd fetch is one batch; any lands milled in the same dredge or landfall mill is another batch — Gitrog draws once per batch, not per land within a batch)
 - Creates a Zombie Druid token from Teval's static whenever any card left your graveyard during the cycle
 - Creates a 2/2 Zombie from Field of the Dead if you control 7+ uniquely-named lands and a new differently-named land entered
 - Creates a 5/3 Elemental from Titania if a land of yours hit the graveyard
@@ -94,7 +94,7 @@ Roughly 14–15 pieces depending on what you count:
 
 - **Counterspells (4):** Fierce Guardianship (free with commander), Swan Song (enchantment/instant/sorcery only — does not counter creatures), An Offer You Can't Refuse ({U}, gives opponent 2 Treasures), Counterspell ({U}{U}).
 - **Targeted removal (4):** Assassin's Trophy (any permanent, ramps opponent), Beast Within (any permanent, gives opponent a 3/3), Tear Asunder ({1}{G} exile artifact/enchantment; kick {1}{B} for any nonland permanent), Lethal Scheme ({2}{B}{B} instant convoke kill — destroy creature/planeswalker; each convoking creature **connives**, drawing+discarding and getting a +1/+1 counter on a nonland discard).
-- **Channel lands as utility removal (2):** Boseiju Who Endures, Otawara Soaring City. These don't draw a card slot and double as colored mana, so they're effectively free interaction.
+- **Channel lands as utility interaction (2):** Boseiju Who Endures (channel destroys artifact/enchantment/nonbasic land — opponent gets a basic-land tutor as compensation), Otawara Soaring City (channel bounces target artifact/creature/enchantment/planeswalker to owner's hand). These don't draw a card slot and double as colored mana, so they're effectively free interaction.
 - **Board wipe (1):** Toxic Deluge (scalable, pay X life).
 - **Mass recursion as functional wipe (1):** Living Death.
 - **Protection (2):** Heroic Intervention (hexproof + indestructible for permanents), Lightning Greaves (shroud + haste, equip {0}).
@@ -300,5 +300,6 @@ All three touch the graveyard but use entirely different resources: Teval recurs
 
 ## Changelog
 
+- **2026-05-06:** Re-audit. Spot-checked ~25 cards against Scryfall; no material errors found. Minor fixes: Drownyard Temple "free to cast" → "no mana cost to play" (it's a land); Otawara reclassified from "channel removal" to "channel bounce" (Boseiju is removal, Otawara is bounce); Loam Loop mill count corrected from 6 to ~9 per cycle (playing AND cracking a fetch is two Hedron Crab triggers, not one); Gitrog trigger framing tightened to reflect per-batch counting.
 - **2026-05-03:** Full card-text re-audit. Corrected Game Changer count (1/3 → 3/3); corrected Ripples of Undeath text; corrected Teval framing (added zombie token engine); reclassified Teval's Judgment as value (not removal) and Afterlife from the Loam as mass reanimation (not self-mill); fixed Sidisi text (mills on enter+attack, library-mill triggers tokens); fixed Psychic Frog (draws on combat damage, not mills); fixed Lethal Scheme (connive, not surveil); fixed Unmarked Grave (sorcery-speed, nonlegendary only); removed phantom references to Entomb, Cabal Coffers, and Urborg; added coverage for Six's retrace, Conduit's second ability, Dauthi's full power, Scarab God's drain, Gitrog's land tax, Wonder's evasion role, channel lands as interaction.
 - **Pre-2026-05-03:** previous summary versions present in the original document; treat anything authored before this date with skepticism until re-verified.
