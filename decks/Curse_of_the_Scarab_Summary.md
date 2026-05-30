@@ -86,7 +86,7 @@ Beyond The Scarab God's upkeep drain:
 - **Shepherd of Rot:** {T}: each player loses 1 life for each Zombie **on the battlefield** (yours plus any opponents'). Instant-speed activated ability, no mana cost. With 8 of your zombies on the battlefield, tapping Shepherd deals 8 to each player including you — combine with The Scarab God upkeep and Gray Merchant lifegain to net positive.
 - **Gempalm Polluter:** Cycle {B}{B}: target player loses life equal to the number of Zombies on the battlefield. Instant speed, draws a card. Targets *one player* only (pick the lowest-life opponent), not each opponent — this is a focused finisher rather than a board-wide drain.
 - **Plague Belcher:** ETBs by putting two -1/-1 counters on a creature you control (downside — pick a token, Carrion Feeder where the counters are absorbed alongside the +1/+1 ones, or a Mikaeus undying creature; never put on Gravecrawler/Stitcher's Supplier/Cryptbreaker, the -2/-2 will kill them). Then whenever **another** Zombie you control dies, **each opponent** loses 1 life — 3 across the table per death in a 4-player pod, doubled by Mikaeus's undying. The mainboard's only death-trigger drain payoff after Diregraf Captain moved to the sideboard — pairs with Carrion Feeder and Warren Soultrader as the engine for the deck's Rule 0 combo line.
-- **Lost Monarch of Ifnir:** Afflict 3 on itself and all other Zombies. At the beginning of your second main phase, **if a player was dealt combat damage by a Zombie this turn**, mill three cards, then you may return a creature card from your graveyard to your hand. Once-per-turn delayed trigger (not per zombie hit), but afflict 3 punishes every blocked zombie regardless. Combat-driven self-mill plus recursion.
+- **Lost Monarch of Ifnir:** {3}{B}, 4/4 Zombie Noble. Has afflict 3, and other Zombies you control have afflict 3 — an army-wide damage anthem. With four attackers blocked, that's 12 life lost across the table independent of combat damage, and the effect applies to every token (Necroduality copies, Diregraf Colossus tokens, Wilhelt's 2/2s, Crowded Crypt's decayed wave) where flat lord-stacking compounds poorly. Secondary trigger at the beginning of your second main phase: if a player was dealt combat damage by a Zombie this turn, mill 3 then optionally return a creature card from your graveyard to your hand — value upside, not the reason to run it. Combat-conditional payoff scales with the deck's evasion suite (Hordewing Skaab flying, Lord of the Accursed menace, Zombie Master swampwalk + Urborg) — opponents who block lose 3 each, opponents who don't block take combat damage.
 
 ### Layer 6 — Sacrifice and Discard Outlets (3 pieces)
 
@@ -96,7 +96,7 @@ Beyond The Scarab God's upkeep drain:
 
 ### The Play Pattern
 
-Turn 1–2: Deploy a 1-drop zombie (Gravecrawler, Carrion Feeder, Stitcher's Supplier, Cryptbreaker) or a mana rock. Stitcher's Supplier on turn 1 immediately mills 3 cards into the graveyard, setting up turn-2 Reanimate or Entomb-into-Reanimate for an early Grave Titan or Gray Merchant. Turn 3–4: Deploy zombie lords and token generators. Board grows to 3–5 zombies. When Plague Belcher comes down, ETB it onto a token, Carrion Feeder (the -1/-1 counters cancel some of its accumulated +1/+1 counters but the body survives), or a Mikaeus undying creature — never put the -2/-2 onto a 1-toughness zombie like Gravecrawler, Stitcher's Supplier, or Cryptbreaker, since it will kill them on the spot. Turn 5: Cast The Scarab God. Upkeep drain begins — 3–5 per opponent. Scry 3–5 sculpts draws to find Kindred Discovery, mass reanimation, or Gray Merchant. Turn 6–8: Deploy Kindred Discovery or Rooftop Storm to accelerate. Board grows to 8+ zombies. Drain hits 8+ per opponent per upkeep, plus combat damage with lord-pumped creatures. Demonic Tutor finds the closer that matches the board state. If opponents wipe the board, Living Death, Agadeem's Awakening, or Rot Hulk rebuild instantly; Liliana DM's -3 reanimates a key piece even through graveyard pressure. Cyclonic Rift clears opponents' boards for a lethal alpha strike. Turn 7–9: Accumulated drain, combat damage, Gray Merchant recursion, and finishers (Gempalm Polluter, Shepherd of Rot) close the game.
+Turn 1–2: Deploy a 1-drop zombie (Gravecrawler, Carrion Feeder, Champion of the Perished, Stitcher's Supplier, Cryptbreaker) or a mana rock. Champion of the Perished accumulates a +1/+1 counter every time another Zombie enters — by the time the lord package and token generators are online, a turn-1 Champion is a 5/5 or larger and stacks with anthems. Stitcher's Supplier on turn 1 immediately mills 3 cards into the graveyard, setting up turn-2 Reanimate or Entomb-into-Reanimate for an early Grave Titan or Gray Merchant. Turn 3–4: Deploy zombie lords and token generators. Board grows to 3–5 zombies. When Plague Belcher comes down, ETB it onto a token, Carrion Feeder (the -1/-1 counters cancel some of its accumulated +1/+1 counters but the body survives), or a Mikaeus undying creature — never put the -2/-2 onto a 1-toughness zombie like Gravecrawler, Stitcher's Supplier, or Cryptbreaker, since it will kill them on the spot. Turn 5: Cast The Scarab God. Upkeep drain begins — 3–5 per opponent. Scry 3–5 sculpts draws to find Kindred Discovery, mass reanimation, or Gray Merchant. Turn 6–8: Deploy Kindred Discovery or Rooftop Storm to accelerate. Board grows to 8+ zombies. Drain hits 8+ per opponent per upkeep, plus combat damage with lord-pumped creatures. Demonic Tutor finds the closer that matches the board state. If opponents wipe the board, Living Death, Agadeem's Awakening, or Rot Hulk rebuild instantly; Liliana DM's -3 reanimates a key piece even through graveyard pressure. Cyclonic Rift clears opponents' boards for a lethal alpha strike. Turn 7–9: Accumulated drain, combat damage, Gray Merchant recursion, and finishers (Gempalm Polluter, Shepherd of Rot) close the game.
 
 -----
 
@@ -120,7 +120,7 @@ With two lords in play, 2/2 zombie tokens are 4/4s. An army of five 4/4 zombies 
 
 Cyclonic Rift (overloaded for 7 mana) bounces all opponents' nonland permanents to their hands — creatures, artifacts, enchantments, everything. A developed zombie board + overloaded Rift = lethal alpha strike into empty defenses. Demonic Tutor can find Cyclonic Rift when the board is ready for the kill.
 
-Lost Monarch of Ifnir adds afflict 3 to the entire zombie army, punishing blocking. An opponent choosing to block five zombies takes 15 afflict damage regardless of how combat resolves.
+Champion of the Perished riding the army's growth — turn-1 Champion grows a +1/+1 counter every time another Zombie enters, including all the lord-pumped tokens, so by mid-game the Champion is a 5/5+ that compounds further with the lord package's flat anthems.
 
 ### Line 4 — Aristocrats Drain (Death Triggers)
 
@@ -203,6 +203,10 @@ Doesn't reach 5 because Feed the Swarm remains the only answer to enchantments, 
 ### Total: 17/20 — Structurally excellent. Pilot skill is the main variable.
 
 Re-audited 2026-04-29 after the Diregraf Captain / Headless Rider / Champion of the Perished / Zombie Apocalypse / Thought Vessel cut and the Bone Miser / Carrion Feeder / Stitcher's Supplier / Liliana DM / Rot Hulk / Polluted Delta inclusion. Same 5/4/4/4 = 17/20 as the prior build. The swap traded one death-trigger drain payoff (Diregraf Captain) and one death-replacement zombie (Headless Rider) for cheaper graveyard fuel (Stitcher's Supplier), a free sac outlet (Carrion Feeder), a discard payoff (Bone Miser), a fourth reanimation axis (Liliana DM), and a creature-based mass reanimation (Rot Hulk) — net lateral, with marginal gains on early-game speed and post-wipe recovery offsetting losses on the aristocrats kill line.
+
+2026-05-10 swap (1 card + land-rebalance): **Champion of the Perished promoted from sideboard to main** (physical copy acquired); **Lost Monarch of Ifnir cut to sideboard.** Champion is a 1-drop counter accumulator that grows with every zombie ETB — turn-1 Champion plus Diregraf Colossus, Necroduality, Wilhelt's tokens, Crowded Crypt, and the lord package puts a 5/5+ in the army by mid-game. Lost Monarch's combat-conditional once-per-turn second-main trigger was the slowest payoff in the deck and the easiest cut. Land rebalance: **2 Swamp → 2 Snow-Covered Swamp**, going from 7/2/9 (Snow Island / Snow Swamp / Swamp) to 7/4/7. Mechanically near-neutral — Narfi's {S}{S}{S} recursion already trivially fired with 9 snow lands; the swap reflects new physical purchases. Score holds at 5/4/4/4 = **17/20**.
+
+2026-05-10 second swap (re-evaluating the Champion-promotion cut): **Lost Monarch of Ifnir restored to main; Corpse Augur cut to sideboard.** The earlier framing of Lost Monarch as "the slowest payoff" focused on the second-main mill+recur trigger and missed the dominant text — *Other Zombies you control have afflict 3*. That's an army-wide damage anthem layered on a 4/4 body, and it directly amplifies Kill Line 3 (lord-pumped wide combat behind Cyclonic Rift): four blocked attackers = 12 across the table independent of combat math, and the buff applies to disposable token bodies (Necroduality copies, Diregraf Colossus tokens, Wilhelt 2/2s, Crowded Crypt's decayed wave) where lords compound poorly. Corpse Augur is the cleaner 4-drop cut: same CMC slot, redundant with the deck's eight other draw engines (Kindred Discovery, Graveborn Muse, Black Market Connections, Bone Miser, Skullclamp, Wilhelt end-step, Undead Augur, Midnight Reaper), variance-dependent X-value (4/2 body that needs to die into a stocked target graveyard to crack double-digit draw), and 4/2 stat line trades down where Lost Monarch's 4/4 survives. Trade-off acknowledged: Corpse Augur paired with Carrion Feeder / Warren Soultrader as an instant-speed draw burst against creature-heavy pods, and remains in sideboard for that meta. Score holds at 5/4/4/4 = **17/20**.
 
 Re-audited 2026-05-05: documentation pass corrected ~15 card-text errors across the layer descriptions and kill lines (Bone Miser triggers, Plague Belcher's "each opponent" drain and -1/-1 ETB downside, Gempalm Polluter's correct cycle cost and target-player-only drain, Liliana DM's "your graveyard" reanimation, Liliana DG's "each player" -4, Skullclamp's interaction with 2/2 Wilhelt tokens, Cryptbreaker and Warren Soultrader and Ghoulcaller Gisa cost text, Lost Monarch trigger timing, Crowded Crypt decayed tokens, Rot Hulk's menace and "up to X" reanimation, Lord of the Accursed activation cost, Diregraf Colossus tapped tokens, Shepherd of Rot's "battlefield" count). Also swapped Path of Ancestry → Tainted Isle: Path's scry trigger never fires (commander is "God," no other Gods in 99) so it was a tapped Command Tower; Tainted Isle ETBs untapped, taps for {C} or {U}/{B} (the swamp condition is trivially met with 11 Swamps + Urborg + Watery Grave/Sunken Hollow). Score holds at 5/4/4/4 = 17/20 — the corrected math tightens the descriptions but no individual axis breaks; Gray Merchant burst + Scarab God upkeep still carry Kill Reliability at 4.
 
@@ -294,7 +298,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 | Card | Role | Notes |
 |---|---|---|
-| Champion of the Perished | One-drop counter accumulator | +1/+1 counter whenever a zombie enters under your control. Cut for Carrion Feeder as the preferred one-drop — Carrion Feeder is a free sac outlet plus a counter accumulator. |
+| Corpse Augur | Death-trigger card draw | {3}{B}, 4/2. On death: draw X and lose X life, where X = creature cards in target player's graveyard. Variance-dependent X-value scales with opponent graveyards. Pairs with Carrion Feeder / Warren Soultrader as instant-speed draw burst. Sideboarded 2026-05-10 in favor of Lost Monarch's afflict anthem; bring back in against creature-heavy / aristocrats / token-heavy pods where opponent graveyards bloat fast. |
 | Diregraf Captain | Lord + death-trigger drain | +1/+1 to zombies, drains 1 from target opponent per zombie death. Stacks with Plague Belcher for 2 drain per death. Bring in against decks that don't run early board wipes — pairs into the Warren Soultrader Rule 0 line. |
 | Dread Summons | Mass mill + token generation | Each player mills X, create a 2/2 zombie for each creature milled. Scales with table's creature density. |
 | Dreadhorde Invasion | Steady token generation | Creates a 1/1 Army token at upkeep (amass 1). Slow but consistent — survives board wipes as an enchantment. |
@@ -347,9 +351,10 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Plague Belcher
 1 Shepherd of Rot
 
-### Zombie Synergy Creatures (5)
+### Zombie Synergy Creatures (6)
 
 1 Bone Miser
+1 Champion of the Perished
 1 Cryptbreaker
 1 Gravecrawler
 1 Noxious Ghoul
@@ -368,10 +373,9 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 1 Rot Hulk
 
-### Draw Engines (5)
+### Draw Engines (4)
 
 1 Black Market Connections
-1 Corpse Augur
 1 Graveborn Muse
 1 Kindred Discovery
 1 Undead Augur
@@ -471,5 +475,5 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 ### Basic Lands (18)
 
 7 Snow-Covered Island
-2 Snow-Covered Swamp
-9 Swamp
+4 Snow-Covered Swamp
+7 Swamp

@@ -9,7 +9,7 @@
 | **Archetype** | ETB / Token Combo |
 | **Bracket** | 3 (3 Game Changers) |
 | **Game Changers** | Fierce Guardianship, Cyclonic Rift, The One Ring (Deflecting Swat remains in deck as a free redirect but no longer counts toward the GC cap as of Oct 2025) |
-| **Conversion Check** | **17/20** (5/4/4/4) — *needs rescore after 2026-05-04 swap pass* |
+| **Conversion Check** | **17/20** (5/4/4/4) — rescored 2026-05-13 (holds post-swap) |
 | **Kill Window** | Goldfish: T5–7 · Through interaction: T7–10 |
 | **Last swap pass** | 2026-05-04 — 6 cards swapped to add a real infinite (Sword of F&F + AA), token multiplier (Anointed Procession + Adeline), draw engine (Bident, The One Ring), premium ETB (Solitude). See bottom of summary. |
 
@@ -44,7 +44,9 @@ Satya's "whenever attacks" trigger creates a free token copy of any nontoken cre
 
 **Layer 2 — Combat Engine (1 piece):** Aggravated Assault gives an extra combat for {3}{R}{R} (sorcery speed). Combined with **Sword of Feast and Famine** equipped to Satya, each combat untaps all lands → infinite combats.
 
-**Layer 3 — ETB Doublers / Token Multipliers (5 pieces):** Panharmonicon (doubles ETBs), Elesh Norn Mother of Machines (doubles your ETBs, shuts off opponents'), Strionic Resonator (copies triggers — including Satya's attack trigger for a second token), Phelia Exuberant Shepherd (flickers a permanent on each attack, re-triggering its ETB), **Anointed Procession** (doubles every token Satya creates, every Adeline trigger, every Siege-Gang trigger, every Brudiclad Myr).
+**Layer 3 — ETB Doublers / Token Multipliers (4 pieces):** Panharmonicon (doubles ETBs of every Satya copy), Elesh Norn Mother of Machines (doubles your ETBs, shuts off opponents'), Strionic Resonator (copies Satya's attack trigger for a second token — the copied trigger creates a new token without re-using the "declared as attacking" check), **Anointed Procession** (doubles every token Satya creates, every Adeline trigger, every Siege-Gang trigger, every Brudiclad Myr).
+
+**Layer 3a — Flicker engines (2 pieces):** Restoration Angel (ETB flicker — Satya copies of Resto re-trigger her flicker on entry), Phelia Exuberant Shepherd (attack-trigger flicker — only fires when Phelia herself attacks, NOT when Satya creates a Phelia token; growing +1/+1 counters when flickering your own permanents).
 
 **Layer 4 — Token Conversion (1 piece):** Brudiclad converts your token pile into copies of one token. Satya tokens, Adeline humans, Siege-Gang goblins, Angel of Invention servos, and the Brudiclad Myr can all become Inferno Titan copies for a lethal swing. Brudiclad-converted tokens shed Satya's EoT-sacrifice trigger.
 
@@ -83,11 +85,11 @@ Repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each comb
 
 ### Kill Reliability: 4/5
 
-Five distinct closing lines, including two infinite combat loops (Celebrant is 2-card with commander, Aggravated Assault is 3-card). The Celebrant line is especially reliable since one half lives in the command zone. Brudiclad provides an alternative lethal swing that doesn't require infinite combats. Estimated 2–3 turns from engine-online to kill.
+Five distinct closing lines, including one infinite combat loop (Sword of F&F + Aggravated Assault + Satya, 3 cards including commander). Adeline + Anointed Procession is a fast 3-card alpha that doesn't require an infinite. Brudiclad converts the token pile into a lethal alpha swing without needing an infinite loop. Estimated 2–3 turns from engine-online to kill.
 
-Doesn't reach 5 because every kill line requires Satya to be attacking — meaning she must survive as a 3/4 through a combat step. Instant-speed removal in response to the combat trigger shuts down the turn entirely. The deck has protection (Lightning Greaves, Swiftfoot Boots, Slip Out the Back, Clever Concealment) but can't guarantee Satya survives every time. A 5 would need kills that function independently of the combat step.
+Doesn't reach 5 because every kill line requires Satya to be attacking — meaning she must survive as a 3/5 through a combat step. Instant-speed removal in response to the combat trigger shuts down the turn entirely. The deck has protection (Lightning Greaves, Swiftfoot Boots, Slip Out the Back, Clever Concealment) and Sword of F&F grants protection from black and green, but can't guarantee Satya survives every time and menace is stopped by any 2 blockers. A 5 would need kills that function independently of the combat step.
 
-**Checkpoint:** Combat Celebrant + Satya = infinite combats from 2 cards. Aggravated Assault + Goldspan Dragon + Satya = infinite combats from 3 cards. Both achievable by turn 5–6.
+**Checkpoint:** Sword of F&F + Aggravated Assault + Satya = infinite combats (3 cards) once Satya connects for combat damage. Adeline + Anointed Procession + Satya = ~6 humans per attack in a 4-player pod plus a Satya copy, lethal alpha in 1–2 swings with Brudiclad conversion. Both achievable by turn 5–7.
 
 ### Durability: 4/5
 
@@ -119,16 +121,17 @@ Doesn't reach 5 because the counterspell suite, while deep, includes several wea
 
 ## Phelia Integration (MH3 Upgrade)
 
-Phelia, Exuberant Shepherd replaced Inspiring Overseer. She's a repeatable flicker engine on a 2-drop:
+Phelia, Exuberant Shepherd replaced Inspiring Overseer. She's a flicker engine on a 2-drop:
 
 **What Phelia does in context:**
-- Attacks → flickers any nonland permanent → permanent returns at end of combat with its ETBs
-- When Satya copies Phelia, the token copy also attacks and flickers something — two flickers per Satya activation
-- Can flicker your own ETB creatures (Cloudblazer = draw 2, Reflector Mage = bounce, Skyclave Apparition = exile)
-- Can temporarily exile an opponent's threat (it returns at end of combat, but it's gone during your attack)
-- At 2 mana, she deploys turn 2, enabling Satya turn 3, combat turn 4 with a flicker target already in play
+- *Her own attack* exiles up to one target nonland permanent until end-of-turn (returns at the next end step). When the permanent returns under your control, Phelia gains a +1/+1 counter — so flickering your own ETB creatures grows her into a real clock.
+- Can flicker your own ETB creatures (Cloudblazer = draw 2, Reflector Mage = bounce, Skyclave Apparition = exile, Solitude = exile a creature)
+- Can temporarily exile an opponent's threat through the attack (it returns at end of turn, but it's gone during your combat)
+- At 2 mana with flash, she can deploy at the end of the turn before Satya hits to bait removal or hold up interaction
 
-**What Inspiring Overseer did:** Drew 1 card and gained 1 life on ETB. Functional but the weakest ETB in the creature suite. The deck already has 6+ card draw sources. Phelia's repeatable flicker is engine-quality; Overseer was filler-quality.
+**Rules note — Satya copies of Phelia DO NOT flicker.** Phelia's trigger is "Whenever Phelia attacks." A Satya copy enters tapped and attacking but is *never declared as an attacker*, so the trigger doesn't fire (same ruling as Adeline). A Satya copy of Phelia is a 2/2 body with flash — useful as a chump or hold-up bluff, but not a second flicker. The flicker engine is one trigger per turn, from Phelia herself.
+
+**What Inspiring Overseer did:** Drew 1 card and gained 1 life on ETB. Functional but the weakest ETB in the creature suite. Phelia's attack-trigger flicker is engine-quality; Overseer was filler.
 
 -----
 
@@ -355,4 +358,20 @@ The audit found the advertised primary kill line (Combat Celebrant + Satya 2-car
 - **Brudiclad-converted tokens shed Satya's EoT-sacrifice clause** (it's a delayed trigger tied to the original Satya token). This is the cleanest way to keep tokens alive without paying energy.
 - **Sword of F&F + AA loop relies on Satya (the equipped creature) connecting**, not the tokens. Menace + haste + 5 toughness makes this reliable but not guaranteed against decks with 2+ blockers.
 
-Pending: Conversion Check rescore. Working theory: Kill Reliability rebounds to 4/5 (real infinite restored), Core Loop holds at 5/5, Durability climbs to 4/5 (One Ring), Interaction holds at 4/5 — projected **17/20** unchanged but with a more stable composition.
+### 2026-05-13 — Conversion Check rescore (post-swap)
+
+Rescore confirms the working theory: **17/20 (5/4/4/4) — holds with a more stable composition than the pre-swap 17.** Full card-text re-verification done against local Scryfall data for Satya, Aggravated Assault, Sword of Feast and Famine, The One Ring, Adeline, Anointed Procession, Brudiclad, Solitude, Bident of Thassa, Phelia, Strionic Resonator, Restoration Angel, Ranger-Captain of Eos, Goldspan Dragon, Esper Sentinel, Deflecting Swat. 100-card count verified (99 main + 1 commander). GC count 3/3 (Fierce Guardianship, Cyclonic Rift, The One Ring) — verified against `REF_Game_Changers_List.md`. Deflecting Swat remains in the deck as a free redirect and no longer counts toward the cap (delisted Oct 2025).
+
+**Axis-by-axis:**
+- **Core Loop 5/5** — ~22 engine pieces (16 ETB creatures + 4 doublers/multipliers + 2 flicker engines + Brudiclad + AA + Sword). Loop is unmistakable from the decklist.
+- **Kill Reliability 4/5** — Sword + AA real infinite restored; Adeline + Anointed Procession adds a parallel non-infinite alpha; Brudiclad alpha line still in. Five lines total, three of which are fast. Held under 5 because every line still requires Satya to connect for combat damage.
+- **Durability 4/5** — The One Ring adds a protection turn and scaling draw (replacing slow Coalition Relic). 16 ETB creatures provide deep redundancy; Cyclonic Rift is the asymmetric reset; Restoration Angel and flash interaction keep the deck alive through wraths. Held under 5 because Satya remains a critical dependency.
+- **Interaction 4/5** — 14+ pieces (6 counters + 7 removal + 4 board protection + ETB-based interaction via Reflector Mage / Skyclave Apparition / Loran / Solitude). Two free spells (FG + Swat). Held under 5 because the deck runs only one true board wipe (Cyclonic Rift) and the counter suite includes weaker options (Swan Song, An Offer).
+
+**Errors corrected during the rescore (documentation only, no card swaps):**
+1. **Phelia rules error** — prior summary claimed Satya copies of Phelia flicker. They do not: Phelia's "Whenever Phelia attacks" trigger does not fire on tokens that enter tapped-and-attacking (same Adeline ruling already documented in the 2026-05-04 swap log).
+2. **Layer 3 miscount** — Phelia was listed as a "Token Multiplier" but isn't one. Layer 3 corrected to 4 pieces; Phelia moved to a new Layer 3a (Flicker engines) alongside Restoration Angel.
+3. **Kill Reliability checkpoint** — previously cited Combat Celebrant + Satya 2-card infinite (Celebrant is now sideboard) and Goldspan Dragon as the AA partner (Sword of F&F is now the AA partner). Both fixed.
+4. **Satya stat** — text said "3/4," she's 3/5. Fixed.
+
+No card swaps applied during this audit.

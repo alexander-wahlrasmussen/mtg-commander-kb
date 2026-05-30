@@ -21,7 +21,7 @@ Maelstrom Wanderer has two abilities:
 1. **Static — "Creatures you control have haste."** Every creature you cheat into play (cascade, Etali, Selvala's Stampede, Aetherworks Marvel, Creative Technique, Sunbird's Invocation, Wildsear cascade) attacks immediately.
 2. **Cascade, cascade.** When cast, two separate cascade triggers fire. Each exiles cards from the top of your library until you exile a *nonland* card with mana value strictly less than 8, which you may cast for free. The two triggers resolve independently — the spell from the first cascade resolves before the second cascade exiles cards.
 
-Key reading: cascade requires the resulting spell to have **mana value strictly less than 8** (rules change post-2021). So Wanderer cannot cascade into Ulamog (10), Ulamog Infinite Gyre (11), Kozilek Butcher (10), Kozilek Great Distortion (10), Cityscape Leveler (8), Portal to Phyrexia (9), Summon: Bahamut (9), Artisan of Kozilek (9), Void Winnower (9), It That Betrays (12), or Ghalta (12). It *can* cascade into Avenger of Zendikar (7), Bane of Bala Ged (7), Sire of Seven Deaths (7), Devourer of Destiny (7), Combustible Gearhulk (6), Etali (6), Sunbird's Invocation (6), Selvala's Stampede (6), Conduit of Ruin (6), Rampaging Baloths (6), Tendershoot Dryad (5), Wildsear Scouring Maw (5), Greater Good (4), and lower.
+Key reading: cascade requires the resulting spell to have **mana value strictly less than 8** (rules change post-2021). So Wanderer cannot cascade into Ulamog Ceaseless Hunger (10), Ulamog Infinite Gyre (11), Kozilek Butcher (10), Kozilek Great Distortion (10), Craterhoof Behemoth (8), Breaker of Creation (8), Cityscape Leveler (8), Portal to Phyrexia (9), Summon: Bahamut (9), Artisan of Kozilek (9), Void Winnower (9), It That Betrays (12), or Ghalta (12). It *can* cascade into Avenger of Zendikar (7), Bane of Bala Ged (7), Sire of Seven Deaths (7), Devourer of Destiny (7), Combustible Gearhulk (6), Etali (6), Sunbird's Invocation (6), Selvala's Stampede (6), Conduit of Ruin (6), Rampaging Baloths (6), Kodama of the East Tree (6), Tendershoot Dryad (5), Wildsear Scouring Maw (5), Greater Good (4), and lower.
 
 This matters for closing-line math: Wanderer's two cascades are *not* deterministic Eldrazi reveals — they're more often a 6-7 mana hit each.
 
@@ -31,13 +31,13 @@ This matters for closing-line math: Wanderer's two cascades are *not* determinis
 
 The deck ramps aggressively (19 dedicated ramp pieces — Sol Ring, Arcane Signet, Mana Vault, Ancient Tomb, Talisman, Thran Dynamo, Birds of Paradise, Llanowar Loamspeaker, Lotus Cobra, Sakura-Tribe Elder, Solemn Simulacrum, Tireless Provisioner, Delighted Halfling, Cultivate, Kodama's Reach, Farseek, Nature's Lore, Rampant Growth, Skyshroud Claim) into a wall of high-mana-value threats and cascade/free-cast effects, then chains the chaos to compound triggers.
 
-**Engine layer 1 — Cascade and free-cast (8):** Maelstrom Wanderer (cascade x2 + haste), Wildsear Scouring Maw (cascade on each enchantment from hand), Sunbird's Invocation (each cast from hand → reveal X cards, may cast one for free), Etali Primal Storm (each attack: cast top of each library), Aetherworks Marvel (6 energy + tap → cast a spell from top 6 free), Creative Technique (shuffle, exile until non-land, cast it free + Demonstrate so an opponent also copies), Selvala's Stampede (council vote — wild = creatures from library, free = permanents from hand), Conduit of Ruin (first creature each turn costs {2} less + ETB tutors a 7+ MV colorless creature on top).
+**Engine layer 1 — Cascade and free-cast (9):** Maelstrom Wanderer (cascade x2 + haste), Wildsear Scouring Maw (enchantment spells you cast from hand have cascade), Sunbird's Invocation (each spell cast **from your hand** → reveal X cards, may cast one for free — does NOT trigger off cascade hits, Aetherworks/Etali/Creative-Technique free-casts, or permanents put in by Selvala's Stampede), Etali Primal Storm (each attack: cast top of each library), Aetherworks Marvel (6 energy + tap → cast a spell from top 6 free), Creative Technique (shuffle, exile until non-land, cast it free + Demonstrate so an opponent also copies), Selvala's Stampede (council's dilemma — each player votes wild or free independently; each wild = reveal creatures from library to put in play, each free = permanent from hand), Conduit of Ruin (first creature each turn costs {2} less + **cast trigger** tutors a 7+ MV colorless creature on top), Kodama of the East Tree (whenever another permanent enters, you may put a permanent card with equal-or-lesser MV from hand onto the battlefield — chains hard with cascade hits and Eldrazi entering).
 
-**Engine layer 2 — Power-matters payoffs (6):** Selvala Heart of the Wilds ({G},{T}: add X mana = greatest creature power; draws when an entering creature has greatest power), The Great Henge (cost-reduced by greatest power; +1/+1 + draw on each nontoken creature), Garruk's Uprising (creatures have trample, draw on each power-4+ ETB), Garruk's Packleader (draw on each power-3+ ETB), Goreclaw (creature spells with power 4+ cost {2} less; +1/+1 trample on power-4+ attackers), Greater Good (sac creature → draw cards equal to its power, discard 3).
+**Engine layer 2 — Power-matters payoffs (6):** Selvala Heart of the Wilds ({G},{T}: add X mana = greatest creature power; **its controller** may draw when an entering creature has the greatest power — note this is two-way, opponents draw on their own greatest-power ETBs too), The Great Henge (cost-reduced by greatest power; +1/+1 + draw on each nontoken creature; {T}: {G}{G} + 2 life), Garruk's Uprising (creatures have trample, draw on each power-4+ ETB), Garruk's Packleader (draw on each other power-3+ ETB), Goreclaw (creature spells with power 4+ cost {2} less; when Goreclaw attacks, **each of your power-4+ creatures** gets +1/+1 and trample EOT — not just attackers), Greater Good (sac creature → draw cards equal to its power, discard 3).
 
 **Engine layer 3 — Landfall payoffs (3):** Avenger of Zendikar (token-per-land + landfall +1/+1 to all Plants), Rampaging Baloths (4/4 trample on landfall), Tendershoot Dryad (Saproling per upkeep + Saprolings get +2/+2 with city's blessing). Lotus Cobra and Tireless Provisioner pull double duty as ramp + landfall enablers.
 
-**Payoff bombs (13):** Ulamog Ceaseless Hunger (cast: exile 2 permanents; attack: exile 20 cards from a library), Ulamog Infinite Gyre (cast: destroy any permanent; Annihilator 4; graveyard reshuffle), Kozilek Butcher of Truth (cast: draw 4; Annihilator 4; graveyard reshuffle), Kozilek Great Distortion (cast: refill to 7; menace; discard-X-MV-card → counter X-MV spell), Artisan of Kozilek (cast: reanimate from grave; Annihilator 2), Conduit of Ruin, Cityscape Leveler (cast/attack: destroy nonland → opp gets Powerstone; unearth 8), It That Betrays (steal opp's sacrificed nontoken permanents; Annihilator 2), Bane of Bala Ged (attack: exile 2 permanents), Breaker of Creation (cast: gain life per colorless permanent; hexproof from each color; Annihilator 2), Devourer of Destiny (cast: exile colored permanent; opening-hand library manipulation), Sire of Seven Deaths (first strike, vigilance, menace, trample, reach, lifelink, ward 7 life), Void Winnower (opps can't cast or block with even-MV creatures), Portal to Phyrexia (ETB: each opp sacs 3 creatures; upkeep: reanimate from any graveyard), Combustible Gearhulk (ETB: opp picks — give you 3 cards or mill 3 + take damage = total MV), Summon: Bahamut (saga: I/II destroy nonland, III draw 2, IV deals damage equal to total MV of other permanents).
+**Payoff bombs (13):** Ulamog Ceaseless Hunger (**indestructible**; cast: exile 2 permanents; attack: exile top 20 cards of defending player's library), Ulamog Infinite Gyre (**indestructible**; cast: destroy any permanent; Annihilator 4; graveyard reshuffle), Kozilek Butcher of Truth (cast: draw 4; Annihilator 4; graveyard reshuffle), Kozilek Great Distortion (cast: if fewer than 7 in hand, refill to 7; menace; discard-X-MV-card → counter X-MV spell), Artisan of Kozilek (cast: reanimate from your grave; Annihilator 2), Conduit of Ruin, Cityscape Leveler (cast/attack: destroy up to one nonland → its controller gets Powerstone; trample; unearth 8), It That Betrays (steal opp's sacrificed nontoken permanents; Annihilator 2), Bane of Bala Ged (attack: defender exiles 2 permanents), Breaker of Creation (cast: gain life per colorless permanent; hexproof from each color; Annihilator 2), Devourer of Destiny (cast: exile colored permanent; opening-hand library manipulation), Sire of Seven Deaths (first strike, vigilance, menace, trample, reach, lifelink, ward—pay 7 life), Void Winnower (**opponents can't cast spells with even MV** — including instant-speed removal and counters at 2/4/6 — AND can't block with even-MV creatures), Portal to Phyrexia (ETB: each opp sacs 3 **creatures**; upkeep: reanimate creature from any graveyard to your side as Phyrexian), Combustible Gearhulk (first strike; ETB: opp picks — give you 3 cards or mill 3 + take damage = total MV of milled cards), Summon: Bahamut (Saga Dragon creature 9/9 flying; I/II destroy nonland, III draw 2, IV Mega Flare: damage to each opp = total MV of other permanents you control).
 
 **The play pattern:** T1–3 ramp aggressively. T4–6 land Maelstrom Wanderer (cascade x2 = often 2 free midsize bodies with haste) or hardcast Conduit of Ruin (tutoring an Eldrazi to top) or Sunbird's Invocation. T6+ start chaining big casts — each one triggers Sunbird, Garruk's Uprising/Packleader draws, Selvala's mana, and (if Wildsear is out) cascade-on-enchantments. Annihilator and exile-on-cast effects strip opponents' boards. Close via combat.
 
@@ -47,13 +47,13 @@ The deck ramps aggressively (19 dedicated ramp pieces — Sol Ring, Arcane Signe
 
 **Line 1 — Maelstrom Wanderer cascade dump (T6–7).** Cast Wanderer for {5}{G}{U}{R}. Two cascades resolve: each often hits a 6–7 MV creature with haste (Avenger of Zendikar floods board with 0/1 Plants then a landfall pump; Etali attacks immediately and casts off two opponents' top decks; Bane of Bala Ged or Sire of Seven Deaths attack for big damage). Wanderer itself attacks for 7 trampleless. Combined turn-of-cast damage: typically 15–25. Engine-online → kill: 1–2 turns.
 
-**Line 2 — Craterhoof Behemoth alpha (T7–8).** Build a wide board (Avenger creates a token per land; Rampaging Baloths produces 4/4s on landfall; Tendershoot drips Saprolings) and resolve Craterhoof Behemoth (8 mana with {5}{G}{G}{G}). All your creatures gain trample and +X/+X where X = creatures you control. With 8+ creatures, this is reliably lethal across the table. Engine-online → kill: 1 turn.
+**Line 2 — Craterhoof Behemoth alpha (T7–8).** Build a wide board (Avenger creates a 0/1 Plant token per land; Rampaging Baloths produces 4/4 vanilla Beast tokens on landfall — they don't have trample unless Garruk's Uprising is out; Tendershoot drips Saprolings on **each** upkeep, not just yours) and resolve Craterhoof Behemoth (MV 8 with {5}{G}{G}{G} — note Craterhoof cannot be cascaded into). All your creatures gain trample and +X/+X where X = creatures you control. With 8+ creatures, this is reliably lethal across the table. Engine-online → kill: 1 turn.
 
 **Line 3 — Ghalta + Eldrazi pile (T5–7).** Ghalta Primal Hunger costs {10}{G}{G} reduced by total power of creatures you control (floor {G}{G}). With Selvala Heart, Llanowar Loamspeaker (3/3 in elemental mode), and a couple of 6-power Eldrazi, Ghalta lands for {G}{G}. From there, Annihilator chains and trample close out 1–2 turns later. Engine-online → kill: 2–3 turns.
 
 **Line 4 — Ulamog Ceaseless mill (T8+).** Hardcast Ulamog Ceaseless Hunger ({10}). Cast trigger exiles 2 permanents; attacks exile 20 cards from defending player's library. 5 attacks empty a 100-card library — slow but uncounterable as a back-up plan against decks running graveyard recursion. Engine-online → kill: 4–5 turns.
 
-**Line 5 — Sunbird's Invocation chain (T6+).** Resolve Sunbird's Invocation. Each subsequent spell from hand reveals X cards (X = MV) and lets you cast one with MV ≤ X for free. Casting an Eldrazi (10) reveals 10 cards and pulls another up-to-10-MV free spell — chains escalate quickly. Selvala's Stampede + Sunbird is particularly explosive (council vote can flood the board, Sunbird then offers a 6-MV free spell). Engine-online → kill: 2 turns.
+**Line 5 — Sunbird's Invocation chain (T6+).** Resolve Sunbird's Invocation. Each subsequent spell **cast from hand** reveals X cards (X = MV) and lets you cast one with MV ≤ X for free. Hardcasting an Eldrazi (10) reveals 10 cards and pulls another up-to-10-MV free spell. Note the from-hand restriction: cascade hits, Aetherworks/Etali/Creative-Technique free-casts, and creatures put in by Selvala's Stampede do NOT trigger Sunbird. Selvala's Stampede hardcast does trigger it once (revealing 6 cards). Engine-online → kill: 2 turns.
 
 -----
 
@@ -68,7 +68,7 @@ The deck is mid-speed — 19 ramp pieces let it reach 6+ mana by T4–5 reliably
 
 ## Durability
 
-After a Cyclonic Rift on T7: rebuild via Conduit of Worlds (play lands from graveyard, sorcery-speed cast a non-land permanent from graveyard once per turn), Aetherworks Marvel (energy from dying permanents → tap-and-pay-6E to cast off the top), and the deck's deep ramp suite. Two of the big Eldrazi self-recur — Ulamog Infinite Gyre and Kozilek Butcher of Truth shuffle the graveyard (including themselves) into the library when put into a graveyard from anywhere. **Ulamog Ceaseless Hunger does NOT have this clause** — once exiled or milled, it's gone.
+After a Cyclonic Rift on T7: rebuild via Conduit of Worlds (play lands from graveyard; sorcery-speed tap **only if you haven't cast a spell this turn** — and if you cast the targeted card from grave, you **can't cast additional spells that turn**, so it's one-spell-per-turn-total, not a free bonus cast), Aetherworks Marvel (energy from dying permanents → tap-and-pay-6E to cast off the top), the indestructible clause on both Ulamogs (they survive non-exile board wipes), and the deck's deep ramp suite. Two of the big Eldrazi self-recur — Ulamog Infinite Gyre and Kozilek Butcher of Truth shuffle the graveyard (including themselves) into the library when put into a graveyard from anywhere. **Ulamog Ceaseless Hunger does NOT have this clause** — once exiled or milled, it's gone (though it IS indestructible while on the battlefield).
 
 Targeted recursion is thin: no Eternal Witness, no Regrowth, no Sun Titan. The deck recovers by re-ramping and re-deploying from hand or from the top of a freshly-shuffled library — reasonable but not fast.
 
@@ -86,8 +86,8 @@ The deck is **not** strictly commander-dependent — Maelstrom Wanderer is an ac
   - *Beast Within* (instant) — destroy any permanent → opp gets a 3/3 token. Universal answer at instant speed.
   - *Decimate* (sorcery, {2}{R}{G}) — destroy target artifact + creature + enchantment + land. **Requires legal targets in all four categories or it cannot be cast.** Pod-dependent.
   - *Chaos Warp* (instant) — owner shuffles target permanent and reveals top card; if it's a permanent, it enters. Random-but-flexible answer.
-  - *Boseiju, Who Endures* (channel — discard the land for {1}{G}: destroy artifact / enchantment / nonbasic land an opp controls; cost reduced by {1} per legendary creature you control). With Maelstrom + a legendary Eldrazi, channel is often {G}.
-  - *Kozilek's Command* ({X}{C}{C}, modal) — choose two: make X 0/1 Eldrazi Spawn, scry-and-draw, exile creature with MV ≤ X, exile up to X cards from graveyards. Removal mode is X-cost, so flexible at 4+ mana.
+  - *Boseiju, Who Endures* (channel — discard the land for {1}{G}: destroy artifact / enchantment / nonbasic land an opp controls; opp ramps a basic; cost reduced by {1} per legendary creature you control, **floor is {G}** so Maelstrom alone on the field is enough).
+  - *Kozilek's Command* ({X}{C}{C}, **instant**, modal) — choose two: target player creates X 0/1 Eldrazi Spawn with "Sacrifice this token: Add {C}", target player scries X then draws a card, exile creature with MV ≤ X, exile up to X cards from graveyards. Removal mode is X-cost, so flexible at 4+ mana. Instant speed makes this the deck's most flexible answer.
 
 - **Creature-rider removal (5):**
   - *Cityscape Leveler* (cast & on each attack: destroy nonland → opp gets Powerstone token).
@@ -103,10 +103,11 @@ The deck is **not** strictly commander-dependent — Maelstrom Wanderer is an ac
   - *Combustible Gearhulk* (opp chooses: give you 3 cards or mill 3 + take damage = total MV — usually 6–12 damage).
   - *Summon: Bahamut* (saga IV — Mega Flare = damage to each opp = total MV of other permanents you control; with bigs out, this is often 30+ damage).
 
-Instant speed: ~30% (Beast Within, Chaos Warp, Boseiju channel, Kozilek discard-counter).
-Sorcery speed: most of the rest, including Decimate and the on-cast Eldrazi triggers.
+Instant speed: ~50% of the spell-based interaction (Beast Within, Chaos Warp, Boseiju channel, Kozilek's Command, Kozilek Great Distortion discard-counter). Sorcery speed: Decimate. The on-cast Eldrazi triggers fire at the speed of their parent creature spells (sorcery for cast triggers).
 
-**The structural interaction gap is true counterspells.** Despite blue access, the deck runs zero hard counters. Kozilek's discard-counter is the only stack interaction — and it requires an MV-matched card in hand. Combo decks that win on the stack will resolve unanswered.
+Void Winnower is a passive interaction piece worth naming separately — while on the battlefield it shuts off every opponent spell with even MV (2/4/6/8). That's a hard wall against most counterspells and removal staples, not just blocking.
+
+**The structural interaction gap is proactive hard counters.** Despite blue access, the deck runs zero true counterspells. Kozilek Great Distortion's discard-counter is the only on-stack counter — and it requires an MV-matched card in hand. Combo decks that win on the stack will resolve unanswered unless Void Winnower happens to be on the battlefield and the win spell has even MV.
 
 -----
 
@@ -119,7 +120,7 @@ Sorcery speed: most of the rest, including Decimate and the on-cast Eldrazi trig
 
 *Verified against `REF_Game_Changers_List.md` (current as of 2026-02-09) on 2026-05-08. No other cards in the deck are on the GC list — Selvala Heart of the Wilds is **not** a GC; Maelstrom Wanderer is **not** a GC.*
 
-**Open slot:** the deck has room for one more GC without violating Bracket 3's 3-cap. Plausible additions: Worldly Tutor (tutor a big), Smothering Tithe (ramp + treasure), Seedborn Muse (mana doubling on opps' turns + Selvala mana).
+**Open slot:** the deck has room for one more GC without violating Bracket 3's 3-cap. Plausible additions (Temur-legal — GUR only): Worldly Tutor (tutor a big), Seedborn Muse (mana doubling on opps' turns + Selvala mana), Mystical Tutor, Force of Will / Fierce Guardianship (the deck's structural counterspell gap), Cyclonic Rift, Rhystic Study, Crop Rotation, Survival of the Fittest, Natural Order. ~~Smothering Tithe~~ is **not legal** here — it's {3}{W}, outside Temur color identity.
 
 -----
 
@@ -215,7 +216,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 
 1 Maelstrom Wanderer
 
-### Cascade & Free-Cast Engines (8)
+### Cascade & Free-Cast Engines (9)
 
 1 Wildsear, Scouring Maw
 1 Sunbird's Invocation
@@ -225,6 +226,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 1 Selvala's Stampede
 1 Conduit of Ruin
 1 Conduit of Worlds
+1 Kodama of the East Tree *(cheats permanents of equal-or-lesser MV from hand on every permanent ETB — a major engine, not a partner-shell card)*
 
 ### Power-Matters Payoffs (6)
 
@@ -260,10 +262,13 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 1 Grothama, All-Devouring
 1 Rampaging Baloths
 
-### Combat Doublers / Pump (2)
+### Combat Doublers / Pump (1)
 
 1 Berserkers' Onslaught
-1 Warstorm Surge
+
+### ETB Damage Trigger (1)
+
+1 Warstorm Surge *(when a creature you control enters, it deals damage equal to its power to any target — pairs with Avenger plant flood, Tendershoot Saprolings, and the +1/+1 from Henge)*
 
 ### Saga (1)
 
@@ -322,11 +327,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 1 Solemn Simulacrum
 1 Tireless Provisioner
 
-### Other / Partner-shell (1)
-
-1 Kodama of the East Tree
-
-### Lands (33)
+### Lands (36, plus Ancient Tomb listed under GCs = 37 total)
 
 1 Boseiju, Who Endures
 1 Breeding Pool
@@ -364,4 +365,6 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 
 ## Changelog
 
-- **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander). GC count 2/3 (Ancient Tomb, Mana Vault — room for one more). Commander text verified against local Scryfall data. `Green Dragon Inn` confirmed by user as reskin for `Homeward Path` (C16) — anti-creature-theft utility land — alias added to `REF_Reskin_Aliases.md`. Conversion Check 14/20 (4/4/3/3) — Solid. No card swaps recommended at this time; closest open item is filling the third GC slot (candidates: Worldly Tutor, Smothering Tithe, Seedborn Muse).
+- **2026-05-16:** Formal audit pass. 14/20 (4/4/3/3) holds — Solid. ~10 card-text errors corrected: Conduit of Worlds is one-spell-per-turn-total when used, not a bonus cast; Void Winnower locks **all** even-MV opponent spells (not just creatures); both Ulamogs are **indestructible** (was omitted); Selvala Heart's draw is two-way (creature's controller draws, opponents trigger on their own greatest-power ETBs); Sunbird's Invocation triggers only on hand-cast spells (cascade/free-cast/Stampede ETBs don't trigger it); Rampaging Baloths landfall tokens are 4/4 vanilla Beasts (no trample by default); Conduit of Ruin's tutor is a cast trigger, not ETB; Goreclaw's attack-time pump applies to all your power-4+ creatures, not just attackers; Kozilek's Command is **instant** speed (instant-speed coverage was undercounted at ~30% — actual is ~50%); Boseiju channel floor is {G} — Maelstrom alone is enough, stacking legendaries doesn't help further. Structural fixes: **Kodama of the East Tree** recategorized from "Partner-shell" to a core cascade/free-cast engine (cheats equal-or-lesser-MV permanents from hand on every ETB); **Warstorm Surge** recategorized from "Combat Doublers" to ETB damage trigger. Land count corrected — section claimed 33, actual is **36** (37 including Ancient Tomb). Cascade exclusion list expanded to include Craterhoof (MV 8) and Breaker of Creation (MV 8); Kodama (MV 6) added to the "can cascade into" list. GC candidates fixed — **Smothering Tithe is illegal** in this deck (white, outside Temur). Legal alternatives named (Worldly Tutor, Seedborn Muse, Mystical Tutor, Force of Will, Fierce Guardianship, Cyclonic Rift, Rhystic Study, Crop Rotation, Survival of the Fittest, Natural Order). No card swaps made yet — chaos-leaning refinement pass pending; initial Moxfield CSV check showed most cascade staples (Apex Devastator, Bloodbraid Elf, Imoti, Maelstrom Nexus, Garruk's Horde, Wild-Magic Sorcerer, Etali Primal Conqueror) are not in the collection. Owned chaos-flavored hits so far: Tibalt's Trickery (x2), Insurrection, Birthing Pod, Inferno Titan. Wider net to be cast in a follow-up.
+
+- **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander). GC count 2/3 (Ancient Tomb, Mana Vault — room for one more). Commander text verified against local Scryfall data. `Green Dragon Inn` confirmed by user as reskin for `Homeward Path` (C16) — anti-creature-theft utility land — alias added to `REF_Reskin_Aliases.md`. Conversion Check 14/20 (4/4/3/3) — Solid. No card swaps recommended at this time; closest open item is filling the third GC slot (candidates: Worldly Tutor, Smothering Tithe, Seedborn Muse). *(Note 2026-05-16: Smothering Tithe was incorrectly suggested — it's {3}{W}, illegal in Temur.)*

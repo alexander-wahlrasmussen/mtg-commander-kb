@@ -3,9 +3,11 @@
 **Commander:** Kuja, Genome Sorcerer ({2}{B}{R}, 3/4 Human Mutant Wizard) // Trance Kuja, Fate Defied (4/6 Avatar Wizard)  
 **Colors:** Rakdos (BR)  
 **Archetype:** Wizard-token spellslinger burn  
-**Bracket:** 3 (2 Game Changers: Necropotence, Jeska's Will)  
+**Bracket:** 3 (3 Game Changers: Necropotence, Jeska's Will, Underworld Breach)  
 **Conversion Check:** 15/20 (4/4/3/4)  
-**Kill Window:** Goldfish: T7–9 · Through interaction: T9–12
+**Kill Window:** Goldfish: T7–9 · Through interaction: T9–12  
+**Decklist file:** `decks/the-genome-project-20260510.txt`  
+**Card text verified:** 2026-05-10 — every engine piece, multiplier, mana source, removal, and reskin lookup'd via `card_lookup.py`. Drift corrections applied below; see Changelog.
 
 -----
 
@@ -32,7 +34,7 @@ Flare Star — If a Wizard you control would deal damage to a permanent or playe
 
 Kuja builds an army of 0/1 Wizard tokens that ping each opponent for 1 whenever you cast a noncreature spell. The commander produces one token per end step automatically. Once you control four Wizards (including Kuja), he transforms into Trance Kuja, doubling all Wizard damage. The deck then chains cheap noncreature spells — draw, rituals, cantrips — to deal escalating burn damage to the entire table simultaneously.
 
-The damage math scales multiplicatively. With four Wizard tokens and Trance Kuja, each noncreature spell deals 4 × 2 = 8 to each opponent. Add Harmonic Prodigy (doubles Wizard triggered abilities) and each spell deals 4 × 2 triggers × 2 Trance = 16 per opponent. Add City on Fire (triple noncombat damage) and a single spell deals 48 to each opponent. The deck's ceiling is absurd; the challenge is surviving long enough to assemble the pieces.
+The damage math scales multiplicatively. With four Wizard tokens and Trance Kuja, each noncreature spell deals 4 × 2 = 8 to each opponent. Add Harmonic Prodigy (doubles Wizard triggered abilities) and each spell deals 4 × 2 triggers × 2 Trance = 16 per opponent. Add City on Fire (which triples *all* damage from sources you control — combat or noncombat) and a single spell deals 48 to each opponent. The deck's ceiling is absurd; the challenge is surviving long enough to assemble the pieces.
 
 ### The Core Loop
 
@@ -48,7 +50,7 @@ The damage math scales multiplicatively. With four Wizard tokens and Trance Kuja
 
 **Line 2 — Multiplier Stack:** Trance Kuja + Harmonic Prodigy (or Roaming Throne) + 3–4 Wizard tokens = 12–16 damage per spell per opponent. Three spells kills the table. Adding City on Fire to any multiplier configuration creates one-spell lethality.
 
-**Line 3 — Bonus Round / Mizzix's Mastery Explosion:** Bonus Round doubles every instant and sorcery for the rest of the turn. Each copy also triggers Wizard pings. Dawn Warriors' Legacy (Mizzix's Mastery) overloaded replays every instant and sorcery from the graveyard — each cast triggers all Wizards. Combined with Trance Kuja, this is often lethal from a stocked graveyard.
+**Line 3 — Bonus Round / Mizzix's Mastery / Underworld Breach Graveyard Storm:** Bonus Round doubles every instant and sorcery for the rest of the turn. Each copy also triggers Wizard pings. Dawn Warriors' Legacy (Mizzix's Mastery) overloaded replays every instant and sorcery from the graveyard at once — each cast triggers all Wizards. Underworld Breach gives every nonland card in the graveyard escape (mana cost + exile 3 other GY cards) for a turn — slower per-spell than Mastery but more flexible (you can pace the chain, hold up reactive escapes, and the exile cost itself fuels other graveyard payoffs). Storm-Kiln Artist Treasures pay the escape costs; Birgi rebates a {R} per cast. Combined with Trance Kuja, any of these three is often lethal from a stocked graveyard.
 
 **Line 4 — Aetherflux Reservoir:** Chain spells to gain escalating life (1st spell = 1 life, 2nd = 2, etc.). Reach 50+ life and pay 50 to laser a player. This line operates independently of Wizard tokens and serves as a backup when the token board has been swept.
 
@@ -63,11 +65,29 @@ The deck stacks damage multipliers that interact multiplicatively:
 | Piece | Effect | Type |
 |---|---|---|
 | Trance Kuja | All Wizard damage ×2 | Replacement effect |
-| Harmonic Prodigy | Wizard triggered abilities trigger an additional time | Static ability |
-| Roaming Throne (Wizard) | Wizard triggered abilities trigger an additional time | Static ability |
-| City on Fire | All noncombat damage ×3 | Replacement effect |
+| Harmonic Prodigy | Wizard / Shaman triggered abilities trigger an additional time (note: "another Wizard" — does not double its own prowess) | Static ability |
+| Roaming Throne (Wizard) | Triggered abilities of *other* creatures of the chosen type trigger an additional time | Static ability |
+| City on Fire | **All damage from sources you control ×3** (combat included). Two copies = ×9, three = ×27. | Replacement effect |
 
 Harmonic Prodigy and Roaming Throne are additive with each other (both double triggers — having both means triple triggers), but multiplicative with Trance Kuja and City on Fire. Worst-case realistic stack: Trance Kuja + 1 trigger doubler + 3 tokens = 12 per spell per opponent. Best-case: Trance + Prodigy + City + 4 tokens = triple triggers × ×2 × ×3 = ×18 per token = 72 per spell per opponent. One spell kills the table twice over.
+
+### Wizard Producer Layer — Pilot Notes
+
+The 7 Wizard producers (beyond Kuja and Stormsplitter copies) each have non-obvious mechanics worth knowing at the table:
+
+- **Black Mage's Rod** ({1}{B} Equipment, Job Select): Creates a **1/1 colorless Hero token** on ETB and auto-attaches. The equipped creature gets +1/+0, gains the noncreature-spell ping ability ("deals 1 damage to each opponent"), AND becomes a **Wizard in addition to its other types**. The token isn't a Wizard until equipped — but once equipped, it counts toward the 4-Wizard transform threshold *and* it pings.
+- **Black Waltz No. 3** ({2}{B}{R}, 2/2 Wizard with flying + deathtouch): Pings each opponent for **2** (not 1) per noncreature spell. Highest per-spell damage of any single Wizard in the deck. Trance Kuja doubles each instance to 4. With Prodigy + Throne stacking to 3 trigger instances per spell, that's 2 base × 3 triggers × 2 Trance = **12 per spell from Black Waltz alone** to each opponent. Add City on Fire for ×3 = 36 per spell. He's a target — protect him.
+- **Circle of Power** ({3}{B} sorcery): Draws 2 cards, lose 2 life, creates a 0/1 Wizard token, *and* gives all your Wizards +1/+0 lifelink until end of turn. The lifelink mode is a one-turn life-buffer for combo turns.
+- **Cornered by Black Mages** ({1}{B}{B} sorcery): Edict + Wizard token. Removes a hexproof/indestructible creature *and* adds to the token count. Dual-role.
+- **Coruscation Mage** ({1}{R}, 2/2 Otter Wizard with Offspring {2}): Pings 1 per noncreature spell. **The Offspring token is a 1/1 copy with the same ping ability** (Offspring copies printed text). Casting for {3}{R} = two pingers in one card.
+- **Vivi's Persistence** ({1}{R} instant): Creates a 0/1 Wizard token. **Recursion clause is "Whenever your commander enters or attacks, you may pay {2}"** — so the recursion is gated on Kuja entering (good — recasts after removal) or attacking (less common — Kuja prefers main-phase storming). Active recursion piece, not auto-recur.
+- **Stormsplitter** ({3}{R}, 1/4 Otter Wizard with haste): Creates a 1/4 Otter Wizard **token copy of itself** on each instant/sorcery cast. The copies inherit the trigger, so they self-replicate exponentially in a chain. Each Stormsplitter token is a Wizard (counts toward Trance threshold) but does NOT have the ping ability — its damage is combat-only. Categorized as a Wizard Producer (not a Damage Multiplier) because the copies generate Wizards, not pings.
+
+**Hidden Wizard producers / value modes:**
+
+- **Lindblum, Industrial Regency** is in the lands section, but its DFC face is **Mage Siege** ({2}{R} Adventure instant): "Create a 0/1 Wizard token with the ping ability." Cast Lindblum as the Adventure first for a Wizard, then play the (tapped) land later from exile. Effectively a land + Cornered-style Wizard producer hybrid.
+- **Midgar, City of Mako** is the analogous BR card: DFC face **Reactor Raid** ({2}{B} Adventure sorcery): "You may sacrifice an artifact or creature. If you do, draw two cards." Hidden 2-mana Deadly-Dispute equivalent in a land slot.
+- **Black Market Connections — Hire a Mercenary mode:** Creates a 3/2 colorless **Shapeshifter creature token with changeling**. Changeling is *every creature type, including Wizard*. So this mode counts toward the 4-Wizard transform threshold. (Also adds a 3/2 body, which Trance Kuja then doubles to 6/4 effective combat damage.) Often the right pick over Sell Contraband / Buy Information when you're 1 Wizard short of transforming.
 
 ### What Makes It Distinct
 
@@ -82,7 +102,7 @@ Harmonic Prodigy and Roaming Throne are additive with each other (both double tr
 
 ### Core Loop — 4/5
 
-The engine is immediately recognizable: Wizard tokens + noncreature spell chains + damage multipliers. 22+ cards directly serve this loop across wizard production (6 sources beyond the commander), mana generation (7 enablers), damage multiplication (4 pieces), and spell copying/replay (4 pieces). The commander is central — Kuja both produces the tokens and provides the key damage doubler on his back face.
+The engine is immediately recognizable: Wizard tokens + noncreature spell chains + damage multipliers. 26+ cards directly serve this loop across wizard production (7 sources beyond the commander, plus Lindblum's Adventure side and Black Market Connections's Mercenary mode as hidden producers), mana generation (5 enablers), damage multiplication (3 pieces), and spell copying/replay (5 pieces). The commander is central — Kuja both produces the tokens and provides the key damage doubler on his back face.
 
 Docked from 5 because Kuja is a hard dependency. Without the commander, the supplementary wizard-makers (Vivi's Persistence, Circle of Power, Cornered by Black Mages, Black Mage's Rod) produce tokens slowly and piecemeal. The Trance transformation requires 4+ Wizards including Kuja, which means 3 end steps minimum plus Kuja surviving. Early commander removal before any tokens exist resets the entire plan to zero.
 
@@ -125,13 +145,10 @@ Docked from 5 because Rakdos fundamentally cannot interact with the stack beyond
 
 ## Bracket 3 Compliance
 
-**Game Changers (2/3):**
+**Game Changers (3/3):**
 1. Necropotence — pay-life card engine, the deck's primary draw source for assembling combo pieces
 2. Jeska's Will — massive mana generation + card exile, feeds explosive turns
-
-**⚠️ Note:** The Game Changers tracking table currently lists only Necropotence (1/3). Jeska's Will is confirmed on the GC list and is in this deck — the table should be updated to 2/3.
-
-**Open GC slot:** 1 remaining. Candidates in Rakdos identity include Gamble (tutor), Bolas's Citadel (card engine), or Ad Nauseam (burst draw).
+3. Underworld Breach — graveyard escape engine; in a spellslinger that wins by chaining noncreature spells, every escaped instant/sorcery is another Wizard-token ping trigger and another Storm-Kiln Treasure. Sacrifices at end step, but the deck wins in single explosive turns anyway.
 
 **Infinite combos:** None. The deck wins through finite but explosive damage multiplication. No two-card or three-card infinite loops exist.
 
@@ -167,12 +184,17 @@ Kuja is the only pure Rakdos deck in the collection. Its spellslinger burn arche
 
 -----
 
-## Reskin Reference
+## Reskin / FF Set Reference
 
-| Deck Card Name | Original MTG Name |
-|---|---|
-| Bayo, Irritable Instructor | Electro, Assaulting Battery |
-| Dawn Warriors' Legacy | Mizzix's Mastery |
+User-applied reskins map to canonical MTG cards; FF set originals listed for pilots unfamiliar with the set.
+
+| Deck Card Name | Type | Notes |
+|---|---|---|
+| Bayo, Irritable Instructor | Reskin → **Electro, Assaulting Battery** | {1}{R}{R} 2/3 flying. Mana engine ({R} per instant/sorcery cast, mana doesn't empty as steps end) **plus** "When Electro leaves the battlefield, you may pay {X}. He deals X damage to target player." X-damage finisher when sac'd, removed, or destroyed — sac to Phyrexian Tower for two mana and a finisher in one shot. |
+| Dawn Warriors' Legacy | Reskin → **Mizzix's Mastery** | Overload exile-and-cast-free every instant/sorcery in graveyard. |
+| Lindblum, Industrial Regency // Mage Siege | FF set DFC (Town + Adventure) | Land taps for {R} (enters tapped). Adventure side **Mage Siege** ({2}{R} instant): create a 0/1 Wizard ping token. Cast Adventure → exile card → play land later. |
+| Midgar, City of Mako // Reactor Raid | FF set DFC (Town + Adventure) | Land taps for {B} (enters tapped). Adventure side **Reactor Raid** ({2}{B} sorcery): sac an artifact or creature, draw 2. |
+| Summon: G.F. Cerberus | FF set Saga creature | {2}{R}{R} 3/3 Enchantment Creature — Saga Dog. I — Surveil 1; II — Next instant/sorcery copied; III — Next instant/sorcery copied twice. |
 
 -----
 
@@ -181,23 +203,24 @@ Kuja is the only pure Rakdos deck in the collection. Its spellslinger burn arche
 ### Commander (1)
 1 Kuja, Genome Sorcerer
 
-### Game Changers (2)
+### Game Changers (3)
 1 Jeska's Will  
-1 Necropotence
+1 Necropotence  
+1 Underworld Breach
 
-### Wizard Producers / Wizard Synergy (6)
+### Wizard Producers / Wizard Synergy (7)
 1 Black Mage's Rod  
 1 Black Waltz No. 3  
 1 Circle of Power  
 1 Cornered by Black Mages  
 1 Coruscation Mage  
+1 Stormsplitter  
 1 Vivi's Persistence
 
-### Damage Multipliers (4)
+### Damage Multipliers (3)
 1 City on Fire  
 1 Harmonic Prodigy  
-1 Roaming Throne  
-1 Stormsplitter
+1 Roaming Throne
 
 ### Mana Engines (5)
 1 Bayo, Irritable Instructor  
@@ -257,8 +280,7 @@ Kuja is the only pure Rakdos deck in the collection. Its spellslinger burn arche
 1 Vandalblast  
 1 Withering Torment
 
-### Recursion (2)
-1 Lively Dirge  
+### Recursion (1)
 1 Reanimate
 
 ### Utility (1)
@@ -297,3 +319,23 @@ Kuja is the only pure Rakdos deck in the collection. Its spellslinger burn arche
 1 Wooded Foothills  
 8 Mountain  
 6 Swamp
+
+-----
+
+## Changelog
+
+- **2026-05-10 (full audit + Underworld Breach swap):** First formal audit pass against the Conversion Check. Score holds at 4/4/3/4 = **15/20**. Decklist: `the-genome-project-20260510.txt`. Card text verified for every engine piece, multiplier, mana source, removal, and reskin via `card_lookup.py`.
+  - **Card swap:** Underworld Breach added as 3rd Game Changer; Lively Dirge cut to sideboard. Breach gives the deck a third graveyard-replay axis alongside Bonus Round and Dawn Warriors' Legacy. Increases graveyard-hate vulnerability — already a Pod Fit weakness.
+  - **Card-text corrections** (documentation only; mechanics unchanged):
+    - **City on Fire** triples *all* damage from sources you control (combat included), not "noncombat damage." Math in the multiplier table came out the same but the description was wrong. Two copies = ×9, three = ×27.
+    - **Black Mage's Rod** creates a **1/1 colorless Hero token** (not a Wizard token); the equipped creature gains the noncreature-spell ping ability AND becomes a Wizard via the granted ability. The token only counts toward the 4-Wizard threshold once equipped.
+    - **Coruscation Mage's Offspring** ({2} additional cost) creates a 1/1 token copy that **inherits the printed ping ability** — casting for {3}{R} = two pingers in one card.
+    - **Vivi's Persistence** recursion is gated on **commander entering or attacking** (not auto-recur from graveyard). Active piece tied to Kuja recasts.
+    - **Bayo, Irritable Instructor / Electro** has an **X-damage death trigger** undocumented in prior summary — when it leaves the battlefield, pay X to deal X to target player. Sacrifice to Phyrexian Tower for {B}{B} and a finisher.
+    - **Black Market Connections's Hire a Mercenary mode** creates a 3/2 colorless **Shapeshifter changeling** — every creature type, *including Wizard*. Hidden mode for hitting the 4-Wizard transform threshold.
+    - **Stormsplitter** recategorized: it's a Wizard token replicator (1/4 Otter Wizard token copies on each instant/sorcery cast), not a damage multiplier. Counts: Wizard Producers 6 → 7, Damage Multipliers 4 → 3.
+  - **Hidden synergies surfaced** (added to Reskin / FF Set Reference and Wizard Producer Layer notes):
+    - **Lindblum, Industrial Regency**'s DFC Adventure side **Mage Siege** is a {2}{R} Wizard-token producer.
+    - **Midgar, City of Mako**'s DFC Adventure side **Reactor Raid** is a {2}{B} sac-to-loot.
+    - **Summon: G.F. Cerberus** mechanics documented in reference table.
+- **2026-04-03 (baseline build):** Decklist `the-genome-project-20260403-050230.txt`. 99 main + 1 commander. Pre-audit summary scored 4/4/3/4 = 15/20.

@@ -29,7 +29,7 @@ Key rulings: Teysa doubles the number of triggers, not the effect of each trigge
 
 The deck converts creatures into damage through a three-part engine:
 
-**Layer 1 — Sacrifice Outlets (8 permanents + 1 land):** Viscera Seer (free, scry), Carrion Feeder (free, grows), Yahenni (free, indestructible), Woe Strider (free, scry), Ashnod's Altar (free, {C}{C}), Phyrexian Altar (free, any color), Altar of Dementia (free, mill), Priest of Forgotten Gods ({T} + sac 2, draws + mana + edict), Phyrexian Tower (land, sac for {B}{B}). Skullclamp and Soldevi Adnate also function as pseudo-sac outlets (Adnate sacs a black or artifact creature for {B} equal to its mana value). Razaketh sacrifices creatures to tutor. Endrek Sahr generates Thrull tokens that become sac fodder (X 1/1s per creature spell cast, where X is the spell's mana value); Teysa grants those tokens vigilance and lifelink.
+**Layer 1 — Sacrifice Outlets (8 permanents + 1 land):** Viscera Seer (free, scry), Carrion Feeder (free, grows), Yahenni (free, indestructible), Woe Strider (free, scry — also ETBs a Goat token), Ashnod's Altar (free, {C}{C}), Phyrexian Altar (free, any color), Altar of Dementia (free, mill), Priest of Forgotten Gods ({T} + sac 2, draws + mana + edict), Phyrexian Tower (land, sac for {B}{B}). Skullclamp and Soldevi Adnate also function as pseudo-sac outlets (Adnate is {T} + sac black/artifact creature → {B} equal to its mana value; once per turn unless untapped). Razaketh tutors (pay 2 life + sac another creature). Sephiroth front face is a once-per-ETB and once-per-attack sac outlet that also draws a card. Endrek Sahr generates Thrull tokens that become sac fodder (X 1/1s per creature spell cast, where X is the spell's mana value); Teysa grants those tokens vigilance and lifelink. *Endrek self-limit:* state trigger sacrifices Endrek when you control 7+ Thrulls — flips from feature to liability if you can't sink them faster than you make them, but in this deck the death payoffs are happy to consume both Thrulls and Endrek himself.
 
 **Layer 2 — Death-Triggered Payoffs (doubled by Teysa):**
 - **Zulaport Cutthroat** — each opponent loses 1 per creature you control dying. Pure death trigger; doubled.
@@ -41,7 +41,7 @@ The deck converts creatures into damage through a three-part engine:
 - **Syr Konrad** — 1 damage to each opponent. Death-on-battlefield half is doubled. The other clauses (creature card entering graveyard from non-battlefield zones; creature card leaving your graveyard) are not death triggers and are not doubled.
 - **Vindictive Lich** — modal death trigger; with Teysa, two separate triggers, each picking 1+ modes, each constrained to different players within that trigger. You can pick "lose 5" twice on different (or same) opponents.
 - **Kokusho, the Evening Star** — death trigger drain 5 / gain 15. Doubled to 10 / 30.
-- **Sephiroth, Fabled SOLDIER** — front face: 1 to a single target opponent on each creature death. Teysa doubles, so each death = 2 triggers; Sephiroth transforms after **2** creature deaths (not 4) once Teysa is out.
+- **Sephiroth, Fabled SOLDIER** — *Front face ({2}{B}, 3/3):* Two abilities. **(1)** "Whenever Sephiroth enters or attacks, you may sacrifice another creature. If you do, draw a card." → Sephiroth doubles as a sac outlet AND a draw engine on ETB and on each of his attacks. **(2)** "Whenever another creature dies, target opponent loses 1 life and you gain 1 life. If this is the fourth time this ability has resolved this turn, transform Sephiroth." → Single-target drain (not each opponent), doubled by Teysa to 2 resolutions per death. **2 creature deaths with Teysa out = 4 trigger resolutions = transform.** *Back face — Sephiroth, One-Winged Angel (5/5 flying):* Emblem: "Whenever a creature dies, target opponent loses 1 life and you gain 1 life." The emblem is **not** doubled by Teysa (emblems aren't permanents) but persists indefinitely if Sephiroth is later removed — meaningful durability. Attack ability: "Whenever Sephiroth attacks, you may sacrifice any number of other creatures. If you do, draw that many cards." → high-volume draw engine.
 
 **Layer 2b — Engine Pieces NOT Doubled by Teysa:**
 - **Gray Merchant of Asphodel** — *ETB trigger*, not death. Sacrificing and reanimating Gary triggers the drain on each ETB but Teysa does not double it. With K'rrik (3 devotion from {B/P}{B/P}{B/P}), Teysa (1 from {W}{B}), Gary himself (2 from {B}{B}), devotion is 6 minimum: each opponent loses 6, you gain 18.
@@ -70,7 +70,7 @@ Kokusho dies → each opponent loses 5, you gain 15. Teysa doubles: each opponen
 Stock the graveyard through self-mill (Stitcher's Supplier, Altar of Dementia), looting, and natural play. Living Death sacrifices all creatures on the battlefield (triggering all your death payoffs, doubled by Teysa) and returns everything from your graveyard. Your graveyard is stacked with Gray Merchant, Kokusho, Razaketh, Sephiroth, and drain creatures. Opponents' graveyards are usually worse.
 
 **Line 5 — Razaketh Tutor Chain**
-Razaketh sacrifices creatures to tutor any card. With token generators (Desecrated Tomb bats from graveyard recursion, Woe Strider goat token, Sephiroth tokens), Razaketh finds the exact combination needed to close. Typical line: tutor Gravecrawler + Phyrexian Altar + drain piece for Line 1.
+Razaketh pays 2 life + sacrifices a creature to tutor any card. With token generators (Endrek Sahr Thrulls, Desecrated Tomb bats from graveyard recursion, Woe Strider goat ETB token), Razaketh finds the exact combination needed to close. Typical line: tutor Gravecrawler + Phyrexian Altar + drain piece for Line 1.
 
 -----
 
@@ -332,3 +332,30 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 ### Maybeboard
 
 1 Fleshbag Marauder — third edict effect, currently held out of the main 99
+
+-----
+
+## Audit Log
+
+### 2026-05-13 — Formal Conversion Check audit
+
+**Score holds at 17/20 (5/4/4/4).** Decklist `diminishing-returns-20260505.txt` verified: 99 main + 1 commander = 100 cards. GC count 3/3 (Farewell, Smothering Tithe, Teferi's Protection) — cross-checked against `REF_Game_Changers_List.md`. Bracket 3 compliant: the Gravecrawler loop is a 4-piece infinite (Gravecrawler + free sac outlet + other Zombie + drain payoff) that doesn't reliably assemble before turn 6; no extra turns; no MLD.
+
+**Card text re-verified against local Scryfall data:** Teysa Karlov, Sephiroth (front + back face), Agent of the Iron Throne (it's a Background Enchantment that grants the death trigger to commander creatures you own — i.e., to Teysa), K'rrik, Mirkwood Bats, Nadier's Nightblade, Vindictive Lich, Endrek Sahr, Razaketh, Gravecrawler, Kokusho, Gray Merchant, Zulaport Cutthroat, Carrion Feeder, Midnight Reaper, Syr Konrad, The Meathook Massacre, Elas il-Kor, Soldevi Adnate, Phyrexian Altar, Woe Strider, Desecrated Tomb, Morbid Opportunist.
+
+**Axis-by-axis:**
+- **Core Loop 5/5** — 26+ engine pieces (9 sac outlets, 9 Teysa-doubled death payoffs, 4 non-doubled engine pieces, 5 reanimation spells, plus Gravecrawler, K'rrik, Dark Ritual, recursive creatures, card-draw creatures). The aristocrats loop is unmistakable from the decklist.
+- **Kill Reliability 4/5** — 5 distinct lines (Gravecrawler loop, Gary recursion, Kokusho chain, Living Death reset, Razaketh tutor). One deterministic loop. K'rrik accelerates the clock by 1–2 turns. Held under 5 because the deterministic loop needs 4 pieces and no single-card "I win" exists.
+- **Durability 4/5** — 5 reanimation spells, Gravecrawler self-recurs, Living Death full reset, Teferi's Protection + Flawless Maneuver dodge wipes, Phyrexian Tower for sac-to-protect, K'rrik enables fast rebuilds. Sephiroth's back-face emblem adds a passive drain that persists through removal once transformed. Held under 5 because graveyard hate (RIP, Bojuka Bog, Dauthi Voidwalker) shuts off both Gravecrawler recursion and Living Death simultaneously.
+- **Interaction 4/5** — 12 pieces (5 targeted removal + 2 edict + 2 board wipes + 3 board protection including Grand Abolisher). Two free protection spells (Teferi's, Flawless). Held under 5 because Orzhov can't counter — combos that resolve on the stack are unanswerable.
+
+**Errors corrected during the audit (documentation only, no card swaps):**
+1. **Sephiroth was massively underdescribed.** Prior summary captured only the death-trigger drain (and even that with errors — said "1 to a single target opponent" but missed the lifegain clause, and said "transforms after 2 creature deaths" without explaining the 4-trigger-resolution mechanism behind that number). Missed entirely: front-face "Whenever Sephiroth enters or attacks, you may sacrifice another creature. If you do, draw a card." (Sephiroth is also a sac outlet AND a draw engine, not just a death-drain piece). Back-face Sephiroth, One-Winged Angel (5/5 flying), its emblem death-drain (not doubled by Teysa since emblems aren't permanents but persists through Sephiroth's removal), and the back-face attack ability (sac any number → draw that many) — all missing. Full rewrite applied to the Sephiroth entry in Layer 2.
+2. **"Sephiroth tokens" in Razaketh kill line** — Sephiroth doesn't create tokens. Razaketh's token fuel is Endrek Sahr Thrulls, Desecrated Tomb bats, and Woe Strider's ETB Goat. Corrected.
+3. **Endrek Sahr 7-Thrull self-sacrifice clause** — added to the Layer 1 description as a feature-not-bug note (Endrek dying triggers all death payoffs anyway).
+4. **Soldevi Adnate tap cost** — Adnate requires {T} so he's once per turn unless untapped. Clarified.
+5. **Woe Strider ETB Goat token** — wasn't surfaced before. Noted as part of the Razaketh fuel and Layer 1 description.
+
+The Sephiroth correction is the most consequential. The deck's actual durability is slightly higher than the prior summary suggested (emblem persists through removal once you transform), and Sephiroth's draw output is meaningfully larger (he draws on every ETB, every attack, and every back-face attack lets you cash in your whole board). None of this changes the axis scoring — Durability stays at 4/5 because graveyard hate remains the structural ceiling, and the emblem alone doesn't tilt that.
+
+No card swaps applied during this audit.

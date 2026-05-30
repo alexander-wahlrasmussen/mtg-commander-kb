@@ -19,7 +19,8 @@
       "Bash(Move-Item *)",
       "PowerShell(Move-Item *)",
       "Read(//c/Users/Alex/Projects/mtg-commander-kb/**)",
-      "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\oracle-cards.json'\\).LastWriteTime\")"
+      "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\oracle-cards.json'\\).LastWriteTime\")",
+      "Bash(findstr /i \"eldrazi chaos\")"
     ]
   }
 }

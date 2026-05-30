@@ -135,12 +135,13 @@ Ad Nauseam, Jeska's Will, Natural Order, Survival of the Fittest, Gifts Ungiven,
 | Crystal Sickness (Golbez) | Chrome Mox, Fierce Guardianship, The One Ring | **3/3** | Verified 2026-05-06 |
 | Replication Crisis (Satya) | Fierce Guardianship, Cyclonic Rift, The One Ring | **3/3** | The One Ring added 2026-05-04 to fill slot opened by Deflecting Swat delisting (Swat remains in deck, no longer counts) |
 | Diminishing Returns (Teysa) | Farewell, Smothering Tithe, Teferi's Protection | **3/3** | Verified 2026-05-05; reassessed during summary audit |
-| Genome Project (Kuja) | Necropotence | 1/3 | |
+| Genome Project (Kuja) | Necropotence, Jeska's Will, Underworld Breach | **3/3** | Updated 2026-05-10; Underworld Breach added, Jeska's Will was previously untracked |
 | Earthbend the Meta (Toph) | Crop Rotation, Field of the Dead, Smothering Tithe | **3/3** | Verified 2026-05-06; Doubling Season was mislabeled, corrected April 2026 |
 | Ms. Bumbleflower | — | 0/3 | Needs full audit |
 | Eldrazi Stampede Chaos (Wanderer) | Ancient Tomb, Mana Vault | 2/3 | Verified 2026-05-08 |
 | Lightning War (Azula) | Fierce Guardianship, Opposition Agent, Jeska's Will | **3/3** | Verified 2026-05-05; Mystical Tutor was cut |
-| The Dark Lord's Army (Sauron) | Orcish Bowmasters, Cyclonic Rift, Demonic Tutor | 3/3 | |
+| The Dark Lord's Army (Sauron) | Orcish Bowmasters, Cyclonic Rift, Demonic Tutor | 3/3 | Verified 2026-05-08 |
+| Radiation Sickness (Mothman) | Seedborn Muse, Vampiric Tutor, Cyclonic Rift | **3/3** | Updated 2026-05-13 — Vampiric Tutor in for Fierce Guardianship as part of upgrade pass |
 | The Jasmine Dragon (Iroh) | — | 0/3 | Needs full audit |
 | The Grand Design (Atraxa) | Force of Will, Rhystic Study, Cyclonic Rift | 3/3 | Updated 2026-05-02 per swap doc |
 | **The Exile's Return (Zuko)** | **Jeska's Will, Enlightened Tutor, Teferi's Protection** | **3/3** | |
