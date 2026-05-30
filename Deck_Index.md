@@ -21,7 +21,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite                                                             |
 | Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     17/20 | Spirits / graveyard cycling | Elite (audited 2026-05-03; 18/20 once Goblin Bombardment arrives) |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                                                             |
-| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   | ~14–15/20 | [needs audit]               | Solid                                                             |
+| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30)                                       |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08)                                        |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited + 2-phase upgrade 2026-05-13)                      |
 
@@ -37,7 +37,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 ## Outstanding work
 
-- **H2:** Ms. Bumbleflower formal summary — still the open High Priority item.
+- **H2:** Ms. Bumbleflower formal summary — ✅ done 2026-05-30 (15/20; `Ms_Bumbleflower_Summary.md` + `Ms_Bumbleflower_Primer.md`).
 - **Lorehold Spirits:** upgrade pass applied 2026-05-03. Goblin Bombardment placeholder pending physical purchase — combo line offline until acquired.
 - **Proxy list:** 35 cards for cross-deck testing, physical testing not yet completed.
 
