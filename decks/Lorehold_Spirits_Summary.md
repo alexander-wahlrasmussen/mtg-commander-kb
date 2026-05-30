@@ -1,21 +1,21 @@
 # Lorehold Spirits — Quintorius, History Chaser
 
-**Status:** Post-upgrade. 12 swaps applied 2026-05-03 — see Changelog. Goblin Bombardment is included in the .txt as a placeholder for a planned physical purchase; until acquired, the combo line in Kill Reliability is offline and the deck plays at the lower of the two scores listed.
+**Status:** Post-upgrade. 12 swaps applied 2026-05-03 — see Changelog. Goblin Bombardment physically acquired 2026-05-30 — the combo line (Line 6) is now live and the deck plays at 18/20.
 
 ## Quick Reference
 
-| Field | Value |
-|---|---|
-| **Commander** | Quintorius, History Chaser ({2}{R}{W}, Legendary Planeswalker — Quintorius) |
-| **Colors** | Boros (RW) |
-| **Archetype** | Spirit tokens powered by graveyard cycling — recursion *is* the token engine |
-| **Bracket** | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns) |
-| **Game Changers** | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
-| **Conversion Check** | **17/20** (5/4/4/4) — rises to **18/20** (5/5/4/4) when Goblin Bombardment is physically present |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–11 |
-| **Decklist file** | `decks/lorehold-spirit-20260503-154449.txt` |
+| Field                | Value                                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Commander**        | Quintorius, History Chaser ({2}{R}{W}, Legendary Planeswalker — Quintorius)                                |
+| **Colors**           | Boros (RW)                                                                                                 |
+| **Archetype**        | Spirit tokens powered by graveyard cycling — recursion *is* the token engine                               |
+| **Bracket**          | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns)            |
+| **Game Changers**    | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
+| **Conversion Check** | **18/20** (5/5/4/4) — Goblin Bombardment acquired 2026-05-30, combo line live                              |
+| **Kill Window**      | Goldfish: T7–9 · Through interaction: T9–11                                                                |
+| **Decklist file**    | `decks/lorehold-spirit-20260503-154449.txt`                                                                |
 
-The 17/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.
+The 18/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.
 
 **Card text verification status:** Quintorius (user-supplied), Anointed Procession, Purphoros, Hofri Ghostforge, Reveillark verified via web sources during this audit. Other proposed adds rely on widely-known oracle text and are flagged text-unverified — review on Scryfall before sleeve-up.
 
@@ -52,7 +52,7 @@ The engine is graveyard cycling, and the engine is the token engine. Cards enter
 ### Layer 1 — Graveyard Fillers (set up the static)
 
 - **Discard outlets:** Quintorius +1 (discard 1, draw 2, mill 1), Faithless Looting, Conspiracy Theorist (discard payoff), Containment Construct (discard outlet that ramps), Squee Goblin Nabob (free discard target — recurs from yard), Seize the Spoils (discard 2 + treasure ramp).
-- **Sacrifice outlets:** Goblin Bombardment (sac creature for 1 damage — the combo enabler, pending physical purchase). Smothering Tithe Treasures sacrificed for mana.
+- **Sacrifice outlets:** Goblin Bombardment ({1}{R} enchantment — "Sacrifice a creature: deals 1 damage to any target," the combo enabler). Smothering Tithe Treasures sacrificed for mana.
 - **Direct cast from yard:** Faithless Looting flashback, Sevinne's Reclamation flashback (each "leaves graveyard" event = 1 static trigger).
 - **Yard-targeting plays:** Hofri Ghostforge exiling dying nontoken creatures (the *exile* doesn't trigger Quintorius — only when those exiled cards eventually return to graveyard via the Hofri token's leaves-bf clause).
 
@@ -87,7 +87,7 @@ Every card returning from graveyard to battlefield, hand, or library is one or m
 - **Smothering Tithe** (GC): Treasure tokens from opponent draws. Treasures sacrificed for mana = potential static triggers.
 - **Mox Amber:** With 9+ legendary permanents in the deck plus a planeswalker commander, effectively turn-1 ramp.
 
-### Layer 6 — Combo Finish (pending Goblin Bombardment)
+### Layer 6 — Combo Finish (Goblin Bombardment)
 
 Reveillark + Karmic Guide + Goblin Bombardment + a 2-or-less creature card in graveyard:
 
@@ -105,7 +105,7 @@ Per cycle: 3+ damage from GB, 2+ Quintorius static triggers, +2 Spirit tokens (4
 
 ## Kill Lines
 
-Six closing lines. The combo line (Line 6) is offline until Goblin Bombardment is physically acquired. The other five close T7–9 from a stable position.
+Six closing lines, all live. The combo line (Line 6) came online 2026-05-30 when Goblin Bombardment was physically acquired. The other five close T7–9 from a stable position.
 
 ### Line 1 — Quintorius Ultimate + Akroma's Will (Primary)
 
@@ -127,9 +127,9 @@ Sometimes the kill is "Boros Charm 4 damage" to finish a low-life opponent at in
 
 Patchwork Banner, Balefire Liege (+ 3 dmg per RW spell cast), and Tocasia's Welcome (draw) provide a 3–4 turn grindout when Quintorius and Moonshaker are both unavailable.
 
-### Line 6 — Reveillark / Karmic Guide / Goblin Bombardment Combo (Pending)
+### Line 6 — Reveillark / Karmic Guide / Goblin Bombardment Combo
 
-See Layer 6 above. Once GB is in the deck, the loop assembles around T7–8, deals arbitrary damage, generates arbitrary Spirit tokens, and is house-rules legal as a 3+ card combo per `REF_Bracket_3_House_Rules.md`. Until GB is acquired, this line is **offline**.
+See Layer 6 above. With GB in the deck (acquired 2026-05-30), the loop assembles around T7–8, deals arbitrary damage, generates arbitrary Spirit tokens, and is house-rules legal as a 3+ card combo per `REF_Bracket_3_House_Rules.md`.
 
 -----
 
@@ -170,19 +170,19 @@ The loop is "graveyard activity → Quintorius static → Spirit tokens → mult
 - 6 yard fillers (Faithless Looting, Conspiracy Theorist, Containment Construct, Squee, Seize the Spoils, Quintorius +1 ability)
 - 6 payoffs (Patchwork Banner, Tocasia's Welcome, Staff of the Storyteller, Balefire Liege, Purphoros, Anointed Procession)
 - 2 tutors (Gamble for any piece, Smothering Tithe for mana to deploy them)
-- 1 combo enabler (Goblin Bombardment, pending)
+- 1 combo enabler (Goblin Bombardment)
 
 That's 30+ cards directly serving the loop. Past the 18-card threshold for 5. The integration is also tight — Quintorius's static is the single bridge between yard activity and tokens, which means every recursion piece is a token producer and every token producer feeds future yard activity. Cover the commander and the engine identity is unmistakable.
 
 **Checkpoint:** Cover the commander. The 99 has 9 recursion pieces, 7 token producers, 6 yard fillers, 6 payoffs, 2 tutors. The deck is the engine.
 
-### Kill Reliability: 4/5 (5/5 once Goblin Bombardment is acquired)
+### Kill Reliability: 5/5
 
-Six closing lines. Five active, one pending. Two are non-combat (Purphoros + Procession passive damage; future combo). Two are instant-speed alpha strikes (Quintorius + Akroma's Will; Boros Charm 4 dmg mode). One is a standard combat threat (Moonshaker burst). One is grindout backup.
+Six closing lines, all active. Two are non-combat (Purphoros + Procession passive damage; Reveillark/Karmic Guide/Goblin Bombardment combo). Two are instant-speed alpha strikes (Quintorius + Akroma's Will; Boros Charm 4 dmg mode). One is a standard combat threat (Moonshaker burst). One is grindout backup.
 
 The window from engine-online to lethal is 1–2 turns thanks to Akroma's Will making the alpha strike unstoppable. The line is also resilient against removal — Akroma's Will gives indestructible AND protection from each color, which dodges most board interaction.
 
-Doesn't reach 5 currently because the combo line (Line 6) is offline pending GB. With Bombardment in the deck, the combo provides a closing line that ignores combat entirely and assembles late enough to be house-rules legal — that's a 5.
+Reaches 5 with Goblin Bombardment acquired (2026-05-30): the combo line ignores combat entirely and assembles late enough to be house-rules legal, adding a non-combat closing line on top of the alpha-strike and burn plans.
 
 **Checkpoint:** Engine online (Quintorius + Hofri + 4 Spirits) → Quintorius +1 +1 then −4 + Akroma's Will + Patchwork Banner anthem = ~30+ damage spread across the table. Achievable T7–8. Through one wipe, T9.
 
@@ -213,11 +213,11 @@ Doesn't reach 5 because the deck still has zero stack interaction. Boros lacks c
 
 **Checkpoint:** The player across from you is about to win next turn. Realistic odds of a stop in this deck: Generous Gift in hand on a key permanent, Path / Swords on a creature, Teferi's Protection to save your own kill turn. ~35–45% odds of a meaningful intervention in any given game.
 
-### Total: 17/20 — Elite tier (just clearing the floor)
+### Total: 18/20 — Elite tier
 
-5/4/4/4 with Goblin Bombardment as a pending upgrade. Once GB physically arrives, the combo line goes live and Kill Reliability moves to 5 → 18/20.
+5/5/4/4. Goblin Bombardment acquired 2026-05-30 — the combo line is live and Kill Reliability is 5/5.
 
-The structural pattern — 5 in Core Loop, 4 across the other three — is typical of a strongly-integrated engine deck. The deck *runs* its plan reliably. The remaining ceiling is held back by two specific gaps: graveyard-hate vulnerability (Durability) and zero stack interaction (Interaction). Both are accepted Boros constraints.
+The structural pattern — 5 in Core Loop and Kill Reliability, 4 in Durability and Interaction — is typical of a strongly-integrated engine deck. The deck *runs* its plan reliably. The remaining ceiling is held back by two specific gaps: graveyard-hate vulnerability (Durability) and zero stack interaction (Interaction). Both are accepted Boros constraints.
 
 -----
 
@@ -228,7 +228,7 @@ The structural pattern — 5 in Core Loop, 4 across the other three — is typic
 2. **Smothering Tithe** — Treasure tokens from opponent draws. Ramp + resource pressure.
 3. **Teferi's Protection** — instant team phase-out. Pod-killer save.
 
-**Infinite combos:** One 3-card combo line — Reveillark + Karmic Guide + Goblin Bombardment + a 2-or-less creature card in graveyard. House-rules legal under `REF_Bracket_3_House_Rules.md` (3+ cards required, late-game assembly typical T7+). Currently *offline* until GB is physically acquired. Pod approval recommended before activating in tournament-grade play.
+**Infinite combos:** One 3-card combo line — Reveillark + Karmic Guide + Goblin Bombardment + a 2-or-less creature card in graveyard. House-rules legal under `REF_Bracket_3_House_Rules.md` (3+ cards required, late-game assembly typical T7+). Live as of 2026-05-30 (GB physically acquired). Pod approval recommended before activating in tournament-grade play.
 
 **Extra turns:** None.
 
@@ -275,7 +275,7 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 - **Graveyard hate.** Rest in Peace / Leyline of the Void / Grafdigger's Cage shut off the recursion shell. Two answers in the 99 (Kami of Ancient Law, Generous Gift) is below where this deck wants to be — consider tutoring with Gamble specifically when graveyard hate is on the table.
 - **Stack interaction is still zero.** Boros constraint. A counterspell on the kill turn can't be stopped. Mitigated by Akroma's Will protection + Teferi's Protection, both of which dodge interaction differently.
-- **Combo line dependence on Goblin Bombardment.** Until GB is acquired physically, Line 6 is paper. The deck still scores 17/20 without it (5/4/4/4); the upgrade to 18 requires the physical card.
+- **Combo line is a single-enchantment dependency.** The Reveillark/Karmic Guide loop runs through Goblin Bombardment as its sac outlet. GB is now in the deck (acquired 2026-05-30), but it's an enchantment with no in-deck protection — enchantment removal or graveyard hate on the loop pieces takes the line offline. The five non-combo lines still close without it.
 - **Hofri / Reveillark interaction is awkward.** Hofri exiles dying creatures, which interferes with the Reveillark loop's need for the actual cards in graveyard. Real-table play will require sequencing — typically removing Hofri before assembling the combo, or using Hofri Spirit tokens as the sac fuel.
 - **Mana base is now adequate, not strong.** Sacred Foundry adds one true Boros dual, but the deck still has no fetchlands. Tapped lands punish the curve at T3–T5.
 
@@ -283,7 +283,6 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 ## Future Upgrade Targets
 
-- **Goblin Bombardment** (planned purchase) — activates the combo line.
 - **Heliod's Intervention** or similar — Boros enchantment removal, if found. Closes the graveyard-hate gap.
 - **Replenish** — re-deploys multiple destroyed enchantments at once (Hardened Scales / Anointed Procession recovery).
 - **Cathars' Crusade** — every creature entering puts +1/+1 on all your creatures. Massive Spirit-token amplifier, would push Core Loop and Kill Reliability density further.
@@ -292,6 +291,7 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 ## Changelog
 
+- **2026-05-30 (Goblin Bombardment acquired):** GB physically purchased — placeholder status removed. Combo line (Line 6) now live. Kill Reliability 4 → 5; total **17/20 → 18/20** (5/5/4/4). No decklist change — GB was already in the `.txt` and the deck remains at 100 cards.
 - **2026-05-03 (upgrade pass):** 12 swaps. **Adds:** Anointed Procession, Gamble (GC), Purphoros, Reveillark, Sacred Foundry, Smothering Tithe (GC), Akroma's Will, Boros Charm, Generous Gift, Mox Amber, Teferi's Protection (GC), Goblin Bombardment (placeholder pending purchase). **Cuts:** Currency Converter, Drumbellower, Millikin, Secret Rendezvous, Naktamun Lorespinner, Lorehold Charm, Primary Research, Ceaseless Conflict, Monologue Tax, Claim Jumper, Lorehold Archivist, 1 Plains. **Score:** 12/20 (3/3/3/3) → 17/20 (5/4/4/4), 18/20 once GB arrives. **GC slots:** 0/3 → 3/3.
 - **2026-05-03 (baseline audit):** Summary created. Pre-upgrade baseline: 12/20 (3/3/3/3). Supersedes the inherited 17/20 entry in `Deck_Index.md`.
 
@@ -356,7 +356,7 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 ### Sacrifice Outlet (1)
 
-1 Goblin Bombardment *(placeholder — pending physical purchase)*
+1 Goblin Bombardment
 
 ### Yard / Library Manipulation (1)
 

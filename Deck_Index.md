@@ -19,7 +19,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite (rescored 2026-05-13)                                       |
 | Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite                                                             |
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite                                                             |
-| Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     17/20 | Spirits / graveyard cycling | Elite (audited 2026-05-03; 18/20 once Goblin Bombardment arrives) |
+| Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     18/20 | Spirits / graveyard cycling | Elite (Goblin Bombardment acquired 2026-05-30; combo line live)   |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                                                             |
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30)                                       |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08)                                        |
@@ -38,7 +38,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 ## Outstanding work
 
 - **H2:** Ms. Bumbleflower formal summary — ✅ done 2026-05-30 (15/20; `Ms_Bumbleflower_Summary.md` + `Ms_Bumbleflower_Primer.md`).
-- **Lorehold Spirits:** upgrade pass applied 2026-05-03. Goblin Bombardment placeholder pending physical purchase — combo line offline until acquired.
+- **Lorehold Spirits:** upgrade pass applied 2026-05-03. Goblin Bombardment acquired 2026-05-30 — combo line live; rescored 17/20 → 18/20.
 - **Proxy list:** 35 cards for cross-deck testing, physical testing not yet completed.
 
 ---

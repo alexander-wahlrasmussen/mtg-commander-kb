@@ -16,7 +16,7 @@ The graveyard *is* the token engine. Whenever one or more cards leave your grave
 - **Purphoros + Anointed Procession + a recursion turn:** each static trigger = 2 Spirits = 4 damage to each opponent. Non-combat; works through tap-down and chump blockers.
 - **Moonshaker Cavalry burst:** ETB gives the team flying + a counter — one-turn lethal from a wide board.
 - **Backups:** Boros Charm 4-damage finish on a low opponent; Patchwork Banner / Balefire Liege anthem grind.
-- **Combo (OFFLINE — pending physical Goblin Bombardment):** Reveillark + Karmic Guide + GB + a ≤2-power creature in yard loops for arbitrary damage and Spirits.
+- **Combo (live as of 2026-05-30):** Reveillark + Karmic Guide + Goblin Bombardment + a ≤2-power creature in yard loops for arbitrary damage and Spirits.
 
 ## Mulligan — what to keep
 
@@ -38,7 +38,7 @@ Looking for: **ramp + a discard/recursion piece + a route to Quintorius by T4.**
 - **The static fires once per *event*** — "one or more cards leave your graveyard" = ONE Spirit, even when two cards leave at once (Reveillark returning two = 1 token, not 2). Many separate events across a turn is how you stack tokens.
 - **Hofri exiles dying nontoken creatures — that exile does NOT trigger Quintorius;** the trigger fires later when the Hofri-token's cards hit the graveyard. **Hofri also interferes with the Reveillark loop** (Reveillark gets exiled instead of going to the yard) — remove/sac Hofri first, or use Hofri Spirit tokens as the sac fuel.
 - **Table-check ruling:** whether tokens dying (briefly hitting the yard, then ceasing to exist) triggers the static. Mainstream answer is *yes* — meaning dying Hofri Spirits and sacrificed Treasures each fire it. If a judge rules no, several multipliers contract but the engine still runs off real-card recursion.
-- **Goblin Bombardment is a placeholder in the `.txt` pending purchase** — treat the combo line as paper until it's physically acquired.
+- **Goblin Bombardment is an enchantment, not a creature** — "Sacrifice a creature: 1 damage to any target," with no sac cost beyond the creature. It's the loop's free sac outlet; protect it like any combo piece (no in-deck recursion for it).
 
 ## Threats & timing
 
