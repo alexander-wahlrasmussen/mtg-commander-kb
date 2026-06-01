@@ -45,7 +45,7 @@ needs its fixing rocks to come online to function on curve.
 
 | Deck | Score | Clock (goldfish) | Beats T6–7? | Through Abolisher? | Colour T6 (lands) | Verdict vs pod |
 |---|---|---|---|---|---|---|
-| The Replication Crisis | 17 | **T5–7** | ✅ races | ⚠ counter-reliant (own combo protected only by counters) | 77% | **Favoured — outrace** |
+| The Replication Crisis | 17 | T6–8 (T5 god-draw) | ⚠ only on a god-draw | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 77% | **Even — overrated as a race** |
 | The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 48% ⚠ | **Favoured — grind/oppress** |
 | The Exile's Return | 17→18 | T6–8 | ✅ | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs | 79% | **Favoured** |
 | The Grand Design | 19 | T6–8 | ✅ | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 39% ⚠⚠ | **Favoured (if it hits colours)** |
@@ -63,6 +63,16 @@ needs its fixing rocks to come online to function on curve.
 | Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 67% | **Underdog — no disruption** |
 
 *(Peace Offering is off the active roster and excluded.)*
+
+> **Reassessment note (2026-06-01): Replication Crisis is not the fast race the
+> first draft implied.** Its summary lists goldfish T5–7, but that's the
+> god-draw floor: the deck has **zero tutors**, so the Sword+AA infinite is ~1–2%
+> to assemble by draw (sim), and *every* kill line requires Satya — a 4-mana 3/5
+> commander — to survive and connect in combat. The summary's own play pattern
+> says "Goal turns 6–8." Against a T6–7 combo pod whose Abolisher also blanks
+> Replication's counter-based protection, this is an even matchup, not a
+> favoured outrace. Treat the audited "goldfish" numbers as optimistic floors
+> throughout this table, not expected kill turns.
 
 ---
 
@@ -97,8 +107,8 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    third option: static disruption.** Almost every "Through Abolisher?" ⚠ is the
    same gap — the deck's interaction is *reactive* (counters/removal) and dies on
    their combo turn. The decks that beat the pod do it by being faster
-   (Replication, Lightning War) or by taxing/locking proactively (Calamity Tax,
-   the three Grand-Abolisher decks). **The highest-leverage upgrade across the
+   (Lightning War's burn race, which can finish through blockers) or by
+   taxing/locking proactively (Calamity Tax, the three Grand-Abolisher decks). **The highest-leverage upgrade across the
    roster is cheap static hatebears** — Rule of Law, Cursed Totem, Drannith
    Magistrate, Mindcensor — that keep working under their Abolisher. This is
    exactly what the **Kefka** (forced-draw burn that resolves on *your* turn) and
@@ -112,13 +122,12 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    — just not the deck you bring to this pod.** Don't try to speed them up at the
    cost of their identity; pick a faster deck for this table.
 
-4. **Refresh the card data.** ~9 cards across the roster (newest UB printings:
-   Merata Neuron Hacker, Morgul-Knife, Ellie's Rage, Aang's Shelter, Bayo,
-   Paradise Chocobo, Castle Shimura, Green Dragon Inn, The Banyan Tree, Wild Rose
-   Rebellion) don't resolve in the local Scryfall data — run
-   `scripts/update_scryfall_data.py`. Impact on these numbers is ≤2 cards/deck
-   (treated as unknown non-lands), so the matrix holds, but a refresh removes the
-   asterisks.
+4. **One alias-table fix outstanding.** `deck_sim.py` now resolves UB reskins
+   through `REF_Reskin_Aliases.md`, so all but one card map correctly. The
+   exception is **Bayo, Irritable Instructor** (Genome Project): the alias table
+   keys it under "Bayo / Electro", which doesn't match the decklist name, and its
+   analogue (Electro Assaulting Battery) isn't in the local data. Worth a one-line
+   correction to the alias table — it's a single non-land, so the numbers hold.
 
 ---
 

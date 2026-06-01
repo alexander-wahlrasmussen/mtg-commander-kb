@@ -40,6 +40,7 @@ ROOT = Path(__file__).parent.parent
 DECKS_DIR = ROOT / "decks"
 ORACLE = ROOT / "collection" / "oracle-cards.json"
 PROFILES = Path(__file__).parent / "sim_profiles.json"
+ALIASES_DOC = ROOT / "reference" / "REF_Reskin_Aliases.md"
 
 # Commander per decklist (filename stem prefix -> commander card name). Needed
 # because some exports list the commander inline in the 100-card main block; it
@@ -118,6 +119,33 @@ def load_oracle_index():
     return index
 
 
+def load_reskin_aliases():
+    """Parse REF_Reskin_Aliases.md into {reskin_name_lower: original_name}.
+
+    Covers the two-column 'Confirmed aliases' tables (Reskin | Original) and the
+    three-column 'Other / mechanical analogues' table (Name | Analogue | Notes).
+    CLAUDE.md hard rule: never declare a card unresolved without checking this
+    file first.
+    """
+    if not ALIASES_DOC.exists():
+        print(f"WARNING: {ALIASES_DOC} not found; reskins will not resolve", file=sys.stderr)
+        return {}
+    aliases = {}
+    for line in ALIASES_DOC.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 2:
+            continue
+        reskin, original = cells[0], cells[1]
+        # Skip header and separator rows.
+        if not reskin or reskin.lower() in {"reskin name", "name"} or set(reskin) <= {"-", ":"}:
+            continue
+        aliases[reskin.lower()] = original
+    return aliases
+
+
 def is_land(record):
     """True if the card can ever be played as a land (incl. MDFC land backs)."""
     if "land" in record["type_line"].lower():
@@ -137,12 +165,13 @@ def is_pure_land(record):
 # Decklist parsing
 # ---------------------------------------------------------------------------
 
-def parse_deck(path, index):
+def parse_deck(path, index, aliases=None):
     """Return (library, commander_name, diagnostics).
 
     library is a list of (name, record) tuples — the 99 shuffled cards, with the
     commander pulled to the command zone and sideboard cards excluded.
     """
+    aliases = aliases or {}
     stem = path.stem
     deck_key = next((k for k in COMMANDERS if stem.startswith(k)), None)
     commander = COMMANDERS.get(deck_key)
@@ -165,6 +194,7 @@ def parse_deck(path, index):
 
     library = []
     unresolved = []
+    aliased = []
     commander_found = False
     UNKNOWN = {"cmc": 99, "type_line": "UNKNOWN", "face_types": [], "color_identity": ()}
     for qty, name in main_entries:
@@ -172,9 +202,19 @@ def parse_deck(path, index):
             commander_found = True
             continue
         rec = index.get(name.lower())
+        if rec is None and "/" in name and " // " not in name:
+            # Split cards exported as "Expansion/Explosion" -> "Expansion // Explosion".
+            rec = index.get(name.lower().replace("/", " // "))
         if rec is None:
-            unresolved.append(name)
-            rec = UNKNOWN
+            # CLAUDE.md hard rule: resolve UB reskins via the alias table before
+            # declaring a card unresolved.
+            original = aliases.get(name.lower())
+            if original and index.get(original.lower()):
+                rec = index[original.lower()]
+                aliased.append(f"{name} -> {original}")
+            else:
+                unresolved.append(name if not original else f"{name} -> {original} (alias target missing)")
+                rec = UNKNOWN
         for _ in range(qty):
             library.append((name, rec))
 
@@ -184,6 +224,7 @@ def parse_deck(path, index):
         "commander": commander,
         "commander_in_main": commander_found,
         "unresolved": unresolved,
+        "aliased": aliased,
     }
     return library, commander, diag
 
@@ -313,6 +354,8 @@ def print_deck_report(name, diag, stats, combo_res, turns):
     print(f"  {name}")
     print(f"{'=' * 70}")
     print(f"  library: {diag['library_size']} cards | commander: {diag['commander'] or '??'}")
+    if diag.get("aliased"):
+        print(f"  reskins resolved ({len(diag['aliased'])}): {', '.join(diag['aliased'])}")
     if diag["unresolved"]:
         print(f"  WARNING unresolved ({len(diag['unresolved'])}): {', '.join(diag['unresolved'])}")
     print(f"  keepable opening hand: {stats['keepable_pct']:.1f}%")
@@ -343,6 +386,7 @@ def main():
 
     rng = random.Random(args.seed)
     index = load_oracle_index()
+    aliases = load_reskin_aliases()
 
     profiles = {}
     if args.combos:
@@ -359,7 +403,7 @@ def main():
 
     out = {}
     for path in txts:
-        library, commander, diag = parse_deck(path, index)
+        library, commander, diag = parse_deck(path, index, aliases)
         identity = set()
         for _, r in library:
             identity.update(r["color_identity"])
