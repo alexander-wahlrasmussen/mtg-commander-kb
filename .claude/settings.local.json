@@ -20,7 +20,8 @@
       "PowerShell(Move-Item *)",
       "Read(//c/Users/Alex/Projects/mtg-commander-kb/**)",
       "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\oracle-cards.json'\\).LastWriteTime\")",
-      "Bash(findstr /i \"eldrazi chaos\")"
+      "Bash(findstr /i \"eldrazi chaos\")",
+      "Bash(PYTHONIOENCODING=utf-8 python scripts/update_scryfall_data.py)"
     ]
   }
 }

@@ -48,11 +48,11 @@ A deck that pressures without closing has a slow kill clock. A deck that stalls 
 Ask:
 
 - How many turns from engine-online to game-over?
-- How many distinct closing lines does the deck support? Minimum two real ones.
+- How many distinct closing lines does the deck support? Minimum two real ones — and *independent*. If removing a single shared card disables every named line, that's one line wearing several names, not redundancy.
 - Can the deck close through common disruption — a wipe, a counterspell, targeted removal?
 - Does the deck draw disproportionate hate before it can actually close?
 
-Checkpoint: Name two different ways this deck ends the game and estimate how many turns each takes from engine-online.
+Checkpoint: Name two different ways this deck ends the game and estimate how many turns each takes from engine-online. If both names route through the same card, you have one line, not two.
 
 ---
 
@@ -85,6 +85,7 @@ Ask:
 - Does the interaction hit the threats that matter in the expected meta?
 - Is the interaction efficient enough to use without falling behind on tempo?
 - Can the deck interact at instant speed or only sorcery speed?
+- Is the interaction diverse in *mechanism*, not just count? A suite that is all stack-based (counters) is switched off entirely by a single Grand Abolisher; static and permanent-based answers keep working through a lock. Monotype interaction is a hidden single point of failure.
 
 Checkpoint: The player across from you is about to win. Do you have an answer in your 99, and can you realistically have it in hand?
 
@@ -101,6 +102,7 @@ Answer yes or no. If more than one answer is no, the deck may need adjustment fo
 - Does the deck match the pod's stated or implied power level?
 - Can the deck survive until its engine is online against the fastest deck at the table?
 - Does the deck have answers that hit the most common win conditions in the pod?
+- Does the deck's interaction still function against the pod's lock pieces? If an opponent commonly resolves Grand Abolisher, Teferi's Protection, or a counter-wall, how much of your answer suite still works on their key turn?
 - Can the deck function if it becomes the table's secondary target?
 - Is the pilot comfortable with the social role this deck creates?
 
@@ -179,7 +181,7 @@ Anchor: Count the cards. If you can't identify which cards are engine pieces ver
 | 4 | Two or more closing lines, at least one fast (2–4 turns from engine-online). Can close through light disruption. |
 | 5 | Multiple fast, resilient closing lines. Strong positions regularly become decisive ones. |
 
-Anchor: Estimate the turn count from engine-online to game-over. If you can't estimate this, the kill plan is probably a 2.
+Anchor: Estimate the turn count from engine-online to game-over. If you can't estimate this, the kill plan is probably a 2. Count only *independent* lines — if several named lines collapse when one shared card is removed, they score as one line, which caps this axis at 3 regardless of how many names you can list.
 
 ### 3. Durability
 
@@ -201,7 +203,7 @@ Anchor: Count redundant engine pieces. If you have 2 or fewer backups for key lo
 | 2 | 5–7 interaction pieces, narrow or expensive. Can sometimes stop a win attempt. |
 | 3 | 8–10 interaction pieces with reasonable coverage. Handles most common threats. |
 | 4 | 10–12 pieces, well-targeted for the expected meta. Includes instant-speed answers. Can stop a combo turn while continuing to develop. |
-| 5 | 12+ pieces, diverse in type and timing. Can credibly threaten to stop any win attempt while maintaining its own game plan. |
+| 5 | 12+ pieces, diverse in type, timing, and mechanism — not so stack-dependent that a single lock piece (e.g., Grand Abolisher) disables the suite. Can credibly threaten to stop any win attempt while maintaining its own game plan. |
 
 Anchor: Count every card that can remove, counter, or prevent an opponent's threat. Below 8 is a gamble.
 
@@ -264,7 +266,7 @@ Different strategies manifest these axes differently. The framework accounts for
 1. **Define the loop before choosing staples.** If a card doesn't serve the Core Loop, it needs a strong reason to exist in the deck.
 2. **Count your engine pieces.** Fewer than 12 cards directly serving the loop means the deck is undergassed.
 3. **Count your interaction.** Fewer than 8 interaction pieces means you're hoping opponents won't try to win.
-4. **Name your closing lines.** Write them down. If you can't name two, the deck can't reliably end games.
+4. **Name your closing lines — and test their independence.** Write them down. If you can't name two, the deck can't reliably end games. Then ask which single card, if removed, kills the most lines. If one card takes out all of them, you have one line, not several.
 5. **Test recovery mentally.** Board wipe on turn 7. How many turns until you're threatening again? More than 3 means you need more redundancy or recursion.
 6. **Prefer dual-role cards.** Every slot that serves two functions compresses the deck and raises the floor.
 7. **Don't confuse spectacle with lethality.** A scary board that can't close is a political liability, not a win condition.
