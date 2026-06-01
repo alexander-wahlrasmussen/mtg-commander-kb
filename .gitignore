@@ -1,6 +1,9 @@
 # Sync output — generated build artifact
 _sync_drop/
 
+# deck_sim.py machine-readable dump — regenerate with deck_sim.py --json
+sim_results.json
+
 # Python
 __pycache__/
 *.pyc

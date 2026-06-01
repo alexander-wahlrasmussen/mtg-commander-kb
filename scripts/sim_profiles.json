@@ -1,0 +1,46 @@
+{
+  "_README": "Combo-assembly profiles for deck_sim.py --combos. Each deck key matches a COMMANDERS key in deck_sim.py. 'pieces' are the non-commander cards that must come together in hand (the commander is always available from the command zone and is NOT listed). 'tutors' are broad cards modelled as wildcards that can each substitute for one missing piece — an OPTIMISTIC approximation (real tutors have colour/type limits and cost mana). Numbers are card-availability floors that ignore mana; read them next to the consistency mana curve. Every piece verified present in the current .txt and against Scryfall oracle text on 2026-06-01.",
+
+  "the-replication-crisis": {
+    "tutors": [],
+    "combos": [
+      {
+        "name": "Sword of F&F + Aggravated Assault (infinite combats; Satya free)",
+        "pieces": ["Sword of Feast and Famine", "Aggravated Assault"]
+      }
+    ]
+  },
+
+  "lightning-war": {
+    "_note": "Leyline Tyrant is redundancy for Ozai as the mana half; modelled here as the canonical pair only, so the floor slightly understates assembly. No enchantment tutors in the deck (Aggravated Assault must be drawn).",
+    "tutors": [],
+    "combos": [
+      {
+        "name": "Aggravated Assault + Ozai (infinite combats; Azula free)",
+        "pieces": ["Aggravated Assault", "Ozai, the Phoenix King"]
+      }
+    ]
+  },
+
+  "lorehold-spirit": {
+    "_note": "Gamble can fetch any single piece (with a random-discard risk the model ignores). 3-card loop plus a 2-or-less creature already in yard, which is plentiful and not modelled as a gating piece.",
+    "tutors": ["Gamble"],
+    "combos": [
+      {
+        "name": "Reveillark + Karmic Guide + Goblin Bombardment (arbitrary damage)",
+        "pieces": ["Reveillark", "Karmic Guide", "Goblin Bombardment"]
+      }
+    ]
+  },
+
+  "diminishing-returns": {
+    "_note": "Razaketh tutors any card but must be in play with creature fodder + life — the wildcard model is optimistic. Gravecrawler loop also needs a spare Zombie + a drain payoff, both plentiful and not modelled as gating pieces.",
+    "tutors": ["Razaketh, the Foulblooded"],
+    "combos": [
+      {
+        "name": "Gravecrawler + Phyrexian Altar (core of the aristocrats loop)",
+        "pieces": ["Gravecrawler", "Phyrexian Altar"]
+      }
+    ]
+  }
+}
