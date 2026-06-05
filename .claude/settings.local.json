@@ -21,7 +21,10 @@
       "Read(//c/Users/Alex/Projects/mtg-commander-kb/**)",
       "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb\\\\collection\\\\oracle-cards.json'\\).LastWriteTime\")",
       "Bash(findstr /i \"eldrazi chaos\")",
-      "Bash(PYTHONIOENCODING=utf-8 python scripts/update_scryfall_data.py)"
+      "Bash(PYTHONIOENCODING=utf-8 python scripts/update_scryfall_data.py)",
+      "Bash(grep -nE '^$|SIDEBOARD' decks/diminishing-returns-20260505.txt)",
+      "Bash(grep -nE '^$|SIDEBOARD' decks/lorehold-spirit-20260503-154449.txt)",
+      "Bash(grep -A2 -iE 'reskins resolved|WARNING unresolved|^  [A-Z].*$')"
     ]
   }
 }
