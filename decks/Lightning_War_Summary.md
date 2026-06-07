@@ -1,110 +1,86 @@
-# Lightning War — Fire Lord Azula (Hybrid Build)
+# Lightning War — Fire Lord Azula (Race / Burn Build)
 
 **Commander:** Fire Lord Azula ({1}{U}{B}{R}, 4/4, Legendary Creature — Human Noble)
 **Colors:** Grixis (UBR)
-**Archetype:** Flash-based combat spellslinger with infinite combat closer
-**Bracket:** 3 (3 of 3 Game Changer slots used; 3-card infinite combo; no MLD; no extra turns)
+**Archetype:** Spellslinger burn — copy-amplified X-spell finish
+**Role:** the deck pulled to **dictate pod tempo** when tired of losing to combo (see [[bracket_4_in_spirit]])
+**Bracket:** 3 (3 of 3 Game Changer slots used; **no infinite combo**; no MLD; no extra turns)
 **Game Changers:** Fierce Guardianship, Opposition Agent, Jeska's Will
-**Conversion Check:** 18/20 (5/4/4/5)
-**Kill Window:** Goldfish: T6–8 · Through interaction: T8–10
+**Conversion Check:** 19/20 (5/5/4/5)
+**Kill Window:** Goldfish T6–7 · Through interaction T7–9
+**Current decklist:** `lightning-war-20260607-122049.txt` (the `.txt` is ground truth; this is commentary)
 
 ---
 
 ## Commander Rules Text
 
-- **Firebending 2:** Whenever Azula attacks, add {R}{R}. **This mana lasts until end of combat.** (Without a mana-retention piece like Ozai or Leyline Tyrant, the firebending mana evaporates before main phase 2.)
-- **Spell Copy:** Whenever you cast a spell while Azula is attacking, copy that spell. You may choose new targets for the copy. A copy of a permanent spell becomes a token.
-- **Key rulings:** The copy resolves before the original. Copies are not "cast" (no re-triggers from cast-trigger creatures). X values are preserved. Additional costs paid on the original apply to the copy.
+- **Firebending 2:** Whenever Azula attacks, add {R}{R}. **This mana lasts until end of combat** — without a retention piece (Ozai, Leyline Tyrant) it evaporates before main phase 2.
+- **Spell Copy:** Whenever you cast a spell while Azula is attacking, copy that spell (you may choose new targets). A copy of a permanent spell becomes a token.
+- **Key rulings:** The copy resolves before the original. Copies are **not "cast"** (no re-trigger of cast-triggered abilities). X values are preserved. Additional costs paid on the original apply to the copy.
 
 ---
 
 ## What the Deck Is Trying to Do
 
-Azula turns your combat phase into the most dangerous part of the turn cycle. Every spell you cast while she's attacking is copied — instants natively, and everything else when a flash enabler is online. Mana retention pieces preserve firebending mana past end-of-combat so it compounds rather than drains.
+Azula turns your combat into the most dangerous part of the turn. Every instant/sorcery you cast while she attacks is copied — instants natively, sorceries once a flash enabler is online — and Twinning Staff makes every copy event **+1**. The deck's job is to **assemble a large X-spell into that copy engine and kill the table from one cast**, faster and more reliably than the pod's combo decks go off. You set the clock; they react.
 
-**Layer 1 — Flash Enablers** (4 cards: Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind) unlock the commander's full potential. Without one, you're limited to instants and flash permanents (~65% of spells). With one, every card in the deck is live for doubling during combat. Borne Upon a Wind is a one-shot version that cantrips — doubled by Azula, it draws two cards.
+This is a **race**, deliberately. The 2026-05-31 pod-loss review ([[pod_combo_opponent]], [[grand_abolisher_blocks_counters]]) showed that against Grand-Abolisher-protected combo, stacked counterspells are illusory — they're dead on the opponent's turn. The chosen answer is to **out-tempo and out-race**, not to build a static lock. (Defensive/lock options were evaluated and explicitly declined — see Audit Note.)
 
-**Layer 2 — Mana Retention** (2 cards: Ozai the Phoenix King, Leyline Tyrant) preserves firebending mana past end-of-combat. Ozai retains *all* unspent mana (re-coloring it red) and gains flying + indestructible at 6+ stored mana. Leyline Tyrant retains only red mana but pings for damage on death. **Required for the Aggravated Assault combo** — Azula's firebending mana otherwise evaporates at end of combat, so it cannot reach main phase 2 where Aggravated Assault must be activated.
+**Layer 1 — the copy engine.** Azula + **Twinning Staff** = every spell cast in her combat resolves 3×. Flash enablers (Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind) let sorceries join the party.
 
-**Layer 3 — Engine Amplifier** (1 card: Twinning Staff) adds +1 copy whenever a copy effect triggers. Azula's "copy that spell" + Twinning Staff = 2 copies (3 total resolving spells per cast). The biggest payoff is on Past in Flames, Yawgmoth's Will, and Jeska's Will turns, where one cast triples instead of doubles.
+**Layer 2 — X-spell finishers.** Crackle with Power, Comet Storm, Electrodominance, Banefire. Comet Storm and Electrodominance are instants — true 2-card kills (Azula + spell) with no enabler needed. Crackle is the highest ceiling (5×X to each of X targets). Banefire at X≥5 is **uncounterable** — the button for the player behind a counter wall.
 
-**Layer 4 — Native Flash Density** (~20 instants and flash permanents) means the deck functions even without a dedicated flash enabler. Cunning Nightbonder makes flash spells uncounterable and cheaper. Hullbreaker Horror, Opposition Agent, Faerie Mastermind, Snapcaster Mage, Vendilion Clique, and others provide flash bodies that Azula copies into token duplicates.
+**Layer 3 — copy-doublers.** Galvanic Iteration, Increasing Vengeance, Reiterate each multiply the X-spell on top of Azula. One finisher + one doubler in a combat is lethal spread.
 
-The play pattern: turns 1–3 ramp and hold interaction. Turn 4 cast Azula. Turn 5+ attack with Azula, generate firebending mana, cast spells during combat for doubled value. Between turns, you hold up counterspells and flash threats. You never choose between developing and disrupting — development happens during combat, disruption happens on everyone else's turn.
+**Layer 4 — execution ramp.** Storm-Kiln Artist (Treasure on every cast *and* copy), Goldspan Dragon (Treasures tap for 2), Blazing Firesinger (ritual on a body), Sanar (Treasure), Jeska's Will, and Dirgur Focusmage's cost reduction all spike on the kill turn. The 28-land base + rocks (Signet, Fellwar, both Talismans) + rituals carry the early game.
 
-Against your pod's combo player specifically: you hold mana up during their turn for three free counterspells (Fierce Guardianship, Force of Negation, Deflecting Swat) plus Opposition Agent to steal their tutored pieces. On your turn, you advance your own kill while they're forced to try going off into open mana.
+**Layer 5 — tutors.** Because Azula is always in the command zone, you only need to find **one** finisher. Emeritus of Woe (→ Demonic Tutor, any card), Sanar (→ Wild Idea, any instant/sorcery), and Mystical Teachings (instant-speed) make the kill consistent rather than draw-dependent.
+
+The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, bank Treasure, tutor toward a finisher, and close on your own turn while the pod is forced to go off into your open mana.
 
 ---
 
 ## Kill Lines
 
-**Line 1 — Aggravated Assault Infinite Combats (primary, 3-card combo)**
-Azula (firebending 2) + Ozai the Phoenix King (firebending 4, all unspent mana becomes red and *persists indefinitely*) = 6R per combat. Aggravated Assault costs **{3}{R} = 4 total** and is **sorcery-speed only** — activate during main phase 2 to chain to a new combat. Net **+2R per combat** = infinite combat phases with a 7/7 flying indestructible trampler and a 4/4 commander. Ozai is required because firebending mana otherwise drains at end of combat; Leyline Tyrant alone only retains red (insufficient — Azula's 2R alone doesn't cover the 4-mana activation). Irma copying Ozai (after Irma's beginning-of-combat retarget) gives a second firebending-4 attacker for +4R per combat.
+**Line 1 — Copy-amplified X-spell (primary, 2 cards).** Azula attacking + an X-spell. Crackle with Power X=4 with Twinning Staff = 3 instances × 20 = **~60 to each of up to 4 targets** = table-wipe lethal. Comet Storm / Electrodominance do it at instant speed with no flash enabler. Mana from Jeska's Will (doubled mid-combat), Storm-Kiln Treasures, Goldspan, and Ozai's retained red.
 
-**Line 2 — Graveyard storm with flash enabler**
-Flash enabler online + Yawgmoth's Will or Past in Flames during Azula's combat = replay your entire graveyard of instants and sorceries, each copied by Azula (and tripled if Twinning Staff is out). After a few turns of casting cantrips and interaction, your graveyard is deep. This is a non-infinite line that can deal 40+ damage in a single combat through copied burn, copied removal clearing blockers, and copied rituals generating mana for more spells.
+**Line 2 — Doubler stack.** X-spell + Galvanic Iteration / Increasing Vengeance / Reiterate during Azula's combat pushes instance count to 4–5; even modest X is lethal. Reiterate buyback chains while Treasures fund it (finite — no infinite-mana enabler).
 
-**Line 3 — Jeska's Will explosions**
-Jeska's Will during combat with Azula attacking = doubled. Two Jeska's Wills = add R equal to twice an opponent's hand size (typically 10–14R) plus exile top 6 cards of your library to cast this turn (each cast also doubled by Azula). This single card often generates enough mana and spells to kill one or two players in the same combat step.
+**Line 3 — Banefire through the wall.** X≥5 Banefire is uncounterable and can't be prevented; a one-player delete that ignores their countermagic. Doubled by Azula with a flash enabler for overkill.
 
-**Line 4 — Hullbreaker Horror soft lock**
-Cast Hullbreaker Horror during combat (7 mana, flash, can't be countered). Azula copies it — both stay (not legendary). Now every spell you cast bounces two nonland permanents or two spells on the stack. Near-complete lock that requires follow-up combat steps to close.
+**Line 4 — Graveyard storm (backup).** Flash enabler + Yawgmoth's Will / Past in Flames mid-combat replays the yard, each spell copied. Non-infinite, 40+ damage; vulnerable to Rest in Peace.
 
 ---
 
-## Conversion Check Assessment
+## Conversion Check Assessment — 19/20 (5/5/4/5)
 
-### Axis 1: Core Loop — 5/5
+**Core Loop — 5/5.** Engine is unmistakable from the 99: Azula + Twinning Staff + cast volume, ~28 cards directly serve the burn-finish loop. Functions with or without a flash enabler (instants copy natively).
 
-Two operating modes, both strong. With a flash enabler (4 in deck, ~65% chance by turn 6): every card in the deck interacts with Azula's copy trigger. Without one: ~20 instants and flash permanents still provide consistent doubling every combat. The floor is a functional Grixis Flash deck. The ceiling is every spell doubled plus mana storage compounding. 25+ cards directly serve the engine.
+**Kill Reliability — 5/5** (up from 4). Multiple 2-card lethal paths (Azula + Crackle / Comet / Electrodominance), copy-doublers for redundancy, and a **three-tutor package** (Emeritus of Woe, Sanar, Mystical Teachings) that finds the missing piece. No longer dependent on a single named combo.
 
-### Axis 2: Kill Reliability — 4/5
+**Durability — 4/5.** Premium mana base, commander protection (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon), and a deep instant/flash shell that tolerates attrition. Loses a point: the storm backup leans on the graveyard (Rest in Peace / Leyline of the Void hurt it), though the primary X-spell kill doesn't need the yard.
 
-Four distinct kill lines including one deterministic infinite (Aggravated Assault). The 3-card combo has redundancy on the mana generation half (Ozai, Leyline Tyrant, or large mana pools from Jeska's Will). Loses a point because Aggravated Assault is a single card — if exiled, the deck falls back on Lines 2–4 which are strong but non-deterministic. No tutor finds enchantments (Mystical Tutor was cut for GC slot constraints).
-
-### Axis 3: Durability — 4/5
-
-Premium mana base (3 fetches, 3 shocks, Cavern of Souls, Gemstone Caverns, Command Beacon, Reflecting Pool). Commander protection suite (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon). 4 flash enablers and 2 mana retention pieces — losing one doesn't collapse the engine. Graveyard recursion (Yawgmoth's Will, Past in Flames, Snapcaster Mage, Lost in Memories) provides recovery. **6 MDFCs** (Agadeem's Awakening, Malakir Rebirth, Valakut Awakening, Hydroelectric Specimen, Sink into Stupor, Waterlogged Teachings) smooth land/spell ratios.
-
-Loses a point because Rest in Peace shuts down graveyard lines, and the deck lacks enchantment removal outside of Vandalblast (artifacts only) and bouncing with Hullbreaker Horror.
-
-### Axis 4: Interaction Profile — 5/5
-
-Counterspells (8): Fierce Guardianship (free), Force of Negation (free), Deflecting Swat (free), Swan Song, Stubborn Denial, Delay, Three Steps Ahead, Narset's Reversal. Three free counterspells is the gold standard for combo disruption.
-
-Removal (7): Nowhere to Run (flash, -3/-3, strips hexproof/ward), V.A.T.S. (split second, uncounterable destruction), Toxic Deluge, Day of Black Sun (strips abilities then destroys), Snap (bounces + untaps lands), Vandalblast, The Last Agni Kai (fight + mana storage).
-
-Disruption (2): Opposition Agent (steals tutored pieces), Vendilion Clique (flash hand disruption).
-
-Protection (5): Deadly Rollick (free), Mithril Coat (flash indestructible), Silver Shroud Costume (flash shroud + unblockable), March of Swirling Mist (phase out), Hydroelectric Specimen (redirect targeting).
-
-During your own combat, interaction gets doubled.
-
-### Total: 18/20
+**Interaction — 5/5.** 8 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat), Opposition Agent, Vendilion Clique, Hullbreaker Horror, plus removal (Deadly Rollick, Nowhere to Run, Toxic Deluge, Snap, Vandalblast, Redirect Lightning, Untimely Malfunction, V.A.T.S.) — and the burn package doubles as cheap removal for Grand Abolisher and other keystone creatures. During your combat, interaction is copied.
 
 ---
 
 ## Bracket 3 Compliance
 
-**Game Changers (3/3):**
-1. Fierce Guardianship — free counterspell with commander in play
-2. Opposition Agent — steals opponent library searches
-3. Jeska's Will — massive mana + card advantage, doubled by Azula
+**Game Changers (3/3):** Fierce Guardianship, Opposition Agent, Jeska's Will. All race-build adds verified non-GC; note **Emeritus of Woe // Demonic Tutor is a distinct card not on the GC list** under its spell-half name (see [[sos_prepared_cards_not_on_gc_list]]) — it costs no GC slot.
 
-**Infinite combo:** Aggravated Assault + Ozai + Azula is a 3-card combo. Earliest realistic assembly is turn 6–7. Does not violate B3's "no intentional early-game two-card infinite combos" restriction.
+**Infinite combo:** **None.** Aggravated Assault (the old 3-card infinite) was cut. Reiterate + buyback is finite (no infinite-mana enabler). This is cleaner Bracket-3 than the prior build.
 
-**Extra turns:** None.
-**Mass land denial:** None.
+**Extra turns:** None. **Mass land denial:** None. Plays at Bracket-4 spirit via spell volume and X-spell burn within the 3-GC cap.
 
 ---
 
-## Pod Fit: The Combo Hunter
+## Pod Fit: Tempo Dictation
 
-1. **Mana is always up.** Development happens during combat, countermagic available on every opponent's turn.
-2. **Three free counterspells.** Stop combo attempts even when tapped out.
-3. **Opposition Agent steals tutored combo pieces.** Deploy at flash speed in response to their tutor.
-4. **Deterministic kill before they reassemble.** Aggravated Assault closes games in one combat step.
-5. **Doubled interaction during combat.** One removal spell kills two targets.
+1. **You set the clock.** Lead with engine creatures, tutor toward a finisher, force the pod to answer *your* T6–7 kill.
+2. **Burn doubles as removal.** Kill Grand Abolisher (a 2/2) on sight — Emeritus of Conflict's repeatable Bolt, Electrodominance, Guttersnipe, any X-spell — before it locks your turn.
+3. **Banefire ignores counters** (X≥5). The answer to the counter-wall player.
+4. **Opposition Agent steals tutored pieces** at flash speed; counters answer the combo as it's cast.
+5. **One-cast lethal that isn't a named combo** — harder to hate out than an infinite, because it's "just a big burn spell."
 
 ---
 
@@ -112,183 +88,42 @@ During your own combat, interaction gets doubled.
 
 | | Kuja (Genome Project) | Azula (Lightning War) |
 |---|---|---|
-| Engine timing | Main phase storm | Combat phase doubling |
-| Win condition | Burn + storm count | Infinite combats + doubled value |
-| Color access | BR | UBR (adds counterspells) |
-| Interaction density | Low (BR removal only) | Very high (8 counters + 7 removal) |
-| Play pattern | Explosive single turn | Incremental pressure with protection |
-| Commander dependency | High | Medium (deck functions without her) |
+| Engine timing | Main-phase storm | Combat-phase copy |
+| Win condition | Burn + storm count | Copy-amplified X-spell |
+| Color access | BR | UBR (adds counters) |
+| Interaction density | Low | Very high (8 counters + removal) |
+| Play pattern | Explosive single turn | Race + protect, kill on your turn |
 
-Azula is the only Grixis deck in the collection. No engine overlap with any existing deck.
-
----
-
-## Decklist (100 cards)
-
-### Commander (1)
-1 Fire Lord Azula
-
-### Game Changers (3)
-1 Fierce Guardianship
-1 Jeska's Will
-1 Opposition Agent
-
-### Flash Enablers (4)
-1 Leyline of Anticipation
-1 Vedalken Orrery
-1 High Fae Trickster
-1 Borne Upon a Wind
-
-### Mana Retention (2)
-1 Ozai, the Phoenix King
-1 Leyline Tyrant
-
-### Combo Piece (1)
-1 Aggravated Assault
-
-### Engine Amplifier (1)
-1 Twinning Staff
-
-### Flash Value Creatures (6)
-1 Cunning Nightbonder
-1 Faerie Mastermind
-1 Hullbreaker Horror
-1 Hydroelectric Specimen
-1 Snapcaster Mage
-1 Vendilion Clique
-
-### Non-Flash Value Creatures (3)
-1 Irma, Part-Time Mutant
-1 Nightscape Familiar
-1 Vivi Ornitier
-
-### Counterspells (5)
-1 Deflecting Swat
-1 Delay
-1 Force of Negation
-1 Stubborn Denial
-1 Swan Song
-
-### Instant-Speed Interaction (7)
-1 Narset's Reversal
-1 Three Steps Ahead
-1 Nowhere to Run
-1 V.A.T.S.
-1 The Last Agni Kai
-1 Sink into Stupor
-1 Untimely Malfunction
-
-### Removal (4)
-1 Snap
-1 Toxic Deluge
-1 Day of Black Sun
-1 Vandalblast
-
-### Commander Protection (4)
-1 Deadly Rollick
-1 Mithril Coat
-1 Silver Shroud Costume
-1 March of Swirling Mist
-
-### Card Draw / Selection (6)
-1 Consider
-1 Consult the Star Charts
-1 Demand Answers
-1 Frantic Search
-1 Sazacap's Brew
-1 Thrill of Possibility
-
-### Graveyard Recursion (4)
-1 Yawgmoth's Will
-1 Past in Flames
-1 Necromancy
-1 Lost in Memories
-
-### Rituals (2)
-1 Dark Ritual
-1 Desperate Ritual
-
-### Themed / UB-Set Spells (3)
-1 Fated Firepower
-1 Redirect Lightning
-1 Vivi's Persistence
-
-### Utility Spells (4)
-1 Observed Stasis
-1 Mystical Teachings
-1 Waterlogged Teachings
-1 Flash Photography
-
-### Artifacts (1)
-1 Brotherhood Regalia
-
-### The Unagi (1)
-1 The Unagi of Kyoshi Island
-
-### Ramp (4)
-1 Arcane Signet
-1 Fellwar Stone
-1 Talisman of Dominance
-1 Talisman of Indulgence
-
-### Lands (30)
-1 Arena of Glory
-1 Blood Crypt
-1 Bloodstained Mire
-1 Cascade Bluffs
-1 Cavern of Souls
-1 Command Beacon
-1 Command Tower
-1 Gemstone Caverns
-1 Haunted Ridge
-1 Horizon of Progress
-1 Luxury Suite
-1 Morphic Pool
-1 Mount Doom
-1 Otawara, Soaring City
-1 Plaza of Heroes
-1 Polluted Delta
-1 Reflecting Pool
-1 Scalding Tarn
-1 Shipwreck Marsh
-1 Shizo, Death's Storehouse
-1 Starting Town
-1 Steam Vents
-1 Stormcarved Coast
-1 Talon Gates of Madara
-1 Training Center
-1 Watery Grave
-1 Xander's Lounge
-1 Island
-1 Mountain
-1 Lindblum, Industrial Regency
-
-### MDFC Lands (3)
-1 Agadeem's Awakening
-1 Malakir Rebirth
-1 Valakut Awakening
-
-### Utility Land (1)
-1 Bojuka Bog
+Azula is the only Grixis deck in the collection. No engine overlap.
 
 ---
 
-## Audit Note (2026-05-05)
+## Engine Role Map (key cards; full 99 in the `.txt`)
 
-Summary corrected against decklist `lightning-war-20260413-153124.txt` and verified Scryfall card text:
+- **Commander:** Fire Lord Azula
+- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind)
+- **X-spell finishers:** Crackle with Power, Comet Storm, Electrodominance, Banefire
+- **Copy-doublers:** Galvanic Iteration, Increasing Vengeance, Reiterate
+- **Passive burn / amplifier:** Guttersnipe, Fated Firepower, Emeritus of Conflict // Lightning Bolt
+- **Execution ramp:** Storm-Kiln Artist, Goldspan Dragon, Blazing Firesinger // Seething Song, Jeska's Will, Dark/Desperate Ritual, Sanar's Treasure
+- **Cost reduction:** Dirgur Focusmage // Braingeyser, Nightscape Familiar
+- **Tutors:** Emeritus of Woe // Demonic Tutor, Sanar // Wild Idea, Mystical Teachings
+- **Mana retention:** Ozai the Phoenix King, Leyline Tyrant
+- **Graveyard storm:** Yawgmoth's Will, Past in Flames, Necromancy
+- **Counters (8):** Fierce Guardianship, Force of Negation, Deflecting Swat, Delay, Stubborn Denial, Swan Song, Three Steps Ahead, Narset's Reversal
+- **Disruption / removal:** Opposition Agent, Vendilion Clique, Hullbreaker Horror, Deadly Rollick, Nowhere to Run, Toxic Deluge, Snap, Vandalblast, Redirect Lightning, Untimely Malfunction, V.A.T.S.
+- **Protection:** Mithril Coat, Silver Shroud Costume, March of Swirling Mist
+- **Ramp rocks (4):** Arcane Signet, Fellwar Stone, Talisman of Dominance, Talisman of Indulgence
+- **Lands (28)** + filtering cantrips (Consider, Frantic Search, Faithless Looting, Valakut Awakening, Sink into Stupor, Waterlogged Teachings) round out the 99.
 
-- **Azula firebending text**: corrected from "lost at second main phase" → "lasts until end of combat" (actual oracle text). Combo dependency on Ozai/Leyline Tyrant clarified.
-- **Aggravated Assault cost**: corrected from `{3}{R}{R} = 5` → **`{3}{R} = 4`**. Net combat margin updated from +1R to +2R. Sorcery-speed restriction added.
-- **Twinning Staff added** to section breakdown — was in the .txt main deck but absent from the summary's category listing. Now classified as Engine Amplifier (Layer 3).
-- **Talisman of Creativity removed** from Ramp section — actually in sideboard (`SIDEBOARD:` line of .txt), not main deck.
-- **Lost in Memories** moved Card Draw → Graveyard Recursion (it's a flash Aura that grants flashback to graveyard cards via combat damage).
-- **Flash Photography** moved Graveyard Recursion → Utility Spells (it's a permanent-copy sorcery; flashback is secondary).
-- **Vivi Ornitier** moved Flash Value Creatures → Non-Flash Value Creatures (no flash; once-per-turn mana ability).
-- **MDFC count**: corrected from 3 → **6** (added Hydroelectric Specimen, Sink into Stupor, Waterlogged Teachings — all have land back faces).
-- **"ATLA Spells" → "Themed / UB-Set Spells"**: section name was misleading; Fated Firepower is Theros block, Redirect Lightning is Strixhaven Lesson, Vivi's Persistence is Final Fantasy.
+---
 
-**Cross-deck conflicts**: None for this deck. (DeckSafe shows Bojuka Bog at -1 across 7 decks, but Lightning War has a physical copy allocated; the deficit lies in a different deck.) All other shared cards have surplus copies.
+## Audit Note (2026-06-07)
 
-**GC compliance**: 3/3 (Fierce Guardianship, Opposition Agent, Jeska's Will) — verified against current GC list. `REF_Game_Changers_List.md` updated 2026-05-05.
+Rewritten from the prior "Hybrid Build" summary (CC 18/20) to match the applied **race / burn build** (`lightning-war-20260607-122049.txt`). The Aggravated Assault infinite-combat plan was removed from the deck across three passes (burn pivot → burn v2 → round 2); this summary no longer teaches it. See `Lightning_War_Burn_Pivot_2026-05-31.md` for the full swap history and buy list.
 
-**Card count**: 99 main + 1 commander = 100 ✓.
+- **Race over lock — confirmed by user.** Restoring a 2nd board wipe (Day of Black Sun) and adding static disruption (Pithing Needle / Trickbind / Tormod's Crypt) were both evaluated and **declined**: the deck is meant to dictate tempo, not grind. (Aven Mindcensor was rejected as a candidate — it's white, illegal in Grixis.) See [[2026-05-31-pod-swaps]].
+- **Ramp/tempo impact measured:** 28 lands untouched; mana/Treasure/cost-reduction sources 37→40 (execution-weighted, not earlier acceleration); nonland avg CMC 2.34→2.30; flash density 21→19; creatures 13→15.
+- **CC moved 18→19** via Kill Reliability 4→5 (multiple 2-card kills + tutor package). Interaction held at 5/5 despite trimming situational removal (Hydroelectric Specimen, The Last Agni Kai, Observed Stasis, Day of Black Sun cut).
+- **GC compliance:** 3/3 unchanged. Emeritus of Woe // Demonic Tutor is GC-free per list-by-name ([[sos_prepared_cards_not_on_gc_list]]).
+- **Card count:** 99 main + 1 commander = 100 ✓ (Talisman of Creativity remains in sideboard).

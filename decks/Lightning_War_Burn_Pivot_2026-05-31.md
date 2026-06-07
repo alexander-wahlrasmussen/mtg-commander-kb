@@ -1,7 +1,7 @@
 # Fire Lord Azula (Lightning War) — Burn-Finish Pivot (2026-05-31)
 
-**Deck:** Lightning War (`lightning-war-20260413-153124.txt`)
-**Status:** **Active proposal. Supersedes `Lightning_War_Swaps_2026-05-31.md`** (the matchup-defense swap, which user evaluated and replaced with this offensive pivot.)
+**Deck:** Lightning War (`lightning-war-20260607-122049.txt` — pivot APPLIED + extended through round 2; old `lightning-war-20260413-153124.txt` archived)
+**Status:** **APPLIED 2026-06-07, consolidated into "burn v2", then round 2.** The 8 swaps below are live, plus 6 burn-v2 swaps (see "Burn v2 consolidation") and 2 round-2 swaps (see "Round 2"). Supersedes `Lightning_War_Swaps_2026-05-31.md` (the matchup-defense swap, which user evaluated and replaced with this offensive pivot).
 **Trigger:** 2026-05-30 pod session loss + 2026-05-31 conversation. User goal: "make it bracket-4-in-spirit while staying at 3 GCs." Identity matters less than fry-the-opponents power level.
 **Constraint:** **3-GC hard cap holds** (Fierce Guardianship / Opposition Agent / Jeska's Will). Stays officially Bracket 3, plays at Bracket 4 spirit via spell-volume and X-spell burn finish.
 
@@ -185,6 +185,57 @@ Verify on Cardmarket per [[verify-prices]]. Goldspan Dragon has variable pricing
 
 ---
 
+## Burn v2 consolidation (applied 2026-06-07)
+
+On top of the 8 pivot swaps above, 6 further swaps push the deck deeper into the burn engine. User authorized buying whatever's required. All adds verified non-GC (deck holds 3/3: Fierce Guardianship / Opposition Agent / Jeska's Will). Final list = `lightning-war-20260607-111442.txt`, 99 + Azula.
+
+| Out | In | Owned? | Role |
+|---|---|---|---|
+| Faerie Mastermind | **Sanar, Unfinished Genius // Wild Idea** | ✅ 1x, undeployed | 2-mana legend: tutors any instant/sorcery to hand (Wild Idea) + taps for Treasure after a spell. Fixes "draw a finisher naturally." |
+| Hydroelectric Specimen | **Emeritus of Conflict // Lightning Bolt** | ✅ 1x, undeployed | Re-prepares every turn you cast your 3rd spell → repeatable free Lightning Bolt, Azula-copied for 9. |
+| Lost in Memories | **Blazing Firesinger // Seething Song** | ✅ 2x, undeployed | 2/3 body that's also a {R}{R}{R}{R}{R} ritual on demand. More flexible than raw Seething Song. |
+| Consult the Star Charts | **Increasing Vengeance** | ❌ buy ~$1-2 | One-sided copy of your instant/sorcery (twice from yard); instant, flashback. Cleanest multiplier — no flash enabler needed. |
+| Irma, Part-Time Mutant | **Electrodominance** | ✅ 2x, undeployed | Instant X to any target + free-cast a spell MV≤X. True 2-card kill (instant = Azula-copyable natively). |
+| The Last Agni Kai | **Banefire** | ❌ buy ~$0.50 | At X≥5 uncounterable + damage can't be prevented. The dedicated answer to the Grand-Abolisher counter-wall combo pod. |
+
+**Prepared-mechanic note:** the SOS "spell // creature" cards (Sanar, Emeritus of Conflict, Blazing Firesinger) cast a *copy of their spell* while prepared — that's a real cast, so it triggers Azula's copy + magecraft (Storm-Kiln / Guttersnipe), and the creature **stays** afterward. Body + copyable spell. **Rejected: Emeritus of Woe // Demonic Tutor** — back face is Demonic Tutor, a Game Changer; deck is at the 3/3 cap.
+
+**Why these cuts:** all six are pure value/control with no burn role (Faerie Mastermind value flyer, Hydroelectric Specimen niche redirect, Lost in Memories slow aura, Consult dig now covered by Wild Idea's tutor, Irma's Ozai-copy role fades, Last Agni Kai narrow fight without the Aggravated Assault combo). **All 8 counters retained** — interaction is the deck's edge vs the pod. Flash enablers retained (more important now — sorcery X-spells need them to be Azula-copied). Cunning Nightbonder retained: with a flash-grantor online it makes the whole hand uncounterable through the pod's counter walls.
+
+**Combined buy list (pivot + v2), 6 cards, all 0 owned or owned-but-deployed:**
+
+| Card | Price (unverified) | Note |
+|---|---|---|
+| Comet Storm | ~$0.50-2 | pivot |
+| Galvanic Iteration | ~$0.50-2 | pivot |
+| Reiterate | ~$1-3 | pivot |
+| Goldspan Dragon | ~$5-10 | pivot — owned 1x but **deployed in Replication Crisis**; buy a 2nd or pull |
+| Increasing Vengeance | ~$1-2 | v2 |
+| Banefire | ~$0.50 | v2 |
+
+**Total ~$8-20.** Prices flagged unverified per [[verify-prices]] — confirm on Cardmarket. The other 8 adds (Crackle, Storm-Kiln, Guttersnipe, Faithless Looting, Sanar, Emeritus of Conflict, Blazing Firesinger, Electrodominance) are owned in surplus and undeployed.
+
+---
+
+## Round 2 (applied 2026-06-07) — tutor + cost-reduction, GC-list reread
+
+User corrected the earlier GC concern: the Game Changers list names **"Demonic Tutor"**, but **"Emeritus of Woe // Demonic Tutor" is a distinct card not itself on the list** — so it does NOT count against the 3-GC cap. (Letter-of-the-list; the only contest path is a pod ruling spell-half cards as their named spell. Deck still holds 3 *listed* GCs: Fierce Guardianship / Opposition Agent / Jeska's Will.) That unlock drove a second pass — the strongest Prepared cards are the ones whose spell halves are marquee effects.
+
+| Out | In | Owned? | Role |
+|---|---|---|---|
+| Day of Black Sun | **Emeritus of Woe // Demonic Tutor** | ❌ buy (SOS) | 5/4 body, ETB prepared → cast a **Demonic Tutor** copy (search ANY card). Biggest kill-reliability gain — fetch Crackle / Twinning Staff / a flash enabler / a copy-doubler. Re-prepares on 2+ creature deaths. Cut the redundant 2nd symmetric sweeper (Toxic Deluge stays) that fought the attack plan. |
+| Thrill of Possibility | **Dirgur Focusmage // Braingeyser** | ❌ buy (SOS) | 1/4 **Baral-style cost reducer** (instant/sorcery cost {1} less = bigger X, more volume) + becomes prepared off any 5-MV+ X-spell → cast **Braingeyser** to refill. Cut a redundant filterer (Faithless Looting / Frantic Search / Consider / Valakut Awakening remain). |
+
+**Held as optional:** Emeritus of Ideation // Ancestral Recall (owned 1×) — premium draw-3 on a 5/5 flyer, but {3}{U}{U} double-blue is a real mana-base ask. Add only if the deck wants more refuel.
+
+**Buy-list delta (round 2):** Emeritus of Woe + Dirgur Focusmage, both 0 owned. SOS Prepared cards with marquee spell halves can carry a premium (Emeritus of Woe especially, since Demonic Tutor is desirable) — prices unverified, check Cardmarket. Combined buy list is now 8 cards: Comet Storm, Galvanic Iteration, Reiterate, Goldspan Dragon (owned but in Replication Crisis), Increasing Vengeance, Banefire, Emeritus of Woe, Dirgur Focusmage.
+
+**Verified prices (2026-06-07, Cardmarket EUR — Scryfall eur snapshot 2026-06-01 + live check on Emeritus of Woe):** Emeritus of Woe // Demonic Tutor **~€10–15** (SOS chase, 30-day avg €13.54, trending up — ~half the spend), Reiterate ~€7.02 (TSR printing; cheaper printings may exist), Goldspan Dragon ~€4.95, Comet Storm ~€1.33, Increasing Vengeance ~€1.04, Dirgur Focusmage ~€0.57, Banefire ~€0.55, Galvanic Iteration ~€0.28. **Total ~€26–32.** Prices above (in $) in earlier tables are superseded by these.
+
+---
+
 ## Changelog
 
+- **2026-06-07 (round 2):** Added Emeritus of Woe // Demonic Tutor (−Day of Black Sun) and Dirgur Focusmage // Braingeyser (−Thrill of Possibility) after user reread the GC list (Emeritus of Woe ≠ the listed "Demonic Tutor"). New `.txt` `lightning-war-20260607-122049.txt` (99 + Azula); same-session intermediate `...-111442.txt` removed (never committed). 3 listed GCs unchanged.
+- **2026-06-07:** Pivot APPLIED and consolidated into burn v2. New `.txt` `lightning-war-20260607-111442.txt` written (99 + Azula, recounted to 100), old `20260413` archived. Added 6 further burn swaps incl. 3 SOS Prepared cards (Sanar, Emeritus of Conflict, Blazing Firesinger). Cross-deck check caught Goldspan Dragon deployed in Replication Crisis (owned 1x, not free). Rejected Emeritus of Woe // Demonic Tutor (GC). 3-GC cap holds.
 - **2026-05-31:** Pivot doc created. Replaces matchup-defense swap (`Lightning_War_Swaps_2026-05-31.md`, now marked superseded). User explicitly chose offensive pivot over defensive after seeing the kill math. CC moves from 18/20 to 19/20 via Kill Reliability bump. Cross-deck conflict: Birgi was the original 7th add but is deployed in Genome Project (zero surplus) — replaced with Goldspan Dragon. Buy cost dropped from ~$50+ defense-swap to ~$7-17 by leveraging owned surplus (Crackle, Faithless Looting, Guttersnipe, Mizzix's Mastery candidates, Storm-Kiln Artist). Identity-shift: "Combo Hunter" → "Spellslinger burn finisher with combo backup."
