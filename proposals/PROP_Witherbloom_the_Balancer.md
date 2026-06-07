@@ -394,6 +394,83 @@ The Conversion Check's mechanical distinctiveness rule (`REF_Bracket_3_House_Rul
 
 ---
 
+## Consistency scale-up (GC-neutral) — added 2026-06-07
+
+Goal: raise combo-assembly consistency toward the reliable-T6 feel of the external Bracket-4 build (see `Witherbloom_External_Build_Comparison.md`) **without exceeding the 3-GC cap** — Necropotence / Vampiric / Demonic stay locked. Verified via `deck_sim.py` + a redundant-combo model + a mana-aware deployment model (40k trials each).
+
+**Principle:** Game Changers are mostly premium tutors / engines / fast mana. *Card* consistency comes from **redundancy + non-GC tutor density**, not GCs. The v1 combo was choked on a single Exquisite Blood (the "opp loses → you gain" half) with only ~4 broad tutors that could find it.
+
+### Lever 1 — fix the bottleneck (all non-GC)
+
+Pool search (BG-legal, non-GC) found redundancy for both halves:
+
+- **Bloodthirsty Conqueror** (`{3}{B}{B}`, 5/5 flying deathtouch) — *"Whenever an opponent loses life, you gain that much life."* A **2nd Exquisite Blood**, and a *creature* (green creature-tutors can fetch it; doubles as an affinity body).
+- **Enduring Tenacity** (`{2}{B}{B}`) — Vito-half that returns as an enchantment when it dies (resilient redundancy).
+- **Defiant Bloodlord** (`{5}{B}{B}`) — 3rd Vito-half.
+
+Bottleneck half: **1 → 2** copies. Drain half: **2 → 4** copies. Because both halves now have creature members, a new non-GC tutor tier becomes combo-relevant: **Chord of Calling, Finale of Devastation, Nature's Rhythm, Tooth and Nail**. ⚠️ Do **not** use Natural Order / Survival of the Fittest / Worldly Tutor for this — those are GCs.
+
+### Lever 2 — borrow the external build's token loop (all non-GC)
+
+Add the affinity loop as a parallel, shared-substrate line: Sprout Swarm / Lab Rats / Corpse Dance + Phyrexian Altar / Warren Soultrader + Mirkwood Bats / Blood Artist / Zulaport / Marionette Apprentice. Line A (Blood+Vito) stays **commander-independent**, so this adds an axis without making the deck fold to commander removal.
+
+### Card-availability lift (combo assembled in hand, with tutors)
+
+| build | GCs | T5 | T6 | T10 |
+|---|---|---|---|---|
+| v1 — current proposal | 3 | 15% | 18% | 29% |
+| v2a — +Lever 1 only | 3 | 43% | 48% | 66% |
+| v2b — +Levers 1&2 | 3 | 56% | **62%** | 80% |
+| *(external Bracket-4 build)* | *6* | *19%* | *23%* | *42%* |
+
+Lever 1 alone (still 3 GC) already doubles the 6-GC external build's T6 availability.
+
+### Mana matters — availability ≠ kill turn
+
+`deck_sim.py` ignores mana for combos by design (it is a card-flow tool, not a rules engine). A mana-aware deployment model (36 lands + 10 dorks + Sol Ring + Arcane Signet; greedy turn-by-turn; tutors cost mana; affinity reductions applied; commander cast only with leftover mana) shows the real gate for v2b:
+
+| turn | 4 | 5 | 6 | 7 | 8 | 10 |
+|---|---|---|---|---|---|---|
+| card-available (no mana) | 48% | 53% | 58% | 63% | 67% | 75% |
+| **deployable (mana-aware)** | 4% | 16% | **31%** | 43% | 53% | 67% |
+
+Mana roughly **halves** the T6 figure (58% available → 31% deployable); the curves converge by T10. **Honest expected kill window: T6–7, majority shot by T8.**
+
+**The GC nuance:** *card* consistency scales freely without GCs, but converting it into a reliable **T6** kill needs fast mana — and the explosive fast mana (Mana Vault, Ancient Tomb, Chrome Mox, Mox Diamond, Grim Monolith, Lion's Eye Diamond) is **GC-gated**. With non-GC acceleration only (Sol Ring [not a GC], Arcane Signet, the dork package, Jet Medallion, Dark/Cabal Ritual, treasures) the deck lands at a reliable **T6–7**, T6 as the nut. Making T6 the *expected* kill would cost GC slots on fast mana — out of scope under the cap.
+
+### Recommended mana base (to hit the curve above)
+
+~36 lands with strong BG fixing (duals/fetches; Urborg + Cabal Coffers package), **10 mana dorks** (Birds, Llanowar/Elvish/Fyndhorn/Boreal/Arbor Elf, Elves of Deep Shadow, Gilded Goose, Delighted Halfling, Deathrite Shaman), **Sol Ring + Arcane Signet + Jet Medallion**, plus 2–3 rituals for burst. Dorks double as affinity bodies and Line-B board.
+
+### Net build delta (GC count unchanged: 3/3)
+
+- **Add:** Bloodthirsty Conqueror, Enduring Tenacity, Defiant Bloodlord; Sprout Swarm, Lab Rats, Corpse Dance, Warren Soultrader, Mirkwood Bats, Blood Artist, Zulaport Cutthroat, Marionette Apprentice (Phyrexian Altar already listed); non-GC tutors Chord of Calling, Finale of Devastation, Nature's Rhythm, Tooth and Nail, Beseech the Queen, Increasing Ambition, Dark Petition.
+- **Cost:** ~15–20 slots crowd out interaction/value — the real trade is **deck space, not GCs**.
+- Pushes harder into bracket-4-in-spirit ([[bracket-4-in-spirit]]); still Bracket-3-legal by GC count.
+
+### Build-ready v2b list + head-to-head sim (2026-06-07)
+
+Full 100-card list saved at **`proposals/witherbloom-balancer-v2b-20260607.txt`** — validated: 100 cards, **3 GC** (Necropotence/Vampiric/Demonic), 36 lands, all BG-legal, no dupes. Mana base as recommended above (36 lands + 10 dorks + Sol Ring/Arcane Signet/Jet Medallion + Dark/Cabal Ritual).
+
+Mana-aware head-to-head vs the external Bracket-4 build (same deployment engine, 40k trials):
+
+| @ turn 6 | v2b (3 GC) | external (6 GC) |
+|---|---|---|
+| card-available (no mana) | **58%** | 25% |
+| mana-aware deployable | **33%** | model-limited* |
+
+v2b deployable climbs to **46% T7 / 56% T8 / 70% T10**.
+
+\*The deployment model **does not simulate token creation**, so it under-credits the external build's commander+board-dependent token loop (its 4-creature affinity board comes from token-makers the model can't produce). The fair quantitative comparison is **card-availability**: v2b finds its kill ~2.3× more often by T6 (58% vs 25%). Structurally the external kill is also strictly *slower to execute* — its only line needs the 8-MV commander + a 3-piece loop + a 4-creature board, with **no fast rocks**; v2b's primary (Line A) is a commander-independent **2-card** combo backed by Sol Ring. **Net: at 3 GC, v2b both finds and deploys its kill earlier and more reliably than the 6-GC external build.** GC count is not the consistency lever — redundancy, a commander-independent line, and non-GC fast mana are.
+
+**Ownership/contention (pre-sleeve DeckSafe pass still required):** new buys include Bloodthirsty Conqueror, Enduring Tenacity, Defiant Bloodlord, Jet Medallion, Dark Petition. Single-copy staples to arbitrate: Vampiric Tutor (1 owned, contested), Razaketh (1 of 2 — Pest Control). Bloom Tender deliberately **not** used here to dodge the triple-contention. Survival of the Fittest not used (frees that contested GC for other decks).
+
+### Method caveats
+
+These are consistency estimates, not a rules engine: lands enter untapped, one dork/turn, no interaction/wipes, no token generation modeled (under-credits board-dependent lines), rituals modeled as one-shot, trigger cost treated as negligible. The **relative lifts** and the **availability-vs-deployable gap** are the trustworthy outputs, not the absolute percentages.
+
+---
+
 ## Card text re-verification log (2026-06-01, post-Scryfall update)
 
 Re-checked the cards this proposal depends on:
@@ -423,3 +500,10 @@ Re-checked the cards this proposal depends on:
 - **Devoted Druid + Quillspike** — to verify at build time (classic combo, but check exact wording)
 
 **Hashaton 2026-05-02 risk addressed** — all primary commander interactions and combo pieces verified post-Scryfall-refresh on 2026-06-01.
+
+**Scale-up additions verified 2026-06-07** (via `card_lookup.py`):
+- **Bloodthirsty Conqueror** — confirmed `{3}{B}{B}`, 5/5 flying deathtouch, *"Whenever an opponent loses life, you gain that much life"* (a true 2nd Exquisite Blood; ruling notes damage = life loss). Color identity B.
+- **Enduring Tenacity** — confirmed `{2}{B}{B}` Enchantment Creature, *"Whenever you gain life, target opponent loses that much life"* + returns as an enchantment when it dies. Ruling explicitly cites the Exquisite Blood loop. Color identity B.
+- **Defiant Bloodlord** — confirmed `{5}{B}{B}`, *"Whenever you gain life, target opponent loses that much life."* Color identity B.
+- Extort cards (Crypt Ghast, Pontiff of Blight, etc.) checked and **rejected** — they trigger on casting a spell, not on life loss, so they do not form the loop.
+- GC check on all added tutors/pieces: none are on the Feb 2026 GC list. Deck stays 3/3 (Necropotence, Vampiric, Demonic).
