@@ -6,7 +6,7 @@ interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
 
-Last built: **2026-06-01**.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap.
 
 ---
 
@@ -45,22 +45,22 @@ needs its fixing rocks to come online to function on curve.
 
 | Deck | Score | Clock (goldfish) | Beats T6–7? | Through Abolisher? | Colour T6 (lands) | Verdict vs pod |
 |---|---|---|---|---|---|---|
-| The Replication Crisis | 17 | T6–8 (T5 god-draw) | ⚠ only on a god-draw | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 77% | **Even — overrated as a race** |
+| The Replication Crisis | 17 → 18–19 | T6–8 (T5 god-draw) | ⚠ only on a god-draw | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 77% | **Even — overrated as a race** (pending Kiki swap; see note) |
 | The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 48% ⚠ | **Favoured — grind/oppress** |
 | The Exile's Return | 17→18 | T6–8 | ✅ | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs | 79% | **Favoured** |
 | The Grand Design | 19 | T6–8 | ✅ | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 39% ⚠⚠ | **Favoured (if it hits colours)** |
 | Lightning War | 18 | T6–8 | ✅ races | ⚠ counter-reliant; burn can finish through a lock | 67% | **Even–favoured — outrace** |
 | The Loam Cycle | 19 | T6–8 | ✅ | ⚠ FG + Counterspell only (dead under Abolisher); no static hate | 71% | **Even** |
-| Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 80% | **Even** |
+| Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 82% | **Even** |
 | Radiation Sickness | 18 | T6–9 | ⚠ | ⚠ counters + Force of Negation (off-turn, pre-Abolisher only) | 69% | **Even** |
 | Curse of the Scarab | 17 | T7–9 | ❌ | ⚠ FG counter; otherwise reactive | 87% | **Even–underdog** |
 | Crystal Sickness | 17 | T7–9 | ❌ | ⚠ FG counter; reanimator is slow to disrupt | 88% | **Underdog** |
 | The Genome Project | 15 | T7–9 | ❌ | ⚠ some counters; combo-reliant itself | 88% | **Underdog** |
 | Lorehold Spirits | 18 | T7–9 | ❌ | ❌ no counters; Teferi's Protection only survives, doesn't stop | 95% | **Underdog** |
-| Earthbend the Meta | 17 | T7–9 | ❌ | ❌ no counters; slow; fixing-dependent | 41% ⚠⚠ | **Underdog** |
+| Earthbend the Meta | 17 | T7–9 | ❌ | ❌ no counters; slow; fixing-dependent | 40% ⚠⚠ | **Underdog** |
 | The Dark Lord's Army | 19 | T8–10 | ❌ | ⚠ 15 interaction but slow clock loses the race | 67% | **Underdog — too slow** |
 | Ms. Bumbleflower | 15 | T8–10 | ❌ | ⚠ 5/5 interaction but combat-only kill is far too slow | 77% | **Underdog — too slow** |
-| Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 67% | **Underdog — no disruption** |
+| Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 66% | **Underdog — no disruption** |
 
 *(Peace Offering is off the active roster and excluded.)*
 
@@ -73,6 +73,20 @@ needs its fixing rocks to come online to function on curve.
 > Replication's counter-based protection, this is an even matchup, not a
 > favoured outrace. Treat the audited "goldfish" numbers as optimistic floors
 > throughout this table, not expected kill turns.
+
+> **Pending fix — the Kiki swap closes the Satya-dependence (proposed 2026-06-01,
+> not yet applied).** `decks/The_Replication_Crisis_Swaps_2026-06-01.md` proposes
+> **+Kiki-Jiki, Mirror Breaker / −Bident of Thassa** (1-for-1, stays 99+1 and 3/3
+> GCs). Kiki-Jiki + Zealous Conscripts and Kiki-Jiki + Restoration Angel — **both
+> partners are already in the 99** (verified 2026-06-05) — are infinites that win
+> on *assembly*, needing **neither Satya nor a connecting attack**, which is
+> exactly the weakness that pins this row. Projected **18–19/20**. Three caveats
+> keep the *current* verdict Even: the swap is **not applied to the `.txt`**
+> (Kiki is an unowned ~€10–15 buy), it needs **pod approval** (a 4th standing
+> 2-card-infinite exception — see [[REF_Bracket_3_House_Rules]]), and as a 2-card
+> combo it's still only ~2% to draw naturally (sim) — it raises the deck's
+> *resilience and ceiling*, not its expected clock against a T6–7 pod. Once Kiki
+> lands, add the two Kiki lines to `sim_profiles.json` and re-derive this row.
 
 ---
 
@@ -93,7 +107,7 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
 2. **Colour-fixing is the real consistency divide, and it's invisible in the
    land count.** Land counts are near-uniform (~4.6–4.8 lands by T6 everywhere),
    but all-colours-from-lands ranges from 95% (Lorehold, Boros) down to **39%
-   (Grand Design, WUBG) and 41% (Earthbend, Naya)**. Those two decks are
+   (Grand Design, WUBG) and 40% (Earthbend, Naya)**. Those two decks are
    *structurally dependent on mana rocks* to cast on curve — a real fragility the
    audits don't surface. Worth a fixing pass (more dual lands / fewer
    colour-screw keeps) on Grand Design especially, given it's a 19/20 we lean on
@@ -122,12 +136,14 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    — just not the deck you bring to this pod.** Don't try to speed them up at the
    cost of their identity; pick a faster deck for this table.
 
-4. **One alias-table fix outstanding.** `deck_sim.py` now resolves UB reskins
-   through `REF_Reskin_Aliases.md`, so all but one card map correctly. The
-   exception is **Bayo, Irritable Instructor** (Genome Project): the alias table
-   keys it under "Bayo / Electro", which doesn't match the decklist name, and its
-   analogue (Electro Assaulting Battery) isn't in the local data. Worth a one-line
-   correction to the alias table — it's a single non-land, so the numbers hold.
+4. **Alias resolution is now clean (was: Bayo outstanding).** As of the
+   2026-06-05 rebuild, `deck_sim.py` resolves every UB reskin through
+   `REF_Reskin_Aliases.md` — **zero unresolved cards across all 16 active decks**.
+   The previously-flagged exception, **Bayo, Irritable Instructor** (Genome
+   Project), was corrected in the alias table to point at the printed card
+   `Electro, Assaulting Battery`, so Genome's colour figure (88%) and
+   Diminishing's (80% → 82%, as Castle Shimura → Eiganjo Castle now counts as a
+   white source) are computed on fully-resolved lists. No outstanding data gaps.
 
 ---
 
