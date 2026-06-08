@@ -12,12 +12,23 @@
   },
 
   "lightning-war": {
-    "_note": "Leyline Tyrant is redundancy for Ozai as the mana half; modelled here as the canonical pair only, so the floor slightly understates assembly. No enchantment tutors in the deck (Aggravated Assault must be drawn).",
-    "tutors": [],
+    "_note": "UPDATED 2026-06-08 for the burn pivot — the old Aggravated Assault + Ozai combo was CUT (see proposals/Lightning_War_Speed_Curve_Analysis.md). The kill is now Azula (always free in the command zone) + one X-finisher, so only ONE library piece is required. Modelled as pieces=[Crackle with Power] with the other three finishers AND the three real tutors listed as wildcards: the 'drawn' row counts Crackle alone and UNDERSTATES; read the '+tutors' row, which = P(>=1 of the 4 burn finishers OR a tutor in hand). Mystical Teachings fetches instants only (slightly optimistic as a wildcard for the sorcery finishers). Twinning Staff / Galvanic Iteration / Increasing Vengeance / Reiterate amplify but aren't required, so they're not modelled here.",
+    "tutors": ["Comet Storm", "Electrodominance", "Banefire", "Mystical Teachings", "Emeritus of Woe", "Sanar, Unfinished Genius"],
     "combos": [
       {
-        "name": "Aggravated Assault + Ozai (infinite combats; Azula free)",
-        "pieces": ["Aggravated Assault", "Ozai, the Phoenix King"]
+        "name": "Azula + an X-finisher (Crackle / Comet / Electrodominance / Banefire); commander free",
+        "pieces": ["Crackle with Power"]
+      }
+    ]
+  },
+
+  "calamity-tax": {
+    "_note": "Committed V1 list (calamity-tax-20260405-061741.txt). The PRIMARY kill (Torment of Hailfire, and Exsanguinate once the 2026-05-31 swap is applied) is a single card + big mana — NOT a piece combo — so it is NOT modeled here; measure it as finisher availability + the mana curve (see proposals/Calamity_Tax_Speed_Curve_Analysis.md). What IS an assemblable 2-piece kill is the copy/reanimator line: a copy spell (kicked Rite of Replication / Doppelgang) on a death-drain creature (Kokusho or Gray Merchant). Glarb mills the creature, so creature tutors (GSZ/Chord/Finale) and Demonic act as wildcards. Card-availability floor; ignores the ~9-10 mana the kicked copy costs.",
+    "tutors": ["Demonic Tutor", "Green Sun's Zenith", "Chord of Calling", "Finale of Devastation"],
+    "combos": [
+      {
+        "name": "Rite of Replication (kicked) + Kokusho/Gray Merchant (copy-death table drain)",
+        "pieces": ["Rite of Replication", "Kokusho, the Evening Star"]
       }
     ]
   },

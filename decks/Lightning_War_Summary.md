@@ -28,7 +28,7 @@ This is a **race**, deliberately. The 2026-05-31 pod-loss review ([[pod_combo_op
 
 **Layer 1 — the copy engine.** Azula + **Twinning Staff** = every spell cast in her combat resolves 3×. Flash enablers (Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind) let sorceries join the party.
 
-**Layer 2 — X-spell finishers.** Crackle with Power, Comet Storm, Electrodominance, Banefire. Comet Storm and Electrodominance are instants — true 2-card kills (Azula + spell) with no enabler needed. Crackle is the highest ceiling (5×X to each of X targets). Banefire at X≥5 is **uncounterable** — the button for the player behind a counter wall.
+**Layer 2 — X-spell finishers.** Crackle with Power, Comet Storm, Electrodominance, Banefire. **Only Crackle (5×X to *each* of up to X targets) and multikicked Comet Storm fork damage to the whole table from one instance — the true table-kills.** Electrodominance and Banefire are **single-target**: copies either pile on one opponent (a single-player delete) or spread one each (X per opp). They earn their slots as cheap removal + reach, not as table-wipes. Comet Storm and Electrodominance are instants (no flash enabler needed); Banefire at X≥5 is **uncounterable** — the button for the player behind a counter wall.
 
 **Layer 3 — copy-doublers.** Galvanic Iteration, Increasing Vengeance, Reiterate each multiply the X-spell on top of Azula. One finisher + one doubler in a combat is lethal spread.
 
@@ -42,7 +42,7 @@ The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, b
 
 ## Kill Lines
 
-**Line 1 — Copy-amplified X-spell (primary, 2 cards).** Azula attacking + an X-spell. Crackle with Power X=4 with Twinning Staff = 3 instances × 20 = **~60 to each of up to 4 targets** = table-wipe lethal. Comet Storm / Electrodominance do it at instant speed with no flash enabler. Mana from Jeska's Will (doubled mid-combat), Storm-Kiln Treasures, Goldspan, and Ozai's retained red.
+**Line 1 — Copy-amplified X-spell (primary, 2 cards).** Azula attacking + an X-spell. Crackle is the clean table kill: **X=4 alone = 2 instances × 20 = 40 to each opp (exactly lethal at 14 mana); X=3 with Twinning Staff = 3 × 15 = 45 each (11 mana).** Comet Storm forks too but is mana-hungry (table kill ≈ 18–24 mana); its edge is instant speed. Electrodominance/Banefire are single-target deletes here — point them at one opponent (or Grand Abolisher). Mana from Jeska's Will (doubled mid-combat), Storm-Kiln Treasures, Goldspan, and Ozai's retained red. See `Lightning_War_Speed_Curve_Analysis.md` for the full mana-to-damage table.
 
 **Line 2 — Doubler stack.** X-spell + Galvanic Iteration / Increasing Vengeance / Reiterate during Azula's combat pushes instance count to 4–5; even modest X is lethal. Reiterate buyback chains while Treasures fund it (finite — no infinite-mana enabler).
 
