@@ -2,9 +2,22 @@
 
 **Deck:** The Exile's Return (`the-exiles-return-20260417-194010.txt`)
 **Trigger:** 2026-06-01 user request — sweep remaining decks for bracket-4-in-spirit upgrade candidates. Exile's Return identified at 17/20 (5/4/4/4) with two soft axes: Kill Reliability (4) and Interaction (4).
-**Goal:** Lift from **17/20 → 18–19/20** by adding a deterministic 2-card combo line and an anti-pod stax piece. Kill window compresses from T6–8 to T5–7.
+**Goal:** Lift from **17/20 → 18–19/20** by adding a deterministic 2-card combo line and an anti-pod stax piece. ~~Kill window compresses from T6–8 to T5–7.~~ **← FALSIFIED, see correction below.**
 **Net:** 2-for-2. Stays at 100 cards. GC count unchanged (3/3: Aang's Shelter, Enlightened Tutor, Jeska's Will).
 **Pod approval required.** This pivot relies on a 2-card infinite (Kiki + Felidar / Restoration). Per `REF_Bracket_3_House_Rules.md`, this needs explicit pod approval. The Berta and Witherbloom builds got per-deck approval — this would be a third instance.
+
+> ### ⚠ Correction 2026-06-09 — speed claim falsified by simulation
+> `scripts/er_speed_lab.py` (40k trials, `proposals/Exiles_Return_Speed_Curve_Analysis.md`) ran this exact 2-for-2 as a variant against the current list. The swap **slows the goldfish, it does not compress the window**:
+>
+> | Metric | Baseline | This swap |
+> |---|---|---|
+> | Decap by T7 / T8 | 39% / 70% | **33% / 62%** |
+> | Table median | T10 | **T11** |
+> | Kiki+Felidar online (mana-aware) | — | 2% T6 / 4% T7 |
+>
+> Why: the cuts are both velocity (Night's Whisper, Light Up the Stage), and Kiki+Felidar assembles too rarely by T6–7 to compensate — even with Imperial Recruiter/RotG/Diabolic Intent coverage, "+tutors reachable" is 9–11% by T6–7 and the mana-aware online rate is lower still. Also note the baseline window itself was re-measured: the Summary's "T6–8" was one turn optimistic (honest decap window **T7–8**, median T8).
+>
+> **What survives:** the *resilience* rationale — a deterministic non-combat kill (vs. wipes/Abolisher on the combo turn) and Drannith's static anti-pod lock — is intact and is the real case for this swap. The Kill Reliability 4→5 axis argument stands; pitch it to the pod on that basis, **not** on speed. If the pitch was speed, don't make the swap.
 
 ---
 
@@ -152,3 +165,4 @@ The Berta proposal flagged a Vampiric Tutor conflict. This pivot **does not touc
 
 - **2026-06-01:** Companion swap doc created in response to user request to find bracket-4-in-spirit candidates beyond Bumbleflower/Eldrazi/Genome. Card text verified via `card_lookup.py` (Kiki-Jiki, Felidar Guardian, Restoration Angel, Drannith Magistrate, Heliod for the rejected alt-plan). Ownership verified via `moxfield_haves_2026-05-14-0631Z.csv` (Drannith owned undeployed; Kiki unowned; Vampiric Tutor conflict with Mothman noted). Deck-level deployment verified via grep of `decks/*.txt` (Drannith not in any active deck; Demonic Tutor in 3 decks with 1 surplus). Pod approval flagged as required precondition. No physical deck changes — proposal only.
 - **2026-06-01 (revision):** User pushed back on the Avatar's Wrath cut. Re-verified card text: `{2}{W}{W}` (4 MV, not 6 as originally summarized), and the airbend-all-other-creatures + same-turn-Drannith effect lets you save Zuko and recast your own airbended creatures from exile for `{2}` each — every recast fires both Zuko triggers, generating ~8 counters on Zuko from a 4-creature recast turn. Avatar's Wrath is the highest-leverage engine card in the deck. Revised cut: Night's Whisper (single-shot draw, not engine-aligned) in place of Avatar's Wrath. Per [[feedback-lead-with-dominant-text]] — original cut surfaced "slow defensive" framing while missing the dominant text (cheap mass exile that fuels Zuko massively).
+- **2026-06-09 (correction):** Speed claim falsified by `scripts/er_speed_lab.py` (40k-trial goldfish Monte Carlo). The variant is *slower* than baseline (decap T7 39→33%, T8 70→62%; table median T10→T11) because both cuts are velocity cards and Kiki+Felidar is mana-aware online only 4% by T7. Header claim struck through; correction block added. The resilience/Drannith-stax rationale stands — the swap's case is reliability and disruption, not speed. See `proposals/Exiles_Return_Speed_Curve_Analysis.md` §4.

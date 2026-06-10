@@ -10,7 +10,7 @@
 | **Bracket** | 3 (2 Game Changers used; no two-card infinites; no extra turns; no MLD) |
 | **Game Changers** | Ancient Tomb, Mana Vault (2 of 3 slots used — room for one more) |
 | **Conversion Check** | **14/20** (4/4/3/3) — Solid |
-| **Kill Window** | Goldfish: T6–8 · Through interaction: T8–11 |
+| **Kill Window** | Goldfish: T6–8 · Through interaction: T8–11 *(unverified — no lab run; front-edge T6 claim suspect, priority lab target per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
 
 -----
 

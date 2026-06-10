@@ -241,6 +241,23 @@ Guidelines for estimating:
 
 The Kill Window is not a quality judgment. A T10–12 control deck that scores 18/20 is not worse than a T6–8 aggro deck that scores 14/20. Use it for pod selection and threat assessment, not deck evaluation.
 
+### Verification rule (added 2026-06-09)
+
+Kill windows are **measured, not estimated**, wherever a lab exists. The estimation guidance above is for first drafts only.
+
+- Any kill-window claim in a Summary or proposal must cite a simulation run (script + date), or carry an explicit **(unverified)** flag. Same standard as prices.
+- Why: five kill-turn labs (Lightning War, Replication Crisis, Calamity Tax, Grand Design, Exile's Return — 2026-06-08/09) re-measured five hand-estimated windows. All five were optimistic, by roughly one turn at the front edge. Narrative estimation systematically rounds the god-hand into the stated range.
+- Split the window: **decap** (one focused opponent dead) and **table** (all three). In combat decks these diverge by 2–3 turns (ER: T7–8 decap vs T10 table); a single number hides the gap.
+- Goldfish lab numbers are a *ceiling* (every creature unblocked, no interaction faced). The Through-Interaction estimate remains judgment — flag it as such.
+
+### Clock annotation (added 2026-06-09)
+
+The score and the clock are reported together but never merged:
+
+> `17/20 · Clock: T7–8 decap / T10 table (lab 2026-06-09)`
+
+The four axes are judged; the clock is measured. The clock is **not** a fifth axis — a measured quantity must not be absorbed into a judgment score, and folding it in would break comparability with every historical audit. Empirically the two are independent: a 19/20 deck carried an all-lines-through-one-unfindable-sorcery kill funnel (Grand Design, 2026-06-08) and the score gave no warning. Read the score for *whether* the deck converts, the clock for *when*, and the Pod Fit Checklist for whether *when* is good enough for the table it actually plays at.
+
 ---
 
 ## Archetype Notes

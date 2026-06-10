@@ -106,6 +106,7 @@ def load_oracle_index():
             "type_line": c.get("type_line", ""),
             "face_types": face_types,
             "color_identity": tuple(c.get("color_identity", [])),
+            "produced_mana": tuple(c.get("produced_mana", [])),
         }
         names = [c.get("name", "")]
         for fc in faces:
@@ -251,6 +252,79 @@ def opening_hand(deck, rng):
     return list(hand), keep_hand(hand)
 
 
+# ---------------------------------------------------------------------------
+# Land colour model (fixed 2026-06-09)
+#
+# A land's colour contribution was previously its Scryfall color_identity —
+# which is EMPTY for sac-fetches (Polluted Delta) and rainbow lands (Command
+# Tower, City of Brass, Exotic Orchard, Reflecting Pool). That scored a deck's
+# best fixers as zero-colour sources and produced artificially low colour
+# floors (Grand Design read 39% when its real floor is far higher). Fix:
+#   - use produced_mana (structured Scryfall field, not text parsing) when
+#     present, restricted to WUBRG;
+#   - resolve sac-fetches to the union of colours of the deck's OWN lands of
+#     the fetchable types (basic-only fetchers see basics only).
+# Remaining (documented) optimism: enters-tapped, Exotic Orchard/Reflecting
+# Pool board-dependence, and fetch-target depletion are ignored — still a
+# floor on castability, but no longer a broken one.
+# ---------------------------------------------------------------------------
+WUBRG = set("WUBRG")
+BASIC_TYPES = ("plains", "island", "swamp", "mountain", "forest")
+
+# Sac-fetch -> basic land types it can fetch (nonbasics with the type count).
+FETCH_TYPED = {
+    "flooded strand": ("plains", "island"),
+    "polluted delta": ("island", "swamp"),
+    "bloodstained mire": ("swamp", "mountain"),
+    "wooded foothills": ("mountain", "forest"),
+    "windswept heath": ("forest", "plains"),
+    "marsh flats": ("plains", "swamp"),
+    "scalding tarn": ("island", "mountain"),
+    "verdant catacombs": ("swamp", "forest"),
+    "arid mesa": ("mountain", "plains"),
+    "misty rainforest": ("forest", "island"),
+    "krosan verge": ("forest", "plains"),
+}
+# Fetchers restricted to BASIC lands (Evolving Wilds class).
+FETCH_BASIC = {"prismatic vista", "evolving wilds", "terramorphic expanse",
+               "fabled passage", "myriad landscape"}
+
+
+def printed_land_colors(record):
+    """Colours a land itself produces: produced_mana when known, else identity."""
+    prod = set(record["produced_mana"]) & WUBRG
+    return prod if prod else set(record["color_identity"])
+
+
+def land_color_map(library):
+    """name(lower) -> effective colour set for each land in this library,
+    resolving sac-fetches against the deck's own typed/basic lands."""
+    typed = {bt: set() for bt in BASIC_TYPES}
+    basics = set()
+    for nm, r in library:
+        if not is_land(r):
+            continue
+        cols = printed_land_colors(r)
+        tl = r["type_line"].lower()
+        for bt in BASIC_TYPES:
+            if bt in tl:
+                typed[bt].update(cols)
+        if "basic" in tl:
+            basics.update(cols)
+    cmap = {}
+    for nm, r in library:
+        if not is_land(r):
+            continue
+        key = nm.lower()
+        if key in FETCH_TYPED:
+            cmap[key] = set().union(*(typed[bt] for bt in FETCH_TYPED[key]))
+        elif key in FETCH_BASIC:
+            cmap[key] = set(basics)
+        else:
+            cmap[key] = printed_land_colors(r)
+    return cmap
+
+
 def simulate(library, identity, turns, trials, rng):
     n = len(library)
     keepable = 0
@@ -258,6 +332,7 @@ def simulate(library, identity, turns, trials, rng):
     all_colors = [0] * (turns + 1)
     castable = [0] * (turns + 1)
     colors = list(identity)
+    cmap = land_color_map(library)
 
     for _ in range(trials):
         deck = library[:]
@@ -279,8 +354,8 @@ def simulate(library, identity, turns, trials, rng):
             lands_play[t] += len(in_play)
             if colors:
                 avail = set()
-                for _, r in in_play:
-                    avail.update(r["color_identity"])
+                for nm, r in in_play:
+                    avail.update(cmap.get(nm.lower(), r["color_identity"]))
                 if all(c in avail for c in colors):
                     all_colors[t] += 1
             mana = len(in_play)

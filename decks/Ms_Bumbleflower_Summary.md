@@ -10,7 +10,7 @@
 | **Bracket** | 3 (0 Game Changers) |
 | **Game Changers** | None — 0/3 used |
 | **Conversion Check** | **15/20** (4/3/3/5) |
-| **Kill Window** | Goldfish: T8–10 · Through interaction: T11–14 |
+| **Kill Window** | Goldfish: T8–10 · Through interaction: T11–14 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
 
 -----
 

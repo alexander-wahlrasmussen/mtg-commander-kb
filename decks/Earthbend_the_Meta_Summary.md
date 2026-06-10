@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; no early infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Field of the Dead, Smothering Tithe, Crop Rotation (3 of 3 slots used) |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T10–12 |
+| **Kill Window** | Goldfish: T7–9 · Through interaction: T10–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
 
 -----
 

@@ -6,7 +6,7 @@ interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`proposals/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`proposals/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis.
 
 ---
 
@@ -45,34 +45,40 @@ needs its fixing rocks to come online to function on curve.
 
 | Deck | Score | Clock (goldfish) | Beats T6–7? | Through Abolisher? | Colour T6 (lands) | Verdict vs pod |
 |---|---|---|---|---|---|---|
-| The Replication Crisis | 17 → 18–19 | T6–8 (T5 god-draw) | ⚠ only on a god-draw | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 77% | **Even — overrated as a race** (pending Kiki swap; see note) |
-| The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 48% ⚠ | **Favoured — grind/oppress** |
-| The Exile's Return | 17→18 | T6–8 | ✅ | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs | 79% | **Favoured** |
-| The Grand Design | 19 | T6–8 | ✅ | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 39% ⚠⚠ | **Favoured (if it hits colours)** |
-| Lightning War | 18 | T6–8 | ✅ races | ⚠ counter-reliant; burn can finish through a lock | 67% | **Even–favoured — outrace** |
-| The Loam Cycle | 19 | T6–8 | ✅ | ⚠ FG + Counterspell only (dead under Abolisher); no static hate | 71% | **Even** |
-| Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 82% | **Even** |
-| Radiation Sickness | 18 | T6–9 | ⚠ | ⚠ counters + Force of Negation (off-turn, pre-Abolisher only) | 69% | **Even** |
-| Curse of the Scarab | 17 | T7–9 | ❌ | ⚠ FG counter; otherwise reactive | 87% | **Even–underdog** |
-| Crystal Sickness | 17 | T7–9 | ❌ | ⚠ FG counter; reanimator is slow to disrupt | 88% | **Underdog** |
-| The Genome Project | 15 | T7–9 | ❌ | ⚠ some counters; combo-reliant itself | 88% | **Underdog** |
-| Lorehold Spirits | 18 | T7–9 | ❌ | ❌ no counters; Teferi's Protection only survives, doesn't stop | 95% | **Underdog** |
-| Earthbend the Meta | 17 | T7–9 | ❌ | ❌ no counters; slow; fixing-dependent | 40% ⚠⚠ | **Underdog** |
-| The Dark Lord's Army | 19 | T8–10 | ❌ | ⚠ 15 interaction but slow clock loses the race | 67% | **Underdog — too slow** |
-| Ms. Bumbleflower | 15 | T8–10 | ❌ | ⚠ 5/5 interaction but combat-only kill is far too slow | 77% | **Underdog — too slow** |
-| Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 66% | **Underdog — no disruption** |
+| The Replication Crisis | 17 → 18–19 | T7–8 decap · T10+ table (lab) | ❌ 16% by T6 even unblocked | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 90% | **Even — race measured & rejected** (pending Kiki swap; see note) |
+| The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 96% | **Favoured — grind/oppress** |
+| The Exile's Return | 17→18 | T7–8 decap · T10 table (lab) | ⚠ 9% by T6 / 39% by T7 even unblocked | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs; pending Drannith swap adds static hate | 94% | **Favoured — disruption-led, not a race** |
+| The Grand Design | 19 | T6–8 | ✅ | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 89% | **Favoured** |
+| Lightning War | 18 | T6–8 | ✅ races | ⚠ counter-reliant; burn can finish through a lock | 97% | **Even–favoured — outrace** |
+| The Loam Cycle | 19 | T6–8 | ✅ | ⚠ FG + Counterspell only (dead under Abolisher); no static hate | 91% | **Even** |
+| Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 95% | **Even** |
+| Radiation Sickness | 18 | T6–9 | ⚠ | ⚠ counters + Force of Negation (off-turn, pre-Abolisher only) | 90% | **Even** |
+| Curse of the Scarab | 17 | T7–9 | ❌ | ⚠ FG counter; otherwise reactive | 96% | **Even–underdog** |
+| Crystal Sickness | 17 | T7–9 | ❌ | ⚠ FG counter; reanimator is slow to disrupt | 94% | **Underdog** |
+| The Genome Project | 15 | T7–9 | ❌ | ⚠ some counters; combo-reliant itself | 98% | **Underdog** |
+| Lorehold Spirits | 18 | T7–9 | ❌ | ❌ no counters; Teferi's Protection only survives, doesn't stop | 99% | **Underdog** |
+| Earthbend the Meta | 17 | T7–9 | ❌ | ❌ no counters; slow | 90% | **Underdog** |
+| The Dark Lord's Army | 19 | T8–10 | ❌ | ⚠ 15 interaction but slow clock loses the race | 89% | **Underdog — too slow** |
+| Ms. Bumbleflower | 15 | T8–10 | ❌ | ⚠ 5/5 interaction but combat-only kill is far too slow | 93% | **Underdog — too slow** |
+| Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 88% | **Underdog — no disruption** |
 
 *(Peace Offering is off the active roster and excluded.)*
 
-> **Reassessment note (2026-06-01): Replication Crisis is not the fast race the
-> first draft implied.** Its summary lists goldfish T5–7, but that's the
-> god-draw floor: the deck has **zero tutors**, so the Sword+AA infinite is ~1–2%
-> to assemble by draw (sim), and *every* kill line requires Satya — a 4-mana 3/5
-> commander — to survive and connect in combat. The summary's own play pattern
-> says "Goal turns 6–8." Against a T6–7 combo pod whose Abolisher also blanks
-> Replication's counter-based protection, this is an even matchup, not a
-> favoured outrace. Treat the audited "goldfish" numbers as optimistic floors
-> throughout this table, not expected kill turns.
+> **Reassessment note (2026-06-01, MEASURED 2026-06-09): Replication Crisis is
+> not a race deck.** The 2026-06-01 draft argued this structurally; the
+> `rc_speed_lab.py` goldfish combat lab (40k trials — token copies, energy
+> keeps, Procession/Panharmonicon doubling, Brudiclad conversion, AA extra
+> combats; see `proposals/Replication_Crisis_Speed_Curve_Analysis.md`) now
+> quantifies it. Even with **every attacker unblocked and zero interaction**,
+> the focused decapitation of one opponent lands by T6 only **16%** of the time
+> (median T7); a defended-board proxy gives **6%** (median T8). The **table**
+> kill is median T10–11 unblocked. The Sword+AA infinite decides ~1–3% of
+> games (zero tutors), and Adeline's tokens are *spread* 1/opponent by printed
+> text, not focused. The Summary's old "Goldfish T5–7" was a god-draw artifact
+> (T5 = 2%) and has been corrected. Against a T6–7 combo pod whose Abolisher
+> also blanks Replication's counter-based protection — and whose Ur-Dragon
+> shell presents exactly the blockers the model assumes away — this is an even
+> matchup as a value deck, and a clear loss as a race.
 
 > **Pending fix — the Kiki swap closes the Satya-dependence (proposed 2026-06-01,
 > not yet applied).** `decks/The_Replication_Crisis_Swaps_2026-06-01.md` proposes
@@ -104,14 +110,18 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    and stoppable. **Decks that win by racing the pod need redundant kill density,
    not a prettier two-card combo.**
 
-2. **Colour-fixing is the real consistency divide, and it's invisible in the
-   land count.** Land counts are near-uniform (~4.6–4.8 lands by T6 everywhere),
-   but all-colours-from-lands ranges from 95% (Lorehold, Boros) down to **39%
-   (Grand Design, WUBG) and 40% (Earthbend, Naya)**. Those two decks are
-   *structurally dependent on mana rocks* to cast on curve — a real fragility the
-   audits don't surface. Worth a fixing pass (more dual lands / fewer
-   colour-screw keeps) on Grand Design especially, given it's a 19/20 we lean on
-   against the pod.
+2. ~~**Colour-fixing is the real consistency divide.**~~ **RETRACTED 2026-06-09 —
+   measurement artifact.** The old land-colour model scored a land by its Scryfall
+   `color_identity`, which is **empty for sac-fetches and rainbow lands** (Command
+   Tower, City of Brass, Exotic Orchard, Reflecting Pool). It therefore counted a
+   deck's *best fixers as zero-colour sources* and punished exactly the bases built
+   for fixing: Grand Design read 39% with 11 of its 39 lands deleted from the
+   colour count. Under the corrected model (`produced_mana` + fetch resolution)
+   the roster's T6 floors compress to **88–99%** — Grand Design 89%, Earthbend
+   90% — and no active deck is structurally rock-dependent. The surviving, smaller
+   truth: basics-light 4-colour bases pay at T2–3 (GD reads 49/68% there), which
+   is normal 4C variance handled by dorks/rocks and mulligans, not land swaps.
+   Full writeup: `proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`.
 
 ---
 
@@ -128,9 +138,14 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    exactly what the **Kefka** (forced-draw burn that resolves on *your* turn) and
    **Exile's Return Drannith** swaps target; both are pointed the right way.
 
-2. **Fix Grand Design's mana base.** A 19/20 deck we want against the pod that
-   only assembles all four colours from lands 39% of the time by T6 is one bad
-   keep from doing nothing. Add fixing or tighten the curve.
+2. ~~**Fix Grand Design's mana base.**~~ **RETRACTED 2026-06-09** — the 39% that
+   motivated this was the model artifact above; the corrected floor is 89% and the
+   hand-counted base is ≥16 sources per colour. No land changes needed. Grand
+   Design's freed priority goes to the **merged ETB/finisher build**
+   (`Grand_Design_ETB_Disruption_Pass_2026-06-09.md` §5): a creature finisher the
+   engine can tutor (Craterhoof) + ETB disruption that pre-empts the Abolisher
+   turn (Skyclave Apparition, Noxious Gearhulk) + a tutor for noncreature
+   interaction (Spellseeker).
 
 3. **The "too slow" tier (Dark Lord, Bumbleflower, Lorehold, Earthbend) is fine
    — just not the deck you bring to this pod.** Don't try to speed them up at the

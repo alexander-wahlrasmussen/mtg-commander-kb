@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Vampiric Tutor, Cyclonic Rift (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
-| **Kill Window** | Goldfish: T6–9 · Through interaction: T8–12 |
+| **Kill Window** | Goldfish: T6–9 · Through interaction: T8–12 *(unverified — no lab run; front-edge T6 claim suspect, priority lab target per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
 
 -----
 

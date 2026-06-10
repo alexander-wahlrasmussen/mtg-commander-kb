@@ -25,6 +25,15 @@ Hard-won lessons from prior analysis. Each entry exists because a mistake was ma
 
 ---
 
+## Clock discipline
+
+- **Kill windows are measured, not estimated.** Five speed labs (2026-06-08/09: Lightning War, Replication Crisis, Calamity Tax, Grand Design, Exile's Return) re-measured five hand-written goldfish windows; all five were optimistic by ~1 turn. Any kill-window claim must cite a lab run (script + date) or carry an explicit *(unverified)* flag — same standard as prices.
+- **Conversion Check score and clock are independent.** A 19/20 deck (Grand Design) carried an all-kill-lines-through-one-unfindable-sorcery funnel; the score never flagged it. Score = *whether* the deck converts; clock = *when*. Report as `NN/20 · Clock: Tx–y decap / Tz table (lab date)`. Never fold the clock into the axes.
+- **Decap and table are different clocks.** In combat decks they diverge by 2–3 turns (ER: T7–8 decap vs T10 table). A single "kill turn" number hides this; state both.
+- **Bracket fit is an output, not an ingredient list.** GC count and combo rules are inputs; brackets are defined by expected win turn. A deck can be ingredient-legal for Bracket 3 and behaviourally Bracket 2 (too slow to matter) — the pod's combo decks are the mirror case (low GC count, T6–7 behaviour). Check both directions.
+
+---
+
 ## Workflow discipline
 
 - **Game Changer list is authoritative. Memory is not.** Always cross-reference `REF_Game_Changers_List.md` when evaluating GC count. The list changes.

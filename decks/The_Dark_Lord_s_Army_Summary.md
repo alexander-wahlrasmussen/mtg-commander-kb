@@ -5,7 +5,7 @@
 **Archetype:** Amass engine / drain grinder  
 **Bracket:** 3 (3 Game Changers: Orcish Bowmasters, Cyclonic Rift, Demonic Tutor)  
 **Conversion Check:** 19/20 (5/4/5/5)  
-**Kill Window:** Goldfish: T8–10 · Through interaction: T10–12  
+**Kill Window:** Goldfish: T8–10 · Through interaction: T10–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)*  
 **Estimated buy cost:** ~$369 (48 cards to acquire; 42 already owned with surplus)
 
 -----

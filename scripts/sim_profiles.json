@@ -53,5 +53,27 @@
         "pieces": ["Gravecrawler", "Phyrexian Altar"]
       }
     ]
+  },
+
+  "the-exiles-return": {
+    "_note": "Added 2026-06-09 with the er_speed_lab.py kill-window verification (proposals/Exiles_Return_Speed_Curve_Analysis.md). The marquee L1 kill is Hellkite Charger + Sozin's Comet (firebending income >= 7 per combat sustains Hellkite's {5}{R}{R} untap = combats until the table is dead). TUTOR MAP IS NARROW and text-verified: ONLY Diabolic Intent reaches either piece — Enlightened Tutor is artifact/enchantment only (Sozin's Comet is a SORCERY; the Summary previously claimed otherwise), and Imperial Recruiter (power<=2) / Recruiter of the Guard (toughness<=2) both miss the 5/5 Hellkite. The deck's REAL clock is the broad Zuko counter-stack, which is not a piece combo — measure it with er_speed_lab.py --mode clock (decap med T8, table med T10 at the unblocked ceiling). Card-availability floor; ignores the ~11 mana the L1 turn costs.",
+    "tutors": ["Diabolic Intent"],
+    "combos": [
+      {
+        "name": "Hellkite Charger + Sozin's Comet (self-sustaining extra combats)",
+        "pieces": ["Hellkite Charger", "Sozin's Comet"]
+      }
+    ]
+  },
+
+  "the-grand-design": {
+    "_note": "Atraxa's PRIMARY kills are single cards (Finale of Devastation X>=10; Defense of the Heart) — NOT piece combos — so measure them as finisher availability + the mana curve (see proposals/Grand_Design_Speed_Curve_Analysis.md). The one assemblable 2-card line is reanimator: a graveyard enabler binning a fat target (Razaketh/Vilis/Elesh Norn) + a reanimate spell. Modelled with the DETERMINISTIC backbone Buried Alive (bins up to 3 creatures with certainty) + Reanimate; the fat target itself is binned, not drawn, so it is not a gating piece. NOTE: the deck's other enabler, Grisly Salvage, only bins a fat target ~15% per cast (reveal top 5) — far less reliable than the cut Entomb, so the real reanimation reliability sits at this Buried-Alive floor, not higher. tutors=[] because the deck runs no spell tutor that finds a reanimate spell (Demonic/Vampiric excluded by the 3-GC cap); creature tutors find the target, which isn't the gating piece. Card-availability floor; ignores the 1-3 mana the line costs. Verified against Scryfall 2026-06-08.",
+    "tutors": [],
+    "combos": [
+      {
+        "name": "Buried Alive (bins a fat target) + Reanimate (deterministic reanimator floor)",
+        "pieces": ["Buried Alive", "Reanimate"]
+      }
+    ]
   }
 }

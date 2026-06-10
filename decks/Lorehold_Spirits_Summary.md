@@ -12,7 +12,7 @@
 | **Bracket**          | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns)            |
 | **Game Changers**    | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
 | **Conversion Check** | **18/20** (5/5/4/4) — Goblin Bombardment acquired 2026-05-30, combo line live                              |
-| **Kill Window**      | Goldfish: T7–9 · Through interaction: T9–11                                                                |
+| **Kill Window**      | Goldfish: T7–9 · Through interaction: T9–11 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
 | **Decklist file**    | `decks/lorehold-spirit-20260503-154449.txt`                                                                |
 
 The 18/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.

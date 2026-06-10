@@ -5,7 +5,7 @@
 **Archetype:** Wizard-token spellslinger burn  
 **Bracket:** 3 (3 Game Changers: Necropotence, Jeska's Will, Underworld Breach)  
 **Conversion Check:** 15/20 (4/4/3/4)  
-**Kill Window:** Goldfish: T7–9 · Through interaction: T9–12  
+**Kill Window:** Goldfish: T7–9 · Through interaction: T9–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)*  
 **Decklist file:** `decks/the-genome-project-20260510.txt`  
 **Card text verified:** 2026-05-10 — every engine piece, multiplier, mana source, removal, and reskin lookup'd via `card_lookup.py`. Drift corrections applied below; see Changelog.
 

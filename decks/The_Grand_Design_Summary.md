@@ -9,7 +9,7 @@
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
-|**Kill Window**     |Goldfish: T6–8 · Through interaction: T8–11      |
+|**Kill Window**     |Goldfish: T6–8 · Through interaction: T8–11 *(curve/colour/availability analyzed but clock never goldfished — front-edge T6 claim suspect; see `proposals/Grand_Design_Speed_Curve_Analysis.md`)* |
 
 -----
 

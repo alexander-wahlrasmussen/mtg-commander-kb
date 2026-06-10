@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers; no infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Fierce Guardianship, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/4/4/5) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 |
+| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 *(speed-analysis corroborated — mana-gated, "same T7–9" — but no kill-turn goldfish run; see `proposals/Calamity_Tax_Speed_Curve_Analysis.md`)* |
 
 -----
 

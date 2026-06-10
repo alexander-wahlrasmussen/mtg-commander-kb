@@ -49,6 +49,7 @@ If a summary and decklist disagree on what cards are in a deck, the `.txt` wins.
 - **Never assume Game Changer status.** Always check `REF_Game_Changers_List.md`. The list changes. Doubling Season is not a GC. Deflecting Swat was removed in October 2025.
 - **Max 3 Game Changers per deck.** If an edit would push a deck above 3, flag it and stop — don't silently make a cut.
 - **Decks must be exactly 100 cards** (99 main + 1 commander). Count before committing a decklist change.
+- **Kill-window claims must cite a simulation or be flagged unverified.** Five speed labs falsified five hand-estimated goldfish windows — all optimistic (2026-06-08/09). Don't write or keep a turn-window claim in a Summary/proposal without a `scripts/*_speed_lab.py` (or `deck_sim.py`) run backing it, or an explicit *(unverified)* flag. Format: `Clock: Tx–y decap / Tz table (lab YYYY-MM-DD)` — see "Verification rule" in `REF_The_Conversion_Check.md`. Decap and table are different clocks; state both.
 
 ---
 

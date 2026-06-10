@@ -24,7 +24,23 @@
       "Bash(PYTHONIOENCODING=utf-8 python scripts/update_scryfall_data.py)",
       "Bash(grep -nE '^$|SIDEBOARD' decks/diminishing-returns-20260505.txt)",
       "Bash(grep -nE '^$|SIDEBOARD' decks/lorehold-spirit-20260503-154449.txt)",
-      "Bash(grep -A2 -iE 'reskins resolved|WARNING unresolved|^  [A-Z].*$')"
+      "Bash(grep -A2 -iE 'reskins resolved|WARNING unresolved|^  [A-Z].*$')",
+      "PowerShell(python scripts/card_lookup.py \"Panharmonicon\")",
+      "PowerShell(python scripts/card_lookup.py \"Outpost Siege\")",
+      "PowerShell(python scripts/card_lookup.py \"Fire Nation Palace\")",
+      "PowerShell(python scripts/card_lookup.py \"Windbrisk Heights\")",
+      "PowerShell(python scripts/card_lookup.py \"Professional Face-Breaker\")",
+      "PowerShell(python scripts/card_lookup.py \"Aggravated Assault\")",
+      "PowerShell(python scripts/card_lookup.py \"Lotus Petal\")",
+      "PowerShell(python scripts/card_lookup.py \"Wrenn's Resolve\")",
+      "PowerShell(python scripts/card_lookup.py \"Kiki-Jiki, Mirror Breaker\")",
+      "PowerShell(python scripts/card_lookup.py \"Eldrazi Displacer\")",
+      "PowerShell(python scripts/card_lookup.py \"Restoration Angel\")",
+      "PowerShell(python scripts/card_lookup.py \"Semester's End\")",
+      "PowerShell(python scripts/card_lookup.py \"Karmic Guide\")",
+      "PowerShell(python scripts/er_speed_lab.py --trials 2000)",
+      "PowerShell(python scripts/card_lookup.py \"Cathars' Crusade\")",
+      "PowerShell(python scripts/er_speed_lab.py --trials 40000)"
     ]
   }
 }

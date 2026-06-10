@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers) |
 | **Game Changers** | Fierce Guardianship, Cyclonic Rift, The One Ring (Deflecting Swat remains in deck as a free redirect but no longer counts toward the GC cap as of Oct 2025) |
 | **Conversion Check** | **17/20** (5/4/4/4) — rescored 2026-05-13 (holds post-swap) |
-| **Kill Window** | Goldfish: T5–7 · Through interaction: T7–10 |
+| **Kill Window** | Goldfish: T7–8 (one player) / T10+ (table) · Through interaction: T9–12 — corrected 2026-06-09 by `scripts/rc_speed_lab.py`; the old "T5–7" was a god-draw artifact (T5 ≈ 2%). See `proposals/Replication_Crisis_Speed_Curve_Analysis.md` |
 | **Last swap pass** | 2026-05-04 — 6 cards swapped to add a real infinite (Sword of F&F + AA), token multiplier (Anointed Procession + Adeline), draw engine (Bident, The One Ring), premium ETB (Solitude). See bottom of summary. |
 
 -----
@@ -375,3 +375,21 @@ Rescore confirms the working theory: **17/20 (5/4/4/4) — holds with a more sta
 4. **Satya stat** — text said "3/4," she's 3/5. Fixed.
 
 No card swaps applied during this audit.
+
+### 2026-06-09 — Kill-window correction (speed-curve analysis, no card swaps)
+
+The `scripts/rc_speed_lab.py` goldfish combat lab (40k trials; writeup in
+`proposals/Replication_Crisis_Speed_Curve_Analysis.md`) falsified the Quick
+Reference's "Goldfish: T5–7" window. Measured, with every attacker unblocked
+and zero opposing interaction: **one focused opponent dead median T7** (T6 =
+16%, T5 = 2%), **table dead median T10–11**; a defended-board proxy (only
+Satya + her tokens attack) gives median T8 / T10 = 16%. Key structural facts
+confirmed against printed text: the Sword+AA infinite is ~1–3% of games (zero
+tutors find it), Adeline's tokens are spread 1-per-opponent (2 with
+Procession) rather than focused, Brudiclad's conversion pays off one combat
+*after* the token it copies exists, and early Satya tokens die at end step
+(energy 2/attack vs. keep cost = MV). Kill Window field corrected; Conversion
+Check score unchanged (Kill Reliability 4/5 already discounted the combat
+dependence). The deck remains what Pod Fit says it is — an incremental value
+engine, **not** a racer; see the analysis doc before bringing it against the
+T6–7 combo pod.

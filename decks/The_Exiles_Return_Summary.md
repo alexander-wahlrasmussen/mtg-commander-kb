@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; no early two-card infinites; no MLD; no extra turns) |
 | **Game Changers** | Aang's Shelter (= Teferi's Protection), Enlightened Tutor, Jeska's Will (3 of 3 slots used). *Deflecting Swat is in the deck but no longer a GC after the Oct 2025 delisting.* |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T6–8 · Through interaction: T8–11 |
+| **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). See `proposals/Exiles_Return_Speed_Curve_Analysis.md` |
 
 -----
 
@@ -31,7 +31,7 @@ The deck converts exile-zone interactions into a board-wide +1/+1 counter engine
 
 **Layer 1 — Cast-From-Exile Sources (8 in main 99):** These exile cards from your library and let you cast them later, firing trigger #1 each time the exiled card is cast.
 - *Impulse draw:* Light Up the Stage (exile 2, spectacle for {R} after any opp loses life), Prosper, Tome-Bound (exile 1 at end step + Treasure on every play-from-exile), Laelia, the Blade Reforged (exile 1 on attack + grow herself), Zuko, Exiled Prince (pay {3}: exile 1 — note this is a **second Zuko** in the 99, not the commander), The Legend of Roku I (exile 3), Jeska's Will mode 2 (exile 3, both modes if commander out), Professional Face-Breaker (sac Treasure → exile 1).
-- *Foretell:* Sozin's Comet ({2}{R} face-down, cast for {3}{R}{R} later — counts as cast-from-exile and grants firebending 5 to all creatures that turn).
+- *Foretell:* Sozin's Comet (pay {2} to exile face-down, cast for its foretell cost {2}{R} later — counts as cast-from-exile and grants firebending 5 to all creatures that turn; hardcast is {3}{R}{R}. Costs corrected 2026-06-09 — a previous version had them inverted).
 - *Sideboard alternate:* Outpost Siege (Khans mode = recurring impulse draw) is in the SB; Roku and Yangchen cover the recurring impulse-draw role in the main.
 
 **Layer 2 — Airbend (4) — fires both triggers:** Airbend = exile a permanent; while exiled, owner may cast it for {2} instead of its mana cost. The recast fires trigger #1 (cast from exile) and the new ETB fires trigger #2 (permanent enters from exile). Airbend payers in this deck: Avatar's Wrath (mass airbend opponents' creatures + lock on non-hand casting), Monk Gyatso (airbend your creature when it's targeted — protection), The Legend of Yangchen II/III into Avatar Yangchen (airbend on second-spell-each-turn), Appa, Steadfast Guardian (airbend your nonland permanents on ETB + 1/1 token whenever you cast from exile). Airbending a 6-mana bomb to recast for {2} is mana-efficient; airbending an opponent's creature with Avatar's Wrath only fires Zuko if the opponent chooses to recast it (rare).
@@ -45,7 +45,7 @@ The deck converts exile-zone interactions into a board-wide +1/+1 counter engine
 
 **Mass-cast-from-exile blowouts:** Sozin's Comet (firebending 5 on every creature for the turn) + Hellkite Charger + 4 attackers = 20 R floor, easily funding repeated extra combats. The Legend of Roku I (exile top 3) followed by Jeska's Will (exile top 3, both modes) often dumps 6 cards into exile in one turn; counters build sharply as each is cast.
 
-**Tutors and selection:** Enlightened Tutor (artifact/enchantment to top — find Panharmonicon, Airbender Ascension, Sozin's Comet, Outpost Siege, Lightning Greaves), Imperial Recruiter (creature with power 2 or less — Norin, Charming Prince, Karmic Guide, Skyclave Apparition, Laelia), Recruiter of the Guard (creature with toughness 2 or less — Skyclave Apparition, Laelia, Charming Prince, Norin, Solitude), Diabolic Intent (sac a creature for any tutor — Norin and tokens are fodder).
+**Tutors and selection:** Enlightened Tutor (artifact/enchantment to top — find Panharmonicon, Airbender Ascension, Teleportation Circle, Lightning Greaves; it **cannot** find Sozin's Comet, which is a sorcery — corrected 2026-06-09), Imperial Recruiter (creature with power 2 or less — Norin, Charming Prince, Karmic Guide, Skyclave Apparition, Laelia), Recruiter of the Guard (creature with toughness 2 or less — Skyclave Apparition, Laelia, Charming Prince, Norin, Solitude), Diabolic Intent (sac a creature for any tutor — Norin and tokens are fodder).
 
 **The play pattern:** Land impulse-draw or blinker by T3. By T4–5, deploy a doubler (Panharmonicon) or repeating blink (Teleportation Circle, Airbender Ascension, Norin) and pile on counters. Drop Hellkite Charger or Sozin's Comet to convert counter-pumped firebending output into extra combats and lethal damage.
 
@@ -71,10 +71,10 @@ Sun Titan attacks → return a CMC≤3 permanent from graveyard. The deck has ma
 
 ## Kill Window
 
-- **Goldfish:** T6–8
-- **Through Interaction:** T8–11
+- **Goldfish (lab-verified 2026-06-09):** T7–8 to kill one focused player (median T8; 70% by T8, T6 ≈ 9% even with every attacker unblocked) · T10 to kill the table
+- **Through Interaction:** T8–11 (one player)
 
-The deck is mid-speed: it needs ramp and an engine piece by T3–4 to hit a T6 goldfish kill via Hellkite Charger + Sozin. Without those two finishers, kills are 2–3 turns later as counter-stacking grinds toward commander damage.
+The deck is mid-speed and its clock is the *broad* counter-stack, not the marquee combo: Hellkite Charger + Sozin's Comet is reachable only ~3% by T6 even with tutors (Diabolic Intent is the only tutor that finds either piece). `scripts/er_speed_lab.py` also tested ten single-card speed levers (extra-combat enablers, Sarkhan's Triumph, fast mana, impulse velocity, Cathars' Crusade) — none moved the median; the front edge is gated by engine assembly + mana before T5, which no 1-of fixes. Full numbers: `proposals/Exiles_Return_Speed_Curve_Analysis.md`.
 
 -----
 
@@ -112,7 +112,7 @@ Instant speed: ~70% (most protection, redirects, and free spells). Sorcery speed
 **3 / 3 used.**
 
 1. **Aang's Shelter** *(reskin: Teferi's Protection)* — phase out everything, dodge wipes
-2. **Enlightened Tutor** — top-decks Panharmonicon, Sozin's Comet, Airbender Ascension, Outpost Siege, Lightning Greaves
+2. **Enlightened Tutor** — top-decks Panharmonicon, Airbender Ascension, Teleportation Circle, Lightning Greaves (artifact/enchantment only — it cannot find Sozin's Comet, a sorcery)
 3. **Jeska's Will** — both modes: ramp + impulse-draw 3, with commander out
 
 *Verified against `REF_Game_Changers_List.md` on 2026-05-08. Deflecting Swat (in deck) was removed from the GC list 2025-10-21 and no longer counts toward the 3-slot cap.*
@@ -149,7 +149,7 @@ The exile-matters archetype has distinctive pod dynamics:
 | Counter source | Zuko global pump | Power-based burn | N/A |
 | Win condition | Combat / commander damage | Direct damage | Wide tokens |
 | Color overlap | RWB (Mardu) | UBR (Grixis) | URW (Jeskai) |
-| Speed | T6–8 | T5–7 | T6–8 |
+| Speed | T7–8 decap · T10 table (lab) | T6–7 table (lab) | T7–8 decap · T10+ table (lab) |
 | Graveyard role | Light (Sun Titan, Karmic Guide) | Light | Light |
 | Counterspell access | None | Yes | Yes |
 
@@ -161,7 +161,7 @@ No engine overlap with other Avatar decks (Lightning War, Earthbend the Meta) �
 
 - **No counterspells.** Mardu has no stack control; only redirect spells (Imp's Mischief, Deflecting Swat, Redirect Lightning) can intervene against single-target spells. Multi-target combo wins resolve unanswered.
 - **Engine assembly is multi-piece.** No single card *is* the engine — you typically need a blinker + Zuko + something to blink, or an impulse-draw source + lots of mana. Mulligan decisions matter.
-- **Slow-ish goldfish (T6–8).** The deck doesn't "go off" turn 4 — combo pods can pre-empt it. Rely on Aang's Shelter and the protection suite to buy turns.
+- **Slow-ish goldfish (T7–8 decap / T10 table, lab 2026-06-09).** The deck doesn't "go off" turn 4 — combo pods can pre-empt it. Rely on Aang's Shelter and the protection suite to buy turns, and on Grand Abolisher (+ pending Drannith) to disrupt theirs — the race alone doesn't beat a T6–7 combo clock.
 - **Skyclave Apparition's drawback gives back a token.** When Skyclave dies, opponent gets an X/X token — usually fine, but stacked drains can be punishing in late-game.
 - **Reanimation triggers don't help Zuko.** Sun Titan and Karmic Guide pull from graveyard, not exile, so they're resilience-only. The Conversion Check counts them as durability, not engine.
 - **Aang's Shelter missing from local Scryfall data file.** Per `REF_Reskin_Aliases.md` it's confirmed as Teferi's Protection — but `card_lookup.py` returns no match. Recommend running `update_scryfall_data.py`. Functionally not a deck issue, only a tooling note.
@@ -364,4 +364,5 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 ## Changelog
 
+- **2026-06-09:** Kill-window verification + lever test (speed-curve analysis, **no card swaps**). `scripts/er_speed_lab.py` (40k trials): goldfish window corrected T6–8 → **T7–8 one player (med T8) / T10 table**; ten 1-card speed levers all within noise (no median moves) — the clock is broad counter compounding, gated by pre-T5 engine assembly, and no single add fixes that. Text fixes: Enlightened Tutor **cannot** find Sozin's Comet (sorcery — two listings corrected); Sozin foretell costs were inverted (pay {2} face-down, cast {2}{R}); Aggravated-Assault-style effects can never go infinite here (sorcery-speed activation vs firebending mana dying at end of combat) while Hellkite's in-combat trigger can. Pending Kiki swap measured: it *slows* the goldfish slightly (cuts Night's Whisper/Light Up the Stage velocity) — its case is resilience + Drannith disruption, not speed. Full analysis: `proposals/Exiles_Return_Speed_Curve_Analysis.md`.
 - **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander); GC count 3/3 (Aang's Shelter = Teferi's Protection, Enlightened Tutor, Jeska's Will). Commander text verified against local Scryfall data; all UB cards verified except Aang's Shelter (missing from local data file — alias resolves to Teferi's Protection per `REF_Reskin_Aliases.md`). Conversion Check score 17/20 (5/4/4/4) confirms `Deck_Index.md` entry. No card swaps recommended at this time.
