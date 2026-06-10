@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; no early two-card infinites; no MLD; no extra turns) |
 | **Game Changers** | Farewell, Smothering Tithe, Teferi's Protection (3 of 3 slots used) |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | Clock: T9 decap / T12+ table (lab 2026-06-10, `dr_clock_lab.py`) · Through interaction: slower *(unverified — goldfish lab only; no interaction model)*. The old "Goldfish T7–9" claim was falsified: it held only as the back edge of the decap clock and conflated the two clocks — the board swing decapitates T9, the drain engine tables T12+. |
 
 -----
 
@@ -359,3 +359,15 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 The Sephiroth correction is the most consequential. The deck's actual durability is slightly higher than the prior summary suggested (emblem persists through removal once you transform), and Sephiroth's draw output is meaningfully larger (he draws on every ETB, every attack, and every back-face attack lets you cash in your whole board). None of this changes the axis scoring — Durability stays at 4/5 because graveyard hate remains the structural ceiling, and the emblem alone doesn't tilt that.
 
 No card swaps applied during this audit.
+
+### 2026-06-10 — Kill-turn lab: "Goldfish T7–9" falsified
+
+**`scripts/dr_clock_lab.py` (12k trials): decap median T9 (11% T7, 37% T8, 66% T9) / table median beyond T12 (30% by T12).** Kill Window field updated to the lab citation. Key findings (full writeup: `proposals/Diminishing_Returns_Clock_Lab_2026-06-10.md`):
+
+1. **The two clocks diverge.** The wide board swing decapitates like a combat deck (T9); the drain engine is the table clock and its volume is low (~5 deaths/game in goldfish). The old claim conflated them.
+2. **Death volume, not multipliers, is the bottleneck.** Once Teysa + payoffs assemble, each death drains 4–8 from every opponent — the deck just doesn't produce enough deaths. Lever test: +drains / +deathmana / +tutors all flat; only +tokens (Bitterblossom + Ophiomancer) moved the table clock (+7pp by T12, never-kill 70→63%). No variant moved the decap median.
+3. **The Gravecrawler infinite fires in ~3% of goldfish games** — a 4-piece assembly with only Razaketh as a true tutor. That rarity is the Bracket 3 compliance argument, quantified.
+4. **No card-text errors found** — the 2026-05-13 oracle pass holds.
+5. Optional polish (pilot's call, NOT a lab mandate): −Mother of Runes −Skrelv +Bitterblossom (owned, undeployed, $0) +Ophiomancer (~€3). The cuts cost real Teysa protection the goldfish can't price. Minimal version: Bitterblossom in, Skrelv out.
+
+No card swaps applied. Scores unchanged (17/20) — the lab measures the clock, not the axes; the deck's identity is Disrupt, not Race, and the matchup framing should treat it as such.
