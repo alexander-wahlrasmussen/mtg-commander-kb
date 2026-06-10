@@ -5,7 +5,7 @@
 **Archetype:** Wizard-token spellslinger burn  
 **Bracket:** 3 (3 Game Changers: Necropotence, Jeska's Will, Underworld Breach)  
 **Conversion Check:** 15/20 (4/4/3/4)  
-**Kill Window:** Goldfish: T7–9 · Through interaction: T9–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)*  
+**Kill Window:** Clock: T7 decap / T8 table (lab 2026-06-10, `gp_clock_lab.py`) · Through interaction: T9–12 *(unverified — goldfish lab only; no interaction model)*  
 **Decklist file:** `decks/the-genome-project-20260510.txt`  
 **Card text verified:** 2026-05-10 — every engine piece, multiplier, mana source, removal, and reskin lookup'd via `card_lookup.py`. Drift corrections applied below; see Changelog.
 
@@ -50,7 +50,7 @@ The damage math scales multiplicatively. With four Wizard tokens and Trance Kuja
 
 **Line 2 — Multiplier Stack:** Trance Kuja + Harmonic Prodigy (or Roaming Throne) + 3–4 Wizard tokens = 12–16 damage per spell per opponent. Three spells kills the table. Adding City on Fire to any multiplier configuration creates one-spell lethality.
 
-**Line 3 — Bonus Round / Mizzix's Mastery / Underworld Breach Graveyard Storm:** Bonus Round doubles every instant and sorcery for the rest of the turn. Each copy also triggers Wizard pings. Dawn Warriors' Legacy (Mizzix's Mastery) overloaded replays every instant and sorcery from the graveyard at once — each cast triggers all Wizards. Underworld Breach gives every nonland card in the graveyard escape (mana cost + exile 3 other GY cards) for a turn — slower per-spell than Mastery but more flexible (you can pace the chain, hold up reactive escapes, and the exile cost itself fuels other graveyard payoffs). Storm-Kiln Artist Treasures pay the escape costs; Birgi rebates a {R} per cast. Combined with Trance Kuja, any of these three is often lethal from a stocked graveyard.
+**Line 3 — Bonus Round / Mizzix's Mastery / Underworld Breach Graveyard Storm:** Bonus Round doubles every instant and sorcery for the rest of the turn — **but its copies are NOT cast** (oracle ruling: the copy "is created on the stack, so it's not 'cast'"), so **copies do not trigger Wizard pings**. Bonus Round doubles spell *effects* (rituals, draw, Exsanguinate X) and still triggers Storm-Kiln Artist (magecraft counts copies); same is true of Cerberus chapters II–III and Primal Wellspring. The true ping-storm replays are the cast-based ones: Dawn Warriors' Legacy (Mizzix's Mastery) overloaded **casts** every instant and sorcery copy from the graveyard — each one triggers all Wizards — and Underworld Breach escapes are real casts too (mana cost + exile 3 other GY cards; pace the chain, hold up reactive escapes). Storm-Kiln Artist Treasures pay the escape costs; Birgi rebates a {R} per cast. Combined with Trance Kuja, Mastery or Breach is often lethal from a stocked graveyard. *(Corrected 2026-06-10 — prior text claimed Bonus Round copies ping; they don't.)*
 
 **Line 4 — Aetherflux Reservoir:** Chain spells to gain escalating life (1st spell = 1 life, 2nd = 2, etc.). Reach 50+ life and pay 50 to laser a player. This line operates independently of Wizard tokens and serves as a backup when the token board has been swept.
 
@@ -67,7 +67,7 @@ The deck stacks damage multipliers that interact multiplicatively:
 | Trance Kuja | All Wizard damage ×2 | Replacement effect |
 | Harmonic Prodigy | Wizard / Shaman triggered abilities trigger an additional time (note: "another Wizard" — does not double its own prowess) | Static ability |
 | Roaming Throne (Wizard) | Triggered abilities of *other* creatures of the chosen type trigger an additional time | Static ability |
-| City on Fire | **All damage from sources you control ×3** (combat included). Two copies = ×9, three = ×27. | Replacement effect |
+| City on Fire | **All damage from sources you control ×3** (combat included). Two copies = ×9, three = ×27. **Has Convoke** — Wizard tokens tap to pay; with a 4–6 Wizard board it costs ~2–4 real mana, not 8, and tapped tokens still ping. | Replacement effect |
 
 Harmonic Prodigy and Roaming Throne are additive with each other (both double triggers — having both means triple triggers), but multiplicative with Trance Kuja and City on Fire. Worst-case realistic stack: Trance Kuja + 1 trigger doubler + 3 tokens = 12 per spell per opponent. Best-case: Trance + Prodigy + City + 4 tokens = triple triggers × ×2 × ×3 = ×18 per token = 72 per spell per opponent. One spell kills the table twice over.
 
@@ -81,7 +81,7 @@ The 7 Wizard producers (beyond Kuja and Stormsplitter copies) each have non-obvi
 - **Cornered by Black Mages** ({1}{B}{B} sorcery): Edict + Wizard token. Removes a hexproof/indestructible creature *and* adds to the token count. Dual-role.
 - **Coruscation Mage** ({1}{R}, 2/2 Otter Wizard with Offspring {2}): Pings 1 per noncreature spell. **The Offspring token is a 1/1 copy with the same ping ability** (Offspring copies printed text). Casting for {3}{R} = two pingers in one card.
 - **Vivi's Persistence** ({1}{R} instant): Creates a 0/1 Wizard token. **Recursion clause is "Whenever your commander enters or attacks, you may pay {2}"** — so the recursion is gated on Kuja entering (good — recasts after removal) or attacking (less common — Kuja prefers main-phase storming). Active recursion piece, not auto-recur.
-- **Stormsplitter** ({3}{R}, 1/4 Otter Wizard with haste): Creates a 1/4 Otter Wizard **token copy of itself** on each instant/sorcery cast. The copies inherit the trigger, so they self-replicate exponentially in a chain. Each Stormsplitter token is a Wizard (counts toward Trance threshold) but does NOT have the ping ability — its damage is combat-only. Categorized as a Wizard Producer (not a Damage Multiplier) because the copies generate Wizards, not pings.
+- **Stormsplitter** ({3}{R}, 1/4 Otter Wizard with haste): Creates a 1/4 Otter Wizard **token copy of itself** on each instant/sorcery cast. The copies inherit the trigger, so they self-replicate exponentially in a chain. **The copies are exiled at the beginning of the next end step** — they do not persist. They can still be counted for Kuja's transform: both triggers fire at your end step and you order your own triggers (count Wizards first, then exile). Copies do NOT have the ping ability — their damage is combat-only, the same turn they're made (they're copies of a hasty original). Categorized as a Wizard Producer (not a Damage Multiplier). *(Exile clause added 2026-06-10.)*
 
 **Hidden Wizard producers / value modes:**
 
@@ -324,6 +324,7 @@ User-applied reskins map to canonical MTG cards; FF set originals listed for pil
 
 ## Changelog
 
+- **2026-06-10 (kill-turn lab + clock judgment — no card changes):** `gp_clock_lab.py` goldfish (20k trials) **verifies the claimed window** — decap median T7 (41% T6 / 82% T7), table median T8 (49% T7 / 78% T8). First labbed deck whose hand-estimate held. Lever test (4 axes × 2-card, 2 axes × 4-card): all flat (≤+4pp at T7) — **clock cannot be upgraded within bracket constraints** (token cadence is commander-fixed; chain density already critical; Gamble tutor axis blocked as current GC, deck 3/3). No swaps applied. Card-text corrections: Bonus Round copies are NOT cast (Line 3 rewritten — copies don't ping; Mastery/Breach lines stand), Stormsplitter copies exile at next end step (transform-count ordering note added), City on Fire Convoke discount documented, Storm-Kiln is a Shaman (Prodigy doubles its Treasures), Urabrask pings single-target. Full writeup: `proposals/Genome_Project_Clock_Lab_2026-06-10.md`.
 - **2026-05-10 (full audit + Underworld Breach swap):** First formal audit pass against the Conversion Check. Score holds at 4/4/3/4 = **15/20**. Decklist: `the-genome-project-20260510.txt`. Card text verified for every engine piece, multiplier, mana source, removal, and reskin via `card_lookup.py`.
   - **Card swap:** Underworld Breach added as 3rd Game Changer; Lively Dirge cut to sideboard. Breach gives the deck a third graveyard-replay axis alongside Bonus Round and Dawn Warriors' Legacy. Increases graveyard-hate vulnerability — already a Pod Fit weakness.
   - **Card-text corrections** (documentation only; mechanics unchanged):
