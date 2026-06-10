@@ -9,7 +9,7 @@
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
-|**Kill Window**     |Goldfish: T6–8 · Through interaction: T8–11 *(curve/colour/availability analyzed but clock never goldfished — front-edge T6 claim suspect; see `proposals/Grand_Design_Speed_Curve_Analysis.md`)* |
+|**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. See `proposals/Grand_Design_Speed_Curve_Analysis.md` |
 
 -----
 
@@ -44,9 +44,11 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 
 **Cost:** 12 mana (GG + X where X=10). **Cards needed:** Just Finale.
 
-Finale searches your library or graveyard for a creature with MV ≤X, puts it onto the battlefield, and if X≥10, ALL your creatures get +X/+X and haste until end of turn. At X=10, that’s +10/+10 and haste to everything. With even 3 creatures on board, that’s 30+ power with haste and trample (if any creature has it). Lethal to the table.
+Finale searches your library or graveyard for a creature with MV ≤X, puts it onto the battlefield, and if X≥10, ALL your creatures get +X/+X and haste until end of turn. At X=10, that’s +10/+10 and haste to everything. With even 3 creatures on board, that’s 30+ power with haste — but note **the deck has almost no trample**, so without it this focus-fires **one opponent** (a decap), not the table; tabling needs a wide board or repeated swings.
 
-12 mana is achievable by turn 6–7 with Sol Ring, Arcane Signet, Carpet of Flowers (often adds 3–5 mana from opponents’ Islands), and Bloom Tender producing WUBG (4 mana) per tap once Atraxa is on the battlefield.
+> **Clock reality (lab 2026-06-10, `scripts/gd_clock_lab.py`):** the "12 mana by turn 6–7" line is a god-hand, not the norm. Across 40k goldfish trials a lethal Finale (X≥10) fires in only **~9% of games, median turn 11** — too slow and too mana-hungry to be the deck's working closer. **96% of the deck's decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding), median decap **T10**. Treat Finale as the **late-game ceiling**, not "Kill Line 1 — Primary"; the real primary clock is Kill Line 10 (combat). This is exactly why the finisher-upgrade proposal (a *fetchable* creature finisher) matters — see `proposals/Grand_Design_Finisher_Upgrade_2026-06-08.md`.
+
+12 mana for Finale is reachable with Sol Ring, Arcane Signet, Carpet of Flowers (conditional — needs opponents’ Islands), and Bloom Tender producing WUBG (4 mana) once Atraxa is on the battlefield — but the lab shows that conjunction lands a median of turn 11, not 6–7.
 
 The haste clause also solves the Living Death timing problem — if you cast Living Death to rebuild your board (everything has summoning sickness), casting Finale the following turn gives everything haste, making summoning sickness irrelevant.
 

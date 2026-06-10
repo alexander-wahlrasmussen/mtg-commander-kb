@@ -48,7 +48,7 @@ needs its fixing rocks to come online to function on curve.
 | The Replication Crisis | 17 → 18–19 | T7–8 decap · T10+ table (lab) | ❌ 16% by T6 even unblocked | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 90% | **Even — race measured & rejected** (pending Kiki swap; see note) |
 | The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 96% | **Favoured — grind/oppress** |
 | The Exile's Return | 17→18 | T7–8 decap · T10 table (lab) | ⚠ 9% by T6 / 39% by T7 even unblocked | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs; pending Drannith swap adds static hate | 94% | **Favoured — disruption-led, not a race** |
-| The Grand Design | 19 | T6–8 | ✅ | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 89% | **Favoured** |
+| The Grand Design | 19 | decap T10 · table T12+ (lab) | ❌ 1% by T6 / 20% by T8 | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 89% | **Favoured — disruption-led, not a race** |
 | Lightning War | 18 | T6–8 | ✅ races | ⚠ counter-reliant; burn can finish through a lock | 97% | **Even–favoured — outrace** |
 | The Loam Cycle | 19 | T6–8 | ✅ | ⚠ FG + Counterspell only (dead under Abolisher); no static hate | 91% | **Even** |
 | Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 95% | **Even** |

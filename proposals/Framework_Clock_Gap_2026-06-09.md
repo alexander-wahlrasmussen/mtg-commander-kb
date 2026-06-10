@@ -22,9 +22,10 @@ Meanwhile the bracket system defines behaviour by **expected win turn** — an o
 | Exile's Return | Goldfish T6–8 | decap T7–8 (T6 = 9%), table T10 | optimistic |
 | Lightning War (pre-pivot) | "fast burn" | old combo ~1% by T6; honest kill only post-rebuild (T6–7) | optimistic |
 | Calamity Tax (31-May swap) | "sped up" | NOT faster — T7–9 unchanged, mana-gated | optimistic |
+| Grand Design | Goldfish T6–8 | decap median T10 (T6 ≈ 1%, T8 ≈ 20%), table T12+ | optimistic (~2 turns at median) |
 | ER Kiki swap / RC Kiki swap docs | "T6–8 → T5–7" / faster | both swaps measured *slower* than baseline | optimistic |
 
-**Five labs, five corrections, all in the same direction (~1 turn at the front edge).** Narrative estimation systematically rounds the god-hand into the stated range. Separately, Grand Design held 19/20 while every kill line funnelled through one sorcery its creature-tutors can't find — the score gave no warning (single-point-of-failure is a *structure* fact the rubric should have caught via line-independence, but the *clock* consequence was invisible until simulated).
+**Six labs, six corrections, all in the same direction.** Narrative estimation systematically rounds the god-hand into the stated range — and Grand Design (2026-06-10) is the largest gap yet (~2 turns at the median, not ~1 at the front edge). Separately, Grand Design held 19/20 while every kill line funnelled through one sorcery its creature-tutors can't find — the score gave no warning. The clock now confirms the consequence the rubric was blind to: the named finisher (Finale X≥10) fires median **T11** in only **~9%** of goldfish games, so **96% of the deck's decaps are incremental combat**, median **T10**. A legitimate 19/20 fortress that kills late — the cleanest single instance of "score and measured clock are uncorrelated in the 15–19/20 band."
 
 ## 3. Codified 2026-06-09 (done — no action needed)
 
@@ -51,7 +52,7 @@ Meanwhile the bracket system defines behaviour by **expected win turn** — an o
    | Replication Crisis | T7–8 decap / T10+ table | ✅ lab-verified (2026-06-09) |
    | Exile's Return | T7–8 decap / T10 table | ✅ lab-verified (2026-06-09) |
    | Calamity Tax | T7–9 | ◐ corroborated by speed analysis (mana-gated, "same T7–9") but no kill-turn goldfish run |
-   | Grand Design | T6–8 | ◐ curve/availability/colour analyzed; **clock never goldfished** — front-edge T6 claim suspect given the 5/5 optimism record |
+   | Grand Design | T6–8 | ✅ lab-verified 2026-06-10 (`gd_clock_lab.py`) — decap median T10 (T6 ≈ 1%, T8 ≈ 20%) / table T12+; the 6th optimistic front edge and the largest gap. Finale fires median T11 / ~9%; decaps are 96% incremental combat |
    | Eldrazi Stampede Chaos | T6–8 | ❌ unverified — front-edge claim, priority |
    | Radiation Sickness | T6–9 | ❌ unverified — wide range, priority |
    | Crystal Sickness | T7–9 | ❌ unverified |

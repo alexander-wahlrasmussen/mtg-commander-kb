@@ -144,6 +144,31 @@ None of these are needed to hold 19/20 — they're only relevant if the *next* p
 
 ---
 
+## 7. Clock addendum — the kill-turn goldfish (2026-06-10)
+
+**What this adds:** §1–6 measured the *curve*, kill-piece *availability*, and reanimation *determinism* — but never *what turn the deck actually kills*. The Framework Clock Gap doc (§5) flagged Grand Design as `◐` precisely because the front-edge **"Goldfish T6–8"** had never been goldfished, and every front edge measured across the other five labs came back optimistic. `scripts/gd_clock_lab.py` (new, built on the shared `speed_lab_core.py`; **not** a retrofit of the committed `gd_speed_lab.py`) is the kill-turn goldfish. It develops a board, swings each turn (unblocked, summoning sickness respected, focus-fire / no trample spill), checks the Finale X≥10 alpha-strike, and records decap (one opponent, 40) and table (all three, 120) separately.
+
+**Result (40k trials, seed 12345):**
+
+| P(kill ≤ T) % | T6 | T7 | **T8** | T9 | **T10** | T12 |
+|---|---|---|---|---|---|---|
+| **decap** (one opponent) | 1 | 6 | **20** | 44 | **66** | 90 |
+| **table** (all three) | 0 | 0 | 0 | 1 | 2 | 17 |
+
+**Median decap T10 · median table beyond the 12-turn horizon.**
+
+Three findings:
+
+1. **"Goldfish T6–8" was the optimistic front edge — the sixth straight optimism, and the largest gap.** T6 is a **~1% god-hand**; T8 — the *top* of the claimed range — is only the **20th percentile**. The deck's decap doesn't cross 50% until ~T9 and medians at **T10**. The hand estimate rounded the god-draw into the headline window, exactly as it did for Replication Crisis, Exile's Return, the two Kiki swaps, and Calamity Tax.
+
+2. **The named finisher is a non-factor in practice.** A lethal Finale (X≥10, needing 12 mana) fires in only **~9% of goldfish games, median turn 11**. **96% of decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding one opponent down), *not* Finale. So "Kill Line 1 — Finale, Primary One-Card Win" is the deck's **late-game ceiling**, not its working clock; the real primary is Kill Line 10 (combat). This is independent corroboration of the **finisher-upgrade proposal** (`Grand_Design_Finisher_Upgrade_2026-06-08.md`): a *fetchable* creature finisher would let the creature-tutor suite close years before the unfetchable T11 sorcery.
+
+3. **It cannot race; it must disrupt — which is fine, because that is what it is built to do.** decap T10 / table T12+ means Grand Design loses a raw race to the pod's T6–7 combo clock outright. Its **Favoured** matrix verdict survives entirely on the disruption column (own Grand Abolisher + Teferi T.R. sorcery-lock + Force of Will pre-Abolisher), not on speed — so the matrix row is corrected to **"Favoured — disruption-led, not a race,"** matching the Exile's Return pattern. This is the Framework Clock Gap thesis in one deck: a legitimately 19/20 *fortress* that kills late and wins by surviving to do so.
+
+**Honest model caveats (the floor is conservative):** `gd_clock_lab.py` does **not** model the creature-tutor suite fetching mana dorks/rocks, Birthing Pod climbing a fat creature straight onto the battlefield, or Atraxa's flicker loop re-drawing into lands/Finale — all of which the real deck has. So the true clock is likely **~1 turn faster** than the lab floor (decap closer to T9). Even with that credit, **T6 is not a typical window** and the corrected `decap T8–11 (median T10) / table T12+` stands. Mana is a lands+rocks floor; Bloom Tender is counted at 2 pre-Atraxa / 4 post; damage is unblocked. Trust the shape and the front edge, not the second decimal.
+
+---
+
 ## Method caveats
 
 - `deck_sim.py` is a **consistency** simulator, not a rules engine. Mana/colour are land-only floors; availability % ignore mana, the board, and whether Atraxa/Bloom Tender are online.
