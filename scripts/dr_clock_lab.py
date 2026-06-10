@@ -75,6 +75,26 @@ Modes:
   levers  — +drains / +tokens / +deathmana / +tutors swap variants (2 cuts
             each: Mother of Runes, Skrelv — the goldfish-deadest slots).
             Demonic/Vampiric tutor axis EXCLUDED: GCs, deck capped 3/3.
+  b4      — Bracket-4-in-spirit packages (2026-06-10 follow-up; identity
+            change away from Disrupt approved). Adds COMPACT 2-card kills,
+            all oracle-verified + GC-screened (none are GCs):
+              * Leonin Relic-Warder + Animate Dead/Necromancy (aura already
+                in deck): LRW ETB exiles the aura -> aura leaves -> LRW dies
+                -> LRW leave-trigger returns the aura -> aura reanimates LRW.
+                Infinite ETB/death loop, no mana, no outlet needed once the
+                aura targets LRW in the yard. Recruiter fetches LRW (tgh 2).
+              * Nim Deathmantle + Grave Titan + Ashnod's Altar (Altar already
+                in deck): sac Titan (+CC), pay 4 to Mantle, Titan returns
+                with 2 Zombies; sac the Zombies (+CCCC) -> mana-positive
+                infinite nontoken deaths. Mantle + 2 spare Titans OWNED, $0.
+              * Exquisite Blood + Vito/Sanguine Bond: gain->lose + lose->gain
+                closed loop; in THIS deck any Zulaport-class death gain
+                starts it. Vito alone converts every gain into single-target
+                drain (Kokusho death w/ Teysa = gain 30 -> 30 to a face).
+            Plus tutor support (Grim Tutor owned-free, Wishclaw Talisman,
+            Final Parting contested-by-Calamity) and a fast-mana control
+            axis (Cabal Ritual, Culling the Weak, Jet Medallion owned-free,
+            Crypt Ghast). Burnt Offering EXCLUDED: BR identity, not Orzhov.
 
 Data: collection/oracle-cards.json (refresh via update_scryfall_data.py)
 Writeup: proposals/Diminishing_Returns_Clock_Lab_2026-06-10.md
@@ -96,7 +116,9 @@ SHOW = [4, 5, 6, 7, 8, 9, 10, 12]
 
 ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
          "Mind Stone": (2, 1), "Thought Vessel": (2, 1),
-         "Wayfarer's Bauble": (3, 1)}
+         "Wayfarer's Bauble": (3, 1),
+         # b4 variants: Medallion approximated as a rock (deck is ~all black)
+         "Jet Medallion": (2, 1)}
 
 # black pips for devotion + K'rrik discounts (battlefield permanents only)
 PIPS = {"Teysa Karlov": 1, "Zulaport Cutthroat": 1, "Elas il-Kor, Sadistic Pilgrim": 1,
@@ -111,7 +133,9 @@ PIPS = {"Teysa Karlov": 1, "Zulaport Cutthroat": 1, "Elas il-Kor, Sadistic Pilgr
         "Plaguecrafter": 1, "Merciless Executioner": 1, "Dark Confidant": 1,
         "Soldevi Adnate": 1,
         "Bastion of Remembrance": 1, "Cruel Celebrant": 1, "Bitterblossom": 1,
-        "Ophiomancer": 1, "Pitiless Plunderer": 1, "Pawn of Ulamog": 2}
+        "Ophiomancer": 1, "Pitiless Plunderer": 1, "Pawn of Ulamog": 2,
+        "Vito, Thorn of the Dusk Rose": 1, "Exquisite Blood": 1,
+        "Sanguine Bond": 2, "Grave Titan": 2, "Crypt Ghast": 1}
 
 ZOMBIES = {"Gravecrawler", "Gray Merchant of Asphodel", "Midnight Reaper",
            "Stitcher's Supplier", "Carrion Feeder"}
@@ -119,7 +143,8 @@ ZOMBIES = {"Gravecrawler", "Gray Merchant of Asphodel", "Midnight Reaper",
 NONCREATURE_BF = {"The Meathook Massacre", "Agent of the Iron Throne",
                   "Bitterblossom", "Bastion of Remembrance", "Skullclamp",
                   "Phyrexian Altar", "Ashnod's Altar", "Altar of Dementia",
-                  "Desecrated Tomb"}
+                  "Desecrated Tomb", "Exquisite Blood", "Sanguine Bond",
+                  "Nim Deathmantle", "Wishclaw Talisman"}
 FREE_OUTLETS = {"Viscera Seer", "Carrion Feeder", "Yahenni, Undying Partisan",
                 "Woe Strider", "Altar of Dementia", "Ashnod's Altar",
                 "Phyrexian Altar"}
@@ -130,8 +155,8 @@ PAYOFFS = {"Zulaport Cutthroat", "Elas il-Kor, Sadistic Pilgrim",
 EXPENDABLE = {"Stitcher's Supplier", "Plaguecrafter", "Merciless Executioner",
               "Gravecrawler"}          # nontokens we sac freely once spent
 REANIMATE_ORDER = ["Kokusho, the Evening Star", "Gray Merchant of Asphodel",
-                   "Razaketh, the Foulblooded", "Sephiroth, Fabled SOLDIER",
-                   "Endrek Sahr, Master Breeder"]
+                   "Grave Titan", "Razaketh, the Foulblooded",
+                   "Sephiroth, Fabled SOLDIER", "Endrek Sahr, Master Breeder"]
 # printed power for the full-board swing (goldfish: unblocked, vigilance
 # tokens mean no defensive cost; verified vs oracle 2026-06-10)
 ATTACK_POWER = {"Kokusho, the Evening Star": 5, "Razaketh, the Foulblooded": 8,
@@ -148,7 +173,9 @@ ATTACK_POWER = {"Kokusho, the Evening Star": 5, "Razaketh, the Foulblooded": 8,
                 "Stitcher's Supplier": 1, "Priest of Forgotten Gods": 1,
                 "Recruiter of the Guard": 1, "Soldevi Adnate": 1,
                 "Cruel Celebrant": 1, "Ophiomancer": 2,
-                "Pitiless Plunderer": 1, "Pawn of Ulamog": 2}
+                "Pitiless Plunderer": 1, "Pawn of Ulamog": 2,
+                "Grave Titan": 6, "Leonin Relic-Warder": 2,
+                "Vito, Thorn of the Dusk Rose": 1, "Crypt Ghast": 2}
 
 # kept back during board liquidation (the drain/draw engine itself)
 LIQUIDATE_KEEP = PAYOFFS | {"Midnight Reaper", "Sephiroth, Fabled SOLDIER",
@@ -173,8 +200,13 @@ CASTS = [
     ("Plaguecrafter", 3), ("Merciless Executioner", 3),
     ("Mirkwood Bats", 4), ("Pitiless Plunderer", 4),
     ("Morbid Opportunist", 3), ("Dark Confidant", 2),
+    # b4-mode pieces (absent from the base library = never cast)
+    ("Leonin Relic-Warder", 2), ("Vito, Thorn of the Dusk Rose", 3),
+    ("Nim Deathmantle", 2), ("Wishclaw Talisman", 2), ("Crypt Ghast", 4),
+    ("Exquisite Blood", 5), ("Sanguine Bond", 5),
     ("Syr Konrad, the Grim", 5), ("Endrek Sahr, Master Breeder", 5),
     ("Gray Merchant of Asphodel", 5), ("Kokusho, the Evening Star", 6),
+    ("Grave Titan", 6),
     ("Razaketh, the Foulblooded", 8),
 ]
 COST = dict(CASTS)
@@ -212,6 +244,19 @@ class Trial:
             d += (1 if "Mirkwood Bats" in self.bf else 0)   # sac trig, undoubled
         return d
 
+    def gain(self, x, T):
+        """Lifegain event: Vito / Sanguine Bond convert it to single-target
+        drain; Exquisite Blood + either closes the loop = table kill."""
+        if x <= 0:
+            return
+        self.life += x
+        bond = ("Vito, Thorn of the Dusk Rose" in self.bf
+                or "Sanguine Bond" in self.bf)
+        if bond:
+            self.tbl.hit_focus(x, T)
+            if "Exquisite Blood" in self.bf:
+                self.tbl.kill_all(T)
+
     def make_tokens(self, k):
         self.tok_new += k
         if k and "Mirkwood Bats" in self.bf:    # creation trigger, conservative:
@@ -246,7 +291,7 @@ class Trial:
         d = self.per_death(token) * k
         if d:
             self.tbl.hit_all(d, T)
-            self.life += d                                  # Zulaport-class gain
+            self.gain(d, T)                                 # Zulaport-class gain
         # Sephiroth: front face single-target, doubled; 4 resolutions = flip
         if "Sephiroth, Fabled SOLDIER" in self.bf:
             if not self.sephi_back:
@@ -280,7 +325,7 @@ class Trial:
                     self.tbl.hit_focus(5, T)
             elif nm == "Kokusho, the Evening Star":
                 self.tbl.hit_all(5 * self.mult, T)
-                self.life += 15 * self.mult
+                self.gain(15 * self.mult, T)
 
     # -- helpers ----------------------------------------------------------------
     def devotion(self):
@@ -328,6 +373,23 @@ def goldfish_kill(library, rng, index):
     def infinite_ready():
         if t.per_death(False) < 1:
             return False
+        # b4: Nim Deathmantle + Grave Titan + Ashnod's Altar, 4 mana to start
+        if ({"Nim Deathmantle", "Grave Titan", "Ashnod's Altar"} <= t.bf
+                and g.avail >= 4):
+            return True
+        # b4: Leonin Relic-Warder + Animate Dead/Necromancy loop
+        for a, c in (("Animate Dead", 2), ("Necromancy", 3)):
+            if g.in_hand(a) is None:
+                continue
+            if "Leonin Relic-Warder" in t.dead and g.avail >= c:
+                return True
+            if ("Leonin Relic-Warder" in t.bf and t.outlet()
+                    and g.avail >= c):
+                return True
+            if (g.in_hand("Leonin Relic-Warder") is not None and t.outlet()
+                    and g.avail >= c + 2):
+                return True
+        # Gravecrawler + Phyrexian Altar (or Plunderer) + Zombie
         gc = "Gravecrawler" in t.bf or "Gravecrawler" in t.dead
         if not (gc and t.zombie_support()):
             return False
@@ -337,12 +399,53 @@ def goldfish_kill(library, rng, index):
             return True                                      # Treasure pays {B}
         return False
 
+    def combo_want():
+        """Best single fetch targets, most game-winning first."""
+        w = []
+        aura_held = (g.in_hand("Animate Dead") is not None
+                     or g.in_hand("Necromancy") is not None)
+        lrw_near = ("Leonin Relic-Warder" in t.dead
+                    or "Leonin Relic-Warder" in t.bf
+                    or g.in_hand("Leonin Relic-Warder") is not None)
+        if aura_held and not lrw_near:
+            w.append("Leonin Relic-Warder")
+        if lrw_near and not aura_held:
+            w += ["Animate Dead", "Necromancy"]
+        if {"Grave Titan", "Ashnod's Altar"} <= t.bf:
+            w.append("Nim Deathmantle")
+        if {"Nim Deathmantle", "Ashnod's Altar"} <= t.bf:
+            w.append("Grave Titan")
+        if "Exquisite Blood" in t.bf:
+            w += ["Vito, Thorn of the Dusk Rose", "Sanguine Bond"]
+        if ("Vito, Thorn of the Dusk Rose" in t.bf
+                or "Sanguine Bond" in t.bf):
+            w.append("Exquisite Blood")
+        if (("Gravecrawler" in t.bf or "Gravecrawler" in t.dead)
+                and t.zombie_support()):
+            w.append("Phyrexian Altar")
+        w += ["Leonin Relic-Warder", "Exquisite Blood",
+              "Vito, Thorn of the Dusk Rose", "Nim Deathmantle",
+              "Grave Titan", "Kokusho, the Evening Star",
+              "Phyrexian Altar", "Skullclamp", "Zulaport Cutthroat"]
+        return w
+
+    def fetch_best():
+        for w in combo_want():
+            if (w not in t.bf and g.in_hand(w) is None
+                    and w not in t.dead and g.fetch(w)):
+                return w
+        return None
+
     def reanimate(T):
         """One reanimation spell from hand onto the best dead target."""
         for sp, cost in (("Reanimate", 1), ("Animate Dead", 2),
                          ("Necromancy", 3), ("Victimize", 3)):
             if g.in_hand(sp) is None:
                 continue
+            if (sp in ("Animate Dead", "Necromancy")
+                    and "Leonin Relic-Warder" in t.dead
+                    and t.per_death(False) >= 1):
+                continue                  # hold the aura: it IS the win
             targets = [n for n in REANIMATE_ORDER if n in t.dead]
             if not targets:
                 return False
@@ -356,9 +459,11 @@ def goldfish_kill(library, rng, index):
                 t.spend_body(T)
                 for nm in targets[:2]:
                     t.dead.remove(nm); t.bf.add(nm); t.entered[nm] = T
+                    if nm == "Grave Titan":
+                        t.make_tokens(2)
                     if nm == "Gray Merchant of Asphodel":
                         x = t.devotion()
-                        tbl.hit_all(x, T); t.life += 3 * x
+                        tbl.hit_all(x, T); t.gain(3 * x, T)
                 return True
             c, lf = t.kcost(sp, cost)
             if g.avail < c:
@@ -368,9 +473,11 @@ def goldfish_kill(library, rng, index):
             if sp == "Reanimate":
                 t.life -= int(COST.get(nm, 3))
             t.dead.remove(nm); t.bf.add(nm); t.entered[nm] = T
+            if nm == "Grave Titan":
+                t.make_tokens(2)
             if nm == "Gray Merchant of Asphodel":
                 x = t.devotion()
-                tbl.hit_all(x, T); t.life += 3 * x
+                tbl.hit_all(x, T); t.gain(3 * x, T)
             return True
         return False
 
@@ -413,13 +520,19 @@ def goldfish_kill(library, rng, index):
                                 t.dead.append(mn)
                     elif nm == "Bastion of Remembrance":
                         t.make_tokens(1)
+                    elif nm == "Grave Titan":
+                        t.make_tokens(2)
                     elif nm == "Gray Merchant of Asphodel":
                         x = t.devotion()
-                        tbl.hit_all(x, T); t.life += 3 * x
+                        tbl.hit_all(x, T); t.gain(3 * x, T)
                     elif nm == "Recruiter of the Guard":
-                        for w in ("Viscera Seer", "Zulaport Cutthroat",
-                                  "Gravecrawler", "Carrion Feeder",
-                                  "Stitcher's Supplier"):
+                        aura_held = (g.in_hand("Animate Dead") is not None
+                                     or g.in_hand("Necromancy") is not None)
+                        wants = (("Leonin Relic-Warder",) if aura_held else ()) + (
+                            "Viscera Seer", "Zulaport Cutthroat",
+                            "Gravecrawler", "Carrion Feeder",
+                            "Stitcher's Supplier")
+                        for w in wants:
                             if w not in t.bf and g.in_hand(w) is None:
                                 if g.fetch(w):
                                     break
@@ -451,6 +564,40 @@ def goldfish_kill(library, rng, index):
                         if g.fetch(w):
                             break
                 acted = True; continue
+            # compact tutors (b4 variants): fetch the missing combo piece
+            tutored = False
+            for tn, tc, tl in (("Vampiric Tutor", 1, 2), ("Demonic Tutor", 2, 0),
+                               ("Grim Tutor", 3, 3), ("Wishclaw Talisman", 3, 0)):
+                if g.in_hand(tn) is not None and g.avail >= tc:
+                    g.cast(tn, tc)
+                    t.life -= tl
+                    fetch_best()      # Vampiric: to-top modelled as to-hand
+                    tutored = True
+                    break
+            if tutored:
+                acted = True; continue
+            # Final Parting: one to hand, one to the yard
+            if g.in_hand("Final Parting") is not None and g.avail >= 5:
+                g.cast("Final Parting", 5)
+                fetch_best()
+                for w in REANIMATE_ORDER:
+                    if w not in t.bf and w not in t.dead and g.fetch(w):
+                        i = g.in_hand(w)
+                        g.yard.append(g.hand.pop(i))
+                        t.dead.append(w)
+                        break
+                acted = True; continue
+            # rituals (b4 variants)
+            if g.in_hand("Cabal Ritual") is not None and g.avail >= 2:
+                thr = 5 if (len(g.yard) + len(t.dead)) >= 7 else 3
+                g.cast("Cabal Ritual", 2); g.add_mana(thr)
+                acted = True; continue
+            if (g.in_hand("Culling the Weak") is not None and g.avail >= 1
+                    and t.tok_ready + t.tok_new + t.fodder >= 1):
+                g.cast("Culling the Weak", 1)
+                t.spend_body(T)           # the sac IS a death trigger
+                g.add_mana(4)
+                acted = True; continue
             # reanimation
             if reanimate(T):
                 acted = True; continue
@@ -470,9 +617,11 @@ def goldfish_kill(library, rng, index):
                     back = [n for n in t.dead]
                     for nm in back:
                         t.dead.remove(nm); t.bf.add(nm); t.entered[nm] = T
+                        if nm == "Grave Titan":
+                            t.make_tokens(2)
                         if nm == "Gray Merchant of Asphodel":
                             x = t.devotion()
-                            tbl.hit_all(x, T); t.life += 3 * x
+                            tbl.hit_all(x, T); t.gain(3 * x, T)
                     acted = True; continue
             # Vindictive Lich as a body late (death value not modelled)
             if t.per_death(False) >= 2 and g.in_hand("Vindictive Lich") is not None:
@@ -535,16 +684,17 @@ def goldfish_kill(library, rng, index):
                 t.die(1, False, T, names=["Gravecrawler"])
         if tbl.done:
             return
-        # Razaketh: convert spare fodder into the missing combo piece
+        # Razaketh: convert spare fodder into the missing combo pieces
         if "Razaketh, the Foulblooded" in t.bf:
-            for w in ("Phyrexian Altar", "Gravecrawler", "Zulaport Cutthroat"):
+            for _ in range(3):
                 if tbl.done or t.life <= 12:
                     break
-                if w in t.bf or g.in_hand(w) is not None or w in t.dead:
-                    continue
-                if t.spend_body(T):
-                    t.life -= 2
-                    g.fetch(w)
+                if t.tok_ready + t.tok_new + t.fodder < 1:
+                    break
+                if not t.spend_body(T):
+                    break
+                t.life -= 2
+                fetch_best()
         # Skullclamp: bodies -> cards (death trigger of a permanent you
         # control -> Teysa-doubled: draw 4 per 1 mana)
         if "Skullclamp" in t.bf:
@@ -625,6 +775,8 @@ def goldfish_kill(library, rng, index):
             t.make_tokens(1); t.life -= 1
         if "Ophiomancer" in t.bf:
             t.make_tokens(1)
+        if "Crypt Ghast" in t.bf and t.entered.get("Crypt Ghast", T) < T:
+            g.add_mana(2)                 # ~half the lands are Swamps
         g.deploy_rocks()
         chain(T)
         if infinite_ready():
@@ -693,6 +845,39 @@ VARIANTS = {
           "Pitiless Plunderer", "Bitterblossom"]),
 }
 
+# Bracket-4-in-spirit packages. Cuts come from the protection/removal shell
+# (identity change away from Disrupt approved 2026-06-10).
+CUTS6 = ["Mother of Runes", "Giver of Runes", "Skrelv, Defector Mite",
+         "Selfless Spirit", "Generous Gift", "Swiftfoot Boots"]
+CUTS10 = CUTS6 + ["Cathar Commando", "Morbid Opportunist",
+                  "Wayfarer's Bauble", "Vindictive Lich"]
+VARIANTS_B4 = {
+    "BASE (current list)": ([], []),
+    "b4-combo6 (+LRW +Vito +ExquisiteBlood +GraveTitan +Deathmantle +GrimTutor)":
+        (CUTS6, ["Leonin Relic-Warder", "Vito, Thorn of the Dusk Rose",
+                 "Exquisite Blood", "Grave Titan", "Nim Deathmantle",
+                 "Grim Tutor"]),
+    "b4-mana4  (+Cabal Ritual +Culling the Weak +Jet Medallion +Crypt Ghast)":
+        (CUTS6[:4], ["Cabal Ritual", "Culling the Weak", "Jet Medallion",
+                     "Crypt Ghast"]),
+    "b4-tutor3 (+Grim Tutor +Wishclaw +Final Parting; no new combos)":
+        (CUTS6[:3], ["Grim Tutor", "Wishclaw Talisman", "Final Parting"]),
+    "b4-full10 (combo6 + Wishclaw + SanguineBond + CabalRit + Culling)":
+        (CUTS10, ["Leonin Relic-Warder", "Vito, Thorn of the Dusk Rose",
+                  "Exquisite Blood", "Grave Titan", "Nim Deathmantle",
+                  "Grim Tutor", "Wishclaw Talisman", "Sanguine Bond",
+                  "Cabal Ritual", "Culling the Weak"]),
+    # GC slot reallocation: defensive GCs out, tutor GCs in (still 3/3 with
+    # Teferi's Protection). Demonic x3 / Vampiric x1 owned but ALL deployed.
+    "b4-gcswap (full10, also -SmotheringTithe -Farewell +Demonic +Vampiric)":
+        (CUTS10 + ["Smothering Tithe", "Farewell"],
+         ["Leonin Relic-Warder", "Vito, Thorn of the Dusk Rose",
+          "Exquisite Blood", "Grave Titan", "Nim Deathmantle",
+          "Grim Tutor", "Wishclaw Talisman", "Sanguine Bond",
+          "Cabal Ritual", "Culling the Weak",
+          "Demonic Tutor", "Vampiric Tutor"]),
+}
+
 
 def _run(library, index, trials, label):
     rng = random.Random(SEED)
@@ -714,6 +899,18 @@ def mode_clock(index, aliases, trials):
     _run(library, index, trials, "")
 
 
+def mode_b4(index, aliases, trials):
+    print(f"\n### B4 — bracket-4-in-spirit packages   trials={trials} seed={SEED}")
+    print("    Compact 2-card kills + tutors + fast-mana control axis.")
+    print("    GC slots untouched (3/3); all adds GC-screened clean.\n")
+    base, commander = slc.load_parsed(DECK, index, aliases)
+    print("  P(kill <= turn T) %".ljust(76) + "".join(f"{t:>6}" for t in SHOW))
+    for label, (rm, add) in VARIANTS_B4.items():
+        lib = slc.build_lib(base, index, rm, add)
+        _run(lib, index, trials, label[:62])
+        print()
+
+
 def mode_levers(index, aliases, trials):
     print(f"\n### LEVERS — axis swaps, 2-card packages   trials={trials} seed={SEED}")
     print("    Tutor axis limited to non-GC tutors (Demonic/Vampiric blocked: 3/3).\n")
@@ -726,5 +923,6 @@ def mode_levers(index, aliases, trials):
 
 
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers},
+    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers,
+                          "b4": mode_b4},
                 default_trials=20000)

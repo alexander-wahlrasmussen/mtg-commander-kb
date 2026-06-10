@@ -371,3 +371,11 @@ No card swaps applied during this audit.
 5. Optional polish (pilot's call, NOT a lab mandate): −Mother of Runes −Skrelv +Bitterblossom (owned, undeployed, $0) +Ophiomancer (~€3). The cuts cost real Teysa protection the goldfish can't price. Minimal version: Bitterblossom in, Skrelv out.
 
 No card swaps applied. Scores unchanged (17/20) — the lab measures the clock, not the axes; the deck's identity is Disrupt, not Race, and the matchup framing should treat it as such.
+
+### 2026-06-10 — Bracket-4-in-spirit pivot proposed (pending pod approval)
+
+Follow-up lab (`dr_clock_lab.py --mode b4`, 12k trials) answered "more drain infinites or faster mana?": **combos, decisively — fast mana tested *below* baseline** (its cuts cost bodies; even goldfish-dead protection creatures contribute corpses here). Staged proposal in `proposals/Diminishing_Returns_B4_Pivot_2026-06-10.md`:
+
+- Compact 2-card kills: **Leonin Relic-Warder + in-deck Animate Dead/Necromancy** (Recruiter tutors LRW), **Nim Deathmantle + Grave Titan + in-deck Ashnod's Altar (both owned, $0)**, Exquisite Blood + Vito (~€30, prices checked 2026-06-10).
+- Best measured build (full package + GC reallocation: −Smothering Tithe −Farewell +Demonic +Vampiric, still 3/3): table kill 30→41% by T12, never-kill 70→59%, **21% of games end via combo (T8–12)**. Decap stays T9 in all variants — this is a kill-reliability upgrade, not a race upgrade.
+- **Bracket consequence:** LRW+aura is an early-capable 2-card infinite → breaks the B3 letter; pod approval required before any swap. Decklist unchanged.
