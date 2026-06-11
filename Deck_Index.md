@@ -8,7 +8,6 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 | Deck                   | Commander                   | Colors |     Score | Archetype                   | Status                                                            |
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------------------------------------------------- |
-| The Loam Cycle         | Teval, the Balanced Scale   | Sultai |     19/20 | Graveyard value             | Elite                                                             |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
 | The Calamity Tax       | Glarb, Calamity's Augur     | Sultai |     18/20 | Control / tax               | Elite                                                             |
 | Lightning War          | Fire Lord Azula             | Grixis |     18/20 | Spellslinger / burn         | Elite                                                             |
@@ -24,14 +23,22 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30)                                       |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08)                                        |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited + 2-phase upgrade 2026-05-13)                      |
+| Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |  not audited | Lifeloop combo / spellslinger-drain | **Cards on order** (built 2026-06-11; Clock T9 decap=table, lab 2026-06-11) |
+
+### Retired
+
+| Deck | Commander | Note |
+| --- | --- | --- |
+| The Loam Cycle | Teval, the Balanced Scale | Dismantled 2026-06-08; decklist archived 2026-06-11; cards returned to pool |
 
 ---
 
 ## Tier summary
 
-- **Elite (17+):** 14 decks.
+- **Elite (17+):** 13 decks.
 - **Solid (13–16):** 3 decks.
 - **Developing (9–12):** 0.
+- **Unscored:** 1 (Zero-Sum Game — audit after first pod games).
 
 ---
 

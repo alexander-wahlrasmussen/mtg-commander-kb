@@ -1,0 +1,91 @@
+# Zero-Sum Game — Witherbloom, the Balancer
+
+## Quick Reference
+
+| Field | Value |
+|---|---|
+| **Commander** | Witherbloom, the Balancer ({6}{B}{G}, 5/5 Legendary Creature — Elder Dragon) |
+| **Colors** | Golgari (BG) |
+| **Archetype** | Spellslinger-drain / lifeloop combo (bracket-4-in-spirit) |
+| **Bracket** | 3 by GC count (3/3). Contains a 2-card infinite — **pod-approved** for this build (2026-06-01, extension of the Berta approval). |
+| **Game Changers** | Necropotence, Vampiric Tutor, Demonic Tutor (3 of 3 slots used) |
+| **Conversion Check** | *Not yet audited.* Proposal ceiling 18–19/20; the clock lab tempers the Speed axis — formal audit after first pod games. |
+| **Kill Window** | Clock: **T9 decap = T9 table** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
+| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). The `.txt` is the target state until the order lands. |
+
+-----
+
+## Commander Rules Text
+
+Witherbloom, the Balancer — three abilities (verified `card_lookup.py` 2026-06-01, re-checked 2026-06-11):
+
+1. **Affinity for creatures** (on herself): she costs {1} less per creature you control — 8 MV shrinks to the {B}{G} floor with 6+ bodies.
+2. **Flying, deathtouch.**
+3. **"Instant and sorcery spells you cast have affinity for creatures."** Generic-cost reduction only — coloured pips are untouched. This is the deck's mana engine: with a token board out, every tutor, ritual, and buyback spell costs its coloured pips only.
+
+She is deliberately **not** a combo piece. The primary kill is commander-independent; she accelerates it by discounting the tutor chain.
+
+-----
+
+## What the Deck Does
+
+Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert board width into spell discounts and the board+spells into one of three drain engines:
+
+1. **The lifeloop (primary):** one *blood-half* + one *vito-half* + any life event = the table dies.
+   - Blood-halves ("opponent loses → you gain"): **Exquisite Blood**, **Bloodthirsty Conqueror**
+   - Vito-halves ("you gain → opponent loses"): **Vito, Thorn of the Dusk Rose**, **Sanguine Bond**, **Enduring Tenacity**, **Defiant Bloodlord** (+ Professor Dellian Fel's −6 emblem as a 7th copy)
+   - 2 × 4 redundancy is why this finds itself: 6 of the 8 pieces are creatures or enchantment creatures, so Chord of Calling / Finale of Devastation / Nature's Rhythm fetch them straight onto the battlefield.
+2. **Buyback token storm:** Sprout Swarm (convoke + buyback) and Lab Rats under the commander's affinity become free repeatable casts — each one a magecraft trigger for **Witherbloom Apprentice** (drain 1 / gain 1 per instant or sorcery). With both loop halves down this is also an igniter; standalone it's a slow drain clock.
+3. **Razaketh chain:** tokens become tutors at 2 life each; finds whatever the loop is missing at instant speed.
+
+**Igniters** (anything that starts the loop once both halves are down): any unblocked attacker (combat damage = life loss), Witherbloom Apprentice + any spell, Cauldron Familiar (+ Witch's Oven for every-turn recursion), any Food token ({2}, sac: gain 3 — Gilded Goose ships with one), Blood Artist / Zulaport Cutthroat / Marionette Apprentice + a sacrifice, Dellian Fel's +2.
+
+-----
+
+## Kill Lines
+
+**Line A — Exquisite Blood loop (primary).** Deploy a blood-half (5 MV) and a vito-half (3–5 MV), trigger once, table dies at instant speed. Confirmed by Sanguine Bond's own ruling: the loop runs until a player wins or someone breaks it. Commander-independent; survives a Witherbloom tax-out completely.
+
+**Line B — Apprentice storm.** Witherbloom + wide board → Lab Rats/Sprout Swarm buyback for free → Apprentice drains 1 per cast from each opponent. Not modeled in the lab (conservative); in practice it's the consolation clock when the loop is disrupted.
+
+**Line C — Razaketh assembly.** 8 MV body that turns every token into Vampiric Tutor. The lab models him fetching missing loop pieces; he also finds answers.
+
+**Backup — combat.** Bitterblossom fliers + Tendershoot + Hornet Queen; irrelevant as a clock (T12+), relevant as ignition and Razaketh fuel.
+
+-----
+
+## Lab Results (wb_clock_lab.py, 40k trials, seed 20260611, 2026-06-11)
+
+| cumulative % killed by | T5 | T6 | T7 | T8 | T9 | T10 | T12 | median |
+|---|---|---|---|---|---|---|---|---|
+| Standard goldfish (attack ignition) | 12 | 25 | 37 | 48 | 56 | 64 | 75 | **T9** |
+| No-combat ignition (blocked out) | 2 | 8 | 18 | 27 | 36 | 43 | 57 | T11 |
+| GC A/B: −Demonic +Mana Vault | 12 | 24 | 35 | 45 | 53 | 59 | 70 | T9 |
+
+- **GC verdict: keep the tutor suite.** Mana Vault is flat-to-worse at every turn — same conclusion as the DR lab (combos want tutors, not fast mana).
+- The proposal's "T6–7, majority by T8" (2026-06-07 deployment model) was again slightly optimistic: the harness says 48% by T8, median T9. Sixth-of-seven optimism for hand/semi-modeled claims; the lab number is the citable one.
+- Model is conservative where it matters: Skullclamp / Black Market Connections / Night's Whisper draw, Dellian's 0, Corpse Dance recursion, and the entire Line B storm are all omitted. Optimistic: unblocked combat ignition, colour-blind mana, rocks tap same turn, no opposing interaction.
+
+**Versus the pod combo opponent (T6–7 behind Grand Abolisher):** the raw race is level-or-ahead in ~25–37% of games. The rest is the interaction plan — and the kill itself is Abolisher-proof (triggered loop on our turn, no cast or activation an Abolisher can gate). Veil of Summer ×1 (owned ×3), Heroic Intervention, Deadly Rollick, and instant-speed creature removal (Abrupt Decay / Assassin's Trophy / Beast Within) for their Abolisher on *our* turn cover the combo window. This is the best racing profile in the roster, not a guaranteed out-race — honest framing per the framework clock rule.
+
+-----
+
+## The Grand Abolisher Plan
+
+1. **The kill doesn't care.** Abolisher stops spells and activations *on its controller's turn*; our loop closes on our turn off triggered abilities.
+2. **Kill it on sight, on our turn:** Abrupt Decay (uncounterable), Assassin's Trophy, Beast Within, Toxic Deluge, Pernicious Deed.
+3. **Race insurance:** Veil of Summer for the combo turn vs UB interaction; Deadly Rollick free at their combo attempt.
+
+-----
+
+## Provenance & Files
+
+- Decklist: `decks/zero-sum-game-20260611.txt` (100 cards: 99 + commander; counted 2026-06-11)
+- Proposal: `proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07)
+- Build readiness / donor analysis: `proposals/Witherbloom_Build_Readiness_2026-06-11.md`
+- Source list: `proposals/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
+- Clock lab: `scripts/wb_clock_lab.py` (clock / gcswap / avail modes)
+- Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**)
+- Card text: all combo pieces, igniters, and tutors verified via `card_lookup.py` (2026-06-01 / 06-07 / 06-11 logs in the proposal and readiness docs)
+
+**Roster notes:** building this standalone consumed the deferred "Witherbloom into Calamity Tax as a 99" option (`decks/The_Calamity_Tax_Swaps_2026-06-01.md` §Witherbloom — now closed). Pest Control proposal is the natural roster casualty (same BG substrate, unbuilt). The Loam Cycle is dismantled and archived.

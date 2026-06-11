@@ -63,6 +63,7 @@ COMMANDERS = {
     "the-loam-cycle": "Teval, the Balanced Scale",
     "the-replication-crisis": "Satya, Aetherflux Genius",
     "this-bunny-goes-to-market": "Ms. Bumbleflower",
+    "zero-sum-game": "Witherbloom, the Balancer",
 }
 
 DISPLAY = {
@@ -83,6 +84,7 @@ DISPLAY = {
     "the-loam-cycle": "The Loam Cycle",
     "the-replication-crisis": "The Replication Crisis",
     "this-bunny-goes-to-market": "Ms. Bumbleflower",
+    "zero-sum-game": "Zero-Sum Game",
 }
 
 
