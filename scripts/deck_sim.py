@@ -64,6 +64,14 @@ COMMANDERS = {
     "the-replication-crisis": "Satya, Aetherflux Genius",
     "this-bunny-goes-to-market": "Ms. Bumbleflower",
     "zero-sum-game": "Witherbloom, the Balancer",
+    # 2026-06-12 bake-off candidates (decks/considering/) + the two externals
+    "insider-trading": "Yuriko, the Tiger's Shadow",
+    "hostile-takeover": "Godo, Bandit Warlord",
+    "quantitative-easing": "Kinnan, Bonder Prodigy",
+    "asset-stripping": "Korvold, Fae-Cursed King",
+    "forced-liquidation": "Kefka, Court Mage",
+    "clive-external": "Clive, Ifrit's Dominant",
+    "kefka-external": "Kefka, Court Mage",
 }
 
 DISPLAY = {

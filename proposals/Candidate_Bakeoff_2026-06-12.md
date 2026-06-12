@@ -13,7 +13,13 @@ Stage 2 results for falsified free-claims + cost revision), Kefka-burn
 (`forced-liquidation-20260612.txt`, 100 ✓ — Demonic Tutor now a BUY (ZSG took the last spare),
 cost revised ~€140–190), Korvold (`asset-stripping-20260612.txt`, 100 ✓ — GC slot swapped
 Survival→**Worldly Tutor**, ~€50 cost claim HOLDS, the only candidate whose estimate survived
-the sweep). **Next action: Stage 3 clock labs** (refresh Scryfall data before Clive's).
+the sweep). **Stage 3: COMPLETE (7 of 7 labs run 2026-06-12)** — Scryfall refreshed first; all
+seven candidates goldfished on `speed_lab_core.py` (20 000 trials, seed 20260612, T12 horizon).
+Headline: **Godo is the only table-kill inside the T6–7 brief bar (median T6)**; Yuriko passes
+its own ~T7 gate (decap T7 / table T8); **Kinnan's "Strong turbo" Stage-1 read is FALSIFIED**
+(median T11, 42% never-in-12); Korvold decap T9 but table >T12 (claim conflated clocks, again);
+Kefka-burn decap T8 / table T9 beats Kefka-ext (T9) in the same-commander head-to-head; Clive
+(ext) decap T9 / table mostly >T12. **Next action: Stage 4 verdict doc.**
 
 **Owner model — REVISED 2026-06-12 (user flagged the original as compromised).** The first
 version of this section was Opus-4.8-authored and the user reports it **hallucinated its claims
@@ -387,31 +393,74 @@ slots were resolved per its own guidance (extra wheel/punisher redundancy, secon
 
 ---
 
+## Stage 3 results (2026-06-12) — clock labs
+
+**Method:** one `*_clock_lab.py` per finalist on `speed_lab_core.py`, committed to `scripts/`
+(no throwaways). 20 000 trials each, seed 20260612, 12-turn horizon, unblocked-goldfish
+conventions of the prior labs (rocks repeat incl. Vault/Monolith — documented optimism;
+colour-blind mana floor; no opposing interaction). Scryfall data refreshed 2026-06-12 before
+the externals; every combo-critical card's oracle text re-verified via `card_lookup.py` before
+its kill logic was encoded. Decap and table reported separately per the verification rule.
+Two ground-truth fixes found while wiring the labs: `insider-trading-20260612.txt` had
+**"Consuming Tides" → Consuming Tide** (typo; the plural doesn't exist) and
+**"Lim-Dul's Vault" → Lim-Dûl's Vault** (oracle spelling; parser couldn't resolve it) —
+fixed in place, same-day file. The two externals were extracted to
+`decks/considering/clive-external-20260612.txt` / `kefka-external-20260612.txt` (99+1 ✓,
+Clive's 5 reskin aliases resolve at parse time), and the 7 candidates were added to
+`deck_sim.py`'s COMMANDERS map.
+
+| # | Candidate | Lab | Median decap / table | Table by T6 / T8 | Never-in-12 (table) | Verdict vs claim |
+|---|---|---|---|---|---|---|
+| 1 | Yuriko | `yrk_clock_lab.py` | **T7 / T8** | 26% / 61% | 9% | **GATE PASSED** (~T7 asked; decap T7, table 1 behind). Best all-round clock; dual-axis (chip converges + 3-mana Thoracle/Consult). |
+| 2 | Godo | `godo_clock_lab.py` | **T6 / T6** (kill_all) | 51% / 75% | 5% | **Only candidate meeting the T6–7 bar on TABLE kill.** "T5–6 target" ≈ holds (34% T5). Glass caveat: goldfish can't see removal; the 2-turn line assumes Godo survives. |
+| 4 | Kinnan | `knn_clock_lab.py` | T11 / T11 (kill_all) | 22% / 36% | 42% | **"Strong — 2-card turbo" FALSIFIED.** Singleton combo density (1 Basalt, 2 auras, 1 Selvala) is the bottleneck; 8th optimistic hand-estimate falsified by a lab. |
+| 5 | Korvold | `kvd_clock_lab.py` | T9 / >T12 | 1% / 4% | 72% | "Median T7–9" holds for **decap only** (T9, edge of band); table never-in-12 at 72% — the claim conflated the two clocks. Grindy profile confirmed, loop assembly (5 pieces) rarely closes by T12. |
+| 9 | Kefka-burn | `kfk_clock_lab.py` | **T8 / T9** | 6% / 40% | 11% | Convergence thesis HOLDS (1-turn gap, symmetric static damage). Misses T6–7 bar but is the best internal table clock after Godo, and the damage path is Abolisher-proof by construction. |
+| 7 | Clive (ext) | `clv_clock_lab.py` | T9 / >T12 | 0% / 3% | 58% | Expert engine deck, not a racer — calibrates the brief: even a tuned external doesn't TABLE-kill T6–7. (Underworld Breach storm + One Ring omitted — real ceiling somewhat higher late.) |
+| 8 | Kefka-ext | `kfx_clock_lab.py` | T9 / T9 (kill_all) | 20% / 48% | 19% | Matches its own "NOT a turbo" self-declaration. Head-to-head: internal burn build is ~1 turn faster and brief-fitter; external's edge (dense interaction suite) is outside goldfish scope. |
+
+**Cross-cutting reads for Stage 4:**
+- **The T6–7 brief bar is a decap bar in practice.** Only Godo tables by T6 at the median; the
+  calibrating externals sit at T9/>T12. Genome (T8 table) remains the roster's benchmark shape.
+- **Clock ordering (table):** Godo T6 → Yuriko T8 → Kefka-burn T9 ≈ Kefka-ext T9 → Kinnan T11 →
+  Clive >T12 → Korvold >T12.
+- **Reliability ordering (never-in-12, table):** Godo 5% → Yuriko 9% → Kefka-burn 11% →
+  Kefka-ext 19% → Kinnan 42% → Clive 58% → Korvold 72%.
+- Same-commander head-to-head: **internal Kefka-burn ≥ external Kefka** on clock AND brief-fit
+  (static, on-your-turn-doubled, counter-free damage); the external's counter-suite strength is
+  real but is exactly the axis Grand Abolisher switches off in this pod.
+- Goldfish flatters Godo most (no removal; mono-R glass was the Stage-1 caveat and stands).
+
+---
+
 ## Status table (resumable — update as stages complete)
 
 | # | Candidate | GC count | Brief-fit | Decklist | Lab | Clock (decap / table) | Stage | Next action |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Yuriko | 3/3 ✓ | **Strong** | ✓ 100 ✓ `insider-trading-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`yrk_clock_lab`) |
-| 2 | Godo | 3/3 ✓ | **Moderate** | ✓ 100 ✓ `hostile-takeover-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`godo_clock_lab`) |
+| 1 | Yuriko | 3/3 ✓ | **Strong** (lab-confirmed) | ✓ 100 ✓ `insider-trading-20260612.txt` | ✓ `yrk_clock_lab.py` | **T7 / T8** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 2 | Godo | 3/3 ✓ | **Moderate** (fastest table) | ✓ 100 ✓ `hostile-takeover-20260612.txt` | ✓ `godo_clock_lab.py` | **T6 / T6** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
 | 3 | Urza | 3/3 ✓ | Weak (anti-race) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
-| 4 | Kinnan | 3/3 ✓ (Worldly swap) | **Strong** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`knn_clock_lab`) |
-| 5 | Korvold | 3/3 ✓ (Worldly swap) | Weak (grindy T7–9) | ✓ 100 ✓ `asset-stripping-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`kvd_clock_lab`) |
+| 4 | Kinnan | 3/3 ✓ (Worldly swap) | ~~Strong~~ **FALSIFIED by lab** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | ✓ `knn_clock_lab.py` | T11 / T11, 42% never (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 5 | Korvold | 3/3 ✓ (Worldly swap) | Weak (grindy, confirmed) | ✓ 100 ✓ `asset-stripping-20260612.txt` | ✓ `kvd_clock_lab.py` | T9 / >T12, 72% never (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
 | 6 | Thrasios+Tymna | 3/3 ✓ | Mixed (cost+politics) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
-| 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab (refresh data first) |
-| 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab |
-| 9 | Kefka (int, burn) | 3/3 ✓ | **Strong** | ✓ 100 ✓ `forced-liquidation-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`kfk_clock_lab`) |
+| 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ `clive-external-20260612.txt` | ✓ `clv_clock_lab.py` | T9 / >T12 (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ `kefka-external-20260612.txt` | ✓ `kfx_clock_lab.py` | T9 / T9 (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 9 | Kefka (int, burn) | 3/3 ✓ | **Strong** (convergence held) | ✓ 100 ✓ `forced-liquidation-20260612.txt` | ✓ `kfk_clock_lab.py` | **T8 / T9** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
 
 Clive flags all RESOLVED 2026-06-12 (user-confirmed reskin aliases → `REF_Reskin_Aliases.md`):
 Morgul-Knife=Shadowspear, Storm's Will=**Jeska's Will (GC, → 3 GCs)**, Helm's Deep=Shinka,
 Wakandan Skyscraper=Karn's Bastion, Calliope's Song=Seething Song. Still run
 `update_scryfall_data.py` before the Clive lab.
 
-**Next action overall:** **Stage 2 COMPLETE — all 5 internal survivors built** (Yuriko / Godo /
-Kinnan / Kefka-burn / Korvold), swept, exactly 100 each, commanders in END blocks. Next →
-**Stage 3 clock labs** for all 5 finalists + both externals (one `*_clock_lab.py` each on
-`speed_lab_core.py`, decap AND table reported separately; reuse kill scaffolds per the funnel
-notes); run `update_scryfall_data.py` before Clive's lab. Scratch drafts live in `_build/`
-(untracked; `considering/` versions are canonical).
+**Next action overall:** **Stage 3 COMPLETE — all 7 labs run and committed** (see Stage 3
+results). Next → **Stage 4 verdict doc**: head-to-head ranking → recommend ONE, format per
+`Witherbloom_External_Build_Comparison.md` (brief-fit, lab clock decap/table cited, Conversion
+Check, GC/bracket, completability/cost — note Kinnan's cost AND clock both degraded — pod
+matchup vs the T6–7 Abolisher combo deck, honest weaknesses). Open Stage-4 tension to resolve:
+**Godo wins the clock** (only T6 table) but is goldfish-flattered glass; **Yuriko wins
+clock+resilience combined** (T7/T8, 9% never) and passed its own gate; **Kefka-burn wins
+brief-fit on the Abolisher axis** (static symmetric damage, T8/T9). Scratch drafts live in
+`_build/` (untracked; `considering/` versions are canonical).
 **Cost picture after all sweeps (all unverified):** Godo ~€45–60-but-light → Korvold ~€50
 (claim held) → Kinnan ~€120–160 → Yuriko ~€140–170 → Kefka-burn ~€140–190.
 **Open user decisions:** (a) Radiation Sickness 4-GC violation — how to resolve; (b) whether

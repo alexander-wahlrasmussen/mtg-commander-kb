@@ -37,7 +37,7 @@
 1 Opt
 1 Scroll Rack
 1 Sensei's Divining Top
-1 Lim-Dul's Vault
+1 Lim-Dûl's Vault
 1 Frantic Search
 1 Mystical Tutor
 1 Treasure Cruise
@@ -53,7 +53,7 @@
 1 An Offer You Can't Refuse
 1 Dispel
 1 Commandeer
-1 Consuming Tides
+1 Consuming Tide
 1 Curtains' Call
 1 Draco
 1 Blinkmoth Infusion

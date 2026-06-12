@@ -1,0 +1,95 @@
+1 ________ Goblin
+1 Abrade
+1 Aether Hub
+1 An Offer You Can't Refuse
+1 Arcane Denial
+1 Arcane Signet
+1 Barbarian Ring
+1 Basal Thrull
+1 Blackcleave Cliffs
+1 Blood Pet
+1 Bolt Bend
+1 Cascade Bluffs
+1 Cephalid Coliseum
+1 Combat Celebrant
+1 Command Tower
+1 Curse of Opulence
+1 Dark Ritual
+1 Darkslick Shores
+1 Darkwater Catacombs
+1 Delay
+1 Demonic Counsel
+1 Dispel
+1 Drown in the Loch
+1 Dualcaster Mage
+1 Electroduplicate
+1 Essence Flux
+1 Exotic Orchard
+1 Fatal Push
+1 Fear of Missing Out
+1 Fellwar Stone
+1 Fire Covenant
+1 Fugitive Droid
+1 Gemstone Mine
+1 Generator Servant
+1 Ghostly Flicker
+1 Goblin Chirurgeon
+1 Gogo, Mysterious Mime
+1 Goldhound
+1 Graven Cairns
+1 Harmonic Prodigy
+1 Holdout Settlement
+1 Hope of Ghirapur
+1 Hydroelectric Specimen
+3 Island
+1 Lightning Bolt
+1 Lim-Dûl's Vault
+1 Lively Dirge
+1 Malevolent Hermit
+1 Mayhem Devil
+1 Memory Lapse
+1 Miscast
+4 Mountain
+1 Nightscape Familiar
+1 Peat Bog
+1 Pentad Prism
+1 Phyrexian Revoker
+1 Planar Incision
+1 Reckless Barbarian
+1 Retraction Helix
+1 Ringsight
+1 Rionya, Fire Dancer
+1 Rite of Flame
+1 River of Tears
+1 Shadowblood Ridge
+1 Shivan Reef
+1 Shred Memory
+1 Simian Spirit Guide
+1 Siren Stormtamer
+1 Skirk Prospector
+1 Snapback
+1 Sol Ring
+1 Spell Pierce
+1 Spire of Industry
+1 Splinter's Technique
+1 Springleaf Drum
+1 Step Through
+1 Strike It Rich
+1 Sulfurous Springs
+1 Sunken Ruins
+1 Survivors' Encampment
+1 Suspend
+2 Swamp
+1 Talisman of Creativity
+1 Talisman of Dominance
+1 Talisman of Indulgence
+1 Tendo Ice Bridge
+1 Thran Portal
+1 Thran Quarry
+1 Twinflame
+1 Underground River
+1 Unsubstantiate
+1 Volatile Stormdrake
+1 Wishclaw Talisman
+
+1 Kefka, Court Mage
