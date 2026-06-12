@@ -231,3 +231,17 @@ their own turn behind Grand Abolisher**.
 
 Related: `Candidate_Bakeoff_2026-06-12.md` (tracker, Stages 0–3 evidence) ·
 [[project_yuriko_insider_trading]] · [[project_kefka_proposal]] · [[project_pod_combo_opponent]]
+
+---
+
+## Addendum (2026-06-12, same day): the disruption axis is now measured
+
+`scripts/delay_lab.py` (see `Delay_Lab_Disruption_Analysis_2026-06-12.md`) closed the "real but
+unmeasured by any lab" gap above, with Abolisher modelled as a *probability*, not a constant.
+Verdict unchanged; three refinements: (1) at realistic P(Abolisher)≈0.25, Yuriko holds 40%
+(54% w/ tutors) single-turn disruption as race support — but 0 statics means it collapses to 7%
+if the lock is up, so race-first stands quantified; (2) the Kefka-burn 3-card port is
+lab-justified (+4pp at a=0.5, +7pp at a=1.0, ~free otherwise — second static is the robust
+driver); (3) Kefka-burn's disruption is a coin flip per key turn (~44–51% at a=0.5), not a wall
+— played as disrupt-then-race. The external's suite turned out the strongest raw suite even
+under a window'd Abolisher; its T9 clock, not its suite, is why it ranked 4th.
