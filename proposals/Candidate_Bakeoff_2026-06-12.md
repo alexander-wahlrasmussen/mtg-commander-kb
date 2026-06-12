@@ -19,7 +19,12 @@ Headline: **Godo is the only table-kill inside the T6–7 brief bar (median T6)*
 its own ~T7 gate (decap T7 / table T8); **Kinnan's "Strong turbo" Stage-1 read is FALSIFIED**
 (median T11, 42% never-in-12); Korvold decap T9 but table >T12 (claim conflated clocks, again);
 Kefka-burn decap T8 / table T9 beats Kefka-ext (T9) in the same-commander head-to-head; Clive
-(ext) decap T9 / table mostly >T12. **Next action: Stage 4 verdict doc.**
+(ext) decap T9 / table mostly >T12. **Stage 4: COMPLETE (2026-06-12)** — verdict doc at
+`proposals/Candidate_Bakeoff_Verdict_2026-06-12.md`. **PICK: Yuriko (*Insider Trading*), 17/20,
+T7 decap / T8 table, gated on pod approval of Thoracle/Consult (6th 2-card request); fallback if
+declined = Kefka-burn (*Forced Liquidation*), 16/20, the only contender needing no approval.**
+Godo (T6/T6) ranked 3rd: its 1-turn edge lives in the goldfish's blind spot (ground tokens vs a
+dragon pod; Durability 2). **BAKE-OFF CLOSED — remaining actions are user gates, see verdict doc.**
 
 **Owner model — REVISED 2026-06-12 (user flagged the original as compromised).** The first
 version of this section was Opus-4.8-authored and the user reports it **hallucinated its claims
@@ -437,35 +442,32 @@ Clive's 5 reskin aliases resolve at parse time), and the 7 candidates were added
 
 | # | Candidate | GC count | Brief-fit | Decklist | Lab | Clock (decap / table) | Stage | Next action |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Yuriko | 3/3 ✓ | **Strong** (lab-confirmed) | ✓ 100 ✓ `insider-trading-20260612.txt` | ✓ `yrk_clock_lab.py` | **T7 / T8** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
-| 2 | Godo | 3/3 ✓ | **Moderate** (fastest table) | ✓ 100 ✓ `hostile-takeover-20260612.txt` | ✓ `godo_clock_lab.py` | **T6 / T6** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 1 | Yuriko | 3/3 ✓ | **Strong** (lab-confirmed) | ✓ 100 ✓ `insider-trading-20260612.txt` | ✓ `yrk_clock_lab.py` | **T7 / T8** (lab 2026-06-12) | **4 ✓ — PICK** | pod approval (Thoracle/Consult) → buy → build |
+| 2 | Godo | 3/3 ✓ | **Moderate** (fastest table) | ✓ 100 ✓ `hostile-takeover-20260612.txt` | ✓ `godo_clock_lab.py` | **T6 / T6** (lab 2026-06-12) | 4 ✓ — rank 3 | none (stays in `considering/`) |
 | 3 | Urza | 3/3 ✓ | Weak (anti-race) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
-| 4 | Kinnan | 3/3 ✓ (Worldly swap) | ~~Strong~~ **FALSIFIED by lab** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | ✓ `knn_clock_lab.py` | T11 / T11, 42% never (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
-| 5 | Korvold | 3/3 ✓ (Worldly swap) | Weak (grindy, confirmed) | ✓ 100 ✓ `asset-stripping-20260612.txt` | ✓ `kvd_clock_lab.py` | T9 / >T12, 72% never (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 4 | Kinnan | 3/3 ✓ (Worldly swap) | ~~Strong~~ **FALSIFIED by lab** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | ✓ `knn_clock_lab.py` | T11 / T11, 42% never (lab 2026-06-12) | 4 ✓ — rank 5 | none (stays in `considering/`) |
+| 5 | Korvold | 3/3 ✓ (Worldly swap) | Weak (grindy, confirmed) | ✓ 100 ✓ `asset-stripping-20260612.txt` | ✓ `kvd_clock_lab.py` | T9 / >T12, 72% never (lab 2026-06-12) | 4 ✓ — rank 7 | none (stays in `considering/`) |
 | 6 | Thrasios+Tymna | 3/3 ✓ | Mixed (cost+politics) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
-| 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ `clive-external-20260612.txt` | ✓ `clv_clock_lab.py` | T9 / >T12 (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
-| 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ `kefka-external-20260612.txt` | ✓ `kfx_clock_lab.py` | T9 / T9 (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
-| 9 | Kefka (int, burn) | 3/3 ✓ | **Strong** (convergence held) | ✓ 100 ✓ `forced-liquidation-20260612.txt` | ✓ `kfk_clock_lab.py` | **T8 / T9** (lab 2026-06-12) | 3 ✓ | Stage 4 verdict |
+| 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ `clive-external-20260612.txt` | ✓ `clv_clock_lab.py` | T9 / >T12 (lab 2026-06-12) | 4 ✓ — rank 6 | none (scouting reference) |
+| 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ `kefka-external-20260612.txt` | ✓ `kfx_clock_lab.py` | T9 / T9 (lab 2026-06-12) | 4 ✓ — rank 4 | none (scouting reference) |
+| 9 | Kefka (int, burn) | 3/3 ✓ | **Strong** (convergence held) | ✓ 100 ✓ `forced-liquidation-20260612.txt` | ✓ `kfk_clock_lab.py` | **T8 / T9** (lab 2026-06-12) | **4 ✓ — FALLBACK** | build only if pod declines Yuriko combo |
 
 Clive flags all RESOLVED 2026-06-12 (user-confirmed reskin aliases → `REF_Reskin_Aliases.md`):
 Morgul-Knife=Shadowspear, Storm's Will=**Jeska's Will (GC, → 3 GCs)**, Helm's Deep=Shinka,
 Wakandan Skyscraper=Karn's Bastion, Calliope's Song=Seething Song. Still run
 `update_scryfall_data.py` before the Clive lab.
 
-**Next action overall:** **Stage 3 COMPLETE — all 7 labs run and committed** (see Stage 3
-results). Next → **Stage 4 verdict doc**: head-to-head ranking → recommend ONE, format per
-`Witherbloom_External_Build_Comparison.md` (brief-fit, lab clock decap/table cited, Conversion
-Check, GC/bracket, completability/cost — note Kinnan's cost AND clock both degraded — pod
-matchup vs the T6–7 Abolisher combo deck, honest weaknesses). Open Stage-4 tension to resolve:
-**Godo wins the clock** (only T6 table) but is goldfish-flattered glass; **Yuriko wins
-clock+resilience combined** (T7/T8, 9% never) and passed its own gate; **Kefka-burn wins
-brief-fit on the Abolisher axis** (static symmetric damage, T8/T9). Scratch drafts live in
-`_build/` (untracked; `considering/` versions are canonical).
-**Cost picture after all sweeps (all unverified):** Godo ~€45–60-but-light → Korvold ~€50
-(claim held) → Kinnan ~€120–160 → Yuriko ~€140–170 → Kefka-burn ~€140–190.
-**Open user decisions:** (a) Radiation Sickness 4-GC violation — how to resolve; (b) whether
-Kinnan's ~€120–160 revised cost changes its Stage-1 "Strong" completability read; (c) Kefka-burn
-filename — "Forced Liquidation" codename was coined at build time (candidate had none), rename if
-disliked; (d) the 2026-05-31 Calamity Tax swap was never applied to its `.txt` — if it's dead,
-the Sheoldred spare frees up and Kefka-burn's buy list shrinks by one premium card; (e) Korvold
-pod approval + mechanical-distinctiveness sign-off vs DR/ZSG/Genome (the proposal's own gate).
+**Next action overall:** **BAKE-OFF CLOSED — Stage 4 verdict delivered 2026-06-12**
+(`proposals/Candidate_Bakeoff_Verdict_2026-06-12.md`). **PICK: Yuriko / *Insider Trading***
+(17/20 · Clock: T7 decap / T8 table, lab 2026-06-12; 9% never-in-12; ~€140–170 unverified) —
+only pre-registered clock gate that passed; evasion package makes its goldfish honest where
+Godo's T6 is convention-flattered (Durability 2, ground tokens vs a dragon pod).
+**FALLBACK: Kefka-burn** (16/20 · T8/T9; needs zero pod approvals). The Stage-4 tension resolved
+race-first: Kefka-burn's T8 decap arrives *after* the pod's T6–7 window; Yuriko's T7 races it
+while keeping the Abolisher-proof on-cast combo as axis two. Scratch drafts in `_build/`
+(untracked; `considering/` versions canonical; losing builds stay there as priced+labbed options).
+**Open user decisions (carried out of the bake-off):** (a) take Yuriko to pod — 6th 2-card
+approval; on decline build Kefka-burn; (b) Radiation Sickness 4-GC violation — unresolved;
+(c) if Kefka-burn gets built: codename rename? + resolve the stale 2026-05-31 Calamity Tax
+Sheoldred claim (frees one premium buy); (d) Learnings #3 rule proposal (cost claims must cite
+an availability sweep) — needs explicit approval to touch `REF_The_Conversion_Check.md`.
