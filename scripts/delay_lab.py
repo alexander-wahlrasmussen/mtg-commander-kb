@@ -54,6 +54,22 @@ the 3-card Kefka-external port (-Negate -Arcane Denial -An Offer / +Phyrexian
 Revoker +Volatile Stormdrake +Fire Covenant), and Kefka-external itself as the
 counter-wall calibrator.
 
+ROSTER EXTENSION (same day, user request): Lightning War / Calamity Tax /
+Grand Design added for candidates-vs-roster positioning. Roster-specific
+conventions, all documented judgment: 1-card-pitch and commander-conditional
+free spells modelled at 0 when the commander is cheap (Azula 4 / Glarb 3 —
+both reliably out by their T6); GD's Deadly Rollick kept at full cost 4
+(Atraxa 7 is rarely out by T6). 2-card pitch (Commandeer) stays full-cost.
+Deploy-in-advance creature answers (Glen Elendra, Ranger-Captain) modelled as
+held spells at body cost — same Abolisher behaviour as counters (their
+activations are opponent creature abilities on the lock turn). NOT modelled,
+all UNDERSTATING the roster decks: CT's Seedborn+Glarb instant-speed
+top-of-library casting (its reactive mana is far better than the lands floor),
+LW's Snapcaster flashback, GD's own Grand Abolisher (protect-own, excluded by
+class). LW's Emeritus of Conflict prepared-Bolt included at 2 (needs its
+3rd-spell trigger — optimistic early, fine by T6). GD's Teferi static doesn't
+stop a main-phase combo — only his -3 bounce counts (preempt).
+
 Data: collection/oracle-cards.json (refreshed 2026-06-12)
 Writeup: proposals/Delay_Lab_Disruption_Analysis_2026-06-12.md
 """
@@ -167,6 +183,82 @@ KEFKA_EXT = {
 }
 
 
+LIGHTNING_WAR = {
+    "answers": {
+        "Fierce Guardianship":      ({"C"}, 0, {"ios", "inst"}),   # Azula (4) out by their T6
+        "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),   # 1-card pitch on their turn
+        "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
+        "Stubborn Denial":          ({"C"}, 1, {"ios", "inst"}),   # Azula = ferocious
+        "Delay":                    ({"C"}, 2, {"ios", "inst"}),
+        "Three Steps Ahead":        ({"C"}, 2, {"ios", "inst"}),   # counter mode {1}{U}
+        "Narset's Reversal":        ({"C"}, 2, {"ios", "inst"}),   # copy+bounce their key sorcery
+        "Hullbreaker Horror":       ({"C"}, 7, {"inst"}),          # flash; repeatable spell-bounce
+        "Electrodominance":         ({"R", "P"}, 4, {"ios", "inst"}),  # X=2 kills Abolisher/Kinnan
+        "Comet Storm":              ({"R", "P"}, 4, {"ios", "inst"}),
+        "V.A.T.S.":                 ({"R", "P"}, 4, {"ios", "inst"}),  # split second
+        "Deadly Rollick":           ({"R", "P"}, 0, {"ios", "inst"}),
+        "Snap":                     ({"R", "P"}, 2, {"ios", "inst"}),
+        "Sink into Stupor":         ({"R", "P"}, 3, {"ios", "inst"}),
+        "March of Swirling Mist":   ({"R", "P"}, 2, {"ios", "inst"}),  # X=1 phases out the piece
+        "Nowhere to Run":           ({"R", "P"}, 2, {"inst"}),     # flash; -3/-3 kills the 2/2s
+        "Vendilion Clique":         ({"R", "P"}, 3, {"inst"}),     # flash hand-strip (soft)
+        "Emeritus of Conflict":     ({"R", "P"}, 2, set()),        # prepared Bolt (conditional)
+        "Toxic Deluge":             ({"P"}, 3, {"ios"}),
+        "Banefire":                 ({"P"}, 3, {"ios"}),           # X=2
+        "Crackle with Power":       ({"P"}, 5, {"ios"}),           # X=1
+        "Opposition Agent":         ({"S"}, 3, {"inst"}),          # flash; hoses their tutors
+    },
+    "tutors": {
+        "Mystical Teachings": (4, "inst"), "Waterlogged Teachings": (4, "inst"),
+        "Emeritus of Woe": (6, "any"),    # SOS body 4 + prepared Demonic Tutor copy 2
+    },
+}
+
+CALAMITY_TAX = {
+    "answers": {
+        "Pact of Negation":         ({"C"}, 0, {"ios", "inst"}),
+        "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),
+        "Fierce Guardianship":      ({"C"}, 0, {"ios", "inst"}),   # Glarb (3) out by their T6
+        "Mana Drain":               ({"C"}, 2, {"ios", "inst"}),
+        "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
+        "Venser, Shaper Savant":    ({"C", "R", "P"}, 4, {"crea"}),  # flash; bounce spell OR permanent
+        "Deadly Rollick":           ({"R", "P"}, 0, {"ios", "inst"}),
+        "Submerge":                 ({"R", "P"}, 5, {"ios", "inst"}),  # free mode (their Forest) not credited
+        "Espers to Magicite":       ({"R", "P"}, 4, {"ios", "inst"}),  # yard exile vs recursion lines
+        "V.A.T.S.":                 ({"R", "P"}, 4, {"ios", "inst"}),
+        "Toxic Deluge":             ({"P"}, 3, {"ios"}),
+        "Blasphemous Edict":        ({"P"}, 5, {"ios"}),
+        "Culling Ritual":           ({"P"}, 4, {"ios"}),           # sweeps MV<=2 setups
+        "Massacre Wurm":            ({"P"}, 6, {"crea"}),
+        "The Meathook Massacre":    ({"P"}, 4, {"ios"}),           # X=2
+    },
+    "tutors": {"Demonic Tutor": (2, "any")},
+}
+
+GRAND_DESIGN = {
+    "answers": {
+        "Force of Will":            ({"C"}, 0, {"ios", "inst"}),
+        "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),
+        "Counterspell":             ({"C"}, 2, {"ios", "inst"}),
+        "Mana Drain":               ({"C"}, 2, {"ios", "inst"}),
+        "Dovin's Veto":             ({"C"}, 2, {"ios", "inst"}),
+        "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
+        "Glen Elendra Archmage":    ({"C"}, 4, {"crea"}),          # deploy-in-advance sac counter
+        "Ranger-Captain of Eos":    ({"C"}, 3, {"crea"}),          # sac: no noncreature spells this turn
+        "Deadly Rollick":           ({"R", "P"}, 4, {"ios", "inst"}),  # Atraxa (7) rarely out: full cost
+        "Path to Exile":            ({"R", "P"}, 1, {"ios", "inst"}),
+        "Swords to Plowshares":     ({"R", "P"}, 1, {"ios", "inst"}),
+        "Assassin's Trophy":        ({"R", "P"}, 2, {"ios", "inst"}),
+        "Generous Gift":            ({"R", "P"}, 3, {"ios", "inst"}),
+        "Cyclonic Rift":            ({"R", "P"}, 2, {"ios", "inst"}),
+        "Toxic Deluge":             ({"P"}, 3, {"ios"}),
+        "Teferi, Time Raveler":     ({"P"}, 3, set()),             # -3 bounce; static irrelevant to their main phase
+        "Elesh Norn, Mother of Machines": ({"S"}, 5, {"crea"}),    # opponents' ETB triggers don't trigger
+    },
+    "tutors": {"Eladamri's Call": (2, "crea"), "Chord of Calling": (7, "crea")},
+}
+
+
 def fits(filt, entry, real_mv):
     classes, cost, tags = entry
     if filt == "any":
@@ -175,6 +267,10 @@ def fits(filt, entry, real_mv):
         return "ios" in tags
     if filt == "ublue":
         return "ublue" in tags
+    if filt == "inst":
+        return "inst" in tags
+    if filt == "crea":
+        return "crea" in tags
     if filt == "mv2":
         return real_mv == 2
     return False
@@ -285,6 +381,7 @@ def main():
     aliases = ds.load_reskin_aliases()
 
     cons = ROOT / "decks" / "considering"
+    dks = ROOT / "decks"
     yur, _ = slc.load_parsed(cons / "insider-trading-20260612.txt", index, aliases)
     kfk, _ = slc.load_parsed(cons / "forced-liquidation-20260612.txt", index, aliases)
     ext, _ = slc.load_parsed(cons / "kefka-external-20260612.txt", index, aliases)
@@ -292,6 +389,9 @@ def main():
     burn_port = {"answers": {n: v for n, v in KEFKA_BURN["answers"].items()
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
+    lw, _ = slc.load_parsed(dks / "lightning-war-20260607-122049.txt", index, aliases)
+    cal, _ = slc.load_parsed(dks / "calamity-tax-20260405-061741.txt", index, aliases)
+    gd, _ = slc.load_parsed(dks / "the-grand-design-20260502.txt", index, aliases)
 
     configs = [
         ("Yuriko / Insider Trading (the pick)", yur, YURIKO),
@@ -299,6 +399,9 @@ def main():
         ("Kefka-burn + 3-card port (-Negate -ArcDenial -AnOffer "
          "/ +Revoker +Stormdrake +FireCov)", port, burn_port),
         ("Kefka-external (counter-wall calibrator)", ext, KEFKA_EXT),
+        ("ROSTER: Lightning War (19/20, clock T6-7 goldfish)", lw, LIGHTNING_WAR),
+        ("ROSTER: Calamity Tax (18/20, clock T7-9 goldfish)", cal, CALAMITY_TAX),
+        ("ROSTER: Grand Design (19/20, clock T10 decap lab)", gd, GRAND_DESIGN),
     ]
     print(f"delay_lab — trials={args.trials} seed={args.seed} window={args.window}")
     print(f"weights (judgment): static {W_STATIC} / removal {W_REMOVAL} / counter {W_COUNTER}")

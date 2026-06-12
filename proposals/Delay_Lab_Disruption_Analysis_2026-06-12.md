@@ -83,6 +83,62 @@ ext C 68 / R 68 / S 11 / **B1 50**. Their-T7 numbers run ~3pp higher across the 
    to win 2–3 consecutive coin flips while the internal builds ask for 0–1. Suite quality
    cannot rescue a slow clock — the two labs measure the same matchup from opposite ends.
 
+## Roster comparison (same day, user request): candidates vs Lightning War / Calamity Tax / Grand Design
+
+The three lab-verified roster decks were classified and run through the same model (suites
+hand-verified; roster-specific conventions in the lab docstring — notably the free-spell suite
+Forces/Fierce/Pact/Rollick modelled at 0 where the commander is cheap, and **CT understated**:
+Seedborn+Glarb instant-speed top-casting blows past the lands-only mana floor and is not
+modelled). Both axes side by side, **with the clock-measurement-class caveat**: only GD, Genome
+and the bake-off candidates have *median decap/table clock labs*; LW's T6–7 and CT's T7–9 are
+the older availability-corroborated goldfish windows (CT's summary itself notes "no kill-turn
+goldfish run"), and that class trended optimistic 7-of-8 times historically.
+
+| Deck | Clock decap/table | Clock class | CC | Disrupt T6: a=0 | a=25% | a=50% | a=100% |
+|---|---|---|---|---|---|---|---|
+| **LW** (roster) | "T6–7" goldfish | window est. | 19/20 | **77 (82)** | **64 (67)** | 50 (52) | 23 (23) |
+| **GD** (roster) | T10 / >T12 | median lab | 19/20 | 67 (68) | 54 (55) | 42 (42) | 17 (17) |
+| **CT** (roster) | "T7–9" goldfish | window est. | 18/20 | 52 (57) | 41 (45) | 30 (32) | 8 (8) |
+| Genome (roster) | T7 / T8 | median lab | 15/20 | *not run* | | | |
+| Yuriko (pick) | T7 / T8 | median lab | 17/20 | 52 (69) | 40 (54) | 29 (38) | 7 (7) |
+| Kefka-burn (fallback) | T8 / T9 | median lab | 16/20 | 68 (74) | 56 (62) | 44 (51) | 20 (28) |
+| — +3-card port | T8 / T9 | median lab | — | 70 (75) | 59 (65) | **48 (55)** | **27 (34)** |
+| Godo (rank 3) | T6 / T6 | median lab | 13/20 | *not run* | | | |
+
+**Findings:**
+
+1. **No candidate outclasses Lightning War.** LW posts the best measured disruption profile
+   (ties the expert external at a=0, beats the port at a=0.25) *while carrying the roster's
+   fastest claimed clock and a 19/20*. The free-spell suite (Fierce/FoN/Rollick at cost 0 with
+   Azula out) plus burn-as-removal is why: its kill-Abolisher-then-answer chain (48% at T6) is
+   the best of any deck measured. The candidates add *coverage*, not a power upgrade.
+2. **The honest caveat on #1:** LW's "T6–7" is the unverified-median class. Its own speed
+   analysis showed 22% table-finisher availability by T6 — comparable to Yuriko's measured 26%
+   table-by-T6 — so measured the same way, LW would plausibly read ~T7/T8 median too, i.e.
+   **same speed as Yuriko, with far better interaction**. An `lw_clock_lab.py` (median
+   convention) would settle it and is the cheapest way to sharpen this comparison.
+3. **What each candidate adds that the roster lacks:** Yuriko — a *deterministic, on-cast,
+   Abolisher-proof kill* (Thoracle at 3 mana wins outright; LW's kill needs big mana through a
+   combat window) plus a verified decap median. Kefka-burn(+port) — the only damage axis that
+   ignores Abolisher *and* the best high-a disruption floor measured (27–34% at a=1.0 vs LW 23,
+   GD 17). Godo — nothing the roster lacks except raw speed, with the known glass.
+4. **Calamity Tax is the roster's soft spot on this matchup axis** — weakest disruption of the
+   three (0 statics, free counters only Pact/FoN/Fierce) on top of a mana-gated T7–9-claimed
+   clock that its own analysis says can't race. The Seedborn understatement softens but doesn't
+   reverse this: vs the pod combo deck specifically, both Yuriko (racing) and Kefka-burn
+   (statics) are better-shaped. CT's grind/oppression strengths are simply off-axis here.
+5. **Grand Design's matrix verdict ("Favoured — disruption-led, not a race") gets a number and
+   a stress line:** 67% at a=0 is real, but it erodes to 42/17% as Abolisher enters, its only
+   static (Elesh Norn, MV5) deploys late — and a T10-decap deck must win *several* consecutive
+   key-turn rolls, which compounds. GD's true Abolisher tech is its own Grand Abolisher
+   (protect-own, rightly uncounted here). Worth revisiting the matrix line vs this specific
+   opponent.
+6. **Portfolio read for the pick decision:** the bake-off brief presupposed building one deck.
+   This comparison shows the *racer-with-interaction* niche is already occupied by LW; Yuriko's
+   genuine marginal value is the deterministic combo kill and the verified clock, at ~€140–170.
+   Whether that's worth building is a portfolio-diversity call, not a power upgrade — flagged
+   for the user, verdict doc unchanged.
+
 ## Method caveats
 
 - Single-key-turn ceiling; multi-turn defence compounds below it (answers consumed, wraths not
