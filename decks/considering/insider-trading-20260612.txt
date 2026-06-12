@@ -1,0 +1,101 @@
+1 Ingenious Infiltrator
+1 Fallen Shinobi
+1 Silver-Fur Master
+1 Prosperous Thief
+1 Moon-Circuit Hacker
+1 Mistblade Shinobi
+1 Sakashima's Student
+1 Ninja of the Deep Hours
+1 Thousand-Faced Shadow
+1 Mothdust Changeling
+1 Universal Automaton
+1 Dokuchi Silencer
+1 Changeling Outcast
+1 Slither Blade
+1 Triton Shorestalker
+1 Mist-Syndicate Naga
+1 Spectral Sailor
+1 Faerie Seer
+1 Siren Stormtamer
+1 Gingerbrute
+1 Wingcrafter
+1 Mist-Cloaked Herald
+1 Dimir Infiltrator
+1 Baleful Strix
+1 Augury Owl
+1 Looter il-Kor
+1 Tetsuko Umezawa, Fugitive
+1 Thassa's Oracle
+1 Laboratory Maniac
+1 Jace, Wielder of Mysteries
+1 Kaito Shizuki
+1 Demonic Consultation
+1 Tainted Pact
+1 Brainstorm
+1 Ponder
+1 Preordain
+1 Opt
+1 Scroll Rack
+1 Sensei's Divining Top
+1 Lim-Dul's Vault
+1 Frantic Search
+1 Mystical Tutor
+1 Treasure Cruise
+1 Dig Through Time
+1 Demonic Tutor
+1 Solve the Equation
+1 Merchant Scroll
+1 Wishclaw Talisman
+1 Counterspell
+1 Mana Drain
+1 Swan Song
+1 Spell Pierce
+1 An Offer You Can't Refuse
+1 Dispel
+1 Commandeer
+1 Consuming Tides
+1 Curtains' Call
+1 Draco
+1 Blinkmoth Infusion
+1 Blatant Thievery
+1 Go for the Throat
+1 Bloodchief's Thirst
+1 Fatal Push
+1 Murderous Cut
+1 Sol Ring
+1 Arcane Signet
+1 Dimir Signet
+1 Talisman of Dominance
+1 Lotus Petal
+1 Agadeem's Awakening
+1 Sea Gate Restoration
+1 Sunken Ruins
+1 Watery Grave
+1 Sunken Hollow
+1 Underground River
+1 Drowned Catacomb
+1 Morphic Pool
+1 Mystic Sanctuary
+1 Polluted Delta
+1 Flooded Strand
+1 Misty Rainforest
+1 Marsh Flats
+1 Bloodstained Mire
+1 Darkslick Shores
+1 Creeping Tar Pit
+1 Choked Estuary
+1 Fetid Pools
+1 River of Tears
+1 Shipwreck Marsh
+1 Clearwater Pathway
+1 Command Tower
+1 Path of Ancestry
+1 Exotic Orchard
+1 Otawara, Soaring City
+1 Temple of Deceit
+1 Island
+1 Swamp
+1 Snow-Covered Island
+1 Snow-Covered Swamp
+
+1 Yuriko, the Tiger's Shadow

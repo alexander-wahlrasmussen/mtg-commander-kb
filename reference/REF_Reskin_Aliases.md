@@ -39,6 +39,11 @@ Reskin cards are mechanically identical to an existing MTG card but printed unde
 |---|---|
 | Morgul-Knife | Shadowspear |
 
+> ⚠️ **Name collision:** a *real, different* card is named **Morgul-Knife Wound** (`{1}{B}`
+> Enchantment — Aura, color identity **B**). A `card_lookup.py` search for "Morgul-Knife"
+> fuzzy-matches that black aura, **not** Shadowspear. In a mono-red list the black card is illegal,
+> so always resolve "Morgul-Knife" via this alias → Shadowspear (colorless). Confirmed 2026-06-12.
+
 ### Other / mechanical analogues
 
 | Name | Mechanical analogue | Notes |
@@ -47,6 +52,10 @@ Reskin cards are mechanically identical to an existing MTG card but printed unde
 | Ellie's Rage | Dictate of Erebos | Set TBC |
 | Merata, Neuron Hacker | Lady Octopus, Inspired Inventor | User-applied custom name (cyber theme); printed card is from Marvel set. Confirmed 2026-05-06. |
 | Green Dragon Inn | Homeward Path | User-applied custom name (Tolkien tavern theme); printed card is `Homeward Path` (C16). Confirmed 2026-05-08. |
+| Storm's Will | Jeska's Will | User-applied custom name. **Jeska's Will is a Game Changer** — a reskin of a GC is still a GC. Confirmed 2026-06-12 (Clive external list). |
+| Helm's Deep | Shinka, the Bloodsoaked Keep | User-applied custom name (Tolkien theme); printed card is the red legendary land. Confirmed 2026-06-12 (Clive external list). |
+| Wakandan Skyscraper | Karn's Bastion | User-applied custom name (Marvel theme); printed card is the colorless proliferate land. Confirmed 2026-06-12 (Clive external list). |
+| Calliope's Song | Seething Song | User-applied custom name; printed card is the red ritual (add {R}{R}{R}{R}{R} — oracle-verified 2026-06-12, current printing is an instant). Confirmed 2026-06-12 (Clive external list). |
 
 ---
 

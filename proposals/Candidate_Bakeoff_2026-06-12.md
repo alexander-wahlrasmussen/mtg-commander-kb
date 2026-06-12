@@ -4,9 +4,15 @@
 **9 candidates** — 7 internal proposals + 2 external expert-built lists. This doc is
 **resumable**: if usage/context runs out, restart from the Status table's "next action" column.
 
-**Status (2026-06-12):** Planning complete. **Execution NOT started** — no card-text sweeps, GC
-counts, builds, or labs have been run yet. Everything below the funnel is the plan, not results.
-**Next action: Stage 0.**
+**Status (2026-06-12):** **Stage 0 complete. Stage 1 complete** — 5 survivors (Yuriko / Godo /
+Kinnan / Kefka-burn / **Korvold**, kept by user override), 2 cuts (Urza / Thrasios+Tymna).
+**Stage 2: 4 of 5 built** — Yuriko (`insider-trading-20260612.txt`, fixed from 99→100 with Temple
+of Deceit), Godo (`hostile-takeover-20260612.txt`, 100 ✓), Kinnan
+(`quantitative-easing-20260612.txt`, 100 ✓ — GC slot 3 swapped Survival→**Worldly Tutor**; see
+Stage 2 results for falsified free-claims + cost revision), Kefka-burn
+(`forced-liquidation-20260612.txt`, 100 ✓ — Demonic Tutor now a BUY (ZSG took the last spare),
+cost revised ~€140–190; see Stage 2 results). **Next action: Stage 2 build of Korvold**, then
+Stage 3 labs (refresh Scryfall data before Clive's).
 
 **Owner model:** Opus 4.8 for the judgment that carries risk — card-text reads, lab kill-logic
 design, Conversion Check, verdict. It is the lineup's *most capable* reasoning model and the
@@ -136,20 +142,229 @@ honest weaknesses.
 
 ---
 
+## Stage 0 results (2026-06-12)
+
+**Method:** `card_lookup.py` (local Scryfall, snapshot dated **2026-06-01**) for raw oracle text;
+GCs cross-checked against `REF_Game_Changers_List.md` (Feb 2026) *including* the Removed section;
+delisted commanders confirmed still delisted; externals counted + duplicate-checked + color-identity
+swept by script.
+
+### GC counts — all 9
+
+| # | Candidate | GCs | The cards | Verdict |
+|---|---|---|---|---|
+| 1 | Yuriko | **3/3** | Thassa's Oracle, Mystical Tutor, Demonic Tutor | cap-OK; Yuriko delisted 2025-10-21 = 0 |
+| 2 | Godo | **3/3** | Mana Vault, Grim Monolith, Gamble | cap-OK; Godo never listed = 0 |
+| 3 | Urza | **3/3** | Mana Vault, Grim Monolith, Chrome Mox | cap-OK; Urza delisted 2025-10-21 = 0 |
+| 4 | Kinnan | **3/3** | Mana Vault, Grim Monolith, Survival of the Fittest | cap-OK; Kinnan delisted 2025-10-21 = 0 |
+| 5 | Korvold | **3/3** | Survival of the Fittest, Gamble, Mana Vault | cap-OK; Korvold never listed = 0 |
+| 6 | Thrasios+Tymna | **3/3** | Thassa's Oracle, Mystical Tutor, Drannith Magistrate | cap-OK; both partners non-GC = 0 |
+| 7 | Clive (ext) | **3** | The One Ring, Underworld Breach, **Jeska's Will** (= "Storm's Will" reskin) | exempt; Wheel of Fortune & Sol Ring are NOT GCs |
+| 8 | Kefka (ext) | **0** | — | exempt; self-declared 0 GCs, confirmed (nothing on list) |
+| 9 | Kefka (int, burn) | **3/3** | Notion Thief, Demonic Tutor, Mana Vault | cap-OK |
+
+All 10 distinct GC names across the internals are on the current list; none fell under the Removed
+heading. No internal exceeds the 3-GC cap. **Bracket read:** externals exempt — Clive's **3 GCs**
+(the Jeska's Will reskin counts) + fast-mana/Wheel suite read solidly **bracket 4**; Kefka-ext at
+**0 GCs** is bracket-3-by-count but bracket-4-in-spirit by combo density (its own primer's claim,
+and the brief's guard #4 stands).
+
+### External legality
+
+- **Clive — 100 cards ✓** (99 + commander). Only repeated card is **27× Mountain** (legal basic);
+  no illegal duplicates. **Clive is a DFC** — "Ifrit, Warden of Inferno" is its *back face*
+  (`{4}{R}{R}` 5/5 front, devotion-to-red wheel ETB), **not** a 100th card; the primer's separate
+  "Ifrit" bullets describe the flip side. Color identity **R**. Five names raised flags at sweep
+  time; **all RESOLVED 2026-06-12 via user-confirmed reskin aliases** (appended to
+  `REF_Reskin_Aliases.md`):
+  1. **Morgul-Knife = Shadowspear** (colorless equipment, +1/+1 trample/lifelink). The bare name
+     fuzzy-matches a *different* real card, **Morgul-Knife Wound** (`{1}{B}` aura, CI B), which would
+     be illegal mono-red — so this name must always be resolved via the alias, never the raw lookup.
+  2. The four cards absent from the 2026-06-01 snapshot resolve to: **Storm's Will = Jeska's Will**
+     (CI R, **and a Game Changer → Clive is 3 GCs**), **Helm's Deep = Shinka, the Bloodsoaked Keep**
+     (red land), **Wakandan Skyscraper = Karn's Bastion** (colorless proliferate land), **Calliope's
+     Song = Seething Song** (red ritual). *(Still run `update_scryfall_data.py` before the lab so the
+     raw cards verify directly — but the targets are known and all red/colorless.)*
+  3. **Net: Clive is 100% color-identity-legal mono-red, exactly 100 cards, 3 GCs — clean for Stage 3.**
+- **Kefka (ext) — 100 cards ✓.** Only repeats are basics (3× Island, 4× Mountain, 2× Swamp); no
+  illegal duplicates. Color identity **Grixis (BUR)** — every verified card sits within B/U/R or is
+  colorless; no off-color leak. Commander text matches the internal proposal's verified read.
+  **Combo pieces all verified real** (oracle-checked, loops mechanically sound): Dualcaster Mage +
+  Electroduplicate/Twinflame → infinite hasty tokens; Dualcaster + Ghostly Flicker (+Kefka) → infinite
+  mana/flicker; Rionya + Combat Celebrant / Fear of Missing Out → infinite combats; Harmonic Prodigy
+  doubles Wizard/Shaman triggers (Kefka, Rionya, DCM). "________ Goblin" is a real card (Creature —
+  Goblin Guest, CI R, legal). No hallucinated-card risk in this list.
+
+---
+
+## Stage 1 results (2026-06-12) — brief screen of the 7 internals
+
+Scored **structurally**, not on the proposals' self-clocks (guard #1: 7/8 prior labs falsified
+optimistic hand-estimates). Kill-*shape* lens from the lab record: a trigger that drains **all
+opponents simultaneously** converges decap≈table (Genome shape — the only clock that ever held);
+**combat** focus-fire diverges 2–3 turns; a **3-mana on-cast** combo is decap=table by definition.
+
+| # | Candidate | Brief-fit (race T6–7? + kill shape) | Completability (buys / pulls) | Abolisher-resilience | Struct. CC (est, unverified) | Screen |
+|---|---|---|---|---|---|---|
+| 1 | **Yuriko** | **Strong** — dual clock: Yuriko's trigger drains **all opp** (Genome shape) **+** 3-mana Thoracle/Consult on-cast backup | ~€140–170 buys; ~0 protected-donor pulls (binder spares) | **Strong** (ninjutsu + triggers + own-turn Thoracle) | ~17–18 | **KEEP** |
+| 2 | **Godo** | **Moderate** — 1-card combo, fastest *ceiling*; but **combat** (diverges) + glass mono-R, removal between land & swing = lost cycle | **Cheapest ~€45–60**; 3 GCs free; 0 pulls | Combo Abolisher-*irrelevant* but **no protection** (glassy) | ~15–16 | **KEEP** (speed/cost data point) |
+| 3 | Urza | **Weak on speed** — explicitly "doesn't race"; stax delays pod, combo kills mid | ~€55–75 **+ mandatory pull of Urza from Crystal Sickness (17/20 Elite)**; stax politics | Strong (statics + own-turn combo) | ~15–17 | **CUT** |
+| 4 | **Kinnan** | **Strong** — 2-card (1-from-99), turbo; ∞ mana → Ballista pings **all opp** (table kill); blue protection | ~€45; Basalt ×2 + 3 GCs free; contested pieces **bought not pulled** | **Strong** (activated ping, own turn + blue protection) | ~16–17 | **KEEP** |
+| 5 | Korvold | **Weak on speed** — self-ID'd "resilient, grindy… not fastest," median ~T7–9 (the slow DR shape); 4-piece assembly | ~€50; 0 pulls | Strong | ~16–17 | **KEEP** (user override 2026-06-12 — grindy profile chosen deliberately) |
+| 6 | Thrasios+Tymna | **Mixed** — cEDH ceiling fastest, but 3-GC throttle regresses median; **same Thoracle+Consult as Yuriko** | **Most expensive ~€140–180**; owns ~none; buys around protected donors | Strong (Drannith) but cap removes the free counters | ~18 ceiling / throttled lower | **CUT** |
+| 9 | **Kefka (int, burn)** | **Strong** — purpose-built anti-Abolisher: wheel + **static** punishers fire *through* the lock; Notion Thief+Psychosis ≈28/opp one-wheel = table kill on **your** turn | ~$85–140 buys (premium wheels); commander free; Sauron donor (buy dupes; not protected) | **Strongest** (statics = the one axis Abolisher can't switch off) | ~17 (Durability 3/5 caps) | **KEEP** |
+
+**CONFIRMED survivors (5, user 2026-06-12): Yuriko, Godo, Kinnan, Kefka-burn, Korvold.** The four
+recommended span distinct shapes (tempo-chip+cheap-combo, mono-R 1-card combat turbo, Simic 2-card
+mana→table-ping, anti-Abolisher static burn); **Korvold was kept by user override** — the grindy/
+resilient profile (median ~T7–9 by its own proposal) was a deliberate choice, and its all-opponent
+aristocrats drain is a genuinely different shape worth labbing. Its mechanical-distinctiveness vs.
+DR/Genome/ZSG remains the open gate for the Stage-4 verdict.
+
+**CONFIRMED cuts (2) and why:**
+- **Urza** — weakest brief-fit on the *racing* ask (its thesis is the anti-race); requires the only
+  **mandatory Elite-deck pull** of any candidate (its own commander out of Crystal Sickness, 17/20);
+  stax carries table feel-bad. Kefka-burn already fills the "beat the pod by non-racing means" slot
+  without a pull or stax politics.
+- **Thrasios+Tymna** — **most expensive**, owns almost none of its core, and the **highest political
+  risk** (the proposal itself: "if the pod is going to decline any candidate, it's this one"). Its win
+  is the *same* Thoracle+Consult line Yuriko runs — but Yuriko does it cheaper, on a delisted-GC
+  commander, behind a legitimate fair combat face. Redundant-but-worse against a kept candidate.
+
+---
+
+## Stage 2 results (2026-06-12) — builds + availability sweeps
+
+**Method:** every card checked against `moxfield_haves_2026-06-07-1031Z.csv` (note: predates the
+ZSG build, so ZSG-deployed cards can read owned:0) + all active `decks/*.txt`; reskin-alias check
+run on every unowned name (no rescues — all genuine); card texts of combo-critical/unfamiliar
+cards re-verified via `card_lookup.py`. Sibling-candidate claims (the other `considering/` builds)
+do **not** block availability — pick-one means at most one gets built.
+
+### Yuriko — `insider-trading-20260612.txt` (100 ✓)
+
+- **Was 99 cards** (98+commander) as left by the prior session; fixed by adding **Temple of
+  Deceit** (owned ×5, all spare; scry feeds the Yuriko reveal; uniquely named, so Tainted-Pact
+  name-singleton discipline holds — the whole list is strict singleton incl. snow basics).
+- Sweep confirms the proposal's cost shape: ~23 ninja/enabler cards + Thoracle/Consult/Pact all
+  unowned; staples 0-spare (Demonic Tutor 4/4, Mana Drain 4/4, Polluted Delta 10/10, Sensei's Top,
+  Baleful Strix). **~€140–170 buys claim stands (prices unverified).**
+
+### Godo — `hostile-takeover-20260612.txt` (100 ✓)
+
+- Sweep: **~30 unowned + ~12 zero-spare** incl. Helm of the Host, Hammer of Nazahn, Terror of the
+  Peaks, Seasoned Pyromancer, Birgi — and the sole **Imperial Recruiter** copy is deployed.
+  Mono-red support is cheap, but the **~€45–60 estimate looks light**; flag for Stage 4 re-cost
+  (prices unverified). 3 GCs (Vault/Monolith/Gamble) genuinely free ✓ (Grim Monolith's 1 copy is
+  claimed only by no other *active* deck).
+
+### Kinnan — `quantitative-easing-20260612.txt` (100 ✓) — built this session
+
+- **GC slot 3 swapped: Survival of the Fittest → Worldly Tutor** (owned ×1, undeployed = free).
+  Survival's "owned, free" claim was **falsified** — its sole copy is IN
+  `radiation-sickness-20260513-phaseC.txt`. GC count stays **3/3** (Mana Vault, Grim Monolith,
+  Worldly Tutor). Card-text correction: **Worldly finds CREATURE cards only** — it fetches
+  Ballista/dorks/Selvala, *not* Basalt (proposal said it could); artifact tutors
+  (Whir/Fabricate/Reshape) cover Basalt.
+- **⚠️ SIDE FINDING, outside bake-off scope: Radiation Sickness runs 4 GCs** (Survival of the
+  Fittest + Seedborn Muse + Vampiric Tutor + Cyclonic Rift) — a standing 3-GC-cap violation,
+  flagged to user 2026-06-12, unresolved.
+- **Finale of Devastation = BUY**: proposal's "1 of 4 copies free" falsified — CSV shows 3 owned,
+  and ZSG's build list marks its copy "(owned)" = it took the last binder spare (all 3 now in
+  protected decks: Calamity / GD / ZSG).
+- **Selvala = BUY**: "owned, free" falsified — sole copy deployed in Eldrazi Stampede (active,
+  not protected; pulling is possible but defaulted to buy-don't-pull).
+- Other falsified spares: Swiftfoot Boots ("×3 spares" → 0), Fellwar Stone (10/10 deployed);
+  Bloom Tender 3rd copy + Walking Ballista 2nd copy confirmed as buys per proposal.
+- **Budget swaps**: Nykthos, Lotus Field, Flooded Grove → basics (8 Forest / 5 Island). All three
+  were unowned-or-locked buys with marginal synergy (Kinnan doesn't trigger on lands; only
+  Vorinclex VoH cares). Lab/post-pick tuning can re-add.
+- Combo math re-verified: Freed/Pemmin + Bloom Tender or Incubation Druid under Kinnan = infinite
+  (pay {U}, net ≥+1); Staff/Mantle + Selvala needs board power ≥4; **Wall of Roots doesn't tap**
+  (no Kinnan trigger, no aura combo — defensive ramp only). No protected-donor pulls; Elvish
+  Mystic the only ZSG-overlap dork owned spare, rest of the dork package = cheap buys.
+- **Cost revision: realistically ~€120–160 (unverified), NOT the proposal's ~€45.** The proposal
+  assumed owned-free for Survival/Selvala/Finale/Boots and didn't enumerate ~35 unowned support
+  cards (Spellseeker, Vorinclex VoH, Staff, Mantle, Sylvan Tutor, Botanical Sanctum…).
+  **Kinnan is no longer tied-cheapest with Godo** — material for the Stage-4 verdict.
+
+### Kefka-burn — `forced-liquidation-20260612.txt` (100 ✓) — built this session
+
+*(Candidate #9 had no codename — filed as **Forced Liquidation**, in the proposal-codename theme;
+rename trivially if disliked.)* Proposal's prose composition table summed to only ~90, so ~10 flex
+slots were resolved per its own guidance (extra wheel/punisher redundancy, second sweeper).
+
+- **GCs 3/3 unchanged** (Notion Thief / Demonic Tutor / Mana Vault — Stage 0 picks re-verified
+  against the list incl. Removed section; **Deflecting Swat confirmed delisted** and added free,
+  2 spares). But **Demonic Tutor is now a BUY**: owned 4 / deployed 4 (Calamity, Scarab, Sauron,
+  **ZSG took the last spare**) — proposal's "multiple free copies" falsified. Kept as GC slot 2
+  anyway (consistency is the deck's whole game; Yuriko's build buys it too).
+- **Sheoldred = BUY.** The single binder spare exists (2 owned, 1 in Sauron) but the 2026-05-31
+  Calamity Tax swap claims it — and that swap **was never applied to the ground-truth `.txt`**
+  (deck file still dated 2026-04-05). Honored the prior paper claim; did not double-spend.
+  Stage 4 can revisit if the CT swap is formally dropped.
+- **Buy-don't-pull default held** for the Sauron raid (Underworld Dreams), Peace Offering
+  (Psychosis Crawler), Genome (Peer into the Abyss), Lightning War (Past in Flames) — all BUYS.
+- **Rock suite resolved 100% owned-free** by swapping five falsified "surplus" rocks (Fellwar
+  10/10, Talisman of Indulgence 3/3, Talisman of Creativity −1, Jet Medallion → ZSG, Dark Ritual
+  5/6) → Mind Stone / Thought Vessel (no-max-hand on-theme) / Commander's Sphere / Prismatic
+  Lens / **Seething Song** (owned ×1 C21, free — the real ritual, not Clive's "Calliope's Song"
+  alias; current oracle is an **instant**, adds {R}{R}{R}{R}{R}).
+- **SOS find: `Naktamun Lorespinner // Wheel of Fortune` owned ×1, free** — per the SOS rule it
+  is NOT Wheel of Fortune (3-mana 3/3 Jackal Wizard, prepares when a player has ≤1 cards in
+  hand), but as an owned repeatable Wheel-copy caster it took a flex slot (displacing Pyroclasm,
+  the weakest buy). Real Wheel of Fortune stays on the buy list as the marquee wheel.
+- **Flex resolution (all texts verified):** punisher redundancy Ob Nixilis the Hate-Twisted /
+  Kederekt Parasite / Glint-Horn Buccaneer (punishes *your* wheel-discards — hits each opponent) /
+  **Bloodletter of Aclazotz** (doubles opponent life loss on your turn — turns a 2-punisher wheel
+  ≈14/opp into ≈28 = table kill); wheel payoff Waste Not; static pod-hate **Cursed Totem** (shuts
+  Kinnan/Hidetsugu/Kenrith activations; self-conflict with Magus of the Wheel sac + Glint-Horn
+  draw flagged — deploy-order choice, ours to make); Dark Deal as 8th cheap wheel (with Notion
+  Thief: opponents dump hands and redraw nothing). Wheel of Misfortune NOT added — proposal
+  names it trim-first tier.
+- **Genuinely free engine pieces confirmed:** Kefka (commander), Notion Thief, Mana Vault (2
+  spare), Windfall, Magus of the Wheel, Deflecting Swat, Otawara, Reliquary Tower, Counterspell/
+  Swan Song spares, Blasphemous Act, Lightning Greaves, Faithless Looting, Frantic Search,
+  Thrill of Possibility.
+- **Budget lands per Kinnan precedent:** 7 zero-spare/unowned duals (Spirebluff, Blackcleave,
+  Darkslick, Dragonskull, Sulfurous Springs, Temple of Malice, Crumbling Necropolis) → basics;
+  13 owned named lands + 23 basics. Niv-Mizzet Parun ({U}{U}{U}{R}{R}{R}) kept per proposal as
+  flex/cut-first — the lean manabase strains it.
+- **Alias check: no rescues** — all 38 unowned names are genuine buys. **Cost revision:
+  realistically ~€140–190 (unverified), NOT the proposal's ~$85–140** — same failure shape as
+  Kinnan/Godo: proposal under-counted deployed-elsewhere support (Demonic Tutor, Sheoldred,
+  Boots, Chaos Warp, Go for the Throat, Ponder/Preordain, An Offer, Arcane Denial, Drown all
+  0-spare) plus ~12 cheap unowned punisher/removal slots. Premium spend: Wheel of Fortune,
+  Demonic Tutor, Sheoldred, Echo of Eons, Time Spiral, Bloodletter, Memory Jar.
+
+---
+
 ## Status table (resumable — update as stages complete)
 
 | # | Candidate | GC count | Brief-fit | Decklist | Lab | Clock (decap / table) | Stage | Next action |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Yuriko | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 2 | Godo | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 3 | Urza | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 4 | Kinnan | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 5 | Korvold | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 6 | Thrasios+Tymna | TBD | TBD | — | — | — | pre-0 | Stage 0 |
-| 7 | Clive (ext) | TBD | TBD | ✓ built | — | — | pre-0 | Stage 0 text+GC |
-| 8 | Kefka (ext) | TBD | TBD | ✓ built | — | — | pre-0 | Stage 0 text+GC |
-| 9 | Kefka (int, burn) | TBD | TBD | — | — | — | pre-0 | Stage 0 |
+| 1 | Yuriko | 3/3 ✓ | **Strong** | ✓ 100 ✓ `insider-trading-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`yrk_clock_lab`) |
+| 2 | Godo | 3/3 ✓ | **Moderate** | ✓ 100 ✓ `hostile-takeover-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`godo_clock_lab`) |
+| 3 | Urza | 3/3 ✓ | Weak (anti-race) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
+| 4 | Kinnan | 3/3 ✓ (Worldly swap) | **Strong** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`knn_clock_lab`) |
+| 5 | Korvold | 3/3 ✓ | Weak (grindy T7–9) | — | — | — | 1 ✓ KEEP | Stage 2 build (user override) |
+| 6 | Thrasios+Tymna | 3/3 ✓ | Mixed (cost+politics) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
+| 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab (refresh data first) |
+| 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab |
+| 9 | Kefka (int, burn) | 3/3 ✓ | **Strong** | ✓ 100 ✓ `forced-liquidation-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`kfk_clock_lab`) |
 
-**Next action overall:** run **Stage 0** across all 9 (card-text verify the two externals, GC-count
-all 8, legality-check the externals), then fill GC/legality columns and proceed to Stage 1 on the
-internals.
+Clive flags all RESOLVED 2026-06-12 (user-confirmed reskin aliases → `REF_Reskin_Aliases.md`):
+Morgul-Knife=Shadowspear, Storm's Will=**Jeska's Will (GC, → 3 GCs)**, Helm's Deep=Shinka,
+Wakandan Skyscraper=Karn's Bastion, Calliope's Song=Seething Song. Still run
+`update_scryfall_data.py` before the Clive lab.
+
+**Next action overall:** **Stage 2: 4 of 5 done** (Yuriko / Godo / Kinnan / Kefka-burn built,
+swept, exactly 100 each, commanders in END blocks). Next → **Stage 2 build of Korvold** (same
+procedure: resolve 99+1, availability sweep, alias check, card-text verify, END-block commander).
+Then **Stage 3 labs** for all 5 finalists + both externals; run `update_scryfall_data.py` before
+Clive's lab. Scratch drafts live in `_build/` (untracked; `considering/` versions are canonical).
+**Open user decisions:** (a) Radiation Sickness 4-GC violation — how to resolve; (b) whether
+Kinnan's ~€120–160 revised cost changes its Stage-1 "Strong" completability read; (c) Kefka-burn
+filename — "Forced Liquidation" codename was coined at build time (candidate had none), rename if
+disliked; (d) the 2026-05-31 Calamity Tax swap was never applied to its `.txt` — if it's dead,
+the Sheoldred spare frees up and Kefka-burn's buy list shrinks by one premium card.

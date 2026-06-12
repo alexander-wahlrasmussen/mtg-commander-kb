@@ -1,0 +1,90 @@
+1 Walking Ballista
+1 Finale of Devastation
+1 Blue Sun's Zenith
+1 Genesis Wave
+1 Basalt Monolith
+1 Freed from the Real
+1 Pemmin's Aura
+1 Incubation Druid
+1 Umbral Mantle
+1 Staff of Domination
+1 Birds of Paradise
+1 Llanowar Elves
+1 Elvish Mystic
+1 Fyndhorn Elves
+1 Arbor Elf
+1 Boreal Druid
+1 Bloom Tender
+1 Selvala, Heart of the Wilds
+1 Priest of Titania
+1 Devoted Druid
+1 Wall of Roots
+1 Paradise Druid
+1 Sol Ring
+1 Mana Vault
+1 Grim Monolith
+1 Arcane Signet
+1 Simic Signet
+1 Fellwar Stone
+1 Talisman of Curiosity
+1 Utopia Sprawl
+1 Mind Stone
+1 Worldly Tutor
+1 Sylvan Tutor
+1 Whir of Invention
+1 Fabricate
+1 Reshape
+1 Fauna Shaman
+1 Chord of Calling
+1 Eldritch Evolution
+1 Brainstorm
+1 Ponder
+1 Preordain
+1 Mystic Remora
+1 Guardian Project
+1 Sylvan Library
+1 Tyvar's Stand
+1 Autumn's Veil
+1 Snakeskin Veil
+1 Swiftfoot Boots
+1 Counterspell
+1 An Offer You Can't Refuse
+1 Negate
+1 Beast Within
+1 Pongify
+1 Vorinclex, Voice of Hunger
+1 Tatyova, Benthic Druid
+1 Sakura-Tribe Elder
+1 Wood Elves
+1 Eternal Witness
+1 Trygon Predator
+1 Mystic Snake
+1 Frilled Mystic
+1 Spellseeker
+1 Coiling Oracle
+1 Fierce Empath
+1 Temur Sabertooth
+1 River's Rebuke
+1 Kenrith's Transformation
+1 Blossoming Defense
+1 Breeding Pool
+1 Misty Rainforest
+1 Flooded Strand
+1 Scalding Tarn
+1 Verdant Catacombs
+1 Hinterland Harbor
+1 Yavimaya Coast
+1 Waterlogged Grove
+1 Botanical Sanctum
+1 Barkchannel Pathway
+1 Dreamroot Cascade
+1 Command Tower
+1 Exotic Orchard
+1 Castle Garenbrig
+1 Mystic Sanctuary
+1 Lumbering Falls
+1 Temple of Mystery
+8 Forest
+5 Island
+
+1 Kinnan, Bonder Prodigy
