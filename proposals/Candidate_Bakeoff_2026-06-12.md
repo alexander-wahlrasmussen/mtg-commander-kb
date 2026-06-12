@@ -6,13 +6,14 @@
 
 **Status (2026-06-12):** **Stage 0 complete. Stage 1 complete** — 5 survivors (Yuriko / Godo /
 Kinnan / Kefka-burn / **Korvold**, kept by user override), 2 cuts (Urza / Thrasios+Tymna).
-**Stage 2: 4 of 5 built** — Yuriko (`insider-trading-20260612.txt`, fixed from 99→100 with Temple
-of Deceit), Godo (`hostile-takeover-20260612.txt`, 100 ✓), Kinnan
+**Stage 2: COMPLETE (5 of 5)** — Yuriko (`insider-trading-20260612.txt`, fixed from 99→100 with
+Temple of Deceit), Godo (`hostile-takeover-20260612.txt`, 100 ✓), Kinnan
 (`quantitative-easing-20260612.txt`, 100 ✓ — GC slot 3 swapped Survival→**Worldly Tutor**; see
 Stage 2 results for falsified free-claims + cost revision), Kefka-burn
 (`forced-liquidation-20260612.txt`, 100 ✓ — Demonic Tutor now a BUY (ZSG took the last spare),
-cost revised ~€140–190; see Stage 2 results). **Next action: Stage 2 build of Korvold**, then
-Stage 3 labs (refresh Scryfall data before Clive's).
+cost revised ~€140–190), Korvold (`asset-stripping-20260612.txt`, 100 ✓ — GC slot swapped
+Survival→**Worldly Tutor**, ~€50 cost claim HOLDS, the only candidate whose estimate survived
+the sweep). **Next action: Stage 3 clock labs** (refresh Scryfall data before Clive's).
 
 **Owner model:** Opus 4.8 for the judgment that carries risk — card-text reads, lab kill-logic
 design, Conversion Check, verdict. It is the lineup's *most capable* reasoning model and the
@@ -337,6 +338,42 @@ slots were resolved per its own guidance (extra wheel/punisher redundancy, secon
   0-spare) plus ~12 cheap unowned punisher/removal slots. Premium spend: Wheel of Fortune,
   Demonic Tutor, Sheoldred, Echo of Eons, Time Spiral, Bloodletter, Memory Jar.
 
+### Korvold — `asset-stripping-20260612.txt` (100 ✓) — built this session
+
+- **GC slot swapped: Survival of the Fittest → Worldly Tutor** (same falsification and same fix
+  as Kinnan — Survival's sole copy is IN Radiation Sickness; Worldly owned ×1 undeployed = free,
+  and arguably fits Korvold *better*: every payoff and engine creature is a creature card).
+  GC tally **3/3: Worldly Tutor, Gamble (1 spare — 2 owned, 1 in Lorehold Spirit), Mana Vault.**
+  The proposal's slot-3 lab A/B (Vault vs third tutor) stands for Stage 3.
+- **~€50 cost claim HOLDS** — the only candidate whose Stage-1 estimate survived its sweep.
+  13 buys ≈ €47 (unverified): Ashnod's Altar ~€15, Goblin Bombardment ~€10, Walking Ballista
+  ~€8, Pitiless Plunderer / Sifter / Zulaport / Blood Artist / Viscera / Carrion / Deadly
+  Dispute / Village Rites / Terminate / Bedevil ≈ €1–2 each. Zero land buys, zero pulls,
+  no protected donor touched.
+- **Proposal free-claims that held:** Korvold, Mayhem Devil, Marionette Master, Nadier's ×2,
+  Reassembling Skeleton ×4, Gravecrawler spares — plus **Woe Strider turned out free** (2 owned,
+  only 1 in DR; proposal had it as a buy). **Falsified:** Deadly Rollick "free" (6/6 deployed,
+  ZSG took the last) — cut, not bought; Bitterblossom's free-add status (ZSG claimed it);
+  Ashnod's "both copies" (CSV shows 1 owned — ZSG's is a post-CSV buy; the 2nd is a buy as
+  proposed).
+- **Dictate of Erebos ambiguity:** the CSV's only copy is **Proxy=True** and "Ellie's Rage"
+  (its reskin, deployed in Sauron) has **no CSV row** — the proxy almost certainly IS Sauron's
+  deployed copy. Not cleanly free → **Grave Pact (owned ×1, undeployed, unambiguous) took the
+  slot.** Same effect, heavier pips.
+- **Precision note on redundancy:** Sifter of Skulls' Scions make **{C} only** — it backs up
+  the *value/draw* engine but can't pay Gravecrawler/Skeleton's {B}; only Pitiless Plunderer's
+  Treasures make the loop fully self-sustaining. Payoff redundancy (5-wide) is real; *engine*
+  redundancy is Plunderer-or-bust plus mana-assisted halves. Lab should model this.
+- **Owned-spare flex haul** (~24 slots filled free): Meren, Mazirek, Tireless Tracker, Solemn,
+  Burnished Hart, Whisper, Midnight Reaper, Dreadhorde Invasion, Victimize, Living Death,
+  Eternal Witness, Professional Face-Breaker, Big Score, Pirate's Pillage, Curse of Opulence,
+  Ichor Wellspring, Putrefy, Tear Asunder, Abrade, Feed the Swarm, Vandalblast, Heroic
+  Intervention, Blasphemous Act, Greaves, Deflecting Swat, full ramp suite (Birds, STE, Three
+  Visits, Farseek, Cultivate, Kodama's, Rampant, signets/talisman/Sphere/Mind Stone).
+- **Lands:** 12 named owned-spare (incl. **Evolving Wilds / Terramorphic / Myriad Landscape —
+  self-sacrificing fetches each trigger Korvold's draw**, actively on-plan) + 24 basics;
+  Fabled Passage 6/6 deployed, Phyrexian Tower 0-spare — skipped, no land buys.
+
 ---
 
 ## Status table (resumable — update as stages complete)
@@ -347,7 +384,7 @@ slots were resolved per its own guidance (extra wheel/punisher redundancy, secon
 | 2 | Godo | 3/3 ✓ | **Moderate** | ✓ 100 ✓ `hostile-takeover-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`godo_clock_lab`) |
 | 3 | Urza | 3/3 ✓ | Weak (anti-race) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
 | 4 | Kinnan | 3/3 ✓ (Worldly swap) | **Strong** | ✓ 100 ✓ `quantitative-easing-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`knn_clock_lab`) |
-| 5 | Korvold | 3/3 ✓ | Weak (grindy T7–9) | — | — | — | 1 ✓ KEEP | Stage 2 build (user override) |
+| 5 | Korvold | 3/3 ✓ (Worldly swap) | Weak (grindy T7–9) | ✓ 100 ✓ `asset-stripping-20260612.txt` | — | — | 2 ✓ | Stage 3 lab (`kvd_clock_lab`) |
 | 6 | Thrasios+Tymna | 3/3 ✓ | Mixed (cost+politics) | — | — | — | **CUT** ✗ | eliminated (Stage 1, confirmed) |
 | 7 | Clive (ext) | 3 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab (refresh data first) |
 | 8 | Kefka (ext) | 0 (exempt) | auto-adv | ✓ 100 ✓ | — | — | 0 ✓ | Stage 3 lab |
@@ -358,13 +395,17 @@ Morgul-Knife=Shadowspear, Storm's Will=**Jeska's Will (GC, → 3 GCs)**, Helm's 
 Wakandan Skyscraper=Karn's Bastion, Calliope's Song=Seething Song. Still run
 `update_scryfall_data.py` before the Clive lab.
 
-**Next action overall:** **Stage 2: 4 of 5 done** (Yuriko / Godo / Kinnan / Kefka-burn built,
-swept, exactly 100 each, commanders in END blocks). Next → **Stage 2 build of Korvold** (same
-procedure: resolve 99+1, availability sweep, alias check, card-text verify, END-block commander).
-Then **Stage 3 labs** for all 5 finalists + both externals; run `update_scryfall_data.py` before
-Clive's lab. Scratch drafts live in `_build/` (untracked; `considering/` versions are canonical).
+**Next action overall:** **Stage 2 COMPLETE — all 5 internal survivors built** (Yuriko / Godo /
+Kinnan / Kefka-burn / Korvold), swept, exactly 100 each, commanders in END blocks. Next →
+**Stage 3 clock labs** for all 5 finalists + both externals (one `*_clock_lab.py` each on
+`speed_lab_core.py`, decap AND table reported separately; reuse kill scaffolds per the funnel
+notes); run `update_scryfall_data.py` before Clive's lab. Scratch drafts live in `_build/`
+(untracked; `considering/` versions are canonical).
+**Cost picture after all sweeps (all unverified):** Godo ~€45–60-but-light → Korvold ~€50
+(claim held) → Kinnan ~€120–160 → Yuriko ~€140–170 → Kefka-burn ~€140–190.
 **Open user decisions:** (a) Radiation Sickness 4-GC violation — how to resolve; (b) whether
 Kinnan's ~€120–160 revised cost changes its Stage-1 "Strong" completability read; (c) Kefka-burn
 filename — "Forced Liquidation" codename was coined at build time (candidate had none), rename if
 disliked; (d) the 2026-05-31 Calamity Tax swap was never applied to its `.txt` — if it's dead,
-the Sheoldred spare frees up and Kefka-burn's buy list shrinks by one premium card.
+the Sheoldred spare frees up and Kefka-burn's buy list shrinks by one premium card; (e) Korvold
+pod approval + mechanical-distinctiveness sign-off vs DR/ZSG/Genome (the proposal's own gate).
