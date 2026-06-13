@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers: Cyclonic Rift, Demonic Tutor, Fierce Guardianship) |
 | **Game Changers** | Cyclonic Rift, Demonic Tutor, Fierce Guardianship |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | Clock: **T8 decap** / **T11 table** (lab 2026-06-13, `cos_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; conservative on Zombie count; no removal/gy-hate)*. The old "Goldfish T7–9" actually **describes the decap clock well** (median T8, in-band — the only sweep deck whose front edge held) but conflated it with the table: table median is **T11**. Two engines — lord **combat** focus-fires the decap (~T8); the modest all-table **Scarab/Gary drain** is the slower table clock (~T11). See `proposals/Curse_of_the_Scarab_Clock_Lab_2026-06-13.md` |
 
 -----
 

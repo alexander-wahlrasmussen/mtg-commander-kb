@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Vampiric Tutor, Cyclonic Rift (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
-| **Kill Window** | Goldfish: T6–9 · Through interaction: T8–12 *(unverified — no lab run; front-edge T6 claim suspect, priority lab target per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | Clock: **T10 table-win** (median; T6 ≈ 1%, T9 ≈ 49%) / **T7 decap** one opponent (lab 2026-06-13, `rs_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified)*. The old "Goldfish T6–9" was optimistic for the actual win: this deck's kills (combo / Simic / Triumph) are whole-table kills, and the table median is T10. The "T5–6 combo" is a god-hand (1–4% by T7). See `proposals/Radiation_Sickness_Clock_Lab_2026-06-13.md` |
 
 -----
 
@@ -85,6 +85,19 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 
 -----
 
+## Kill Window (lab-verified 2026-06-13)
+
+`scripts/rs_clock_lab.py` (40k trials, seed 20260613 — a **coarse expected-value engine model**, the most heuristic lab in the sweep):
+
+| | T5 | T6 | T7 | T8 | T9 | T10 | T12 |
+|---|---|---|---|---|---|---|---|
+| decap (one opponent) | 5% | 32% | 76% | 91% | 95% | 98% | 99% |
+| **table (win)** | 0% | 1% | 4% | 21% | **49%** | 74% | 96% |
+
+**Win clock (table): median T10.** Because every reliable kill (Mindcrank+Bloodchief combo, Simic Ascendancy at 20 growth, Triumph poison) kills the whole table at once, the table clock IS the win clock — and "Goldfish T6–9" was optimistic for it (T6 ≈ 1%, T9 ≈ 49%). The "T5–6 combo" is a five-piece god-hand (Mothman + Mindcrank + Bloodchief + a proliferate source + rad ticking 2+/turn), realized only 1–4% of the time by T7. The deck *does* pressure one opponent fast — decap median **T7** (76% by T7) via incidental combat + rad drain, which clears the pod's T≤7 decap bar and has real value against the archenemy — but decapping one player is pressure, not a win. Robust tail: 1% never-in-14. Full writeup + caveats: `proposals/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+
+-----
+
 ## Conversion Check Breakdown
 
 ### Core Loop: 5/5
@@ -124,6 +137,7 @@ Toxrill provides asymmetric ongoing interaction by killing opponents' creatures 
 The deck graduates from "17/20, multiple deterministic lines with cheap combo assembly" to "18/20, four-line kill plan with restored free interaction." The binding constraint sits at Interaction (12 pieces, 1 free counter) and Durability (no anti-wrath protection beyond Heroic Intervention + Ozolith). Pushing to 19+ would require either a 2nd free counter (Force of Will / Pact copies are all deployed) or Crucible-of-Worlds-style permanence.
 
 **Upgrade history:**
+- **2026-06-13 — Kill-turn clock lab** (`rs_clock_lab.py`, coarse engine model; sweep deck 2). "Goldfish T6–9" verified as **optimistic on the win clock**: table-win median **T10** (T6 ≈ 1%, T9 ≈ 49%); decap one opponent median T7. The marquee T5–6 combo is a god-hand (1–4% by T7). No card swaps; 18/20 unchanged (the slow-but-near-certain table clock, 1% never-in-14, corroborates the reliability the score rewards). No card-text errors. Writeup: `proposals/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
 - Original build: 13/20 (4/3/3/3)
 - 2026-05-13 Phase A+B: corrected summary↔.txt mismatches; swapped Bloatfly Swarm / Contagion Clasp / Mesmeric Orb / Fierce Guardianship → Doubling Season / Vorinclex MR / Triumph of the Hordes / Vampiric Tutor. → 17/20 (5/4/4/4).
 - 2026-05-13 Phase C: swapped Flux Channeler / Thrummingbird / Inspiring Call → Toxrill / Survival of the Fittest / Force of Negation. Kill Reliability 4→5 (Toxrill adds 8th, non-combo non-combat kill line); Interaction restored a free counter (still 4/5 vs 15-piece benchmark). → 18/20 (5/5/4/4).

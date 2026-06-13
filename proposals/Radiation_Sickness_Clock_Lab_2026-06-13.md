@@ -1,0 +1,91 @@
+# Radiation Sickness — Kill-Turn Clock Lab (2026-06-13)
+
+**Deck 2 of 10** in the Kill-Window Lab Sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md`).
+Lab: `scripts/rs_clock_lab.py` (40k trials, seed 20260613), on `speed_lab_core.py`.
+This is the **coarsest lab in the sweep** — the counter spiral is tracked as
+expected-value floats, not enumerated. Read the caveats before trusting any single
+number; trust the shape.
+
+## Claim vs. measured
+
+| | Claim (hand-estimate) | Measured (lab) |
+|---|---|---|
+| Goldfish | **T6–9** (single range) | **table (win) median T10** · decap median T7 |
+| Front edge | T6 | table T6 = 1% · decap T6 = 32% |
+| "T5–6 combo" | T5–6 | combo/Simic table kill ≈ 1% by T6, 4% by T7 (god-hand) |
+| Never-in-14 | — | decap 0% / table 1% |
+
+```
+  P(kill <= turn T) %                        5     6     7     8     9    10    12    14
+  decap (one opponent, 40)                   5    32    76    91    95    98    99   100
+  table (all three)                          0     1     4    21    49    74    96    99
+```
+
+## Direction: optimistic on the clock that matters (the table win)
+
+This deck's reliable kills — Mindcrank+Bloodchief combo, Simic Ascendancy at 20
+growth, Triumph poison — all kill the **whole table at once**, so the win clock IS
+the table clock. Measured table median is **T10**; "T6–9" is optimistic by roughly
+a turn at the median and badly so at the front edge (T6 = 1%, and even T9 is only
+49%). The "T5–6 combo" line is a **god-hand** (1–4% that early): from a singleton
+deck the combo needs Mothman + Mindcrank + Bloodchief + a proliferate source + rad
+ticking ≥2 life/turn, all online together — a five-piece assembly, not a T6 norm
+(the bake-off "singleton combo density" trap exactly).
+
+So the front edge is optimistic again (the project's recurring pattern), now scored
+on the table clock since that's how this deck wins.
+
+## The decap/table split (my prior was half-right)
+
+Pre-registered prior: *"converge kills; front edge suspect."* The converge **kills**
+do converge — but the deck's *fastest* clock isn't the marquee combo. It's the
+**incidental combat decap** (countered creatures swing) plus the rad drain, which
+push one opponent to 40 by median **T7** (76% by T7) while the table lags to T10.
+So decap and table diverge ~3 turns here, like a combat deck — the kill-shape lens
+correctly called the combo converge but missed that an engine deck's *first* kill is
+often the side-effect beatdown, not the named win. Worth carrying forward: classify
+the **fastest** line, not the marquee one.
+
+Practically the T7 decap is not just vanity: against the archenemy combo deck,
+pressuring/removing one threat by T7 (the pod's own bar) has real value — but it is
+**pressure, not a win**; the deck closes the game at T10.
+
+## Card text
+
+No errors in the Summary (2026-05-13 audit holds). `card_lookup.py` confirmed the
+load-bearing details: Bloodchief quest triggers on **an opponent** (not any player)
+losing 2+; Vorinclex doubles counters you place on **permanents and players** (rad,
++1/+1, growth, quest all ×2); Doubling Season doubles only your-permanent counters
+(not rad on opponents); Tekuthal proliferates twice; Triumph grants infect (10
+poison = dead regardless of life).
+
+## Modeling caveats (the coarsest lab — read these)
+
+- Counters tracked as **expected-value floats**, not enumerated: rad per opponent
+  (symmetric), growth, quest, board power. Opponent decks assumed 62% nonland, so a
+  rad mill of R loses ~0.62R life and decays rad to ~0.38R. Mindcrank's self-mill
+  loop folded into a ×1.8 life-loss factor. Mothman counter placement =
+  min(ncre, nonland milled) per turn.
+- Creature-counter multiplier m_cre = vorx · 2^min(3, #{Doubling Season, Branching,
+  Corpsejack}); additive doublers (Hardened Scales, Winding Constrictor, Kami)
+  ignored (conservative). Proliferate events/turn = perms online (×2 Tekuthal),
+  capped at 6.
+- **The decap front edge (32% T6) is the least certain number** — it rests on board
+  growth, the most heuristic part. The **table clock (T10) is the robust finding**:
+  it is driven by rad drain + converge kills, which depend on rad accumulation
+  (more reliable than combo assembly) more than on board math.
+- Damage/poison unblocked; no interaction/disruption model. The rad drain hits all
+  opponents (Table.hit_all) — genuinely converge — so blockers barely affect the
+  table clock (they slow only the combat-decap side).
+
+## Verdict for the Summary
+
+Replace `Goldfish: T6–9 (unverified)` with:
+**`Clock: T10 table-win (median; T6 ≈ 1%, T9 ≈ 49%) / T7 decap one opponent (lab 2026-06-13, rs_clock_lab.py — coarse engine model) · Through interaction: slower (unverified)`**
+
+Pod-bar read: the deck **decaps** one threat by T≤7 in 76% of games (useful vs the
+archenemy), but its **win** is T10 — it does not race the table. This is consistent
+with the deck's stated "incremental threat, not explosive / secondary target" pod
+posture and does not challenge the 18/20 score (the rubric rewards its reliability
+and interaction, which the slow-but-near-certain table clock — 1% never-in-14 —
+corroborates). No card swaps (verification pass only).

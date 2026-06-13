@@ -33,6 +33,12 @@ proposals (Godo, Urza, Kinnan, Thrasios, Korvold, Clive-ext, Kefka-ext) are in
 `archive/proposals/`; their priced/labbed `.txt` builds in `archive/old_decklists/`
 (restorable in a weekend if a slot opens — Godo in particular, ~€50).
 
+## Sweeps (multi-session campaigns)
+
+| File | Status | Note |
+|---|---|---|
+| `Kill_Window_Lab_Sweep_2026-06-13.md` | LIVE | Clock-lab every active deck lacking a kill-turn clock (10 in queue, 6 already done). Holds the queue, session log, and the roster ranking by measured decap clock. Procedure: `workflows/WF_Kill_Window_Lab.md`. |
+
 ## Pipeline candidates (un-built)
 
 | File | Status | Note |
@@ -57,6 +63,11 @@ proposals (Godo, Urza, Kinnan, Thrasios, Korvold, Clive-ext, Kefka-ext) are in
 | `Grand_Design_Mana_Fixing_Pass_2026-06-09.md` | `Pod_Matchup_Matrix.md` |
 | `Genome_Project_Clock_Lab_2026-06-10.md` | `The_Genome_Project_Summary.md` |
 | `Diminishing_Returns_Clock_Lab_2026-06-10.md` | `Diminishing_Returns_Summary.md` |
+| `Eldrazi_Stampede_Clock_Lab_2026-06-13.md` | `Eldrazi_Stampede_Chaos_Summary.md` |
+| `Radiation_Sickness_Clock_Lab_2026-06-13.md` | `Radiation_Sickness_Summary.md` |
+| `Lightning_War_Clock_Lab_2026-06-13.md` | `Lightning_War_Summary.md` |
+| `Crystal_Sickness_Clock_Lab_2026-06-13.md` | `Crystal_Sickness_Summary.md` |
+| `Curse_of_the_Scarab_Clock_Lab_2026-06-13.md` | `Curse_of_the_Scarab_Summary.md` |
 | `Diminishing_Returns_B4_Pivot_2026-06-10.md` | `Diminishing_Returns_Summary.md` |
 | `PROP_Witherbloom_the_Balancer.md` | `Zero_Sum_Game_Summary.md` (proposal-of-record for the built deck) |
 

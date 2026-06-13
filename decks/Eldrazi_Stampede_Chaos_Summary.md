@@ -10,7 +10,7 @@
 | **Bracket** | 3 (2 Game Changers used; no two-card infinites; no extra turns; no MLD) |
 | **Game Changers** | Ancient Tomb, Mana Vault (2 of 3 slots used — room for one more) |
 | **Conversion Check** | **14/20** (4/4/3/3) — Solid |
-| **Kill Window** | Goldfish: T6–8 · Through interaction: T8–11 *(unverified — no lab run; front-edge T6 claim suspect, priority lab target per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | Clock: **T8 decap** (median; T6 ≈ 10% god-hand) / **T12 table** (lab 2026-06-13, `esc_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no blockers/disruption model)*. The old "Goldfish T6–8" was the optimistic decap edge and conflated decap with table: decap median is T8 (T6 only 10%), the table clock is T12 (never stated). See `proposals/Eldrazi_Stampede_Clock_Lab_2026-06-13.md` |
 
 -----
 
@@ -59,10 +59,10 @@ The deck ramps aggressively (19 dedicated ramp pieces — Sol Ring, Arcane Signe
 
 ## Kill Window
 
-- **Goldfish:** T6–8
-- **Through interaction:** T8–11
+- **Clock (lab 2026-06-13, `esc_clock_lab.py`, 40k trials):** decap median **T8** (2% T5 / 10% T6 / 26% T7 / 50% T8 / 71% T9 / 85% T10) · table median **T12** (2% T8 / 8% T9 / 20% T10 / 61% T12 / 89% T14) · never-in-14: decap 1% / table 11%.
+- **Through interaction:** slower *(unverified — goldfish only; no blockers/disruption model)*.
 
-The deck is mid-speed — 19 ramp pieces let it reach 6+ mana by T4–5 reliably, but the kills require a creature already on board (Maelstrom + cascade hits, Craterhoof alpha) or a chain to develop (Sunbird's Invocation). A single Cyclonic Rift on T7 pushes the kill back 3–4 turns.
+The old hand-estimate "Goldfish T6–8" was the **optimistic decap edge** and conflated two clocks. The lab puts the decap median at T8 (T6 is a 10% god-hand, not the norm) and the **table clock at T12** — four turns slower and never previously stated. Decap is gated on the 8-mana Wanderer cast (≈T6–7 even with 19 ramp pieces) plus ~2 swings; the table-kill is the Craterhoof alpha (trample + X/X distributed across the table), which needs Craterhoof, 8 mana, and a wide board *simultaneously* (61% by T12). Against the T6–7 combo pod the deck clears a **T≤7 decap only 26%** of the time — it does not race; this matches the deck's known "vulnerable to combo / slow goldfish" posture. A single Cyclonic Rift on T7 pushes the kill back 3–4 turns. Full writeup: `proposals/Eldrazi_Stampede_Clock_Lab_2026-06-13.md`.
 
 -----
 
@@ -364,6 +364,8 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 -----
 
 ## Changelog
+
+- **2026-06-13:** Kill-turn clock lab (`scripts/esc_clock_lab.py`, 40k trials, seed 20260613) — first deck of the Kill-Window Lab Sweep. **"Goldfish T6–8" falsified as a single number:** decap median **T8** (T6 ≈ 10% god-hand), table median **T12**, never-in-14 table 11%. The claim was the optimistic decap front edge and didn't state the table clock. No card swaps (verification pass only); 14/20 Solid posture confirmed — the deck does not race the pod (T≤7 decap 26%). No card-text errors found (2026-05-16 audit held); reinforced that Craterhoof's own haste makes its alpha a same-turn table swing. Writeup: `proposals/Eldrazi_Stampede_Clock_Lab_2026-06-13.md`.
 
 - **2026-05-16:** Formal audit pass. 14/20 (4/4/3/3) holds — Solid. ~10 card-text errors corrected: Conduit of Worlds is one-spell-per-turn-total when used, not a bonus cast; Void Winnower locks **all** even-MV opponent spells (not just creatures); both Ulamogs are **indestructible** (was omitted); Selvala Heart's draw is two-way (creature's controller draws, opponents trigger on their own greatest-power ETBs); Sunbird's Invocation triggers only on hand-cast spells (cascade/free-cast/Stampede ETBs don't trigger it); Rampaging Baloths landfall tokens are 4/4 vanilla Beasts (no trample by default); Conduit of Ruin's tutor is a cast trigger, not ETB; Goreclaw's attack-time pump applies to all your power-4+ creatures, not just attackers; Kozilek's Command is **instant** speed (instant-speed coverage was undercounted at ~30% — actual is ~50%); Boseiju channel floor is {G} — Maelstrom alone is enough, stacking legendaries doesn't help further. Structural fixes: **Kodama of the East Tree** recategorized from "Partner-shell" to a core cascade/free-cast engine (cheats equal-or-lesser-MV permanents from hand on every ETB); **Warstorm Surge** recategorized from "Combat Doublers" to ETB damage trigger. Land count corrected — section claimed 33, actual is **36** (37 including Ancient Tomb). Cascade exclusion list expanded to include Craterhoof (MV 8) and Breaker of Creation (MV 8); Kodama (MV 6) added to the "can cascade into" list. GC candidates fixed — **Smothering Tithe is illegal** in this deck (white, outside Temur). Legal alternatives named (Worldly Tutor, Seedborn Muse, Mystical Tutor, Force of Will, Fierce Guardianship, Cyclonic Rift, Rhystic Study, Crop Rotation, Survival of the Fittest, Natural Order). No card swaps made yet — chaos-leaning refinement pass pending; initial Moxfield CSV check showed most cascade staples (Apex Devastator, Bloodbraid Elf, Imoti, Maelstrom Nexus, Garruk's Horde, Wild-Magic Sorcerer, Etali Primal Conqueror) are not in the collection. Owned chaos-flavored hits so far: Tibalt's Trickery (x2), Insurrection, Birthing Pod, Inferno Titan. Wider net to be cast in a follow-up.
 

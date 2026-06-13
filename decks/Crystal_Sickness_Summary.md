@@ -12,7 +12,7 @@
 | **Bracket** | 3 (3 Game Changers: Chrome Mox, Fierce Guardianship, The One Ring) |
 | **Game Changers** | Chrome Mox, Fierce Guardianship, The One Ring |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | Clock: **T11 decap** / **T13 table** (lab 2026-06-13, `cs_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; assumes Golbez/Urza never removed and no artifact-hate)*. The old "Goldfish T7–9" was the optimistic edge: decap median is T11 (T7 ≈ 7%), table median T13. Shape is **mixed** — Golbez drain + Tezzeret +2 hit the whole table (converge), Urza's Construct / Thopters focus-fire (decap leads by ~2). The kill is gated on assembling **8 artifacts *and* a drain bomb in the yard** (3 in the deck; ~50% by T9), not a race. See `proposals/Crystal_Sickness_Clock_Lab_2026-06-13.md` |
 
 -----
 

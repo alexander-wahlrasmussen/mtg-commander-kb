@@ -10,19 +10,19 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------------------------------------------------- |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
 | The Calamity Tax       | Glarb, Calamity's Augur     | Sultai |     18/20 | Control / tax               | Elite                                                             |
-| Lightning War          | Fire Lord Azula             | Grixis |     18/20 | Spellslinger / burn         | Elite                                                             |
+| Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08)                                        |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
 | Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite                                                             |
 | Diminishing Returns    | Teysa Karlov                | Orzhov |     17/20 | Aristocrats                 | Elite (audited 2026-05-13)                                        |
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite (rescored 2026-05-13)                                       |
-| Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite                                                             |
-| Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite                                                             |
+| Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite (Clock T8 decap / T11 table, lab 2026-06-13)              |
+| Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite (Clock T11 decap / T13 table, lab 2026-06-13)              |
 | Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     18/20 | Spirits / graveyard cycling | Elite (Goblin Bombardment acquired 2026-05-30; combo line live)   |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                                                             |
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30)                                       |
-| Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08)                                        |
-| Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited + 2-phase upgrade 2026-05-13)                      |
+| Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
+| Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
 | Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |  not audited | Lifeloop combo / spellslinger-drain | **Cards on order** (built 2026-06-11; Clock T9 decap=table, lab 2026-06-11) |
 
 ### Retired
