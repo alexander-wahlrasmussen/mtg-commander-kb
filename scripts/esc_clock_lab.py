@@ -110,6 +110,8 @@ def goldfish_kill(library, commander, index, powmap, rng):
     selvala = False
     baloths = tender = False
     trample = False
+    onslaught = warstorm = False   # v2 (2026-06-13 producer re-check): combat
+                                   # double-strike doubler / per-creature ETB burn
 
     def remember(p):
         nonlocal maxpow
@@ -147,8 +149,16 @@ def goldfish_kill(library, commander, index, powmap, rng):
             new_pow += 4 * lands_in; new_cre += lands_in; remember(4)
         if tender:
             new_pow += 1; new_cre += 1
+        # pre-combat enchantment anthems (sorcery-speed, so live for THIS turn's swing)
+        if not onslaught and g.has("Berserkers' Onslaught") and g.avail >= 5:
+            g.cast("Berserkers' Onslaught", 5); onslaught = True
+        if not warstorm and g.has("Warstorm Surge") and g.avail >= 6:
+            g.cast("Warstorm Surge", 6); warstorm = True
 
         # ---- ATTACK STEP: Craterhoof alpha (table) > Wanderer dump > board swing --
+        # Berserkers' Onslaught: attacking creatures have double strike -> every
+        # combat swing this turn is doubled (oracle 2026-06-13).
+        cmult = 2 if onslaught else 1
         fired = False
         # Craterhoof: cast for 8, haste; pump X = all creatures incl this-turn tokens
         if not fired and g.has("Craterhoof Behemoth") and g.avail >= 8:
@@ -157,7 +167,7 @@ def goldfish_kill(library, commander, index, powmap, rng):
             total_cre = ncre + new_cre + 1                         # X (incl sick/tokens)
             base = board + 5 + (new_pow if wanderer else 0)
             swing = base + total_cre * attackers
-            trample_distribute(tbl, swing, T)
+            trample_distribute(tbl, swing * cmult, T)
             board += 5; ncre += 1; remember(5); fired = True
         # Wanderer: commander, castable at 8; two hasty cascades + 7 attack this turn
         if not fired and not wanderer and g.avail >= 8:
@@ -165,15 +175,15 @@ def goldfish_kill(library, commander, index, powmap, rng):
             c1, c2 = cascade(), cascade()
             wanderer = True
             swing = 7 + c1 + c2
-            tbl.hit_focus(swing, T)
+            tbl.hit_focus(swing * cmult, T)
             board += 7 + c1 + c2; ncre += 1 + (c1 > 0) + (c2 > 0)
             remember(7); fired = True
         # otherwise the standing board attacks (focus)
         if not fired and board > 0:
             if trample:
-                trample_distribute(tbl, board, T)
+                trample_distribute(tbl, board * cmult, T)
             else:
-                tbl.hit_focus(board, T)
+                tbl.hit_focus(board * cmult, T)
         if tbl.done:
             return tbl.decap, tbl.table
 
@@ -216,6 +226,15 @@ def goldfish_kill(library, commander, index, powmap, rng):
                     g.cast(nm, cmc); new_pow += pw(nm); new_cre += 1; remember(pw(nm))
                     more = True
                     break
+
+        # Warstorm Surge: each creature that entered this turn deals its power to
+        # any target -> distribute to the table (a non-combat damage axis). Conservative:
+        # counts develop ETBs + landfall tokens (new_pow), not the attack-step
+        # Wanderer/Craterhoof bodies, and lands the turn the creatures enter.
+        if warstorm and new_pow > 0:
+            trample_distribute(tbl, new_pow, T)
+            if tbl.done:
+                return tbl.decap, tbl.table
 
     return tbl.decap, tbl.table
 

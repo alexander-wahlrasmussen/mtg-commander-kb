@@ -48,7 +48,7 @@ the slow decks. Kill-shape prediction is the pre-registered prior (Stage 1 of th
 | 3 | Lightning War | Fire Lord Azula (Grixis) | T6–7 | burn: single-target finishers + pingers → mixed; availability-verified, no kill-turn clock | ✅ DONE (v2) — decap T9 / table ~T13 strict goldfish (`lw_clock_lab.py`, 2026-06-13); from-40 sweep = 14-mana Crackle, so "T6–7" is the chip-/disruption-assisted clock; goldfish understates this tempo/disruption deck (v1's T11 was a model bug — fixed) |
 | 4 | Crystal Sickness | Golbez (Dimir) | T7–9 | reanimate a fatty → combat focus-fire → diverge | ✅ DONE — decap T11 / table T13 (`cs_clock_lab.py`, 2026-06-13); claim optimistic ~2–4 turns; shape is MIXED (drain+Tezzeret converge / combat diverges), not the pure diverge predicted; engine = card draw |
 | 5 | Curse of the Scarab | The Scarab God (Dimir) | T7–9 | zombies + Gray Merchant drain → mixed combat/drain | ✅ DONE — decap T8 / table T11 (`cos_clock_lab.py`, 2026-06-13); **decap claim HELD** (first in sweep), only correction is decap/table split; combat decaps, drain tables |
-| 6 | Earthbend the Meta | Toph (Naya) | T7–9 | artifact stompy → combat focus-fire → diverge | ❌ TODO |
+| 6 | Earthbend the Meta | Toph (Naya) | T7–9 | artifact stompy → combat focus-fire → diverge | ✅ DONE — decap T8 / table T12 (`ebm_clock_lab.py`, 2026-06-13); decap claim ~held (T7=34% front edge), correction is decap/table conflation; **diverge prediction held** (focused AWBO+combat outran the converge ping) |
 | 7 | Lorehold Spirits | Quintorius (Boros) | T7–9 | Goblin Bombardment combo (ping) + spirits → combo converge / combat diverge | ❌ TODO |
 | 8 | The Calamity Tax | Glarb (Sultai) | T7–9 | X-drain (Exsanguinate) + Kokusho reanimator → mana-gated; speed-curve done, no kill-turn clock | ◐ PARTIAL |
 | 9 | Ms. Bumbleflower | Ms. Bumbleflower (Bant) | T8–10 | spellslinger tempo, evasive/Jolrael alpha → combat diverge | ❌ TODO |
@@ -167,6 +167,56 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   *win* clock is T11 and the real pod plan is interaction + inevitability, not a race.
   No swaps; 17/20 stands. Wrote `proposals/Curse_of_the_Scarab_Clock_Lab_2026-06-13.md`;
   updated Summary + Deck_Index + README. Next: row 6, Earthbend the Meta.
+- **2026-06-13** — **Bug-impact review + producer re-check (before resuming at row 6).**
+  Audited every prior lab against the bugs surfaced so far. **Clean:** (a) the
+  `color_identity` mana bug (2026-06-09) is walled off from all clock labs — the clock
+  mana model is a generic lands+rocks count and the mulligan keeps on a colourless land
+  count; the buggy code feeds only `deck_sim`'s `all_colors_by_turn`, which no clock lab
+  calls; `rc/er_speed_lab` don't reference colour at all. (b) The devotion / "records
+  carry no `mana_cost`" gotcha (caught at cos) never touched dr/ct — both hardcode `PIPS`
+  dicts — and cos fixed its own copy before publishing. (c) Stale `sim_profiles.json` is
+  `deck_sim --combos`-only; no clock lab reads it. **The one real, systematic risk** is
+  omitted token/producer/amplifier modelling (lw/cs/cos, "3rd time"), which always biases
+  a body/damage-race clock SLOWER → false-negative on the T≤7 pod bar. Exposed set =
+  esc + rs (labbed rows 1–2, before the lesson). **wb is structurally immune** (closed
+  loop; one igniter body is enough) and **dr got the scrutiny** (engine generates tokens;
+  its whole finding was "death VOLUME"). **esc re-checked with the two omitted amplifiers
+  modelled** (`esc_clock_lab.py` v2: Berserkers' Onslaught = combat ×2 double strike;
+  Warstorm Surge = per-creature-ETB burn distributed to the table; both oracle-verified):
+  medians **UNCHANGED at decap T8 / table T12**, only the reliability tail moved
+  (never-in-14 table 11%→9%) — singleton amplifiers shift the tail, not the median.
+  **rs left un-patched** (documented): its median table clock T10 is the rad-drain
+  `hit_all`, creature-count-INDEPENDENT by construction, so the omitted go-wide pieces
+  (Walking Ballista alt-kill, Iridescent Hornbeetle tokens, Deepglow Skate counter-double)
+  feed only the secondary Simic/Triumph/combat lines and the tail; re-modelling the
+  sweep's coarsest EV lab would add more imprecision than it removes. **Net: no published
+  decap/table median changes; all sweep verdicts stand.** Codified the lesson as a
+  producer-inventory step + Do-not in `WF_Kill_Window_Lab.md`. Residual upside flagged in
+  both writeups (esc: Etali/Kodama-East/Tireless still un-modelled; rs: Ballista line).
+  Next: resume row 6, Earthbend the Meta — **apply the producer inventory** (Toph artifact
+  stompy is a combat/body race → exposed shape).
+- **2026-06-13** — **Deck 6: Earthbend the Meta** (first lab under the new producer-inventory
+  step; most producer-dense deck in the sweep). Built `ebm_clock_lab.py`. Claim "Goldfish
+  T7–9 (fastest T6)" is **essentially the DECAP window** — decap median **T8** (T7 = 34%
+  healthy front edge, T6 = 11%, T5 = 2%), in-band; 2nd deck after CoS whose front edge did
+  NOT come back optimistic. Correction = the usual decap/table conflation: **table median
+  T12** (never-in-14 decap 1% / table 8%). **Shape lesson:** tracker predicted "combat
+  focus-fire → diverge"; at Stage 0 I over-corrected to "converge-dominant" (seeing the
+  Purphoros/Impact Tremors `hit_all` ping) — but measured **DIVERGE** (4-turn gap): the
+  focused AWBO counter-burn + combat decap outran the hit-all ping. A hit_all axis does NOT
+  converge the shape if a focused axis kills one player faster; the *original* prediction
+  held. **Two v1-class model bugs caught & fixed** (4th/5th of the sweep): (1) commander
+  not in library → `g.cast` failed, `self.toph` never flipped, whole engine dead (decap 88%
+  never) — fixed via mana-gate cast (rs/cos pattern); (2) end-step earthbend counters
+  powering the SAME turn's combat (decap T7) — fixed by ordering begin-combat EB (Kyoshi) →
+  combat → end-step EB, decap → T8. No card-text errors (all kill cards verified Stage 0;
+  Annie doubles only legendary-creature earthbend triggers, NOT Purphoros/Tremors/amps).
+  Producer inventory applied (Scute exponential + Felidar/Springheart/Field/Awaken/Tannuk/
+  Cathars modelled); conservative omissions (Evolution Sage proliferate, Ozolith, Bumi
+  pumps, Zuran+Amulet recursion) all slow-bias → true clock if anything slightly faster.
+  Pod bar: decap T≤7 = 34% — pressures (≈CoS) but does not race; pod plan is snowball +
+  interaction. No swaps; 17/20 stands. Wrote `proposals/Earthbend_the_Meta_Clock_Lab_2026-06-13.md`;
+  updated Summary + Deck_Index. Next: row 7, Lorehold Spirits.
 
 ---
 
@@ -182,13 +232,13 @@ clock then never-in-12. `—` = not yet measured. Final deliverable of the campa
 | 3 | The Replication Crisis | T7 (med) | T10+ | — | 17/20 | combat focus-fire |
 | 4 | The Exile's Return | T8 (med) | T10 | — | 17/20 | combat focus-fire |
 | 5 | Curse of the Scarab | T8 | T11 | 9% | 17/20 | combat decaps / Scarab+Gary drain tables (mixed; **decap claim held**) |
-| 6 | Eldrazi Stampede Chaos | T8 | T12 | 39% | 14/20 | combat focus-fire / Craterhoof alpha |
-| 7 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
-| 8 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
-| 9 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
-| 10 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
-| 11 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
-| ? | Earthbend the Meta | — | — | — | 17/20 | TBD |
+| 6 | Earthbend the Meta | T8 | T12 | ~30% | 17/20 | MIXED→diverge: AWBO+combat focus decap / Purphoros+Tremors hit-all ping tables (snowball) |
+| 7 | Eldrazi Stampede Chaos | T8 | T12 | 33% (v2) | 14/20 | combat focus-fire / Craterhoof alpha (amplifiers: tail only) |
+| 8 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
+| 9 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
+| 10 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
+| 11 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
+| 12 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
 | ? | Lorehold Spirits | — | — | — | 18/20 | TBD |
 | ? | The Calamity Tax | — | — | — | 18/20 | TBD |
 | ? | Ms. Bumbleflower | — | — | — | 15/20 | TBD |

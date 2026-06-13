@@ -89,3 +89,30 @@ with the deck's stated "incremental threat, not explosive / secondary target" po
 posture and does not challenge the 18/20 score (the rubric rewards its reliability
 and interaction, which the slow-but-near-certain table clock — 1% never-in-14 —
 corroborates). No card swaps (verification pass only).
+
+---
+
+## Addendum — producer re-check (2026-06-13)
+
+Triggered by the bug-impact review (`Kill_Window_Lab_Sweep_2026-06-13.md` session
+log). This lab predates the lw/cs/cos "omitted-producer" lesson, so its inventory was
+re-audited against the `.txt`. Omitted pieces (all oracle-verified), with direction:
+
+- **Walking Ballista** — counter-scaling any-target ping; an un-modelled **alt-kill
+  line** (especially with the deck's counter doublers).
+- **Iridescent Hornbeetle** — a 1/1 per +1/+1 counter placed each turn; a go-wide
+  inflator for the Triumph/combat lines.
+- **Deepglow Skate** (one-shot counter doubler ETB), **Basking Broodscale** (Eldrazi
+  Spawn on counter), **Hardened Scales / Winding Constrictor** (additive +1/+1 boosts
+  the model's multiplicative `n_mult` doesn't capture).
+
+**Decision: lab left UN-PATCHED, with reasoning.** The deck's median table clock (T10)
+is the **rad-drain `hit_all`**, which is creature-count-INDEPENDENT by construction —
+so none of the omitted producers can move it. They feed only the *secondary*
+ncre-gated lines (Simic 20-growth, Triumph `board+ncre≥10`, combat decap) and the
+Ballista alt-kill, all of which are god-hand/tail effects. The esc re-check the same
+day confirmed empirically that singleton producers move the tail, not the median —
+and here the median doesn't even use them. Re-modelling the sweep's coarsest EV lab to
+chase a tail effect would add more imprecision than it removes. The decap-T7 / table-T10
+clock and the 18/20 posture stand; **Walking Ballista is flagged as an un-modelled
+alt-kill (residual upside, same slow-bias direction).**

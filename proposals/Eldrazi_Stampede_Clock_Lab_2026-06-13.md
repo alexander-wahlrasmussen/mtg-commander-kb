@@ -88,3 +88,29 @@ does **not** race the T6–7 combo pod, consistent with the Summary's own "vulne
 to combo / slow goldfish" and the Pod Matchup posture. No card swaps proposed here
 (verification pass only); the clock confirms the 14/20 Solid posture rather than
 challenging it.
+
+---
+
+## Addendum — producer re-check (2026-06-13)
+
+Triggered by the bug-impact review (`Kill_Window_Lab_Sweep_2026-06-13.md` session
+log): this lab was built before the lw/cs/cos "omitted-producer" lesson, so its
+producer inventory was re-audited against the `.txt`. Two damage **amplifiers** were
+missing from the model, both oracle-verified and both biasing the clock slower:
+
+- **Berserkers' Onslaught** ({3}{R}{R}) — "Attacking creatures you control have
+  double strike." Now modelled as a ×2 on every combat swing while on the battlefield.
+- **Warstorm Surge** ({5}{R}) — each creature ETB deals its power to any target. Now
+  modelled as a per-turn ETB-burn distributed across the table.
+
+**Result (`esc_clock_lab.py` v2, same 40k / seed 20260613): medians UNCHANGED —
+decap T8 / table T12.** Only the reliability tail moved (never-in-14 table 11%→9%;
+never-in-12 table ≈39%→33%). The amplifiers are singletons, so <50% of games hold
+either by the relevant turn and the median is untouched — they sharpen the minority
+of god-hand/high-board games. The "T6–8 optimistic front edge" verdict stands; the
+Clock annotation above is unchanged.
+
+Residual (still un-modelled, same slow-bias direction, left as documented upside):
+**Etali, Primal Storm** (free casts on attack), **Kodama of the East Tree** (free
+permanent drops on permanent ETB), **Tireless Provisioner** (Treasure/Food per
+landfall). None is expected to move the median on the same singleton logic.

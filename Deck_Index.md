@@ -13,7 +13,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08)                                        |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
-| Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite                                                             |
+| Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite (Clock T8 decap / T12 table, lab 2026-06-13)              |
 | Diminishing Returns    | Teysa Karlov                | Orzhov |     17/20 | Aristocrats                 | Elite (audited 2026-05-13)                                        |
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite (rescored 2026-05-13)                                       |
 | Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite (Clock T8 decap / T11 table, lab 2026-06-13)              |

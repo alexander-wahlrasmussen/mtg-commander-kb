@@ -49,6 +49,21 @@ focus-fire so I expect decap ~T7–8, table ~T10; front edge suspect."* A prior 
 not a result — it's what the lab is allowed to falsify. Every front edge measured
 so far has come back optimistic, so distrust low front edges most.
 
+**Producer inventory (only bites damage/body-race kills).** If the shape is combat
+focus-fire or a go-wide/drain race — anything whose damage *scales with how many
+bodies/counters/tokens you have* — list **every** token/producer/anthem/damage-
+amplifier in the `.txt` before coding, and confirm each is modelled as a *producer*
+(not cast as a vanilla beater contributing only its own stats). Omitting one always
+biases the clock **slower** (it has happened ≥3× — lw/cs/cos), which in this sweep
+means a **false negative on the decap-T≤7 pod bar**: the deck looks too slow and we
+under-rate its race. Watch specifically for combat-damage doublers (double strike /
+extra combats), per-ETB burn (Warstorm Surge class), and counter→token engines.
+**Combo-assembly and `kill_all` shapes are exempt** — there one body/igniter is
+enough and more don't help (Zero-Sum's loop, Radiation's rad-drain). The
+2026-06-13 esc/rs re-check confirmed the asymmetry: singleton producers move only
+the tail, not the median, so the risk is concentrated in body-race medians, not
+combo clocks.
+
 ## Stage 2 — Build the kill module on the core
 
 - New script `scripts/<abbr>_clock_lab.py`. Import `speed_lab_core as slc`; reuse
@@ -96,3 +111,4 @@ so far has come back optimistic, so distrust low front edges most.
 - Do not trust a low front edge without the lab; it has an unbroken optimistic record.
 - Do not retrofit lw/rc/er/gd_speed_lab.py — they're frozen evidence; build new on the core.
 - Do not let a card-text error into a kill branch; a wrong branch makes a rigorous-looking false clock.
+- Do not model a body/damage-race deck without inventorying its producers/amplifiers first (Stage 1) — an omitted producer silently biases the clock slow and under-rates the pod race.
