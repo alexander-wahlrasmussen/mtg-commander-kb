@@ -1,6 +1,6 @@
 # Eldrazi Stampede Chaos — Kill-Turn Clock Lab (2026-06-13)
 
-**Deck 1 of 10** in the Kill-Window Lab Sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md`).
+**Deck 1 of 10** in the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/esc_clock_lab.py` (40k trials, seed 20260613), built on `speed_lab_core.py`.
 Procedure: `workflows/WF_Kill_Window_Lab.md`.
 
@@ -93,7 +93,7 @@ challenging it.
 
 ## Addendum — producer re-check (2026-06-13)
 
-Triggered by the bug-impact review (`Kill_Window_Lab_Sweep_2026-06-13.md` session
+Triggered by the bug-impact review (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md` session
 log): this lab was built before the lw/cs/cos "omitted-producer" lesson, so its
 producer inventory was re-audited against the `.txt`. Two damage **amplifiers** were
 missing from the model, both oracle-verified and both biasing the clock slower:

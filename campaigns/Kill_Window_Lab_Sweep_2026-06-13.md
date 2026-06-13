@@ -92,7 +92,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   median **T8** (T6 = 10% god-hand), table median **T12**, never-in-14 table 11%.
   Optimistic front edge (7-for-7) + decap/table conflation; decap median in-band
   so a milder miss than Grand Design. Kill-shape prior held (8-for-8). No card-text
-  errors. Wrote `proposals/Eldrazi_Stampede_Clock_Lab_2026-06-13.md`; updated
+  errors. Wrote `analysis/Eldrazi_Stampede_Clock_Lab_2026-06-13.md`; updated
   Summary + Deck_Index. Pod bar: T≤7 decap only 26% — does not race. Next: row 2,
   Radiation Sickness.
 - **2026-06-13** — **Deck 2: Radiation Sickness.** Ran `rs_clock_lab.py` (40k, seed
@@ -103,7 +103,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   **Kill-shape lens nuance learned:** the converge *kills* converged as predicted,
   but the deck's *fastest* clock was the incidental combat decap, not the marquee
   combo — classify the fastest line, not the named one. No swaps; 18/20 unchanged.
-  Wrote `proposals/Radiation_Sickness_Clock_Lab_2026-06-13.md`; updated Summary +
+  Wrote `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`; updated Summary +
   Deck_Index. Next: row 3, Lightning War (PARTIAL — has speed-curve, needs kill-turn clock).
 - **2026-06-13** — **Deck 3: Lightning War** (was PARTIAL). Built `lw_clock_lab.py`
   — the kill-turn goldfish lw_speed_lab never ran. **v1 → v2 after user push-back.**
@@ -117,7 +117,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   corrected stale 18/20 in Deck_Index. **LESSON: inventory the full board + every
   pinger/amplifier before trusting a burn deck's clock — and goldfish strictness
   (static 40, no disruption) penalizes tempo/control decks; flag it, don't over-read.**
-  No card-text errors. Wrote `proposals/Lightning_War_Clock_Lab_2026-06-13.md`. Next:
+  No card-text errors. Wrote `analysis/Lightning_War_Clock_Lab_2026-06-13.md`. Next:
   row 4, Crystal Sickness.
 - **2026-06-13** — **Deck 4: Crystal Sickness.** Built `cs_clock_lab.py`. Claim
   "Goldfish T7–9" **optimistic**: decap median **T11** (T7 = 7%), table median
@@ -143,7 +143,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   No swaps; 17/20 stands. Caveat: model captures the primary drain + Tezzeret +
   combat but OMITS the slower redundant closers (Mirrodin Phyrexian 15-yard alt-win,
   Cruel Captain emblem, Urza mana→hardcast), so 34% table-never is an upper bound on
-  the tail, not the front edge. Wrote `proposals/Crystal_Sickness_Clock_Lab_2026-06-13.md`;
+  the tail, not the front edge. Wrote `analysis/Crystal_Sickness_Clock_Lab_2026-06-13.md`;
   updated Summary + Deck_Index + README reference table (added ESC/RS/LW/CS rows).
   Next: row 5, Curse of the Scarab.
 - **2026-06-13** — **Deck 5: Curse of the Scarab.** Built `cos_clock_lab.py`. Claim
@@ -165,7 +165,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   re-audit held; reconfirmed Scarab-is-a-God-not-Zombie, Gary=devotion, loop=kill_all).
   Pod bar: decap T≤7 = 32% (highest in sweep) — can pressure early via combat, but the
   *win* clock is T11 and the real pod plan is interaction + inevitability, not a race.
-  No swaps; 17/20 stands. Wrote `proposals/Curse_of_the_Scarab_Clock_Lab_2026-06-13.md`;
+  No swaps; 17/20 stands. Wrote `analysis/Curse_of_the_Scarab_Clock_Lab_2026-06-13.md`;
   updated Summary + Deck_Index + README. Next: row 6, Earthbend the Meta.
 - **2026-06-13** — **Bug-impact review + producer re-check (before resuming at row 6).**
   Audited every prior lab against the bugs surfaced so far. **Clean:** (a) the
@@ -215,7 +215,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   Cathars modelled); conservative omissions (Evolution Sage proliferate, Ozolith, Bumi
   pumps, Zuran+Amulet recursion) all slow-bias → true clock if anything slightly faster.
   Pod bar: decap T≤7 = 34% — pressures (≈CoS) but does not race; pod plan is snowball +
-  interaction. No swaps; 17/20 stands. Wrote `proposals/Earthbend_the_Meta_Clock_Lab_2026-06-13.md`;
+  interaction. No swaps; 17/20 stands. Wrote `analysis/Earthbend_the_Meta_Clock_Lab_2026-06-13.md`;
   updated Summary + Deck_Index. Next: row 7, Lorehold Spirits.
 - **2026-06-13** — **Deck 7: Lorehold Spirits.** Built `lor_clock_lab.py` (commander is a
   PW → mana-gate cast, the ebm gotcha applied up front). Claim "T7–9 (fastest T6, avg T8)"
@@ -232,7 +232,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   adding the +1 dig → decap T8 / 5% never-table — same class as ebm/cs/lw under-modeling, the
   +1 is a verified ability so faithful. Pod bar: decap T≤7 = **46%** — highest pressure of the
   mixed decks, nearly races. No swaps; 18/20 stands. Wrote
-  `proposals/Lorehold_Spirits_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next:
+  `analysis/Lorehold_Spirits_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next:
   row 8, The Calamity Tax (PARTIAL — speed-curve done, needs kill-turn clock).
 - **2026-06-13** — **Deck 8: The Calamity Tax** (last PARTIAL) + **version bake-off.** Discovered
   `ct_speed_lab.py` was ALREADY a kill-turn clock lab (built 2026-06-10) that never ran — it
@@ -249,7 +249,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   Zero-Sum's commander), **V4 mostly Loam-freed but Scarab=Curse commander locked** (~$15–30).
   **User decision: none up to par — stay on committed V1, no version applied; a DIFFERENT
   improvement direction needed (not these swaps), deferred to a later session.** No card-text errors.
-  Wrote `proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`; updated Summary + Deck_Index. **Sweep
+  Wrote `analysis/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`; updated Summary + Deck_Index. **Sweep
   TODO/PARTIAL now: 2 left (Ms. Bumbleflower, The Dark Lord's Army).**
 - **2026-06-13** — **Deck 9: Ms. Bumbleflower.** Built `bmf_clock_lab.py`. Claim "T8–10" decap
   **corroborated but as a CEILING** — decap median **T8** (T7 = 38%), in-band, front edge ~holds
@@ -259,7 +259,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   hand-size); real play holds them up → slower than T8. Jolrael alpha ({4}{G}{G}, board → X/X, X =
   hand, Reliquary Tower = big hand) is the decap; Willbreaker theft is goldfish-invisible (no opp
   board). Combat-diverge prediction held. No card-text errors. No swaps; 15/20 stands. Wrote
-  `proposals/Ms_Bumbleflower_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next: row 10,
+  `analysis/Ms_Bumbleflower_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next: row 10,
   The Dark Lord's Army (last).
 - **2026-06-13** — **Deck 10: The Dark Lord's Army — SWEEP COMPLETE.** Built `dla_clock_lab.py`.
   **Unique: the engine is OPPONENT-DRIVEN** (Sauron amasses on opp spells; Sheoldred/Underworld
@@ -272,7 +272,7 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   Drain hit_all (converge, the win) + Army voltron focus (decap). vs the documented spell-dense
   Abolisher pod it's at its fastest (T8/T11) but still out-grinds rather than races (19/20 = its
   Durability/Interaction). No card-text errors; no swaps; 19/20 stands. Wrote
-  `proposals/Dark_Lords_Army_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index.
+  `analysis/Dark_Lords_Army_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index.
 
 **SWEEP COMPLETE — all active roster decks carry a measured kill-turn clock.** See the RANKING +
 closing note below.
@@ -338,7 +338,7 @@ leads" shape rule.
 ## Related
 
 - `workflows/WF_Kill_Window_Lab.md` — the per-deck procedure.
-- `proposals/Framework_Clock_Gap_2026-06-09.md` — why the sweep exists; the rule.
+- `campaigns/Framework_Clock_Gap_2026-06-09.md` — why the sweep exists; the rule.
 - `REF_The_Conversion_Check.md` — Verification rule + Clock annotation format.
 - `Pod_Matchup_Matrix.md` — the Race/Disrupt/Both verdicts the clock feeds.
 - `project_pod_combo_opponent` (memory) — the T6–7 pod the bar is set against.

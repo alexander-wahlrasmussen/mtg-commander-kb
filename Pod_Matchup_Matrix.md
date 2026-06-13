@@ -6,7 +6,7 @@ interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`proposals/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`proposals/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis.
 
 ---
 
@@ -68,7 +68,7 @@ needs its fixing rocks to come online to function on curve.
 > not a race deck.** The 2026-06-01 draft argued this structurally; the
 > `rc_speed_lab.py` goldfish combat lab (40k trials — token copies, energy
 > keeps, Procession/Panharmonicon doubling, Brudiclad conversion, AA extra
-> combats; see `proposals/Replication_Crisis_Speed_Curve_Analysis.md`) now
+> combats; see `analysis/Replication_Crisis_Speed_Curve_Analysis.md`) now
 > quantifies it. Even with **every attacker unblocked and zero interaction**,
 > the focused decapitation of one opponent lands by T6 only **16%** of the time
 > (median T7); a defended-board proxy gives **6%** (median T8). The **table**
@@ -121,7 +121,7 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
    90% — and no active deck is structurally rock-dependent. The surviving, smaller
    truth: basics-light 4-colour bases pay at T2–3 (GD reads 49/68% there), which
    is normal 4C variance handled by dorks/rocks and mulligans, not land swaps.
-   Full writeup: `proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`.
+   Full writeup: `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`.
 
 ---
 

@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; no early two-card infinites; no MLD; no extra turns) |
 | **Game Changers** | Aang's Shelter (= Teferi's Protection), Enlightened Tutor, Jeska's Will (3 of 3 slots used). *Deflecting Swat is in the deck but no longer a GC after the Oct 2025 delisting.* |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). See `proposals/Exiles_Return_Speed_Curve_Analysis.md` |
+| **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). See `analysis/Exiles_Return_Speed_Curve_Analysis.md` |
 
 -----
 
@@ -74,7 +74,7 @@ Sun Titan attacks → return a CMC≤3 permanent from graveyard. The deck has ma
 - **Goldfish (lab-verified 2026-06-09):** T7–8 to kill one focused player (median T8; 70% by T8, T6 ≈ 9% even with every attacker unblocked) · T10 to kill the table
 - **Through Interaction:** T8–11 (one player)
 
-The deck is mid-speed and its clock is the *broad* counter-stack, not the marquee combo: Hellkite Charger + Sozin's Comet is reachable only ~3% by T6 even with tutors (Diabolic Intent is the only tutor that finds either piece). `scripts/er_speed_lab.py` also tested ten single-card speed levers (extra-combat enablers, Sarkhan's Triumph, fast mana, impulse velocity, Cathars' Crusade) — none moved the median; the front edge is gated by engine assembly + mana before T5, which no 1-of fixes. Full numbers: `proposals/Exiles_Return_Speed_Curve_Analysis.md`.
+The deck is mid-speed and its clock is the *broad* counter-stack, not the marquee combo: Hellkite Charger + Sozin's Comet is reachable only ~3% by T6 even with tutors (Diabolic Intent is the only tutor that finds either piece). `scripts/er_speed_lab.py` also tested ten single-card speed levers (extra-combat enablers, Sarkhan's Triumph, fast mana, impulse velocity, Cathars' Crusade) — none moved the median; the front edge is gated by engine assembly + mana before T5, which no 1-of fixes. Full numbers: `analysis/Exiles_Return_Speed_Curve_Analysis.md`.
 
 -----
 
@@ -364,5 +364,5 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 ## Changelog
 
-- **2026-06-09:** Kill-window verification + lever test (speed-curve analysis, **no card swaps**). `scripts/er_speed_lab.py` (40k trials): goldfish window corrected T6–8 → **T7–8 one player (med T8) / T10 table**; ten 1-card speed levers all within noise (no median moves) — the clock is broad counter compounding, gated by pre-T5 engine assembly, and no single add fixes that. Text fixes: Enlightened Tutor **cannot** find Sozin's Comet (sorcery — two listings corrected); Sozin foretell costs were inverted (pay {2} face-down, cast {2}{R}); Aggravated-Assault-style effects can never go infinite here (sorcery-speed activation vs firebending mana dying at end of combat) while Hellkite's in-combat trigger can. Pending Kiki swap measured: it *slows* the goldfish slightly (cuts Night's Whisper/Light Up the Stage velocity) — its case is resilience + Drannith disruption, not speed. Full analysis: `proposals/Exiles_Return_Speed_Curve_Analysis.md`.
+- **2026-06-09:** Kill-window verification + lever test (speed-curve analysis, **no card swaps**). `scripts/er_speed_lab.py` (40k trials): goldfish window corrected T6–8 → **T7–8 one player (med T8) / T10 table**; ten 1-card speed levers all within noise (no median moves) — the clock is broad counter compounding, gated by pre-T5 engine assembly, and no single add fixes that. Text fixes: Enlightened Tutor **cannot** find Sozin's Comet (sorcery — two listings corrected); Sozin foretell costs were inverted (pay {2} face-down, cast {2}{R}); Aggravated-Assault-style effects can never go infinite here (sorcery-speed activation vs firebending mana dying at end of combat) while Hellkite's in-combat trigger can. Pending Kiki swap measured: it *slows* the goldfish slightly (cuts Night's Whisper/Light Up the Stage velocity) — its case is resilience + Drannith disruption, not speed. Full analysis: `analysis/Exiles_Return_Speed_Curve_Analysis.md`.
 - **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander); GC count 3/3 (Aang's Shelter = Teferi's Protection, Enlightened Tutor, Jeska's Will). Commander text verified against local Scryfall data; all UB cards verified except Aang's Shelter (missing from local data file — alias resolves to Teferi's Protection per `REF_Reskin_Aliases.md`). Conversion Check score 17/20 (5/4/4/4) confirms `Deck_Index.md` entry. No card swaps recommended at this time.

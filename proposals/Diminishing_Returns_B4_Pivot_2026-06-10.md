@@ -2,7 +2,7 @@
 
 **Deck:** Diminishing Returns (Teysa Karlov) · 17/20 · Clock: T9 decap / T12+ table (lab 2026-06-10)
 **Lab:** `scripts/dr_clock_lab.py --mode b4` (12,000 trials, seed 12345)
-**Context:** Follow-up to `proposals/Diminishing_Returns_Clock_Lab_2026-06-10.md`. User
+**Context:** Follow-up to `analysis/Diminishing_Returns_Clock_Lab_2026-06-10.md`. User
 direction: push toward Bracket-4-in-spirit (offensive, kill-reliable) while keeping the
 3-GC cap; identity change away from Disrupt approved.
 **Question:** Is the path more drain infinites, or faster mana?

@@ -362,7 +362,7 @@ No card swaps applied during this audit.
 
 ### 2026-06-10 — Kill-turn lab: "Goldfish T7–9" falsified
 
-**`scripts/dr_clock_lab.py` (12k trials): decap median T9 (11% T7, 37% T8, 66% T9) / table median beyond T12 (30% by T12).** Kill Window field updated to the lab citation. Key findings (full writeup: `proposals/Diminishing_Returns_Clock_Lab_2026-06-10.md`):
+**`scripts/dr_clock_lab.py` (12k trials): decap median T9 (11% T7, 37% T8, 66% T9) / table median beyond T12 (30% by T12).** Kill Window field updated to the lab citation. Key findings (full writeup: `analysis/Diminishing_Returns_Clock_Lab_2026-06-10.md`):
 
 1. **The two clocks diverge.** The wide board swing decapitates like a combat deck (T9); the drain engine is the table clock and its volume is low (~5 deaths/game in goldfish). The old claim conflated them.
 2. **Death volume, not multipliers, is the bottleneck.** Once Teysa + payoffs assemble, each death drains 4–8 from every opponent — the deck just doesn't produce enough deaths. Lever test: +drains / +deathmana / +tutors all flat; only +tokens (Bitterblossom + Ophiomancer) moved the table clock (+7pp by T12, never-kill 70→63%). No variant moved the decap median.

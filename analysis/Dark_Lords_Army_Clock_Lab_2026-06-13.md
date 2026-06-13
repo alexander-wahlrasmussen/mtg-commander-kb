@@ -1,6 +1,6 @@
 # The Dark Lord's Army — Kill-Window Clock Lab (2026-06-13)
 
-Deck 10 of the Kill-Window Lab Sweep (`Kill_Window_Lab_Sweep_2026-06-13.md`) — the
+Deck 10 of the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`) — the
 **last row; the sweep is now complete.** Lab: `scripts/dla_clock_lab.py` (40 000 trials,
 seed 20260613). Deck: `decks/the-dark-lords-army-20260417-211206.txt`. Commander: Sauron,
 the Dark Lord (Grixis). Score: **19/20**.

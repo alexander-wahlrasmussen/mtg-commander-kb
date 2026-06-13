@@ -1,6 +1,6 @@
 # Ms. Bumbleflower — Kill-Window Clock Lab (2026-06-13)
 
-Deck 9 of the Kill-Window Lab Sweep (`Kill_Window_Lab_Sweep_2026-06-13.md`).
+Deck 9 of the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/bmf_clock_lab.py` (40 000 trials, seed 20260613). Deck:
 `decks/this-bunny-goes-to-market-20260404-080311.txt`. Commander: Ms. Bumbleflower
 (Bant). Score: **15/20** (unchanged).

@@ -1,6 +1,6 @@
 # Crystal Sickness — Kill-Turn Clock Lab (2026-06-13)
 
-**Deck 4 of 10** in the Kill-Window Lab Sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md`).
+**Deck 4 of 10** in the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/cs_clock_lab.py` (40k trials, seed 20260613), built on `speed_lab_core.py`.
 Procedure: `workflows/WF_Kill_Window_Lab.md`.
 

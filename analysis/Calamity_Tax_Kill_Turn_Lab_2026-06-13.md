@@ -1,6 +1,6 @@
 # The Calamity Tax — Kill-Turn Clock Lab + Version Bake-off (2026-06-13)
 
-Deck 8 of the Kill-Window Lab Sweep (`Kill_Window_Lab_Sweep_2026-06-13.md`), the
+Deck 8 of the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`), the
 last of the two PARTIAL rows. Lab: `scripts/ct_speed_lab.py` (despite the name, a
 kill-turn decap/table Monte Carlo — written 2026-06-10 but never run: it crashed on a
 Windows cp1252 `◐` print, so the writeup it references never existed and the deck stayed
@@ -96,4 +96,4 @@ oracle text verified in `The_Calamity_Tax_Swaps_2026-06-01.md`. No new card-text
 
 ### Summary Kill Window field → replace with
 
-**`Clock (strict mana-floor goldfish, Seedborn/flash excluded): T13 decap / table rarely in 14 (lab 2026-06-13, ct_speed_lab.py) — hard mana-gated; "T7–9" falsified. Real clock faster with Seedborn online but not T7–9, and does not out-race the pod. Version bake-off: see proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`**
+**`Clock (strict mana-floor goldfish, Seedborn/flash excluded): T13 decap / table rarely in 14 (lab 2026-06-13, ct_speed_lab.py) — hard mana-gated; "T7–9" falsified. Real clock faster with Seedborn online but not T7–9, and does not out-race the pod. Version bake-off: see analysis/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`**

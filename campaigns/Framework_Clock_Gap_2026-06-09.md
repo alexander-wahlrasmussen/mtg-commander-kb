@@ -71,7 +71,7 @@ Meanwhile the bracket system defines behaviour by **expected win turn** — an o
 
 ## Related
 
-- `proposals/Exiles_Return_Speed_Curve_Analysis.md` — the run that triggered the user's framework question
-- `proposals/Replication_Crisis_Speed_Curve_Analysis.md`, `proposals/Lightning_War_Speed_Curve_Analysis.md`, `proposals/Calamity_Tax_Speed_Curve_Analysis.md`, `proposals/Grand_Design_Speed_Curve_Analysis.md`
+- `analysis/Exiles_Return_Speed_Curve_Analysis.md` — the run that triggered the user's framework question
+- `analysis/Replication_Crisis_Speed_Curve_Analysis.md`, `analysis/Lightning_War_Speed_Curve_Analysis.md`, `analysis/Calamity_Tax_Speed_Curve_Analysis.md`, `analysis/Grand_Design_Speed_Curve_Analysis.md`
 - `Pod_Matchup_Matrix.md` — the Race/Disrupt/Both verdicts
 - `REF_The_Conversion_Check.md` §Expected Kill Window — the codified rules

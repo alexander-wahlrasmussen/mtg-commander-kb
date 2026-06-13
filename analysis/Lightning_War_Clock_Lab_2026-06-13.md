@@ -1,6 +1,6 @@
 # Lightning War — Kill-Turn Clock Lab (2026-06-13)
 
-**Deck 3 of 10** in the Kill-Window Lab Sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md`).
+**Deck 3 of 10** in the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/lw_clock_lab.py` (40k trials, seed 20260613), on `speed_lab_core.py`.
 **v2 — revised after user push-back** (the v1 model was too conservative; see "Model
 correction" below). Lightning War was previously marked "lab-verified T6–7" off

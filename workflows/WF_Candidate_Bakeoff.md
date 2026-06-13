@@ -3,8 +3,8 @@
 Choosing **one** deck to build from a field of candidates, against a stated
 goal — e.g. "answer the recurring combo pod." Distilled from the 2026-06-12
 bake-off (9 candidates → Yuriko). The worked example lives in
-`archive/proposals/Candidate_Bakeoff_2026-06-12.md`; the verdict format is
-`proposals/Candidate_Bakeoff_Verdict_2026-06-12.md`.
+`campaigns/Candidate_Bakeoff_2026-06-12.md`; the verdict format is
+`campaigns/Candidate_Bakeoff_Verdict_2026-06-12.md`.
 
 Use this when there is a real budget/slot for exactly one build and several
 contenders. For scoring a single existing deck, use `WF_Deck_Audit.md`.

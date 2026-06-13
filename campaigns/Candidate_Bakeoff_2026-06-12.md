@@ -20,7 +20,7 @@ its own ~T7 gate (decap T7 / table T8); **Kinnan's "Strong turbo" Stage-1 read i
 (median T11, 42% never-in-12); Korvold decap T9 but table >T12 (claim conflated clocks, again);
 Kefka-burn decap T8 / table T9 beats Kefka-ext (T9) in the same-commander head-to-head; Clive
 (ext) decap T9 / table mostly >T12. **Stage 4: COMPLETE (2026-06-12)** — verdict doc at
-`proposals/Candidate_Bakeoff_Verdict_2026-06-12.md`. **PICK: Yuriko (*Insider Trading*), 17/20,
+`campaigns/Candidate_Bakeoff_Verdict_2026-06-12.md`. **PICK: Yuriko (*Insider Trading*), 17/20,
 T7 decap / T8 table, gated on pod approval of Thoracle/Consult (6th 2-card request); fallback if
 declined = Kefka-burn (*Forced Liquidation*), 16/20, the only contender needing no approval.**
 Godo (T6/T6) ranked 3rd: its 1-turn edge lives in the goldfish's blind spot (ground tokens vs a
@@ -458,14 +458,14 @@ Wakandan Skyscraper=Karn's Bastion, Calliope's Song=Seething Song. Still run
 `update_scryfall_data.py` before the Clive lab.
 
 **Next action overall:** **BAKE-OFF CLOSED — Stage 4 verdict delivered 2026-06-12**
-(`proposals/Candidate_Bakeoff_Verdict_2026-06-12.md`). **PICK: Yuriko / *Insider Trading***
+(`campaigns/Candidate_Bakeoff_Verdict_2026-06-12.md`). **PICK: Yuriko / *Insider Trading***
 (17/20 · Clock: T7 decap / T8 table, lab 2026-06-12; 9% never-in-12; ~€140–170 unverified) —
 only pre-registered clock gate that passed; evasion package makes its goldfish honest where
 Godo's T6 is convention-flattered (Durability 2, ground tokens vs a dragon pod).
 **FALLBACK: Kefka-burn** (16/20 · T8/T9; needs zero pod approvals). The Stage-4 tension resolved
 race-first: Kefka-burn's T8 decap arrives *after* the pod's T6–7 window; Yuriko's T7 races it
-while keeping the Abolisher-proof on-cast combo as axis two. Scratch drafts in `_build/`
-(untracked; `considering/` versions canonical; losing builds stay there as priced+labbed options).
+while keeping the Abolisher-proof on-cast combo as axis two. Scratch drafts in `archive/build_scratch/`
+(`decks/considering/` versions canonical; losing builds kept there as priced+labbed options).
 **Open user decisions (carried out of the bake-off):** (a) take Yuriko to pod — 6th 2-card
 approval; on decline build Kefka-burn; (b) Radiation Sickness 4-GC violation — unresolved;
 (c) if Kefka-burn gets built: codename rename? + resolve the stale 2026-05-31 Calamity Tax

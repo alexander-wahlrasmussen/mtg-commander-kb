@@ -1,6 +1,6 @@
 # Radiation Sickness — Kill-Turn Clock Lab (2026-06-13)
 
-**Deck 2 of 10** in the Kill-Window Lab Sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md`).
+**Deck 2 of 10** in the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/rs_clock_lab.py` (40k trials, seed 20260613), on `speed_lab_core.py`.
 This is the **coarsest lab in the sweep** — the counter spiral is tracked as
 expected-value floats, not enumerated. Read the caveats before trusting any single
@@ -94,7 +94,7 @@ corroborates). No card swaps (verification pass only).
 
 ## Addendum — producer re-check (2026-06-13)
 
-Triggered by the bug-impact review (`Kill_Window_Lab_Sweep_2026-06-13.md` session
+Triggered by the bug-impact review (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md` session
 log). This lab predates the lw/cs/cos "omitted-producer" lesson, so its inventory was
 re-audited against the `.txt`. Omitted pieces (all oracle-verified), with direction:
 

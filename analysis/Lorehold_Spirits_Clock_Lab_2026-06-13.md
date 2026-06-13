@@ -1,6 +1,6 @@
 # Lorehold Spirits — Kill-Window Clock Lab (2026-06-13)
 
-Deck 7 of the Kill-Window Lab Sweep (`Kill_Window_Lab_Sweep_2026-06-13.md`).
+Deck 7 of the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/lor_clock_lab.py` (40 000 trials, seed 20260613). Deck:
 `decks/lorehold-spirit-20260503-154449.txt`. Commander: Quintorius, History Chaser
 (Boros planeswalker). Score: **18/20** (unchanged).

@@ -1,6 +1,6 @@
 # Earthbend the Meta — Kill-Window Clock Lab (2026-06-13)
 
-Deck 6 of the Kill-Window Lab Sweep (`Kill_Window_Lab_Sweep_2026-06-13.md`).
+Deck 6 of the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/ebm_clock_lab.py` (40 000 trials, seed 20260613). Deck:
 `decks/earthbend-the-meta-20260404-075423.txt`. Commander: Toph, the First
 Metalbender (Naya). Score: **17/20** (unchanged).

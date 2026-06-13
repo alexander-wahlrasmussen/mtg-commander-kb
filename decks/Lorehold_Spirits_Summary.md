@@ -12,7 +12,7 @@
 | **Bracket**          | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns)            |
 | **Game Changers**    | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
 | **Conversion Check** | **18/20** (5/5/4/4) — Goblin Bombardment acquired 2026-05-30, combo line live                              |
-| **Kill Window**      | **Clock: T8 decap** (median; T7 ≈ 46%) **/ T10 table** (lab 2026-06-13, `lor_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no graveyard-hate/Cyclonic Rift model)*. The old "T7–9" was the decap window; table is ~2 turns later. See `proposals/Lorehold_Spirits_Clock_Lab_2026-06-13.md`. |
+| **Kill Window**      | **Clock: T8 decap** (median; T7 ≈ 46%) **/ T10 table** (lab 2026-06-13, `lor_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no graveyard-hate/Cyclonic Rift model)*. The old "T7–9" was the decap window; table is ~2 turns later. See `analysis/Lorehold_Spirits_Clock_Lab_2026-06-13.md`. |
 | **Decklist file**    | `decks/lorehold-spirit-20260503-154449.txt`                                                                |
 
 The 18/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.

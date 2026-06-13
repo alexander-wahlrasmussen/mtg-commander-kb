@@ -2,7 +2,7 @@
 
 Build a kill-turn goldfish clock for **one existing roster deck** and replace its
 hand-estimated Kill Window with a lab-cited one. This is the per-deck unit of the
-2026-06-13 verification sweep (`proposals/Kill_Window_Lab_Sweep_2026-06-13.md` —
+2026-06-13 verification sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md` —
 the tracker that says which deck is next and holds the running ranking).
 
 Distinct from `WF_Candidate_Bakeoff.md` (choose one of many *un-built* candidates)
@@ -10,7 +10,7 @@ and `WF_Deck_Audit.md` (score an existing deck on the Conversion Check). This on
 answers only **"what turn does the deck actually kill?"** for a deck already in the
 roster, per the verification rule in `REF_The_Conversion_Check.md`.
 
-Origin of the rule and the evidence it rests on: `proposals/Framework_Clock_Gap_2026-06-09.md`
+Origin of the rule and the evidence it rests on: `campaigns/Framework_Clock_Gap_2026-06-09.md`
 (5 hand-estimated windows falsified, all optimistic; score and clock uncorrelated
 in the 15–19/20 band).
 
