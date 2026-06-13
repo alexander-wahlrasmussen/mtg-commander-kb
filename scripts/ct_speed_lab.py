@@ -144,9 +144,14 @@ POWER = {GRAY: 2, KOKUSHO: 5, ARCHON: 6, "Sheoldred, the Apocalypse": 4,
 CREATURE_TUTORS = {"Chord of Calling": 8, "Finale of Devastation": 7}  # -> Gray
 
 
-def kill_turns(library, rng, v4=False, wither=False):
+def kill_turns(library, rng, v4=False, wither=False, dig=0):
     """One trial. Returns (decap, table, via). via in
-    {'xdrain','copy','jarad','drain','combat',None}."""
+    {'xdrain','copy','jarad','drain','combat',None}.
+
+    `dig` adds extra card selection per turn once Glarb is out — a sensitivity knob to
+    test whether modelling MORE of Glarb's filtering (beyond the baseline surveil/top-cast/
+    Sylvan already here) speeds the kill. It does not (the kill is mana-gated): see
+    mode_digtest. This is the honest answer to 'did we under-model Glarb's dig for V1/V4?'"""
     g = core.Goldfish(library, rng, rocks=ROCKS)
     tb = core.Table()
     glarb = False
@@ -199,6 +204,8 @@ def kill_turns(library, rng, v4=False, wither=False):
             g.add_mana(3 if glarb else 1)
         if sylvan:
             g.draw(1)
+        if dig and glarb:
+            g.draw(dig)          # dig-sensitivity knob (extra Glarb filtering); see docstring
         # Scarab upkeep drain
         if SCARAB in board and cast_turn[SCARAB] < T and zombies:
             tb.hit_all(zombies, T)
@@ -514,8 +521,27 @@ def mode_clock(index, aliases, trials):
     print()
 
 
+def mode_digtest(index, aliases, trials):
+    print(f"\n### DIGTEST — does MORE Glarb dig speed V1/V4?   trials={trials} seed={SEED}")
+    print("    Baseline already models surveil-bin-fats + MV4+ top-cast + Sylvan draw.")
+    print("    dig=N adds N extra card-selections/turn once Glarb is out. If the median is")
+    print("    FLAT, the kill is MANA-gated, not finding-gated (so V1/V4 were NOT under-")
+    print("    modelled the way the combo-availability lab was).\n")
+    base, _ = core.load_parsed(DECK, index, aliases)
+    builds = [("V1 committed", base, False),
+              ("V4 reanimator", core.build_lib(base, index, V4_OUT, V4_IN), True)]
+    print("  build / dig".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median(decap)")
+    for tag, lib, v4 in builds:
+        for d in (0, 3, 6):
+            rng = random.Random(SEED)
+            res = [kill_turns(lib, rng, v4, dig=d) for _ in range(trials)]
+            print(core.row(f"{tag}  dig={d}", core.cum(res, 0, SHOW), SHOW)
+                  + f"   {core.median(res, 0)}")
+    print("\n  (flat medians across dig => mana-gated; cf. hybrid combo ~T7 is finding-gated)")
+
+
 def main():
-    core.run_cli(__doc__, {"clock": mode_clock})
+    core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest})
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ core = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(core)
 ds = core.ds
 
 DECK = ROOT / "decks" / "considering" / "glarb-hybrid-20260613.txt"
+DECK_FINAL = ROOT / "decks" / "considering" / "glarb-hybrid-final-20260613.txt"
 SEED = 20260613
 TURNS = 12
 SHOW = [3, 4, 5, 6, 7, 8, 10, 12]
@@ -145,9 +146,12 @@ def trial(library, rng, enablers, finishers):
 
 
 def protection_curve(library, trials, rng):
-    """P(>=1 protection piece in hand by T) — how defensible the combo turn is."""
-    prot = ["Force of Vigor", "Submerge", "Mindbreak Trap", "Venser, Shaper Savant",
-            "Boseiju, Who Endures", "Otawara, Soaring City"]
+    """P(>=1 protection piece in hand by T) — how defensible the combo turn is.
+    Includes the FINAL build's free counters (Force of Will/Negation, Pact of Negation),
+    which are absent from BASE so its curve is lower / soft-only."""
+    prot = ["Force of Will", "Force of Negation", "Pact of Negation",   # FINAL free counters
+            "Deadly Rollick", "Force of Vigor", "Mindbreak Trap",
+            "Venser, Shaper Savant", "Boseiju, Who Endures", "Otawara, Soaring City"]
     drawn, _ = core.simulate_groups(library, [prot], [], trials, rng, TURNS)
     return drawn
 
@@ -161,12 +165,15 @@ def mode_clock(index, aliases, trials):
     print(f"\n### GLARB HYBRID — real combo kill-turn (dig modelled)   trials={trials} seed={SEED}")
     print("    Thoracle combo = decap = table by construction. Dig = draw + Glarb surveil 2")
     print("    + Sylvan 2 + Top 1 (filter to pieces). Compare to compare-lab's no-dig floor (14% T6).\n")
-    base, cmd = core.load_parsed(DECK, index, aliases)
+    base, _ = core.load_parsed(DECK, index, aliases)
+    final, _ = core.load_parsed(DECK_FINAL, index, aliases)
+    redun = core.build_lib(base, index, ["Submerge", "Make an Example"],
+                           ["Tainted Pact", "Jace, Wielder of Mysteries"])
     variants = [
         ("BASE (Consult + Thoracle)", base, ENABLERS_BASE, FINISH_BASE),
-        ("REDUNDANT (+Pact +Jace, -Submerge -Make an Example)",
-         core.build_lib(base, index, ["Submerge", "Make an Example"],
-                        ["Tainted Pact", "Jace, Wielder of Mysteries"]),
+        ("REDUNDANT (+Pact +Jace)", redun,
+         ENABLERS_BASE | {"Tainted Pact"}, FINISH_BASE | {"Jace, Wielder of Mysteries"}),
+        ("FINAL (redundant + 3 free counters)", final,
          ENABLERS_BASE | {"Tainted Pact"}, FINISH_BASE | {"Jace, Wielder of Mysteries"}),
     ]
     print("  metric".ljust(46) + "".join(f"{t:>6}" for t in SHOW) + "   median")
@@ -175,9 +182,12 @@ def mode_clock(index, aliases, trials):
         print(core.row(f"{tag}  combo win", core.cum(res, 0, SHOW), SHOW) + f"   {core.median(res, 0)}")
         never = 100.0 * sum(1 for d, _ in res if d is None) / trials
         print(f"    never-in-{TURNS}: {never:.0f}%")
-    prot = protection_curve(base, trials, random.Random(SEED + 5))
-    print(core.row("PROTECTION: >=1 answer in hand", {t: prot[t] for t in SHOW}, SHOW))
-    print("    (combo protection is thin here — soft answers, no free hard counter; see note)")
+    print()
+    for tag, lib in (("BASE  protection (soft only)", base),
+                     ("FINAL protection (+free counters)", final)):
+        prot = protection_curve(lib, trials, random.Random(SEED + 5))
+        print(core.row(tag, {t: prot[t] for t in SHOW}, SHOW))
+    print("    (FINAL adds Force of Will/Negation + Pact of Negation = FREE protection for the combo turn)")
 
 
 if __name__ == "__main__":

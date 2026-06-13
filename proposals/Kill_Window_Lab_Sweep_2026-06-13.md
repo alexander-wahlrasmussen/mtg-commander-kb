@@ -301,7 +301,7 @@ clock then never-in-12. `—` = not yet measured. Final deliverable of the campa
 | 13 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
 | 14 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
 | 15 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
-| 16 | The Calamity Tax | T13 | never (>T14) | ~69% | 18/20 | mana-gated converge drain (**strict floor excl. Seedborn — real clock faster but not T7–9; "T7–9" falsified**) |
+| 16 | The Calamity Tax | T13 | never (>T14) | ~69% | 18/20 | mana-gated converge drain (**strict floor; 2026-06-13 dig test found this UNDER-modeled Glarb's selection — realistic ~T8–10, not T13; see Calamity direction doc**) |
 
 **Reading the ranking — the framework's thesis confirmed.** The clock order and the Score
 column disagree, and the disagreement is systematic:

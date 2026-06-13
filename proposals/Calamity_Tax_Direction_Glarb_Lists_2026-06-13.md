@@ -91,3 +91,49 @@ pod's bracket, kept as the reference for where these ideas top out. Pass on #1 (
 - Combo decap = table by construction (it wins the game outright).
 - "Scary" is qualitative; all win-cons verified. Next step if pursued: lock the exact 99 (with the
   free-counter swap), then a full clock-lab pass + pod Rule-0 conversation.
+
+---
+
+## Follow-up (2026-06-13): finished build + dig-FAIR comparison — a correction
+
+The user asked to clock-lab the finished hybrid AND run the *same dig treatment* on the
+original (V1) and reanimator (V4), since "we'd not have modeled the strategy there either."
+This corrected a claim I made above.
+
+**Finished hybrid** = REDUNDANT + free combo protection (`glarb-hybrid-final-20260613.txt`):
+−Submerge −Make an Example −Blasphemous Edict −We Want…A SHRUBBERY! −Shadow of the Second Sun;
++Tainted Pact +Jace, Wielder of Mysteries +Force of Will +Force of Negation +Pact of Negation.
+Result (`glarb_hybrid_clock_lab.py`): **combo median T7**, 45% by T6, 15% never-in-12 (combo
+speed unchanged from REDUNDANT — the protection swap doesn't touch it, as intended). Protection
+availability **55% → 70% by T6** (the free counters do their job).
+
+**The correction (I was wrong).** Earlier I asserted V1/V4 were "mana-gated, so more dig won't
+help." A dig-sensitivity test (`ct_speed_lab.py --mode digtest`) **falsified that**:
+
+| Build | dig=0 (baseline sweep model) | dig=3 (realistic Glarb) | dig=6 (ceiling) |
+|---|:--:|:--:|:--:|
+| V1 committed | T13 | **T9** | T8 |
+| V4 reanimator | T12 | **T9** | T8 |
+
+Modeling Glarb's selection speeds V1/V4 from T13 to ~T9 — the dig finds ramp + Coffers + the
+payoff faster, so the bottleneck was drawing into the engine, not pure mana. **The sweep's
+Calamity "T13 / never" UNDER-modeled Glarb's dig** (same blind spot the combo-availability lab
+had); realistic V1/V4 land **~T8–T10**, not T13.
+
+**Updated verdict.** Finished hybrid ~T7 vs dig-fair V1/V4 ~T9 — a **~2-turn edge, not ~6.**
+The real case for the hybrid is therefore **resilience, not raw speed**:
+- board-independent kill (~3 mana, no 16-mana Coffers setup needed) → survives mana denial,
+  slow draws, and board wipes far better than the grind;
+- a real floor (doesn't brick to T13 on a mana-light hand);
+- now defensible (free counters, 70% protection by T6).
+
+Still the recommended direction — for those reasons, not a speed blowout.
+
+**Caveat (cross-lab):** the dig knobs differ — `ct_speed_lab` adds raw extra draws; the hybrid
+lab models targeted surveil-filtering toward a small piece set. So the exact T7-vs-T9 gap is
+approximate. A fully-unified single-engine lab would tighten it; the robust conclusions
+(V1/V4 ≈ T8–10 once dig is modeled; hybrid edges them on speed AND wins on resilience) hold.
+
+**Build-it flags (when/if it becomes the roster deck):** GC count needs an audit — the hybrid
+carries Demonic Tutor + Field of the Dead (+ possibly others) and must stay ≤3 for the pod;
+and the 2-card Thoracle combo needs the pod Rule-0 nod.
