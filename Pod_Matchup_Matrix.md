@@ -144,11 +144,13 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
 2. ~~**Fix Grand Design's mana base.**~~ **RETRACTED 2026-06-09** — the 39% that
    motivated this was the model artifact above; the corrected floor is 89% and the
    hand-counted base is ≥16 sources per colour. No land changes needed. Grand
-   Design's freed priority goes to the **merged ETB/finisher build**
-   (`Grand_Design_ETB_Disruption_Pass_2026-06-09.md` §5): a creature finisher the
-   engine can tutor (Craterhoof) + ETB disruption that pre-empts the Abolisher
-   turn (Skyclave Apparition, Noxious Gearhulk) + a tutor for noncreature
-   interaction (Spellseeker).
+   Design's freed priority goes to the **single canonical upgrade**
+   (`proposals/Grand_Design_Upgrade_2026-06-13.md`): a 7-for-7 ramp +
+   diversified-finisher pass, lab-validated **decap T10→T9, whiff 11%→5%** — ramp
+   (Solemn / Sakura-Tribe Elder / Wood Elves / Faeburrow / Coalition Relic) + a
+   *tutorable* creature finisher (Craterhoof) + Rune-Scarred Demon to fetch the
+   otherwise-untutorable Finale. Supersedes the older Finisher / ETB / Mana passes
+   (now in `archive/proposals/`).
 
 3. **The "too slow" tier (Dark Lord, Bumbleflower, Lorehold, Earthbend) is fine
    — just not the deck you bring to this pod.** Don't try to speed them up at the
