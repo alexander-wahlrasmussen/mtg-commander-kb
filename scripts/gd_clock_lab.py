@@ -51,12 +51,16 @@ SHOW = [4, 5, 6, 7, 8, 9, 10, 12]
 DECAP, TABLE = 40, 120          # unblocked thresholds: one player / whole table
 
 # fixed mana producers the scaffold deploys as rocks: name -> (cost, output)
-ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Birds of Paradise": (1, 1)}
+ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Birds of Paradise": (1, 1),
+         # ramp-upgrade package (variant only): 4c rock + 4c dork (Faeburrow ~3 in WUBG)
+         "Coalition Relic": (3, 1), "Faeburrow Elder": (3, 2)}
 # Bloom Tender is handled manually: it taps for one mana PER COLOUR among your
 # permanents, so it floors at ~2 (Birds + a coloured creature) and jumps to 4
 # once Atraxa (WUBG) is out — the single biggest swing toward a 12-mana Finale.
 # land-ramp spells: cost -> +1 untapped land (taps this turn; conservative)
-RAMP = {"Nature's Lore": 2, "Three Visits": 2, "Farseek": 2}
+RAMP = {"Nature's Lore": 2, "Three Visits": 2, "Farseek": 2,
+        # ramp-upgrade package (only present in the --mode ramp variant library):
+        "Sakura-Tribe Elder": 2, "Wood Elves": 3, "Cultivate": 3, "Solemn Simulacrum": 4}
 # reanimate spells (cheapest first): cheat a fat creature from yard onto the board
 REANIM = [("Reanimate", 1), ("Animate Dead", 2), ("Persist", 2), ("Necromancy", 3),
           ("Victimize", 3), ("Dread Return", 4), ("Living Death", 5)]
@@ -274,5 +278,30 @@ def mode_levers(index, aliases, trials):
     print("  rows are levers ON the full Atraxa model (hand-cap delta = value of no-max-hand).")
 
 
+RAMP_CUTS = ["Carpet of Flowers", "Veil of Summer", "Flawless Maneuver",
+             "Dovin's Veto", "Grand Abolisher"]
+RAMP_ADDS = ["Solemn Simulacrum", "Sakura-Tribe Elder", "Wood Elves",
+             "Faeburrow Elder", "Coalition Relic"]
+
+
+def mode_ramp(index, aliases, trials):
+    print(f"\n### RAMP — proposed 5-for-5 ramp upgrade vs baseline   trials={trials} seed={SEED}")
+    print("    Same kill model for both (cfg=None) so the delta is purely the ramp package.")
+    print(f"    OUT: {', '.join(RAMP_CUTS)}")
+    print(f"    IN : {', '.join(RAMP_ADDS)}\n")
+    base, commander = slc.load_parsed(NEW, index, aliases)
+    ramp_lib = slc.build_lib(base, index, RAMP_CUTS, RAMP_ADDS)
+    print("  build".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median   never12")
+    for tag, lib in (("baseline GD", base), ("+ramp package (5-for-5)", ramp_lib)):
+        powmap = _powmap(lib, commander)
+        res = _run(lib, commander, index, powmap, trials, None)
+        nd = 100.0 * sum(1 for d, _ in res if d is None) / trials
+        print(slc.row(tag, slc.cum(res, 0, SHOW), SHOW)
+              + f"   {slc.median(res, 0):>5}   {nd:4.0f}%")
+    print("\n  (ramp adds modelled: Sakura/Wood Elves/Cultivate/Solemn = +1 land; Coalition")
+    print("   Relic = rock(3,1); Faeburrow Elder = 4c dork(3,2). Tapped-land entry optimism noted.)")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers, "ramp": mode_ramp},
+                default_trials=40000)
