@@ -291,10 +291,16 @@ def mode_ramp(index, aliases, trials):
     print(f"    IN : {', '.join(RAMP_ADDS)}\n")
     base, commander = slc.load_parsed(NEW, index, aliases)
     ramp_lib = slc.build_lib(base, index, RAMP_CUTS, RAMP_ADDS)
-    print("  build".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median   never12")
-    for tag, lib in (("baseline GD", base), ("+ramp package (5-for-5)", ramp_lib)):
+    # combined: ramp package + Craterhoof (cut Displacer Kitten for it; Finale STAYS,
+    # so the deck has two finisher types — the fragility fix the lever test motivates).
+    combo_lib = slc.build_lib(base, index, RAMP_CUTS + ["Displacer Kitten"],
+                              RAMP_ADDS + ["Craterhoof Behemoth"])
+    print("  build".ljust(38) + "".join(f"{t:>6}" for t in SHOW) + "   median   never12")
+    for tag, lib, cfg in (("baseline GD", base, None),
+                          ("+ramp package (5-for-5)", ramp_lib, None),
+                          ("+ramp +Craterhoof (keep Finale)", combo_lib, {"craterhoof": True})):
         powmap = _powmap(lib, commander)
-        res = _run(lib, commander, index, powmap, trials, None)
+        res = _run(lib, commander, index, powmap, trials, cfg)
         nd = 100.0 * sum(1 for d, _ in res if d is None) / trials
         print(slc.row(tag, slc.cum(res, 0, SHOW), SHOW)
               + f"   {slc.median(res, 0):>5}   {nd:4.0f}%")

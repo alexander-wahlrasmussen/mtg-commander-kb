@@ -46,9 +46,9 @@ the idealized +2/turn ceiling (T7) — realistic ramp competes for early turns a
 enter tapped (Solemn/Sakura/Cultivate fetch tapped lands). To push further you'd add *more* ramp
 slots or fast untapped rocks (limited: the pod bans Mana Crypt).
 
-**Stacks with the finisher proposal:** Craterhoof alone was also ~T10→T9 (a cheaper finisher than
-the 12-mana Finale). Doing **both** ramp + Craterhoof should compound toward ~T8 — verify with a
-combined run before committing if you want the exact number.
+**Stacks with the finisher proposal:** Craterhoof alone was also ~T10→T9. Combined ramp + Craterhoof
+was run — median stays **T9** (same mana gate) but the front edge sharpens (T8 21%→31%, T7 6%→11%).
+See the verified follow-up section below; the bigger payoff there is *resilience*, not the clock.
 
 ## Trade-off (honest)
 
@@ -76,3 +76,43 @@ Cardmarket per the verify-prices rule.
 **Proposal only — not applied.** The deployed `.txt` stays as-is. If applied: bump the dated
 filename (`the-grand-design-<today>.txt`), archive the old list to `archive/old_decklists/`,
 recount to 100, confirm 3/3 GCs. Lab: `gd_clock_lab.py --mode ramp`.
+
+---
+
+## Combined ramp + Craterhoof (verified) + the fragility fix (2026-06-13 follow-up)
+
+Ran the combined build (`gd_clock_lab.py --mode ramp`): ramp package **+ Craterhoof, keeping
+Finale** (cut Displacer Kitten for Craterhoof's slot → 6-for-6 if done with the ramp 5-for-5).
+
+| Build | T7 | T8 | decap median | never-12 |
+|---|:--:|:--:|:--:|:--:|
+| baseline GD | — | 21% | T10 | 11% |
+| + ramp package | 7% | 27% | T9 | 6% |
+| **+ ramp + Craterhoof** | **11%** | **31%** | **T9** | 6% |
+
+Craterhoof doesn't push the **median** past T9 (same mana gate), but it **sharpens the front edge**
+(T8 21%→31%, T7 6%→11%) — a cheaper 8-mana finisher closes the fast games more often than the
+12-mana Finale.
+
+**The real win is resilience, not the clock — and the goldfish can't show it.** The user's concern
+("all lines rely on Finale of Devastation") is the single-point-of-failure problem:
+- **Craterhoof** adds a *second finisher type* (creature). Unlike Finale (an untutorable sorcery),
+  it's fetchable by the deck's creature-tutor suite (Chord / Eladamri's Call / Fauna Shaman /
+  Sidisi / Defense of the Heart) and findable off Atraxa / Rune-Scarred. **Keep Finale** so the
+  deck has two independent finisher lines.
+- **Rune-Scarred Demon** ({5}{B}{B} 6/6 flyer, ETB tutor ANY card) — a recurrable tutor in the
+  flicker shell (Restoration Angel / Ghostly Flicker / Soulherder / Ephemerate / Displacer Kitten /
+  Karmic Guide re-trigger its ETB) that *reliably assembles a finisher*. **But it is clock-neutral:**
+  the Atraxa-selection test already proved finding doesn't move GD's mana-gated clock (we ran the
+  strongest finder possible — reveal-10-take-5, repeated — for ~0). Rune-Scarred is a weaker finder,
+  so its value is **resilience/consistency, not speed** — which is exactly the fragility fix wanted.
+  Cost: a 7th cut + ~$3–5 (owned 0).
+
+**Net recommendation.** Two complementary upgrades:
+1. **Ramp 5-for-5** → the speed fix (T10→T9, whiff 11%→6%).
+2. **+ Craterhoof (keep Finale; cut Displacer Kitten)** → the fragility fix (2nd finisher type,
+   tutorable) + a sharper T7–8 front edge. ~$0 (Craterhoof has a free spare).
+3. **Optional + Rune-Scarred Demon** (7th cut, ~$3–5) → further fragility insurance (recurrable
+   finisher-tutor) — resilience only, clock-neutral.
+
+Combined #1+#2 = a ~6-for-6, stays 100, stays 3/3 GCs. Proposal only — not applied.
