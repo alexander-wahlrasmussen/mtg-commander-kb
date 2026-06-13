@@ -107,6 +107,7 @@ WITHER = "Witherbloom, the Balancer"
 DELLIAN = "Professor Dellian Fel"
 # Hybrid (combo) build for the unified comparison: a Thoracle finish on the Glarb shell.
 HYBRID_DECK = ROOT / "decks" / "considering" / "glarb-hybrid-final-20260613.txt"
+HYBRID_B3_DECK = ROOT / "decks" / "considering" / "glarb-hybrid-b3-20260613.txt"  # <=3 GC trim
 COMBO_ENABLERS = ["Demonic Consultation", "Tainted Pact"]
 COMBO_FINISH = ["Thassa's Oracle", "Jace, Wielder of Mysteries"]
 COMBO_PIECES = set(COMBO_ENABLERS + COMBO_FINISH)
@@ -578,9 +579,11 @@ def mode_unified(index, aliases, trials):
     base, _ = core.load_parsed(DECK, index, aliases)
     v4lib = core.build_lib(base, index, V4_OUT, V4_IN)
     hybrid, _ = core.load_parsed(HYBRID_DECK, index, aliases)
+    hybrid_b3, _ = core.load_parsed(HYBRID_B3_DECK, index, aliases)
     builds = [("Original (V1)", base, dict(v4=False, combo=False)),
               ("Reanimator (V4)", v4lib, dict(v4=True, combo=False)),
-              ("Hybrid (final)", hybrid, dict(v4=False, combo=True))]
+              ("Hybrid (6-GC, brkt4)", hybrid, dict(v4=False, combo=True)),
+              ("Hybrid (3-GC, brkt3)", hybrid_b3, dict(v4=False, combo=True))]
     print("  -- kill curve at realistic dig=3 --")
     print("  build".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median")
     for tag, lib, kw in builds:

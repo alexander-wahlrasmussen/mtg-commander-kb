@@ -191,3 +191,36 @@ already being a 2-card-combo (bracket-4-in-spirit) build. Two honest paths:
 The core swap: **mana-gated inevitability → finding-gated speed + a backup**. The hybrid is
 ~2 turns faster on median, dramatically faster at the front edge, and far more resilient to a
 slow/disrupted draw — at the price of moving up a bracket.
+
+---
+
+## DECISION (2026-06-13): build the 3-GC Hybrid; retire the rest
+
+The 6-GC hybrid was a hard bracket-3 fail. A ≤3-GC trim was modelled
+(`glarb-hybrid-b3-20260613.txt`): cut the three NON-combo GCs — Crop Rotation, Field of the
+Dead, Force of Will — and add non-GC interaction/dig (Swan Song, An Offer You Can't Refuse,
+Brainstorm). Verified **exactly 3 GCs** (Demonic Tutor, Thassa's Oracle, Vampiric Tutor), 100 cards.
+
+**The squeeze is nearly free** (`ct_speed_lab.py --mode unified`, same engine + dig):
+
+| Build (dig=3) | T6 | median |
+|---|:--:|:--:|
+| Original (V1) / Reanimator (V4) | 3% | T9 |
+| Hybrid 6-GC (bracket 4) | 41% | T7 |
+| **Hybrid 3-GC (bracket 3)** | **40%** | **T7** |
+
+Cutting the three GCs left the combo engine untouched (the tutor suite + combo pieces all
+stayed), so the bracket-3 build is the same T7 / 40%-by-T6 as the 6-GC one — still ~2 turns
+faster than the grind with the same front-edge lead. (Correcting my earlier hedge that a trim
+would be "measurably slower" — it isn't, because the smart cut targets the *non-combo* GCs.) The
+only cost is marginally less combo protection (lost Force of Will; Force of Negation + Pact of
+Negation + Swan Song + An Offer + Mindbreak Trap remain).
+
+**CHOSEN BUILD: `decks/considering/glarb-hybrid-b3-20260613.txt`** — bracket-3 legal (3/3 GCs),
+Thoracle combo ~T7 + grind backup, board-independent, free-ish protected. All other Calamity
+build proposals are RETIRED (05-31 oppression + 06-01 Witherbloom moved to `archive/proposals/`;
+reanimator pivot already there; the external #1/#2/#4/#5 lists were comparison-only).
+
+**Remaining gates before it becomes the roster deck:** (1) pod Rule-0 for the 2-card Thoracle
+combo (bracket-4-in-spirit, like the Yuriko proposal); (2) acquisition/build-out; (3) when built,
+apply to a dated roster `.txt` per CLAUDE.md (the deployed list stays V1 until then).

@@ -1,5 +1,9 @@
 # Glarb, Calamity's Augur — Pod-Targeted Swaps (2026-05-31)
 
+> **RETIRED 2026-06-13.** Superseded by the chosen rebuild — the Thoracle-combo **Hybrid**
+> (`proposals/Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md`). The clock sweep showed this
+> oppression swap (like all swap-versions) didn't fix the deck's clock. Kept for history.
+
 **Deck:** The Calamity Tax (`calamity-tax-20260405-061741.txt`)
 **Trigger:** 2026-05-30 pod session — recurring archenemy wins T6–7 with Ur-Dragon + Hidetsugu / Kairi / Kenrith / Kinnan-creatures behind Grand Abolisher. See `project_pod_combo_opponent.md`.
 **Goal:** Lift the deck from **18/20 (5/4/4/5)** to **19/20** by raising Kill Reliability and shifting interaction toward Abolisher-resilient, blue-meta-targeted pressure — without adding a 4th Game Changer.

@@ -1,5 +1,9 @@
 # Glarb, Calamity's Augur — Pack Pull Swaps (2026-06-01)
 
+> **RETIRED 2026-06-13.** Superseded by the chosen rebuild — the Thoracle-combo **Hybrid**
+> (`proposals/Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md`). Also stale: Witherbloom is now
+> Zero-Sum Game's commander, so the 99-route here isn't available. Kept for history.
+
 **Deck:** The Calamity Tax (`calamity-tax-20260405-061741.txt`)
 **Trigger:** 2026-06-01 pack pull — user opened Witherbloom, the Balancer + Professor Dellian Fel and asked whether they belong in Calamity Tax 99s versus building a new deck around Witherbloom. Companion to `proposals/PROP_Witherbloom_the_Balancer.md`.
 **Status:** Decision deferred. Both this swap path AND the standalone Witherbloom build documented in parallel.

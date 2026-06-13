@@ -54,6 +54,8 @@ proposals (Godo, Urza, Kinnan, Thrasios, Korvold, Clive-ext, Kefka-ext) are in
 |---|---|
 | `Framework_Clock_Gap_2026-06-09.md` | the lab-citation rule's origin doc |
 | `Calamity_Tax_Speed_Curve_Analysis.md` | `The_Calamity_Tax_Summary.md` |
+| `Calamity_Tax_Kill_Turn_Lab_2026-06-13.md` | `The_Calamity_Tax_Summary.md` (sweep row 8 clock) |
+| `Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md` | `The_Calamity_Tax_Summary.md` (chosen rebuild = 3-GC hybrid; supersedes the retired swap proposals in `archive/proposals/`) |
 | `Exiles_Return_Speed_Curve_Analysis.md` | `The_Exiles_Return_Summary.md` |
 | `Grand_Design_Speed_Curve_Analysis.md` | `The_Grand_Design_Summary.md` |
 | `Replication_Crisis_Speed_Curve_Analysis.md` | RC Summary + `Pod_Matchup_Matrix.md` |

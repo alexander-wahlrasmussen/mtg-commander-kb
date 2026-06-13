@@ -78,6 +78,7 @@ COMMANDERS = {
     "glarb-croak-dagger-ext": "Glarb, Calamity's Augur",
     "glarb-hybrid": "Glarb, Calamity's Augur",
     "glarb-hybrid-final": "Glarb, Calamity's Augur",
+    "glarb-hybrid-b3": "Glarb, Calamity's Augur",
 }
 
 DISPLAY = {
