@@ -46,24 +46,24 @@ Meanwhile the bracket system defines behaviour by **expected win turn** — an o
 
 5. **Lab the unverified windows.** Current status of every Summary's Kill Window claim (grep audit 2026-06-09):
 
-   | Deck | Claimed goldfish | Status |
-   |---|---|---|
-   | Lightning War | T6–7 | ✅ lab-verified (2026-06-08) |
-   | Replication Crisis | T7–8 decap / T10+ table | ✅ lab-verified (2026-06-09) |
-   | Exile's Return | T7–8 decap / T10 table | ✅ lab-verified (2026-06-09) |
-   | Calamity Tax | T7–9 | ◐ corroborated by speed analysis (mana-gated, "same T7–9") but no kill-turn goldfish run |
-   | Grand Design | T6–8 | ✅ lab-verified 2026-06-10 (`gd_clock_lab.py`) — decap median T10 (T6 ≈ 1%, T8 ≈ 20%) / table T12+; the 6th optimistic front edge and the largest gap. Finale fires median T11 / ~9%; decaps are 96% incremental combat |
-   | Eldrazi Stampede Chaos | T6–8 | ❌ unverified — front-edge claim, priority |
-   | Radiation Sickness | T6–9 | ❌ unverified — wide range, priority |
-   | Crystal Sickness | T7–9 | ❌ unverified |
-   | Curse of the Scarab | T7–9 | ❌ unverified |
-   | Diminishing Returns | T7–9 | ❌ unverified |
-   | Earthbend the Meta | T7–9 | ❌ unverified |
-   | Lorehold Spirits | T7–9 | ❌ unverified |
-   | The Genome Project | T7–9 | ❌ unverified |
-   | Ms. Bumbleflower | T8–10 | ❌ unverified |
-   | The Dark Lord's Army | T8–10 | ❌ unverified |
-   | The Loam Cycle | T6–8 | — being dismantled, skip |
+| Deck | Claimed goldfish | Status |
+|---|---|---|
+| Lightning War | T6–7 | ✅ lab-verified (2026-06-08) |
+| Replication Crisis | T7–8 decap / T10+ table | ✅ lab-verified (2026-06-09) |
+| Exile's Return | T7–8 decap / T10 table | ✅ lab-verified (2026-06-09) |
+| Calamity Tax | T7–9 | ◐ corroborated by speed analysis (mana-gated, "same T7–9") but no kill-turn goldfish run |
+| Grand Design | T6–8 | ✅ lab-verified 2026-06-10 (`gd_clock_lab.py`) — decap median T10 (T6 ≈ 1%, T8 ≈ 20%) / table T12+; the 6th optimistic front edge and the largest gap. Finale fires median T11 / ~9%; decaps are 96% incremental combat |
+| Eldrazi Stampede Chaos | T6–8 | ❌ unverified — front-edge claim, priority |
+| Radiation Sickness | T6–9 | ❌ unverified — wide range, priority |
+| Crystal Sickness | T7–9 | ❌ unverified |
+| Curse of the Scarab | T7–9 | ❌ unverified |
+| Diminishing Returns | T7–9 | ❌ unverified |
+| Earthbend the Meta | T7–9 | ❌ unverified |
+| Lorehold Spirits | T7–9 | ❌ unverified |
+| The Genome Project | T7–9 | ❌ unverified |
+| Ms. Bumbleflower | T8–10 | ❌ unverified |
+| The Dark Lord's Army | T8–10 | ❌ unverified |
+| The Loam Cycle | T6–8 | — being dismantled, skip |
 
    **First action when reverting:** sweep the ❌/◐ Summaries and append *(unverified)* to their Kill Window fields per the new rule — cheap, honest, and makes the backlog self-documenting. Then lab opportunistically as decks come up; prioritize the front-edge claims (Eldrazi T6–8, Grand Design T6–8, Mothman T6–9) since every front edge measured so far was optimistic.
 

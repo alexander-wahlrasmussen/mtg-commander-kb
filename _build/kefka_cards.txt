@@ -1,0 +1,83 @@
+Sol Ring
+Arcane Signet
+Dimir Signet
+Rakdos Signet
+Izzet Signet
+Talisman of Dominance
+Talisman of Indulgence
+Talisman of Creativity
+Fellwar Stone
+Dark Ritual
+Jet Medallion
+Ruby Medallion
+Mana Vault
+Wheel of Fortune
+Windfall
+Echo of Eons
+Reforge the Soul
+Magus of the Wheel
+Time Spiral
+Memory Jar
+Dark Deal
+Peer into the Abyss
+Sheoldred, the Apocalypse
+Underworld Dreams
+Fate Unraveler
+Psychosis Crawler
+Niv-Mizzet, Parun
+Megrim
+Liliana's Caress
+Ob Nixilis, the Hate-Twisted
+Kederekt Parasite
+Glint-Horn Buccaneer
+Bloodletter of Aclazotz
+Notion Thief
+Waste Not
+Cursed Totem
+Demonic Tutor
+Diabolic Tutor
+Mastermind's Acquisition
+Lightning Greaves
+Swiftfoot Boots
+Deflecting Swat
+Bedevil
+Terminate
+Go for the Throat
+Bloodchief's Thirst
+Chaos Warp
+Infernal Grasp
+Rakdos Charm
+Blasphemous Act
+Pyroclasm
+Counterspell
+Negate
+Swan Song
+An Offer You Can't Refuse
+Arcane Denial
+Drown in the Loch
+Faithless Looting
+Frantic Search
+Thrill of Possibility
+Ponder
+Preordain
+Past in Flames
+Command Tower
+Exotic Orchard
+Crumbling Necropolis
+Blood Crypt
+Steam Vents
+Watery Grave
+Sulfur Falls
+Drowned Catacomb
+Dragonskull Summit
+Shivan Reef
+Sulfurous Springs
+Underground River
+Spirebluff Canal
+Blackcleave Cliffs
+Darkslick Shores
+Temple of Epiphany
+Temple of Deceit
+Temple of Malice
+Otawara, Soaring City
+Reliquary Tower
