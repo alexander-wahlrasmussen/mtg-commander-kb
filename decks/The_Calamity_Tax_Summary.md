@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers; no infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Fierce Guardianship, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/4/4/5) |
-| **Kill Window** | Goldfish: T7–9 · Through interaction: T9–12 *(speed-analysis corroborated — mana-gated, "same T7–9" — but no kill-turn goldfish run; see `proposals/Calamity_Tax_Speed_Curve_Analysis.md`)* |
+| **Kill Window** | **Clock (strict mana-floor goldfish, Seedborn/flash excluded): T13 decap / table rarely in 14** (lab 2026-06-13, `ct_speed_lab.py`) — hard mana-gated; **"T7–9" falsified** (biggest miss in the sweep). Real clock faster once Seedborn is online but **not** T7–9, and cannot out-race the T6–7 pod. 4-version bake-off (V1/V2/V3/V4): swaps move the kill *rate* (47→56%) not the *turn*; **none up to par — staying on V1, a different direction needed.** See `proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`. |
 
 -----
 

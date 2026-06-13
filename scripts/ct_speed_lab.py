@@ -97,6 +97,14 @@ V2_IN = ["Exsanguinate", "Sheoldred, the Apocalypse", "Mystic Remora",
 V4_OUT = V2_OUT + ["Mirrorform"]
 V4_IN = ["Exsanguinate", "The Scarab God", "Final Parting",
          "Jarad, Golgari Lich Lord", "Lord of Extinction", "Victimize"]
+# V3 = 06-01 Witherbloom/Dellian build (The_Calamity_Tax_Swaps_2026-06-01.md):
+# the 31-May oppression cuts + Archon, adding Witherbloom (affinity = generic-cost
+# relief on the mana-gated X-drains) + Dellian Fel (0-loyalty draw). Carpet dropped.
+V3_OUT = V2_OUT + ["Archon of Cruelty"]
+V3_IN = ["Exsanguinate", "Sheoldred, the Apocalypse", "Mystic Remora",
+         "Bloom Tender", "Witherbloom, the Balancer", "Professor Dellian Fel"]
+WITHER = "Witherbloom, the Balancer"
+DELLIAN = "Professor Dellian Fel"
 
 # ---- card names ------------------------------------------------------------
 TORMENT = "Torment of Hailfire"
@@ -136,7 +144,7 @@ POWER = {GRAY: 2, KOKUSHO: 5, ARCHON: 6, "Sheoldred, the Apocalypse": 4,
 CREATURE_TUTORS = {"Chord of Calling": 8, "Finale of Devastation": 7}  # -> Gray
 
 
-def kill_turns(library, rng, v4=False):
+def kill_turns(library, rng, v4=False, wither=False):
     """One trial. Returns (decap, table, via). via in
     {'xdrain','copy','jarad','drain','combat',None}."""
     g = core.Goldfish(library, rng, rocks=ROCKS)
@@ -144,6 +152,7 @@ def kill_turns(library, rng, v4=False):
     glarb = False
     coffers = urborg = False
     sylvan = carpet = False
+    witherbloom = dellian = False
     extra_drops = 0                # standing extra land drops
     landfall_mana = 0              # standing +mana per land entering
     board = []                     # names of modelled permanents in play
@@ -155,6 +164,13 @@ def kill_turns(library, rng, v4=False):
 
     def devotion():
         return sum(PIPS.get(n, 0) for n in board) + 2 * gray_tokens
+
+    def affinity():
+        """Witherbloom: your I/S spells have affinity for creatures = generic cost
+        reduced by creatures you control. Proxy = board creatures (excl. Exploration)."""
+        if not witherbloom:
+            return 0
+        return sum(1 for n in board if n != "Exploration")
 
     def enter(nm, T):
         board.append(nm)
@@ -209,7 +225,7 @@ def kill_turns(library, rng, v4=False):
             for _ in range(2):     # surveil 2: bin fat reanimation targets
                 if g.ptr < len(g.deck):
                     nm = g.deck[g.ptr][0]
-                    if nm in FATS or (v4 and nm == LORD):
+                    if nm in FATS or (v4 and nm == LORD) or (wither and nm == WITHER):
                         g.yard.append(g.deck[g.ptr]); g.ptr += 1
                     # non-fats stay on top (drawn normally)
                     else:
@@ -275,6 +291,19 @@ def kill_turns(library, rng, v4=False):
             enter(TENDER, T)
         if g.cast("Sheoldred, the Apocalypse", 4):
             enter("Sheoldred, the Apocalypse", T)
+        # ---- V3 Witherbloom / Dellian ----------------------------------------
+        if wither:
+            # Reanimate her cheaply if binned (the 06-01 "Reanimate T3-4" line),
+            # else hardcast at 8 (Glarb top-casts MV4+ into hand).
+            if not witherbloom and g.in_yard(WITHER) and g.has(REANIMATE) and g.avail >= 1:
+                g.hand.pop(g.in_hand(REANIMATE)); g.avail -= 1
+                g.take_yard(WITHER); enter(WITHER, T); witherbloom = True
+            elif not witherbloom and g.cast(WITHER, 8):
+                enter(WITHER, T); witherbloom = True
+            if not dellian and g.cast(DELLIAN, 4):
+                dellian = True
+            if dellian:
+                g.draw(1)        # 0: draw a card (lose 1 life — goldfish-free)
 
         # ---- Demonic Tutor decision ------------------------------------------
         if g.has(DEMONIC) and g.avail >= 2:
@@ -374,21 +403,21 @@ def kill_turns(library, rng, v4=False):
                     enter(LORD, T)
 
         # ---- copy kills --------------------------------------------------------
-        if GRAY in board and g.cast(RITE, 9):
+        if GRAY in board and g.cast(RITE, max(2, 9 - affinity())):
             gray_tokens += 5
             zombies += 5
             gray_etb(5, T)                       # devotion counted after entry
             if tb.done:
                 return tb.decap, tb.table, "copy"
-        elif KOKUSHO in board and g.cast(RITE, 9):
+        elif KOKUSHO in board and g.cast(RITE, max(2, 9 - affinity())):
             tb.hit_all(25, T)                    # 5 legend-rule deaths
             if tb.done:
                 return tb.decap, tb.table, "copy"
-        elif ARCHON in board and g.cast(RITE, 9):
+        elif ARCHON in board and g.cast(RITE, max(2, 9 - affinity())):
             tb.hit_focus(15, T); g.draw(5)
             if tb.done:
                 return tb.decap, tb.table, "copy"
-        if GRAY in board and g.cast(DOPPEL, 8):  # X=2 on Gray
+        if GRAY in board and g.cast(DOPPEL, max(2, 8 - affinity())):  # X=2 on Gray
             gray_tokens += 2
             zombies += 2
             gray_etb(2, T)
@@ -416,17 +445,19 @@ def kill_turns(library, rng, v4=False):
         # ---- X-drain ------------------------------------------------------------
         alive = [d for d in tb.dmg if d < tb.life]
         worst = max((tb.life - d for d in tb.dmg if d < tb.life), default=0)
+        aff = affinity()                          # Witherbloom generic relief (V3)
         for nm, per in ((TORMENT, 3), (EXSANG, 1)):
             if not g.has(nm) or not alive:
                 continue
             lethal_x = -(-worst // per)
-            if g.avail >= lethal_x + 2:
-                g.hand.pop(g.in_hand(nm)); g.avail -= lethal_x + 2
+            cost = max(0, lethal_x - aff) + 2     # affinity cuts the {X} generic
+            if g.avail >= cost:
+                g.hand.pop(g.in_hand(nm)); g.avail -= cost
                 tb.kill_all(T)
                 return tb.decap, tb.table, "xdrain"
             both = g.has(TORMENT) and g.has(EXSANG)
             if both and not chip_used and g.avail >= 7 and per == 3:
-                x = g.avail - 2
+                x = g.avail - 2 + aff             # affinity lets X go higher per mana
                 g.hand.pop(g.in_hand(nm)); g.avail = 0
                 chip_used = True
                 tb.hit_all(x * per, T)
@@ -453,18 +484,19 @@ def kill_turns(library, rng, v4=False):
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — goldfish kill-turn Monte Carlo   trials={trials} seed={SEED}")
     print("    3 opponents @40. Drains hit all; combat/Archon focus-fire. Unblocked")
-    print("    ceiling. Summary claim under test: 'Goldfish T7-9' (status ◐).")
+    print("    ceiling. Summary claim under test: 'Goldfish T7-9' (status PARTIAL).")
     print("    V4 claim under test: fast reanimator line lands '~T5-6'.\n")
     base, commander = core.load_parsed(DECK, index, aliases)
     variants = [
-        ("V1 committed", base, False),
-        ("V2 31-May oppression", core.build_lib(base, index, V2_OUT, V2_IN), False),
-        ("V4 reanimator lean", core.build_lib(base, index, V4_OUT, V4_IN), True),
+        ("V1 committed", base, False, False),
+        ("V2 31-May oppression", core.build_lib(base, index, V2_OUT, V2_IN), False, False),
+        ("V3 06-01 Witherbloom", core.build_lib(base, index, V3_OUT, V3_IN), False, True),
+        ("V4 reanimator lean", core.build_lib(base, index, V4_OUT, V4_IN), True, False),
     ]
     print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
-    for tag, lib, v4 in variants:
+    for tag, lib, v4, wither in variants:
         rng = random.Random(SEED)
-        res = [kill_turns(lib, rng, v4) for _ in range(trials)]
+        res = [kill_turns(lib, rng, v4, wither) for _ in range(trials)]
         print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW)
               + f"   {core.median(res, 0)}")
         print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW)

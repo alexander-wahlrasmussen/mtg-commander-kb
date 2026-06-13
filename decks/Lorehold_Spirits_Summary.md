@@ -12,7 +12,7 @@
 | **Bracket**          | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns)            |
 | **Game Changers**    | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
 | **Conversion Check** | **18/20** (5/5/4/4) — Goblin Bombardment acquired 2026-05-30, combo line live                              |
-| **Kill Window**      | Goldfish: T7–9 · Through interaction: T9–11 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window**      | **Clock: T8 decap** (median; T7 ≈ 46%) **/ T10 table** (lab 2026-06-13, `lor_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no graveyard-hate/Cyclonic Rift model)*. The old "T7–9" was the decap window; table is ~2 turns later. See `proposals/Lorehold_Spirits_Clock_Lab_2026-06-13.md`. |
 | **Decklist file**    | `decks/lorehold-spirit-20260503-154449.txt`                                                                |
 
 The 18/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.
@@ -94,8 +94,8 @@ Reveillark + Karmic Guide + Goblin Bombardment + a 2-or-less creature card in gr
 1. Sac Reveillark to GB (1 dmg). Reveillark trigger: return Karmic Guide + the 2-or-less from graveyard. *(Quintorius static: 2 cards left graveyard simultaneously = 1 Spirit token.)*
 2. Karmic Guide ETB: return Reveillark from graveyard. *(Quintorius static: 1 card left graveyard = 1 Spirit token.)*
 3. Sac the 2-or-less creature to GB (1 dmg). Now in graveyard.
-4. Sac Karmic Guide to GB (1 dmg). Now in graveyard. Persist returns it with -1/-1 counter (Karmic Guide is power 2 base, so persist returns once; after that the persist trigger doesn't fire because she has a -1/-1 counter).
-5. Sac Reveillark again. Reveillark trigger: return Karmic Guide (now power 1) + the 2-or-less. Loop continues.
+4. Sac Karmic Guide to GB (1 dmg). Now in graveyard. *(Correction 2026-06-13: Karmic Guide has **Echo**, not persist — an earlier version of this writeup mis-stated a persist counter. The loop does not rely on persist.)*
+5. Sac Reveillark again. Reveillark's leave-trigger: return Karmic Guide (power 2 ≤ 2) + the 2-or-less creature from graveyard. Karmic Guide ETB returns Reveillark. Loop continues — unbounded with GB.
 
 Per cycle: 3+ damage from GB, 2+ Quintorius static triggers, +2 Spirit tokens (4 with Anointed Procession). With Hofri off the battlefield (he interferes — see Rules Edges), the loop is unbounded once assembled.
 

@@ -49,8 +49,8 @@ the slow decks. Kill-shape prediction is the pre-registered prior (Stage 1 of th
 | 4 | Crystal Sickness | Golbez (Dimir) | T7–9 | reanimate a fatty → combat focus-fire → diverge | ✅ DONE — decap T11 / table T13 (`cs_clock_lab.py`, 2026-06-13); claim optimistic ~2–4 turns; shape is MIXED (drain+Tezzeret converge / combat diverges), not the pure diverge predicted; engine = card draw |
 | 5 | Curse of the Scarab | The Scarab God (Dimir) | T7–9 | zombies + Gray Merchant drain → mixed combat/drain | ✅ DONE — decap T8 / table T11 (`cos_clock_lab.py`, 2026-06-13); **decap claim HELD** (first in sweep), only correction is decap/table split; combat decaps, drain tables |
 | 6 | Earthbend the Meta | Toph (Naya) | T7–9 | artifact stompy → combat focus-fire → diverge | ✅ DONE — decap T8 / table T12 (`ebm_clock_lab.py`, 2026-06-13); decap claim ~held (T7=34% front edge), correction is decap/table conflation; **diverge prediction held** (focused AWBO+combat outran the converge ping) |
-| 7 | Lorehold Spirits | Quintorius (Boros) | T7–9 | Goblin Bombardment combo (ping) + spirits → combo converge / combat diverge | ❌ TODO |
-| 8 | The Calamity Tax | Glarb (Sultai) | T7–9 | X-drain (Exsanguinate) + Kokusho reanimator → mana-gated; speed-curve done, no kill-turn clock | ◐ PARTIAL |
+| 7 | Lorehold Spirits | Quintorius (Boros) | T7–9 | Goblin Bombardment combo (ping) + spirits → combo converge / combat diverge | ✅ DONE — decap T8 / table T10 (`lor_clock_lab.py`, 2026-06-13); **decap claim held** (matches avg-T8, T7=46%), correction is decap/table split (2-turn gap); combo+Purphoros converge tightens it; Karmic Guide echo-not-persist text fixed |
+| 8 | The Calamity Tax | Glarb (Sultai) | T7–9 | X-drain (Exsanguinate) + Kokusho reanimator → mana-gated; speed-curve done, no kill-turn clock | ✅ DONE — decap T13 / table rarely-in-14 (`ct_speed_lab.py`, 2026-06-13); **"T7–9" falsified, biggest miss** (hard mana-gated, strict floor excl. Seedborn); 4-version bake-off, none up to par → stay V1, different direction needed |
 | 9 | Ms. Bumbleflower | Ms. Bumbleflower (Bant) | T8–10 | spellslinger tempo, evasive/Jolrael alpha → combat diverge | ❌ TODO |
 | 10 | The Dark Lord's Army | Sauron (Grixis) | T8–10 | go-wide tokens / The Ring → combat focus-fire → diverge | ❌ TODO |
 
@@ -217,6 +217,40 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   Pod bar: decap T≤7 = 34% — pressures (≈CoS) but does not race; pod plan is snowball +
   interaction. No swaps; 17/20 stands. Wrote `proposals/Earthbend_the_Meta_Clock_Lab_2026-06-13.md`;
   updated Summary + Deck_Index. Next: row 7, Lorehold Spirits.
+- **2026-06-13** — **Deck 7: Lorehold Spirits.** Built `lor_clock_lab.py` (commander is a
+  PW → mana-gate cast, the ebm gotcha applied up front). Claim "T7–9 (fastest T6, avg T8)"
+  is **accurate as a DECAP window** — decap median **T8** (matches "avg T8" exactly; T7 = 46%
+  strong front edge, T6 = 18%); 3rd deck after CoS/Earthbend with a non-optimistic front
+  edge. Correction = decap/table conflation, but the **tightest gap yet (2 turns): table
+  median T10** (never-in-14 decap 1% / table 5%). **Shape:** MIXED, both predictions held —
+  focused combat (Quintorius −4 + anthems) + Balefire chip set decap; Purphoros `hit_all`
+  + GB combo `kill_all` pull the table to only +2 (vs esc's +4). The carried prior worked.
+  **Card-text correction (Stage 0):** Summary's Line-6 combo said Karmic Guide "persist
+  returns it" — KG has **Echo, not persist**; loop runs off Reveillark's leave-trigger +
+  KG's ETB (unbounded, no model impact); fixed in the Summary. **Model correction (consistency
+  omission, slow-bias):** v1 omitted Quintorius +1 (draw 2/turn) → decap T9 / 35% never-table;
+  adding the +1 dig → decap T8 / 5% never-table — same class as ebm/cs/lw under-modeling, the
+  +1 is a verified ability so faithful. Pod bar: decap T≤7 = **46%** — highest pressure of the
+  mixed decks, nearly races. No swaps; 18/20 stands. Wrote
+  `proposals/Lorehold_Spirits_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next:
+  row 8, The Calamity Tax (PARTIAL — speed-curve done, needs kill-turn clock).
+- **2026-06-13** — **Deck 8: The Calamity Tax** (last PARTIAL) + **version bake-off.** Discovered
+  `ct_speed_lab.py` was ALREADY a kill-turn clock lab (built 2026-06-10) that never ran — it
+  crashed on a Windows cp1252 `◐` print, so its referenced writeup never existed and the row
+  stayed PARTIAL. Fixed the glyph, added the missing V3 (06-01 Witherbloom) variant + affinity
+  model, ran it. **"T7–9" is the biggest falsification in the sweep:** V1 committed decap median
+  **T13 / table never-in-14** (47% killed). The deck is hard **mana-gated** (X-drain wants ~16
+  mana); reanimator's "T5–6 fast line" also falsified (god-hand). CONVERGE shape (hit-all drain).
+  **Caveat:** strict floor EXCLUDES Seedborn Muse (the deck's mana multiplier) + flash — so T13 is
+  a conservative floor (à la LW); real clock faster but decisively not T7–9, and cannot out-race
+  the T6–7 pod. **4-version bake-off:** V1 47% / V2 49% / V3 50% / V4 56% killed-in-14 — swaps move
+  the kill RATE not the TURN (all T12–13). **Ownership reality decisive:** collection holds 1 of
+  every relevant card (prior "owned spare" claims stale); **V3 impractical** (Witherbloom is now
+  Zero-Sum's commander), **V4 mostly Loam-freed but Scarab=Curse commander locked** (~$15–30).
+  **User decision: none up to par — stay on committed V1, no version applied; a DIFFERENT
+  improvement direction needed (not these swaps), deferred to a later session.** No card-text errors.
+  Wrote `proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`; updated Summary + Deck_Index. **Sweep
+  TODO/PARTIAL now: 2 left (Ms. Bumbleflower, The Dark Lord's Army).**
 
 ---
 
@@ -231,16 +265,16 @@ clock then never-in-12. `—` = not yet measured. Final deliverable of the campa
 | 2 | Radiation Sickness | T7 decap | T10 | 1% | 18/20 | counter-engine (combo/Simic/Triumph converge; combat decap leads) |
 | 3 | The Replication Crisis | T7 (med) | T10+ | — | 17/20 | combat focus-fire |
 | 4 | The Exile's Return | T8 (med) | T10 | — | 17/20 | combat focus-fire |
-| 5 | Curse of the Scarab | T8 | T11 | 9% | 17/20 | combat decaps / Scarab+Gary drain tables (mixed; **decap claim held**) |
-| 6 | Earthbend the Meta | T8 | T12 | ~30% | 17/20 | MIXED→diverge: AWBO+combat focus decap / Purphoros+Tremors hit-all ping tables (snowball) |
-| 7 | Eldrazi Stampede Chaos | T8 | T12 | 33% (v2) | 14/20 | combat focus-fire / Craterhoof alpha (amplifiers: tail only) |
-| 8 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
-| 9 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
-| 10 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
-| 11 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
-| 12 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
-| ? | Lorehold Spirits | — | — | — | 18/20 | TBD |
-| ? | The Calamity Tax | — | — | — | 18/20 | TBD |
+| 5 | Lorehold Spirits | T8 | T10 | 15% | 18/20 | MIXED: Quintorius−4+anthem combat & Balefire focus decap / Purphoros hit-all + GB combo kill_all table (+2 gap) |
+| 6 | Curse of the Scarab | T8 | T11 | 9% | 17/20 | combat decaps / Scarab+Gary drain tables (mixed; **decap claim held**) |
+| 7 | Earthbend the Meta | T8 | T12 | ~30% | 17/20 | MIXED→diverge: AWBO+combat focus decap / Purphoros+Tremors hit-all ping tables (snowball) |
+| 8 | Eldrazi Stampede Chaos | T8 | T12 | 33% (v2) | 14/20 | combat focus-fire / Craterhoof alpha (amplifiers: tail only) |
+| 9 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
+| 10 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
+| 11 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
+| 12 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
+| 13 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
+| 14 | The Calamity Tax | T13 | never (>T14) | ~69% | 18/20 | mana-gated converge drain (**strict floor excl. Seedborn — real clock faster but not T7–9; "T7–9" falsified**) |
 | ? | Ms. Bumbleflower | — | — | — | 15/20 | TBD |
 | ? | The Dark Lord's Army | — | — | — | 19/20 | TBD |
 
