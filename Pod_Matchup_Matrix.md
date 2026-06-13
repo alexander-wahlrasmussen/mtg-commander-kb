@@ -6,7 +6,7 @@ interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`.
 
 ---
 
@@ -37,30 +37,33 @@ So the matchup is **not** decided by counterspell count. It's decided by:
 
 ## The matrix
 
-Clock = audited goldfish kill window. "Through Abolisher?" = can the deck
+Clock = **lab-measured decap** (first opponent dead) **/ table** (all three),
+stated separately, from the 2026-06-13 kill-window sweep
+(`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`). **Rows ordered strongest →
+weakest vs the pod.** "Through Abolisher?" = can the deck
 meaningfully disrupt the combo turn *given* a resolved enemy Abolisher.
 "Colour T6" = Monte Carlo probability all colours are available from **lands
 only** by turn 6 (a floor — rocks/dorks raise it); low values flag a deck that
 needs its fixing rocks to come online to function on curve.
 
-| Deck | Score | Clock (goldfish) | Beats T6–7? | Through Abolisher? | Colour T6 (lands) | Verdict vs pod |
+| Deck | Score | Clock — lab decap / table | Beats T6–7? | Through Abolisher? | Colour T6 (lands) | Verdict vs pod |
 |---|---|---|---|---|---|---|
-| The Replication Crisis | 17 → 18–19 | T7–8 decap · T10+ table (lab) | ❌ 16% by T6 even unblocked | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect | 90% | **Even — race measured & rejected** (pending Kiki swap; see note) |
-| The Calamity Tax | 18→19 | T7–9 | ⚠ slower | ✅ static tax + stax slows their mana; Seedborn keeps you live | 96% | **Favoured — grind/oppress** |
-| The Exile's Return | 17→18 | T7–8 decap · T10 table (lab) | ⚠ 9% by T6 / 39% by T7 even unblocked | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs; pending Drannith swap adds static hate | 94% | **Favoured — disruption-led, not a race** |
-| The Grand Design | 19 | decap T10 · table T12+ (lab) | ❌ 1% by T6 / 20% by T8 | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 89% | **Favoured — disruption-led, not a race** |
-| Lightning War | 18 | T6–8 | ✅ races | ⚠ counter-reliant; burn can finish through a lock | 97% | **Even–favoured — outrace** |
-| The Loam Cycle | 19 | T6–8 | ✅ | ⚠ FG + Counterspell only (dead under Abolisher); no static hate | 91% | **Even** |
-| Diminishing Returns | 17 | T7–9 | ⚠ | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 95% | **Even** |
-| Radiation Sickness | 18 | T6–9 | ⚠ | ⚠ counters + Force of Negation (off-turn, pre-Abolisher only) | 90% | **Even** |
-| Curse of the Scarab | 17 | T7–9 | ❌ | ⚠ FG counter; otherwise reactive | 96% | **Even–underdog** |
-| Crystal Sickness | 17 | T7–9 | ❌ | ⚠ FG counter; reanimator is slow to disrupt | 94% | **Underdog** |
-| The Genome Project | 15 | T7–9 | ❌ | ⚠ some counters; combo-reliant itself | 98% | **Underdog** |
-| Lorehold Spirits | 18 | T7–9 | ❌ | ❌ no counters; Teferi's Protection only survives, doesn't stop | 99% | **Underdog** |
-| Earthbend the Meta | 17 | T7–9 | ❌ | ❌ no counters; slow | 90% | **Underdog** |
-| The Dark Lord's Army | 19 | T8–10 | ❌ | ⚠ 15 interaction but slow clock loses the race | 89% | **Underdog — too slow** |
-| Ms. Bumbleflower | 15 | T8–10 | ❌ | ⚠ 5/5 interaction but combat-only kill is far too slow | 93% | **Underdog — too slow** |
-| Eldrazi Stampede Chaos | 14 | T6–8 | ✅ clock only | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 88% | **Underdog — no disruption** |
+| The Grand Design | 19 | decap T10 · table T12+ (lab 06-10) | ❌ 1% by T6 / 20% by T8 | ✅ own Grand Abolisher + Teferi T.R. (sorcery-lock) + FoW pre-Abolisher | 89% | **Favoured — disruption-led, not a race** |
+| The Exile's Return | 17→18 | decap T8 · table T10 (lab 06-09) | ⚠ 9% by T6 / 39% by T7 even unblocked | ✅ own Grand Abolisher protects your turn; 9 spot-removal for theirs; pending Drannith swap adds static hate | 94% | **Favoured — disruption-led, not a race** |
+| The Calamity Tax | 18→19 | decap T13 · table >T14 (lab 06-13) | ⚠ slow — mana-gated; wins by oppression, not speed | ✅ static tax + stax slows their mana; Seedborn keeps you live | 96% | **Favoured — grind/oppress** |
+| Lightning War | 19 | decap T9 · table ~T13 strict goldfish (lab 06-13) | ⚠ chip/tempo-assisted, not a from-40 race | ⚠ counter-reliant; burn can finish through a lock | 97% | **Even–favoured — chip race + reach** |
+| Radiation Sickness | 18 | decap T7 · table T10 (lab 06-13) | ⚠ T7 decap one opp; table win T10 | ⚠ rad/proliferate attrition is Abolisher-proof; + Force of Negation off-turn | 90% | **Even — attrition, Abolisher-proof engine** |
+| Diminishing Returns | 17 | decap T9 · table T12+ (lab 06-10) | ❌ T9 | ✅ own Grand Abolisher + edicts punish post-combo; no counters | 95% | **Even** |
+| Zero-Sum Game | not audited | decap = table T9 (lab 06-11) | ❌ T9 | ✅ board-independent lifeloop kill resolves on your turn (Abolisher-proof); unproven | — (post-rebuild; not simmed) | **Even–favoured (unaudited)** |
+| The Replication Crisis | 17→18–19 | decap T7 · table T10+ (lab 06-09) | ❌ 16% by T6 even unblocked | ❌ counter-reliant (dead under Abolisher); every line needs Satya to connect (Kiki swap adds assembly combo — see note) | 90% | **Even — race measured & rejected** |
+| The Dark Lord's Army | 19 | decap T9 · table T12 typical (lab 06-13) | ❌ slow clock loses the race | ⚠ 15 interaction but reactive; engine feeds on their activity | 89% | **Even–underdog — too slow to race** |
+| The Genome Project | 15 | decap T7 · table T8 (lab 06-10) | ⚠ ~T7 decap (fastest table, T8) but combo-reliant | ⚠ some counters; combo-reliant itself | 98% | **Underdog — fast but fragile** |
+| Curse of the Scarab | 17 | decap T8 · table T11 (lab 06-13) | ❌ | ⚠ FG counter; otherwise reactive | 96% | **Even–underdog** |
+| Lorehold Spirits | 18 | decap T8 · table T10 (lab 06-13) | ❌ | ❌ no counters; Teferi's Protection only survives, doesn't stop | 99% | **Underdog** |
+| Earthbend the Meta | 17 | decap T8 · table T12 (lab 06-13) | ❌ | ❌ no counters; slow | 90% | **Underdog** |
+| Crystal Sickness | 17 | decap T11 · table T13 (lab 06-13) | ❌ | ⚠ FG counter; reanimator is slow to disrupt | 94% | **Underdog** |
+| Ms. Bumbleflower | 15 | decap T8 · table T11 (lab 06-13) | ❌ | ⚠ 5/5 interaction but combat-only kill is far too slow | 93% | **Underdog — too slow** |
+| Eldrazi Stampede Chaos | 14 | decap T8 · table T12 (lab 06-13) | ⚠ T8 decap, just misses T6–7 | ❌ no counters, no lock; "cannot stop a combo turn" (audit) | 88% | **Underdog — no disruption** |
 
 *(Peace Offering is off the active roster and excluded.)*
 
