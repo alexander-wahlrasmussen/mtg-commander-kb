@@ -102,11 +102,17 @@ Craterhoof doesn't push the **median** past T9 (same mana gate), but it **sharpe
   deck has two independent finisher lines.
 - **Rune-Scarred Demon** ({5}{B}{B} 6/6 flyer, ETB tutor ANY card) — a recurrable tutor in the
   flicker shell (Restoration Angel / Ghostly Flicker / Soulherder / Ephemerate / Displacer Kitten /
-  Karmic Guide re-trigger its ETB) that *reliably assembles a finisher*. **But it is clock-neutral:**
-  the Atraxa-selection test already proved finding doesn't move GD's mana-gated clock (we ran the
-  strongest finder possible — reveal-10-take-5, repeated — for ~0). Rune-Scarred is a weaker finder,
-  so its value is **resilience/consistency, not speed** — which is exactly the fragility fix wanted.
-  Cost: a 7th cut + ~$3–5 (owned 0).
+  Karmic Guide re-trigger its ETB). It **can fetch Finale** (bypassing the untutorable-sorcery
+  problem), so it *does* add consistency — **measured: never-12 6%→5%, T12 94%→95%, median flat at
+  T9** (`--mode ramp`, +Rune-Scarred row). The gain is a **~1pp tail tighten, not a median move**,
+  for two reasons: (a) GD is mana-gated — finding Finale ≠ the 12 mana to cast it, so it only
+  rescues games that had mana but no finisher in hand; (b) the deck already has THREE finisher
+  types (Finale + Craterhoof + combat), so "no finisher findable" is already rare. **Caveat:** the
+  model fires ONE ETB; the real card is recurrable, so its true value is a flexible any-card
+  tutor-engine (find Finale *and* a reanim spell *and* a counter over a game) — genuine resilience
+  + flexibility concentrated at the **top end**, but on an axis the goldfish can't show and still
+  not a median-speed lever. A legitimate consistency add, but a modest dial here. Cost: a 7th cut
+  + ~$3–5 (owned 0).
 
 **Net recommendation.** Two complementary upgrades:
 1. **Ramp 5-for-5** → the speed fix (T10→T9, whiff 11%→6%).

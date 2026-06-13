@@ -206,6 +206,13 @@ def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
                     _atraxa_etb(g, powmap, 2 if g.has("Panharmonicon") else 1)
                 else:
                     g.draw(5)                            # original flat model
+            # Rune-Scarred Demon: ETB tutor ANY card -> grab the biggest finisher you
+            # lack (incl. Finale, which creature-tutors can't get). A 6/6 body too.
+            if cfg.get("rune") and g.has("Rune-Scarred Demon") and g.avail >= 7:
+                g.cast("Rune-Scarred Demon", 7); board += pw("Rune-Scarred Demon"); ncre += 1
+                for want in ("Finale of Devastation", "Craterhoof Behemoth"):
+                    if not g.has(want) and g.fetch(want):
+                        break
             more = True
             while more:
                 more = False
@@ -295,10 +302,14 @@ def mode_ramp(index, aliases, trials):
     # so the deck has two finisher types — the fragility fix the lever test motivates).
     combo_lib = slc.build_lib(base, index, RAMP_CUTS + ["Displacer Kitten"],
                               RAMP_ADDS + ["Craterhoof Behemoth"])
+    rune_lib = slc.build_lib(base, index, RAMP_CUTS + ["Displacer Kitten", "Heroic Intervention"],
+                             RAMP_ADDS + ["Craterhoof Behemoth", "Rune-Scarred Demon"])
     print("  build".ljust(38) + "".join(f"{t:>6}" for t in SHOW) + "   median   never12")
     for tag, lib, cfg in (("baseline GD", base, None),
                           ("+ramp package (5-for-5)", ramp_lib, None),
-                          ("+ramp +Craterhoof (keep Finale)", combo_lib, {"craterhoof": True})):
+                          ("+ramp +Craterhoof (keep Finale)", combo_lib, {"craterhoof": True}),
+                          ("  ^ +Rune-Scarred (tutor finisher)", rune_lib,
+                           {"craterhoof": True, "rune": True})):
         powmap = _powmap(lib, commander)
         res = _run(lib, commander, index, powmap, trials, cfg)
         nd = 100.0 * sum(1 for d, _ in res if d is None) / trials
