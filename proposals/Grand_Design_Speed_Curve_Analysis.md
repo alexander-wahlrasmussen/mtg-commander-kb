@@ -179,3 +179,42 @@ Three findings:
 ---
 
 Related: `The_Grand_Design_Summary.md` · `The_Grand_Design_Swaps_2026-05-02.md` · `Lightning_War_Speed_Curve_Analysis.md` · `Calamity_Tax_Speed_Curve_Analysis.md` · [[project_deck_sim_and_matchup_matrix]] · [[project_pod_combo_opponent]] · [[feedback_bracket_4_in_spirit]]
+
+---
+
+## Atraxa-selection sensitivity + lever test (2026-06-13)
+
+Prompted by the Glarb finding (a commander's card-selection was unmodelled and turned out
+critical). Atraxa is a big selection engine — reveal top 10, take the best of EACH card type,
+and the deck flickers/Panharmonicons her to re-trigger it — yet `gd_clock_lab.py` modelled her
+as a flat one-time `draw(5)`. Same blind spot as Glarb on paper. Tested it (`--mode levers`, 20k):
+
+| Variant (decap median) | median | never-12 |
+|---|:--:|:--:|
+| baseline (flat draw-5, no cap) | T10 | 11% |
+| +Atraxa select-10 (best-per-type) | T10 | 10% |
+| +repeat ETBs (flicker / Panharmonicon ×2) | T10 | 10% |
+| + hand cap 7 (vs no-max) | T10 | 10% |
+| **+ more ramp (+2 mana/turn)** | **T7** | **0%** |
+| + Craterhoof finisher (−Finale) | T9 | 9% |
+
+**Finding: the Atraxa-selection blind spot is PRESENT but NOT consequential** — modelling her
+true reveal-10-select + flicker repeats moves the clock ~0 (T10→T10). **GD is mana-gated, not
+finding-gated** (same as Calamity-V1): Atraxa lands ~T7 and finds *kill pieces*, but the deck
+already has access to its pieces — it's waiting on **mana** to deploy/pump, which a late
+selection burst doesn't accelerate. (Contrast Glarb: surveil is early + continuous, accelerates
+the Coffers mana engine, and the kill is cheap — so dig mattered there.)
+
+**Levers, answering the build questions:**
+- **No-max-hand-size: no help** (cap 7 ≈ no cap). The deck dumps its hand each turn and discarded
+  fatties feed the reanimator, so the cap is ~neutral. (Confirms the earlier note.)
+- **Finisher change to Craterhoof: modest (~1 turn, T10→T9)** — it helps as a *cheaper* finisher
+  (8-mana creature vs Finale's 12-mana X≥10), a mana-efficiency win, not a selection win.
+- **More ramp: the dominant lever (T10→T7).** GD is highly mana-elastic. (+2/turn is an idealized
+  ceiling; realistic adds capture a fraction — but the direction is unambiguous.)
+
+**Generalizable lesson:** modelling a commander's card-selection matters only for *finding*-gated
+decks (cheap kill, early/continuous filtering that accelerates the binding resource — Glarb). For
+*mana*-gated decks with an expensive kill (GD, Calamity-V1) it's a red herring; the levers are
+ramp + a cheaper finisher. GD's published T10 clock STANDS (selection doesn't change it). Lab:
+`gd_clock_lab.py --mode levers`.

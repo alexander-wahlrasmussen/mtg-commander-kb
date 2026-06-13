@@ -70,51 +70,118 @@ def _powmap(library, commander):
     return {k: (v if isinstance(v, int) else 1) for k, v in raw.items()}
 
 
-def goldfish_kill(library, commander, index, powmap, rng):
-    """One trial. Returns (decap_turn, table_turn) from the core Table tracker.
+# ---------------------------------------------------------------------------
+# Atraxa selection model (the 2026-06-13 sensitivity, per the Glarb dig lesson)
+# ---------------------------------------------------------------------------
+# Real Atraxa: reveal top 10, take the best card of EACH card type into hand,
+# bottom the rest. The base lab modelled this as a flat one-time g.draw(5). This
+# adds: (1) best-per-type SELECTION, (2) REPEAT ETBs via the deck's flicker shell
+# (Restoration Angel / Ghostly Flicker / Soulherder / Thassa / Ephemerate /
+# Displacer Kitten), (3) Panharmonicon DOUBLING each ETB.
+TYPES = ("creature", "sorcery", "instant", "enchantment", "artifact",
+         "planeswalker", "land", "battle")
+FLICKER = {"Restoration Angel", "Ghostly Flicker", "Soulherder",
+           "Thassa, Deep-Dwelling", "Ephemerate", "Displacer Kitten"}
+ATRAXA_PRI = {  # kill-relevance for "take the best of each type"
+    "Finale of Devastation": 100, "Craterhoof Behemoth": 100,
+    "Reanimate": 95, "Animate Dead": 92, "Necromancy": 90, "Victimize": 88,
+    "Persist": 88, "Dread Return": 85, "Living Death": 84, "Buried Alive": 91,
+    "Grisly Salvage": 80, "Razaketh, the Foulblooded": 86,
+    "Vilis, Broker of Blood": 86, "Sol Ring": 80, "Bloom Tender": 76,
+    "Birds of Paradise": 72, "Nature's Lore": 66, "Three Visits": 66,
+    "Farseek": 66, "Arcane Signet": 60, "Panharmonicon": 82,
+    "Restoration Angel": 74, "Ghostly Flicker": 72, "Soulherder": 70,
+    "Thassa, Deep-Dwelling": 70, "Ephemerate": 68, "Displacer Kitten": 68,
+}
 
-    Each turn: ramp, then the EXISTING board (in play since last turn — summoning
-    sickness respected) attacks, then develop. Finale is a haste alpha-strike that
-    pumps the in-play board the same turn. Combat is focus-fire with no trample
-    spill (Table.hit_focus), so a big swing decaps ONE opponent — the table clock
-    is the sum of repeated swings, which is how this midrange deck actually closes.
-    """
+
+def _ctypes(rec):
+    tl = rec["type_line"].lower()
+    return {t for t in TYPES if t in tl}
+
+
+def _pri(nm, rec, powmap):
+    if nm in ATRAXA_PRI:
+        return ATRAXA_PRI[nm]
+    if "creature" in rec["type_line"].lower():
+        return 35 + powmap.get(nm.lower(), 1)
+    if "land" in rec["type_line"].lower():
+        return 10
+    return 25
+
+
+def _atraxa_etb(g, powmap, doublings):
+    """Reveal top 10, take the best card of each type to hand, bottom the rest.
+    doublings>1 = Panharmonicon (repeat the reveal-and-take that many times)."""
+    for _ in range(doublings):
+        window = g.deck[g.ptr:g.ptr + 10]
+        if not window:
+            return
+        del g.deck[g.ptr:g.ptr + 10]
+        covered, chosen = set(), []
+        for nm, rec in sorted(window, key=lambda x: -_pri(x[0], x[1], powmap)):
+            ts = _ctypes(rec)
+            if ts and (ts - covered):
+                chosen.append((nm, rec)); covered |= ts
+        for c in chosen:
+            g.hand.append(c)
+        g.deck.extend(c for c in window if c not in chosen)   # bottom the rest
+
+
+def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
+    """One trial -> (decap, table). cfg toggles the Atraxa-selection sensitivity +
+    build levers; cfg=None reproduces the original published model (flat draw-5)."""
+    cfg = cfg or {}
+    select = cfg.get("select", False)        # Atraxa reveal-10 best-per-type
+    repeat = cfg.get("repeat", False)        # flicker re-triggers Atraxa each turn
+    hand_cap = cfg.get("hand_cap", None)     # None = no max hand size (current default)
+    extra_ramp = cfg.get("extra_ramp", 0)    # +N mana/turn (more-ramp lever)
+    crater = cfg.get("craterhoof", False)    # creature finisher present (library swap)
+
     def pw(nm):
         return powmap.get(nm.lower(), 1)
 
     g = slc.Goldfish(library, rng, rocks=ROCKS)
-    tbl = slc.Table()        # 3 opponents @ 40
-    board = 0                # base power in play (from prior turns)
-    ncre = 0                 # creatures in play
-    yard_fat = []            # powers of fat creatures in the yard, reanimatable
+    tbl = slc.Table()
+    board = ncre = 0
+    yard_fat = []
     atraxa = bloom = False
 
     for T in range(1, TURNS + 1):
         g.begin_turn(T)
         g.deploy_rocks()
-        for rs, cost in RAMP.items():                 # land-ramp: +1 untapped land
+        if extra_ramp:
+            g.add_mana(extra_ramp)
+        for rs, cost in RAMP.items():
             while g.has(rs) and g.avail >= cost:
                 g.cast(rs, cost); g.lands += 1; g.avail += 1
         if not bloom and g.has("Bloom Tender") and g.avail >= 2:
             g.cast("Bloom Tender", 2); bloom = True
         if bloom:
-            g.avail += 4 if atraxa else 2             # colours among permanents
+            g.avail += 4 if atraxa else 2
 
-        # --- attack step: Finale alpha-strike, else the standing board swings ---
+        # repeat Atraxa ETB via flicker (once Atraxa is out) — Panharmonicon doubles
+        if atraxa and repeat and g.avail >= 2 and (FLICKER & {nm for nm, _ in g.hand}):
+            g.avail -= 2
+            _atraxa_etb(g, powmap, 2 if g.has("Panharmonicon") else 1)
+
+        # --- attack step: Finale / Craterhoof alpha, else standing board swings ---
         fired = False
         if g.has("Finale of Devastation") and g.avail >= 12 and ncre >= 1:
-            X = g.avail - 2                            # {X}{G}{G}
-            if X >= 10:                                # +X/+X and haste to all creatures
-                pumped = board + (ncre + 1) * X + 8    # whole board + fetched creature, pumped
-                tbl.hit_focus(pumped, T)               # no trample: one opponent
-                board += 8; ncre += 1                  # fetched creature persists at base
-                fired = True
+            X = g.avail - 2
+            if X >= 10:
+                tbl.hit_focus(board + (ncre + 1) * X + 8, T)
+                board += 8; ncre += 1; fired = True
+        if not fired and crater and g.has("Craterhoof Behemoth") and g.avail >= 8 and ncre >= 1:
+            atk = ncre + 1                              # haste; everyone +ncre+1/+ncre+1
+            tbl.hit_focus(board + 5 + (ncre + 1) * atk, T)   # base + Craterhoof 5 + pump
+            board += 5; ncre += 1; fired = True
         if not fired and board > 0:
             tbl.hit_focus(board, T)
         if tbl.done:
             return tbl.decap, tbl.table
 
-        # --- develop (these creatures attack from NEXT turn) ---
+        # --- develop ---
         if not fired:
             if g.has("Buried Alive") and g.avail >= 3:
                 g.cast("Buried Alive", 3); yard_fat += [8, 8]
@@ -130,7 +197,11 @@ def goldfish_kill(library, commander, index, powmap, rng):
                     board += max(yard_fat); ncre += 1; yard_fat.remove(max(yard_fat))
             if not atraxa and g.avail >= 7:
                 board += pw(commander); ncre += 1; atraxa = True
-                g.avail -= 7; g.draw(5)               # Atraxa ETB ~5 cards
+                g.avail -= 7
+                if select:
+                    _atraxa_etb(g, powmap, 2 if g.has("Panharmonicon") else 1)
+                else:
+                    g.draw(5)                            # original flat model
             more = True
             while more:
                 more = False
@@ -141,7 +212,24 @@ def goldfish_kill(library, commander, index, powmap, rng):
                         g.cast(nm, cmc); board += pw(nm); ncre += 1; more = True
                         break
 
+        # --- end of turn: discard to hand size (None = no max). Discarded fats
+        #     fall to the yard = reanimation fuel (so the cap isn't pure downside). ---
+        if hand_cap is not None and len(g.hand) > hand_cap:
+            ranked = sorted(range(len(g.hand)),
+                            key=lambda i: _pri(g.hand[i][0], g.hand[i][1], powmap))
+            for i in ranked[:len(g.hand) - hand_cap]:
+                nm, rec = g.hand[i]
+                if "creature" in rec["type_line"].lower() and pw(nm) >= 5:
+                    yard_fat.append(pw(nm))
+            keep = set(ranked[len(g.hand) - hand_cap:])
+            g.hand = [g.hand[i] for i in sorted(keep)]
+
     return tbl.decap, tbl.table
+
+
+def _run(library, commander, index, powmap, trials, cfg):
+    rng = random.Random(SEED)
+    return [goldfish_kill(library, commander, index, powmap, rng, cfg) for _ in range(trials)]
 
 
 def mode_clock(index, aliases, trials):
@@ -150,9 +238,7 @@ def mode_clock(index, aliases, trials):
     print("    Finale burst (X>=10, drawn-only) vs reanimator/combat board, earliest wins.\n")
     library, commander = slc.load_parsed(NEW, index, aliases)
     powmap = _powmap(library, commander)
-    rng = random.Random(SEED)
-    res = [goldfish_kill(library, commander, index, powmap, rng) for _ in range(trials)]
-
+    res = _run(library, commander, index, powmap, trials, None)
     print("  P(kill <= turn T) %".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
     print(slc.row("decap (one opponent, 40)", slc.cum(res, 0, SHOW), SHOW))
     print(slc.row("table (all three, 120)", slc.cum(res, 1, SHOW), SHOW))
@@ -160,8 +246,33 @@ def mode_clock(index, aliases, trials):
     never_t = 100.0 * sum(1 for _, t in res if t is None) / trials
     print(f"\n  median decap {slc.median(res, 0)}   median table {slc.median(res, 1)}"
           f"   ·   never-in-{TURNS}: decap {never_d:.0f}% / table {never_t:.0f}%")
-    print(f"\n  Claimed in Summary: Goldfish T6-8. Front-edge T6 decap odds above are the test.")
+
+
+def mode_levers(index, aliases, trials):
+    print(f"\n### LEVERS — Atraxa-selection sensitivity + build levers   trials={trials} seed={SEED}")
+    print("    Tests whether modelling Atraxa's reveal-10 selection (the Glarb lesson) +")
+    print("    build levers move GD's clock. decap = first opp dead.\n")
+    library, commander = slc.load_parsed(NEW, index, aliases)
+    powmap = _powmap(library, commander)
+    crater_lib = slc.build_lib(library, index, ["Finale of Devastation"], ["Craterhoof Behemoth"])
+    full = {"select": True, "repeat": True}
+    rows = [
+        ("baseline (flat draw-5, no cap)", library, None),
+        ("+Atraxa select-10 (best/type)", library, {"select": True}),
+        ("+repeat ETBs (flicker/Panharm)", library, full),
+        ("  ^ + hand cap 7 (realistic)", library, {**full, "hand_cap": 7}),
+        ("  ^ + MORE RAMP (+2 mana/turn)", library, {**full, "extra_ramp": 2}),
+        ("  ^ + CRATERHOOF (-Finale)", crater_lib, {**full, "craterhoof": True}),
+    ]
+    print("  variant".ljust(38) + "".join(f"{t:>6}" for t in SHOW) + "   median   never12")
+    for tag, lib, cfg in rows:
+        res = _run(lib, commander, index, powmap, trials, cfg)
+        nd = 100.0 * sum(1 for d, _ in res if d is None) / trials
+        print(slc.row(tag, slc.cum(res, 0, SHOW), SHOW)
+              + f"   {slc.median(res, 0):>5}   {nd:4.0f}%")
+    print("\n  Read: baseline vs +select/+repeat = the Atraxa under-model cost; the indented")
+    print("  rows are levers ON the full Atraxa model (hand-cap delta = value of no-max-hand).")
 
 
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers}, default_trials=40000)
