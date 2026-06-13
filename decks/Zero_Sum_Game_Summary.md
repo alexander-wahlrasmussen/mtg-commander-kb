@@ -82,8 +82,8 @@ Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert b
 
 - Decklist: `decks/zero-sum-game-20260611.txt` (100 cards: 99 + commander; counted 2026-06-11)
 - Proposal: `proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07)
-- Build readiness / donor analysis: `proposals/Witherbloom_Build_Readiness_2026-06-11.md`
-- Source list: `proposals/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
+- Build readiness / donor analysis: `archive/proposals/Witherbloom_Build_Readiness_2026-06-11.md` (archived 2026-06-13 — deck is built)
+- Source list: `archive/old_decklists/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
 - Clock lab: `scripts/wb_clock_lab.py` (clock / gcswap / avail modes)
 - Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**)
 - Card text: all combo pieces, igniters, and tutors verified via `card_lookup.py` (2026-06-01 / 06-07 / 06-11 logs in the proposal and readiness docs)

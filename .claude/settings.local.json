@@ -62,7 +62,14 @@
       "PowerShell(python scripts/delay_lab.py --trials 20000)",
       "PowerShell(git add scripts/delay_lab.py proposals/Delay_Lab_Disruption_Analysis_2026-06-12.md proposals/Candidate_Bakeoff_Verdict_2026-06-12.md)",
       "Bash(PYTHONIOENCODING=utf-8 python -)",
-      "PowerShell(git add scripts/delay_lab.py proposals/Delay_Lab_Disruption_Analysis_2026-06-12.md)"
+      "PowerShell(git add scripts/delay_lab.py proposals/Delay_Lab_Disruption_Analysis_2026-06-12.md)",
+      "Bash(sort -k6)",
+      "Read(//c/Users/Alex/Projects/decks/**)",
+      "Read(//c/Users/Alex/Projects/archive/**)",
+      "Bash(exit 1)",
+      "PowerShell(git -C C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb log --oneline -- scripts/ct_speed_lab.py)",
+      "PowerShell(git -C C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb log --oneline --all -- \"proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-10.md\")",
+      "PowerShell(cd C:\\\\Users\\\\Alex\\\\Projects\\\\mtg-commander-kb; $env:PYTHONUTF8=1; $env:PYTHONIOENCODING=\"utf-8\"; python scripts/ct_speed_lab.py --mode clock 2>&1 | Select-String -NotMatch \"Loading card data\")"
     ]
   }
 }

@@ -58,7 +58,6 @@ Flagged for consideration, not yet built:
 - Hashaton, Scarab's Fist (Esper) — proposal at `proposals/PROP_Hashaton_Scarabs_Fist.md`
 - Najeela
 - Hinata
-- Korvold
 - Krark + Sakashima (pairs / partner shell)
 
 Before building: verify no mechanical overlap with existing roster (see `REF_Bracket_3_House_Rules.md` — Mechanical distinctiveness is a hard filter).
