@@ -60,10 +60,7 @@ proposals (Godo, Urza, Kinnan, Thrasios, Korvold, Clive-ext, Kefka-ext) are in
 | `Grand_Design_Speed_Curve_Analysis.md` | `The_Grand_Design_Summary.md` |
 | `Replication_Crisis_Speed_Curve_Analysis.md` | RC Summary + `Pod_Matchup_Matrix.md` |
 | `Lightning_War_Speed_Curve_Analysis.md` | `Framework_Clock_Gap` |
-| `Grand_Design_ETB_Disruption_Pass_2026-06-09.md` | `Pod_Matchup_Matrix.md` |
-| `Grand_Design_Finisher_Upgrade_2026-06-08.md` | `The_Grand_Design_Summary.md` |
-| `Grand_Design_Ramp_Upgrade_2026-06-13.md` | `The_Grand_Design_Summary.md` (mana-gated → ramp lever; 5-for-5, T10→T9; stacks with the finisher proposal) |
-| `Grand_Design_Mana_Fixing_Pass_2026-06-09.md` | `Pod_Matchup_Matrix.md` |
+| `Grand_Design_Upgrade_2026-06-13.md` | `The_Grand_Design_Summary.md` — **the single canonical GD upgrade** (7-for-7 ramp + diversified finisher, T10→T9; supersedes the Finisher/ETB/Mana passes, now in `archive/proposals/`) |
 | `Genome_Project_Clock_Lab_2026-06-10.md` | `The_Genome_Project_Summary.md` |
 | `Diminishing_Returns_Clock_Lab_2026-06-10.md` | `Diminishing_Returns_Summary.md` |
 | `Eldrazi_Stampede_Clock_Lab_2026-06-13.md` | `Eldrazi_Stampede_Chaos_Summary.md` |

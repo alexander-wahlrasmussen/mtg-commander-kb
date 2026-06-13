@@ -1,5 +1,9 @@
 # The Grand Design — Finisher-Redundancy Optimization Pass
 
+> **ARCHIVED / SUPERSEDED 2026-06-13** by the single canonical GD upgrade
+> (`proposals/Grand_Design_Upgrade_2026-06-13.md`), which folds Craterhoof in as swap #6 of a
+> lab-validated 7-for-7 (ramp + diversified finisher). Kept for the finisher-fragility analysis.
+
 **Date:** 2026-06-08
 **Trigger:** The speed-curve analysis (`Grand_Design_Speed_Curve_Analysis.md`) found the 2026-05-02 swaps were speed-neutral and reliability-mixed. Follow-up ask: the deck leans on **one** finisher (Finale of Devastation) — add redundancy — plus evaluate the pod's "no maximum hand size" suggestion. Enabled by **The Loam Cycle being dismantled** (Craterhoof frees to Grand Design at $0; a few Loam cards go to Calamity Tax).
 **Card text verified** via `card_lookup.py` for every add/cut. **GC checked** (`REF_Game_Changers_List.md`): all adds are non-GC; deck stays **3/3** (Force of Will, Rhystic Study, Cyclonic Rift). **Cross-deck/ownership checked** against `moxfield_haves_2026-06-07-1031Z.csv` + `decks/*.txt`.

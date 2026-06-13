@@ -1,5 +1,9 @@
 # The Grand Design — ETB Disruption / ETB-Tutor Optimization Pass
 
+> **ARCHIVED / SUPERSEDED 2026-06-13.** GD's upgrade is consolidated into the single canonical
+> proposal (`proposals/Grand_Design_Upgrade_2026-06-13.md`, the lab-validated ramp + finisher
+> 7-for-7). This ETB-disruption direction was not adopted. Kept for history.
+
 **Date:** 2026-06-09
 **Ask:** Add **creatures that trigger on ETB — tutoring or control** — to disrupt the arch-enemy's plan *while* we build ours. The clock is what it is; trading a slot for proactive disruption is acceptable if it's engine-findable.
 **Card text verified** via `card_lookup.py` for every add and cut. **GC checked** (`REF_Game_Changers_List.md`): all adds are non-GC; deck stays **3/3** (Force of Will, Rhystic Study, Cyclonic Rift). **Ownership / cross-deck** checked against `moxfield_haves_2026-06-07-1031Z.csv` + `decks/*.txt`. **Reskin check**: none of the adds are UB reskins. **Count:** 4-for-4 → 100 held.

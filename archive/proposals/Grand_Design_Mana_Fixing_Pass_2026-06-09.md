@@ -1,5 +1,9 @@
 # The Grand Design — Mana-Fixing Pass (Resolved: Measurement Artifact, No Land Changes)
 
+> **ARCHIVED 2026-06-13.** A closed analysis (the 39% colour-floor was a sim bug; no land
+> changes). GD's live plan is the single canonical upgrade
+> (`proposals/Grand_Design_Upgrade_2026-06-13.md`). Kept for the bug-fix record.
+
 **Date:** 2026-06-09
 **Ask:** Execute the mana-fixing pass the Pod Matchup Matrix flagged as higher priority than any card swap ("Fix Grand Design's mana base — 39% all-colours-from-lands by T6").
 **Result:** **The pass is closed with zero land changes.** The 39% figure was a **simulator measurement artifact**, not a deck flaw. The model was fixed in `deck_sim.py`; under the corrected model the deck's colour floor is **89–90% by T6** — among the roster's healthy bases. The matrix's recommendation #2 is retracted, and the freed priority goes back to the merged ETB/finisher build.
