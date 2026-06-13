@@ -10,7 +10,7 @@
 | **Bracket** | 3 (0 Game Changers) |
 | **Game Changers** | None — 0/3 used |
 | **Conversion Check** | **15/20** (4/3/3/5) |
-| **Kill Window** | Goldfish: T8–10 · Through interaction: T11–14 *(unverified — no lab run; flagged 2026-06-10 per `proposals/Framework_Clock_Gap_2026-06-09.md`)* |
+| **Kill Window** | **Clock: T8 decap** (median; goldfish **ceiling** — see caveat) **/ T11 table** (lab 2026-06-13, `bmf_clock_lab.py`) · Through interaction: slower, T11–14 *(unverified — goldfish only)*. **Ceiling caveat:** the goldfish dumps the deck's ~15 interaction pieces proactively for Bumbleflower triggers; the real control deck holds them up and closes slower. Willbreaker theft is goldfish-invisible. See `proposals/Ms_Bumbleflower_Clock_Lab_2026-06-13.md`. |
 
 -----
 

@@ -11,7 +11,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
 | The Calamity Tax       | Glarb, Calamity's Augur     | Sultai |     18/20 | Control / tax               | Elite (Clock T13 decap / table rarely in 14 — mana-gated strict goldfish, "T7–9" falsified; lab 2026-06-13) |
 | Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13) |
-| The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08)                                        |
+| The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
 | Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite (Clock T8 decap / T12 table, lab 2026-06-13)              |
 | Diminishing Returns    | Teysa Karlov                | Orzhov |     17/20 | Aristocrats                 | Elite (audited 2026-05-13)                                        |
@@ -20,7 +20,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite (Clock T11 decap / T13 table, lab 2026-06-13)              |
 | Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     18/20 | Spirits / graveyard cycling | Elite (Clock T8 decap / T10 table, lab 2026-06-13)              |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                                                             |
-| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30)                                       |
+| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30; Clock T8 decap ceiling / T11 table, lab 2026-06-13) |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
 | Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |  not audited | Lifeloop combo / spellslinger-drain | **Cards on order** (built 2026-06-11; Clock T9 decap=table, lab 2026-06-11) |

@@ -51,8 +51,8 @@ the slow decks. Kill-shape prediction is the pre-registered prior (Stage 1 of th
 | 6 | Earthbend the Meta | Toph (Naya) | T7–9 | artifact stompy → combat focus-fire → diverge | ✅ DONE — decap T8 / table T12 (`ebm_clock_lab.py`, 2026-06-13); decap claim ~held (T7=34% front edge), correction is decap/table conflation; **diverge prediction held** (focused AWBO+combat outran the converge ping) |
 | 7 | Lorehold Spirits | Quintorius (Boros) | T7–9 | Goblin Bombardment combo (ping) + spirits → combo converge / combat diverge | ✅ DONE — decap T8 / table T10 (`lor_clock_lab.py`, 2026-06-13); **decap claim held** (matches avg-T8, T7=46%), correction is decap/table split (2-turn gap); combo+Purphoros converge tightens it; Karmic Guide echo-not-persist text fixed |
 | 8 | The Calamity Tax | Glarb (Sultai) | T7–9 | X-drain (Exsanguinate) + Kokusho reanimator → mana-gated; speed-curve done, no kill-turn clock | ✅ DONE — decap T13 / table rarely-in-14 (`ct_speed_lab.py`, 2026-06-13); **"T7–9" falsified, biggest miss** (hard mana-gated, strict floor excl. Seedborn); 4-version bake-off, none up to par → stay V1, different direction needed |
-| 9 | Ms. Bumbleflower | Ms. Bumbleflower (Bant) | T8–10 | spellslinger tempo, evasive/Jolrael alpha → combat diverge | ❌ TODO |
-| 10 | The Dark Lord's Army | Sauron (Grixis) | T8–10 | go-wide tokens / The Ring → combat focus-fire → diverge | ❌ TODO |
+| 9 | Ms. Bumbleflower | Ms. Bumbleflower (Bant) | T8–10 | spellslinger tempo, evasive/Jolrael alpha → combat diverge | ✅ DONE — decap T8 ceiling / table T11 (`bmf_clock_lab.py`, 2026-06-13); decap claim corroborated but as a CEILING (goldfish dumps interaction proactively; real control deck slower); combat-diverge held; Willbreaker theft goldfish-invisible |
+| 10 | The Dark Lord's Army | Sauron (Grixis) | T8–10 | go-wide tokens / The Ring → combat focus-fire → diverge | ✅ DONE — decap T8–10 / table T11–15 by pod tempo (typical T9/T12) (`dla_clock_lab.py`, 2026-06-13); **opponent-driven engine — modelled vs pod-activity, not goldfish**; claim well-corroborated; kills faster vs active pods; drain converge + Army focus |
 
 **Scope note (2026-06-13):** rows 3 (Lightning War) and 8 (Calamity Tax) already
 have *speed-curve* labs (`lw_speed_lab.py`, `ct_speed_lab.py`) but those measured
@@ -251,6 +251,31 @@ Each entry: date · deck · what ran · result vs claim · direction · doc.
   improvement direction needed (not these swaps), deferred to a later session.** No card-text errors.
   Wrote `proposals/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`; updated Summary + Deck_Index. **Sweep
   TODO/PARTIAL now: 2 left (Ms. Bumbleflower, The Dark Lord's Army).**
+- **2026-06-13** — **Deck 9: Ms. Bumbleflower.** Built `bmf_clock_lab.py`. Claim "T8–10" decap
+  **corroborated but as a CEILING** — decap median **T8** (T7 = 38%), in-band, front edge ~holds
+  (4th non-optimistic front edge). **table median T11** (3-turn diverge = the deck's "out-values,
+  under-closes" identity). **Inverse-of-LW caveat:** the goldfish *over-credits* this control deck
+  by dumping its ~15 interaction pieces proactively for Bumbleflower triggers (counters/Cats/Jolrael
+  hand-size); real play holds them up → slower than T8. Jolrael alpha ({4}{G}{G}, board → X/X, X =
+  hand, Reliquary Tower = big hand) is the decap; Willbreaker theft is goldfish-invisible (no opp
+  board). Combat-diverge prediction held. No card-text errors. No swaps; 15/20 stands. Wrote
+  `proposals/Ms_Bumbleflower_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index. Next: row 10,
+  The Dark Lord's Army (last).
+- **2026-06-13** — **Deck 10: The Dark Lord's Army — SWEEP COMPLETE.** Built `dla_clock_lab.py`.
+  **Unique: the engine is OPPONENT-DRIVEN** (Sauron amasses on opp spells; Sheoldred/Underworld
+  Dreams/Bowmasters drain on opp draws; Wound Reflection doubles their loss) — a self-contained
+  goldfish would show "never" and misrepresent it, so modelled vs an explicit **pod-activity
+  assumption** (like `delay_lab.py`), at LOW/MID/HIGH tempo. **decap T8–10 / table T11–15 by
+  tempo** (typical MID: decap T9 / table T12). **Claim "T8–10 / interaction T10–12" well-
+  corroborated** — among the LEAST-falsified in the sweep; new finding is the tempo-dependence
+  (kills FASTER vs active pods — the amass/drain feed on opponents) + the decap/table split.
+  Drain hit_all (converge, the win) + Army voltron focus (decap). vs the documented spell-dense
+  Abolisher pod it's at its fastest (T8/T11) but still out-grinds rather than races (19/20 = its
+  Durability/Interaction). No card-text errors; no swaps; 19/20 stands. Wrote
+  `proposals/Dark_Lords_Army_Clock_Lab_2026-06-13.md`; updated Summary + Deck_Index.
+
+**SWEEP COMPLETE — all active roster decks carry a measured kill-turn clock.** See the RANKING +
+closing note below.
 
 ---
 
@@ -267,21 +292,46 @@ clock then never-in-12. `—` = not yet measured. Final deliverable of the campa
 | 4 | The Exile's Return | T8 (med) | T10 | — | 17/20 | combat focus-fire |
 | 5 | Lorehold Spirits | T8 | T10 | 15% | 18/20 | MIXED: Quintorius−4+anthem combat & Balefire focus decap / Purphoros hit-all + GB combo kill_all table (+2 gap) |
 | 6 | Curse of the Scarab | T8 | T11 | 9% | 17/20 | combat decaps / Scarab+Gary drain tables (mixed; **decap claim held**) |
-| 7 | Earthbend the Meta | T8 | T12 | ~30% | 17/20 | MIXED→diverge: AWBO+combat focus decap / Purphoros+Tremors hit-all ping tables (snowball) |
-| 8 | Eldrazi Stampede Chaos | T8 | T12 | 33% (v2) | 14/20 | combat focus-fire / Craterhoof alpha (amplifiers: tail only) |
-| 9 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
-| 10 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
-| 11 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
-| 12 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
-| 13 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
-| 14 | The Calamity Tax | T13 | never (>T14) | ~69% | 18/20 | mana-gated converge drain (**strict floor excl. Seedborn — real clock faster but not T7–9; "T7–9" falsified**) |
-| ? | Ms. Bumbleflower | — | — | — | 15/20 | TBD |
-| ? | The Dark Lord's Army | — | — | — | 19/20 | TBD |
+| 7 | Ms. Bumbleflower | T8 | T11 | 18% | 15/20 | combat focus (Jolrael alpha) — **decap a goldfish ceiling** (proactive interaction dump); Willbreaker theft invisible |
+| 8 | Earthbend the Meta | T8 | T12 | ~30% | 17/20 | MIXED→diverge: AWBO+combat focus decap / Purphoros+Tremors hit-all ping tables (snowball) |
+| 9 | Eldrazi Stampede Chaos | T8 | T12 | 33% (v2) | 14/20 | combat focus-fire / Craterhoof alpha (amplifiers: tail only) |
+| 10 | Zero-Sum Game | T9 | T9 | — | n/a | lifeloop (converge) |
+| 11 | The Dark Lord's Army | T9 | T12 | 42% | 19/20 | **opponent-driven** — drain hit-all (converge) + Army focus; tempo-dependent (decap T8–10 / table T11–15; kills faster vs active pods) |
+| 12 | Diminishing Returns | T9 | T12+ | — | 17/20 | aristocrat drain |
+| 13 | Lightning War | T9 | ~T13 | 40% | 19/20 | burn chip + X-spell fork (**strict goldfish; tempo/disruption understated — real clock faster**) |
+| 14 | The Grand Design | T10 (med) | T12+ | — | 19/20 | combat (96%) |
+| 15 | Crystal Sickness | T11 | T13 | 34% (upper bd) | 17/20 | artifact drain + Tezzeret (converge) / combat decap (mixed) |
+| 16 | The Calamity Tax | T13 | never (>T14) | ~69% | 18/20 | mana-gated converge drain (**strict floor excl. Seedborn — real clock faster but not T7–9; "T7–9" falsified**) |
 
-**Reading the ranking (closing note, write when complete):** the framework's whole
-thesis is that this column order and the Score column disagree. Once full, summarize
-where score and clock most diverge (a high-score / slow-clock fortress is the
-signature gap), and which decks clear the **decap T≤7 pod bar**.
+**Reading the ranking — the framework's thesis confirmed.** The clock order and the Score
+column disagree, and the disagreement is systematic:
+
+- **Only 3 decks clear the decap-T≤7 pod bar** — Genome (15/20), Radiation (18/20),
+  Replication (17/20) — and **not one is a top-score (19/20) deck.** The fastest racers are
+  mid-scored; the highest-scored decks are the slowest.
+- **The four 19/20 decks all sit in the slow half:** Lightning War (T9/~T13), Dark Lord's Army
+  (T9/T12), The Grand Design (T10/T12+), and the 18/20 Calamity Tax is dead last (T13/never).
+  These are the **high-score / slow-clock fortresses** — the signature gap. They score on
+  Durability + Interaction (grind/inevitability), which the Conversion Check rewards, but they
+  do **not** race.
+- **No deck both races (decap T≤7) and scores 19/20.** Speed and Conversion-Check score are
+  anti-correlated at the top: the rubric's "best" decks win by out-grinding, not out-racing —
+  which is precisely why a T6–7 combo pod behind Grand Abolisher is the roster's hard matchup
+  (nothing out-races it, and even the fast decap decks table at T10+). The framework's founding
+  claim — score and clock are uncorrelated in the 15–19 band — is borne out: a 14/20 (Eldrazi)
+  and an 18/20 (Lorehold) share the same T8 decap, while 19/20s span T9–T13.
+- **Read the caveats, not just the column:** Lightning War + Calamity Tax are penalized by
+  strict-goldfish floors (no Seedborn/disruption modelled → real clocks faster); Dark Lord's
+  Army is tempo-dependent (faster vs active pods); Bumbleflower's decap is a proactive-cast
+  ceiling. The order is by **decap median**; the Kill shape column carries the real texture.
+
+**Sweep complete (2026-06-13):** 16 active decks, all clock-labbed. 7 of the 8 hand-estimated
+windows tested came back optimistic on the *single number* (the recurring decap/table
+conflation), but the *decap* front edge held for CoS / Earthbend / Lorehold / Bumbleflower /
+Dark Lord's Army (5 of the last 6) — the optimism is concentrated in conflating decap with table
+and in true outliers (Calamity Tax "T7–9" → T13). Process wins banked: the producer-inventory
+WF step, the commander-mana-gate gotcha, and the "hit_all doesn't converge if a focused axis
+leads" shape rule.
 
 ---
 
