@@ -7,8 +7,8 @@
 | **Commander** | The Wise Mothman (Sultai, BUG) |
 | **Colors** | Sultai (BUG) |
 | **Archetype** | Proliferate / +1/+1 Counters / Rad Counters |
-| **Bracket** | 3 (3 Game Changers used; 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns) |
-| **Game Changers** | Seedborn Muse, Vampiric Tutor, Cyclonic Rift (3 of 3 slots used) |
+| **Bracket** | 3 — ⚠️ **currently 4 GCs (over cap)**; 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns |
+| **Game Changers** | ⚠️ **4/3 VIOLATION** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift **+ Survival of the Fittest** (GC #45, previously uncounted). Fix in `proposals/Radiation_Sickness_Upgrade_2026-06-13.md` (cut Survival → legal 3/3). |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
 | **Kill Window** | Clock: **T10 table-win** (median; T6 ≈ 1%, T9 ≈ 49%) / **T7 decap** one opponent (lab 2026-06-13, `rs_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified)*. The old "Goldfish T6–9" was optimistic for the actual win: this deck's kills (combo / Simic / Triumph) are whole-table kills, and the table median is T10. The "T5–6 combo" is a god-hand (1–4% by T7). See `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md` |
 
@@ -146,7 +146,14 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 
 ## Bracket 3 Compliance
 
-**Game Changers (3/3):**
+> ⚠️ **GC-cap violation (flagged 2026-06-13).** The deployed maindeck actually runs **four**
+> Game Changers — the three below **plus Survival of the Fittest** (GC #45), which this section
+> previously mislabeled as a non-GC tutor. Bracket 3 caps GCs at 3, so the deck is currently
+> illegal. Fix = cut Survival of the Fittest (back to legal 3/3); see
+> `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`. Not yet applied (per house rule: flag
+> the cap, let the user choose the cut).
+
+**Game Changers (⚠️ actually 4/3 — see note above):**
 1. Seedborn Muse — untaps all permanents on each opponent's turn; enables Contagion Engine/Viral Drake/Karn's Bastion activation 3x per turn cycle
 2. Vampiric Tutor — 1-mana instant tutor; finds combo pieces (Mindcrank, Bloodchief, Doubling Season) or interaction on demand. Replaced Fierce Guardianship 2026-05-13 to accelerate combo assembly
 3. Cyclonic Rift — asymmetric board reset

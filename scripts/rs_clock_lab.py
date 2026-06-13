@@ -80,7 +80,7 @@ def poison_distribute(tbl, infect_total, T):
     tbl._update(T)
 
 
-def goldfish_kill(library, commander, index, powmap, rng):
+def goldfish_kill(library, commander, index, powmap, rng, mills=False):
     def pw(nm):
         return powmap.get(nm.lower(), 1)
 
@@ -88,6 +88,7 @@ def goldfish_kill(library, commander, index, powmap, rng):
     tbl = slc.Table()
     mothman = vorinclex = tekuthal = doubling = seedborn = False
     simic = bloodchief = mindcrank = False
+    ruin_crab = hedron_crab = altar = sidisi = False   # discrete mill producers (mills=True only)
     n_mult = 0                       # multiplicative creature-counter doublers (Branching/Corpsejack/DS)
     prolif = set()
     rad = 0.0                        # rad counters per opponent (symmetric)
@@ -100,6 +101,7 @@ def goldfish_kill(library, commander, index, powmap, rng):
     def deploy(nm, rec):
         nonlocal vorinclex, tekuthal, doubling, seedborn, simic, bloodchief, mindcrank
         nonlocal n_mult, new_board, new_cre, rad
+        nonlocal ruin_crab, hedron_crab, altar, sidisi
         low = nm
         if nm == "Vorinclex, Monstrous Raider":
             vorinclex = True; n_mult_inc()
@@ -119,6 +121,14 @@ def goldfish_kill(library, commander, index, powmap, rng):
             mindcrank = True
         elif nm in PROLIF_PERM:
             prolif.add(nm)
+        elif nm == "Ruin Crab":
+            ruin_crab = True
+        elif nm == "Hedron Crab":
+            hedron_crab = True
+        elif nm == "Altar of the Brood":
+            altar = True
+        elif nm == "Sidisi, Brood Tyrant":
+            sidisi = True
         if "creature" in rec["type_line"].lower():
             new_board += pw(nm); new_cre += 1
 
@@ -161,7 +171,8 @@ def goldfish_kill(library, commander, index, powmap, rng):
                             and not ds.is_land(r)
                             and (nm in PROLIF_PERM or "creature" in r["type_line"].lower()
                                  or nm in ("Doubling Season", "Branching Evolution",
-                                           "Simic Ascendancy", "Bloodchief Ascension", "Mindcrank"))),
+                                           "Simic Ascendancy", "Bloodchief Ascension", "Mindcrank")
+                                 or (mills and nm == "Altar of the Brood"))),
                            key=lambda x: x[1])
             for i, cmc, nm in cands:
                 if g.avail >= cmc:
@@ -203,6 +214,23 @@ def goldfish_kill(library, commander, index, powmap, rng):
             board += placed * m_cre
             if simic:
                 growth += placed * m_perm
+        # discrete mill producers -> extra Mothman counter-fuel (mills=True only).
+        # These are separate mill EVENTS (your-turn landfall / ETB / attack), each its
+        # own Mothman trigger, so not double-counting the rad mill above. Models the
+        # un-modelled-producer caveat from the 2026-06-13 rs producer re-check.
+        if mills and mothman and ncre:
+            extra = 0.0
+            if ruin_crab:          extra += 3        # landfall mill 3, ~1 land/turn
+            if hedron_crab:        extra += 3        # landfall mill 3 (proposed add)
+            if altar:              extra += 1.5      # ~perm-ETB/turn, mills each opp 1
+            if sidisi and T > 1:   extra += 3        # ETB + attack self-mill 3 (proposed add)
+            en = extra * NONLAND
+            placed_x = min(ncre, en)
+            board += placed_x * m_cre
+            if simic:
+                growth += placed_x * m_perm
+            if sidisi and T > 1:                     # zombies off creature cards self-milled (~18%)
+                board += 3 * 0.18 * m_cre
         # quest accrual: opponents losing 2+ life
         if bloodchief and life_each >= 2:
             quest += m_perm * 2 if quest >= 1 else m_perm  # first counter, then doubles
@@ -250,5 +278,47 @@ def mode_clock(index, aliases, trials):
     print("\n  Claimed in Summary: Goldfish T6-9. Front-edge T6 odds above are the test.")
 
 
+# --- 2026-06-13 upgrade test: GC-fix + Loam synergy adds -----------------------
+# Proposed 3-for-3 (resolves the 4-GC violation, stays 100, stays 3/3):
+#   OUT Survival of the Fittest (GC #4 — the violation) / IN Sylvan Library (non-GC selection)
+#   OUT Generous Patron (draw fires only off opp creatures — rare here)  / IN Hedron Crab (landfall mill 3)
+#   OUT Guardian Project (tokens don't trigger it; go-wide anti-synergy)  / IN Sidisi, Brood Tyrant (mill 3 + zombies)
+UPG_OUT = ["Survival of the Fittest", "Generous Patron", "Guardian Project"]
+UPG_IN = ["Sylvan Library", "Hedron Crab", "Sidisi, Brood Tyrant"]
+
+
+def _run(label, library, commander, index, powmap, trials, mills):
+    rng = random.Random(SEED)
+    res = [goldfish_kill(library, commander, index, powmap, rng, mills=mills)
+           for _ in range(trials)]
+    never_d = 100.0 * sum(1 for d, _ in res if d is None) / trials
+    never_t = 100.0 * sum(1 for _, t in res if t is None) / trials
+    print(slc.row(label + " · decap", slc.cum(res, 0, SHOW), SHOW))
+    print(slc.row(label + " · table", slc.cum(res, 1, SHOW), SHOW))
+    print(f"      -> median decap {slc.median(res, 0)} / table {slc.median(res, 1)}"
+          f"   never-{TURNS}: decap {never_d:.0f}% / table {never_t:.0f}%\n")
+
+
+def mode_upgrade(index, aliases, trials):
+    print(f"\n### UPGRADE — RS GC-fix + Loam synergy adds   trials={trials} seed={SEED}")
+    print(f"    OUT {UPG_OUT}\n    IN  {UPG_IN}\n")
+    base, commander = slc.load_parsed(DECK, index, aliases)
+    prop = slc.build_lib(base, index, UPG_OUT, UPG_IN)
+    pm_base = _powmap(base, commander)
+    pm_prop = _powmap(prop, commander)
+
+    print("  P(kill <= turn T) %".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
+    print("  -- committed model (what the coarse clock sees) -----------------------")
+    _run("baseline", base, commander, index, pm_base, trials, mills=False)
+    _run("proposed", prop, commander, index, pm_prop, trials, mills=False)
+    print("  -- producer-faithful model (Ruin/Hedron Crab+Altar+Sidisi -> Mothman) -")
+    _run("baseline+mills", base, commander, index, pm_base, trials, mills=True)
+    _run("proposed+mills", prop, commander, index, pm_prop, trials, mills=True)
+    print("  NOTE: table-win clock is the rad-drain hit_all (creature-count-INDEPENDENT),")
+    print("  so adds move the DECAP/tail, not the table median — see the 2026-06-13 producer")
+    print("  re-check. Sylvan selection + the GC-legality/free-counter fork are OFF-clock")
+    print("  (goldfish models no card-selection or interaction) — judged, not measured.")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "upgrade": mode_upgrade}, default_trials=40000)
