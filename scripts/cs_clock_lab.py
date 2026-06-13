@@ -131,6 +131,7 @@ class Trial:
         self.tok_cre = 0             # Thopter/Myr/bonus token creatures (matured)
         self.new_tok = 0             # created this turn (summoning sick)
         self.entered = 0             # artifacts entered this turn (surveil/dig depth)
+        self.cum_entered = 0         # ALL artifacts entered so far (compound-dig depth)
         self.draws = 0               # engine draws this turn (capped)
 
     # -- draw / artifact entry ----------------------------------------------
@@ -160,11 +161,27 @@ class Trial:
         if self.gen_clue:
             self.art_enter(self.gen_clue)           # Clues: artifacts, not creatures
 
-    def dig_for_fatty(self):
+    def dig_for_fatty(self, dig="current"):
         """Surveil/loot/self-sac proxy: scan a window scaled by artifacts entered;
-        pull a drain bomb into the yard. More artifacts -> more surveil -> more digs."""
+        pull a drain bomb into the yard. More artifacts -> more surveil -> more digs.
+
+        dig sensitivity regimes (2026-06-13 test of the surveil-modelling hunch):
+          off      — no surveil/loot dig at all; bombs reach yard ONLY via the
+                     explicit hand-seed lines (Dreadnought self-sac / Troll
+                     swampcycle drawn to HAND). Lower bound = "selection unmodelled".
+          current  — PUBLISHED model: per-turn window of (entered+1) cards from the
+                     top, NON-compounding (resets each turn). What the T11/T13 used.
+          compound — surveil-binning compounds: every dud you've ever binned is gone
+                     from the top, so the effective dig depth is CUMULATIVE surveils.
+                     Upper bound = "you aggressively bin to dig and never reset"."""
         g = self.g
-        depth = min(self.entered + 1, 12)
+        if dig == "off":
+            return
+        if dig == "compound":
+            self.cum_entered += self.entered
+            depth = min(self.cum_entered + 1, 24)
+        else:
+            depth = min(self.entered + 1, 12)
         i = g.ptr
         end = min(len(g.deck), g.ptr + depth)
         while i < end:
@@ -189,7 +206,7 @@ class Trial:
         return best, repeats
 
 
-def goldfish_kill(library, index, rng):
+def goldfish_kill(library, index, rng, dig="current"):
     t = Trial(library, rng, index)
     g, tbl = t.g, t.tbl
     drained_once = False
@@ -317,7 +334,7 @@ def goldfish_kill(library, index, rng):
                 progress = True
                 continue
 
-        t.dig_for_fatty()
+        t.dig_for_fatty(dig)
 
         # ---- COMBAT (focus-fire, decap accelerant) -----------------------------
         thop = 1 + (1 if t.master_bf else 0) + (1 if t.stride else 0)
@@ -363,5 +380,32 @@ def mode_clock(index, aliases, trials):
     print("\n  Claimed in Summary: Goldfish T7-9. Front-edge T7 odds above are the test.")
 
 
+def mode_digtest(index, aliases, trials):
+    """Sensitivity of the clock to how Golbez's SURVEIL dig is modelled.
+    Brackets the published 'current' regime between dig OFF (selection unmodelled,
+    the Glarb-lab failure mode) and dig COMPOUND (surveil-binning compounds). If
+    off ~= current ~= compound, the deck is development-gated and selection is a
+    Grand-Design-style red herring; if the spread is wide, the clock is sensitive
+    to the surveil model and the published number is fragile."""
+    print(f"\n### DIGTEST — Crystal Sickness surveil-dig sensitivity   trials={trials} seed={SEED}")
+    print("    Does modelling Golbez's surveil harder move the clock, or is the deck")
+    print("    development-gated (8 artifacts) so selection is a red herring?\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    print("  regime".ljust(14) + "  decap   table   |  T<=7 decap  T<=7 table  never-table")
+    for dig in ("off", "current", "compound"):
+        rng = random.Random(SEED)
+        res = [goldfish_kill(library, index, rng, dig=dig) for _ in range(trials)]
+        d7 = 100.0 * sum(1 for d, _ in res if d is not None and d <= 7) / trials
+        t7 = 100.0 * sum(1 for _, x in res if x is not None and x <= 7) / trials
+        nt = 100.0 * sum(1 for _, x in res if x is None) / trials
+        md = slc.median(res, 0).replace(" (never in horizon)", "")
+        mt = slc.median(res, 1).replace(" (never in horizon)", "")
+        tag = " (PUBLISHED)" if dig == "current" else ""
+        print(f"  {dig.ljust(12)}  {md:>5}   {mt:>5}   |  {d7:8.0f}%  {t7:9.0f}%  {nt:9.0f}%{tag}")
+    print("\n  Read: if 'current' sits near 'off', surveil isn't the bottleneck "
+          "(development-gated);\n  if 'compound' is much faster than 'current', the "
+          "published clock under-credits the dig.")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest}, default_trials=40000)

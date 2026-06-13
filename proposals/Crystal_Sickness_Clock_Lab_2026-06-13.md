@@ -111,6 +111,39 @@ Gadgeteer cast-trigger, etc.) held under modeling. Reconfirmed against
   that turn; it reproduces the raw card-finding probability, so it is honest about
   the bomb bottleneck rather than papering over it.
 
+## Surveil-dig sensitivity — the Glarb question (addendum 2026-06-13)
+
+Golbez **surveils 1 per artifact ETB** (verified), and surveil both filters draws
+and bins creature cards straight to the yard — i.e. it *is* the bomb-finding engine
+the drain feeds on. That is the same shape as Glarb, where **not** modelling the dig
+made the clock read T13 when reality is ~T8–10 (a 3–5-turn miss). So: is this lab's
+`dig_for_fatty` proxy hiding a faster real clock?
+
+Tested directly (`cs_clock_lab.py --mode digtest`, 40k, seed 20260613) by bracketing
+the dig from **off** (selection unmodelled — Glarb's failure mode) through the
+published **current** regime to **compound** (surveil-binning compounds across turns;
+near-guarantees an early bomb):
+
+```
+  regime        decap   table   |  T<=7 decap   never-table
+  off             T11     T13   |       6%          38%
+  current         T11     T13   |       7%          34%   (PUBLISHED)
+  compound        T10     T12   |       8%          28%
+```
+
+**The whole bracket moves the clock ≤1 turn.** This is the *opposite* of Glarb —
+the dig is **not** the binding constraint here. The deck is **development-gated, not
+finding-gated**: the kill needs 8 artifacts assembled *and* 3–4 drain cycles, so even
+when `compound` puts a bomb in the yard by ~T6, decap is still T10 (T≤7 only 8%) —
+you are waiting on the board and the drain cycles, not on finding the creature. Two
+of the three bombs (Dreadnought self-sac, Troll swampcycle) also reach the yard from
+*hand* for {1}, so natural draw seeds the drain without surveil at all — which is why
+`off` is only ~1 turn behind `current`. **Verdict: Golbez's surveil is Grand-Design-
+class smoothing, not a Glarb-class lever; the published T11/T13 is robust to the
+surveil model.** (Principle confirmed: selection moves the clock only for finding-
+gated decks with a *cheap* kill — see `feedback_selection_vs_mana_gated`. Golbez's
+kill is expensive, so finding it early doesn't shorten the clock.)
+
 ## Verdict for the Summary
 
 Replace `Goldfish: T7–9 (unverified)` with:
