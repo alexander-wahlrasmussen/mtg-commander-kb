@@ -137,3 +137,57 @@ approximate. A fully-unified single-engine lab would tighten it; the robust conc
 **Build-it flags (when/if it becomes the roster deck):** GC count needs an audit — the hybrid
 carries Demonic Tutor + Field of the Dead (+ possibly others) and must stay ≤3 for the pod;
 and the 2-card Thoracle combo needs the pod Rule-0 nod.
+
+---
+
+## Follow-up (2026-06-13): UNIFIED-engine gap + GC-ceiling check + game plans
+
+### 1. Exact gap — one engine, same dig (ct_speed_lab.py --mode unified)
+All three builds run through the SAME mana model + the SAME Glarb dig knob (dig=3 = realistic).
+
+| Build (dig=3) | T6 | median decap | dig 2/3/4 sensitivity |
+|---|:--:|:--:|---|
+| Original (V1) | 3% | **T9** | T10 / T9 / T9 |
+| Reanimator (V4) | 3% | **T9** | T9 / T9 / T9 |
+| Hybrid (final) | **41%** | **T7** | T8 / T7 / T7 |
+
+**The gap is ~2 turns at the median (T7 vs T9)** — and the hybrid's T7 here matches the
+independent `glarb_hybrid_clock_lab.py` (cross-validated). The bigger story is the **front
+edge**: the hybrid threatens a kill by T6 in **41%** of games vs **3%** for the grind — it can
+actually *race*; the grind essentially never does that early. **V1 ≈ V4** — the reanimator
+swaps don't move the clock once Glarb's dig is modelled fairly.
+
+### 2. GC-ceiling check — FAIL (flag, per CLAUDE.md; not silently cut)
+The finished hybrid carries **6 Game Changers** vs the bracket-3 cap of 3 (checked against
+`REF_Game_Changers_List.md`): **Crop Rotation, Demonic Tutor, Field of the Dead, Force of Will,
+Thassa's Oracle, Vampiric Tutor**. (V1 deployed is at 3/3: Demonic Tutor, Fierce Guardianship,
+Seedborn Muse.) **Thassa's Oracle is itself a GC**, so the combo finisher alone is +1.
+
+Consequence: the hybrid as tested is a genuine **bracket-4** deck — which is consistent with it
+already being a 2-card-combo (bracket-4-in-spirit) build. Two honest paths:
+- **Play it bracket 4** (keep all 6 GCs; bracket 4 has no GC cap). The combo + free counters +
+  full tutors are a coherent bracket-4 deck. Needs the pod's bracket-4 nod.
+- **Force it into bracket 3 (≤3 GCs)** — keep Thassa's Oracle + 2 of {Vampiric, Demonic, Force
+  of Will}; cut Crop Rotation + Field of the Dead + one tutor/counter. This **slows + de-risks
+  the combo** (fewer tutors to find it, less free protection) — the T7/41%-by-T6 figures are for
+  the 6-GC build; a 3-GC-legal trim would be measurably slower/less consistent. **User decision —
+  not applied.**
+
+### 3. How the game plans differ
+- **V1/V4 (grind, one axis):** ramp to a huge mana pool (Coffers + Urborg, Nyxbloom/Beledros in
+  #3), then spend it on a board-wide drain — Torment of Hailfire at lethal X, Doppelgang/Rite on
+  Gray/Kokusho, Gray Merchant devotion. You win by *out-resourcing*: survive with Glarb value +
+  interaction, assemble ~16 mana, end the game in one big mana-sink turn (~T9). Inevitability,
+  not a race. Resilient to spot removal (the kill is board-light) but **loses the race to a T6-7
+  pod** and **folds if the mana engine (Coffers) is disrupted** — no Coffers, no kill.
+- **Hybrid (combo, two axes):** the same Glarb shell *digs toward a cheap 2-card combo* (Consult/
+  Pact + Thoracle/Jace) that wins on ~3 mana **regardless of board or mana count** (~T7, races at
+  T5-6 in ~40% of games), protected by free counters; the **grind is the backup** (Doppelgang/
+  Rite/Gray off the big mana) when the combo is hated. You win by *assembling + protecting a
+  compact combo, fast*. Independent of the 16-mana setup, so it has a real floor (doesn't brick to
+  T13 on a slow draw) and survives mana denial/wipes. Costs: **bracket-4-in-spirit + 6 GCs** (see
+  above) and folds to graveyard/exile hate on the combo turn (mitigated by the grind backup).
+
+The core swap: **mana-gated inevitability → finding-gated speed + a backup**. The hybrid is
+~2 turns faster on median, dramatically faster at the front edge, and far more resilient to a
+slow/disrupted draw — at the price of moving up a bracket.

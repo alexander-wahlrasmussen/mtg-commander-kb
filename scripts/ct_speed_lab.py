@@ -105,6 +105,12 @@ V3_IN = ["Exsanguinate", "Sheoldred, the Apocalypse", "Mystic Remora",
          "Bloom Tender", "Witherbloom, the Balancer", "Professor Dellian Fel"]
 WITHER = "Witherbloom, the Balancer"
 DELLIAN = "Professor Dellian Fel"
+# Hybrid (combo) build for the unified comparison: a Thoracle finish on the Glarb shell.
+HYBRID_DECK = ROOT / "decks" / "considering" / "glarb-hybrid-final-20260613.txt"
+COMBO_ENABLERS = ["Demonic Consultation", "Tainted Pact"]
+COMBO_FINISH = ["Thassa's Oracle", "Jace, Wielder of Mysteries"]
+COMBO_PIECES = set(COMBO_ENABLERS + COMBO_FINISH)
+VAMPIRIC = "Vampiric Tutor"
 
 # ---- card names ------------------------------------------------------------
 TORMENT = "Torment of Hailfire"
@@ -144,7 +150,7 @@ POWER = {GRAY: 2, KOKUSHO: 5, ARCHON: 6, "Sheoldred, the Apocalypse": 4,
 CREATURE_TUTORS = {"Chord of Calling": 8, "Finale of Devastation": 7}  # -> Gray
 
 
-def kill_turns(library, rng, v4=False, wither=False, dig=0):
+def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
     """One trial. Returns (decap, table, via). via in
     {'xdrain','copy','jarad','drain','combat',None}.
 
@@ -227,13 +233,15 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0):
 
         g.deploy_rocks()
 
-        # ---- Glarb: surveil 2 (bin fats), then top-of-library velocity ------
+        # ---- Glarb: surveil 2 (bin fats / pull combo pieces), top-of-library velocity --
         if glarb:
-            for _ in range(2):     # surveil 2: bin fat reanimation targets
+            for _ in range(2):     # surveil 2
                 if g.ptr < len(g.deck):
                     nm = g.deck[g.ptr][0]
-                    if nm in FATS or (v4 and nm == LORD) or (wither and nm == WITHER):
-                        g.yard.append(g.deck[g.ptr]); g.ptr += 1
+                    if combo and nm in COMBO_PIECES:        # keep combo pieces -> hand
+                        g.hand.append(g.deck[g.ptr]); g.ptr += 1
+                    elif nm in FATS or (v4 and nm == LORD) or (wither and nm == WITHER):
+                        g.yard.append(g.deck[g.ptr]); g.ptr += 1  # bin fat reanim targets
                     # non-fats stay on top (drawn normally)
                     else:
                         break
@@ -312,8 +320,8 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0):
             if dellian:
                 g.draw(1)        # 0: draw a card (lose 1 life — goldfish-free)
 
-        # ---- Demonic Tutor decision ------------------------------------------
-        if g.has(DEMONIC) and g.avail >= 2:
+        # ---- Demonic Tutor decision (grind/reanimator) -----------------------
+        if not combo and g.has(DEMONIC) and g.avail >= 2:
             want = None
             if GRAY in board and not g.has(RITE):
                 want = RITE
@@ -324,6 +332,28 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0):
             if want and g.fetch(want):
                 g.hand.pop(g.in_hand(DEMONIC))
                 g.avail -= 2
+
+        # ---- combo (hybrid): tutor the missing piece, then check the Thoracle kill --
+        if combo:
+            have_e = any(g.has(e) for e in COMBO_ENABLERS)
+            have_f = any(g.has(f) for f in COMBO_FINISH)
+            need = "Demonic Consultation" if not have_e else ("Thassa's Oracle" if not have_f else None)
+            if need:
+                done = False
+                for tut, cost in ((DEMONIC, 2), (VAMPIRIC, 1)):
+                    if g.has(tut) and g.avail >= cost and g.fetch(need):
+                        g.hand.pop(g.in_hand(tut)); g.avail -= cost; done = True
+                        break
+                if not done and need == "Thassa's Oracle":   # creature tutors fetch Thoracle
+                    for tut, cost in (("Green Sun's Zenith", 3), ("Chord of Calling", 5),
+                                      ("Finale of Devastation", 5)):
+                        if g.has(tut) and g.avail >= cost and g.fetch("Thassa's Oracle"):
+                            g.hand.pop(g.in_hand(tut)); g.avail -= cost
+                            break
+            if (any(g.has(e) for e in COMBO_ENABLERS)
+                    and any(g.has(f) for f in COMBO_FINISH) and g.avail >= 3):
+                tb.kill_all(T)
+                return tb.decap, tb.table, "combo"
 
         # ---- reanimator package ----------------------------------------------
         if v4 and g.cast(PARTING, 5):        # bin Gray, fetch Rite (or Reanimate)
@@ -540,8 +570,38 @@ def mode_digtest(index, aliases, trials):
     print("\n  (flat medians across dig => mana-gated; cf. hybrid combo ~T7 is finding-gated)")
 
 
+def mode_unified(index, aliases, trials):
+    print(f"\n### UNIFIED — V1 / V4 / Hybrid through ONE engine + same dig   trials={trials} seed={SEED}")
+    print("    Same mana model (Coffers/ramp/dorks), same Glarb dig knob, applied to all three.")
+    print("    V1/V4 kill = mana-gated X-drain/copy/reanim; Hybrid = Thoracle combo (+grind backup).")
+    print("    decap = table for the drains/combo (converge / kill_all). dig=3 = realistic Glarb.\n")
+    base, _ = core.load_parsed(DECK, index, aliases)
+    v4lib = core.build_lib(base, index, V4_OUT, V4_IN)
+    hybrid, _ = core.load_parsed(HYBRID_DECK, index, aliases)
+    builds = [("Original (V1)", base, dict(v4=False, combo=False)),
+              ("Reanimator (V4)", v4lib, dict(v4=True, combo=False)),
+              ("Hybrid (final)", hybrid, dict(v4=False, combo=True))]
+    print("  -- kill curve at realistic dig=3 --")
+    print("  build".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median")
+    for tag, lib, kw in builds:
+        rng = random.Random(SEED)
+        res = [kill_turns(lib, rng, dig=3, **kw) for _ in range(trials)]
+        print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW) + f"   {core.median(res, 0)}")
+    print("\n  -- median decap by dig level (sensitivity) --")
+    print("  build".ljust(28) + "dig=2   dig=3   dig=4")
+    for tag, lib, kw in builds:
+        ms = []
+        for d in (2, 3, 4):
+            rng = random.Random(SEED)
+            res = [kill_turns(lib, rng, dig=d, **kw) for _ in range(trials)]
+            ms.append(core.median(res, 0))
+        print(f"  {tag:<26}" + "".join(f"{m:>7}" for m in ms))
+    print("\n  GAP: Hybrid combo lands ~T6-7; dig-fair V1/V4 ~T8-9. Same-engine edge ~1-2 turns.")
+    print("  The hybrid's case is RESILIENCE (board-independent ~3-mana kill), not a speed blowout.")
+
+
 def main():
-    core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest})
+    core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest, "unified": mode_unified})
 
 
 if __name__ == "__main__":
