@@ -1,0 +1,100 @@
+1 Aetherflux Reservoir
+1 Ancient Tomb
+1 Arcane Signet
+1 Baleful Mastery
+1 Bayou
+1 Beseech the Mirror
+1 Birds of Paradise
+1 Bloodstained Mire
+1 Bloom Tender
+1 Bolas's Citadel
+1 Boseiju, Who Endures
+1 Breeding Pool
+1 Chrome Mox
+1 City of Brass
+1 Command Tower
+1 Consecrated Sphinx
+1 Counterbalance
+1 Culling Ritual
+1 Deadly Rollick
+1 Delighted Halfling
+1 Demonic Tutor
+1 Dig Through Time
+1 Dol Amroth
+1 Drag to the Roots
+1 Dramatic Reversal
+1 Druid of Purification
+1 Elves of Deep Shadow
+1 Exploration
+1 Fierce Guardianship
+1 Flooded Strand
+1 Force of Will
+1 Forest
+1 Gloomlake Verge
+1 High Fae Trickster
+1 Icetill Explorer
+1 Imperial Seal
+1 Insidious Dreams
+1 Island
+1 Isochron Scepter
+1 Jace, Wielder of Mysteries
+1 Kitsa, Otterball Elite
+1 Legolas's Quick Reflexes
+1 Marsh Flats
+1 Mindbreak Trap
+1 Misdirection
+1 Misty Rainforest
+1 Mockingbird
+1 Mox Diamond
+1 Mystic Remora
+1 Mystical Tutor
+1 Nexus of Fate
+1 Notion Thief
+1 Noxious Revival
+1 Opposition Agent
+1 Orcish Bowmasters
+1 Otawara, Soaring City
+1 Overgrown Tomb
+1 Overlord of the Balemurk
+1 Phyrexian Metamorph
+1 Polluted Delta
+1 Reanimate
+1 Rejuvenating Springs
+1 Rhystic Study
+1 Scalding Tarn
+1 Seedborn Muse
+1 Sensei's Divining Top
+1 Sheoldred, the Apocalypse
+1 Shifting Woodland
+1 Snuff Out
+1 Sol Ring
+1 Stunt Double
+1 Submerge
+1 Swamp
+1 Sylvan Library
+1 Takenuma, Abandoned Mire
+1 Talion, the Kindly Lord
+1 Teferi, Master of Time
+1 The One Ring
+1 Toxic Deluge
+1 Treasure Cruise
+1 Tropical Island
+1 Underground Sea
+1 Undergrowth Stadium
+1 Urborg, Tomb of Yawgmoth
+1 Utopia Sprawl
+1 Valley Floodcaller
+1 Vampiric Tutor
+1 Verdant Catacombs
+1 Wan Shi Tong, Librarian
+1 Wandering Archaic
+1 Wastewood Verge
+1 Watery Grave
+1 Wild Growth
+1 Willowrush Verge
+1 Windswept Heath
+1 Wooded Foothills
+1 Worldly Tutor
+1 Yavimaya, Cradle of Growth
+
+1 Glarb, Calamity's Augur

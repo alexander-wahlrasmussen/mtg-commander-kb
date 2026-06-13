@@ -72,6 +72,11 @@ COMMANDERS = {
     "forced-liquidation": "Kefka, Court Mage",
     "clive-external": "Clive, Ifrit's Dominant",
     "kefka-external": "Kefka, Court Mage",
+    # 2026-06-13 external Glarb lists under evaluation (decks/considering/) — all Glarb
+    "glarb-strong-ext": "Glarb, Calamity's Augur",
+    "glarb-mastermind-ext": "Glarb, Calamity's Augur",
+    "glarb-croak-dagger-ext": "Glarb, Calamity's Augur",
+    "glarb-hybrid": "Glarb, Calamity's Augur",
 }
 
 DISPLAY = {
