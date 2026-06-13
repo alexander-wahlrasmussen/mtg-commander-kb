@@ -31,7 +31,7 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 | Earthbend the Meta        | Toph, the First Metalbender | 100%       | —                                  |
 | Eldrazi Stampede Chaos    | Maelstrom Wanderer          | 100%       | Not in Deck_Index.md — needs entry |
 | Lightning War             | Fire Lord Azula             | 100%       | —                                  |
-| Peace Offering            | Ms. Bumbleflower            | 100%       | —                                  |
+| Peace Offering            | Ms. Bumbleflower            | —          | **Dismantled 2026-06-13** — redundant 2nd Bumbleflower (This Bunny is active); cards returned to pool, pending DeckSafe re-run |
 | Radiation Sickness        | The Wise Mothman            | 100%       | —                                  |
 | The Dark Lord's Army      | Sauron, the Dark Lord       | 100%       | —                                  |
 | The Exile's Return        | Fire Lord Zuko              | 100%       | —                                  |

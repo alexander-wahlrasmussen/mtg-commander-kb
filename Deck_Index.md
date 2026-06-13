@@ -30,6 +30,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Deck | Commander | Note |
 | --- | --- | --- |
 | The Loam Cycle | Teval, the Balanced Scale | Dismantled 2026-06-08; decklist archived 2026-06-11; cards returned to pool |
+| Peace Offering | Ms. Bumbleflower | Dismantled 2026-06-13; redundant 2nd Ms. Bumbleflower build (This Bunny Goes to Market is the active one); decklist archived to `archive/old_decklists/`, cards returned to pool |
 
 ---
 
