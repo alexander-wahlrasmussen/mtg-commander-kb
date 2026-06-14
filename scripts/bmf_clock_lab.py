@@ -135,13 +135,7 @@ def mode_clock(index, aliases, trials):
     powmap = _powmap(library, commander)
     rng = random.Random(SEED)
     res = [goldfish_kill(library, commander, powmap, rng) for _ in range(trials)]
-    print("  P(kill <= turn T) %".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
-    print(slc.row("decap (one opponent, 40)", slc.cum(res, 0, SHOW), SHOW))
-    print(slc.row("table (all three)", slc.cum(res, 1, SHOW), SHOW))
-    never_d = 100.0 * sum(1 for d, _ in res if d is None) / trials
-    never_t = 100.0 * sum(1 for _, t in res if t is None) / trials
-    print(f"\n  median decap {slc.median(res, 0)}   median table {slc.median(res, 1)}"
-          f"   ·   never-in-{TURNS}: decap {never_d:.0f}% / table {never_t:.0f}%")
+    slc.report_clock(res, SHOW, TURNS, trials)
     print("\n  Claimed in Summary: Goldfish T8-10. Front-edge odds are the test.")
 
 

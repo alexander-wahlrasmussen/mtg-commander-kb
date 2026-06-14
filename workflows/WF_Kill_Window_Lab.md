@@ -22,7 +22,8 @@ in the 15–19/20 band).
 - `scripts/speed_lab_core.py` — the shared harness. New labs import it; do **not**
   retrofit the 4 originals (lw/rc/er/gd) — they're committed evidence.
 - `scripts/card_lookup.py`, local Scryfall data, `REF_Reskin_Aliases.md`.
-- The closest existing lab as a template (pick by kill shape, see Stage 1).
+- `scripts/clock_lab_template.py` — the canonical thin-lab skeleton to copy (or
+  the closest existing lab, picked by kill shape — see Stage 1).
 
 ## Stage 0 — Read the kill, not the name
 
@@ -66,10 +67,13 @@ combo clocks.
 
 ## Stage 2 — Build the kill module on the core
 
-- New script `scripts/<abbr>_clock_lab.py`. Import `speed_lab_core as slc`; reuse
-  `Goldfish`, `Table`, `row/cum/median`, `run_cli`. Per-deck kill logic (the
-  `Trial.turn()` branches) is the only deck-specific code — copy the nearest
-  template and rewrite the branches.
+- New script `scripts/<abbr>_clock_lab.py` — copy `clock_lab_template.py`. Import
+  `speed_lab_core as slc` and reuse the whole harness: `Goldfish`, `Table`,
+  `run_goldfish` (the per-trial loop), `report_clock` (the decap/table block),
+  `row/cum/median`, `run_cli`. Per-deck kill logic (the `Trial.turn()` branches)
+  is the only deck-specific code — rewrite those branches and nothing else. A
+  class-style deck plugs into `run_goldfish`; a lever/sweep lab keeps a kill
+  *function* with kwargs and calls `report_clock` directly (see `lw_clock_lab.py`).
 - `Table.kill_all()` for hit-all kills (decap=table); focus-fire one opponent and
   let `Table` track decap vs table separately for combat decks.
 - Mana is a **lands + rocks floor** (plus ritual/temporary nets if the deck has

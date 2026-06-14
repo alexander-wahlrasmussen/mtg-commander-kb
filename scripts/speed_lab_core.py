@@ -396,3 +396,59 @@ def run_cli(doc, modes, default_trials=40000):
     for name, fn in modes.items():
         if args.mode in (name, "all"):
             fn(index, aliases, args.trials)
+
+
+# ---------------------------------------------------------------------------
+# shared clock runner + report
+#
+# The class-style trial loop and the decap/table report block were copy-pasted
+# into every clock lab. They are hoisted here so a lab is just its bespoke kill
+# model (the Trial class) plus a short spec. The kill model is unchanged, so a
+# migrated lab's NUMBERS are identical — only the surrounding scaffold moves.
+# See clock_lab_template.py for the thin pattern. Function-style labs (a kill fn
+# returning (decap, table)) keep their own loop; these helpers are for the common
+# class-style case.
+# ---------------------------------------------------------------------------
+
+def run_goldfish(make_trial, trials, turns):
+    """Run the standard kill-turn goldfish loop.
+
+    make_trial() returns a fresh per-trial object exposing .turn(T) and a .tbl
+    (a Table). Each trial runs turns 1..turns, breaking once the table is dead,
+    and contributes one (decap, table) pair. Returns [(decap, table), ...]."""
+    out = []
+    for _ in range(trials):
+        tr = make_trial()
+        for T in range(1, turns + 1):
+            tr.turn(T)
+            if tr.tbl.done:
+                break
+        out.append((tr.tbl.decap, tr.tbl.table))
+    return out
+
+
+def never_pct(results, idx, trials):
+    """% of trials where clock `idx` (0=decap, 1=table) never fired in horizon."""
+    return 100.0 * sum(1 for r in results if r[idx] is None) / trials
+
+
+def report_clock(results, show, turns, trials, single=False, indent="  "):
+    """The standard kill-turn report: P(kill <= T) cumulative grid over the SHOW
+    T-grid + medians + never-in-horizon %.
+
+    results = [(decap, table), ...] (e.g. from run_goldfish). single=True
+    collapses to one row for decks where decap == table by construction (an
+    overwhelm / hit-all kill); otherwise both clocks print, as the verification
+    rule requires (state decap and table separately)."""
+    print(indent + "P(kill <= turn T) %".ljust(40) + "".join(f"{t:>6}" for t in show))
+    if single:
+        print(row("kill (decap = table, cum %)", cum(results, 1, show), show))
+        nv = never_pct(results, 1, trials)
+        print(f"\n{indent}median kill {median(results, 1)}"
+              f"   ·   never-in-{turns}: {nv:.0f}%")
+    else:
+        print(row("decap (one opponent, 40)", cum(results, 0, show), show))
+        print(row("table (all three)", cum(results, 1, show), show))
+        nd, nt = never_pct(results, 0, trials), never_pct(results, 1, trials)
+        print(f"\n{indent}median decap {median(results, 0)}   median table {median(results, 1)}"
+              f"   ·   never-in-{turns}: decap {nd:.0f}% / table {nt:.0f}%")
