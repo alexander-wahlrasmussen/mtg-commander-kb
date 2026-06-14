@@ -14,16 +14,16 @@ Related repo: the DeckSafe collection builder lives at `C:\Users\Alex\Projects\M
 
 ## File naming — mandatory conventions
 
-| Pattern | Category | Example |
-|---|---|---|
-| `REF_*.md` | Reference docs — stable, rarely change | `REF_Game_Changers_List.md` |
-| `WF_*.md` | Workflow docs — repeatable procedures | `WF_Deck_Audit.md` |
-| `TPL_*.md` | Templates — skeletons for generated docs | `TPL_Deck_Summary.md` |
-| `*_Summary.md` | Deck summary — one per active deck | `The_Loam_Cycle_Summary.md` |
-| `<deck-kebab>-YYYYMMDD*.txt` | Decklist — dated, Moxfield-format | `the-loam-cycle-20260404-074432.txt` |
-| `Deck_Index.md`, `Collection_Master_Status.md` | Top-level state dashboards | — |
+| Pattern | Category | Folder | Example |
+|---|---|---|---|
+| `REF_*.md` | Reference docs — stable, rarely change | `reference/` | `reference/REF_Game_Changers_List.md` |
+| `WF_*.md` | Workflow docs — repeatable procedures | `workflows/` | `workflows/WF_Deck_Audit.md` |
+| `TPL_*.md` | Templates — skeletons for generated docs | `templates/` | `templates/TPL_Deck_Summary.md` |
+| `*_Summary.md` | Deck summary — one per active deck | `decks/` | `decks/The_Loam_Cycle_Summary.md` |
+| `<deck-kebab>-YYYYMMDD*.txt` | Decklist — dated, Moxfield-format | `decks/` | `decks/the-loam-cycle-20260404-074432.txt` |
+| `Deck_Index.md`, `Collection_Master_Status.md` | Top-level state dashboards | repo root | — |
 
-Do not rename files outside this convention without being asked. Filenames must remain globally unique across all folders — the sync script flattens the repo and will error on collisions.
+Do not rename files outside this convention without being asked. `REF_`/`WF_`/`TPL_` docs live in the folders above (bare filenames elsewhere in this doc resolve to them); the sync script flattens everything into one namespace for the Claude Project, so filenames must remain globally unique across all folders — collisions error the sync.
 
 ---
 
@@ -115,8 +115,8 @@ Output `collection/deck_safe_collection.xlsx` is committed. See `WF_Deck_Safe_Co
 
 ## Key reference docs (read before acting on a deck)
 
-- `REF_The_Conversion_Check.md` — the 20-point scoring framework
-- `REF_Game_Changers_List.md` — authoritative GC list
-- `REF_Reskin_Aliases.md` — UB alias mappings
-- `REF_Domain_Principles.md` — hard-won lessons, card text gotchas
-- `REF_Bracket_3_House_Rules.md` — explicit house rules
+- `reference/REF_The_Conversion_Check.md` — the 20-point scoring framework
+- `reference/REF_Game_Changers_List.md` — authoritative GC list
+- `reference/REF_Reskin_Aliases.md` — UB alias mappings
+- `reference/REF_Domain_Principles.md` — hard-won lessons, card text gotchas
+- `reference/REF_Bracket_3_House_Rules.md` — explicit house rules
