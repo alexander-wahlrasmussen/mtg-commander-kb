@@ -111,6 +111,9 @@ the **race** (anti-pod), and almost nothing wins both. See the closing note in
 
 ## Related
 
-- `../Pod_Matchup_Matrix.md` — the anti-pod (vs archenemy) companion ranking.
+- `../Pod_Matchup_Matrix.md` — the anti-pod (vs archenemy) companion ranking, now
+  **lab-`P(win)`-ordered** (`Pod_Gauntlet_2026-06-14.md`). That side is quantified;
+  **this self-meta side stays reasoned judgment** (no 4-body sim — see Method above).
+- `Pod_Gauntlet_2026-06-14.md` — the anti-pod win-probability model the matrix orders by.
 - `Kill_Window_Lab_Sweep_2026-06-13.md` — the lab-measured decap/table clocks this rests on.
 - memory `project_pod_combo_opponent` — the archenemy this contrasts against.

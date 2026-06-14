@@ -476,6 +476,35 @@ def run_swapped(args):
           "(Drannith); the three 🔒 swaps need pod approval.")
 
 
+def run_matrix(args):
+    """Emit the lab-derived quantitative rows for Pod_Matchup_Matrix.md, sorted by
+    P(win). Everything here is lab-sourced (clock JSON) or gauntlet-computed — no
+    narrated numbers. The matrix pastes these and adds its judgment columns."""
+    rng = random.Random(args.seed)
+    kdist = pod_kdist(args)
+    rows = []
+    for slug, c in CLOCKS.items():
+        F = cdf_for(slug, "decap", False)
+        pure = pure_race(F, kdist) * 100
+        win = simulate(slug, F, args.a, kdist, args.trials, rng)[0] * 100
+        sw = (simulate(slug, cdf_for(slug, "decap", True), args.a, kdist, args.trials,
+                       rng, swapped=True)[0] * 100) if slug in SWAPS else None
+        rows.append((win, c, F[6] * 100, F[7] * 100, pure, sw))
+    rows.sort(key=lambda r: -r[0])
+    print(f"\n# Pod_Matchup_Matrix quantitative rows (lab-sourced, a={args.a}, "
+          f"trials={args.trials})\n")
+    print("| # | Deck | Score | Clock decap/table | Race P≤6 / P≤7 | Pure-race | "
+          "P(win) | →after swap |")
+    print("|---|---|---|---|---|---|---|---|")
+    for i, (win, c, P6, P7, pure, sw) in enumerate(rows, 1):
+        swp = f"{sw:.0f}%" if sw is not None else "—"
+        print(f"| {i} | {c['name']} | {c['score']} | {c['med'][0]} / {c['med'][1]} | "
+              f"{P6:.0f}% / {P7:.0f}% | {pure:.0f}% | **{win:.0f}%** | {swp} |")
+    print("\nP(win): lab decap clock + disruption (delay_lab-measured for GD/Calamity/LW, "
+          "matrix-bucketed else). Race P≤T = lab P(decap ≤ turn T). Regenerate: "
+          "pod_gauntlet.py --matrix")
+
+
 def main():
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -488,6 +517,8 @@ def main():
     ap.add_argument("--pod-slow", action="store_true", help="slower pod (K mass on T7-8)")
     ap.add_argument("--swapped", action="store_true",
                     help="current vs after-pending-swaps P(win) (Build_And_Swap §2)")
+    ap.add_argument("--matrix", action="store_true",
+                    help="emit lab-sourced quantitative rows for Pod_Matchup_Matrix.md")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
     args = ap.parse_args()
@@ -496,6 +527,9 @@ def main():
         return
     if args.swapped:
         run_swapped(args)
+        return
+    if args.matrix:
+        run_matrix(args)
         return
     run(args)
 

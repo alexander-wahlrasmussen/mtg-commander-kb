@@ -37,6 +37,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CLOCKS_JSON = ROOT / "analysis" / "pod_gauntlet_clocks.json"
+MATRIX = ROOT / "Pod_Matchup_Matrix.md"
 TOL = 2                      # turns of slack before a citation counts as drifted
 
 for _s in (sys.stdout, sys.stderr):           # echo arbitrary doc lines safely
@@ -160,6 +161,42 @@ def classify(cited, lab_med):
             else ("DRIFT", f"summary T{ct} vs lab T{lab_med} (Δ{d})"))
 
 
+def scan_matrix(data):
+    """Lint Pod_Matchup_Matrix.md's Clock cells ('Tx / Ty') against lab medians.
+    The matrix is reordered/regenerated from the labs, so this catches a row that
+    fell out of sync. Returns (ok, drift)."""
+    if not MATRIX.exists():
+        return 0, 0
+    name2slug = {rec["name"]: slug for slug, rec in data.items()}
+    drift = ok = 0
+    print(f"\n  -- {MATRIX.name} Clock cells (Tx / Ty) --")
+
+    def cite(p):
+        return (parse_med(p), ">" in p or "+" in p or "never" in p.lower())
+
+    for ln in MATRIX.read_text(encoding="utf-8").splitlines():
+        cols = [c.strip() for c in ln.strip().strip("|").split("|")]
+        if len(cols) < 4 or not cols[0].isdigit():
+            continue
+        name, clock = cols[1], cols[3]
+        slug = name2slug.get(name)
+        if slug is None:
+            continue
+        rec = data[slug]
+        parts = clock.split("/")
+        vd, _ = classify(cite(parts[0]), parse_med(rec["med"][0]))
+        vt, _ = classify(cite(parts[1]) if len(parts) > 1 else (None, False),
+                         parse_med(rec["med"][1]))
+        if "DRIFT" in (vd, vt):
+            print(f"  [DRIFT ] {name[:30]:30} cell '{clock}' vs lab "
+                  f"{rec['med'][0]} / {rec['med'][1]}  (decap {vd} / table {vt})")
+            drift += 1
+        else:
+            ok += 1
+    print(f"  matrix: {ok} ok · {drift} DRIFT")
+    return ok, drift
+
+
 def main():
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -202,11 +239,14 @@ def main():
         unparsed += sev == "UNPARS"
         ok += sev == "OK"
 
+    m_ok, m_drift = scan_matrix(data)
+    drift += m_drift
+
     print(f"\n=== {ok} ok · {drift} DRIFT · {unparsed} unparsed "
-          f"(of {len(SUMMARY)} decks) ===")
+          f"({len(SUMMARY)} Summaries + {m_ok + m_drift} matrix rows) ===")
     if drift:
-        print("DRIFT = the Summary's Clock no longer matches the lab. Re-run the "
-              "deck's lab and update its Kill Window line, or fix the citation.")
+        print("DRIFT = a Clock no longer matches the lab. Re-run the deck's lab and "
+              "update its Kill Window line / matrix cell, or fix the citation.")
     return 1 if (drift and args.strict) else 0
 
 
