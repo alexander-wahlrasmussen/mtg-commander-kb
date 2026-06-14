@@ -218,10 +218,10 @@ SWAP_BUCKET = {"static": (0.55, 0.30)}      # Exile's +Drannith: Abolisher-proof
 
 SWAPS = {
     "calamity_tax": dict(
-        grid=[6, 7, 8, 9, 10, 12, 14], decap=[8, 16, 38, 62, 80, 92, 96],
-        table=[5, 12, 30, 55, 75, 90, 95], gate=None,
-        src="grind-fortress (Calamity_Grind_Fortress_2026-06-14, glarb_iso_clock_lab)",
-        note="grind-fortress rebuild: decap T13→T9, table >T14→T9 (ungated, $0)"),
+        grid=[6, 7, 8, 9, 10, 12, 14], decap=[3, 16, 38, 63, 80, 96, 99],
+        table=[3, 14, 32, 51, 67, 87, 96], gate=None,
+        src="lab: ct_speed_lab.kill_turns on glarb-grind-fortress-20260614.txt (12k, 2026-06-14)",
+        note="grind-fortress rebuild: decap T13→T9, table >T14→T9 (ungated, mostly owned)"),
     "grand_design": dict(
         grid=[4, 5, 6, 7, 8, 9, 10, 12], decap=[0, 0, 2, 11, 32, 58, 77, 95],
         table=None, gate=None, src="gd_clock_lab --mode ramp (7-for-7)",

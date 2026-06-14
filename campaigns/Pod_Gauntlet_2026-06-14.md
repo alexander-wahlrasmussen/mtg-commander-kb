@@ -142,7 +142,7 @@ ungated.
 
 | Deck | now | swap | Δ | gate | what moves |
 |---|---|---|---|---|---|
-| **Calamity Tax** | 4% | **29%** | **+24** | ungated, $0 | grind-fortress rebuild, decap **T13→T9** |
+| **Calamity Tax** | 4% | **28%** | **+23** | ungated | grind-fortress rebuild, decap **T13→T9** (lab-harvested) |
 | The Grand Design | 24% | 32% | +7 | ungated | ramp+finisher, decap T10→T9 |
 | The Exile's Return | 45% | 49% | +4 | 🔒 | +Drannith Abolisher-proof static |
 | Radiation Sickness | 68% | 69% | +1 | ungated (mandatory) | GC-fix; table T10→T9 |
@@ -156,9 +156,10 @@ to mid-pack **without pod approval**; GD's ramp buys a turn. Exile's gains real
 Abolisher-proof disruption (Drannith). The three 🔒 Kiki/B4 swaps barely touch the
 clock — their value is a board-independent, Abolisher-proof *win line*, which this
 race model doesn't reward (limitation 3). **If you're optimising this matchup, the
-grind-fortress and the GD ramp are where the points are.** (Clocks for the three
-doc-sourced swaps aren't re-harvested into the JSON — build the swapped `.txt` +
-lab them for precision.)
+grind-fortress and the GD ramp are where the points are.** Calamity (`ct_speed_lab`
+on the build) and RS (`rs --mode upgrade`) and GD (`gd --mode ramp`) are
+lab-harvested; the three 🔒 swaps are clock-neutral notes. Assembly + per-card
+sourcing: `Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md`.
 
 ---
 
