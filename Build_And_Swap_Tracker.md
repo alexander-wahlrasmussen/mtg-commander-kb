@@ -118,6 +118,12 @@ Grouped by what they unlock. Quantities matter where a card is wanted by more th
 
 These cards are wanted by **more than one** plan. Owning one copy ≠ enough.
 
+> Regenerate this from raw data with `python scripts/unlock_optimizer.py` (backlog #3):
+> it counts demand across the 16 active decklists + the live builds, nets out
+> owned+proxy copies, and ranks the over-committed cards + the shared one-purchase
+> unlocks. Pending per-deck swaps not yet written to a `.txt` (e.g. the Kiki-Jiki
+> Exile's/Replication swap) aren't seen — the table below adds those by hand.
+
 | Card | Wanted by | Owned (free) | Action |
 |---|---|---|---|
 | **Thassa's Oracle** | Hashaton (only) | 0 | Buy 1 for Hashaton (Calamity dropped Thoracle — §5) |

@@ -6,6 +6,19 @@ interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
 
+> **Quantitative companion (2026-06-14):** `campaigns/Pod_Gauntlet_2026-06-14.md`
+> (tool `scripts/pod_gauntlet.py`) turns the "Verdict vs pod" column below into a
+> **win-probability**, by racing each deck's measured decap clock + disruption
+> against the opponent profile. It **separates the two axes this matrix collapses**
+> — out-racing vs disrupting — and surfaces three tensions with the hand-judged
+> verdicts here: (a) the *race* leaders are Genome / Radiation / Replication, not
+> the disruption-led favourites (their edge is a goldfish ceiling, discounted for
+> fragility); (b) Grand Design / Lightning War swing hard on P(Abolisher out) —
+> "Favoured" holds only at low Abolisher density; (c) **Calamity Tax's "Favoured"
+> is the least supported** — a T13 clock can't race and ~40%/turn disruption isn't
+> a lock. Treat the gauntlet's `P(win)` as a *ranking aid with a ceiling*, not a
+> literal win rate (it races unblocked goldfish clocks).
+
 Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`.
 
 ---

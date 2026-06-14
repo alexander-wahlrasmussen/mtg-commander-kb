@@ -252,6 +252,8 @@ def main():
             if len(claims) > 3:
                 print(f"            ... +{len(claims) - 3} more")
             warns += 1
+    print("  NOTE: this checks a citation EXISTS; `scripts/clock_check.py` checks the cited "
+          "decap/table\n        turns still MATCH the lab (run `pod_gauntlet.py --refresh` first).")
 
     print(f"\n=== {errors} error(s), {warns} warning(s) ===")
     return 1 if errors else 0

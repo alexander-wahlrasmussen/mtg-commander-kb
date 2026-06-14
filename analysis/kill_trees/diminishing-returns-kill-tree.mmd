@@ -1,0 +1,24 @@
+flowchart TD
+    classDef root fill:#222,color:#fff,stroke:#000,stroke-width:2px;
+    classDef ask fill:#f7f7f7,stroke:#999;
+    classDef combo fill:#fde2f0,stroke:#c0398a,stroke-width:2px;
+    classDef table fill:#e6e8ff,stroke:#4b54c4,stroke-width:2px;
+    classDef combat fill:#ffeccb,stroke:#e08a00,stroke-width:2px;
+    classDef enabler fill:#e3f6e3,stroke:#2f9e44,stroke-width:2px;
+    classDef bg fill:#f0fff0,stroke:#2f9e44,stroke-dasharray:5 4;
+    classDef stall fill:#f1f1f1,stroke:#bbb,color:#666;
+
+    S(["Teysa Karlov online<br/>every death trigger fires TWICE"]):::root
+    S --> A1{"Gravecrawler + Phyrexian Altar<br/>+ a sac outlet"}:::ask
+    A1 -- assembled --> K1["<b>infinite deaths → drain (deterministic)</b><br/>⏱ table T9+"]:::combo
+    A1 --> A2{"Gray Merchant of Asphodel<br/>+ heavy black devotion"}:::ask
+    A2 -- assembled --> K2["<b>ETB drain ×2</b><br/>⏱ table"]:::table
+    A2 --> A3{"Kokusho, the Evening Star<br/>+ a sac outlet"}:::ask
+    A3 -- assembled --> K3["<b>5-drain ×2 each death cycle</b><br/>⏱ table"]:::table
+    A3 --> A4{"Living Death<br/>(mass reanimation)"}:::ask
+    A4 -- assembled --> K4["<b>refill board → re-fire every death</b><br/>⏱ reset → table"]:::table
+    A4 --> A5{"Razaketh, the Foulblooded<br/>+ fodder to sacrifice"}:::ask
+    A5 -- assembled --> K5["<b>tutor the missing piece of any line</b><br/>⏱ enabler"]:::enabler
+    A5 --> A6{"wide token board swings<br/>(fallback)"}:::ask
+    A6 -- assembled --> K6["<b>focus one opponent</b><br/>⏱ decap T9"]:::combat
+    A6 -- not yet --> STALL["grind deaths — the table drain is slow (T12+);<br/>this deck disrupts, it doesn't race"]:::stall

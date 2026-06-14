@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#222,color:#fff,stroke:#000,stroke-width:2px;
+    classDef ask fill:#f7f7f7,stroke:#999;
+    classDef combo fill:#fde2f0,stroke:#c0398a,stroke-width:2px;
+    classDef table fill:#e6e8ff,stroke:#4b54c4,stroke-width:2px;
+    classDef combat fill:#ffeccb,stroke:#e08a00,stroke-width:2px;
+    classDef enabler fill:#e3f6e3,stroke:#2f9e44,stroke-width:2px;
+    classDef bg fill:#f0fff0,stroke:#2f9e44,stroke-dasharray:5 4;
+    classDef stall fill:#f1f1f1,stroke:#bbb,color:#666;
+
+    S(["The Wise Mothman resolved<br/>rad counters tick every opponent's main phase"]):::root
+    S --> A1{"Mindcrank + Bloodchief Ascension<br/>(3 quest counters live)"}:::ask
+    A1 -- assembled --> K1["<b>infinite mill → drain loop</b><br/>⏱ table T7"]:::combo
+    A1 --> A2{"Simic Ascendancy reaches<br/>20 growth counters"}:::ask
+    A2 -- assembled --> K2["<b>win at your upkeep</b><br/>⏱ table T8–9"]:::combo
+    A2 --> A3{"Triumph of the Hordes<br/>+ a wide creature board"}:::ask
+    A3 -- assembled --> K3["<b>+1/+1, trample & INFECT → 10 poison</b><br/>⏱ table T8"]:::table
+    A3 --> A4{"counter-grown creatures connect<br/>(fallback)"}:::ask
+    A4 -- assembled --> K4["<b>focus one opponent</b><br/>⏱ decap T7"]:::combat
+    A4 -- not yet --> STALL["keep ticking rad + stacking counters —<br/>the passive drain closes ~T10"]:::stall
+    BG[["rad counters + proliferate<br/>(Vorinclex / Tekuthal / Inexorable Tide)"]]:::bg
+    BG -. always on .-> KBG["<b>all-opponent rad drain</b><br/>⏱ table ~T10"]:::table

@@ -7,52 +7,52 @@ an `analysis/` write-up, and its row moves to Done.
 
 ---
 
-## 1. The Pod Gauntlet — simulate the matrix verdicts ⭐ (top pick)
+## ~~1. The Pod Gauntlet — simulate the matrix verdicts~~ ✅ DONE 2026-06-14
 
-Turn `Pod_Matchup_Matrix.md` from hand-judged ("Favoured — disruption-led") into a
-**win-probability per deck vs the recurring archenemy**.
+Built: `scripts/pod_gauntlet.py` + `analysis/pod_gauntlet_clocks.json` +
+`campaigns/Pod_Gauntlet_2026-06-14.md`. Races each deck's measured decap clock
+(harvested from the `*_clock_lab.py` suite) + disruption (`delay_lab.py` measured for
+GD/Calamity/LW, matrix-class-bucketed for the rest, Abolisher swept) into `P(beat the
+pod)`, with PURE RACE (fully simulated) and P(WIN) (+ disruption overlay) stated
+separately. Findings: separates the race-vs-disruption axes the matrix collapsed;
+race leaders are Genome/Radiation/Replication (goldfish ceilings); GD/LW swing hard on
+P(Abolisher out); **flags Calamity's "Favoured" as least supported**. `--refresh`
+re-harvests the curves (also seeds #2). Matrix + campaigns README updated.
 
-- **The question:** does each deck actually beat the pod combo opponent (Ur-Dragon +
-  Hidetsugu / Kairi / Kenrith / Kinnan, ~T6–7 behind Grand Abolisher)?
-- **Ingredients already exist:** each deck's decap-clock distribution (the `*_clock_lab.py`
-  suite), each deck's disruption availability (`delay_lab.py`), and the opponent profile.
-- **The model:** race our kill/lock turn vs their combo turn. Crucially, Grand Abolisher
-  **zeroes out reactive answers** (counterspells) — only credit *proactive* hate already on
-  the battlefield (Drannith, Cursed Totem, Rule of Law, Mindcensor). Output: P(we win the race).
-- **Builds on:** `delay_lab.py` (already does answer-availability vs the pod combo turn), the
-  clock labs, the pod-opponent + Grand-Abolisher domain notes.
-- **Spirit:** heuristic race model, not a rules engine — same "trust shapes, not decimals"
-  caveat as every lab. State decap vs table clocks separately, as the verification rule requires.
+## ~~2. Close the clock-claim loop — verify, don't just cite~~ ✅ DONE 2026-06-14
 
-## 2. Close the clock-claim loop — verify, don't just cite
+Built: `scripts/clock_check.py`. Reads the lab decap/table medians from
+`analysis/pod_gauntlet_clocks.json` (the aggregated `{deck,decap,table,never}` JSON that
+`pod_gauntlet.py --refresh` harvests from every `*_clock_lab` — the practical form of "labs
+emit JSON"), parses each Summary's canonical `Kill Window / Clock:` line (clause-split on
+`/`/`;`, head-cut before the citation, `(one player)` decap synonym, `(median Tn)` / open
+markers), and flags any decap/table median that drifted ≥2 turns. Validated: 16/16 current
+Summaries match; fabricated stale lines flag DRIFT. A WARN-level lint (`--strict` to gate);
+complements `validate.py` check #4 (citation EXISTS → this checks it's TRUE), cross-linked
+both ways.
 
-`validate.py` checks that a clock citation *exists*; this would check it's *still true*. Our
-#1 recurring failure is clock claims drifting from reality (7 of 8 hand-estimates falsified).
+## ~~3. The "one-purchase unlock" optimizer~~ ✅ DONE 2026-06-14
 
-- Have the labs emit a tiny JSON `{deck, decap_median, table_median, never}` (cheap now that
-  `report_clock` is centralized in `speed_lab_core.py` — it already computes all four).
-- A checker reads every `Clock: Tx–y (lab …)` line in the Summaries and flags any whose
-  numbers no longer match the lab's current output — catches a Summary that went stale after
-  its deck changed.
-- **Builds on:** the centralized `report_clock`, `validate.py`'s doc-scanning.
+Built: `scripts/unlock_optimizer.py`. Automates `Build_And_Swap_Tracker.md` §4: counts demand
+across the 16 active decklists + the live builds (default Hashaton + Kefka; `--build` /
+`--all-considering` to change), nets out owned **+ proxy** copies (this is a proxy-friendly
+collection — `--no-proxy` for real-only), and prints two reports: **over-committed** owned
+cards ranked by copy deficit (reproduces §4 — Demonic Tutor short 2, Vampiric Tutor
+over-committed) and **one-purchase unlock** = build-needed cards owned 0-real, shared buys
+first (Go for the Throat serves both builds). Resolves reskin aliases on both sides, flags GC
+contention. Limitation: pending per-deck swaps not yet in a `.txt` (the Kiki swap) aren't seen.
 
-## 3. The "one-purchase unlock" optimizer
+## ~~4. Kill-tree diagrams (the fun one)~~ ✅ DONE 2026-06-14
 
-`Build_And_Swap_Tracker.md` §4 (cross-deck contention) and "what unlocks the most swaps" are
-hand-maintained. Automate the ranking.
-
-- Over the Moxfield CSV + all decklists: *which single card, bought once, frees the most
-  pending swaps across decks*, and *which owned card is most over-committed* (wanted by N
-  decks, owned ×M < N).
-- **Builds on:** `availability_check.py`, `collection/moxfield_haves_*.csv`, the swap rows in
-  the tracker.
-
-## 4. Kill-tree diagrams (the fun one)
-
-Render a deck's kill **lines** as a visual decision tree — the labs already enumerate them as
-cheapest-first branches. The Mermaid Chart tool is available. Pure visualization, a nice
-artifact for a Summary or primer. Low priority, high delight.
+Built: `scripts/kill_tree.py` + `analysis/kill_trees/` (README embeds the rendered trees as
+GitHub-native ` ```mermaid ` blocks; `.mmd` files alongside). Renders a deck's kill lines as a
+cheapest-first decision ladder (try the fastest line; if its pieces aren't up, fall to the
+next), leaves coloured combo / table-drain / combat-decap / enabler, with an always-on
+background-clock lane and the lab-measured clock on every leaf. Encoded **Radiation Sickness**
+and **Diminishing Returns** (5 distinct lines each); both validated+rendered via the Mermaid
+Chart tool. Add a deck by encoding its lab's KILL CHECKS into `DECKS`.
 
 ---
 
-*Source: 2026-06-14 brainstorm. Order ≈ value; #1 is the recommended first build.*
+*Source: 2026-06-14 brainstorm. Order ≈ value; #1 was the recommended first build.*
+**All four shipped 2026-06-14** in one top-down grind. ✅✅✅✅
