@@ -132,6 +132,36 @@ the board** and deserves a real-game check — does it *beat* the pod, or just
 
 ---
 
+## Current vs after the pending swaps (`--swapped`)
+
+`--swapped` re-runs the gauntlet with each deck's planned swap from
+`Build_And_Swap_Tracker.md` §2 applied — clock harvested from the lab mode that
+models the swap (`rs --mode upgrade`, `gd --mode ramp`) where one exists,
+doc-sourced and flagged where it doesn't. 🔒 = needs pod approval; the rest are
+ungated.
+
+| Deck | now | swap | Δ | gate | what moves |
+|---|---|---|---|---|---|
+| **Calamity Tax** | 4% | **29%** | **+24** | ungated, $0 | grind-fortress rebuild, decap **T13→T9** |
+| The Grand Design | 24% | 32% | +7 | ungated | ramp+finisher, decap T10→T9 |
+| The Exile's Return | 45% | 49% | +4 | 🔒 | +Drannith Abolisher-proof static |
+| Radiation Sickness | 68% | 69% | +1 | ungated (mandatory) | GC-fix; table T10→T9 |
+| The Replication Crisis | 47% | 47% | +0 | 🔒 | +Kiki Abolisher-proof line (rare ~5%) |
+| Diminishing Returns | 26% | 25% | −0 | 🔒 | +Deathmantle combo (off-clock) |
+
+**The headline: the swaps are mostly reliability/resilience upgrades the goldfish
+can't score** — only two move the race, and the big one is **ungated**. Calamity's
+grind-fortress rebuild (the answer to finding 5) takes it from worst-on-the-board
+to mid-pack **without pod approval**; GD's ramp buys a turn. Exile's gains real
+Abolisher-proof disruption (Drannith). The three 🔒 Kiki/B4 swaps barely touch the
+clock — their value is a board-independent, Abolisher-proof *win line*, which this
+race model doesn't reward (limitation 3). **If you're optimising this matchup, the
+grind-fortress and the GD ramp are where the points are.** (Clocks for the three
+doc-sourced swaps aren't re-harvested into the JSON — build the swapped `.txt` +
+lab them for precision.)
+
+---
+
 ## How to read this
 
 - **Rank, don't quote.** The ordering and the **pure-race-vs-`D` gap** (how much
@@ -167,6 +197,7 @@ python scripts/pod_gauntlet.py                 # decap gauntlet, a=0.30
 python scripts/pod_gauntlet.py --strict        # table clock (did we actually close?)
 python scripts/pod_gauntlet.py --a 0.15        # lower Abolisher density
 python scripts/pod_gauntlet.py --pod-slow      # a pod the tax decks have slowed
+python scripts/pod_gauntlet.py --swapped       # current vs after the pending swaps (Build_And_Swap §2)
 python scripts/pod_gauntlet.py --refresh       # re-run the labs, reparse curves, rewrite the JSON
 ```
 

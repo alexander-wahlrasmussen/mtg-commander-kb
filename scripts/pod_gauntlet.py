@@ -68,6 +68,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+for _s in (sys.stdout, sys.stderr):            # output uses →, Δ, §, 🔒, en-dashes
+    if hasattr(_s, "reconfigure"):
+        try:
+            _s.reconfigure(encoding="utf-8", errors="replace")
+        except (ValueError, OSError):
+            pass
+
 # --- opponent model --------------------------------------------------------
 # Their first combo-attempt turn. Profile: "wins T6-7" with a god-draw tail at
 # T5 and a slow tail past T7. Mean ~6.65. Tune with --pod-fast / --pod-slow.
@@ -200,6 +207,43 @@ CLOCKS = {
 }
 
 
+# --- pending swaps (Build_And_Swap_Tracker.md §2) --------------------------
+# The --swapped view: where each deck's clock/disruption lands AFTER its planned
+# swap. Clock curves are harvested from the lab mode that models the swap where
+# one exists (rs --mode upgrade, gd --mode ramp); doc-sourced + flagged where it
+# doesn't. gate="approval" = needs pod approval (the Kiki/B4 proposals); None =
+# ungated (do it now). Most swaps barely move the clock — they buy reliability /
+# resilience the goldfish can't score — so many entries carry only a note.
+SWAP_BUCKET = {"static": (0.55, 0.30)}      # Exile's +Drannith: Abolisher-proof static floor
+
+SWAPS = {
+    "calamity_tax": dict(
+        grid=[6, 7, 8, 9, 10, 12, 14], decap=[8, 16, 38, 62, 80, 92, 96],
+        table=[5, 12, 30, 55, 75, 90, 95], gate=None,
+        src="grind-fortress (Calamity_Grind_Fortress_2026-06-14, glarb_iso_clock_lab)",
+        note="grind-fortress rebuild: decap T13→T9, table >T14→T9 (ungated, $0)"),
+    "grand_design": dict(
+        grid=[4, 5, 6, 7, 8, 9, 10, 12], decap=[0, 0, 2, 11, 32, 58, 77, 95],
+        table=None, gate=None, src="gd_clock_lab --mode ramp (7-for-7)",
+        note="ramp+finisher: decap T10→T9, whiff 11→5%"),
+    "radiation_sickness": dict(
+        grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[6, 34, 77, 91, 95, 98, 99, 100],
+        table=[0, 1, 5, 21, 51, 76, 96, 99], gate=None,
+        src="rs_clock_lab --mode upgrade (GC-fix 3-for-3)",
+        note="GC-fix (mandatory): table T10→T9, decap ~same"),
+    "exiles_return": dict(
+        disrupt_class="static", gate="approval",
+        src="er pending-swap + Build_And_Swap §2",
+        note="+Drannith static (Abolisher-proof) +Kiki; clock ~same, disruption ↑"),
+    "replication_crisis": dict(
+        gate="approval", src="rc pending-Kiki (−Bident)",
+        note="+Kiki Satya-free Abolisher-proof line (rare ~5% in goldfish); clock ~same, resilience ↑"),
+    "diminishing_returns": dict(
+        gate="approval", src="dr Stage-1 (Build_And_Swap §2)",
+        note="+Nim Deathmantle + Grave Titan combo; decap ~T9 same, table ↑ slightly"),
+}
+
+
 # --- CDF helpers -----------------------------------------------------------
 def build_cdf(grid, cum):
     """Interpolate the lab's (turn -> cum %) onto every integer turn 1..HORIZON.
@@ -223,8 +267,11 @@ def build_cdf(grid, cum):
     return F
 
 
-def disruption(slug, a, k):
+def disruption(slug, a, k, swapped=False):
     """P(we disrupt one combo attempt) at Abolisher-prob a, combo turn k."""
+    if swapped and slug in SWAPS and "disrupt_class" in SWAPS[slug]:
+        full, static = SWAP_BUCKET[SWAPS[slug]["disrupt_class"]]
+        return full + a * (static - full)
     if slug in MEASURED:
         row = MEASURED[slug][6 if k <= 6 else 7]
         for (a0, v0), (a1, v1) in zip(zip(A_GRID, row), zip(A_GRID[1:], row[1:])):
@@ -233,6 +280,15 @@ def disruption(slug, a, k):
         return row[-1] / 100.0
     full, static = BUCKET[CLOCKS[slug]["disrupt_class"]]
     return full + a * (static - full)
+
+
+def cdf_for(slug, which, swapped):
+    """decap/table CDF for a deck, applying its pending swap when swapped=True."""
+    s = SWAPS.get(slug)
+    if swapped and s and s.get(which) is not None:
+        return build_cdf(s["grid"], s[which])
+    c = CLOCKS[slug]
+    return build_cdf(c["grid"], c[which])
 
 
 def pod_kdist(args):
@@ -259,7 +315,7 @@ def sample_kill(F, rng):
     return HORIZON + 1
 
 
-def simulate(slug, F, a, kdist, trials, rng):
+def simulate(slug, F, a, kdist, trials, rng, swapped=False):
     """Monte Carlo P(win) with the disruption overlay. Returns (win, lose,
     grind) fractions; grind = undecided at horizon (counted as a loss in win)."""
     ks, kp = zip(*kdist.items())
@@ -270,7 +326,7 @@ def simulate(slug, F, a, kdist, trials, rng):
         if tkill <= K:
             win += 1
             continue
-        D = disruption(slug, a, K)
+        D = disruption(slug, a, K, swapped)
         decided = False
         for t in range(K, HORIZON + 1):
             if tkill == t:                    # our turn t precedes their turn t
@@ -387,6 +443,39 @@ def run(args):
           f"deck leans on disruption).\n")
 
 
+def run_swapped(args):
+    """Current vs after-the-pending-swaps P(win), per Build_And_Swap_Tracker §2."""
+    rng = random.Random(args.seed)
+    kdist = pod_kdist(args)
+    which = "table" if args.strict else "decap"
+    rows = []
+    for slug, c in CLOCKS.items():
+        cur = simulate(slug, cdf_for(slug, which, False), args.a, kdist, args.trials, rng)[0]
+        sw = simulate(slug, cdf_for(slug, which, True), args.a, kdist, args.trials, rng,
+                      swapped=True)[0]
+        rows.append((slug, c, cur, sw, SWAPS.get(slug)))
+    rows.sort(key=lambda r: -r[3])
+
+    clk = "table" if args.strict else "decap"
+    print(f"\n{'='*96}\nTHE POD GAUNTLET — current vs AFTER PENDING SWAPS   "
+          f"[{clk} clock · Abolisher P(out)={args.a}]")
+    print("  swaps from Build_And_Swap_Tracker §2. 🔒 = needs pod approval (else ungated).")
+    print("  clocks: lab-harvested where a mode models the swap (rs upgrade / gd ramp), "
+          "else doc-sourced.\n")
+    print(f"  {'deck':24}{'now':>6}{'swap':>7}{'Δ':>6}  gate  swap")
+    for slug, c, cur, sw, s in rows:
+        if not s:
+            continue
+        d = (sw - cur) * 100
+        gate = "🔒" if s.get("gate") == "approval" else " ·"
+        print(f"  {c['name']:24}{cur*100:>5.0f}%{sw*100:>6.0f}%{d:>+6.0f}  {gate}   {s['note']}")
+    print(f"\n  (the 10 decks with no §2 swap are unchanged and omitted.)")
+    print("\n  HEADLINE: the swaps are mostly reliability/resilience upgrades the goldfish "
+          "can't score —\n  the real clock movers are Calamity's ungated grind rebuild "
+          "(T13→T9) and GD's ramp (T10→T9).\n  Exile's gains Abolisher-proof static "
+          "(Drannith); the three 🔒 swaps need pod approval.")
+
+
 def main():
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -397,11 +486,16 @@ def main():
                     help="race the TABLE clock (win the game) not decap (remove the threat)")
     ap.add_argument("--pod-fast", action="store_true", help="faster pod (K mass on T5-6)")
     ap.add_argument("--pod-slow", action="store_true", help="slower pod (K mass on T7-8)")
+    ap.add_argument("--swapped", action="store_true",
+                    help="current vs after-pending-swaps P(win) (Build_And_Swap §2)")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
     args = ap.parse_args()
     if args.refresh:
         refresh(8000)
+        return
+    if args.swapped:
+        run_swapped(args)
         return
     run(args)
 
