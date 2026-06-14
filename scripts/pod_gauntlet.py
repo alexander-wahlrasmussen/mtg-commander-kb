@@ -267,6 +267,27 @@ def build_cdf(grid, cum):
     return F
 
 
+CLOCKS_JSON = ROOT / "analysis" / "pod_gauntlet_clocks.json"
+
+
+def merged_clocks():
+    """Baked CLOCKS metadata overlaid with the canonical JSON curves (the lab
+    harvest written by --refresh, default 40k). The JSON is the single source of
+    truth for grid/decap/table/med/never; baked values are the seed/fallback when
+    it's absent — so the gauntlet and clock_check.py read the same numbers."""
+    out = {s: dict(c) for s, c in CLOCKS.items()}
+    if CLOCKS_JSON.exists():
+        try:
+            J = json.loads(CLOCKS_JSON.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            return out
+        for s, c in out.items():
+            for k in ("grid", "decap", "table", "med", "never"):
+                if k in (J.get(s) or {}):
+                    c[k] = J[s][k]
+    return out
+
+
 def disruption(slug, a, k, swapped=False):
     """P(we disrupt one combo attempt) at Abolisher-prob a, combo turn k."""
     if swapped and slug in SWAPS and "disrupt_class" in SWAPS[slug]:
@@ -282,12 +303,12 @@ def disruption(slug, a, k, swapped=False):
     return full + a * (static - full)
 
 
-def cdf_for(slug, which, swapped):
+def cdf_for(slug, which, swapped, clocks):
     """decap/table CDF for a deck, applying its pending swap when swapped=True."""
     s = SWAPS.get(slug)
     if swapped and s and s.get(which) is not None:
         return build_cdf(s["grid"], s[which])
-    c = CLOCKS[slug]
+    c = clocks[slug]
     return build_cdf(c["grid"], c[which])
 
 
@@ -362,6 +383,12 @@ def parse_row(lines, selector, grid):
 
 def refresh(trials):
     print(f"# refresh — re-running the clock labs @ {trials} trials\n")
+    prior = {}
+    if CLOCKS_JSON.exists():
+        try:
+            prior = json.loads(CLOCKS_JSON.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            prior = {}
     updated = {}
     for slug, c in CLOCKS.items():
         if not c["lab"]:
@@ -387,13 +414,12 @@ def refresh(trials):
             updated[slug] = c
             continue
         nc = dict(c)
-        flag = ""
-        if dec != c["decap"]:
-            flag = f"  <-- decap changed from {c['decap']}"
+        base = (prior.get(slug) or {}).get("decap", c["decap"])   # diff vs last JSON, not 8k seed
+        flag = f"  <-- decap changed from {base}" if dec != base else ""
         nc["decap"], nc["table"] = dec, tab
         updated[slug] = nc
         print(f"  {slug:22} decap {dec}{flag}")
-    out_path = ROOT / "analysis" / "pod_gauntlet_clocks.json"
+    out_path = CLOCKS_JSON
     out_path.write_text(json.dumps(
         {s: {k: v for k, v in c.items() if k in
              ("name", "grid", "decap", "table", "med", "never", "src")}
@@ -405,11 +431,12 @@ def refresh(trials):
 def run(args):
     rng = random.Random(args.seed)
     kdist = pod_kdist(args)
-    cdfs = {s: build_cdf(c["grid"], c["decap"]) for s, c in CLOCKS.items()}
-    tdfs = {s: build_cdf(c["grid"], c["table"]) for s, c in CLOCKS.items()}
+    C = merged_clocks()
+    cdfs = {s: build_cdf(c["grid"], c["decap"]) for s, c in C.items()}
+    tdfs = {s: build_cdf(c["grid"], c["table"]) for s, c in C.items()}
 
     rows = []
-    for slug, c in CLOCKS.items():
+    for slug, c in C.items():
         F = (tdfs if args.strict else cdfs)[slug]
         pr = pure_race(F, kdist)
         win, _, grind = simulate(slug, F, args.a, kdist, args.trials, rng)
@@ -449,9 +476,10 @@ def run_swapped(args):
     kdist = pod_kdist(args)
     which = "table" if args.strict else "decap"
     rows = []
-    for slug, c in CLOCKS.items():
-        cur = simulate(slug, cdf_for(slug, which, False), args.a, kdist, args.trials, rng)[0]
-        sw = simulate(slug, cdf_for(slug, which, True), args.a, kdist, args.trials, rng,
+    C = merged_clocks()
+    for slug, c in C.items():
+        cur = simulate(slug, cdf_for(slug, which, False, C), args.a, kdist, args.trials, rng)[0]
+        sw = simulate(slug, cdf_for(slug, which, True, C), args.a, kdist, args.trials, rng,
                       swapped=True)[0]
         rows.append((slug, c, cur, sw, SWAPS.get(slug)))
     rows.sort(key=lambda r: -r[3])
@@ -483,11 +511,12 @@ def run_matrix(args):
     rng = random.Random(args.seed)
     kdist = pod_kdist(args)
     rows = []
-    for slug, c in CLOCKS.items():
-        F = cdf_for(slug, "decap", False)
+    C = merged_clocks()
+    for slug, c in C.items():
+        F = cdf_for(slug, "decap", False, C)
         pure = pure_race(F, kdist) * 100
         win = simulate(slug, F, args.a, kdist, args.trials, rng)[0] * 100
-        sw = (simulate(slug, cdf_for(slug, "decap", True), args.a, kdist, args.trials,
+        sw = (simulate(slug, cdf_for(slug, "decap", True, C), args.a, kdist, args.trials,
                        rng, swapped=True)[0] * 100) if slug in SWAPS else None
         rows.append((win, c, F[6] * 100, F[7] * 100, pure, sw))
     rows.sort(key=lambda r: -r[0])
@@ -523,7 +552,7 @@ def main():
                     help="re-run the clock labs, reparse curves, write the JSON")
     args = ap.parse_args()
     if args.refresh:
-        refresh(8000)
+        refresh(args.trials)          # default 40k — the canonical harvest
         return
     if args.swapped:
         run_swapped(args)

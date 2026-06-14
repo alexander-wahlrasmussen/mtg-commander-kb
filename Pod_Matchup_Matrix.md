@@ -74,20 +74,20 @@ lab-sourced — regenerate with `python scripts/pod_gauntlet.py --matrix`:
 
 | # | Deck | Sc | Clock decap / table | Race P≤6 / P≤7 | P(win) →swap | Through Abolisher? | Verdict vs pod |
 |---|---|---|---|---|---|---|---|
-| 1 | The Genome Project | 15 | T7 / T8 | 42% / 82% | **74%** | ⚠ some counters; combo-reliant itself | **Top P(win) — but a goldfish race *ceiling*: 15/20 glass, combo-reliant. High number, fragile in play** |
-| 2 | Radiation Sickness | 18 | T7 / T10 | 32% / 75% | **68%** →69% | ⚠ rad/proliferate attrition is Abolisher-proof; +FoN off-turn | **Favoured — fast converge attrition, Abolisher-proof engine** |
-| 3 | Ms. Bumbleflower | 15 | T8 / T11 | 7% / 39% | **49%** | ⚠ 5/5 interaction but combat-only kill is far too slow | **Soft ceiling — decap T8 but the combat-only kill is goldfish-optimistic (bmf lab caveat)** |
-| 4 | The Replication Crisis | 17 | T7 / T10 | 17% / 59% | **48%** →47% | ❌ counter-reliant (dead under Abolisher); every line needs Satya | **Even — race measured & rejected; Kiki swap adds an Abolisher-proof line (resilience, not clock)** |
+| 1 | The Genome Project | 15 | T7 / T8 | 41% / 82% | **73%** | ⚠ some counters; combo-reliant itself | **Top P(win) — but a goldfish race *ceiling*: 15/20 glass, combo-reliant. High number, fragile in play** |
+| 2 | Radiation Sickness | 18 | T7 / T10 | 32% / 76% | **69%** →69% | ⚠ rad/proliferate attrition is Abolisher-proof; +FoN off-turn | **Favoured — fast converge attrition, Abolisher-proof engine** |
+| 3 | Ms. Bumbleflower | 15 | T8 / T11 | 7% / 38% | **49%** | ⚠ 5/5 interaction but combat-only kill is far too slow | **Soft ceiling — decap T8 but the combat-only kill is goldfish-optimistic (bmf lab caveat)** |
+| 4 | The Replication Crisis | 17 | T7 / T10 | 16% / 59% | **47%** →46% | ❌ counter-reliant (dead under Abolisher); every line needs Satya | **Even — race measured & rejected; Kiki swap adds an Abolisher-proof line (resilience, not clock)** |
 | 5 | The Exile's Return | 18 | T8 / T10 | 9% / 39% | **45%** →50% | ✅ own Abolisher protects your turn; 9 spot-removal; Drannith swap = static | **Favoured — disruption-led; Drannith swap lifts it** |
-| 6 | Lorehold Spirits | 18 | T8 / T10 | 18% / 47% | **41%** | ❌ no counters; Teferi's Protection only survives | **Even — decap T8, but no Abolisher-proof disruption** |
-| 7 | Curse of the Scarab | 17 | T8 / T11 | 13% / 31% | **39%** | ⚠ FG counter; otherwise reactive | **Even — mid clock, reactive** |
+| 6 | Lorehold Spirits | 18 | T8 / T10 | 18% / 46% | **40%** | ❌ no counters; Teferi's Protection only survives | **Even — decap T8, but no Abolisher-proof disruption** |
+| 7 | Curse of the Scarab | 17 | T8 / T11 | 13% / 32% | **40%** | ⚠ FG counter; otherwise reactive | **Even — mid clock, reactive** |
 | 8 | Lightning War | 19 | T9 / T14 | 1% / 10% | **37%** | ⚠ interaction is **protect-own** (protects the kill), Abolisher-sensitive | **Even–favoured — chip race + reach; finishes through a lock. Its answers protect the race, not stop the combo** |
-| 9 | Zero-Sum Game | — | T9 / T9 | 25% / 38% | **35%** | ✅ board-independent lifeloop kill resolves on your turn | **Even–favoured (unaudited) — Abolisher-proof kill** |
-| 10 | Earthbend the Meta | 17 | T8 / T11 | 11% / 36% | **34%** | ❌ no counters; slow | **Underdog — decap T8, no disruption** |
-| 11 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% / 27% | **28%** | ❌ no counters, no lock; "cannot stop a combo turn" | **Underdog — no disruption** |
+| 9 | Zero-Sum Game | — | T9 / T9 | 25% / 37% | **35%** | ✅ board-independent lifeloop kill resolves on your turn | **Even–favoured (unaudited) — Abolisher-proof kill** |
+| 10 | Earthbend the Meta | 17 | T8 / T11 | 11% / 34% | **33%** | ❌ no counters; slow | **Underdog — decap T8, no disruption** |
+| 11 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% / 28% | **29%** | ❌ no counters, no lock; "cannot stop a combo turn" | **Underdog — no disruption** |
 | 12 | Diminishing Returns | 17 | T9 / >T14 | 1% / 11% | **25%** | ⚠ own Abolisher + edicts; no counters | **Underdog vs combo — slow clock; edicts don't stop the turn (self-meta strong)** |
 | 13 | The Dark Lord's Army | 19 | T9 / T12 | 4% / 16% | **25%** | ⚠ 15 interaction but reactive; engine feeds on their activity | **Underdog vs combo — too slow to race; but self-meta #1 (opponent-fed)** |
-| 14 | The Grand Design | 19 | T10 / >T14 | 1% / 6% | **25%** →31% | ✅ own Grand Abolisher + Teferi sorcery-lock + FoW pre-Abolisher | **P(win) UNDER-rates it — roster's best *measured* disruption, dragged by a slow clock. Favoured on the axis the number under-weights** |
+| 14 | The Grand Design | 19 | T10 / >T14 | 1% / 6% | **24%** →31% | ✅ own Grand Abolisher + Teferi sorcery-lock + FoW pre-Abolisher | **P(win) UNDER-rates it — roster's best *measured* disruption, dragged by a slow clock. Favoured on the axis the number under-weights** |
 | 15 | Crystal Sickness | 17 | T11 / T13 | 1% / 7% | **14%** | ⚠ FG counter; reanimator is slow to disrupt | **Underdog — slow** |
 | 16 | The Calamity Tax | 18 | T13 / >T14 | 0% / 1% | **4%** →28% | ✅ static tax + stax slows their mana; Seedborn keeps you live | **Underdog as built; the grind-fortress rebuild → 28% (`--swapped`). Don't bring the current list** |
 
