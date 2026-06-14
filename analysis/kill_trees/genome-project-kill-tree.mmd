@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Kuja resolved — Wizard tokens ping EVERY opponent on each noncreature cast<br/>transforms to Trance Kuja (×2 ALL Wizard damage) at 4 Wizards"]):::root
+    S --> A1{"Trance Kuja + City on Fire (×3 all dmg)<br/>and/or Harmonic Prodigy / Roaming Throne"}:::ask
+    A1 -- assembled --> K1["<b>12–16+ damage per opponent per spell → one or two casts kill the table</b><br/>⏱ table T7"]:::combo
+    A1 --> A2{"Trance Kuja + 4 Wizard tokens<br/>(Birgi / Storm-Kiln refund the mana)"}:::ask
+    A2 -- assembled --> K2["<b>8 dmg per opponent per noncreature cast → ~5 cheap casts</b><br/>⏱ table T8"]:::table
+    A2 --> A3{"stocked graveyard + Mizzix's Mastery<br/>(Dawn Warriors' Legacy) or Underworld Breach"}:::ask
+    A3 -- assembled --> K3["<b>recast every i/s from the yard — each a REAL cast = full pings</b><br/>⏱ table T7–8"]:::combo
+    A3 --> A4{"mana flood (Mana Geyser / Neheb / Jeska's Will)<br/>or 50 life via Aetherflux Reservoir"}:::ask
+    A4 -- assembled --> K4["<b>board-independent table drain / 50-life laser</b><br/>⏱ table (backup)"]:::table
+    A4 --> A5{"Trance Kuja + a Wizard board<br/>(Trance doubles Wizard power) (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap T7"]:::combat
+    A5 -- not yet --> STALL["build Wizards toward the 4-count transform & stock the yard —<br/>pings need CASTS (no passive drain), so dig for a multiplier + a cheap chain"]:::stall

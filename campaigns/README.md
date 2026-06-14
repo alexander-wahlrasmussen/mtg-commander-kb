@@ -16,6 +16,7 @@ the Claude Project.**
 | `Delay_Lab_Disruption_Analysis_2026-06-12.md` | LIVE | Answer-availability (counter-clock) lab — the disruption-axis addendum the bake-off verdict leans on. |
 | `Pod_Gauntlet_2026-06-14.md` | LIVE | **Quantitative companion to `../Pod_Matchup_Matrix.md`**: races each deck's decap clock + disruption into `P(beat the pod)`. Tool `../scripts/pod_gauntlet.py`, data `../analysis/pod_gauntlet_clocks.json`. Separates the race vs disruption axes the matrix collapsed; challenges Calamity's "Favoured." |
 | `Self_Meta_Ranking.md` | REFERENCE | Which deck wins if the roster *is* the field — the self-meta companion to `../Pod_Matchup_Matrix.md` (anti-pod). Built on the sweep's decap/table clocks. |
+| `Collection_State_2026-06-14.md` | SNAPSHOT | Point-in-time read of the whole collection: runs the full tool stack (validate / clock_check / pod_gauntlet / unlock_optimizer / kill_tree) into one health + standing + buy-pressure picture, with the loose ends named. Regenerate, don't cite. |
 
 Methodology is codified in `../workflows/WF_Kill_Window_Lab.md` and
 `../workflows/WF_Candidate_Bakeoff.md`. The candidate *proposals* themselves

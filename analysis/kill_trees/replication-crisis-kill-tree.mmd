@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Satya attacking — each attack makes a free token COPY of a nontoken<br/>creature you control + {E}{E} · EVERY line needs Satya to connect"]):::root
+    S --> A1{"Sword of Feast and Famine on Satya<br/>+ Aggravated Assault"}:::ask
+    A1 -- assembled --> K1["<b>combat untaps all lands → infinite combats → infinite tokens + ETBs</b><br/>⏱ decap T6–7"]:::combo
+    A1 --> A2{"Brudiclad + a token pile<br/>+ a fat Satya copy (Inferno Titan)"}:::ask
+    A2 -- assembled --> K2["<b>convert every token into the bomb → lethal alpha (no infinite needed)</b><br/>⏱ decap T7"]:::combat
+    A2 --> A3{"Adeline + Anointed Procession"}:::ask
+    A3 -- assembled --> K3["<b>~6 humans per attack + doubled Satya token → wide alpha swing</b><br/>⏱ decap T7–8"]:::combat
+    A3 --> A4{"Satya copies Zealous Conscripts<br/>(+ Strionic Resonator / Aggravated Assault)"}:::ask
+    A4 -- assembled --> K4["<b>steal the pod's best permanents, one per combat</b><br/>⏱ disrupt → decap"]:::enabler
+    A4 --> A5{"repeated ETB copies (Inferno Titan ping,<br/>Cloudblazer draw, Skyclave exile) (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>grind the pod out over 3–4 combats</b><br/>⏱ table T10+"]:::table
+    A5 -- not yet --> STALL["Satya must survive as a 3/5 through combat — protect her<br/>(Greaves / Boots / Slip Out the Back) and hold for a safe swing"]:::stall

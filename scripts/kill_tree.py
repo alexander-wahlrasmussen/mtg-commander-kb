@@ -80,16 +80,62 @@ DECKS = {
         "stall": "grind deaths — the table drain is slow (T12+);<br/>this deck disrupts, it doesn't race",
         "src": "dr_clock_lab.py + Diminishing_Returns_Summary.md",
     },
+    "genome-project": {
+        "title": "The Genome Project — Kuja, Genome Sorcerer",
+        "root": "Kuja resolved — Wizard tokens ping EVERY opponent on each noncreature cast<br/>transforms to Trance Kuja (×2 ALL Wizard damage) at 4 Wizards",
+        # No passive lane: pings require CASTS, so decap and table converge (T7/T8)
+        # off the same ping clock rather than diverging like the combat decks.
+        "background": None,
+        "lines": [
+            ("oneshot", "Trance Kuja + City on Fire (×3 all dmg)<br/>and/or Harmonic Prodigy / Roaming Throne",
+             "12–16+ damage per opponent per spell → one or two casts kill the table", "table T7", "combo"),
+            ("storm", "Trance Kuja + 4 Wizard tokens<br/>(Birgi / Storm-Kiln refund the mana)",
+             "8 dmg per opponent per noncreature cast → ~5 cheap casts", "table T8", "table"),
+            ("gystorm", "stocked graveyard + Mizzix's Mastery<br/>(Dawn Warriors' Legacy) or Underworld Breach",
+             "recast every i/s from the yard — each a REAL cast = full pings", "table T7–8", "combo"),
+            ("backup", "mana flood (Mana Geyser / Neheb / Jeska's Will)<br/>or 50 life via Aetherflux Reservoir",
+             "board-independent table drain / 50-life laser", "table (backup)", "table"),
+            ("combat", "Trance Kuja + a Wizard board<br/>(Trance doubles Wizard power) (fallback)",
+             "focus one opponent", "decap T7", "combat"),
+        ],
+        "stall": "build Wizards toward the 4-count transform & stock the yard —<br/>pings need CASTS (no passive drain), so dig for a multiplier + a cheap chain",
+        "src": "gp_clock_lab.py + The_Genome_Project_Summary.md",
+    },
+    "replication-crisis": {
+        "title": "The Replication Crisis — Satya, Aetherflux Genius",
+        "root": "Satya attacking — each attack makes a free token COPY of a nontoken<br/>creature you control + {E}{E} · EVERY line needs Satya to connect",
+        # Combat-gated, so the clock DIVERGES: decap T7 (focus one) / table T10+.
+        "background": None,
+        "lines": [
+            ("infinite", "Sword of Feast and Famine on Satya<br/>+ Aggravated Assault",
+             "combat untaps all lands → infinite combats → infinite tokens + ETBs", "decap T6–7", "combo"),
+            ("brudiclad", "Brudiclad + a token pile<br/>+ a fat Satya copy (Inferno Titan)",
+             "convert every token into the bomb → lethal alpha (no infinite needed)", "decap T7", "combat"),
+            ("adeline", "Adeline + Anointed Procession",
+             "~6 humans per attack + doubled Satya token → wide alpha swing", "decap T7–8", "combat"),
+            ("conscripts", "Satya copies Zealous Conscripts<br/>(+ Strionic Resonator / Aggravated Assault)",
+             "steal the pod's best permanents, one per combat", "disrupt → decap", "enabler"),
+            ("grind", "repeated ETB copies (Inferno Titan ping,<br/>Cloudblazer draw, Skyclave exile) (fallback)",
+             "grind the pod out over 3–4 combats", "table T10+", "table"),
+        ],
+        "stall": "Satya must survive as a 3/5 through combat — protect her<br/>(Greaves / Boots / Slip Out the Back) and hold for a safe swing",
+        "src": "rc_speed_lab.py + The_Replication_Crisis_Summary.md",
+    },
 }
 
-STYLE = """    classDef root fill:#222,color:#fff,stroke:#000,stroke-width:2px;
-    classDef ask fill:#f7f7f7,stroke:#999;
-    classDef combo fill:#fde2f0,stroke:#c0398a,stroke-width:2px;
-    classDef table fill:#e6e8ff,stroke:#4b54c4,stroke-width:2px;
-    classDef combat fill:#ffeccb,stroke:#e08a00,stroke-width:2px;
-    classDef enabler fill:#e3f6e3,stroke:#2f9e44,stroke-width:2px;
-    classDef bg fill:#f0fff0,stroke:#2f9e44,stroke-dasharray:5 4;
-    classDef stall fill:#f1f1f1,stroke:#bbb,color:#666;"""
+# Every class sets an explicit text `color:` — without it the node text inherits
+# the viewer's theme foreground, so on a DARK theme (e.g. gruvbox in Obsidian) the
+# light pastel fills render light-text-on-light and wash out. Fills are deepened
+# enough to read as distinct islands on a dark canvas yet stay light enough for
+# near-black text; works on GitHub light/dark too. Accents are gruvbox-tinted.
+STYLE = """    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;"""
 
 
 def mermaid(slug):
