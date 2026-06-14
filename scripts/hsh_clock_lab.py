@@ -195,18 +195,6 @@ class Trial:
                 return
 
 
-def goldfish(library, trials, rng):
-    out = []
-    for _ in range(trials):
-        tr = Trial(library, rng)
-        for T in range(1, TURNS + 1):
-            tr.turn(T)
-            if tr.tbl.done:
-                break
-        out.append((tr.tbl.decap, tr.tbl.table))
-    return out
-
-
 def mode_clock(index, aliases, trials):
     print("=" * 72)
     print(f"CLOCK — Hashaton (Esper Thoracle) kill-turn goldfish "
@@ -215,11 +203,8 @@ def mode_clock(index, aliases, trials):
     rng = random.Random(SEED)
     library, commander = slc.load_parsed(DECK, index, aliases)
     print(f"  library {len(library)} + commander {commander}")
-    print("  turns:".ljust(44) + "".join(f"{t:6d}" for t in SHOW))
-    res = goldfish(library, trials, rng)
-    print(slc.row("kill (decap = table, cum %)", slc.cum(res, 1, SHOW), SHOW))
-    nv = 100.0 * sum(1 for _, t in res if t is None) / trials
-    print(f"\n  median kill {slc.median(res, 1)}   ·   never-in-{TURNS}: {nv:.0f}%")
+    res = slc.run_goldfish(lambda: Trial(library, rng), trials, TURNS)
+    slc.report_clock(res, SHOW, TURNS, trials, single=True)
     print("\n  BENCHMARK: Yuriko T7 decap / T8 table (9% never); Kefka-burn T8 / T9"
           " (11% never). Pod bar: decap T<=7.")
 
@@ -246,7 +231,7 @@ def mode_variants(index, aliases, trials):
     for name, (rm, ad) in VARIANTS.items():
         rng = random.Random(SEED)
         lib = slc.build_lib(base, index, rm, ad)
-        res = goldfish(lib, trials, rng)
+        res = slc.run_goldfish(lambda: Trial(lib, rng), trials, TURNS)
         nv = 100.0 * sum(1 for _, t in res if t is None) / trials
         print(slc.row(name, slc.cum(res, 1, SHOW), SHOW)
               + f"  med {slc.median(res, 1)} nv{nv:.0f}%")

@@ -249,18 +249,6 @@ class Trial:
             return
 
 
-def goldfish(library, trials, rng, powmap):
-    out = []
-    for _ in range(trials):
-        tr = Trial(library, rng, powmap)
-        for T in range(1, TURNS + 1):
-            tr.turn(T)
-            if tr.tbl.done:
-                break
-        out.append((tr.tbl.decap, tr.tbl.table))
-    return out
-
-
 def mode_clock(index, aliases, trials):
     print("=" * 72)
     print(f"CLOCK — Insider Trading (Yuriko) kill-turn goldfish "
@@ -272,14 +260,8 @@ def mode_clock(index, aliases, trials):
     raw_pow = slc.load_powers(names)
     powmap = {k: (v if isinstance(v, int) else 1) for k, v in raw_pow.items()}
     print(f"  library {len(library)} + commander {commander}")
-    print("  turns:".ljust(44) + "".join(f"{t:6d}" for t in SHOW))
-    res = goldfish(library, trials, rng, powmap)
-    print(slc.row("decap (one opponent, cum %)", slc.cum(res, 0, SHOW), SHOW))
-    print(slc.row("table (all three, cum %)", slc.cum(res, 1, SHOW), SHOW))
-    nv_d = 100.0 * sum(1 for d, _ in res if d is None) / trials
-    nv_t = 100.0 * sum(1 for _, t in res if t is None) / trials
-    print(f"\n  median decap {slc.median(res, 0)} / table {slc.median(res, 1)}"
-          f"   ·   never-in-{TURNS}: decap {nv_d:.0f}% / table {nv_t:.0f}%")
+    res = slc.run_goldfish(lambda: Trial(library, rng, powmap), trials, TURNS)
+    slc.report_clock(res, SHOW, TURNS, trials)
     print("\n  GATE (proposal 2026-06-11): build requires ~T7 median. This is the gate.")
 
 

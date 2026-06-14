@@ -286,32 +286,14 @@ class Trial:
             self.place_counters(min(6, T), T, legendary_eb=True)
 
 
-def goldfish(library, trials, rng):
-    out = []
-    for _ in range(trials):
-        tr = Trial(library, rng)
-        for T in range(1, TURNS + 1):
-            tr.turn(T)
-            if tr.tbl.done:
-                break
-        out.append((tr.tbl.decap, tr.tbl.table))
-    return out
-
-
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — Earthbend the Meta kill-turn goldfish   trials={trials} seed={SEED}")
     print("    decap = first opponent dead (40) · table = all three. Purphoros/Tremors ping")
     print("    is hit_all (converge); AWBO + combat focus the decap. MIXED shape.\n")
     library, commander = slc.load_parsed(DECK, index, aliases)
     rng = random.Random(SEED)
-    res = goldfish(library, trials, rng)
-    print("  P(kill <= turn T) %".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
-    print(slc.row("decap (one opponent, 40)", slc.cum(res, 0, SHOW), SHOW))
-    print(slc.row("table (all three)", slc.cum(res, 1, SHOW), SHOW))
-    never_d = 100.0 * sum(1 for d, _ in res if d is None) / trials
-    never_t = 100.0 * sum(1 for _, t in res if t is None) / trials
-    print(f"\n  median decap {slc.median(res, 0)}   median table {slc.median(res, 1)}"
-          f"   ·   never-in-{TURNS}: decap {never_d:.0f}% / table {never_t:.0f}%")
+    res = slc.run_goldfish(lambda: Trial(library, rng), trials, TURNS)
+    slc.report_clock(res, SHOW, TURNS, trials)
     print("\n  Claimed in Summary: Goldfish T7-9 (fastest T6). Front-edge T6/T7 odds are the test.")
 
 
