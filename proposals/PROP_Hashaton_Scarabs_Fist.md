@@ -1,7 +1,36 @@
 # Proposal: Hashaton, Scarab's Fist
 
-Status: **not built.** Saved for future consideration.
+Status: **not built** (candidate). The original "Esper discard value" framing below is **superseded by the 2026-06-14 cEDH reframe + clock benchmark** in the addendum directly under this line.
 Drafted: 2026-05-02. Revised 2026-05-03 — v1 was authored without local Scryfall data and rested on hallucinated commander text. Re-verified card text and rebuilt from scratch.
+
+---
+
+## 2026-06-14 — cEDH reframe + clock benchmark (the real engine)
+
+User asked whether Hashaton's structure/engine is sound and to benchmark it vs the bake-off finalists. Scouted its actual cEDH presence (Moxfield/EDHREC/playingmtg) and **card_lookup-verified every piece** (Hashaton = the canonical hallucination card — text held this time). Finding: the competitive deck is **not the "fair value grind" framed below** — it's a **Thassa's Oracle + Demonic Consultation / Tainted Pact combo deck**, with Hashaton as a tutor/dig/resilience engine. Verified Hashaton-native lines:
+
+- **Discard Thassa's Oracle → pay `{2}{U}` → 4/4 copy → ETB wins** on an empty library (devotion is irrelevant once library = 0). A counter-dodging way to deploy the win.
+- **Discard Razaketh → copy → sac 4/4 Zombie tokens → tutor anything** (repeatable; tokens are Hashaton's own output).
+- **Discard Hullbreaker Horror → copy for `{2}{U}`** (its cast-trigger bounce works while tapped) **+ a mana rock → infinite mana.**
+- Free discard outlets: Tireless Tribe / Putrid Imp / Ghostly Pilferer / Skirge Familiar. **Beseech the Mirror** bargains a token → free-casts Consult/Oracle (MV ≤ 4).
+
+**Benchmark** (`scripts/hsh_clock_lab.py` on the 3-GC-legal modelling list `decks/considering/hashaton-thoracle-20260614.txt` — GCs = Thassa's Oracle + Demonic Tutor + Vampiric Tutor; seed 20260612 / 20k, the same harness + seed as the bake-off, so the clocks are directly comparable):
+
+| Deck | decap median | table median | by T7 (decap) | never-12 |
+|---|---|---|---|---|
+| **Hashaton (Thoracle)** | **T6** | **T6** (= decap) | **71%** | 9% |
+| Yuriko (Insider Trading) | T7 | T8 | 57% | 7 / 9% |
+| Kefka-burn (Forced Liquidation) | T8 | T9 | 35% | 4 / 11% |
+
+**Verdict: the structure/engine is SOUND.** On the goldfish Hashaton is the **fastest of the three**, and decap = table (a Thoracle win ends the game for everyone at once, unlike the others' focus-fire combat tables). It out-assembles Yuriko's combo because it is a *dedicated* Thoracle deck (8 tutors + dig + the token-tutor engine) where Yuriko hedges into a ninja axis.
+
+**Caveats (load-bearing):** (1) the goldfish **cannot score protection/resilience** — the exact blind spot that ranked faster Godo *below* Yuriko in the bake-off — so "fastest combo" ≠ "best deck"; (2) it's the **same wincon as the to-be-built Yuriko** and needs the **same Thoracle/Consult pod approval** (a redundant 2nd Thoracle deck?); (3) true cEDH wants 8–15 GCs — this is the 3-GC-legal floor. **Outlet variants** (looter/wheel/hybrid, `hsh_clock_lab.py --mode variants`): all median **T6 within ~2pp** — the discard-outlet flavour is a non-lever; the closer (Thoracle) is what moves the clock.
+
+**Delay lab — resilience (`delay_lab.py`, 2026-06-14):** Hashaton **out-disrupts Yuriko at every Abolisher level** — their-T7 P(disrupt) ≈ **56/67%** (drawn/+tutors) at realistic P(Abolisher)≈0.25, vs Yuriko's **43/57%** — because the no-ninja-tax list runs a deeper suite (10 counters / 6 instant removal / 3 preempt + 8 tutors that double as answer-finders). **But it shares Yuriko's 0-static gap:** both collapse under a fully-resolved Abolisher (a=1: Hashaton 17%, Yuriko 8%), where **Kefka-burn's 1 static holds (23–33%) and stays the Abolisher-proof fallback.** The lab measures *disrupt-the-pod* only; Hashaton's *protect-own* resilience (counter-dodging discard-deploy of Thoracle, Razaketh recursion, redundant oracles) is additional and unmeasured — though so is Yuriko's genuinely independent second (combat) axis, which Hashaton lacks.
+
+**Net verdict: on the measured axes (clock T6 vs T7–8 *and* disruption) Hashaton ≥ Yuriko — arguably the better Thoracle build — but the two are redundant** (same Thoracle wincon, same 6th-combo pod approval, same Abolisher weakness). It's build-*one*, not both; Hashaton has the stronger claim, Yuriko the more independent backup plan, Kefka the Abolisher resilience. *(Legality fix during the build: the modelling list had illegally run Veil of Summer — mono-green, not Esper — now Drown in the Loch.)*
+
+*(Everything below is the pre-reframe "fair value" proposal, retained as the record.)*
 
 ---
 

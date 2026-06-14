@@ -1,9 +1,13 @@
 # Proposal: Berta, Wise Extrapolator — Standalone Bracket-4-in-Spirit Build
 
-Status: **not built.** Saved for future consideration.
+Status: **SHELVED 2026-06-14** (user decision after the real-engine re-lab cited below). Within the 3-GC cap Berta does not compete — best clock ~36% by T12, median never-in-12, a worse Najeela. **Do not build on this document.** Revisit only if (a) the 3-GC house rule is waived for her — then build toward external "Deck #1" (7 GCs: Ancient Tomb + free counters + The One Ring/Rhystic dig) — or (b) GU gains an enchantment/artifact tutor or a Thassa's-Oracle-style line. Retained below as the worked record.
 Drafted: 2026-05-08. **Rewritten 2026-06-01** as a standalone (no longer a Mothman replacement) and recast through the bracket-4-in-spirit lens. Updated same day with **pod approval for 2-card infinites** — primary kill line shifted to Bloom Tender + Freed from the Real, ceiling raised to 18–19/20.
 
 Card text verified against local Scryfall data per `CLAUDE.md` hard rules. Re-verification log at the bottom.
+
+> ⚠️ **LAB CORRECTION (2026-06-13) — the kill-window claims below are falsified.** `scripts/berta_clock_lab.py` (20k, GC-legal modelling build `decks/considering/berta-wise-extrapolator-20260613.txt`) measures **median kill never-in-12 (75% never; 3% by T6, 25% by T12)** — NOT the claimed "T3–5, ahead of the pod's T6–7." Every win line is gated on a **singleton, un-tutorable** enabler (Freed/Pemmin's auras, Umbral Mantle/Staff, Simic Ascendancy), and **GU has no enchantment/artifact tutor** — worse, the GCs this PROP lists as "non-GC" (**Cyclonic Rift, Mystical Tutor, Worldly Tutor**) are *all Game Changers*, so they can't legally backfill that gap under the 3-GC cap. **Do not build on this plan.** Full writeup: `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md`.
+>
+> **RE-LAB 2026-06-14 (addendum to that doc).** This plan also *omitted Berta's own best combo:* **Intruder Alarm + Berta's `{X},{T}` Fractal + any dork = infinite mana** (Fractal ETB → Alarm untaps all → re-tap dork → loop). Adding it + a Lyla/Pensive dig engine (the real-engine build `decks/considering/berta-wise-extrapolator-20260614.txt`) lifts the clock to **36% by T12 / 64% never / T7 10%** — better, but **median still never-in-12, still a worse Najeela.** Intruder Alarm should be in any Berta list. Within the 3-GC cap Berta is not a pod-racer; "competes" requires waiving the cap (external Deck #1 = 7 GCs).
 
 ---
 

@@ -7,8 +7,8 @@
 **Bracket:** 3 (3 of 3 Game Changer slots used; **no infinite combo**; no MLD; no extra turns)
 **Game Changers:** Fierce Guardianship, Opposition Agent, Jeska's Will
 **Conversion Check:** 19/20 (5/5/4/5)
-**Kill Window:** Clock: **T9 decap / ~T13 table** (strict goldfish — lab 2026-06-13 v2, `lw_clock_lab.py`). The from-40 one-cast table sweep is 14-mana Crackle (`{X}{X}{X}{R}{R}`; cf. `lw_speed_lab` from-40 wipe: 20% by T12 / 70% never), so "T6–7" is the **chip-/disruption-assisted real-pod clock**, not a from-full goldfish median. Goldfish understates this deck (it models none of the 8-counter disruption, and assumes a static-40 table with no cross-table chip): the deck's race is **tempo + disruption + a flexible finish**. See `analysis/Lightning_War_Clock_Lab_2026-06-13.md`
-**Current decklist:** `lightning-war-20260607-122049.txt` (the `.txt` is ground truth; this is commentary)
+**Kill Window:** Clock: **T9 decap / T13 table** strict-from-40 goldfish (lab 2026-06-13, `lw_clock_lab.py`). **With realistic cross-table chip** (moderate 3/turn, @28 by T6): **decap T7–8 / table T10**, table never-wipe **40%→1%** (`--mode chipsweep`, 2026-06-14) — the from-40 sweep (14-mana Crackle `{X}{X}{X}{R}{R}`) is the *ceiling*, the chipped finish is the *median*, so "T6–7" is the real-pod **decap front edge**. The deck's incremental-pinger lever is **saturated** (3 pingers); its headroom axis is **finisher availability**, served by the copy package. See `analysis/Lightning_War_Chip_Model_2026-06-14.md`
+**Current decklist:** `lightning-war-20260614.txt` (−Vedalken Orrery / +Electrostatic Field on 2026-06-14; the `.txt` is ground truth, this is commentary)
 
 ---
 
@@ -26,7 +26,7 @@ Azula turns your combat into the most dangerous part of the turn. Every instant/
 
 This is a **race**, deliberately. The 2026-05-31 pod-loss review ([[pod_combo_opponent]], [[grand_abolisher_blocks_counters]]) showed that against Grand-Abolisher-protected combo, stacked counterspells are illusory — they're dead on the opponent's turn. The chosen answer is to **out-tempo and out-race**, not to build a static lock. (Defensive/lock options were evaluated and explicitly declined — see Audit Note.)
 
-**Layer 1 — the copy engine.** Azula + **Twinning Staff** = every spell cast in her combat resolves 3×. Flash enablers (Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind) let sorceries join the party.
+**Layer 1 — the copy engine.** Azula + **Twinning Staff** = every spell cast in her combat resolves 3×. Flash enablers (Leyline of Anticipation, High Fae Trickster, Borne Upon a Wind) let sorceries join the party.
 
 **Layer 2 — X-spell finishers.** Crackle with Power, Comet Storm, Electrodominance, Banefire. **Only Crackle (5×X to *each* of up to X targets) and multikicked Comet Storm fork damage to the whole table from one instance — the true table-kills.** Electrodominance and Banefire are **single-target**: copies either pile on one opponent (a single-player delete) or spread one each (X per opp). They earn their slots as cheap removal + reach, not as table-wipes. Comet Storm and Electrodominance are instants (no flash enabler needed); Banefire at X≥5 is **uncounterable** — the button for the player behind a counter wall.
 
@@ -101,10 +101,10 @@ Azula is the only Grixis deck in the collection. No engine overlap.
 ## Engine Role Map (key cards; full 99 in the `.txt`)
 
 - **Commander:** Fire Lord Azula
-- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, Vedalken Orrery, High Fae Trickster, Borne Upon a Wind)
+- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, High Fae Trickster, Borne Upon a Wind)
 - **X-spell finishers:** Crackle with Power, Comet Storm, Electrodominance, Banefire
 - **Copy-doublers:** Galvanic Iteration, Increasing Vengeance, Reiterate
-- **Passive burn / amplifier:** Guttersnipe, Fated Firepower, Emeritus of Conflict // Lightning Bolt
+- **Pingers / passive burn:** Guttersnipe (2/each), Vivi Ornitier (1/each + ramp), Electrostatic Field (1/each, 0/4 wall) · amplifier Fated Firepower · Emeritus of Conflict // Lightning Bolt
 - **Execution ramp:** Storm-Kiln Artist, Goldspan Dragon, Blazing Firesinger // Seething Song, Jeska's Will, Dark/Desperate Ritual, Sanar's Treasure
 - **Cost reduction:** Dirgur Focusmage // Braingeyser, Nightscape Familiar
 - **Tutors:** Emeritus of Woe // Demonic Tutor, Sanar // Wild Idea, Mystical Teachings
@@ -122,7 +122,9 @@ Azula is the only Grixis deck in the collection. No engine overlap.
 
 Kill-turn goldfish (`scripts/lw_clock_lab.py`, 40k; sweep deck 3): **decap median T9** (10% T7, 57% T9, 76% T10), **table-win median ~T13** (33% by T12, 40% never-in-14). *(v1 reported T11/never; corrected after user push-back — v1 swung only Azula's 4 power and omitted Vivi Ornitier (2nd pinger + ramp) and Fated Firepower (damage amplifier). v2 develops the full board + both pingers + the amplifier.)*
 
-This is **not a clean falsification** like Grand Design — it's partly goldfish strictness against a tempo/disruption deck. Two things the goldfish can't see make the real-pod clock faster: (1) the deck's **8-counter disruption** slows *opponents* (the Exile's Return lesson — Favoured on interaction, not the race); (2) goldfish holds a **static 40-life table**, but a real pod arrives at the finish chipped from attacking *each other*, dropping the fork's X (Crackle X=3 = 11 mana from 30; lw_speed_lab @20 = 22% by T7). What *is* model-independent: the from-40 one-cast sweep is 14-mana Crackle, so "T6–7" is the chip-/disruption-assisted clock, **not** a from-full burst. 19/20 stands. Re-opens the standing pinger-add recommendation (the dominant lever per `lw_speed_lab`). Full writeup: `analysis/Lightning_War_Clock_Lab_2026-06-13.md`.
+This is **not a clean falsification** like Grand Design — it's partly goldfish strictness against a tempo/disruption deck. Two things the goldfish can't see make the real-pod clock faster: (1) the deck's **8-counter disruption** slows *opponents* (the Exile's Return lesson — Favoured on interaction, not the race); (2) goldfish holds a **static 40-life table**, but a real pod arrives at the finish chipped from attacking *each other*, dropping the fork's X (Crackle X=3 = 11 mana from 30; lw_speed_lab @20 = 22% by T7). What *is* model-independent: the from-40 one-cast sweep is 14-mana Crackle, so "T6–7" is the chip-/disruption-assisted clock, **not** a from-full burst. 19/20 stands. Full writeup: `analysis/Lightning_War_Clock_Lab_2026-06-13.md`.
+
+**Update (2026-06-14 — `analysis/Lightning_War_Chip_Model_2026-06-14.md`):** cross-table chip is now modelled (`--mode chipsweep`). It collapses the *table* clock (median T14→T10, never-wipe 40%→1% at moderate 3/turn) while decap barely moves — the from-40 sweep is the ceiling, the chipped finish is the median. This also **retired the standing pinger-add recommendation**: it rested on an always-on abstraction, but a *real* drawn+cast pinger buys only +3pp (`--mode optimize`), and the deck's 3 pingers (Guttersnipe/Vivi/Electrostatic Field) already saturate the incremental-clock lever. The headroom axis is **finisher availability** (`--mode avail`: ceiling 33→73% by T9), which the copy package (Galvanic/Increasing Vengeance/Reiterate + **Twinning Staff**) serves by converting one finisher into a table kill. Applied **−Vedalken Orrery / +Electrostatic Field** — a free cut of the most-redundant enabler (the enabler axis is slack) for a sturdier 0/4 pinger body; ≈ clock-neutral.
 
 ## Audit Note (2026-06-07)
 

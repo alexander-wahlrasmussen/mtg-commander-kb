@@ -1,0 +1,101 @@
+1 Command Tower
+1 Exotic Orchard
+1 City of Brass
+1 Mana Confluence
+1 Reflecting Pool
+1 Polluted Delta
+1 Flooded Strand
+1 Marsh Flats
+1 Prismatic Vista
+1 Watery Grave
+1 Hallowed Fountain
+1 Godless Shrine
+1 Underground Sea
+1 Tundra
+1 Scrubland
+1 Drowned Catacomb
+1 Glacial Fortress
+1 Isolated Chapel
+1 Fetid Pools
+1 Concealed Courtyard
+1 Seachrome Coast
+1 Darkslick Shores
+1 Otawara, Soaring City
+1 Urborg, Tomb of Yawgmoth
+1 Bojuka Bog
+1 Mystic Sanctuary
+1 Castle Locthwain
+1 Island
+1 Swamp
+1 Plains
+1 Thassa's Oracle
+1 Demonic Consultation
+1 Tainted Pact
+1 Laboratory Maniac
+1 Jace, Wielder of Mysteries
+1 Tireless Tribe
+1 Putrid Imp
+1 Ghostly Pilferer
+1 Skirge Familiar
+1 Frantic Search
+1 Windfall
+1 Echo of Eons
+1 Razaketh, the Foulblooded
+1 Hullbreaker Horror
+1 Rot Hulk
+1 Astral Dragon
+1 Demonic Tutor
+1 Vampiric Tutor
+1 Beseech the Mirror
+1 Diabolic Intent
+1 Grim Tutor
+1 Wishclaw Talisman
+1 Solve the Equation
+1 Spellseeker
+1 Sol Ring
+1 Lotus Petal
+1 Arcane Signet
+1 Dimir Signet
+1 Azorius Signet
+1 Orzhov Signet
+1 Talisman of Dominance
+1 Talisman of Progress
+1 Fellwar Stone
+1 Brainstorm
+1 Ponder
+1 Preordain
+1 Opt
+1 Night's Whisper
+1 Sign in Blood
+1 Mystic Remora
+1 Painful Truths
+1 Swords to Plowshares
+1 Path to Exile
+1 Fatal Push
+1 Go for the Throat
+1 Toxic Deluge
+1 Counterspell
+1 Mana Drain
+1 Swan Song
+1 An Offer You Can't Refuse
+1 Pact of Negation
+1 Dovin's Veto
+1 Flusterstorm
+1 Delay
+1 Spell Pierce
+1 Baleful Strix
+1 Dauthi Voidwalker
+1 Esper Sentinel
+1 Snapcaster Mage
+1 Consider
+1 Sleight of Hand
+1 Cut Down
+1 Prismatic Ending
+1 Supreme Verdict
+1 Scheming Symmetry
+1 Merchant Scroll
+1 Shark Typhoon
+1 Silence
+1 Drown in the Loch
+
+1 Hashaton, Scarab's Fist

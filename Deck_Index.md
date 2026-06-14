@@ -55,9 +55,9 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 Flagged for consideration, not yet built:
 
-- **Berta, Wise Extrapolator** (GU) — Simic big-mana / X-spell / Fractal tokens. Proposal at `proposals/PROP_Berta_Wise_Extrapolator.md` (drafted 2026-05-08). Slot intent: **replaces Wise Mothman (Radiation Sickness)** — archetype overlap on +1/+1 counters means coexistence violates distinctiveness rule. Realistic ceiling 15–16/20.
+- ~~**Berta, Wise Extrapolator** (GU)~~ — **SHELVED 2026-06-14.** Real-engine re-lab (adding her own Intruder Alarm infinite + a dig engine the external lists run) lifted the in-cap clock only to **36% by T12 / median never / T7 10%** — still a decisively worse Najeela. Combo is falsified *for the 3-GC cap* (un-tutorable singleton enablers in GU; the bottleneck is drawing them, which more dorks/draw don't fix); "competes" would require **waiving the cap** (external Deck #1 = 7 GCs). Worked record: `proposals/PROP_Berta_Wise_Extrapolator.md` + `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md` (06-14 addendum).
 - Hashaton, Scarab's Fist (Esper) — proposal at `proposals/PROP_Hashaton_Scarabs_Fist.md`
-- Najeela
+- ~~**Najeela, the Blade-Blossom** (5C)~~ — **DROPPED 2026-06-14** (user done with the Berta/Najeela round). Warrior tribal + infinite-combat combo; `proposals/PROP_Najeela_Blade_Blossom.md`. Not falsified — clock lab 2026-06-13 had it at median T10 (reliable combo, not a T6–7 racer), the stronger of the two candidates, so it's the better starting point if ever revisited. See `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md`.
 - Hinata
 - Krark + Sakashima (pairs / partner shell)
 

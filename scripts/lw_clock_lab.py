@@ -47,7 +47,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "lightning-war-20260607-122049.txt"
+DECK = ROOT / "decks" / "lightning-war-20260614.txt"
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
@@ -70,24 +70,52 @@ def _powmap(library, commander):
     return {k: (v if isinstance(v, int) else 1) for k, v in raw.items()}
 
 
-def goldfish_kill(library, commander, index, powmap, rng):
+def goldfish_kill(library, commander, index, powmap, rng,
+                  chip_rate=0, chip_start=3, extra_pingers=0,
+                  fin_always=False, enabler_always=False):
+    """chip_rate = life each opponent loses per OUR turn from cross-table combat
+    (the pod beating on each other), applied from chip_start onward. extra_pingers
+    = an ALWAYS-ON pinger CEILING: +1/each per cast from turn 1, no draw/cast cost.
+    It is optimistic — a real singleton pinger you must draw and then cast is worth
+    far less (see add_pingers). chip_rate=0 reproduces the published baseline.
+
+    A library card named "Extra Pinger*" is a REALISTIC added pinger (0-power, cmc 2,
+    must be drawn and cast before it chips). Inject via _inject(); that is the honest
+    marginal-pinger measurement, vs extra_pingers' always-on ceiling.
+
+    fin_always / enabler_always = CEILING toggles for the availability-under-chip
+    test: treat a finisher as always findable / a flash enabler as always present.
+    Each is the upper bound of what infinite redundancy on that axis could buy."""
     def pw(nm):
         return powmap.get(nm.lower(), 1)
 
     g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
     azula_turn = None
-    guttersnipe = stormkiln = goldspan = vivi = False
+    guttersnipe = stormkiln = goldspan = vivi = estatic = False
     fated_x = 0
     vivi_pow = 0
     treasure_bank = 0
     board = ncre = 0
     new_pow = new_cre = 0
+    live_xp = 0                                      # realistic "Extra Pinger*" in play
 
     for T in range(1, TURNS + 1):
         board += new_pow; ncre += new_cre; new_pow = new_cre = 0
         g.begin_turn(T)
         g.deploy_rocks()
+
+        # cross-table chip: between our turns the rest of the pod attacks each
+        # other, so opponents arrive already below 40. Capped at life-1 per
+        # opponent so the TABLE's own beatdown never registers OUR decap/table
+        # clock — we still have to land the finishing point. Conservative: chip
+        # never lands a kill even stacked with our pings, and aggression aimed at
+        # US is not subtracted from the opponents (so the moderate band, not the
+        # heavy one, is the honest planning centre).
+        if chip_rate and T >= chip_start:
+            for i in range(len(tbl.dmg)):
+                if tbl.dmg[i] < tbl.life:
+                    tbl.dmg[i] = min(tbl.life - 1, tbl.dmg[i] + chip_rate)
 
         # Azula (commander) at 4 — a 4/4 that attacks from next turn
         if azula_turn is None and g.avail >= 4:
@@ -104,11 +132,14 @@ def goldfish_kill(library, commander, index, powmap, rng):
                             if "creature" in r["type_line"].lower()), key=lambda x: x[1])
             for i, cmc, nm in cands:
                 if g.avail >= cmc:
-                    g.cast(nm, cmc); new_pow += pw(nm); new_cre += 1
+                    is_xp = nm.startswith("Extra Pinger")
+                    g.cast(nm, cmc); new_pow += (0 if is_xp else pw(nm)); new_cre += 1
                     if nm == "Guttersnipe": guttersnipe = True
                     elif nm == "Storm-Kiln Artist": stormkiln = True
                     elif nm == "Goldspan Dragon": goldspan = True
                     elif nm == "Vivi Ornitier": vivi = True
+                    elif nm == "Electrostatic Field": estatic = True   # 0/4 pinger (no swing)
+                    elif is_xp: live_xp += 1                            # realistic added pinger
                     more = True
                     break
         # Fated Firepower (amplifier): enters with X fire counters (+X to all damage)
@@ -127,8 +158,11 @@ def goldfish_kill(library, commander, index, powmap, rng):
             vivi_pow += ncast
         if stormkiln:
             treasure_bank += ncast
-        # pinger chip (Guttersnipe 2 + Vivi 1 per cast, each amplified by Fated)
-        per_cast = (2 + fated_x if guttersnipe else 0) + (1 + fated_x if vivi else 0)
+        # pinger chip (Guttersnipe 2 + Vivi 1 + Electrostatic Field 1 per cast, each
+        # amplified by Fated). extra_pingers = FURTHER Firebrand-class adds (1/each).
+        per_cast = ((2 + fated_x if guttersnipe else 0) + (1 + fated_x if vivi else 0)
+                    + (1 + fated_x if estatic else 0)
+                    + (live_xp + extra_pingers) * (1 + fated_x))
         if per_cast and ncast:
             tbl.hit_all(per_cast * ncast, T)
             if tbl.done:
@@ -144,10 +178,14 @@ def goldfish_kill(library, commander, index, powmap, rng):
             tre_mana = treasure_bank * (2 if goldspan else 1)
             rit = sum(v for r, v in RITUALS.items() if g.has(r))
             cm = g.avail + 2 + tre_mana + rit
-            enabler = any(g.has(e) for e in ENABLERS)
-            n_amp = sum(1 for a in AMPS if g.has(a))
+            enabler = enabler_always or any(g.has(e) for e in ENABLERS)
+            n_amp = (sum(1 for a in AMPS if g.has(a))
+                     + sum(1 for nm, _ in g.hand if nm.startswith("Extra Amp")))
             inst = 2 + n_amp                                 # Azula copy + amps
-            have_tutor = any(g.has(t) for t in TUTORS) and cm >= 2
+            have_tutor = fin_always or (
+                (any(g.has(t) for t in TUTORS)
+                 or any(nm.startswith("Extra Tutor") for nm, _ in g.hand)) and cm >= 2)
+            has_xfin = any(nm.startswith("Extra Finisher") for nm, _ in g.hand)
             living = [i for i in range(3) if tbl.dmg[i] < tbl.life]
             if not living:
                 return tbl.decap, tbl.table
@@ -164,7 +202,7 @@ def goldfish_kill(library, commander, index, powmap, rng):
                     X += 1
                 if cm >= 3 * X + 2:
                     killed_table = True
-            if not killed_table and castable("Comet Storm"):
+            if not killed_table and (castable("Comet Storm") or has_xfin):  # Comet-class
                 X = 1
                 while (X + fated_x) * inst < need_each:
                     X += 1
@@ -190,8 +228,8 @@ def goldfish_kill(library, commander, index, powmap, rng):
 
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — Lightning War kill-turn goldfish (v2)   trials={trials} seed={SEED}")
-    print("    decap = first opponent dead (40) · table = all three. Board + 2 pingers")
-    print("    (Guttersnipe/Vivi) chip; a copy-amped X-spell forks the table.\n")
+    print("    decap = first opponent dead (40) · table = all three. Board + 3 pingers")
+    print("    (Guttersnipe/Vivi/Electrostatic Field) chip; a copy-amped X-spell forks.\n")
     library, commander = slc.load_parsed(DECK, index, aliases)
     powmap = _powmap(library, commander)
     rng = random.Random(SEED)
@@ -208,5 +246,118 @@ def mode_clock(index, aliases, trials):
     print("  (cf. lw_speed_lab one-cast-from-40 table wipe: 20% by T12 / 70% never — no chip/board.)")
 
 
+def _run(library, commander, powmap, trials, **kw):
+    rng = random.Random(SEED)
+    return [goldfish_kill(library, commander, None, powmap, rng, **kw) for _ in range(trials)]
+
+
+def _report(label, res, trials):
+    nd = 100.0 * sum(1 for d, _ in res if d is None) / trials
+    nt = 100.0 * sum(1 for _, t in res if t is None) / trials
+    print(slc.row(label + " decap", slc.cum(res, 0, SHOW), SHOW)
+          + f"   med {slc.median(res, 0)}  nvr {nd:.0f}%")
+    print(slc.row(label + " table", slc.cum(res, 1, SHOW), SHOW)
+          + f"   med {slc.median(res, 1)}  nvr {nt:.0f}%")
+
+
+FILLER_POOL = ["March of Swirling Mist", "Redirect Lightning", "Silver Shroud Costume"]
+PINGER_REC = {"cmc": 2.0, "type_line": "Creature — Wall", "face_types": ["Creature"],
+              "color_identity": ("R",)}
+SPELL_REC = {"cmc": 2.0, "type_line": "Instant", "face_types": ["Instant"],
+             "color_identity": ("R",)}
+
+
+def _inject(library, adds):
+    """adds = list of (name, record). Drop one filler per add (keeps lib=99) and append
+    each as a real drawable card. A name beginning 'Extra Pinger/Finisher/Tutor/Amp' is
+    recognised by goldfish_kill ONLY once in hand — the honest draw+cast marginal model
+    (vs the always-on extra_pingers / *_always ceilings)."""
+    lib, pool = list(library), list(FILLER_POOL)
+    for name, rec in adds:
+        for f in list(pool):
+            idx = next((i for i, (nm, _) in enumerate(lib) if nm == f), None)
+            if idx is not None:
+                lib.pop(idx); pool.remove(f); break
+        lib.append((name, dict(rec)))
+    return lib
+
+
+def mode_chipsweep(index, aliases, trials):
+    print(f"\n### CHIP SWEEP — opponents arrive pre-chipped by the pod   trials={trials} seed={SEED}")
+    print("    chip_rate = life each opponent loses per our turn from cross-table combat")
+    print("    (from T3). Implied avg opponent life at T6 = 40 - 4*rate. decap=first dead,")
+    print("    table=all three (OUR kills; chip itself is capped non-lethal).\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    print("  P(kill <= turn T) %".ljust(42) + "".join(f"{t:>6}" for t in SHOW))
+    for rate, tag in [(0, "no table chip  (@40 T6, baseline)"), (2, "light 2/turn   (@32 T6)"),
+                      (3, "moderate 3/turn(@28 T6)"), (5, "heavy 5/turn   (@20 T6)")]:
+        print(f"  -- {tag} " + "-" * (38 - len(tag)))
+        _report(f"  r={rate}", _run(library, commander, powmap, trials, chip_rate=rate), trials)
+
+
+def mode_optimize(index, aliases, trials):
+    print(f"\n### OPTIMIZE — REAL (draw+cast) vs ALWAYS-ON pinger   trials={trials} seed={SEED}")
+    print("    The deck already runs 3 pingers (Guttersnipe/Vivi/Electrostatic). A REAL added")
+    print("    pinger is a drawn+cast singleton (-1 filler); an ALWAYS-ON one chips from T1 for")
+    print("    free (optimistic ceiling). The gap between them is the draw/cast tax.\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    lib1 = _inject(library, [("Extra Pinger 1", PINGER_REC)])
+    print("  P(kill <= turn T) %".ljust(42) + "".join(f"{t:>6}" for t in SHOW))
+    for rate, lab in [(3, "moderate chip (3/turn, @28 T6)"), (0, "static @40 (no table chip)")]:
+        print(f"  == {lab} ==")
+        _report("  current deck (3 pingers)", _run(library, commander, powmap, trials, chip_rate=rate), trials)
+        _report("  +1 REAL pinger (draw+cast)", _run(lib1, commander, powmap, trials, chip_rate=rate), trials)
+        _report("  +1 ALWAYS-ON (ceiling)", _run(library, commander, powmap, trials, chip_rate=rate, extra_pingers=1), trials)
+
+
+def mode_avail(index, aliases, trials):
+    print(f"\n### AVAIL-UNDER-CHIP — is the kill gated on MANA, FINISHER, or ENABLER?")
+    print(f"    trials={trials} seed={SEED}. All held at moderate chip (3/turn from T3, @28 by T6).")
+    print("    CEIL rows = infinite redundancy on that axis (upper bound the prize). Compare the")
+    print("    axes' ceilings to each other; the REAL pinger shows what one true card buys.\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    lib1 = _inject(library, [("Extra Pinger 1", PINGER_REC)])
+    print("  P(kill <= turn T) %".ljust(42) + "".join(f"{t:>6}" for t in SHOW))
+    rows = [
+        ("baseline (current deck)", library, dict()),
+        ("+1 REAL pinger (draw+cast)", lib1, dict()),
+        ("CEIL pinger always-on", library, dict(extra_pingers=1)),
+        ("CEIL enabler always-on", library, dict(enabler_always=True)),
+        ("CEIL finisher always-found", library, dict(fin_always=True)),
+        ("CEIL finisher+enabler both", library, dict(fin_always=True, enabler_always=True)),
+    ]
+    for tag, lib, kw in rows:
+        print(f"  -- {tag} " + "-" * (42 - len(tag)))
+        _report("   ", _run(lib, commander, powmap, trials, chip_rate=3, **kw), trials)
+
+
+def mode_finlever(index, aliases, trials):
+    print(f"\n### FIN-LEVER — REAL (draw+cast) redundancy on the HEADROOM axis   trials={trials} seed={SEED}")
+    print("    Moderate chip (3/turn, @28 by T6). avail showed finisher-availability is the")
+    print("    binding axis (ceiling table-by-T9 33->73%). This asks what a SINGLE real card")
+    print("    on that axis buys, vs the +1 real pinger bar (~+3pp) and the always-found ceiling.")
+    print("    finisher = Comet-class instant (enabler-free); tutor = finds one; amp = copy-")
+    print("    converter (Twinning-class, +1 instance). All must be drawn to do anything.\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    variants = [
+        ("baseline (current deck)", library, dict()),
+        ("+1 REAL pinger (the bar)", _inject(library, [("Extra Pinger 1", PINGER_REC)]), dict()),
+        ("+1 REAL table finisher (Comet-class)", _inject(library, [("Extra Finisher 1", SPELL_REC)]), dict()),
+        ("+1 REAL tutor", _inject(library, [("Extra Tutor 1", SPELL_REC)]), dict()),
+        ("+1 REAL converter/amp (Twinning-class)", _inject(library, [("Extra Amp 1", SPELL_REC)]), dict()),
+        ("CEIL finisher always-found", library, dict(fin_always=True)),
+    ]
+    print("  P(kill <= turn T) %".ljust(44) + "".join(f"{t:>6}" for t in SHOW))
+    for tag, lib, kw in variants:
+        print(f"  -- {tag} " + "-" * (44 - len(tag)))
+        _report("   ", _run(lib, commander, powmap, trials, chip_rate=3, **kw), trials)
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "chipsweep": mode_chipsweep,
+                          "optimize": mode_optimize, "avail": mode_avail,
+                          "finlever": mode_finlever}, default_trials=40000)

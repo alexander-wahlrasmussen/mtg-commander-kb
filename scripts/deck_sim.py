@@ -72,6 +72,8 @@ COMMANDERS = {
     "forced-liquidation": "Kefka, Court Mage",
     "clive-external": "Clive, Ifrit's Dominant",
     "kefka-external": "Kefka, Court Mage",
+    # 2026-06-14 Hashaton benchmark (decks/considering/) — Esper Thoracle variant
+    "hashaton-thoracle": "Hashaton, Scarab's Fist",
     # 2026-06-13 external Glarb lists under evaluation (decks/considering/) — all Glarb
     "glarb-strong-ext": "Glarb, Calamity's Augur",
     "glarb-mastermind-ext": "Glarb, Calamity's Augur",
@@ -79,6 +81,9 @@ COMMANDERS = {
     "glarb-hybrid": "Glarb, Calamity's Augur",
     "glarb-hybrid-final": "Glarb, Calamity's Augur",
     "glarb-hybrid-b3": "Glarb, Calamity's Augur",
+    # 2026-06-13 lab-run candidates (decks/considering/)
+    "berta-wise-extrapolator": "Berta, Wise Extrapolator",
+    "najeela-blade-blossom": "Najeela, the Blade-Blossom",
 }
 
 DISPLAY = {

@@ -1,0 +1,91 @@
+6 Forest
+6 Island
+1 Breeding Pool
+1 Hinterland Harbor
+1 Yavimaya Coast
+1 Botanical Sanctum
+1 Flooded Grove
+1 Waterlogged Grove
+1 Misty Rainforest
+1 Scalding Tarn
+1 Flooded Strand
+1 Polluted Delta
+1 Prismatic Vista
+1 Reflecting Pool
+1 Command Tower
+1 Exotic Orchard
+1 Boseiju, Who Endures
+1 Otawara, Soaring City
+1 Karn's Bastion
+1 Reliquary Tower
+1 Oran-Rief, the Vastwood
+1 Yavimaya, Cradle of Growth
+1 Castle Garenbrig
+1 Cryptic Caves
+1 Lumbering Falls
+1 Hengegate Pathway
+1 Barkchannel Pathway
+1 Bloom Tender
+1 Freed from the Real
+1 Pemmin's Aura
+1 Intruder Alarm
+1 Walking Ballista
+1 Simic Ascendancy
+1 Hydroid Krasis
+1 Umbral Mantle
+1 Selvala, Heart of the Wilds
+1 Marwyn, the Nurturer
+1 Staff of Domination
+1 Kami of Whispered Hopes
+1 Hardened Scales
+1 Branching Evolution
+1 Doubling Season
+1 Vorinclex, Monstrous Raider
+1 The Ozolith
+1 Kalonian Hydra
+1 Sol Ring
+1 Arcane Signet
+1 Mana Vault
+1 Sapphire Medallion
+1 Mana Reflection
+1 Birds of Paradise
+1 Incubation Druid
+1 Llanowar Elves
+1 Elvish Mystic
+1 Joraga Treespeaker
+1 Three Visits
+1 Farseek
+1 Cultivate
+1 Kodama's Reach
+1 Skyshroud Claim
+1 Sakura-Tribe Elder
+1 Seedborn Muse
+1 Survival of the Fittest
+1 Spellseeker
+1 Defense of the Heart
+1 Eldritch Evolution
+1 Finale of Devastation
+1 Green Sun's Zenith
+1 Pull from Tomorrow
+1 Stroke of Genius
+1 Tatyova, Benthic Druid
+1 Garruk's Uprising
+1 Tribute to the World Tree
+1 Lyla, Holographic Assistant
+1 Pensive Professor
+1 Avenger of Zendikar
+1 Craterhoof Behemoth
+1 Counterspell
+1 Mana Drain
+1 Swan Song
+1 Veil of Summer
+1 Heroic Intervention
+1 Beast Within
+1 Pongify
+1 Rapid Hybridization
+1 Krosan Grip
+1 Lightning Greaves
+1 Swiftfoot Boots
+1 Vexing Bauble
+
+1 Berta, Wise Extrapolator

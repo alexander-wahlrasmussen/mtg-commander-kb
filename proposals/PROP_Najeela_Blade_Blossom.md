@@ -5,6 +5,8 @@ Drafted: 2026-05-08.
 
 Card text verified against local Scryfall data per `CLAUDE.md` hard rules. The Hashaton 2026-05-02 incident is the canonical reason proposals must verify before drafting. Every card named in the combo math below has been Scryfall-checked at draft time; re-verify at build time.
 
+> ⚠️ **LAB CLOCK (2026-06-13).** `scripts/naj_clock_lab.py` (20k, GC-legal modelling build `decks/considering/najeela-blade-blossom-20260613.txt`) measures **median kill T10** (34% never-in-12; 12% by T6, 23% by T7, 66% by T12). The "deterministic + tutorable" framing holds — Najeela lands far more reliably than Berta because the enablers (Druids' Repository, Bear Umbra, Sword) *are* tutorable — **but it is a T10 reliability clock, not a T6–7 racer**; gated by 5-colour mana + commander dependence. **GC note:** the Bracket-4 "unlimited GC" plan violates the repo's hard 3-GC cap, and Smothering Tithe / Chrome Mox / Cyclonic Rift are GCs — the modelling build uses the legal trio Demonic Tutor / Vampiric Tutor / Mana Vault. Full writeup: `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md`.
+
 ---
 
 ## Commander

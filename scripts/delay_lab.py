@@ -120,6 +120,40 @@ YURIKO = {
     },
 }
 
+HASHATON = {
+    # NEW 2026-06-14: the Thoracle-Hashaton benchmark target. Counter+removal heavy,
+    # 0 statics (same structural Abolisher gap as Yuriko), but a DEEPER tutor suite.
+    # NOTE: this lab measures DISRUPT-THE-POD only. Hashaton's distinctive resilience
+    # (protect-own combo: counter-dodging discard-deploy of Thoracle, Razaketh
+    # recursion, redundant oracles, Silence) is a DIFFERENT axis this lab does not see.
+    "answers": {
+        "Counterspell":              ({"C"}, 2, {"ios", "ublue"}),
+        "Mana Drain":                ({"C"}, 2, {"ios", "ublue"}),
+        "Swan Song":                 ({"C"}, 1, {"ios", "ublue"}),
+        "An Offer You Can't Refuse": ({"C"}, 1, {"ios", "ublue"}),
+        "Pact of Negation":          ({"C"}, 0, {"ios", "ublue"}),   # free on their turn
+        "Dovin's Veto":              ({"C"}, 2, {"ios", "ublue"}),
+        "Flusterstorm":              ({"C"}, 1, {"ios", "ublue"}),
+        "Delay":                     ({"C"}, 2, {"ios", "ublue"}),
+        "Spell Pierce":              ({"C"}, 1, {"ios", "ublue"}),
+        "Drown in the Loch":         ({"C", "R", "P"}, 2, {"ios", "ublue"}),  # both modes; yard size not modelled
+        "Swords to Plowshares":      ({"R", "P"}, 1, {"ios"}),
+        "Path to Exile":             ({"R", "P"}, 1, {"ios"}),
+        "Fatal Push":                ({"R", "P"}, 1, {"ios"}),       # MV<=2: Kinnan/Abolisher
+        "Go for the Throat":         ({"R", "P"}, 2, {"ios"}),
+        "Cut Down":                  ({"R", "P"}, 2, {"ios"}),       # P+T<=5: Abolisher 2/2 + dorks
+        "Prismatic Ending":          ({"P"}, 3, {"ios"}),            # SORCERY: preempt only
+        "Toxic Deluge":              ({"P"}, 3, {"ios"}),            # X=2 wrath
+        "Supreme Verdict":           ({"P"}, 4, {"ios"}),
+    },
+    "tutors": {
+        "Demonic Tutor": (2, "any"), "Vampiric Tutor": (1, "any"),  # to-top, modelled same-turn (cf. Mystical)
+        "Grim Tutor": (3, "any"), "Wishclaw Talisman": (4, "any"),
+        "Diabolic Intent": (2, "any"), "Beseech the Mirror": (4, "any"),
+        "Solve the Equation": (3, "ios"), "Merchant Scroll": (3, "ublue"),
+    },
+}
+
 KEFKA_BURN = {
     "answers": {
         "Counterspell":             ({"C"}, 2, {"ios"}),
@@ -382,18 +416,29 @@ def main():
 
     cons = ROOT / "decks" / "considering"
     dks = ROOT / "decks"
-    yur, _ = slc.load_parsed(cons / "insider-trading-20260612.txt", index, aliases)
-    kfk, _ = slc.load_parsed(cons / "forced-liquidation-20260612.txt", index, aliases)
-    ext, _ = slc.load_parsed(cons / "kefka-external-20260612.txt", index, aliases)
-    port = slc.build_lib(kfk, index, PORT_REMOVES, list(PORT_ADDS))
+
+    def L(path):
+        """Load a decklist, or skip it if archived since the bake-off."""
+        try:
+            return slc.load_parsed(path, index, aliases)[0]
+        except FileNotFoundError:
+            print(f"  (skip: {path.name} not found — archived since the bake-off)")
+            return None
+
+    hsh = L(cons / "hashaton-thoracle-20260614.txt")
+    yur = L(cons / "insider-trading-20260612.txt")
+    kfk = L(cons / "forced-liquidation-20260612.txt")
+    ext = L(cons / "kefka-external-20260612.txt")
+    port = slc.build_lib(kfk, index, PORT_REMOVES, list(PORT_ADDS)) if kfk else None
     burn_port = {"answers": {n: v for n, v in KEFKA_BURN["answers"].items()
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
-    lw, _ = slc.load_parsed(dks / "lightning-war-20260607-122049.txt", index, aliases)
-    cal, _ = slc.load_parsed(dks / "calamity-tax-20260405-061741.txt", index, aliases)
-    gd, _ = slc.load_parsed(dks / "the-grand-design-20260502.txt", index, aliases)
+    lw = L(dks / "lightning-war-20260614.txt")
+    cal = L(dks / "calamity-tax-20260405-061741.txt")
+    gd = L(dks / "the-grand-design-20260502.txt")
 
-    configs = [
+    raw_configs = [
+        ("Hashaton / Thoracle (NEW — benchmark target)", hsh, HASHATON),
         ("Yuriko / Insider Trading (the pick)", yur, YURIKO),
         ("Kefka-burn / Forced Liquidation (fallback)", kfk, KEFKA_BURN),
         ("Kefka-burn + 3-card port (-Negate -ArcDenial -AnOffer "
@@ -403,6 +448,7 @@ def main():
         ("ROSTER: Calamity Tax (18/20, clock T7-9 goldfish)", cal, CALAMITY_TAX),
         ("ROSTER: Grand Design (19/20, clock T10 decap lab)", gd, GRAND_DESIGN),
     ]
+    configs = [c for c in raw_configs if c[1] is not None]
     print(f"delay_lab — trials={args.trials} seed={args.seed} window={args.window}")
     print(f"weights (judgment): static {W_STATIC} / removal {W_REMOVAL} / counter {W_COUNTER}")
     for label, lib, spec in configs:
