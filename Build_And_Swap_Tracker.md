@@ -110,6 +110,8 @@ Grouped by what they unlock. Quantities matter where a card is wanted by more th
 - Manabase (**proxy-recommended** — reserved-list): Tundra, Scrubland, Mana Confluence, Darkslick Shores, Castle Locthwain
 - Contested: Mana Drain, Dauthi Voidwalker, Demonic Tutor, Vampiric Tutor, Underground Sea
 
+*Verified EUR prices (as of 2026-06-02 — re-confirm before buying, per [[feedback_verify_prices]]) for the still-relevant buys (Kiki, the Kefka wheels + punishers) are in the archived buylist `archive/build_scratch/Proposed_Buys_2026-06-02.md`. Its Loam / Berta / Witherbloom sections are dead (dismantled / parked).*
+
 ---
 
 ## 4. Cross-deck contention — don't double-spend the same card

@@ -84,7 +84,7 @@ mtg-commander-kb/
 ├── Deck_Index.md                            # roster dashboard  (synced)
 ├── Collection_Master_Status.md              # cross-deck state  (synced)
 ├── Pod_Matchup_Matrix.md                    # roster vs the combo pod (state doc)
-├── Proposed_Buys_YYYY-MM-DD.md              # standing shopping state
+├── Build_And_Swap_Tracker.md                # build order + standing swaps/buys (working state)
 │
 ├── reference/        # REF_* — stable framework & domain docs (6)
 │   ├── REF_The_Conversion_Check.md   REF_Game_Changers_List.md
