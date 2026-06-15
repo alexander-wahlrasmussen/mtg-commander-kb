@@ -147,6 +147,29 @@ flowchart LR
    durability indices but the worst table clocks. In a bracket that rewards *closing*, a high
    never% (Grand Design 82%, Diminishing 70%) is fatal — they seed last and exit first.
 
+## Robustness — is the crown a fluke?
+
+Re-ran across 5 seeds (1 / 7 / 42 / 2024 / 88888) and swept `T_grind` 6→14:
+
+- **Seed-robust.** Genome wins *every* seed in both the fast (`T_grind=10`) and grindy
+  (`T_grind=8`) metas. The crown is not a Monte Carlo artifact.
+- **The only thing that flips the champion is the `T_grind` modelling knob — and only at its
+  extreme.** Genome wins for all `T_grind ≥ 8`. At `T_grind ≤ 7` (a field where the table
+  essentially *never* closes fast, so pure durability decides nearly every pod) **The Dark
+  Lord's Army** takes the crown, Calamity Tax runner-up — the durability fortress finally in
+  the regime it was built for. This is precisely the self-meta judgment (Dark Lord #1 for slow
+  fields); the model and the judgment agree on the boundary.
+
+| `T_grind` | Champion | Runner-up |
+|---:|---|---|
+| 6–7 | **The Dark Lord's Army** | The Calamity Tax |
+| 8 | The Genome Project | The Dark Lord's Army |
+| 9–14 | The Genome Project | Zero-Sum Game |
+
+**Takeaway:** Genome is the champion across all realistic pace assumptions; only an
+extreme-grind meta hands it to the durability king. Robust to randomness, sensitive (only at
+the edge) to the one documented judgment knob.
+
 ## Honesty (gauntlet discipline, inherited)
 
 - Table clocks are **unblocked goldfish ceilings** — no opposing interaction, blockers, or
