@@ -18,7 +18,7 @@ clock, or interaction suite changes.
 > the correction (see the caveat under "The matrix"). The judgment columns
 > (Through-Abolisher, the verdicts) remain reasoned, not simmed.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`. **Measured disruption 2026-06-15** — the `P(win)` disruption term is now **delay_lab-measured for all 16** (was class-bucketed for 13); `analysis/delay_disruption.json` + writeup `analysis/Measured_Disruption_All16_2026-06-15.md`. Reorder: **Replication Crisis 4th→3rd** (under-bucketed "none" 15% → measured 50%), **Genome 1st→2nd** (over-bucketed; its rank is now a *race* rank, D 16%), Earthbend up (15→38%), Diminishing/Crystal down (over-bucketed). The `warn`/`none` bucket is retired.
 
 ---
 
@@ -58,38 +58,41 @@ lab-sourced — regenerate with `python scripts/pod_gauntlet.py --matrix`:
   (replaces the old hand-written "Beats T6–7?" cells).
 - **P(win)** = `pod_gauntlet.py` — race our decap clock + disruption vs the T6–7
   combo. `→` = after the pending Build_And_Swap §2 swap (the `--swapped` view).
-- **Through Abolisher?** = *judgment* — can the deck disrupt the combo turn given
-  a resolved enemy Abolisher (delay_lab-measured for GD / Calamity / LW only).
+- **Through Abolisher?** = *judgment, now anchored to a number* — can the deck disrupt the
+  combo turn given a resolved enemy Abolisher. **delay_lab-measured for all 16** as of
+  2026-06-15 (`analysis/Measured_Disruption_All16_2026-06-15.md`); the `D@.3` it cites is the
+  measured P(disrupt) at the realistic Abolisher band.
 
-> **Read P(win) with its two biases** (`campaigns/Pod_Gauntlet_2026-06-14.md`): it
-> folds a lab decap clock — an **unblocked goldfish ceiling** — with disruption
-> that is **measured only for GD/Calamity/LW** and bucketed otherwise. So it
-> **over-rates fast goldfish-ceiling decks** (Genome, Bumbleflower — high numbers,
-> but glass / combat-only kills the goldfish never blocks) and **under-rates slow
-> measured-disruption decks** (Grand Design — best disruption on the roster, dragged
-> down by a T10 clock). **Read the components and the per-row verdict, not the rank
-> alone.** Colour-T6 floors (lands-only, `deck_sim`) are a uniform 88–99% across the
+> **Read P(win) with its remaining bias** (`campaigns/Pod_Gauntlet_2026-06-14.md`;
+> measured-disruption update `analysis/Measured_Disruption_All16_2026-06-15.md`): it folds a
+> lab decap clock — an **unblocked goldfish ceiling** — with disruption that is now
+> **delay_lab-measured for all 16** (the soft `warn`/`none` bucket is retired). The clock
+> ceiling still **over-rates fast goldfish-ceiling decks** (Genome — but its measured D is now
+> only 16%, confirming its rank is a *race* rank, not disruption) and the decap frame
+> **under-rates slow measured-disruption decks** (Grand Design — best disruption on the roster,
+> dragged by a T10 clock). **Read the components and the per-row verdict, not the rank alone.**
+> Colour-T6 floors (lands-only, `deck_sim`) are a uniform 88–99% across the
 > roster and no longer differentiate (2026-06-09 retraction below) — dropped from the
 > table.
 
 | # | Deck | Sc | Clock decap / table | Race P≤6 / P≤7 | P(win) →swap | Through Abolisher? | Verdict vs pod |
 |---|---|---|---|---|---|---|---|
-| 1 | The Genome Project | 15 | T7 / T8 | 41% / 82% | **73%** | ⚠ some counters; combo-reliant itself | **Top P(win) — but a goldfish race *ceiling*: 15/20 glass, combo-reliant. High number, fragile in play** |
-| 2 | Radiation Sickness | 18 | T7 / T10 | 32% / 76% | **69%** →69% | ⚠ rad/proliferate attrition is Abolisher-proof; +FoN off-turn | **Favoured — fast converge attrition, Abolisher-proof engine** |
-| 3 | Ms. Bumbleflower | 15 | T8 / T11 | 7% / 38% | **49%** | ⚠ 5/5 interaction but combat-only kill is far too slow | **Soft ceiling — decap T8 but the combat-only kill is goldfish-optimistic (bmf lab caveat)** |
-| 4 | The Replication Crisis | 17 | T7 / T10 | 16% / 59% | **47%** →46% | ❌ counter-reliant (dead under Abolisher); every line needs Satya | **Even — race measured & rejected; Kiki swap adds an Abolisher-proof line (resilience, not clock)** |
-| 5 | The Exile's Return | 18 | T8 / T10 | 9% / 39% | **45%** →50% | ✅ own Abolisher protects your turn; 9 spot-removal; Drannith swap = static | **Favoured — disruption-led; Drannith swap lifts it** |
-| 6 | Lorehold Spirits | 18 | T8 / T10 | 18% / 46% | **40%** | ❌ no counters; Teferi's Protection only survives | **Even — decap T8, but no Abolisher-proof disruption** |
-| 7 | Curse of the Scarab | 17 | T8 / T11 | 13% / 32% | **40%** | ⚠ FG counter; otherwise reactive | **Even — mid clock, reactive** |
-| 8 | Lightning War | 19 | T9 / T14 | 1% / 10% | **37%** | ⚠ interaction is **protect-own** (protects the kill), Abolisher-sensitive | **Even–favoured — chip race + reach; finishes through a lock. Its answers protect the race, not stop the combo** |
-| 9 | Zero-Sum Game | — | T9 / T9 | 25% / 37% | **35%** | ✅ board-independent lifeloop kill resolves on your turn | **Even–favoured (unaudited) — Abolisher-proof kill** |
-| 10 | Earthbend the Meta | 17 | T8 / T11 | 11% / 34% | **33%** | ❌ no counters; slow | **Underdog — decap T8, no disruption** |
-| 11 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% / 28% | **29%** | ❌ no counters, no lock; "cannot stop a combo turn" | **Underdog — no disruption** |
-| 12 | Diminishing Returns | 17 | T9 / >T14 | 1% / 11% | **25%** | ⚠ own Abolisher + edicts; no counters | **Underdog vs combo — slow clock; edicts don't stop the turn (self-meta strong)** |
-| 13 | The Dark Lord's Army | 19 | T9 / T12 | 4% / 16% | **25%** | ⚠ 15 interaction but reactive; engine feeds on their activity | **Underdog vs combo — too slow to race; but self-meta #1 (opponent-fed)** |
-| 14 | The Grand Design | 19 | T10 / >T14 | 1% / 6% | **24%** →31% | ✅ own Grand Abolisher + Teferi sorcery-lock + FoW pre-Abolisher | **P(win) UNDER-rates it — roster's best *measured* disruption, dragged by a slow clock. Favoured on the axis the number under-weights** |
-| 15 | Crystal Sickness | 17 | T11 / T13 | 1% / 7% | **14%** | ⚠ FG counter; reanimator is slow to disrupt | **Underdog — slow** |
-| 16 | The Calamity Tax | 18 | T13 / >T14 | 0% / 1% | **4%** →28% | ✅ static tax + stax slows their mana; Seedborn keeps you live | **Underdog as built; the grind-fortress rebuild → 28% (`--swapped`). Don't bring the current list** |
+| 1 | Radiation Sickness | 18 | T7 / T10 | 32% / 76% | **69%** →70% | ⚠ rad/proliferate attrition is Abolisher-proof; measured D 42% | **Favoured — fast converge attrition, Abolisher-proof engine** |
+| 2 | The Genome Project | 15 | T7 / T8 | 41% / 82% | **66%** | ⚠ thin suite — **measured D 16%** (bucket over-credited); rides the race, not disruption | **Race ceiling, not disruption — the number is PURE RACE 63% (15/20 glass, combo-reliant). Discount for fragility the goldfish can't see** |
+| 3 | The Replication Crisis | 17 | T7 / T10 | 16% / 59% | **59%** →59% | ⚠ **measured D 50%** — proactive removal (Path/Swords/Pongify/Abrade) survives Abolisher, not just counters | **Up on measurement — its removal disrupts through Abolisher (not the ❌ the bucket implied); Kiki swap still adds an Abolisher-proof line** |
+| 4 | Ms. Bumbleflower | 15 | T8 / T11 | 7% / 38% | **48%** | ⚠ 5/5 interaction but combat-only kill is far too slow; measured D 40% | **Soft ceiling — decap T8 but the combat-only kill is goldfish-optimistic (bmf lab caveat)** |
+| 5 | The Exile's Return | 18 | T8 / T10 | 9% / 39% | **44%** →49% | ✅ own Abolisher protects your turn; 9 spot-removal; Drannith swap = static | **Favoured — disruption-led; Drannith swap lifts it** |
+| 6 | Lorehold Spirits | 18 | T8 / T10 | 18% / 46% | **42%** | ⚠ 3 white removal, no counters; measured D 21% | **Even — decap T8; thin proactive removal, no Abolisher-proof lock** |
+| 7 | Earthbend the Meta | 17 | T8 / T11 | 11% / 34% | **42%** | ⚠ removal + REB/Pyroblast; **measured D 38%** (bucket under-credited) | **Even — measurement lifts it; decap T8 + real proactive removal** |
+| 8 | Curse of the Scarab | 17 | T8 / T11 | 13% / 32% | **38%** | ⚠ FG counter + removal; measured D 38% | **Even — mid clock, reactive** |
+| 9 | Lightning War | 19 | T9 / T14 | 1% / 10% | **37%** | ⚠ interaction is **protect-own** (protects the kill), Abolisher-sensitive | **Even–favoured — chip race + reach; finishes through a lock. Its answers protect the race, not stop the combo** |
+| 10 | Zero-Sum Game | — | T9 / T9 | 25% / 37% | **35%** | ✅ board-independent lifeloop kill resolves on your turn; measured D 20% | **Even–favoured (unaudited) — Abolisher-proof kill** |
+| 11 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% / 28% | **28%** | ❌ **measured D 14%** — 2 answers, no lock; "cannot stop a combo turn" | **Underdog — no disruption (confirmed by measurement)** |
+| 12 | The Grand Design | 19 | T10 / >T14 | 1% / 6% | **24%** →32% | ✅ own Grand Abolisher + Teferi sorcery-lock + FoW pre-Abolisher; measured D 55% | **P(win) UNDER-rates it — roster's best *measured* disruption, dragged by a slow clock. Favoured on the axis the number under-weights** |
+| 13 | The Dark Lord's Army | 19 | T9 / T12 | 4% / 16% | **23%** | ⚠ 15 interaction but reactive; measured D 37%; engine feeds on their activity | **Underdog vs combo — too slow to race; but self-meta #1 (opponent-fed)** |
+| 14 | Diminishing Returns | 17 | T9 / >T14 | 1% / 11% | **18%** →18% | ⚠ **measured D 22%** (bucket over-credited) — removal + edicts, no counters | **Underdog vs combo — slow clock; edicts don't stop the turn (self-meta strong)** |
+| 15 | Crystal Sickness | 17 | T11 / T13 | 1% / 7% | **9%** | ⚠ **measured D 15%** — lean 4-answer suite; reanimator slow to disrupt | **Underdog — slow clock + thin disruption** |
+| 16 | The Calamity Tax | 18 | T13 / >T14 | 0% / 1% | **4%** →27% | ✅ static tax slows their mana; Seedborn keeps you live; measured D 42% (leaky over 6 turns) | **Underdog as built; the grind-fortress rebuild → 27% (`--swapped`). Don't bring the current list** |
 
 *(Peace Offering is off the active roster and excluded. Scores are the current
 Conversion-Check audit; `→swap` P(win) is after the pending Build_And_Swap §2 swap.)*
@@ -209,10 +212,11 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
   race model. None of these are hand-typed — regenerate the table's numbers with
   `python scripts/pod_gauntlet.py --matrix`, and `python scripts/clock_check.py` lints
   this file's Clock cells against the labs.
-- **`P(win)` is heuristic, with two known biases** (`campaigns/Pod_Gauntlet_2026-06-14.md`):
-  it races an unblocked goldfish clock (a ceiling) and a disruption term that is
-  delay_lab-*measured* only for GD/Calamity/LW (bucketed otherwise). Over-rates fast
-  glass decks, under-rates slow measured-disruption decks. The verdicts correct for it.
+- **`P(win)` is heuristic, with one remaining bias** (`campaigns/Pod_Gauntlet_2026-06-14.md`;
+  measured-disruption update 2026-06-15): it races an unblocked goldfish clock (a ceiling).
+  The disruption term is now delay_lab-*measured for all 16* (`analysis/delay_disruption.json`,
+  `analysis/Measured_Disruption_All16_2026-06-15.md` — the `warn`/`none` bucket is retired). The
+  clock ceiling still over-rates fast glass decks; the verdicts correct for it.
 - **The Through-Abolisher column and the verdict prose are judgement**, anchored to
   the data above and the pod profile — not simulator output. Two decks didn't play.
 - Rebuild the sim numbers with: `python scripts/deck_sim.py --combos --json sim_results.json`

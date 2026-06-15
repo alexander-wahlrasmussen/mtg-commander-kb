@@ -293,6 +293,168 @@ GRAND_DESIGN = {
 }
 
 
+# ===========================================================================
+# ROSTER DISRUPTION SUITES (2026-06-15) — the other 13 active decks, so the
+# pod_gauntlet's disruption is MEASURED for all 16, not class-bucketed for 13
+# (gauntlet limitation #2). Answers harvested by the delay_lab interaction
+# inventory pattern (broad, not exhaustive — a missed answer UNDERSTATES) and
+# oracle-verified 2026-06-15. Classification follows this lab's engine: R
+# (instant removal) and C (counters) drive scenario A; P-only sorcery
+# sweepers/edicts contribute only via the preempt chain; statics survive
+# Abolisher. EXCLUDED per the established rules: redirects (Deflecting Swat,
+# Imp's Mischief), protect-own (Veil of Summer — anti-counter + hexproof, not a
+# combo stop), Snapcaster (yard-dependent value, not modelled — understates).
+# Fierce Guardianship / Deadly Rollick free (cost 0) only behind a cheap,
+# reliably-cast commander (<=4, like Azula/Glarb); full cost otherwise.
+# Tutors are left empty: the gauntlet reads the DRAWN (no-tutor) composed
+# value (its existing convention), so the +tutors ceiling isn't needed here.
+# Pyroblast/REB are blue-conditional (the pod is partly blue); credited as
+# counters at face, discounted by W_COUNTER. Edicts (Plaguecrafter/Fleshbag)
+# are dodgeable; Pernicious Deed's crack is an ACTIVATED ability -> Abolisher-
+# blocked on their turn, so it is preempt-only (P).
+# ===========================================================================
+
+def _A(*rows):
+    return {"answers": dict(rows), "tutors": {}}
+
+GENOME = _A(  # Kuja 4 -> Rollick free; thin (combo deck)
+    ("Deadly Rollick", ({"R", "P"}, 0, {"ios", "inst"})),
+    ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
+    ("Blasphemous Act", ({"P"}, 5, {"ios"})))           # cost-reduction override
+
+RADIATION = _A(  # Wise Mothman (BUG); counter + instant-removal heavy
+    ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
+    ("Swan Song", ({"C"}, 1, {"ios", "ublue"})),
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Force of Negation", ({"C"}, 0, {"ios", "ublue", "inst"})),
+    ("Drown in the Loch", ({"C", "R", "P"}, 2, {"ios", "ublue"})),
+    ("Assassin's Trophy", ({"R", "P"}, 2, {"ios"})),
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Pongify", ({"R", "P"}, 1, {"ios"})),
+    ("Cyclonic Rift", ({"R", "P"}, 2, {"ios"})),        # single-target bounce
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+REPLICATION = _A(  # Satya 4 -> FG free; deep blue control suite
+    ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
+    ("Swan Song", ({"C"}, 1, {"ios", "ublue"})),
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
+    ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
+    ("Abrade", ({"R", "P"}, 2, {"ios"})),
+    ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Pongify", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Cyclonic Rift", ({"R", "P"}, 2, {"ios"})))
+
+LOREHOLD = _A(  # Quintorius (RW) — white removal only, no counters
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})))
+
+EARTHBEND = _A(  # Toph (Naya-ish) — removal + blue-conditional REB/Pyroblast
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Pyroblast", ({"C", "R", "P"}, 1, {"ios"})),       # blue-only (pod is partly blue)
+    ("Red Elemental Blast", ({"C", "R", "P"}, 1, {"ios"})))
+
+EXILES = _A(  # Zuko 3 -> Rollick free; Mardu removal/sweepers, no hard counters
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
+    ("Abrade", ({"R", "P"}, 2, {"ios"})),
+    ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
+    ("Deadly Rollick", ({"R", "P"}, 0, {"ios", "inst"})),
+    ("Blasphemous Act", ({"P"}, 5, {"ios"})),
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+ZEROSUM = _A(  # Witherbloom 8 -> Rollick full cost; Golgari removal + Deed
+    ("Assassin's Trophy", ({"R", "P"}, 2, {"ios"})),
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Deadly Rollick", ({"R", "P"}, 4, {"ios", "inst"})),
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})),
+    ("Pernicious Deed", ({"P"}, 4, set())))             # crack is activated -> Abolisher-blocked
+
+CURSE = _A(  # Scarab God 5 -> FG full cost (not reliably out by their T6)
+    ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
+    ("Force of Negation", ({"C"}, 0, {"ios", "ublue", "inst"})),
+    ("Fierce Guardianship", ({"C"}, 3, {"ios", "ublue", "inst"})),
+    ("Go for the Throat", ({"R", "P"}, 2, {"ios"})),
+    ("Rapid Hybridization", ({"R", "P"}, 1, {"ios"})),
+    ("Cyclonic Rift", ({"R", "P"}, 2, {"ios"})),
+    ("Fleshbag Marauder", ({"P"}, 3, {"crea"})),        # edict, dodgeable
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+BUMBLE = _A(  # Ms. Bumbleflower (Bant) — white removal + a counter
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Pongify", ({"R", "P"}, 1, {"ios"})),
+    ("Snap", ({"R", "P"}, 2, {"ios"})))                 # bounce, tempo
+
+ELDRAZI = _A(  # Maelstrom Wanderer (Temur big-mana) — minimal interaction
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Chaos Warp", ({"R", "P"}, 3, {"ios"})))
+
+DARKLORD = _A(  # Sauron 6 -> FG/Rollick full cost; Grixis control, deep suite
+    ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
+    ("Mana Drain", ({"C"}, 2, {"ios", "ublue"})),
+    ("Swan Song", ({"C"}, 1, {"ios", "ublue"})),
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
+    ("Force of Negation", ({"C"}, 0, {"ios", "ublue", "inst"})),
+    ("Go for the Throat", ({"R", "P"}, 2, {"ios"})),
+    ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
+    ("Cyclonic Rift", ({"R", "P"}, 2, {"ios"})),
+    ("Deadly Rollick", ({"R", "P"}, 4, {"ios", "inst"})),
+    ("Blasphemous Act", ({"P"}, 5, {"ios"})),
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+DIMINISHING = _A(  # Teysa 4 (Orzhov aristocrats) — removal + edicts + sweepers
+    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
+    ("Plaguecrafter", ({"P"}, 3, {"crea"})),            # edict, dodgeable
+    ("Fleshbag Marauder", ({"P"}, 3, {"crea"})),
+    ("The Meathook Massacre", ({"P"}, 4, {"ios"})),     # X=2 wrath
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
+    ("Mana Drain", ({"C"}, 2, {"ios", "ublue"})),
+    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
+    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
+    ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
+    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+
+# gauntlet slug -> (decklist filename under decks/, config). All 16 active decks:
+# the 13 above + the three delay_lab already measured (reuse their configs/paths).
+ROSTER = {
+    "genome_project": ("the-genome-project-20260510.txt", GENOME),
+    "radiation_sickness": ("radiation-sickness-20260513-phaseC.txt", RADIATION),
+    "replication_crisis": ("the-replication-crisis-20260504-202914.txt", REPLICATION),
+    "lorehold_spirits": ("lorehold-spirit-20260503-154449.txt", LOREHOLD),
+    "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
+    "exiles_return": ("the-exiles-return-20260417-194010.txt", EXILES),
+    "zero_sum_game": ("zero-sum-game-20260611.txt", ZEROSUM),
+    "curse_of_the_scarab": ("curse-of-the-scarab-20260510-215526.txt", CURSE),
+    "bumbleflower": ("this-bunny-goes-to-market-20260404-080311.txt", BUMBLE),
+    "eldrazi_stampede": ("eldrazi-stampede-chaos-20260306-133311.txt", ELDRAZI),
+    "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
+    "diminishing_returns": ("diminishing-returns-20260505.txt", DIMINISHING),
+    "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
+    "lightning_war": ("lightning-war-20260614.txt", LIGHTNING_WAR),
+    "calamity_tax": ("calamity-tax-20260405-061741.txt", CALAMITY_TAX),
+    "grand_design": ("the-grand-design-20260502.txt", GRAND_DESIGN),
+}
+
+
 def fits(filt, entry, real_mv):
     classes, cost, tags = entry
     if filt == "any":
@@ -402,6 +564,31 @@ def simulate(label, lib, spec, trials, rng, window):
     return comp
 
 
+def emit_json(index, aliases, trials):
+    """Run every ROSTER deck and write the DRAWN composed P(disrupt their T6/T7) across the
+    Abolisher a-grid to analysis/delay_disruption.json — consumed by pod_gauntlet.py so the
+    matchup disruption is MEASURED for all 16 decks, not class-bucketed for 13 (limitation #2)."""
+    import json as _json
+    print(f"emit-json — composing measured disruption for {len(ROSTER)} decks "
+          f"(trials={trials}; drawn-only is what the gauntlet reads)\n")
+    out = {}
+    for slug, (fname, spec) in ROSTER.items():
+        lib, _ = slc.load_parsed(ROOT / "decks" / fname, index, aliases, warn=False)
+        names = {nm for nm, _ in lib}      # parsed MAINDECK is ground truth (drops sideboard)
+        drop = [n for n in list(spec["answers"]) + list(spec["tutors"]) if n not in names]
+        spec_f = {"answers": {n: v for n, v in spec["answers"].items() if n in names},
+                  "tutors": {n: v for n, v in spec["tutors"].items() if n in names}}
+        comp = simulate(slug, lib, spec_f, trials, random.Random(SEED), 0.5)
+        if drop:
+            print(f"    (dropped — not in {fname} maindeck: {drop})")
+        out[slug] = {str(k): [round(100.0 * comp[k][a][0] / trials, 1) for a in A_SWEEP]
+                     for k in (6, 7)}
+    path = ROOT / "analysis" / "delay_disruption.json"
+    path.write_text(_json.dumps(out, indent=2), encoding="utf-8")
+    print(f"\n  wrote {path.relative_to(ROOT)}  (T6/T7 drawn P(disrupt) over a-grid "
+          f"{A_SWEEP}; pod_gauntlet reads it)")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -409,10 +596,15 @@ def main():
     ap.add_argument("--seed", type=int, default=SEED)
     ap.add_argument("--window", type=float, default=0.5,
                     help="P(Abolisher deployed >=1 turn before the combo | out)")
+    ap.add_argument("--emit-json", action="store_true",
+                    help="write analysis/delay_disruption.json for all 16 (pod_gauntlet reads it)")
     args = ap.parse_args()
     rng = random.Random(args.seed)
     index = ds.load_oracle_index()
     aliases = ds.load_reskin_aliases()
+    if args.emit_json:
+        emit_json(index, aliases, args.trials)
+        return
 
     cons = ROOT / "decks" / "considering"
     dks = ROOT / "decks"

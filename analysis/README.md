@@ -44,8 +44,10 @@ script walks only `decks/` + `collection/`).
 | File | What |
 |---|---|
 | `Opponent_Clock_Lock_Model_2026-06-15.md` | persistent-lock / mana-tax overlay closing pod_gauntlet limitation #1 (`lock_lab.py` + `pod_gauntlet.py --lock`); data `lock_availability.json` |
+| `Measured_Disruption_All16_2026-06-15.md` | delay_lab-measured disruption for all 16 (closes limitation #2); replaces the 2-value class bucket; data `delay_disruption.json` (via `delay_lab.py --emit-json`) |
 
-(`pod_gauntlet_clocks.json` and `kill_trees/` also live here; their writeups are in `../campaigns/`.)
+(`pod_gauntlet_clocks.json`, `lock_availability.json`, `delay_disruption.json` and `kill_trees/`
+also live here; their writeups are in `../campaigns/` or above.)
 
 Per-deck procedure: `../workflows/WF_Kill_Window_Lab.md`. The roster ranking that
 consumes these clocks: `../campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`.

@@ -190,6 +190,11 @@ sourcing: `Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md`.
    "Through Abolisher?" mark (measured only for GD / Calamity / LW). The bucket is
    the soft input; it is swept, but a per-deck `delay_lab` spec (hand-classified
    answer suite) would replace it with measurement.
+   → **Addressed 2026-06-15** (`delay_lab.py --emit-json` → `analysis/delay_disruption.json`,
+   writeup `analysis/Measured_Disruption_All16_2026-06-15.md`): authored the 13 answer-suite
+   configs, so disruption is now MEASURED for all 16. The bucket was wrong both ways —
+   **Replication Crisis 15%→50% (+13pp P(win), now #3)**, Earthbend 15%→38%; and over-credited
+   **Genome 39%→16%, Crystal/Diminishing down**. The `warn`/`none` bucket is retired (fallback only).
 3. **Availability ≠ effectiveness** (delay_lab's caveat): a live answer doesn't
    model their backup line or a second protection piece. One disruption of a
    *fragile* combo can also set them back multiple turns — not modelled either, so

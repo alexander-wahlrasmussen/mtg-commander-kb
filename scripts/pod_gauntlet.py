@@ -91,11 +91,21 @@ MEASURED = {
     "calamity_tax":  {6: [52, 41, 30, 19,  8], 7: [56, 45, 33, 21, 10]},
     "lightning_war": {6: [77, 63, 50, 37, 23], 7: [80, 67, 53, 40, 27]},
 }
-# class buckets for the 13 unmeasured decks: (D at a=0 "no Abolisher, reactive
-# answers live", D at a=1 "Abolisher out, proactive only"). Calibrated to bracket
-# the measured trio. "warn"/"none" = the matrix "Through Abolisher?" mark read
-# strictly as "can disrupt THEIR combo turn" (own-Abolisher / board-independent
-# kill protect OUR clock, they are not disruption — see per-deck disrupt_class).
+# 2026-06-15: overlay delay_lab-MEASURED disruption for ALL 16 decks (limitation #2 closed).
+# delay_lab.py --emit-json writes analysis/delay_disruption.json from per-deck answer suites;
+# we read it here so the 13 formerly class-bucketed decks are now measured too. The 3 baked
+# rows above are the seed/fallback (the JSON reproduces them exactly). JSON keys are strings.
+DJSON = ROOT / "analysis" / "delay_disruption.json"
+if DJSON.exists():
+    try:
+        for _slug, _rows in json.loads(DJSON.read_text(encoding="utf-8")).items():
+            MEASURED[_slug] = {int(_k): _v for _k, _v in _rows.items()}
+    except (ValueError, OSError):
+        pass
+# class buckets — now only a FALLBACK for slugs absent from the JSON (e.g. the Kefka build
+# clock). (D at a=0 "no Abolisher, reactive answers live", D at a=1 "Abolisher out, proactive
+# only"). "warn"/"none" = the matrix "Through Abolisher?" mark read strictly as "can disrupt
+# THEIR combo turn" (own-Abolisher / board-independent kill protect OUR clock, not disruption).
 BUCKET = {"warn": (0.50, 0.14), "none": (0.20, 0.02)}
 
 # --- clock data: cum P(decap <= turn T) and P(table <= T) over each lab's grid.
@@ -535,10 +545,10 @@ def run(args):
         print(f"  {c['name']:24}{c['score']:>3}{c['med'][0]:>7}{pr*100:>6.0f}%"
               f"{Db*100:>5.0f}%{star}{win*100:>6.0f}%   " +
               "  ".join(f"{b*100:>3.0f}" for b in band))
-    print(f"\n  * disruption MEASURED via delay_lab (Grand Design / Calamity Tax / "
-          f"Lightning War). Others class-bucketed\n    from the matrix "
-          f"'Through Abolisher?' column (warn={BUCKET['warn']}, none={BUCKET['none']} "
-          f"as (D@a=0, D@a=1)).")
+    print(f"\n  * disruption now MEASURED via delay_lab for ALL 16 decks "
+          f"(analysis/delay_disruption.json; limitation #2 closed 2026-06-15).\n"
+          f"    Regenerate: python scripts/delay_lab.py --emit-json. Buckets remain only as a "
+          f"fallback for off-roster builds.")
     print(f"  Clock curves are UNBLOCKED goldfish ceilings — PURE RACE is an optimistic "
           f"front edge, not a win rate.")
     print(f"  Read the RANKING and the gap between PURE RACE and P(WIN) (= how much a "
@@ -604,8 +614,8 @@ def run_matrix(args):
         swp = f"{sw:.0f}%" if sw is not None else "—"
         print(f"| {i} | {c['name']} | {c['score']} | {c['med'][0]} / {c['med'][1]} | "
               f"{P6:.0f}% / {P7:.0f}% | {pure:.0f}% | **{win:.0f}%** | {swp} |")
-    print("\nP(win): lab decap clock + disruption (delay_lab-measured for GD/Calamity/LW, "
-          "matrix-bucketed else). Race P≤T = lab P(decap ≤ turn T). Regenerate: "
+    print("\nP(win): lab decap clock + delay_lab-MEASURED disruption for all 16 "
+          "(analysis/delay_disruption.json). Race P≤T = lab P(decap ≤ turn T). Regenerate: "
           "pod_gauntlet.py --matrix")
 
 
