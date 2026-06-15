@@ -100,6 +100,42 @@ def fmt(slug, names, seedmap):
     return f"{names[slug]} (#{seedmap[slug]})"
 
 
+def med_turn(grid, cum):
+    """Median-close turn label from a (grid, cumulative%) curve, for display."""
+    for t, c in zip(grid, cum):
+        if c >= 50:
+            return f"T{t}"
+    return f">T{grid[-1]}"
+
+
+def swapped_clocks(slugs, C, defense, swapped):
+    """Table CDFs + durability, optionally with pod_gauntlet.SWAPS applied (Build_And_Swap §2).
+    The tournament RACES TABLE clocks, so only a swap carrying a `table` curve moves it — that
+    is just Calamity's grind-fortress rebuild. The decap-only (Grand Design ramp) and
+    resilience-only (Exile/Replication Kiki, Diminishing Deathmantle) swaps add value this
+    goldfish table engine cannot score; they're applied-but-inert here and reported as such.
+    Returns (tcdf, dura, disp, changed): disp[s]=(med,never) for the table; changed=movers."""
+    tcdf, dura, disp, changed = {}, {}, {}, []
+    for s in slugs:
+        sw = pg.SWAPS.get(s) if swapped else None
+        if sw and sw.get("table") is not None:
+            grid, tab = sw["grid"], sw["table"]
+            never = 100 - tab[-1]
+            med = med_turn(grid, tab)          # no stored median for the swap; derive it
+            changed.append(s)
+        else:
+            grid, tab = C[s]["grid"], C[s]["table"]
+            never = C[s]["never"][1]
+            med = C[s]["med"][1]               # keep the lab's stored median (consistent display)
+        tcdf[s] = pg.build_cdf(grid, tab)
+        disp[s] = (med, never)
+        inev = 1.0 - never / 100.0
+        dfn = min(1.0, defense.get(s, 0) / sm.DEF_NORM)
+        fed = sm.OPP_FED.get(s, 0.0)
+        dura[s] = max(0.0, min(1.0, sm.W_INEV * inev + sm.W_DEF * dfn + sm.W_FED * fed))
+    return tcdf, dura, disp, changed
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -108,15 +144,16 @@ def main():
     ap.add_argument("--t-grind", type=int, default=sm.T_GRIND)
     ap.add_argument("--seed", type=int, default=sm.SEED)
     ap.add_argument("--md", action="store_true", help="emit the markdown writeup to stdout")
+    ap.add_argument("--swapped", action="store_true",
+                    help="apply all proposed swaps (pod_gauntlet.SWAPS / Build_And_Swap §2)")
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
     C = pg.merged_clocks()
     slugs = [s for s in sm.dl.ROSTER if s in C]
     names = {s: C[s]["name"] for s in slugs}
-    tcdf = {s: pg.build_cdf(C[s]["grid"], C[s]["table"]) for s in slugs}
     defense = sm.defense_counts()
-    dura = {s: sm.durability(s, C, defense) for s in slugs}
+    tcdf, dura, disp, changed = swapped_clocks(slugs, C, defense, args.swapped)
 
     seeds, pwin = seed_field(slugs, tcdf, dura, args.t_grind, args.season_trials, rng)
     seedmap = {s: i + 1 for i, s in enumerate(seeds)}
@@ -125,16 +162,25 @@ def main():
     out = []  # markdown lines, mirrored to terminal sections below
 
     # ---- regular season ----------------------------------------------------
+    tag = "  [ALL PROPOSED SWAPS APPLIED]" if args.swapped else ""
     print(f"\n{'='*78}")
-    print("🏆  THE POD CHAMPIONSHIP  —  16 decks, one crown")
+    print(f"🏆  THE POD CHAMPIONSHIP  —  16 decks, one crown{tag}")
     print(f"{'='*78}")
     print(f"  engine: self_meta_lab table-clock race + durability  ·  T_grind={args.t_grind}")
-    print(f"  seeding={args.season_trials} random pods  ·  playoff pods={args.trials} games each\n")
+    print(f"  seeding={args.season_trials} random pods  ·  playoff pods={args.trials} games each")
+    if args.swapped:
+        movers = ", ".join(names[s] for s in changed) or "(none)"
+        print(f"  swaps that move the TABLE clock: {movers}")
+        print(f"  decap-only / resilience-only swaps (GD ramp, Exile/Replication Kiki, "
+              f"Diminishing Deathmantle) are\n  applied but inert here — the table goldfish "
+              f"can't score them.")
+    print()
     print("  REGULAR SEASON — seeded by P(win | random 4-seat pod)")
     print(f"  {'seed':>4}  {'deck':24}{'table':>7}{'never':>7}{'dura':>6}{'P(win)':>8}")
     for i, s in enumerate(seeds, 1):
-        print(f"  {i:>4}  {names[s]:24}{C[s]['med'][1]:>7}{C[s]['never'][1]:>6}%"
-              f"{dura[s]:>6.2f}{pwin[s]:>7.0f}%")
+        mark = " ←swap" if s in changed else ""
+        print(f"  {i:>4}  {names[s]:24}{disp[s][0]:>7}{disp[s][1]:>6}%"
+              f"{dura[s]:>6.2f}{pwin[s]:>7.0f}%{mark}")
 
     # ---- group stage -------------------------------------------------------
     print(f"\n  GROUP STAGE — 4 snake-seeded pods, highest win share advances")

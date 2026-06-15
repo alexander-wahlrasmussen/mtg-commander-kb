@@ -47,6 +47,7 @@ script walks only `decks/` + `collection/`).
 | `Measured_Disruption_All16_2026-06-15.md` | delay_lab-measured disruption for all 16 (closes limitation #2); replaces the 2-value class bucket; data `delay_disruption.json` (via `delay_lab.py --emit-json`) |
 | `Self_Meta_Quantified_2026-06-15.md` | the long-game model: quantifies the self-meta ranking (table-close race + durability overlay) via `self_meta_lab.py`; decomposes measured-vs-judgment, pivots on `T_grind` |
 | `Pod_Championship_2026-06-15.md` | the fun finale: a seeded 16-deck tournament on the self-meta engine (`pod_championship.py`); Genome champion in both fast & grindy metas, Dark Lord rises on low `T_grind` |
+| `Pod_Championship_Swapped_2026-06-15.md` | the championship re-run with all Build_And_Swap §2 swaps (`pod_championship.py --swapped`); only Calamity's rebuild moves the table clock → it crashes the podium (🥉), but Genome's crown is unchanged |
 | `Definitive_Tier_List_2026-06-15.md` | one ranked tier list = composite of POWER (Conversion /20) · SELF-META · ANTI-POD (`tier_list.py`); headline: the three 19/20 decks scatter S→A/B/C — score ⊥ winning |
 
 (`pod_gauntlet_clocks.json`, `lock_availability.json`, `delay_disruption.json` and `kill_trees/`
