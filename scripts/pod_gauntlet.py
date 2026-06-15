@@ -142,6 +142,16 @@ LOCK_VS_LOOP = {
     "Drannith Magistrate": dict(etb=0.35, death=0.35, mixed=0.45),  # command-zone recast only
     "Cursed Totem":        dict(etb=0.05, death=0.15, mixed=0.20),  # activated abilities only
     "Aven Mindcensor":     dict(etb=0.10, death=0.10, mixed=0.40),  # tutor hate ~ irrelevant here
+    "Elesh Norn, Mother of Machines": dict(etb=0.95, death=0.00, mixed=0.30),  # opp ETBs don't trigger
+}
+
+# Persistent opponent-combo locks each deck actually RUNS (verified from the list). These STOP
+# the pod's combo on THEIR turn every turn until removed — NOT protect-own (Grand Abolisher /
+# Teferi shield OUR turn and are excluded here and in lock_lab). Used by --vs-lock to overlay a
+# loop-typed persistent lock on the two-deck race: e per opponent = LOCK_VS_LOOP[piece][opp loop],
+# availability measured in-shell by lock_lab.
+VS_LOCKS = {
+    "grand_design": ["Elesh Norn, Mother of Machines"],   # ETB-lock: hard vs Acererak, inert vs H&K
 }
 
 # --- disruption: measured (delay_lab, drawn, composed P(disrupt their key turn))
@@ -467,6 +477,42 @@ def simulate_vs(slug, F, opp, kdist, trials, rng):
     return win / trials, grind / trials
 
 
+def simulate_vs_lock(slug, F, opp, kdist, lock_cdf, e, r, trials, rng):
+    """simulate_vs + a loop-typed PERSISTENT lock. lock_cdf = P(the lock is online by turn t)
+    in this deck's shell (lock_lab); e = its effectiveness vs THIS opponent's loop
+    (LOCK_VS_LOOP[piece][opp.loop]); r = pod's per-turn removal rate. Once live & effective the
+    lock holds the pod's combo EVERY turn until removed. With e=0 (e.g. an ETB-lock vs H&K's
+    death trigger) this reduces EXACTLY to simulate_vs — so those columns are provably unchanged."""
+    ks, kp = zip(*kdist.items())
+    a = opp["disruption_a"] * (1 - PROTECT.get(slug, 0.0))
+    use_lock = lock_cdf is not None and e > 0
+    win = grind = 0
+    for _ in range(trials):
+        K = rng.choices(ks, weights=kp)[0]
+        tkill = sample_kill(F, rng)
+        D = disruption(slug, a, K)
+        answer = opp["answer"] * (1 - PROTECT.get(slug, 0.0))
+        t_lock = sample_kill(lock_cdf, rng) if use_lock else HORIZON + 1
+        lock_alive = t_lock <= HORIZON
+        ready = tkill
+        decided = False
+        for t in range(1, HORIZON + 1):
+            if t >= ready:                            # our kill attempt (precedes their turn t)
+                if rng.random() >= answer:
+                    win += 1; decided = True; break
+                ready = t + 1; answer *= ANSWER_DECAY
+            if t >= K:                                # their combo attempt
+                if lock_alive and t >= t_lock and rng.random() < e:
+                    if rng.random() < r:
+                        lock_alive = False            # pod cleared it -> free next turn
+                    continue                          # lock held this turn
+                if rng.random() < (1 - D):
+                    decided = True; break
+        if not decided:
+            grind += 1
+    return win / trials, grind / trials
+
+
 # --- lock-aware race (the opponent-clock-tax model, via PERSISTENT locks) ---
 # A persistent hard-lock differs from the one-shot D above: once live & effective it
 # stops the pod EVERY turn until they REMOVE it (rate r) — not re-rolled each turn. A
@@ -769,6 +815,76 @@ def run_vs(args):
     print(f"  Clocks are unblocked goldfish ceilings; read the ranking and the per-opponent spread.")
 
 
+def run_vs_lock(args):
+    """--vs + a loop-typed PERSISTENT lock, for decks that RUN one (VS_LOCKS). Tests the axis the
+    decap-race under-credits: a control deck that LOCKS the archenemy rather than out-races it.
+    GD's Elesh Norn hard-stops Acererak (ETB) and is inert vs H&K (death) — exactly loop-typed.
+    Availability is measured in the deck's real shell via lock_lab; clock = the deck's pending swap
+    where it has one (so the lock stacks on the swap floor, not the unfixed clock)."""
+    import importlib.util as _il
+    spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
+    LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
+    index = LL.ds.load_oracle_index(); aliases = LL.ds.load_reskin_aliases()
+    C = merged_clocks(); kd = pod_kdist(args)
+    which = "table" if args.strict else "decap"
+    wb = lambda d: sum(OPPONENTS[k]["weight"] * d[k] for k in OPPONENTS)
+    print(f"\n{'='*100}\nTHE POD GAUNTLET — vs HIS TWO DECKS + PERSISTENT LOCK   [{which} · r={args.r}]")
+    print("  Overlays a loop-typed persistent lock (LOCK_VS_LOOP) on the --vs race for decks that RUN")
+    print("  one (VS_LOCKS). e per opponent = its effect vs that deck's loop; availability measured")
+    print("  in-shell by lock_lab (drawn floor / +tutors). Abolisher/Teferi are protect-own (PROTECT),")
+    print("  not here. Clock = the deck's pending swap where it has one.\n")
+    for slug, locks in VS_LOCKS.items():
+        if slug not in C:
+            continue
+        piece, c = locks[0], C[slug]
+        swapped = slug in SWAPS and SWAPS[slug].get(which) is not None
+        F = cdf_for(slug, which, swapped, C)
+        evec = LOCK_VS_LOOP.get(piece, {})
+        lib = LL.load(slug, index, aliases)
+        rec = index.get(piece.lower())
+        cost = int(round((rec.get("cmc") if rec else None) or 5))
+        pkg = {LL.HARDLOCK: [(piece, cost, max(evec.values(), default=0.5), "loop-typed")],
+               LL.MANATAX: [], LL.EXCLUDED: []}
+        d_av, _, _ = LL.measure(lib, pkg, args.trials, random.Random(LL.SEED))
+        saved = LL.TUTORS                              # creature-tutor-aware ceiling (Elesh Norn IS a creature)
+        LL.TUTORS = saved | {"Eladamri's Call", "Chord of Calling", "Fauna Shaman", "Birthing Pod",
+                             "Razaketh, the Foulblooded", "Sidisi, Undead Vizier", "Defense of the Heart"}
+        t_av, _, _ = LL.measure(lib, pkg, args.trials, random.Random(LL.SEED), use_tutors=True)
+        LL.TUTORS = saved
+        cdf_drawn = build_cdf(LL.GRID, [d_av[t] for t in LL.GRID])
+        cdf_tut = build_cdf(LL.GRID, [t_av[t] for t in LL.GRID])
+        clk = (SWAPS[slug].get("note", "swap").split(":")[0] if swapped else "current") + \
+              f" clock ({'T9' if swapped else c['med'][0]})"
+        print(f"  {c['name']} + {piece}")
+        print(f"    {clk} · e[etb/death/mixed]={evec.get('etb',0):.2f}/{evec.get('death',0):.2f}/"
+              f"{evec.get('mixed',0):.2f} · lock online by T6 {d_av[6]:.0f}% drawn ({t_av[6]:.0f}% +tut) / "
+              f"T7 {d_av[7]:.0f}% ({t_av[7]:.0f}%)  [FLOOR: reanimation uncounted]\n")
+        rng = random.Random(args.seed)
+        per_base = {}; per_drawn = {}; per_tut = {}
+        print(f"    {'opponent':22}{'base':>7}{'+lock drawn':>13}{'+lock tut':>11}")
+        for okey, opp in OPPONENTS.items():
+            e = evec.get(opp["loop"], 0.0)
+            per_base[okey] = simulate_vs(slug, F, opp, kd, args.trials, rng)[0]
+            per_drawn[okey] = simulate_vs_lock(slug, F, opp, kd, cdf_drawn, e, args.r, args.trials, rng)[0]
+            per_tut[okey] = simulate_vs_lock(slug, F, opp, kd, cdf_tut, e, args.r, args.trials, rng)[0]
+            print(f"    {opp['name'][:18]+' ['+opp['loop'][:3]+']':22}{per_base[okey]*100:>6.0f}%"
+                  f"{per_drawn[okey]*100:>12.0f}%{per_tut[okey]*100:>10.0f}%")
+        print(f"    {'BLEND':22}{wb(per_base)*100:>6.0f}%{wb(per_drawn)*100:>12.0f}%{wb(per_tut)*100:>10.0f}%")
+        print(f"\n    BLEND vs pod-removal r:   " + "   ".join(f"r={rr}" for rr in R_SWEEP))
+        for label, cdf in (("drawn", cdf_drawn), ("+tut", cdf_tut)):
+            cells = []
+            for rr in R_SWEEP:
+                rng2 = random.Random(args.seed)
+                d = {k: simulate_vs_lock(slug, F, OPPONENTS[k], kd, cdf,
+                                         evec.get(OPPONENTS[k]["loop"], 0.0), rr, args.trials // 2, rng2)[0]
+                     for k in OPPONENTS}
+                cells.append(wb(d))
+            print(f"      {label:6}" + "    ".join(f"{x*100:>4.0f}" for x in cells))
+    print(f"\n  Only the Acererak column moves — the lock is provably inert vs H&K/tail (ETB-lock, e=0).")
+    print(f"  Availability is a FLOOR (reanimation + the full creature-tutor suite uncounted), so the")
+    print(f"  real lift runs higher. A lock removed on sight (high r) decays toward the no-lock --vs.")
+
+
 def run_lock(args):
     """Current (one-shot disruption only) vs LOCK-AWARE P(win), per deck, sweeping the
     pod's removal rate r. Reads analysis/lock_availability.json (lock_lab.py)."""
@@ -944,6 +1060,9 @@ def main():
     ap.add_argument("--vs", action="store_true",
                     help="race his TWO REAL decks (Acererak / Hidetsugu&Kairi / 5C tail) "
                          "separately + blended, with the interaction-against-us term")
+    ap.add_argument("--vs-lock", dest="vs_lock", action="store_true",
+                    help="--vs + a loop-typed PERSISTENT lock for decks that run one (VS_LOCKS); "
+                         "e.g. GD's Elesh Norn vs Acererak's ETB loop")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
     ap.add_argument("--lock", action="store_true",
@@ -980,6 +1099,9 @@ def main():
         return
     if args.vs:
         run_vs(args)
+        return
+    if args.vs_lock:
+        run_vs_lock(args)
         return
     run(args)
 

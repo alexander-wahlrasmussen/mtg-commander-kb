@@ -13,6 +13,24 @@
 
 -----
 
+> **Anti-archenemy standing (2026-06-15): bring it as the anti-Acererak / anti-tail CONTROLLER, not a racer.**
+> `pod_gauntlet.py --vs-lock` (on the **swap** clock — the canonical upgrade's ramp+finisher, decap T10→T9):
+> swap alone is **37% blend / 42% vs Acererak**; adding GD's **Elesh Norn** as a persistent ETB-lock takes
+> it to **45% blend (up to 49% if the lock sticks) and 59% vs Acererak** (his favorite). It needs **no new
+> card** — GD already runs the tech: **Elesh Norn** (opponents' ETBs don't trigger → hard-stops Acererak's
+> venture loop), **Path / Swords** (exile → answers *either* commander without the destroy-vs-exile trap
+> that feeds Hidetsugu and Kairi / reloads Acererak), and its **own Grand Abolisher + Teferi** (protect-own;
+> best answer to the 5C tail, the only shell that runs Abolisher). It is **weakest vs Hidetsugu and Kairi
+> (~34%)** — the ETB-lock is provably **inert** vs a death trigger, so there only exile + counters answer it.
+>
+> **The swap is the necessary floor, not the lever — and more ramp was tested and rejected.** `gd_clock_lab
+> --mode levers/ramp`: an idealized "+2 mana/turn" knob screams T10→**T7**, but that's an always-on artifact
+> (the LW-pinger trap); **real** ramp cards cap the decap at **T9** (= the swap) and cost interaction (GD's
+> edge), and the Elesh Norn lock is **draw/tutor-gated, not mana-gated** (a single 5-drop), so ramp barely
+> moves it. Caveats: the 45–59% uses **tutored** availability and is a **floor** (reanimation uncounted →
+> true number higher); it's **removal-sensitive** (mono-B Acererak can kill Elesh Norn → the lift decays at
+> high `r` toward the no-lock 42%); `e=0.95` vs ETB is a prior, but the *structure* (inert vs death) is certain.
+
 ## What the Deck Does
 
 Atraxa is a 7-mana 7/7 with flying, vigilance, deathtouch, and lifelink. When she enters the battlefield, reveal the top 10 cards of your library and take one of each card type — typically netting 5–7 cards.
