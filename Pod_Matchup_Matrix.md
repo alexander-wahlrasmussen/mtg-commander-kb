@@ -18,32 +18,76 @@ clock, or interaction suite changes.
 > the correction (see the caveat under "The matrix"). The judgment columns
 > (Through-Abolisher, the verdicts) remain reasoned, not simmed.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`. **Measured disruption 2026-06-15** — the `P(win)` disruption term is now **delay_lab-measured for all 16** (was class-bucketed for 13); `analysis/delay_disruption.json` + writeup `analysis/Measured_Disruption_All16_2026-06-15.md`. Reorder: **Replication Crisis 4th→3rd** (under-bucketed "none" 15% → measured 50%), **Genome 1st→2nd** (over-bucketed; its rank is now a *race* rank, D 16%), Earthbend up (15→38%), Diminishing/Crystal down (over-bucketed). The `warn`/`none` bucket is retired.
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`. **Measured disruption 2026-06-15** — the `P(win)` disruption term is now **delay_lab-measured for all 16** (was class-bucketed for 13); `analysis/delay_disruption.json` + writeup `analysis/Measured_Disruption_All16_2026-06-15.md`. Reorder: **Replication Crisis 4th→3rd** (under-bucketed "none" 15% → measured 50%), **Genome 1st→2nd** (over-bucketed; its rank is now a *race* rank, D 16%), Earthbend up (15→38%), Diminishing/Crystal down (over-bucketed). The `warn`/`none` bucket is retired. **Opponent model split 2026-06-15** — the generic single combo opponent is resolved into his two real decks (**Acererak** mono-B ETB loop / **Hidetsugu and Kairi** UB death-drain) + a 5C tail; see the rewritten "opponent" section and `pod_gauntlet.py --vs`. Load-bearing correction: **his two current decks are color-locked out of the white Grand Abolisher**, so the counterspells-are-dead premise applies only to the 5C tail — reactive decks recover value vs his current meta.
 
 ---
 
 ## The opponent we're tuning against
 
-From the pod profile (see memory `project_pod_combo_opponent`): an Ur-Dragon
-ramp shell plus Hidetsugu / Kairi / Kenrith / Kinnan combo decks. **Wins T6–7**,
-typically **behind Grand Abolisher**. Bracket-4-in-spirit despite a low GC count.
+From the pod profile (memory `project_pod_combo_opponent`, **updated 2026-06-15
+from Alex's direct report — card text verified**). He is **not** a generic combo
+pod; he has a small stable, and the two decks he actually brings now are:
 
-The single most important mechanical fact (memory
-`grand_abolisher_blocks_counters`):
+- **Acererak the Archlich** ({2}{B}, **mono-B**) — *his favorite.* Engine is its
+  **ETB trigger** (recast → venture, repeatedly); the kill is a damage/drain
+  **loop** off the dungeon's "each player loses life" rooms — not a Thassa's
+  Oracle deckout.
+- **Hidetsugu and Kairi** ({2}{U}{U}{B}, **UB** — *one* commander, not the two
+  the old profile mis-split into "Hidetsugu" + "Kairi, the Swirling Sky") — *the
+  recent flood.* Engine is its **death trigger**: each death drains an opponent
+  for the top card's mana value. Loops on a sac outlet + recursion.
+- A legacy **5C tail** (Ur-Dragon / Kenrith / Kinnan) from the 2026-05-30
+  profile — status unconfirmed in the current meta.
 
-> On **their** turn, their Grand Abolisher stops you from casting spells or
-> activating artifact/creature/enchantment abilities. **Your counterspells are
-> dead on their combo turn.** What still works: anything *static and already in
-> play* (Rule of Law, Cursed Totem, Drannith Magistrate, Mindcensor), triggered
-> abilities, land/mana abilities, and **removal cast before they untap** (kill
-> the Abolisher on sight, or pre-empt the combo).
+He **wins T6–7**. Bracket-4-in-spirit despite a low GC count.
 
-So the matchup is **not** decided by counterspell count. It's decided by:
+### The correction that reframes this whole doc
 
-1. **Clock** — do you kill at or before their T6–7?
-2. **Disruption that survives Abolisher** — static stax/hatebears in play, an
-   oppressive tax that slows their setup, your own proactive lock to protect
-   your kill turn, or removal held for their Abolisher.
+The old "single most important fact" here was *their Grand Abolisher makes your
+counterspells dead on the combo turn.* **That is now true only of the 5C tail.**
+Grand Abolisher is **white**, and **Acererak (mono-B) and Hidetsugu and Kairi
+(UB) are color-locked out of it.** So against his two *current* decks:
+
+- **vs Acererak** — no Abolisher *and* no counterspells in mono-B. Your reactive
+  answers (counters, instant removal) **almost all live**; the threats are his
+  *speed* and proactive **discard** stripping your answer pre-combo.
+- **vs Hidetsugu and Kairi** — no Abolisher, but a real **UB counter wall** (Force
+  of Will / Swan Song / Fierce Guardianship / Mana Drain). Your answers fight
+  theirs **1-for-1** — there is no blanket lock.
+- **vs the 5C tail** — the original Abolisher logic still applies; only these
+  shells can field it.
+
+So the matchup is decided **per-deck**, by:
+
+1. **Clock** — do you kill at or before T6–7?
+2. **Interaction read against the *right* protection** — a counter wall (H&K) or
+   discard+speed (Acererak), **not** a universal Abolisher lock. Reactive/counter
+   decks are worth **more** vs his two mains than this doc previously assumed.
+3. **The right static for the right loop** — and there is **no single one**,
+   because his two mains loop through **different triggers**:
+
+| static | Acererak (ETB) | H&K (death) | 5C tail |
+|---|---|---|---|
+| Torpor Orb / Hushwing Gryff | **hard lock** | **stone blank** | partial |
+| Rule of Law (one spell/turn) | hits | hits | hits |
+| Drannith Magistrate | soft (CZ recast only) | soft | soft |
+| Cursed Totem | blank | weak | weak |
+
+ETB-hate hard-locks Acererak and does **nothing** to H&K; only Rule of Law-class
++ exile-the-commander-on-sight + **racing** hit both. Damage-loop kills also mean
+**lifegain is a trap** (infinite drain beats any life total) and Thoracle/tutor
+hate (Mindcensor) is low value.
+
+**Quantified:** `python scripts/pod_gauntlet.py --vs` races every roster deck vs
+Acererak / H&K / 5C-tail separately and blended, with the per-deck interaction
+term; the **Δ(Acrk−H&K)** column shows how much each matchup swings on which deck
+he brings (reactive decks swing most: Lightning War +18, Replication +13). The
+weights and interaction levels there are **priors, not measured** — tune freely.
+
+> **Note on the per-row columns below.** The "Through Abolisher?" column and the
+> verdict prose were written against the *universal-Abolisher* assumption (now the
+> worst case = the 5C tail / H&K's counters). They remain valid as a **floor**;
+> for the per-deck split against his two current mains, read `--vs`.
 
 ---
 

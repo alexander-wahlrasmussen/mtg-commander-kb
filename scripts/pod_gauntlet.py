@@ -83,6 +83,56 @@ HORIZON = 16
 A_BASE = 0.30                                  # baseline P(Abolisher out on the key turn)
 A_SWEEP = [0.0, 0.15, 0.30, 0.50, 0.75]        # realistic band ~0.15-0.30 (delay_lab)
 
+# --- the TWO REAL decks (2026-06-15) ---------------------------------------
+# Split the generic single-opponent model above into his ACTUAL commanders
+# (project_pod_combo_opponent, card text verified this session). run() keeps the
+# generic model as the default; --vs races these instead.
+#
+# KEY MECHANICAL FACTS (verified oracle text), and why they change the race:
+#  * Acererak the Archlich is mono-B and Hidetsugu and Kairi is UB -> NEITHER can run the
+#    WHITE Grand Abolisher the matrix's whole disruption model is built around. So our
+#    reactive answers are NOT dead-on-arrival vs his two current decks: vs Acererak (no
+#    counters at all) almost all of them live; vs H&K they fight a UB counter wall 1-for-1.
+#    Only the 5C tail (Ur-Dragon / Kenrith) can actually field Grand Abolisher.
+#  * Their loops fire off DIFFERENT triggers: Acererak = ETB (recast -> venture),
+#    H&K = a DEATH trigger (drain). No single static hoses both -> see LOCK_VS_LOOP.
+#  * His kill is a damage/drain LOOP, not a Thassa's Oracle deckout -> lifegain is a trap,
+#    Thoracle/tutor hate (Mindcensor) is low value. (Informs the catalog below, not the race.)
+#
+# disruption_a = the `a` we feed disruption() = fraction of our REACTIVE answers stopped on
+# their key turn (Abolisher for the tail; a counter wall for H&K; ~nothing for Acererak).
+# answer = P(THEY stop OUR kill on the stack) = their reactive instant interaction, color-keyed
+# (Abolisher acts only on THEIR turn, so it does NOT answer our kill — counters/removal do).
+# weight = how often he brings the deck (PRIOR: favorite + recent flood; --vs prints them; tune).
+OPPONENTS = {
+    "acererak": dict(
+        name="Acererak (mono-B ETB)", ci="B", loop="etb", weight=0.45,
+        disruption_a=0.05, answer=0.10,
+        note="favorite; no Abolisher/counters -> our reactive answers live; ETB recast loop"),
+    "hidetsugu_kairi": dict(
+        name="Hidetsugu&Kairi (UB death)", ci="UB", loop="death", weight=0.40,
+        disruption_a=0.30, answer=0.30,
+        note="recent flood; UB counter wall (still no white Abolisher); death-trigger drain"),
+    "five_color_tail": dict(
+        name="5C tail (UrDrgn/Kenrith)", ci="WUBRG", loop="mixed", weight=0.15,
+        disruption_a=0.45, answer=0.30,
+        note="legacy profile; the ONLY shells that can run the white Grand Abolisher"),
+}
+ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves the next P(answer)
+
+# Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
+# oracle text this session; magnitudes are judgment priors (e = P(stops the combo | the piece
+# is live and the loop is the one named)). The headline is the ZEROES, not the decimals:
+# ETB-hate hard-locks Acererak and is a stone blank on H&K's death trigger.
+LOCK_VS_LOOP = {
+    "Torpor Orb":          dict(etb=0.95, death=0.00, mixed=0.30),
+    "Hushwing Gryff":      dict(etb=0.95, death=0.00, mixed=0.30),
+    "Rule of Law":         dict(etb=0.70, death=0.70, mixed=0.60),
+    "Drannith Magistrate": dict(etb=0.35, death=0.35, mixed=0.45),  # command-zone recast only
+    "Cursed Totem":        dict(etb=0.05, death=0.15, mixed=0.20),  # activated abilities only
+    "Aven Mindcensor":     dict(etb=0.10, death=0.10, mixed=0.40),  # tutor hate ~ irrelevant here
+}
+
 # --- disruption: measured (delay_lab, drawn, composed P(disrupt their key turn))
 # a-grid the measured arrays are sampled on. T6 / T7 rows; we pick by combo turn.
 A_GRID = [0.0, 0.25, 0.50, 0.75, 1.0]
@@ -369,6 +419,39 @@ def simulate(slug, F, a, kdist, trials, rng, swapped=False):
     return win / trials, 1 - (win + grind) / trials, grind / trials
 
 
+def simulate_vs(slug, F, opp, kdist, trials, rng):
+    """P(win) vs ONE specific opponent deck (the --vs model). Differences from simulate():
+      * disruption uses opp['disruption_a'] — NOT a global Abolisher. Acererak is mono-B
+        (no Abolisher, no counters) so our reactive answers almost all live; H&K is UB (a
+        counter wall ~ the old baseline tax); only the 5C tail fields the white Abolisher.
+      * opp['answer'] = P(THEY stop OUR kill on the stack), rolled each kill attempt with
+        finite, decaying interaction (they don't have infinite counters). An answered kill
+        costs us a turn (reload) rather than ending the game — and Abolisher does NOT figure
+        here, since it acts only on their turn while our kill is on ours."""
+    ks, kp = zip(*kdist.items())
+    a = opp["disruption_a"]
+    win = grind = 0
+    for _ in range(trials):
+        K = rng.choices(ks, weights=kp)[0]
+        tkill = sample_kill(F, rng)
+        D = disruption(slug, a, K)
+        answer = opp["answer"]
+        ready = tkill                              # earliest turn our kill is online
+        decided = False
+        for t in range(1, HORIZON + 1):
+            if t >= ready:                         # our turn t (we precede their turn t)
+                if rng.random() >= answer:         # our kill resolves
+                    win += 1; decided = True; break
+                ready = t + 1                      # answered -> reload next turn
+                answer *= ANSWER_DECAY             # their interaction is finite
+            if t >= K:                             # their combo attempt this turn
+                if rng.random() < (1 - D):         # resolves -> we lose
+                    decided = True; break
+        if not decided:
+            grind += 1
+    return win / trials, grind / trials
+
+
 # --- lock-aware race (the opponent-clock-tax model, via PERSISTENT locks) ---
 # A persistent hard-lock differs from the one-shot D above: once live & effective it
 # stops the pod EVERY turn until they REMOVE it (rate r) — not re-rolled each turn. A
@@ -615,6 +698,62 @@ def run_matrix(args):
           "pod_gauntlet.py --matrix")
 
 
+def print_hatebear_table():
+    """The per-commander hatebear column, quantified: which static hits which loop."""
+    loops = [("etb", "Acererak"), ("death", "H&K"), ("mixed", "5C-tail")]
+    print(f"\n  HATEBEAR × LOOP — e = P(stops the combo | the piece is live). STRUCTURE verified")
+    print(f"  from oracle text this session; magnitudes are priors. Read the ZEROES, not decimals.")
+    print(f"  {'static':22}" + "".join(f"{lab:>10}" for _, lab in loops))
+    for piece, row in LOCK_VS_LOOP.items():
+        print(f"  {piece:22}" + "".join(f"{row[lk]*100:>9.0f}%" for lk, _ in loops))
+    print(f"  Torpor Orb / Hushwing Gryff hard-lock Acererak (ETB) and are a STONE BLANK vs H&K")
+    print(f"  (death trigger). Only Rule of Law-class + exile-the-commander-on-sight + RACING hit both.")
+
+
+def run_vs(args):
+    """Race each roster deck vs his TWO REAL decks separately, then blend by how often he
+    brings each. Splits the generic opponent (run()) into Acererak / H&K / 5C-tail and adds
+    the interaction-against-us term. The PER-OPPONENT columns are the payoff: they show where
+    a deck's matchup swings on who he's piloting — reactive/counter decks recover vs Acererak
+    (no Abolisher, no counters) and sag vs H&K (a UB counter wall)."""
+    rng = random.Random(args.seed)
+    C = merged_clocks()
+    which = "table" if args.strict else "decap"
+    kd = pod_kdist(args)
+    okeys = list(OPPONENTS)
+    rows = []
+    for slug, c in C.items():
+        F = build_cdf(c["grid"], c[which])
+        per = {k: simulate_vs(slug, F, OPPONENTS[k], kd, args.trials, rng)[0] for k in okeys}
+        blend = sum(OPPONENTS[k]["weight"] * per[k] for k in okeys)
+        rows.append((slug, c, per, blend))
+    rows.sort(key=lambda r: -r[3])
+
+    clk = "TABLE clock (win the game)" if args.strict else "DECAP clock (neutralise the deck)"
+    print(f"\n{'='*94}\nTHE POD GAUNTLET — vs HIS TWO REAL DECKS   [{clk}]")
+    kds = " ".join(f"T{k}:{int(p*100)}%" for k, p in sorted(kd.items()))
+    print(f"  combo turn K = {{{kds}}}   ·   trials={args.trials}, seed={args.seed}")
+    print(f"  OUR disruption uses each deck's reactive-answer tax (a), NOT a global Abolisher — "
+          f"Acererak & H&K\n  are color-locked out of the white Grand Abolisher; only the 5C tail "
+          f"can field it. 'ans' = P(they\n  answer OUR kill on the stack).")
+    for k in okeys:
+        o = OPPONENTS[k]
+        print(f"    {o['name']:26} w={o['weight']:.2f}  a={o['disruption_a']:.2f}  "
+              f"ans={o['answer']:.2f}  [{o['loop']}]  — {o['note']}")
+    print()
+    print(f"  {'deck':24}{'sc':>3}{'clk':>6}{'Acrk':>7}{'H&K':>7}{'tail':>7}{'BLEND':>8}   Δ(Acrk−H&K)")
+    for slug, c, per, blend in rows:
+        d = (per['acererak'] - per['hidetsugu_kairi']) * 100
+        print(f"  {c['name']:24}{c['score']:>3}{c['med'][0]:>6}"
+              f"{per['acererak']*100:>6.0f}%{per['hidetsugu_kairi']*100:>6.0f}%"
+              f"{per['five_color_tail']*100:>6.0f}%{blend*100:>7.0f}%   {d:>+6.0f}")
+    print(f"\n  Δ(Acrk−H&K) = how much the matchup swings by which deck he brings. Large + means the")
+    print(f"  deck banks on reactive answers that H&K's counters blunt but Acererak can't touch.")
+    print_hatebear_table()
+    print(f"\n  Weights/answers are PRIORS (favorite + recent flood), not measured — tune in OPPONENTS.")
+    print(f"  Clocks are unblocked goldfish ceilings; read the ranking and the per-opponent spread.")
+
+
 def run_lock(args):
     """Current (one-shot disruption only) vs LOCK-AWARE P(win), per deck, sweeping the
     pod's removal rate r. Reads analysis/lock_availability.json (lock_lab.py)."""
@@ -787,6 +926,9 @@ def main():
                     help="current vs after-pending-swaps P(win) (Build_And_Swap §2)")
     ap.add_argument("--matrix", action="store_true",
                     help="emit lab-sourced quantitative rows for Pod_Matchup_Matrix.md")
+    ap.add_argument("--vs", action="store_true",
+                    help="race his TWO REAL decks (Acererak / Hidetsugu&Kairi / 5C tail) "
+                         "separately + blended, with the interaction-against-us term")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
     ap.add_argument("--lock", action="store_true",
@@ -820,6 +962,9 @@ def main():
         return
     if args.matrix:
         run_matrix(args)
+        return
+    if args.vs:
+        run_vs(args)
         return
     run(args)
 
