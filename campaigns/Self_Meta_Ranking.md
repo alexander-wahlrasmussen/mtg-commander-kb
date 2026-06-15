@@ -13,6 +13,22 @@ rules-engine sim (politics, interaction, and 4-body combat math are out of reach
 the goldfish labs), and I won't fake one. Tiers are confident; fine order within a
 tier is soft.
 
+> **Quantified 2026-06-15** (`scripts/self_meta_lab.py`, `analysis/Self_Meta_Quantified_2026-06-15.md`).
+> The table-CLOSE race is now **measured** — race the lab table clocks in random 4-seat roster
+> pods — with a soft durability overlay for the grind, leaving only durability/politics as
+> judgment. Headline: **the ranking pivots on how grindy the field is (`T_grind`).** Under this
+> doc's own "field reliably grinds" premise (`T_grind≈8`) the model **validates Dark Lord
+> top-tier (#2, 62%)**; at a faster-closing field it falls to mid-pack. Two robust corrections to
+> the tiers below: **(a)** the **can't-close fortresses — Grand Design, Calamity Tax, Diminishing
+> Returns, and Lightning War — are over-rated**: their lab table-never% (39–82%) shows they rarely
+> *close* the table even goldfishing, so "win by inevitability if they survive" isn't lab-supported
+> (survive ≠ close ≠ win). **(b)** the converge closers **Genome / Zero-Sum / Radiation** rate
+> higher on the measured race. Caveat (the dual of the gauntlet's opponent-clock-tax blind spot):
+> the static table clocks **under-rate Dark Lord's opponent-fed acceleration** (it closes ~1 turn
+> faster vs an active pod, `dla_clock_lab`), so its true rank sits between the model's #7 and this
+> doc's #1. **The tiers below are kept as the judgment baseline — read them against that
+> decomposition.**
+
 ---
 
 ## Why this ranking differs from the anti-pod matrix

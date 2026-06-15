@@ -45,6 +45,7 @@ script walks only `decks/` + `collection/`).
 |---|---|
 | `Opponent_Clock_Lock_Model_2026-06-15.md` | persistent-lock / mana-tax overlay closing pod_gauntlet limitation #1 (`lock_lab.py` + `pod_gauntlet.py --lock`); data `lock_availability.json` |
 | `Measured_Disruption_All16_2026-06-15.md` | delay_lab-measured disruption for all 16 (closes limitation #2); replaces the 2-value class bucket; data `delay_disruption.json` (via `delay_lab.py --emit-json`) |
+| `Self_Meta_Quantified_2026-06-15.md` | the long-game model: quantifies the self-meta ranking (table-close race + durability overlay) via `self_meta_lab.py`; decomposes measured-vs-judgment, pivots on `T_grind` |
 
 (`pod_gauntlet_clocks.json`, `lock_availability.json`, `delay_disruption.json` and `kill_trees/`
 also live here; their writeups are in `../campaigns/` or above.)
