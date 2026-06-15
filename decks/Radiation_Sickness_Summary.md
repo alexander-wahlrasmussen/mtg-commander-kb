@@ -102,7 +102,7 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 
 ### Core Loop: 5/5
 
-The loop is dense: 9 proliferate sources (post Phase C cuts), 8 counter amplifiers (with Doubling Season + Vorinclex MR), 4 supplemental mill effects, 4 rad counter generators (with Vorinclex doubling the rad output). Total engine density: ~28 cards directly serve the loop. Phase C's cut of Flux Channeler + Thrummingbird trimmed bloat without weakening the engine — both were the lowest-impact proliferate sources. Engine density is the same in *effective* terms because **Survival of the Fittest** acts as a virtual creature tutor every turn, raising every Mothman/payoff hit rate.
+The loop is dense: 9 proliferate sources (post Phase C cuts), 8 counter amplifiers (with Doubling Season + Vorinclex MR), 4 supplemental mill effects, 4 rad counter generators (with Vorinclex doubling the rad output). Total engine density: ~28 cards directly serve the loop. Phase C's cut of Flux Channeler + Thrummingbird trimmed bloat without weakening the engine — both were the lowest-impact proliferate sources. Engine density holds post-cut; **Vampiric Tutor** is the on-demand bridge to a missing Mothman/payoff piece (Survival of the Fittest, the old every-turn virtual tutor, was cut in the 2026-06-15 GC-fix).
 
 Doubling Season + Vorinclex MR + Tekuthal stack multiplicatively: a single Mothman ETB now distributes 2 rad counters to each player (Vorinclex), and any +1/+1 counter placement on your creatures is doubled by Doubling Season *before* counter-amplifier triggers fire. Bloodchief Ascension's quest counters are likewise doubled — combo activates in 2 life-loss triggers instead of 3.
 
@@ -111,7 +111,7 @@ Commander dependency is moderate. Mothman is the bridge that converts mill event
 ### Kill Reliability: 5/5
 
 Eight closing lines, four of them deterministic or near-deterministic:
-1. **Mindcrank + Bloodchief Ascension** — fastest deterministic kill. Vampiric Tutor *or* Survival of the Fittest now finds the missing piece on demand. With Doubling Season, Bloodchief's 3-quest-counter activation threshold is reached in 2 life-loss triggers. Realistic assembly T5–6.
+1. **Mindcrank + Bloodchief Ascension** — fastest deterministic kill. Vampiric Tutor now finds the missing piece on demand. With Doubling Season, Bloodchief's 3-quest-counter activation threshold is reached in 2 life-loss triggers. Realistic assembly T5–6.
 2. **Triumph of the Hordes** — single-card win on a wide board. Doubling Season widens every token producer; Mothman distributes counters across multiple creatures. 5–8 creatures by T6 is normal; even half at +1/+1 with infect = 10+ poison.
 3. **Simic Ascendancy** — Doubling Season + Vorinclex = ~4x growth counter accrual per proliferate cycle. 20 growth counters in 2 turns from deployment.
 4. **Toxrill attrition** — Phase C addition. Once Toxrill stabilizes (T7 + 1 end step), opposing boards collapse in 1-2 cycles, your Slug board widens for Triumph/combat. Non-combo non-combat win ignores most interaction stacks.
@@ -146,14 +146,13 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 
 ## Bracket 3 Compliance
 
-> ⚠️ **GC-cap violation (flagged 2026-06-13).** The deployed maindeck actually runs **four**
-> Game Changers — the three below **plus Survival of the Fittest** (GC #45), which this section
-> previously mislabeled as a non-GC tutor. Bracket 3 caps GCs at 3, so the deck is currently
-> illegal. Fix = cut Survival of the Fittest (back to legal 3/3); see
-> `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`. Not yet applied (per house rule: flag
-> the cap, let the user choose the cut).
+> ✅ **GC-cap fixed 2026-06-15.** The maindeck previously ran **four** Game Changers — the three
+> below plus Survival of the Fittest (GC #45), which an earlier version mislabeled as a non-GC
+> tutor. The 3-for-3 GC-fix (−Survival of the Fittest +Sylvan Library, −Generous Patron +Hedron
+> Crab, −Guardian Project +Sidisi, Brood Tyrant; all owned/proxy, $0) restores a legal **3/3**.
+> Applied in `radiation-sickness-20260615.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.
 
-**Game Changers (⚠️ actually 4/3 — see note above):**
+**Game Changers (3/3 ✓):**
 1. Seedborn Muse — untaps all permanents on each opponent's turn; enables Contagion Engine/Viral Drake/Karn's Bastion activation 3x per turn cycle
 2. Vampiric Tutor — 1-mana instant tutor; finds combo pieces (Mindcrank, Bloodchief, Doubling Season) or interaction on demand. Replaced Fierce Guardianship 2026-05-13 to accelerate combo assembly
 3. Cyclonic Rift — asymmetric board reset
@@ -167,6 +166,24 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 -----
 
 ## Pod Fit
+
+> **Anti-archenemy call (2026-06-15): this is the deck to bring vs his current meta.** Tops the
+> two-deck gauntlet (`pod_gauntlet.py --vs`: **71% vs Acererak / 60% vs Hidetsugu and Kairi / 65%
+> blend**) because its wins are *board states, not counterable spells* — rad-drain (a player
+> counter that ticks every upkeep), Simic Ascendancy at 20 growth, and Toxrill attrition give his
+> UB counter wall nothing to target, and under the Grand-Abolisher colour-lock (both his mains —
+> mono-B Acererak, UB Hidetsugu and Kairi — are locked out of white) RS's 12-piece answer suite
+> mostly *resolves*. No tech card fits: the deck is at the 3-GC cap, and the standard hatebears
+> (Drannith / Rule of Law / Hushwing / Mindcensor) are off-colour for BUG while Torpor Orb /
+> Cursed Totem shut off RS's own ETB/activated engine. So the lever is **piloting**:
+> - **Don't destroy or bounce his commanders — it helps him.** Destroying **Hidetsugu and Kairi**
+>   triggers its death-drain *and* lets him recast it; bouncing/destroying **Acererak** just
+>   reloads the ETB loop. BUG is thin on exile, so answer the *combo/loop pieces*, not the
+>   commander.
+> - Hold counters + Toxic Deluge for his combo turn; let the rad-drain grind him out as the
+>   table's secondary threat (Pod Fit #1).
+> - **Keep Morgul-Knife (lifelink) online** — his kill is a damage/drain loop, so lifegain offsets
+>   both his drain and RS's own rad self-damage.
 
 1. **Incremental threat, not explosive.** The deck builds pressure over multiple turns rather than threatening a single combo turn. This makes it a secondary target while the archenemy draws fire — good for the current pod dynamic.
 2. **Rad counters affect everyone.** Including you. Self-mill can be useful (feeding graveyard for Regrowth targets) but costs life. Accept this as a design cost.
@@ -305,12 +322,14 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 1 Deepglow Skate
 1 Karn's Bastion
 
-### Rad Counter / Mill Synergy (7)
+### Rad Counter / Mill Synergy (9)
 1 Agent Frank Horrigan
 1 Vexing Radgull
 1 Glowing One
 1 Altar of the Brood
 1 Ruin Crab
+1 Hedron Crab
+1 Sidisi, Brood Tyrant
 1 Mindcrank
 1 Vorinclex, Monstrous Raider
 
@@ -339,13 +358,9 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 1 Sword of Feast and Famine
 1 Morgul-Knife *(Shadowspear)*
 
-### Card Advantage (3)
-1 Guardian Project
+### Card Advantage (2)
 1 Fathom Mage
-1 Generous Patron
-
-### Tutors (1)
-1 Survival of the Fittest
+1 Sylvan Library
 
 ### Ramp (8)
 1 Sol Ring
