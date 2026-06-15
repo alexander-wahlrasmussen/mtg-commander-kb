@@ -121,14 +121,29 @@ OPPONENTS = {
 ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves the next P(answer)
 
 # P(this deck FORCES ITS KILL THROUGH the opponent's reactive answer) on its kill turn — its own
-# counter package winning the counter-war, plus any UNCOUNTERABLE finisher. This is the "protect-
-# own" axis (feedback_interaction_role_protect_vs_disrupt): a race deck's counters protect ITS
-# kill, which the flat `answer` term otherwise ignores — so a counter-heavy deck reads far worse
-# vs H&K than it plays. PRIOR from each deck's VERIFIED interaction profile; default 0, set only
-# where the suite is confirmed from the list/summary. answer_eff = answer * (1 - protect).
+# counter package winning the counter-war, PLUS a counter-immune kill (uncounterable finisher OR a
+# board-state/combat win counterspells can't touch). The "protect-own" axis
+# (feedback_interaction_role_protect_vs_disrupt): a deck's counters protect ITS kill, which the flat
+# `answer` term ignores — so counter-heavy / board-kill decks read worse vs H&K than they play.
+# Set roster-wide 2026-06-15 from a grep-VERIFIED counter count (Path/Swords are removal=disruption,
+# not protect) + a judgment bump for counter-immune kills. PRIOR; tune freely. answer_eff *= (1-p).
 PROTECT = {
-    "lightning_war": 0.65,   # 8 counters (3 free: FG/FoN/Deflecting Swat) + Banefire X>=5 UNCOUNTERABLE
-    "grand_design":  0.45,   # Force of Will + counter suite + its OWN Grand Abolisher protecting its turn
+    "lightning_war":       0.65,  # 8 counters (3 free) + Banefire X>=5 UNCOUNTERABLE finisher
+    "radiation_sickness":  0.55,  # 5 counters + kills are BOARD-STATES (Simic Asc/Toxrill/rad) = counter-immune
+    "replication_crisis":  0.55,  # 7 counters + combat/Kiki BOARD kill (counters don't stop it)
+    "grand_design":        0.45,  # 7 counters + own Grand Abolisher, but Finale/Craterhoof IS counterable
+    "dark_lords_army":     0.45,  # 7 counters (reactive grind shell)
+    "curse_of_the_scarab": 0.40,  # 5 counters + zombie-army board kill
+    "calamity_tax":        0.35,  # 5 counters + Veil; X-drain kill is a counterable spell
+    "crystal_sickness":    0.30,  # 4 counters
+    "earthbend_the_meta":  0.30,  # 3 counters incl. REB/Pyroblast (anti-blue: extra bite vs H&K)
+    "exiles_return":       0.30,  # 1 counter + its OWN Grand Abolisher (protect-own) + Kiki/combat kill
+    "zero_sum_game":       0.30,  # board-independent, Abolisher-proof lifeloop kill + Veil
+    "bumbleflower":        0.15,  # 1 counter, combat-steal kill
+    "eldrazi_stampede":    0.10,  # combat kill (counter-immune) but no counters
+    "diminishing_returns": 0.10,  # death-combo, no counters
+    "genome_project":      0.05,  # BR burn/storm: kill is counterable spells, ~no counters
+    # lorehold_spirits omitted = 0.0 (no counters; RW combat/spirits)
 }
 
 # Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
