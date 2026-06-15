@@ -745,33 +745,35 @@ def run_swapped(args):
 
 
 def run_matrix(args):
-    """Emit the lab-derived quantitative rows for Pod_Matchup_Matrix.md, sorted by
-    P(win). Everything here is lab-sourced (clock JSON) or gauntlet-computed — no
-    narrated numbers. The matrix pastes these and adds its judgment columns."""
+    """Emit the --vs two-deck rows for Pod_Matchup_Matrix.md, sorted by BLENDED P(win).
+    Lab-sourced (clock JSON) + gauntlet-computed — no narrated numbers. The matrix pastes
+    these and adds its judgment verdict column. Per-opponent (Acererak / Hidetsugu&Kairi /
+    5C-tail) + protect-own; the GD persistent-lock lift is a --vs-lock footnote, not a column."""
     rng = random.Random(args.seed)
-    kdist = pod_kdist(args)
-    rows = []
+    kd = pod_kdist(args)
     C = merged_clocks()
+    okeys = list(OPPONENTS)
+    rows = []
     for slug, c in C.items():
         F = cdf_for(slug, "decap", False, C)
-        pure = pure_race(F, kdist) * 100
-        win = simulate(slug, F, args.a, kdist, args.trials, rng)[0] * 100
-        sw = (simulate(slug, cdf_for(slug, "decap", True, C), args.a, kdist, args.trials,
-                       rng, swapped=True)[0] * 100) if slug in SWAPS else None
-        rows.append((win, c, F[6] * 100, F[7] * 100, pure, sw))
+        per = {k: simulate_vs(slug, F, OPPONENTS[k], kd, args.trials, rng)[0] for k in okeys}
+        blend = sum(OPPONENTS[k]["weight"] * per[k] for k in okeys)
+        rows.append((blend, c, slug, per))
     rows.sort(key=lambda r: -r[0])
-    print(f"\n# Pod_Matchup_Matrix quantitative rows (lab-sourced, a={args.a}, "
-          f"trials={args.trials})\n")
-    print("| # | Deck | Score | Clock decap/table | Race P≤6 / P≤7 | Pure-race | "
-          "P(win) | →after swap |")
-    print("|---|---|---|---|---|---|---|---|")
-    for i, (win, c, P6, P7, pure, sw) in enumerate(rows, 1):
-        swp = f"{sw:.0f}%" if sw is not None else "—"
+    w = OPPONENTS
+    print(f"\n# Pod_Matchup_Matrix --vs rows (two-deck model, trials={args.trials})\n")
+    print("| # | Deck | Sc | Clock decap / table | prot | vs Acererak | vs H&K | vs 5C-tail | BLEND |")
+    print("|---|---|---|---|---|---|---|---|---|")
+    for i, (blend, c, slug, per) in enumerate(rows, 1):
         print(f"| {i} | {c['name']} | {c['score']} | {c['med'][0]} / {c['med'][1]} | "
-              f"{P6:.0f}% / {P7:.0f}% | {pure:.0f}% | **{win:.0f}%** | {swp} |")
-    print("\nP(win): lab decap clock + delay_lab-MEASURED disruption for all 16 "
-          "(analysis/delay_disruption.json). Race P≤T = lab P(decap ≤ turn T). Regenerate: "
-          "pod_gauntlet.py --matrix")
+              f"{PROTECT.get(slug,0)*100:.0f}% | {per['acererak']*100:.0f}% | "
+              f"{per['hidetsugu_kairi']*100:.0f}% | {per['five_color_tail']*100:.0f}% | "
+              f"**{blend*100:.0f}%** |")
+    print(f"\nBLEND = weight-avg over his decks (Acererak {w['acererak']['weight']} / H&K "
+          f"{w['hidetsugu_kairi']['weight']} / 5C-tail {w['five_color_tail']['weight']}, PRIORS). "
+          f"prot = protect-own (counter-war + counter-immune kill). Clock = lab decap/table median. "
+          f"GD also has a persistent-lock line (--vs-lock): 45% blend / 59% vs Acererak. "
+          f"Regenerate: pod_gauntlet.py --matrix")
 
 
 def print_hatebear_table():
