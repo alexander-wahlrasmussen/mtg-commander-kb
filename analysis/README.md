@@ -39,5 +39,13 @@ script walks only `decks/` + `collection/`).
 | `Calamity_Tax_Speed_Curve_Analysis.md` | `decks/The_Calamity_Tax_Summary.md` |
 | `Lightning_War_Speed_Curve_Analysis.md` | `../campaigns/Framework_Clock_Gap_2026-06-09.md` |
 
+## Cross-cutting matchup models (not per-deck Summary backers)
+
+| File | What |
+|---|---|
+| `Opponent_Clock_Lock_Model_2026-06-15.md` | persistent-lock / mana-tax overlay closing pod_gauntlet limitation #1 (`lock_lab.py` + `pod_gauntlet.py --lock`); data `lock_availability.json` |
+
+(`pod_gauntlet_clocks.json` and `kill_trees/` also live here; their writeups are in `../campaigns/`.)
+
 Per-deck procedure: `../workflows/WF_Kill_Window_Lab.md`. The roster ranking that
 consumes these clocks: `../campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`.

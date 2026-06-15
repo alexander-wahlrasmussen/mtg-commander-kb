@@ -180,6 +180,12 @@ sourcing: `Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md`.
    whose plan is to **slow the pod** (Calamity, Diminishing, the stax shells) are
    systematically **underrated** — their real edge is making `K=10+`. Approximate
    it with `--pod-slow`; do not read their baseline cell as their ceiling.
+   → **Addressed 2026-06-15** (`--lock`, `analysis/Opponent_Clock_Lock_Model_2026-06-15.md`):
+   built the tax overlay and found it **moot in practice** — the roster runs no mana-tax and
+   almost no persistent lock, so "slow the pod" isn't actually these decks' plan. **Calamity's
+   verdict is confirmed, not rescued** (4%→4%, empty package). The one deck the model lifts is
+   the *Kefka build* (Cursed Totem, +~5pp); the best lock to *add* vs this pod is Drannith
+   Magistrate in a black tutor shell.
 2. **Disruption is bucketed for 13 of 16 decks** from the matrix's qualitative
    "Through Abolisher?" mark (measured only for GD / Calamity / LW). The bucket is
    the soft input; it is swept, but a per-deck `delay_lab` spec (hand-classified

@@ -1,0 +1,807 @@
+{
+  "genome_project": {
+    "name": "The Genome Project",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "radiation_sickness": {
+    "name": "Radiation Sickness",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "replication_crisis": {
+    "name": "The Replication Crisis",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.02,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.04,
+      0.04
+    ],
+    "e": 0.0,
+    "tau_total": 0.3,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Esper Sentinel",
+        "kind": "manatax",
+        "cost": 1,
+        "val": 0.3
+      }
+    ]
+  },
+  "lorehold_spirits": {
+    "name": "Lorehold Spirits",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "earthbend_the_meta": {
+    "name": "Earthbend the Meta",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.02,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.04,
+      0.04
+    ],
+    "e": 0.0,
+    "tau_total": 0.3,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Esper Sentinel",
+        "kind": "manatax",
+        "cost": 1,
+        "val": 0.3
+      }
+    ]
+  },
+  "exiles_return": {
+    "name": "The Exile's Return",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Grand Abolisher",
+        "kind": "excluded",
+        "cost": 2,
+        "val": 0.0
+      }
+    ]
+  },
+  "zero_sum_game": {
+    "name": "Zero-Sum Game",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "curse_of_the_scarab": {
+    "name": "Curse of the Scarab",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "bumbleflower": {
+    "name": "Ms. Bumbleflower",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.02,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.04,
+      0.04
+    ],
+    "e": 0.0,
+    "tau_total": 0.3,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Esper Sentinel",
+        "kind": "manatax",
+        "cost": 1,
+        "val": 0.3
+      }
+    ]
+  },
+  "eldrazi_stampede": {
+    "name": "Eldrazi Stampede Chaos",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "dark_lords_army": {
+    "name": "The Dark Lord's Army",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "diminishing_returns": {
+    "name": "Diminishing Returns",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.02,
+      0.03,
+      0.03,
+      0.03,
+      0.03,
+      0.04,
+      0.04
+    ],
+    "e": 0.0,
+    "tau_total": 0.3,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Esper Sentinel",
+        "kind": "manatax",
+        "cost": 1,
+        "val": 0.3
+      },
+      {
+        "name": "Grand Abolisher",
+        "kind": "excluded",
+        "cost": 2,
+        "val": 0.0
+      }
+    ]
+  },
+  "lightning_war": {
+    "name": "Lightning War",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      6.9,
+      8.6,
+      10.0,
+      11.2,
+      12.4,
+      13.5
+    ],
+    "hl_tut": [
+      0.0,
+      6.9,
+      8.6,
+      10.0,
+      11.2,
+      12.4,
+      13.5
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.4,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Opposition Agent",
+        "kind": "hardlock",
+        "cost": 3,
+        "val": 0.4
+      }
+    ]
+  },
+  "grand_design": {
+    "name": "The Grand Design",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Grand Abolisher",
+        "kind": "excluded",
+        "cost": 2,
+        "val": 0.0
+      },
+      {
+        "name": "Teferi, Time Raveler",
+        "kind": "excluded",
+        "cost": 3,
+        "val": 0.0
+      }
+    ]
+  },
+  "crystal_sickness": {
+    "name": "Crystal Sickness",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "calamity_tax": {
+    "name": "The Calamity Tax",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "hl_tut": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.0,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": []
+  },
+  "kefka": {
+    "name": "Kefka (Forced Liquidation, build)",
+    "grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hl_drawn": [
+      5.5,
+      8.3,
+      9.4,
+      10.4,
+      11.5,
+      12.5,
+      13.5
+    ],
+    "hl_tut": [
+      7.8,
+      26.7,
+      32.6,
+      35.7,
+      38.9,
+      42.0,
+      44.7
+    ],
+    "tau": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "e": 0.5,
+    "tau_total": 0,
+    "median_online": "never",
+    "package": [
+      {
+        "name": "Cursed Totem",
+        "kind": "hardlock",
+        "cost": 2,
+        "val": 0.5
+      },
+      {
+        "name": "Notion Thief",
+        "kind": "excluded",
+        "cost": 4,
+        "val": 0.0
+      }
+    ]
+  }
+}

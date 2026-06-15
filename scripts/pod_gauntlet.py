@@ -299,7 +299,8 @@ def disruption(slug, a, k, swapped=False):
             if a0 <= a <= a1:
                 return (v0 + (a - a0) / (a1 - a0) * (v1 - v0)) / 100.0
         return row[-1] / 100.0
-    full, static = BUCKET[CLOCKS[slug]["disrupt_class"]]
+    meta = CLOCKS.get(slug) or BUILD_CLOCKS.get(slug, {})
+    full, static = BUCKET[meta.get("disrupt_class", "none")]
     return full + a * (static - full)
 
 
@@ -360,6 +361,80 @@ def simulate(slug, F, a, kdist, trials, rng, swapped=False):
         if not decided:
             grind += 1
     return win / trials, 1 - (win + grind) / trials, grind / trials
+
+
+# --- lock-aware race (the opponent-clock-tax model, via PERSISTENT locks) ---
+# A persistent hard-lock differs from the one-shot D above: once live & effective it
+# stops the pod EVERY turn until they REMOVE it (rate r) — not re-rolled each turn. A
+# mana-tax shifts the combo turn K out by tau/g (pod mana growth). With an EMPTY package
+# this reduces EXACTLY to simulate() (lock never active, Delta=0) — so the lock-less decks
+# are provably unchanged. Lock availability + e/tau come from lock_lab.py ->
+# analysis/lock_availability.json (the same lab->JSON->gauntlet pattern as the clocks).
+LOCK_JSON = ROOT / "analysis" / "lock_availability.json"
+R_BASE = 0.25                                  # P(pod removes our lock each of their turns)
+R_SWEEP = [0.0, 0.15, 0.25, 0.40, 0.60]
+POD_MANA_GROWTH = 1.4                          # mana the Ur-Dragon shell adds per turn (tau->Delta)
+
+# Build-candidate clocks (NOT active roster; lab-sourced) included ONLY in the --lock view,
+# so the model can race the deck it most illuminates: Kefka, whose Cursed Totem is its
+# anti-pod reason to exist. disrupt_class "warn" = it has a real one-shot counter suite;
+# the lock is scored separately via lock_availability.json (no double-count).
+BUILD_CLOCKS = {
+    "kefka": dict(
+        name="Kefka (Forced Liq., build)", score="~17", disrupt_class="warn",
+        grid=[4, 5, 6, 7, 8, 9, 10, 12],
+        decap=[1, 4, 14, 34, 58, 75, 86, 96], table=[0, 2, 7, 19, 39, 58, 72, 88],
+        med=("T8", "T9"), never=(4, 12), src="lab kfk_clock_lab @4k 2026-06-15"),
+}
+
+
+def load_lockdata():
+    if not LOCK_JSON.exists():
+        return {}
+    try:
+        return json.loads(LOCK_JSON.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return {}
+
+
+def lock_race(slug, F, ld, a, r, kdist, trials, rng, g_mana=POD_MANA_GROWTH, use_tut=False):
+    """P(win) with the persistent-lock overlay. ld = this deck's lock_availability entry
+    (None/empty -> reduces to simulate's win rate). F = our decap CDF; slug feeds the
+    one-shot disruption (unchanged); a = P(Abolisher out); r = pod removal rate of our lock."""
+    grid = (ld or {}).get("grid")
+    hl = (ld or {}).get("hl_tut" if use_tut else "hl_drawn")
+    e = (ld or {}).get("e", 0.0) or 0.0
+    tau_curve = (ld or {}).get("tau")
+    hl_cdf = build_cdf(grid, hl) if (grid and hl and e > 0) else None
+    ks, kp = zip(*kdist.items())
+    win = 0
+    for _ in range(trials):
+        K0 = rng.choices(ks, weights=kp)[0]
+        Delta = 0                              # mana-tax: push the combo turn out by tau/g
+        if tau_curve and grid:
+            tau_at = tau_curve[min(range(len(grid)), key=lambda i: abs(grid[i] - K0))]
+            Delta = int(round(tau_at / g_mana))
+        K = K0 + Delta
+        tkill = sample_kill(F, rng)
+        if tkill <= K:
+            win += 1
+            continue
+        D = disruption(slug, a, K0)            # one-shot answers judged on the real combo turn
+        t_lock = sample_kill(hl_cdf, rng) if hl_cdf else HORIZON + 1
+        eff = (rng.random() < e) if hl_cdf else False
+        lock_alive = t_lock <= HORIZON
+        for t in range(K, HORIZON + 1):
+            if tkill == t:                     # our turn t precedes their turn t
+                win += 1
+                break
+            if lock_alive and eff and t >= t_lock:   # persistent lock holds this turn
+                if rng.random() < r:
+                    lock_alive = False         # pod cleared it -> free next turn
+                continue
+            if rng.random() < (1 - D):         # their combo resolves -> loss
+                break
+        # falling off the horizon undecided = loss (they grind through)
+    return win / trials
 
 
 # --- refresh (re-harvest clock curves from the labs) -----------------------
@@ -534,6 +609,164 @@ def run_matrix(args):
           "pod_gauntlet.py --matrix")
 
 
+def run_lock(args):
+    """Current (one-shot disruption only) vs LOCK-AWARE P(win), per deck, sweeping the
+    pod's removal rate r. Reads analysis/lock_availability.json (lock_lab.py)."""
+    LD = load_lockdata()
+    if not LD:
+        print("  no analysis/lock_availability.json — run: python scripts/lock_lab.py")
+        return
+    rng = random.Random(args.seed)
+    kdist = pod_kdist(args)
+    C = {**merged_clocks(), **BUILD_CLOCKS}     # +Kefka build (lock view only)
+    which = "table" if args.strict else "decap"
+    rows = []
+    for slug, c in C.items():
+        F = build_cdf(c["grid"], c[which])
+        cur = simulate(slug, F, args.a, kdist, args.trials, rng)[0]
+        ld = LD.get(slug)
+        lk = lock_race(slug, F, ld, args.a, args.r, kdist, args.trials, rng,
+                       g_mana=args.pod_mana_growth, use_tut=args.use_lock_tutors)
+        band = [lock_race(slug, F, ld, args.a, rr, kdist, args.trials // 2, rng,
+                          g_mana=args.pod_mana_growth, use_tut=args.use_lock_tutors)
+                for rr in R_SWEEP]
+        rows.append((slug, c, cur, lk, (ld or {}).get("e", 0.0),
+                     (ld or {}).get("tau_total", 0.0), band))
+    rows.sort(key=lambda r: -r[3])
+    clk = "TABLE" if args.strict else "DECAP"
+    tut = "with-tutors" if args.use_lock_tutors else "drawn-only"
+    print(f"\n{'='*100}\nTHE POD GAUNTLET — LOCK-AWARE   [{clk} clock · a={args.a} · "
+          f"pod-removal r={args.r} · lock avail {tut}]")
+    print("  'cur' = one-shot disruption only (the standing gauntlet). 'lock' = + the persistent-")
+    print("  lock overlay (a live, effective lock holds every turn until the pod removes it at r).")
+    print("  Empty-package decks are IDENTICAL by construction — the model only moves real locks.\n")
+    print(f"  {'deck':24}{'e':>5}{'τ':>5}{'cur':>7}{'lock':>7}{'Δ':>6}   lock P(win) vs pod-removal r")
+    print(f"  {'':24}{'':>5}{'':>5}{'':>7}{'':>7}{'':>6}   " +
+          "  ".join(f"r={rr}" for rr in R_SWEEP))
+    for slug, c, cur, lk, e, tau, band in rows:
+        d = (lk - cur) * 100
+        flag = "" if (e > 0 or tau > 0) else "   · no package"
+        print(f"  {c['name']:24}{e:>5.2f}{tau:>5.1f}{cur*100:>6.0f}%{lk*100:>6.0f}%{d:>+6.0f}   "
+              + "   ".join(f"{b*100:>3.0f}" for b in band) + flag)
+    print(f"\n  lock data: analysis/lock_availability.json (lock_lab.py). e = P(lock stops THIS "
+          f"pod | live), r swept.\n  A lock helps only if it is AVAILABLE (single copies are "
+          f"~13% drawn by T6), EFFECTIVE (e), and STICKS (low r).\n  Read the gap cur→lock and "
+          f"the r-sensitivity: a lock removed on sight (high r) buys almost nothing.")
+
+
+def run_lock_add(args):
+    """What-if: inject a catalog static into a deck, measure its availability in that
+    shell (lock_lab), and race current vs with-the-add. args.add = 'slug=Piece Name'."""
+    import importlib.util as _il
+    spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
+    LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
+    slug, _, piece = args.add.partition("=")
+    slug, piece = slug.strip(), piece.strip()
+    if slug not in LL.DECKS:
+        print(f"  unknown deck slug {slug!r}; choices: {', '.join(LL.DECKS)}")
+        return
+    if piece not in LL.CATALOG:
+        print(f"  {piece!r} not in the lock catalog; choices: {', '.join(LL.CATALOG)}")
+        return
+    index = LL.ds.load_oracle_index()
+    aliases = LL.ds.load_reskin_aliases()
+    rec = index.get(piece.lower())
+    if rec is None:
+        print(f"  {piece!r} not in the oracle data")
+        return
+    base = LL.load(slug, index, aliases)
+    lib = base + [(piece, rec)]
+    pkg = LL.inventory(lib)
+    d_av, d_tau, _ = LL.measure(lib, pkg, args.trials, random.Random(LL.SEED))
+    t_av, _tt, _ = LL.measure(lib, pkg, args.trials, random.Random(LL.SEED), use_tutors=True)
+    ld = dict(grid=LL.GRID, hl_drawn=[d_av[t] for t in LL.GRID],
+              hl_tut=[t_av[t] for t in LL.GRID], tau=[d_tau[t] for t in LL.GRID],
+              e=LL.combined_e(pkg), tau_total=LL.total_tau(pkg))
+    C = merged_clocks()
+    if slug not in C:
+        print(f"  {slug} has no clock curve in the gauntlet (build candidate); can't race it here")
+        return
+    c = C[slug]
+    F = build_cdf(c["grid"], c["table" if args.strict else "decap"])
+    rng = random.Random(args.seed)
+    kdist = pod_kdist(args)
+    cur = simulate(slug, F, args.a, kdist, args.trials, rng)[0]
+    kind, cost, val, note = LL.CATALOG[piece]
+    print(f"\n{'='*100}\nWHAT-IF — add {piece} to {c['name']}   [a={args.a}, "
+          f"avail drawn (with-tutors)]")
+    print(f"  {piece}: {kind} cost {cost} {'e' if kind=='hardlock' else 'τ'}={val} — {note}")
+    print(f"  availability by their combo turn: T6 {d_av[6]:.0f}% ({t_av[6]:.0f}%)  ·  "
+          f"T7 {d_av[7]:.0f}% ({t_av[7]:.0f}%)\n")
+    print(f"  {'':20}{'cur':>7}" + "".join(f"   r={rr}" for rr in R_SWEEP))
+    for tutflag, lab in ((False, "lock (drawn)"), (True, "lock (+tutors)")):
+        band = [lock_race(slug, F, ld, args.a, rr, kdist, args.trials, rng,
+                          g_mana=args.pod_mana_growth, use_tut=tutflag) for rr in R_SWEEP]
+        print(f"  {lab:20}{cur*100:>6.0f}%" + "".join(f"{b*100:>6.0f}" for b in band))
+    print(f"\n  cur = without the add. Columns = lock-aware P(win) across the pod's lock-removal "
+          f"rate r.\n  The lift is real only at low r (lock sticks) AND when availability is high "
+          f"(tutored / multiple copies).")
+
+
+SWEEP_LOCKS = ["Cursed Totem", "Drannith Magistrate", "Rule of Law",
+               "Linvala, Keeper of Silence", "Opposition Agent"]
+SWEEP_ABBR = {"Cursed Totem": "CursTot", "Drannith Magistrate": "Drannith",
+              "Rule of Law": "RuleLaw", "Linvala, Keeper of Silence": "Linvala",
+              "Opposition Agent": "OppAgent"}
+
+
+def run_lock_sweep(args):
+    """Full deck x lock lift matrix: what each persistent lock buys each deck vs the pod
+    (tutored availability ceiling, baseline r). Cells = P(win) lift in points; '·' = <0.5pp.
+    Answers 'what every lock buys every deck' in one process (vs 85 --add calls)."""
+    import importlib.util as _il
+    spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
+    LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
+    index = LL.ds.load_oracle_index()
+    aliases = LL.ds.load_reskin_aliases()
+    t = min(args.trials, 8000)                 # O(decks x locks) measurement; cap for runtime
+    C = {**merged_clocks(), **BUILD_CLOCKS}
+    kdist = pod_kdist(args)
+    which = "table" if args.strict else "decap"
+    rows = []
+    for slug in [s for s in LL.DECKS if s in C]:
+        base = LL.load(slug, index, aliases)
+        have = {n for n, _ in base}
+        c = C[slug]
+        F = build_cdf(c["grid"], c[which])
+        cur = simulate(slug, F, args.a, kdist, t, random.Random(args.seed))[0]
+        cells = []
+        for piece in SWEEP_LOCKS:
+            rec = index.get(piece.lower())
+            lib = base if piece in have else base + [(piece, rec)]
+            pkg = LL.inventory(lib)
+            av, tau, _ = LL.measure(lib, pkg, t, random.Random(LL.SEED), use_tutors=True)
+            ld = dict(grid=LL.GRID, hl_drawn=[av[x] for x in LL.GRID],
+                      hl_tut=[av[x] for x in LL.GRID], tau=[tau[x] for x in LL.GRID],
+                      e=LL.combined_e(pkg), tau_total=LL.total_tau(pkg))
+            lk = lock_race(slug, F, ld, args.a, args.r, kdist, t, random.Random(args.seed),
+                           use_tut=True)
+            cells.append(((lk - cur) * 100, piece in have))
+        rows.append((slug, c, cur, cells))
+    rows.sort(key=lambda r: -r[2])
+    print(f"\n{'='*100}\nLOCK SWEEP — P(win) lift per deck × lock   "
+          f"[{which} · a={args.a} · r={args.r} · tutored avail · trials={t}]")
+    print("  cell = points added vs the no-lock baseline (one-shot disruption). "
+          "* = deck already runs it.\n")
+    print("  " + "deck".ljust(24) + "cur".rjust(5)
+          + "".join(SWEEP_ABBR[p].rjust(9) for p in SWEEP_LOCKS))
+    for slug, c, cur, cells in rows:
+        line = "  " + c["name"][:24].ljust(24) + f"{cur*100:>4.0f}%"
+        for d, owned in cells:
+            s = f"+{d:.0f}" if d >= 0.5 else ("·" if d > -0.5 else f"{d:.0f}")
+            line += (s + ("*" if owned else "")).rjust(9)
+        print(line)
+    print("\n  * deck already runs that lock (cell = its current value, not an add).")
+    print("  Mana-tax (Sphere/Trinisphere) omitted: ≈0 for the whole roster (pod mana growth).")
+    print("  Creature-tutor fetch of creature locks (Drannith/Linvala) not modelled -> those")
+    print("  columns are FLOORS. Read: fast decks don't need locks (they race); lifts concentrate")
+    print("  in mid-clock grind decks, and even there a singleton is bounded by avail × e × r.")
+
+
 def main():
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -550,9 +783,31 @@ def main():
                     help="emit lab-sourced quantitative rows for Pod_Matchup_Matrix.md")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
+    ap.add_argument("--lock", action="store_true",
+                    help="lock-aware race: current vs + persistent-lock overlay (lock_lab.py)")
+    ap.add_argument("--add", metavar="SLUG=PIECE",
+                    help="what-if: inject a catalog static into a deck and race the lift "
+                         "(e.g. 'calamity_tax=Cursed Totem')")
+    ap.add_argument("--lock-sweep", action="store_true",
+                    help="full deck × lock lift matrix (what every lock buys every deck)")
+    ap.add_argument("--r", type=float, default=R_BASE,
+                    help="P(pod removes our lock each of their turns) baseline")
+    ap.add_argument("--pod-mana-growth", type=float, default=POD_MANA_GROWTH,
+                    help="pod mana/turn for the mana-tax tau->Delta conversion")
+    ap.add_argument("--use-lock-tutors", action="store_true",
+                    help="use the with-tutors lock-availability ceiling instead of drawn-only")
     args = ap.parse_args()
     if args.refresh:
         refresh(args.trials)          # default 40k — the canonical harvest
+        return
+    if args.lock_sweep:
+        run_lock_sweep(args)
+        return
+    if args.add:
+        run_lock_add(args)
+        return
+    if args.lock:
+        run_lock(args)
         return
     if args.swapped:
         run_swapped(args)
