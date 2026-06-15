@@ -236,11 +236,7 @@ SWAPS = {
         grid=[4, 5, 6, 7, 8, 9, 10, 12], decap=[0, 0, 2, 11, 32, 58, 77, 95],
         table=None, gate=None, src="gd_clock_lab --mode ramp (7-for-7)",
         note="ramp+finisher: decap T10→T9, whiff 11→5%"),
-    "radiation_sickness": dict(
-        grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[6, 34, 77, 91, 95, 98, 99, 100],
-        table=[0, 1, 5, 21, 51, 76, 96, 99], gate=None,
-        src="rs_clock_lab --mode upgrade (GC-fix 3-for-3)",
-        note="GC-fix (mandatory): table T10→T9, decap ~same"),
+    # radiation_sickness GC-fix swap APPLIED 2026-06-15 (now the committed list) — entry removed
     "exiles_return": dict(
         disrupt_class="static", gate="approval",
         src="er pending-swap + Build_And_Swap §2",

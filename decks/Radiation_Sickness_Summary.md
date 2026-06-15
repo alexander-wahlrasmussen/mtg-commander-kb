@@ -7,8 +7,8 @@
 | **Commander** | The Wise Mothman (Sultai, BUG) |
 | **Colors** | Sultai (BUG) |
 | **Archetype** | Proliferate / +1/+1 Counters / Rad Counters |
-| **Bracket** | 3 — ⚠️ **currently 4 GCs (over cap)**; 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns |
-| **Game Changers** | ⚠️ **4/3 VIOLATION** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift **+ Survival of the Fittest** (GC #45, previously uncounted). Fix in `proposals/Radiation_Sickness_Upgrade_2026-06-13.md` (cut Survival → legal 3/3). |
+| **Bracket** | 3 — **legal 3/3 GCs** (GC-fix applied 2026-06-15); 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns |
+| **Game Changers** | **3/3 ✓** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift. (Survival of the Fittest — the uncounted 4th — **cut 2026-06-15** in the 3-for-3 GC-fix: −Survival +Sylvan Library, −Generous Patron +Hedron Crab, −Guardian Project +Sidisi, Brood Tyrant. All adds owned/proxy, $0. List `radiation-sickness-20260615.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.) |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
 | **Kill Window** | Clock: **T10 table-win** (median; T6 ≈ 1%, T9 ≈ 49%) / **T7 decap** one opponent (lab 2026-06-13, `rs_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified)*. The old "Goldfish T6–9" was optimistic for the actual win: this deck's kills (combo / Simic / Triumph) are whole-table kills, and the table median is T10. The "T5–6 combo" is a god-hand (1–4% by T7). See `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md` |
 

@@ -77,7 +77,7 @@ lab-sourced — regenerate with `python scripts/pod_gauntlet.py --matrix`:
 
 | # | Deck | Sc | Clock decap / table | Race P≤6 / P≤7 | P(win) →swap | Through Abolisher? | Verdict vs pod |
 |---|---|---|---|---|---|---|---|
-| 1 | Radiation Sickness | 18 | T7 / T10 | 32% / 76% | **69%** →70% | ⚠ rad/proliferate attrition is Abolisher-proof; measured D 42% | **Favoured — fast converge attrition, Abolisher-proof engine** |
+| 1 | Radiation Sickness | 18 | T7 / T10 | 32% / 76% | **69%** | ⚠ rad/proliferate attrition is Abolisher-proof; measured D 42%; **GC-fix applied 2026-06-15 (now 3/3 legal)** | **Favoured — fast converge attrition, Abolisher-proof engine** |
 | 2 | The Genome Project | 15 | T7 / T8 | 41% / 82% | **66%** | ⚠ thin suite — **measured D 16%** (bucket over-credited); rides the race, not disruption | **Race ceiling, not disruption — the number is PURE RACE 63% (15/20 glass, combo-reliant). Discount for fragility the goldfish can't see** |
 | 3 | The Replication Crisis | 17 | T7 / T10 | 16% / 59% | **59%** →59% | ⚠ **measured D 50%** — proactive removal (Path/Swords/Pongify/Abrade) survives Abolisher, not just counters | **Up on measurement — its removal disrupts through Abolisher (not the ❌ the bucket implied); Kiki swap still adds an Abolisher-proof line** |
 | 4 | Ms. Bumbleflower | 15 | T8 / T11 | 7% / 38% | **48%** | ⚠ 5/5 interaction but combat-only kill is far too slow; measured D 40% | **Soft ceiling — decap T8 but the combat-only kill is goldfish-optimistic (bmf lab caveat)** |

@@ -140,7 +140,7 @@ CATALOG = {
 # gauntlet but is the deck this model most illuminates).
 DECKS = {
     "genome_project":     "decks/the-genome-project-20260510.txt",
-    "radiation_sickness": "decks/radiation-sickness-20260513-phaseC.txt",
+    "radiation_sickness": "decks/radiation-sickness-20260615.txt",
     "replication_crisis": "decks/the-replication-crisis-20260504-202914.txt",
     "lorehold_spirits":   "decks/lorehold-spirit-20260503-154449.txt",
     "earthbend_the_meta": "decks/earthbend-the-meta-20260404-075423.txt",
