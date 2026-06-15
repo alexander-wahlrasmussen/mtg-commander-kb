@@ -120,6 +120,17 @@ OPPONENTS = {
 }
 ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves the next P(answer)
 
+# P(this deck FORCES ITS KILL THROUGH the opponent's reactive answer) on its kill turn — its own
+# counter package winning the counter-war, plus any UNCOUNTERABLE finisher. This is the "protect-
+# own" axis (feedback_interaction_role_protect_vs_disrupt): a race deck's counters protect ITS
+# kill, which the flat `answer` term otherwise ignores — so a counter-heavy deck reads far worse
+# vs H&K than it plays. PRIOR from each deck's VERIFIED interaction profile; default 0, set only
+# where the suite is confirmed from the list/summary. answer_eff = answer * (1 - protect).
+PROTECT = {
+    "lightning_war": 0.65,   # 8 counters (3 free: FG/FoN/Deflecting Swat) + Banefire X>=5 UNCOUNTERABLE
+    "grand_design":  0.45,   # Force of Will + counter suite + its OWN Grand Abolisher protecting its turn
+}
+
 # Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
 # oracle text this session; magnitudes are judgment priors (e = P(stops the combo | the piece
 # is live and the loop is the one named)). The headline is the ZEROES, not the decimals:
@@ -427,15 +438,19 @@ def simulate_vs(slug, F, opp, kdist, trials, rng):
       * opp['answer'] = P(THEY stop OUR kill on the stack), rolled each kill attempt with
         finite, decaying interaction (they don't have infinite counters). An answered kill
         costs us a turn (reload) rather than ending the game — and Abolisher does NOT figure
-        here, since it acts only on their turn while our kill is on ours."""
+        here, since it acts only on their turn while our kill is on ours. PROTECT[slug] (our own
+        counter package / uncounterable finisher) reduces that answer: answer * (1 - protect)."""
     ks, kp = zip(*kdist.items())
-    a = opp["disruption_a"]
+    # PROTECT = our counter-war capability; it eases the SAME counter wall on both fronts —
+    # our disruption of their combo (a) and our kill landing (answer). For Acererak (no counters)
+    # the taxes are ~0 so this barely moves; vs H&K it's the whole counter-heavy-deck correction.
+    a = opp["disruption_a"] * (1 - PROTECT.get(slug, 0.0))
     win = grind = 0
     for _ in range(trials):
         K = rng.choices(ks, weights=kp)[0]
         tkill = sample_kill(F, rng)
         D = disruption(slug, a, K)
-        answer = opp["answer"]
+        answer = opp["answer"] * (1 - PROTECT.get(slug, 0.0))   # our protect-own reduces their answer
         ready = tkill                              # earliest turn our kill is online
         decided = False
         for t in range(1, HORIZON + 1):
@@ -741,14 +756,14 @@ def run_vs(args):
         print(f"    {o['name']:26} w={o['weight']:.2f}  a={o['disruption_a']:.2f}  "
               f"ans={o['answer']:.2f}  [{o['loop']}]  — {o['note']}")
     print()
-    print(f"  {'deck':24}{'sc':>3}{'clk':>6}{'Acrk':>7}{'H&K':>7}{'tail':>7}{'BLEND':>8}   Δ(Acrk−H&K)")
+    print(f"  {'deck':24}{'sc':>3}{'clk':>6}{'prot':>6}{'Acrk':>7}{'H&K':>7}{'tail':>7}{'BLEND':>8}   Δ(Acrk−H&K)")
     for slug, c, per, blend in rows:
         d = (per['acererak'] - per['hidetsugu_kairi']) * 100
-        print(f"  {c['name']:24}{c['score']:>3}{c['med'][0]:>6}"
+        print(f"  {c['name']:24}{c['score']:>3}{c['med'][0]:>6}{PROTECT.get(slug,0)*100:>5.0f}%"
               f"{per['acererak']*100:>6.0f}%{per['hidetsugu_kairi']*100:>6.0f}%"
               f"{per['five_color_tail']*100:>6.0f}%{blend*100:>7.0f}%   {d:>+6.0f}")
-    print(f"\n  Δ(Acrk−H&K) = how much the matchup swings by which deck he brings. Large + means the")
-    print(f"  deck banks on reactive answers that H&K's counters blunt but Acererak can't touch.")
+    print(f"\n  prot = P(this deck forces its kill THROUGH their answer) — own counters + uncounterable")
+    print(f"  finisher (PROTECT, a verified-where-set prior). Δ(Acrk−H&K) = swing by which deck he brings.")
     print_hatebear_table()
     print(f"\n  Weights/answers are PRIORS (favorite + recent flood), not measured — tune in OPPONENTS.")
     print(f"  Clocks are unblocked goldfish ceilings; read the ranking and the per-opponent spread.")

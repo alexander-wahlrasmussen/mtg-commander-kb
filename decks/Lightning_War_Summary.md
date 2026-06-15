@@ -76,6 +76,19 @@ The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, b
 
 ## Pod Fit: Tempo Dictation
 
+> **Anti-archenemy standing (2026-06-15): a legitimate bring, best when you expect Acererak.**
+> `pod_gauntlet.py --vs` ranks LW **4th — 50% blend (54% vs Acererak / 47% vs Hidetsugu and Kairi)**
+> once the model credits LW's **protect-own** counter-war (8 counters + uncounterable Banefire). The
+> flat "they answer our kill" term had under-rated it to 40% — exactly the protect-the-kill axis
+> [[feedback_interaction_role_protect_vs_disrupt]] flags — and the lift is **robust to that prior**
+> (blend 46–52% across protect 0.4–0.8). Takeaways: (1) it needs **no** counter-resilience card —
+> it already has the suite + Banefire X≥5 (don't add Red Elemental Blast/Pyroblast); (2) it's the
+> deck to bring vs his **favorite** (mono-B Acererak — no counters, so LW's race runs clean);
+> (3) the real ceiling is the **T9 decap clock** (lab) — climbing past 50% means finisher
+> *availability/speed* (chip model `--mode avail`), not more interaction (saturated). Caveat:
+> `PROTECT` is currently set only for LW + Grand Design, so other counter-heavy decks (Replication,
+> Dark Lord) are still under-credited in `--vs`.
+
 1. **You set the clock.** Lead with engine creatures, tutor toward a finisher, force the pod to answer *your* T6–7 kill.
 2. **Burn doubles as removal.** Kill Grand Abolisher (a 2/2) on sight — Emeritus of Conflict's repeatable Bolt, Electrodominance, Guttersnipe, any X-spell — before it locks your turn.
 3. **Banefire ignores counters** (X≥5). The answer to the counter-wall player.
