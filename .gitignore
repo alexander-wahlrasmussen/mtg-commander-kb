@@ -1,3 +1,6 @@
+# Claude Code — local per-machine settings (permissions allowlist); shared settings.json stays tracked
+.claude/settings.local.json
+
 # Sync output — generated build artifact
 _sync_drop/
 
