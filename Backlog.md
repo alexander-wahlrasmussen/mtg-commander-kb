@@ -56,3 +56,31 @@ Chart tool. Add a deck by encoding its lab's KILL CHECKS into `DECKS`.
 
 *Source: 2026-06-14 brainstorm. Order ≈ value; #1 was the recommended first build.*
 **All four shipped 2026-06-14** in one top-down grind. ✅✅✅✅
+
+---
+
+## 5. Plan-aware (per-deck) mulligan + front-edge oracle — TODO (raised 2026-06-16)
+
+From the Framework Bake-Off mulligan robustness check (`analysis/Framework_Bakeoff_2026-06-16.md`,
+commit f48cf26). The sim mulligan keeps on **land count only**; the 2026-06-16 "smart keep"
+(`deck_sim.DECK_SIM_SMART_KEEP=1`) added a generic *"has a CMC≤3 play"* requirement and **0/16
+decap/table medians moved**. User's correct critique: that's a generic proxy, not *"does the hand
+advance THIS DECK'S plan."* A real mulligan is deck-specific — a combo deck keeps a piece or a
+tutor; a finding-gated deck (Crystal) keeps toward its drain bomb; a ramp deck keeps lands+ramp+payoff.
+
+**The build:** give `deck_sim`'s keep rule a per-deck **keep predicate** (key cards / enabler tags /
+"progress toward the win line"). Reuse what already encodes "the plan": the `WIN_LINE` dict in
+`framework_bakeoff.py` and each clock lab's KILL CHECKS / `kill_tree.py` specs. Then re-harvest the
+16 clocks and re-run the bake-off.
+
+**Do it WITH the front-edge oracle, not alone.** A plan-aware mulligan moves the **front edge**
+(T5–7 assembly), not the **median** — and the bake-off scored medians, so the 2026-06-16 test was
+structurally insensitive to it. But the pod's real bar is `decap by T≤7` (front edge). So pair the
+plan-aware mulligan with a **front-edge oracle** (e.g. P(decap by T7) from the clock curves, which
+`pod_gauntlet_clocks.json` already stores) — that's where finding-gated/combo decks and the
+consistency frameworks (Disciple, BDD-consistency) could finally show signal the median oracle hides.
+
+**Honest prior:** likely a *fidelity* upgrade that lifts finding-gated decks + maybe Disciple a bit,
+**not** a verdict reversal — because it doesn't touch the bigger leak (the oracle is a solitaire
+goldfish: no interaction/durability modelling → half the Conversion Check scores 0 regardless). That
+interaction-overlay oracle is the deeper, separate frontier.
