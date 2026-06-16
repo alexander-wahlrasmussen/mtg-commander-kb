@@ -7,7 +7,7 @@ but the Summary's "T7-9 goldfish" was only corroborated, never goldfished
 (status ◐ in proposals/Framework_Clock_Gap_2026-06-09.md). This lab runs the
 actual kill-turn Monte Carlo for three variants:
 
-  V1  committed list        decks/calamity-tax-20260405-061741.txt
+  V1  archived list         archive/old_decklists/calamity-tax-20260405-061741.txt
   V2  31-May oppression     -Savvy Trader -Flash Photography -Druid of
                             Purification -High Fae Trickster -Starfield
                             Vocalist  +Exsanguinate +Sheoldred +Mystic Remora
@@ -85,7 +85,10 @@ core = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(core)
 ds = core.ds
 
 ROOT = Path(__file__).parent.parent
-DECK = ROOT / "decks" / "calamity-tax-20260405-061741.txt"
+# V1 is archived (deck re-roled 2026-06-15); this lab keeps the historical V1-V4 bake-off.
+# The DEPLOYED list's clock (grind-fortress + anti-dragon pkg) is harvested separately into
+# analysis/pod_gauntlet_clocks.json — see analysis/Calamity_Tax_vs_Ur_Dragon_2026-06-15.md.
+DECK = ROOT / "archive" / "old_decklists" / "calamity-tax-20260405-061741.txt"
 SEED = 12345
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12, 14]

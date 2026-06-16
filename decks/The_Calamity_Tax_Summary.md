@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers; no infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Fierce Guardianship, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/4/4/5) |
-| **Kill Window** | **Clock (strict mana-floor goldfish, Seedborn/flash excluded): T13 decap / table rarely in 14** (lab 2026-06-13, `ct_speed_lab.py`) — hard mana-gated; **"T7–9" falsified** (biggest miss in the sweep). Real clock faster once Seedborn is online but **not** T7–9, and cannot out-race the T6–7 pod. 4-version bake-off (V1/V2/V3/V4): swaps move the kill *rate* (47→56%) not the *turn*; **none up to par — staying on V1, a different direction needed.** See `analysis/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`. **Update 2026-06-13:** a dig-sensitivity test found the T13 *under-modeled Glarb's selection* — with realistic Glarb dig (surveil/Sylvan/Top) the X-drain lands **~T8–10**, not T13. **Chosen rebuild = the 3-GC Thoracle-combo hybrid** (`decks/considering/glarb-hybrid-b3-20260613.txt`): combo median ~T7 (40% by T6, vs grind ~T9), bracket-3 legal (3/3 GCs), board-independent + grind backup. All other Calamity build proposals retired (`archive/proposals/`). Deployed list stays V1 until built; gates = pod Rule-0 (2-card combo) + acquisition. See `proposals/Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md`. |
+| **Kill Window** | **Clock — DEPLOYED (grind-fortress + anti-dragon pkg, realistic Glarb dig=2): T10 decap / T10 table** (lab 2026-06-15: `ct_speed_lab` kill_turns on `calamity-tax-20260615.txt` @dig=2, harvested to `analysis/pod_gauntlet_clocks.json` — re-derive from that json, as `ct_speed_lab.py` itself now runs the archived V1–V4 bake-off; dig-band T13 floor@0 → T9 ceiling@3). Historical V1 strict mana-floor (dig=0) was **T13 decap / table rarely in 14** (lab 2026-06-13) — hard mana-gated; **"T7–9" falsified** (biggest miss in the sweep). Real clock faster once Seedborn is online but **not** T7–9, and cannot out-race the T6–7 pod. 4-version bake-off (V1/V2/V3/V4): swaps move the kill *rate* (47→56%) not the *turn*; a different direction was needed **(RESOLVED 2026-06-15 — re-role below; this T13/V1 finding is retired).** See `analysis/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`. **Update 2026-06-13:** a dig-sensitivity test found the T13 *under-modeled Glarb's selection* — with realistic Glarb dig (surveil/Sylvan/Top) the X-drain lands **~T8–10**, not T13. **Re-roled 2026-06-15 → the pod's anti-fair / Ur-Dragon specialist** (Thoracle direction DROPPED — Hashaton owns that lane). Deployed list = `calamity-tax-20260615.txt`: the grind-fortress shell + a flying-agnostic fog/removal package (+Spore Frog +Constant Mists +Beast Within / −Blasphemous Edict −Espers to Magicite −Doppelgang). Lab `scripts/vs_dragon_lab.py`: **beats Ur-Dragon ~87% heads-up by ARCHETYPE** (3 flying-agnostic wraths + Maze + recursion + board-independent ~T9 drain); the package is **+2–3pp free insurance**, not the win. Caveats: 87% is a heads-up goldfish ceiling; hard archetype read (Glarb is the *worst* deck vs his combo, 5% gauntlet). 3/3 GCs unchanged. See `analysis/Calamity_Tax_vs_Ur_Dragon_2026-06-15.md`. |
 
 -----
 
@@ -208,6 +208,11 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 -----
 
 ## Decklist (100 cards)
+
+> **SUPERSEDED 2026-06-15 — ground truth is now `decks/calamity-tax-20260615.txt`**
+> (grind-fortress shell + anti-Ur-Dragon package). The list below is the retired V1
+> (`…20260405`, archived) and no longer matches the deployed deck. Re-derive this
+> section on the next audit.
 
 ### Commander (1)
 

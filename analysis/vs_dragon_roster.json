@@ -1,0 +1,274 @@
+{
+  "genome_project": {
+    "name": "The Genome Project",
+    "axis": "over",
+    "p_win": 0.9863,
+    "wraths": [
+      "Blasphemous Act"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 3,
+    "protect": 0.05,
+    "race": true,
+    "note": "Wizard-token PINGS = direct damage to a player; Exsanguinate table line \u2014 board-independent but a RACE on one total"
+  },
+  "radiation_sickness": {
+    "name": "Radiation Sickness",
+    "axis": "over",
+    "p_win": 0.9859,
+    "wraths": [
+      "Cyclonic Rift",
+      "Toxic Deluge",
+      "Toxrill, the Corrosive"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 2,
+    "protect": 0.55,
+    "race": false,
+    "note": "Exsanguinate / Jarad+Lord drain / Mindcrank mill / Toxrill / Simic Asc \u2014 multiple board-independent lines"
+  },
+  "calamity_tax": {
+    "name": "The Calamity Tax",
+    "axis": "over",
+    "p_win": 0.9355,
+    "wraths": [
+      "Massacre Wurm",
+      "The Meathook Massacre",
+      "Toxic Deluge"
+    ],
+    "fogs": [
+      "Constant Mists",
+      "Maze of Ith",
+      "Spore Frog"
+    ],
+    "taxes": [],
+    "spot": 1,
+    "maze": [
+      "Constant Mists",
+      "Maze of Ith"
+    ],
+    "lifegain": 4,
+    "protect": 0.35,
+    "race": false,
+    "note": "Torment of Hailfire (1-card, no board) primary; Gray Merchant/Kokusho back it \u2014 deployed grind-fortress curve"
+  },
+  "dark_lords_army": {
+    "name": "The Dark Lord's Army",
+    "axis": "over",
+    "p_win": 0.8557,
+    "wraths": [
+      "Blasphemous Act",
+      "Cyclonic Rift",
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [
+      "Propaganda"
+    ],
+    "spot": 5,
+    "maze": [],
+    "lifegain": 2,
+    "protect": 0.45,
+    "race": false,
+    "note": "Gray Merchant drain + opponent-FED amass-drain (+ Cover of Darkness fear = army largely unblockable by dragons)"
+  },
+  "lightning_war": {
+    "name": "Lightning War",
+    "axis": "over",
+    "p_win": 0.8277,
+    "wraths": [
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 2,
+    "maze": [],
+    "lifegain": 0,
+    "protect": 0.65,
+    "race": true,
+    "note": "burn + copy-amplified X-spells (Comet Storm/Crackle/Banefire) = direct damage; chases a life total"
+  },
+  "zero_sum_game": {
+    "name": "Zero-Sum Game",
+    "axis": "over",
+    "p_win": 0.6968,
+    "wraths": [
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 4,
+    "maze": [],
+    "lifegain": 14,
+    "protect": 0.3,
+    "race": false,
+    "note": "life-loop closes on our triggers, board-independent (Summary L1: 'the kill doesn't care')"
+  },
+  "crystal_sickness": {
+    "name": "Crystal Sickness",
+    "axis": "over",
+    "p_win": 0.5725,
+    "wraths": [
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 0,
+    "maze": [],
+    "lifegain": 3,
+    "protect": 0.3,
+    "race": false,
+    "note": "drain + Mirrodin Besieged Phyrexian alt-win; 'win conditions (drain, mill) don't rely on creatures'"
+  },
+  "replication_crisis": {
+    "name": "The Replication Crisis",
+    "axis": "combat",
+    "p_win": 0.4789,
+    "wraths": [
+      "Cyclonic Rift"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 2,
+    "protect": 0.55,
+    "race": false,
+    "note": "combat-loop / token swarm; flying blockers wall it"
+  },
+  "lorehold_spirits": {
+    "name": "Lorehold Spirits",
+    "axis": "combat",
+    "p_win": 0.3882,
+    "wraths": [],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 2,
+    "protect": 0.0,
+    "race": false,
+    "note": "spirit combat (only a niche Boros Charm burn goes over)"
+  },
+  "bumbleflower": {
+    "name": "Ms. Bumbleflower",
+    "axis": "combat",
+    "p_win": 0.3842,
+    "wraths": [],
+    "fogs": [
+      "Comeuppance",
+      "Dawn Charm",
+      "Riot Control"
+    ],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 1,
+    "protect": 0.15,
+    "race": false,
+    "note": "Willbreaker theft + combat steal"
+  },
+  "exiles_return": {
+    "name": "The Exile's Return",
+    "axis": "combat",
+    "p_win": 0.3747,
+    "wraths": [
+      "Blasphemous Act",
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 5,
+    "maze": [],
+    "lifegain": 1,
+    "protect": 0.3,
+    "race": false,
+    "note": "Summary: 'the kill requires combat'; commander damage / Kiki combat"
+  },
+  "curse_of_the_scarab": {
+    "name": "Curse of the Scarab",
+    "axis": "combat",
+    "p_win": 0.3373,
+    "wraths": [
+      "Cyclonic Rift",
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 1,
+    "protect": 0.4,
+    "race": false,
+    "note": "zombie alpha strike; even the Cyc-Rift line is 'a lethal alpha strike into empty defenses' = combat"
+  },
+  "earthbend_the_meta": {
+    "name": "Earthbend the Meta",
+    "axis": "combat",
+    "p_win": 0.3352,
+    "wraths": [],
+    "fogs": [],
+    "taxes": [],
+    "spot": 1,
+    "maze": [],
+    "lifegain": 3,
+    "protect": 0.3,
+    "race": false,
+    "note": "Toph lands-as-creatures combat swing"
+  },
+  "eldrazi_stampede": {
+    "name": "Eldrazi Stampede Chaos",
+    "axis": "combat",
+    "p_win": 0.2856,
+    "wraths": [],
+    "fogs": [],
+    "taxes": [],
+    "spot": 1,
+    "maze": [],
+    "lifegain": 2,
+    "protect": 0.1,
+    "race": false,
+    "note": "'Combat / Annihilator' (Summary win-condition row)"
+  },
+  "diminishing_returns": {
+    "name": "Diminishing Returns",
+    "axis": "over",
+    "p_win": 0.2334,
+    "wraths": [
+      "Farewell",
+      "The Meathook Massacre",
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 2,
+    "maze": [],
+    "lifegain": 7,
+    "protect": 0.1,
+    "race": false,
+    "note": "decap is a COMBAT board-swing (walled); the board-independent line is the DRAIN = the table clock (slow)"
+  },
+  "grand_design": {
+    "name": "The Grand Design",
+    "axis": "combat",
+    "p_win": 0.1366,
+    "wraths": [
+      "Cyclonic Rift",
+      "Toxic Deluge"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 3,
+    "maze": [],
+    "lifegain": 0,
+    "protect": 0.45,
+    "race": false,
+    "note": "Summary: '96% of kills are incremental COMBAT, almost no trample' -> WALLED by the flying board"
+  }
+}

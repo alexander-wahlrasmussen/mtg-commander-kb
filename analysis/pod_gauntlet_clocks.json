@@ -634,38 +634,38 @@
       7,
       8,
       9,
-      11,
-      13,
+      10,
+      12,
       14
     ],
     "decap": [
       0,
-      0,
-      1,
       3,
-      8,
-      30,
-      50,
-      58
+      11,
+      25,
+      44,
+      63,
+      87,
+      96
     ],
     "table": [
       0,
-      0,
-      0,
-      1,
-      2,
-      12,
-      25,
-      33
+      3,
+      10,
+      22,
+      36,
+      51,
+      74,
+      86
     ],
     "med": [
-      "T13",
-      ">T14"
+      "T10",
+      "T10"
     ],
     "never": [
-      40,
-      60
+      4,
+      14
     ],
-    "src": "matrix 06-13 sweep median (slow; curve reconstructed, race-irrelevant)"
+    "src": "lab ct_speed_lab kill_turns on calamity-tax-20260615.txt @12k dig=2 (deployed grind-fortress + anti-dragon pkg; dig-band: T13 floor@0 / T9 ceiling@3; 2026-06-15)"
   }
 }

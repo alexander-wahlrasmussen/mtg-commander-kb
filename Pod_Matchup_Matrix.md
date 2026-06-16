@@ -1,10 +1,19 @@
-# Pod Matchup Matrix — Roster vs. The Combo Opponent
+# Pod Matchup Matrix — Roster vs. The Archenemy (combo decks + Ur-Dragon)
 
 How each active deck matches up against the recurring pod combo opponent. This is
 a **decision aid**, not a guarantee — it combines audited kill windows, the
 interaction profile of each deck, and Monte Carlo consistency output from
 `scripts/deck_sim.py`. State doc, not reference: re-derive when a deck's score,
 clock, or interaction suite changes.
+
+> **Two opponents, two models.** The main table races his **combo** decks (Acererak /
+> Hidetsugu and Kairi / 5C tail) — a decap race. His **Ur-Dragon** deck is the odd one out:
+> it's a *fair board deck*, not a combo, so there's no combo turn K to race and the decap
+> model is the wrong shape. It gets its own **computed** section below — **"The other axis —
+> vs his Ur-Dragon"** (`vs_dragon_roster_lab.py`, per-deck) — where the ranking largely
+> **inverts**: the split is **board-independent kill** (goes over the flying wall — wins) vs
+> **combat kill** (walled). Board-independent *damage* decks (Radiation, Genome, Lightning
+> War) win **both** matchups; the **combat** decks near the top of the combo table get walled.
 
 > **Rebuilt 2026-06-15 — the two-deck model (`--vs`).** The table now races each deck
 > **separately vs his real decks** — Acererak (mono-B ETB), Hidetsugu and Kairi (UB death),
@@ -16,7 +25,7 @@ clock, or interaction suite changes.
 > **Lightning War up**, **Grand Design re-cast as an anti-Acererak *controller*** (its Elesh
 > Norn lock, `--vs-lock`). Clock medians stay lab-sourced; the verdicts remain judgment.
 
-Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`. **Measured disruption 2026-06-15** — the `P(win)` disruption term is now **delay_lab-measured for all 16** (was class-bucketed for 13); `analysis/delay_disruption.json` + writeup `analysis/Measured_Disruption_All16_2026-06-15.md`. Reorder: **Replication Crisis 4th→3rd** (under-bucketed "none" 15% → measured 50%), **Genome 1st→2nd** (over-bucketed; its rank is now a *race* rank, D 16%), Earthbend up (15→38%), Diminishing/Crystal down (over-bucketed). The `warn`/`none` bucket is retired. **Opponent model split 2026-06-15** — the generic single combo opponent is resolved into his two real decks (**Acererak** mono-B ETB loop / **Hidetsugu and Kairi** UB death-drain) + a 5C tail; see the rewritten "opponent" section and `pod_gauntlet.py --vs`. Load-bearing correction: **his two current decks are color-locked out of the white Grand Abolisher**, so the counterspells-are-dead premise applies only to the 5C tail — reactive decks recover value vs his current meta. **Matrix table rebuilt to the two-deck `--vs` model 2026-06-15** — per-opponent (Acererak / H&K / 5C-tail) columns + blend + a **protect-own** term (grep-verified counters + counter-immune kills) replace the single-opponent `P(win)`; **Replication Crisis → #2** (its counters/board-kill were under-rated), **Lightning War up** (counter-war + uncounterable Banefire), **Grand Design** re-cast as the anti-Acererak controller (30% race → 45%/59%-vs-Acererak with its Elesh Norn lock, `--vs-lock`).
+Last built: **2026-06-01**. Rebuilt **2026-06-05** — sim refreshed (20k trials/deck); all reskins now resolve, **zero unresolved cards** across the 16 active decks; Replication Crisis row updated for the pending Kiki swap. Rebuilt **2026-06-09** — **land-colour model fixed** (`deck_sim.py` previously scored sac-fetches and rainbow lands as zero-colour sources via empty `color_identity`; now uses `produced_mana` + fetch resolution — see `archive/proposals/Grand_Design_Mana_Fixing_Pass_2026-06-09.md`). All Colour-T6 figures re-derived; finding #2 and recommendation #2 retracted/rewritten. Replication Crisis clock re-derived **2026-06-09** via the `scripts/rc_speed_lab.py` goldfish combat lab (`analysis/Replication_Crisis_Speed_Curve_Analysis.md`). Exile's Return clock re-derived **2026-06-09** via `scripts/er_speed_lab.py` (`analysis/Exiles_Return_Speed_Curve_Analysis.md`) — Clock flag downgraded, verdict held on the disruption axis. **Reconciled 2026-06-13** — every Clock cell replaced with the kill-window sweep's lab-measured decap/table (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`); the pre-sweep hand-estimates (the "T7–9" cluster) were systematically optimistic, mostly by conflating decap with table. **The Loam Cycle removed** (retired/dismantled 2026-06-08); **Zero-Sum Game added** (built 2026-06-11). Verdicts mostly held (they rest on the disruption axis, which the new clocks don't change) — the substantive shifts are Lightning War "✅ races" → chip/tempo-assisted (goldfish decap T9) and Calamity "T7–9" → T13 (oppression, not speed). **Audited & reordered 2026-06-14** — quantitative columns regenerated from the labs (`pod_gauntlet.py --matrix`) and **reordered by `P(win)`**; the narrated "Beats T6–7?" cells replaced with lab `P(decap ≤ 6/7)`; three clock drifts fixed (Earthbend table T12→T11, LW table ~T13→T14, GD/DR tables "T12+"→ median never-in-horizon); Lightning War's "disruption" reclassified as **protect-own** (race-protection, not combo-disruption). Companion **self-meta** ranking (roster as its own field): `campaigns/Self_Meta_Ranking.md`. **Measured disruption 2026-06-15** — the `P(win)` disruption term is now **delay_lab-measured for all 16** (was class-bucketed for 13); `analysis/delay_disruption.json` + writeup `analysis/Measured_Disruption_All16_2026-06-15.md`. Reorder: **Replication Crisis 4th→3rd** (under-bucketed "none" 15% → measured 50%), **Genome 1st→2nd** (over-bucketed; its rank is now a *race* rank, D 16%), Earthbend up (15→38%), Diminishing/Crystal down (over-bucketed). The `warn`/`none` bucket is retired. **Opponent model split 2026-06-15** — the generic single combo opponent is resolved into his two real decks (**Acererak** mono-B ETB loop / **Hidetsugu and Kairi** UB death-drain) + a 5C tail; see the rewritten "opponent" section and `pod_gauntlet.py --vs`. Load-bearing correction: **his two current decks are color-locked out of the white Grand Abolisher**, so the counterspells-are-dead premise applies only to the 5C tail — reactive decks recover value vs his current meta. **Matrix table rebuilt to the two-deck `--vs` model 2026-06-15** — per-opponent (Acererak / H&K / 5C-tail) columns + blend + a **protect-own** term (grep-verified counters + counter-immune kills) replace the single-opponent `P(win)`; **Replication Crisis → #2** (its counters/board-kill were under-rated), **Lightning War up** (counter-war + uncounterable Banefire), **Grand Design** re-cast as the anti-Acererak controller (30% race → 45%/59%-vs-Acererak with its Elesh Norn lock, `--vs-lock`). **Ur-Dragon axis added 2026-06-15** — his one *fair* deck gets its own inverted section ("The other axis"), since the decap-race model above is the wrong shape for a board deck. **First archetype-tiered, then COMPUTED per deck** (`scripts/vs_dragon_roster_lab.py`, 40k — a survival race: lab kill-clock + oracle-measured anti-dragon toolkit + a verified *over/combat* kill axis; priors swept; `analysis/vs_dragon_roster.json`). Doing the math **corrected two judgment calls** (Grand Design is the WORST here, 14% — combat kill walled by flyers; Genome 99% / Lightning War 83% are NOT walled — board-independent damage races over the wall). Cross-checked vs `scripts/vs_dragon_lab.py` (Glarb ~87% heads-up; deck packages +2–3pp marginal) and `analysis/Calamity_Tax_vs_Ur_Dragon_2026-06-15.md`. The real split is **board-independent vs combat kill** (not grind vs race); **Radiation Sickness (99% + #1 combo)** is the standout both-ways hedge.
 
 ---
 
@@ -35,7 +44,12 @@ pod; he has a small stable, and the two decks he actually brings now are:
   recent flood.* Engine is its **death trigger**: each death drains an opponent
   for the top card's mana value. Loops on a sac outlet + recursion.
 - A legacy **5C tail** (Ur-Dragon / Kenrith / Kinnan) from the 2026-05-30
-  profile — status unconfirmed in the current meta.
+  profile — status unconfirmed in the current meta. **Note:** the 5C-tail *column*
+  in the matrix below models the **combo** potential of these shells (Kenrith/Kinnan
+  loops + the one place he can field the white Grand Abolisher). His **Ur-Dragon** build
+  is a *fair board deck*, not a combo, and is handled separately in the
+  **"The other axis — vs his Ur-Dragon"** section below — don't read the 5C-tail combo
+  column as the Ur-Dragon matchup; they invert.
 
 He **wins T6–7**. Bracket-4-in-spirit despite a low GC count.
 
@@ -125,9 +139,9 @@ and the 5C tail**, then blended by how often he brings each (priors **0.45 / 0.4
 | 11 | The Grand Design | 19 | T10 / >T14 | 45% | 35% | 27% | 24% | **30%** | **Anti-Acererak CONTROLLER — the race number under-rates it.** →**45% blend / 59% vs Acererak** with its Elesh Norn ETB-lock (`--vs-lock`); best vs Acererak + the 5C tail (own Abolisher); weakest vs H&K (lock inert vs death). |
 | 12 | The Dark Lord's Army | 19 | T9 / T12 | 45% | 28% | 24% | 23% | **26%** | **Underdog vs combo.** 7 counters but clock-bound T9; self-meta #1 (opponent-fed). |
 | 13 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% | 28% | 24% | 23% | **26%** | **Underdog.** combat kill, ~no protect. |
-| 14 | Diminishing Returns | 17 | T9 / >T14 | 10% | 19% | 15% | 14% | **17%** | **Underdog.** slow death-combo, no counters; self-meta strong. |
-| 15 | Crystal Sickness | 17 | T11 / T13 | 30% | 9% | 8% | 8% | **9%** | **Underdog.** slow clock (T11). |
-| 16 | The Calamity Tax | 18 | T13 / >T14 | 35% | 6% | 5% | 3% | **5%** | **Don't bring as built;** the grind-fortress rebuild → 27% (`--swapped`). |
+| 14 | The Calamity Tax | 18 | T10 / T10 | 35% | 26% | 20% | 18% | **22%** | **Re-roled → anti-fair / Ur-Dragon specialist (off the combo axis).** Deployed grind-fortress + fog/removal pkg; the realistic clock (T13→T10) lifts its combo-pod blend 5%→22%, but its JOB is the *fair* matchup: **~94% vs Ur-Dragon** (`scripts/vs_dragon_roster_lab.py`; ~87–89% on `vs_dragon_lab.py`) — see "The other axis." Not for his combo decks. |
+| 15 | Diminishing Returns | 17 | T9 / >T14 | 10% | 19% | 15% | 14% | **17%** | **Underdog.** slow death-combo, no counters; self-meta strong. |
+| 16 | Crystal Sickness | 17 | T11 / T13 | 30% | 9% | 8% | 8% | **9%** | **Underdog.** slow clock (T11). |
 
 *(Peace Offering is off the active roster and excluded. Scores are the current
 Conversion-Check audit. BLEND weights = Acererak 0.45 / Hidetsugu and Kairi 0.40 /
@@ -165,6 +179,89 @@ priors — tune as games are logged. Regenerate: `python scripts/pod_gauntlet.py
 > combo it's still only ~2% to draw naturally (sim) — it raises the deck's
 > *resilience and ceiling*, not its expected clock against a T6–7 pod. Once Kiki
 > lands, add the two Kiki lines to `sim_profiles.json` and re-derive this row.
+
+---
+
+## The other axis — vs his Ur-Dragon (the *fair* deck): the matrix inverts
+
+Everything above races his **combo** decks. His **Ur-Dragon** deck is a different
+animal and **inverts every conclusion in the table**. Card text verified
+(`card_lookup.py "The Ur-Dragon"`, `project_ur_dragon_matchup`): {4}{WUBRG} 10/10,
+*Eminence* (dragon spells cost {1} less from the **command zone or battlefield** — the
+discount survives the commander dying), and an **attack trigger** that draws + cheats a
+permanent into play per attacking dragon. So it is a **combat-trigger BOARD deck** — a
+snowballing dragon army a wrath **resets** and a fog **skips** — **not a combo with a
+lethal turn K to race**. The decap-race model above is the wrong shape for it.
+
+**The inversion (the headline).** Beating a fair board deck rewards the opposite traits
+to racing a combo:
+
+- The grind/wrath/over-the-top decks at the **bottom** of the combo table (Dark Lord,
+  Calamity/Glarb, Diminishing, Grand Design) are the **right** decks here — wraths +
+  card advantage + an over-the-top kill convert in a fair game.
+- The race/glass decks at the **top** of the combo table (Replication's combat swarm,
+  Genome's pings) get **walled** by flying blockers + incidental dragon lifegain; their
+  table clock balloons.
+- **Reactive interaction is LIVE** (only the 5C shell can field the white Grand Abolisher,
+  and even then it's a fair deck), and the **sign-flips**: lifegain & fogs are **good**
+  here; **don't burn removal on the 10/10** (eminence runs from the command zone) — sweep
+  the board / kill the payoff dragons / tax the combat step / go over the top.
+
+**Computed per deck (`scripts/vs_dragon_roster_lab.py`, 40k trials, 2026-06-15).** Not
+archetype-judged — a Monte-Carlo SURVIVAL race for all 16. Three inputs: the deck's **kill
+clock** (the lab CDFs, `pod_gauntlet_clocks.json` — decap, or the *table* clock for a deck
+that only beats dragons via a slow drain); its **anti-dragon toolkit** (wraths / fogs /
+combat-taxes / spot removal / maze / lifegain), classified from **oracle text** and printed
+per deck for audit; and its **kill axis** — *over* (board-independent: drain/burn/ping/mill/
+alt-win, or evasive combat → ignores blockers) vs *combat* (needs ground attackers → walled
+by the flying board, with only a decaying pre-go-live / tapped-attacker window). Ur-Dragon's
+go-live, damage curve, and mitigation magnitudes are PRIORS, **swept** — the over/combat
+split and the ranking hold across the whole sweep. **`P(win)` is a HEADS-UP goldfish ceiling**
+(1v1 vs the dragons; the real 4-pod number is lower, and the glass decks suffer most).
+
+| Deck | vs Ur-Dragon | Combo blend (rank) | Kill axis | Anti-dragon toolkit (oracle-measured) |
+|---|---|---|---|---|
+| **The Genome Project** | **99%** | 61% (#3) | over | pings (direct dmg) + Exsanguinate; Blasphemous Act |
+| **Radiation Sickness** | **99%** | 70% (#1) | over | rad-drain / Jarad / Mindcrank / **Toxrill**; 3 wraths |
+| **The Calamity Tax (Glarb)** | **94%** | 22% (#14) | over | Torment / Gray Merchant; 3 wraths + 3 **fogs** + Maze |
+| **The Dark Lord's Army** | **86%** | 26% (#12) | over | Gray Merchant + opp-fed amass-drain; 3 wraths + Propaganda |
+| **Lightning War** | **83%** | 49% (#4) | over (race) | burn / X-spells; 1 wrath — but **lifegain-sensitive** (→56% if dragons gain life) |
+| **Zero-Sum Game** | **70%** | 34% (#10) | over | Abolisher-proof lifeloop; 1 wrath + 4 spot |
+| **Crystal Sickness** | **57%** | 9% (#16) | over | drain + Mirrodin-Besieged alt-win; slow (T11), 1 wrath |
+| **The Replication Crisis** | **48%** | 64% (#2) | combat | token swarm — **walled**; 1 wrath, fast enough to sometimes race go-live |
+| **Lorehold Spirits** | **39%** | 39% (#8) | combat | spirit combat — **walled**; 3 spot, no wrath |
+| **Ms. Bumbleflower** | **38%** | 47% (#5) | combat | combat-steal — **walled**; 3 fogs survive but can't close |
+| **The Exile's Return** | **37%** | 44% (#6) | combat | Kiki/combat — **walled**; 2 wraths + Abolisher survive, kill still must connect |
+| **Curse of the Scarab** | **34%** | 39% (#9) | combat | zombie alpha — **walled**; 2 wraths |
+| **Earthbend the Meta** | **34%** | 42% (#7) | combat | lands-as-creatures combat — **walled**; no wrath |
+| **Eldrazi Stampede Chaos** | **29%** | 26% (#13) | combat | big-creature combat — **walled**; no wrath/over-line |
+| **Diminishing Returns** | **23%** | 17% (#15) | over (slow) | death-drain is board-indep but the table clock is T12+; 3 wraths survive, drain too slow |
+| **The Grand Design** | **14%** | 30/45% (#11) | combat | **"96% incremental COMBAT, almost no trample"** → survives (control + wraths) but can't close |
+
+*(`P(win)` from `vs_dragon_roster_lab.py` → `analysis/vs_dragon_roster.json`; combo blend +
+rank from the main table. Toolkit counts are oracle-classified and **printed by the lab for
+audit** — Culling Ritual is excluded (MV≤2, misses dragons); a couple of reskin-named removal
+spells under-resolve, so spot counts are floors. Cross-check: this model puts Glarb at 94%,
+consistent with `vs_dragon_lab.py`'s ~87–89% on the same deck.)*
+
+> **What the math changed (this is why we compute instead of judge).** Two of the
+> archetype-tier guesses this section first carried were **wrong**, and the lab caught them:
+> **(1) The Grand Design is the WORST deck here (14%), not a "Bring."** Its kill is
+> *combat with almost no trample* (its own Summary: 96% of kills are incremental combat) —
+> so vs a flying wall it **survives but can't close** (the can't-close-fortress pattern from
+> `self_meta`). **(2) Genome (99%) and Lightning War (83%) are NOT walled** — pings and burn
+> are *board-independent direct damage* that races over the wall; only the **combat** racers
+> (Replication, Lorehold, Exile, Curse) get walled. "Race deck = walled" conflated combat
+> with board-independent damage.
+>
+> **The decision.** The clean read isn't "grind vs race" — it's **board-independent kill vs
+> combat kill**, and three decks are board-independent damage that beat *both* his archetypes:
+> **Radiation Sickness (99% / #1 combo)** — the standout hedge, robust, not glass — plus
+> **Genome (99% / #3)** and **Lightning War (83% / #4)** as the glassier both-ways options.
+> **Glarb (94%) and Dark Lord (86%)** are the anti-fair *specialists* — top vs dragons, but
+> bottom tier vs his combo (Glarb #14, Dark Lord #12), so they're a hard read: commit only
+> when you're confident he's on Ur-Dragon. When the meta is unknown, **bring Radiation
+> Sickness.**
 
 ---
 
@@ -223,7 +320,19 @@ Two findings from `scripts/deck_sim.py` (20k trials/deck), separate from the aud
 
 3. **The "too slow" tier (Dark Lord, Bumbleflower, Lorehold, Earthbend) is fine
    — just not the deck you bring to this pod.** Don't try to speed them up at the
-   cost of their identity; pick a faster deck for this table.
+   cost of their identity; pick a faster deck for this table. (Caveat: Dark Lord is
+   *slow vs his combo* but a **top pick vs his Ur-Dragon** — see "The other axis.")
+
+5. **Read his deck before you pick yours — and default to Radiation Sickness.** His
+   combo decks and his Ur-Dragon deck largely want *opposite* answers (the tables invert),
+   but the computed model (`vs_dragon_roster_lab.py`) shows the real axis is
+   **board-independent kill vs combat kill**, not grind vs race. Three board-independent
+   *damage* decks beat **both** archetypes: **Radiation Sickness (99% vs dragons / #1 combo)**
+   — the robust hedge and default — plus **Genome (99% / #3)** and **Lightning War (83% / #4)**
+   as glassier both-ways options. **Glarb (94%) and Dark Lord (86%)** are anti-fair
+   *specialists* — bottom tier vs his combo, so commit them only on a confident Ur-Dragon
+   read. Do **not** reach for The Grand Design here (14% — its combat kill is walled by the
+   flying board) or Diminishing (23% — its drain is too slow).
 
 4. **Alias resolution is now clean (was: Bayo outstanding).** As of the
    2026-06-05 rebuild, `deck_sim.py` resolves every UB reskin through
