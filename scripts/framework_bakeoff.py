@@ -523,6 +523,94 @@ def cmd_tags(a, idx, gc, aliases):
             print(f"  !! {len(p['missing'])} names not found in card data: {', '.join(p['missing'])}")
 
 
+# ----------------------------------------------------------------- correlation
+def _avg_ranks(vals):
+    """1-based average ranks, ascending (smallest value -> rank 1); ties share mean rank."""
+    order = sorted(range(len(vals)), key=lambda i: vals[i])
+    ranks = [0.0] * len(vals)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and vals[order[j + 1]] == vals[order[i]]:
+            j += 1
+        avg = (i + j) / 2 + 1
+        for k in range(i, j + 1):
+            ranks[order[k]] = avg
+        i = j + 1
+    return ranks
+
+
+def spearman(x, y):
+    """Tie-aware Spearman rho on pairwise-complete data. Returns (rho|None, n)."""
+    pairs = [(a, b) for a, b in zip(x, y) if a is not None and b is not None]
+    n = len(pairs)
+    if n < 3:
+        return None, n
+    rx = _avg_ranks([p[0] for p in pairs])
+    ry = _avg_ranks([p[1] for p in pairs])
+    mx, my = sum(rx) / n, sum(ry) / n
+    cov = sum((rx[i] - mx) * (ry[i] - my) for i in range(n))
+    vx = sum((r - mx) ** 2 for r in rx)
+    vy = sum((r - my) ** 2 for r in ry)
+    if vx == 0 or vy == 0:           # a framework with no variance (e.g. WotC all 3)
+        return None, n
+    return round(cov / (vx * vy) ** 0.5, 3), n
+
+
+def framework_values(idx, gc, aliases, clocks):
+    """Per-deck value for every framework, ORIENTED so higher = 'should win',
+    plus the oracle values (faster clock = higher). Returns dict[name] -> list[16]."""
+    cols = {k: [] for k in ("conversion_check", "disciple", "wotc_bracket",
+                            "bdd_consistency", "bdd_mana", "pure_clock",
+                            "oracle_table", "oracle_decap")}
+    for slug in DECKS:
+        p = profile(slug, idx, gc, aliases)
+        c = clocks.get(slug, {})
+        decap = clock_turn(c.get("med", [None, None])[0])
+        table = clock_turn(c.get("med", [None, None])[1])
+        bm, _bd, _m = score_bdd_mana(slug, idx, aliases)
+        cc = score_conversion_check(slug, p)
+        cols["conversion_check"].append(float(cc) if cc is not None else None)
+        cols["disciple"].append(score_disciple(slug, p))
+        cols["wotc_bracket"].append(float(score_wotc(slug, p)))
+        cols["bdd_consistency"].append(score_bdd_consistency(slug, p))
+        cols["bdd_mana"].append(-bm if bm is not None else None)        # lower mana = better
+        cols["pure_clock"].append(-decap if decap else None)            # faster decap = better
+        cols["oracle_table"].append(-table if table else None)         # faster table = better
+        cols["oracle_decap"].append(-decap if decap else None)
+    return cols
+
+
+def cmd_bakeoff(a, idx, gc, aliases):
+    clocks = load_clocks()
+    cols = framework_values(idx, gc, aliases, clocks)
+    contestants = [("conversion_check", "Conversion Check (incumbent)"),
+                   ("bdd_mana", "BDD mana-budget"),
+                   ("disciple", "Disciple of the Vault"),
+                   ("bdd_consistency", "BDD consistency"),
+                   ("wotc_bracket", "WotC bracket 1-5"),
+                   ("pure_clock", "Pure clock (null)")]
+    print("FRAMEWORK BAKE-OFF — Spearman rho vs the lab outcome oracle")
+    print("(every framework oriented so higher = 'should win'; oracle = faster clock = better)")
+    print(f"\n{'framework':<28}{'vs TABLE':>10}{'vs decap':>10}{'N':>5}   note")
+    print("-" * 72)
+    results = []
+    for key, label in contestants:
+        rt, nt = spearman(cols[key], cols["oracle_table"])
+        rd, nd = spearman(cols[key], cols["oracle_decap"])
+        results.append((label, rt, rd, nt))
+        note = ""
+        if rt is None:
+            note = "no variance" if nt >= 3 else "n<3"
+        elif key == "pure_clock":
+            note = "vs-decap is ~tautological (same clock)"
+        print(f"{label:<28}{('—' if rt is None else f'{rt:+.3f}'):>10}"
+              f"{('—' if rd is None else f'{rd:+.3f}'):>10}{nt:>5}   {note}")
+    print("\n+1 = framework ranks decks exactly as the outcome does · 0 = unrelated · -1 = backwards.")
+    print("TABLE clock = closing all opponents (the win); decap = first opponent dead.")
+    print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines (see --winline).")
+
+
 def cmd_scores(a, idx, gc, aliases):
     """Per-deck score under every framework."""
     clocks = load_clocks()
@@ -567,6 +655,7 @@ def main():
     g.add_argument("--tags", metavar="SLUG|all", help="tagged breakdown for a deck (or 'all')")
     g.add_argument("--scores", action="store_true", help="per-deck score under each framework")
     g.add_argument("--winline", action="store_true", help="BDD win-line mana + decap cross-check")
+    g.add_argument("--bakeoff", action="store_true", help="Spearman: each framework vs the oracle")
     a = ap.parse_args()
 
     idx = load_oracle()
@@ -582,6 +671,8 @@ def main():
         cmd_scores(a, idx, gc, aliases)
     elif a.winline:
         cmd_winline(a, idx, gc, aliases)
+    elif a.bakeoff:
+        cmd_bakeoff(a, idx, gc, aliases)
 
 
 if __name__ == "__main__":
