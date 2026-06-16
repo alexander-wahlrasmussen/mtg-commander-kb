@@ -84,6 +84,39 @@ clock, not the decap clock pure_clock is scored on) is +0.426 — clock measurem
    creature) yet is the *slowest* deck (T11), because it must dig a drain bomb and run several
    cycles — effort BDD-mana can't see. Mana cost ≠ clock when consistency is the bottleneck.
 
+## Mulligan robustness check — is an aggressive mulligan the missing payoff?
+
+Challenge (user, 2026-06-16): a null across *every* framework should make us suspect the
+**oracle**, not conclude quality is worthless. The pod allows **2 free mulligans** — does the sim
+mulligan aggressively to a *functional* hand, or leave consistency unrewarded?
+
+**Found:** `deck_sim.opening_hand` takes up to 2 mulligans (matches the pod) but its keep rule is
+**land-count only** — `keep a 7 with 2–5 lands`, regardless of whether the hand can *do* anything.
+It never digs toward a play. Added an opt-in **smart keep** (`DECK_SIM_SMART_KEEP=1`): also require
+≥1 nonland with CMC ≤ 3 (mulligan a "lands + only expensive cards" hand). Re-harvested all 16
+clocks under it (`pod_gauntlet.py --refresh`) and re-ran the bake-off (`--clocks`).
+
+**Result: 0 of 16 decks changed their decap or table median, and the bake-off was byte-identical.**
+The mulligan was not the leak. Two structural reasons: (1) most of the roster is low-curve (avg
+nonland CMC 2.4–3.2), so a 2–5-land hand almost always already holds an early play — only the one
+high-CMC deck (Eldrazi, 5.25) sped up, and only at the *front edge* (T6 10→12%), not the median.
+(2) Kill-turn **medians** are gated by drawing/assembling pieces over 7–11 turns; two opening
+mulligans move the god-hand front edge, not the median the verdict reads. A piece-*specific* dig
+(model each deck's exact plan) would help finding-gated decks more, but is bounded by ~2 cards of
+selection, is deck-specific to model, and would still move front edges, not medians.
+
+**So the verdict is robust to the mulligan.** The remaining, deeper leak is the one this can't fix:
+the oracle is a **solitaire goldfish** — Interaction and Durability (two of the Conversion Check's
+four axes, and Disciple's `I` term) score zero with no opponents, *however* you mulligan. That is
+the structural reason the quality frameworks can't correlate; the tell is that CC is least-negative
+against self_meta, the one oracle with a durability overlay. Fixing it needs a real multiplayer
+interaction model (the rules engine the project deliberately never built), not a better mulligan.
+
+*N=16 fragility note:* re-harvesting at the same 8k trials shifted the **TABLE**-oracle ρ's by
+~0.1–0.2 vs the committed snapshot (CC vs table −0.264 → −0.387; pure_clock +0.561 → +0.744) while
+the decap and P(win) oracles stayed stable — the integer-turn table median is noise-sensitive at 16
+points. One more reason to read the cross-oracle *pattern*, not any single ρ.
+
 ## The data (`--scores`)
 
 | deck | clock | CC | Disciple | WotC | BDD-c | BDD-mana |

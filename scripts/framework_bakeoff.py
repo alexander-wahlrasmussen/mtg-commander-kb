@@ -423,8 +423,12 @@ def profile(slug, idx, gc, aliases):
 
 
 # ----------------------------------------------------------------- scorers
+_CLOCKS_PATH = None                       # set by --clocks (smart-mulligan experiment)
+
+
 def load_clocks():
-    return json.load(CLOCKS.open(encoding="utf-8")) if CLOCKS.exists() else {}
+    path = _CLOCKS_PATH or CLOCKS
+    return json.load(path.open(encoding="utf-8")) if path.exists() else {}
 
 
 def score_conversion_check(slug, prof):
@@ -688,8 +692,13 @@ def main():
     g.add_argument("--scores", action="store_true", help="per-deck score under each framework")
     g.add_argument("--winline", action="store_true", help="BDD win-line mana + decap cross-check")
     g.add_argument("--bakeoff", action="store_true", help="Spearman: each framework vs the oracle")
+    ap.add_argument("--clocks", metavar="FILE",
+                    help="alternate clocks JSON (smart-mulligan experiment); default = the committed one")
     a = ap.parse_args()
 
+    global _CLOCKS_PATH
+    if a.clocks:
+        _CLOCKS_PATH = Path(a.clocks)
     idx = load_oracle()
     gc = load_gc()
     aliases = load_aliases()

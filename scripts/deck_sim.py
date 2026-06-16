@@ -32,6 +32,7 @@ Combo profiles: scripts/sim_profiles.json
 
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -256,10 +257,25 @@ def parse_deck(path, index, aliases=None):
 # Monte Carlo
 # ---------------------------------------------------------------------------
 
+# Smart-keep experiment (2026-06-16): the default keep rule is land-count-ONLY, so the
+# 2 mulligans never dig toward a FUNCTIONAL hand — it keeps the first 2-5-land hand even
+# if it has no early play. DECK_SIM_SMART_KEEP=1 additionally requires an early action
+# (>=1 nonland with cmc<=3), i.e. mulligan a "lands + only expensive cards" hand. Tests
+# whether aggressive, plan-aware mulliganing rewards the consistency frameworks. Read at
+# import so each lab subprocess (which imports deck_sim) honours the parent env.
+SMART_KEEP = os.environ.get("DECK_SIM_SMART_KEEP") == "1"
+SMART_KEEP_MAX_CMC = 3
+
+
 def keep_hand(hand):
-    """London-mulligan keep rule: keep a 7 with 2-5 lands."""
+    """London-mulligan keep rule: keep a 7 with 2-5 lands (+ an early play if SMART_KEEP)."""
     lands = sum(1 for _, rec in hand if is_land(rec))
-    return 2 <= lands <= 5
+    if not (2 <= lands <= 5):
+        return False
+    if SMART_KEEP and not any((not is_land(rec)) and rec["cmc"] <= SMART_KEEP_MAX_CMC
+                              for _, rec in hand):
+        return False
+    return True
 
 
 def opening_hand(deck, rng):
