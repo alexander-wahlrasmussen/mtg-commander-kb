@@ -59,7 +59,26 @@ Chart tool. Add a deck by encoding its lab's KILL CHECKS into `DECKS`.
 
 ---
 
-## 5. Plan-aware (per-deck) mulligan + front-edge oracle — TODO (raised 2026-06-16)
+## ~~5. Plan-aware (per-deck) mulligan + front-edge oracle~~ ✅ DONE 2026-06-16
+
+Built: `scripts/keep_spec.py` → `analysis/keep_specs.json` (per-deck "good hand" = bottleneck
+class FINDING/MANA/BOARD + land band [hand-curated, user-reviewed] + key/tutor/ramp/selection
+buckets [generated from `WIN_LINE` + the bake-off tagger]); `deck_sim` plan-aware `keep_hand`
+(opt-in `DECK_SIM_PLAN_KEEP=1`, installed per deck at parse; default path byte-identical);
+front-edge oracle `front_edge()` + `framework_bakeoff --frontedge` / `front7` column (reads the
+decap CURVE, so unlike baked `med` it's sensitive to the mulligan); `pod_gauntlet --refresh --out`
+for non-destructive scratch harvests. Verified Azula/Satya text (→ reclassified Lightning War
+MANA→BOARD, Replication "attack not connect"; fixed kill_tree).
+**Finding:** the plan-aware mulligan is a *diagnostic*, not a speed-up. Where the tagged bottleneck
+is the deck's fast line it helps the front edge (Zero-Sum +6, Dark Lord/Eldrazi +3); where it's the
+WRONG line it HURTS (Radiation −9, Lorehold −4 — both dug for a *side* combo line over their real
+counter-board / spirits clock). Re-tagging those two FINDING→BOARD erased the harm exactly
+(Radiation 67→76 = default). Framework `front7` ρ's barely moved (≤0.03) — a fidelity upgrade, NOT a
+verdict reversal (honest prior held; solitaire-goldfish leak untouched). Caveat: the sim's London
+mulligan is FREE (no bottoming), so +Δ's are an upper bound. Kept plan-keep opt-in; did NOT replace
+the committed harvest. Writeup: `analysis/Plan_Aware_Mulligan_2026-06-16.md`.
+
+### (original note) Plan-aware (per-deck) mulligan + front-edge oracle — raised 2026-06-16
 
 From the Framework Bake-Off mulligan robustness check (`analysis/Framework_Bakeoff_2026-06-16.md`,
 commit f48cf26). The sim mulligan keeps on **land count only**; the 2026-06-16 "smart keep"

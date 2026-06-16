@@ -621,8 +621,9 @@ def parse_row(lines, selector, grid):
     return None
 
 
-def refresh(trials):
-    print(f"# refresh — re-running the clock labs @ {trials} trials\n")
+def refresh(trials, out_path=None):
+    out_path = Path(out_path).resolve() if out_path else CLOCKS_JSON
+    print(f"# refresh — re-running the clock labs @ {trials} trials -> {out_path.name}\n")
     prior = {}
     if CLOCKS_JSON.exists():
         try:
@@ -659,12 +660,12 @@ def refresh(trials):
         nc["decap"], nc["table"] = dec, tab
         updated[slug] = nc
         print(f"  {slug:22} decap {dec}{flag}")
-    out_path = CLOCKS_JSON
     out_path.write_text(json.dumps(
         {s: {k: v for k, v in c.items() if k in
              ("name", "grid", "decap", "table", "med", "never", "src")}
          for s, c in updated.items()}, indent=2), encoding="utf-8")
-    print(f"\n  wrote {out_path.relative_to(ROOT)} (also feeds backlog #2)")
+    rel = out_path.relative_to(ROOT) if out_path.is_relative_to(ROOT) else out_path
+    print(f"\n  wrote {rel} (also feeds backlog #2)")
 
 
 # --- report ----------------------------------------------------------------
@@ -1082,6 +1083,9 @@ def main():
                          "e.g. GD's Elesh Norn vs Acererak's ETB loop")
     ap.add_argument("--refresh", action="store_true",
                     help="re-run the clock labs, reparse curves, write the JSON")
+    ap.add_argument("--out", metavar="PATH",
+                    help="refresh: write to PATH instead of the canonical clocks JSON "
+                         "(e.g. a scratch file for the plan-keep harvest, leaving the snapshot intact)")
     ap.add_argument("--lock", action="store_true",
                     help="lock-aware race: current vs + persistent-lock overlay (lock_lab.py)")
     ap.add_argument("--add", metavar="SLUG=PIECE",
@@ -1097,7 +1101,7 @@ def main():
                     help="use the with-tutors lock-availability ceiling instead of drawn-only")
     args = ap.parse_args()
     if args.refresh:
-        refresh(args.trials)          # default 40k — the canonical harvest
+        refresh(args.trials, args.out)   # default 40k -> canonical; --out for scratch harvests
         return
     if args.lock_sweep:
         run_lock_sweep(args)

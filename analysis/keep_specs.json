@@ -1,0 +1,700 @@
+{
+  "the-genome-project": {
+    "deck_key": "the-genome-project",
+    "name": "The Genome Project",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "kuja, genome sorcerer",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "city on fire"
+    ],
+    "tutors": [],
+    "ramp": [
+      "bayo, irritable instructor",
+      "big score",
+      "birgi, god of storytelling",
+      "black market connections",
+      "dark ritual",
+      "deadly dispute",
+      "jeska's will",
+      "mana geyser",
+      "neheb, the eternal",
+      "rakdos signet",
+      "sol ring",
+      "storm-kiln artist",
+      "talisman of indulgence",
+      "unexpected windfall",
+      "urabrask"
+    ],
+    "selection": [
+      "big score",
+      "black market connections",
+      "circle of power",
+      "deadly dispute",
+      "demand answers",
+      "faithless looting",
+      "highway robbery",
+      "night's whisper",
+      "overmaster",
+      "unexpected windfall"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "radiation-sickness": {
+    "deck_key": "radiation-sickness",
+    "name": "Radiation Sickness",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "the wise mothman",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "bloodchief ascension",
+      "mindcrank"
+    ],
+    "tutors": [
+      "vampiric tutor"
+    ],
+    "ramp": [
+      "basking broodscale",
+      "farseek",
+      "kodama of the west tree",
+      "nature's lore",
+      "rishkar, peema renegade",
+      "sol ring",
+      "three visits"
+    ],
+    "selection": [
+      "fathom mage",
+      "tezzeret's gambit",
+      "toxrill, the corrosive"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "combo is a side line; fast clock = counter-board (was FINDING, -9pp front7)",
+    "key_missing": []
+  },
+  "the-replication-crisis": {
+    "deck_key": "the-replication-crisis",
+    "name": "The Replication Crisis",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "satya, aetherflux genius",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "aggravated assault",
+      "sword of feast and famine"
+    ],
+    "tutors": [
+      "ranger-captain of eos"
+    ],
+    "ramp": [
+      "azorius signet",
+      "boros signet",
+      "goldspan dragon",
+      "izzet signet",
+      "knight of the white orchid",
+      "mind stone",
+      "professional face-breaker",
+      "sol ring",
+      "talisman of conviction",
+      "talisman of creativity",
+      "talisman of progress"
+    ],
+    "selection": [
+      "archivist of oghma",
+      "bident of thassa",
+      "cloudblazer",
+      "esper sentinel",
+      "loran of the third path",
+      "mind stone",
+      "mystic remora",
+      "ponder",
+      "preordain",
+      "the one ring",
+      "wall of omens"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "commander-gated; trigger on ATTACK (haste) \u2014 protect to swing",
+    "key_missing": []
+  },
+  "lorehold-spirit": {
+    "deck_key": "lorehold-spirit",
+    "name": "Lorehold Spirits",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "quintorius, history chaser",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "goblin bombardment",
+      "karmic guide",
+      "reveillark"
+    ],
+    "tutors": [
+      "gamble"
+    ],
+    "ramp": [
+      "archaeomancer's map",
+      "atsushi, the blazing sky",
+      "bitterthorn, nissa's animus",
+      "mind stone",
+      "relic retriever",
+      "seize the spoils",
+      "smothering tithe",
+      "sol ring"
+    ],
+    "selection": [
+      "conspiracy theorist",
+      "faithless looting",
+      "mind stone",
+      "seize the spoils",
+      "staff of the storyteller",
+      "tocasia's welcome"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "3-card loop is a side line; fast clock = spirits/Quintorius (was FINDING, -4pp front7)",
+    "key_missing": []
+  },
+  "earthbend-the-meta": {
+    "deck_key": "earthbend-the-meta",
+    "name": "Earthbend the Meta",
+    "bottleneck": "MANA",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "toph, the first metalbender",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "triumph of the hordes"
+    ],
+    "tutors": [
+      "brightglass gearhulk"
+    ],
+    "ramp": [
+      "bootleggers' stash",
+      "crop rotation",
+      "earthbender ascension",
+      "entish restoration",
+      "farseek",
+      "liquimetal torque",
+      "nature's lore",
+      "smothering tithe",
+      "sol ring",
+      "tireless provisioner"
+    ],
+    "selection": [
+      "bitter work",
+      "esper sentinel",
+      "tannuk, memorial ensign",
+      "terrasymbiosis",
+      "the legend of kyoshi"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "lands-matter board also a payoff axis",
+    "key_missing": []
+  },
+  "the-exiles-return": {
+    "deck_key": "the-exiles-return",
+    "name": "The Exile's Return",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "fire lord zuko",
+    "cmdr_cmc": 3.0,
+    "key_cards": [
+      "hellkite charger"
+    ],
+    "tutors": [
+      "diabolic intent",
+      "enlightened tutor",
+      "imperial recruiter",
+      "recruiter of the guard"
+    ],
+    "ramp": [
+      "black market connections",
+      "boros signet",
+      "dark ritual",
+      "jeska's will",
+      "professional face-breaker",
+      "prosper, tome-bound",
+      "rakdos signet",
+      "sol ring",
+      "sozin's comet",
+      "talisman of conviction",
+      "talisman of indulgence",
+      "the legend of roku",
+      "zuko, exiled prince"
+    ],
+    "selection": [
+      "black market connections",
+      "night's whisper",
+      "the legend of yangchen"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "zero-sum-game": {
+    "deck_key": "zero-sum-game",
+    "name": "Zero-Sum Game",
+    "bottleneck": "FINDING",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "witherbloom, the balancer",
+    "cmdr_cmc": 8.0,
+    "key_cards": [
+      "exquisite blood",
+      "sanguine bond"
+    ],
+    "tutors": [
+      "chord of calling",
+      "dark petition",
+      "demonic tutor",
+      "diabolic intent",
+      "increasing ambition",
+      "nature's rhythm",
+      "razaketh, the foulblooded",
+      "vampiric tutor"
+    ],
+    "ramp": [
+      "ashnod's altar",
+      "black market connections",
+      "boreal druid",
+      "cabal ritual",
+      "dark petition",
+      "dark ritual",
+      "delighted halfling",
+      "elves of deep shadow",
+      "elvish mystic",
+      "fyndhorn elves",
+      "llanowar elves",
+      "sol ring",
+      "warren soultrader"
+    ],
+    "selection": [
+      "black market connections",
+      "night's whisper",
+      "professor dellian fel",
+      "skullclamp",
+      "veil of summer"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "curse-of-the-scarab": {
+    "deck_key": "curse-of-the-scarab",
+    "name": "Curse of the Scarab",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": false,
+    "cmdr": "the scarab god",
+    "cmdr_cmc": 5.0,
+    "key_cards": [
+      "gray merchant of asphodel"
+    ],
+    "tutors": [
+      "buried alive",
+      "demonic tutor",
+      "entomb"
+    ],
+    "ramp": [
+      "black market connections",
+      "bone miser",
+      "crowded crypt",
+      "dimir signet",
+      "mind stone",
+      "sol ring",
+      "talisman of dominance",
+      "warren soultrader"
+    ],
+    "selection": [
+      "arcane denial",
+      "black market connections",
+      "bone miser",
+      "cryptbreaker",
+      "gempalm polluter",
+      "graveborn muse",
+      "hordewing skaab",
+      "kindred discovery",
+      "liliana, dreadhorde general",
+      "midnight reaper",
+      "mind stone",
+      "skullclamp",
+      "undead augur",
+      "wilhelt, the rotcleaver"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "this-bunny-goes-to-market": {
+    "deck_key": "this-bunny-goes-to-market",
+    "name": "Ms. Bumbleflower",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "ms. bumbleflower",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "jolrael, mwonvuli recluse"
+    ],
+    "tutors": [],
+    "ramp": [
+      "farseek",
+      "misleading signpost",
+      "nature's lore",
+      "smuggler's share",
+      "sol ring",
+      "tataru taru",
+      "three visits"
+    ],
+    "selection": [
+      "brainstorm",
+      "consider",
+      "dress down",
+      "dusk legion duelist",
+      "esper sentinel",
+      "faerie mastermind",
+      "fathom mage",
+      "frantic search",
+      "generous patron",
+      "gitaxian probe",
+      "growth spiral",
+      "ledger shredder",
+      "long river's pull",
+      "opt",
+      "reprieve",
+      "smuggler's share",
+      "tataru taru"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "eldrazi-stampede-chaos": {
+    "deck_key": "eldrazi-stampede-chaos",
+    "name": "Eldrazi Stampede Chaos",
+    "bottleneck": "MANA",
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": true,
+    "cmdr": "maelstrom wanderer",
+    "cmdr_cmc": 8.0,
+    "key_cards": [
+      "craterhoof behemoth"
+    ],
+    "tutors": [
+      "conduit of ruin"
+    ],
+    "ramp": [
+      "cultivate",
+      "delighted halfling",
+      "farseek",
+      "kodama's reach",
+      "kozilek's command",
+      "mana vault",
+      "nature's lore",
+      "rampant growth",
+      "sakura-tribe elder",
+      "skyshroud claim",
+      "sol ring",
+      "solemn simulacrum",
+      "talisman of impulse",
+      "the banyan tree",
+      "thran dynamo",
+      "tireless provisioner"
+    ],
+    "selection": [
+      "combustible gearhulk",
+      "garruk's packleader",
+      "garruk's uprising",
+      "greater good",
+      "harmonize",
+      "kozilek, butcher of truth",
+      "kozilek, the great distortion",
+      "return of the wildspeaker",
+      "selvala, heart of the wilds",
+      "solemn simulacrum",
+      "summon: bahamut",
+      "the banyan tree"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "the-dark-lords-army": {
+    "deck_key": "the-dark-lords-army",
+    "name": "The Dark Lord's Army",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": false,
+    "cmdr": "sauron, the dark lord",
+    "cmdr_cmc": 6.0,
+    "key_cards": [
+      "gray merchant of asphodel"
+    ],
+    "tutors": [
+      "demonic tutor",
+      "diabolic intent",
+      "ringsight"
+    ],
+    "ramp": [
+      "black market connections",
+      "dark ritual",
+      "deadly dispute",
+      "pitiless plunderer",
+      "sol ring",
+      "talisman of creativity",
+      "talisman of dominance"
+    ],
+    "selection": [
+      "baleful strix",
+      "black market connections",
+      "braids, arisen nightmare",
+      "call of the ring",
+      "deadly dispute",
+      "faithless looting",
+      "ledger shredder",
+      "night's whisper",
+      "nihil spellbomb",
+      "sensei's divining top",
+      "sheoldred, the apocalypse",
+      "skullclamp",
+      "yawgmoth, thran physician"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  },
+  "diminishing-returns": {
+    "deck_key": "diminishing-returns",
+    "name": "Diminishing Returns",
+    "bottleneck": "FINDING",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "teysa karlov",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "gravecrawler",
+      "phyrexian altar"
+    ],
+    "tutors": [
+      "razaketh, the foulblooded",
+      "recruiter of the guard"
+    ],
+    "ramp": [
+      "ashnod's altar",
+      "dark ritual",
+      "mind stone",
+      "priest of forgotten gods",
+      "smothering tithe",
+      "sol ring",
+      "thought vessel",
+      "wayfarer's bauble"
+    ],
+    "selection": [
+      "esper sentinel",
+      "midnight reaper",
+      "mind stone",
+      "morbid opportunist",
+      "priest of forgotten gods",
+      "sephiroth, fabled soldier",
+      "skullclamp"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "aristocrats board fallback (death volume) not in predicate \u2014 watch",
+    "key_missing": []
+  },
+  "lightning-war": {
+    "deck_key": "lightning-war",
+    "name": "Lightning War",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "fire lord azula",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "banefire"
+    ],
+    "tutors": [
+      "emeritus of woe",
+      "mystical teachings",
+      "sanar, unfinished genius"
+    ],
+    "ramp": [
+      "blazing firesinger",
+      "dark ritual",
+      "desperate ritual",
+      "goldspan dragon",
+      "jeska's will",
+      "sanar, unfinished genius",
+      "storm-kiln artist",
+      "talisman of dominance",
+      "talisman of indulgence"
+    ],
+    "selection": [
+      "borne upon a wind",
+      "consider",
+      "faithless looting",
+      "frantic search",
+      "three steps ahead"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine",
+    "key_missing": []
+  },
+  "the-grand-design": {
+    "deck_key": "the-grand-design",
+    "name": "The Grand Design",
+    "bottleneck": "MANA",
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": true,
+    "cmdr": "atraxa, grand unifier",
+    "cmdr_cmc": 7.0,
+    "key_cards": [
+      "finale of devastation"
+    ],
+    "tutors": [
+      "birthing pod",
+      "buried alive",
+      "chord of calling",
+      "defense of the heart",
+      "eladamri's call",
+      "fauna shaman",
+      "ranger-captain of eos",
+      "razaketh, the foulblooded",
+      "sidisi, undead vizier"
+    ],
+    "ramp": [
+      "farseek",
+      "nature's lore",
+      "sol ring",
+      "three visits"
+    ],
+    "selection": [
+      "rhystic study",
+      "teferi, time raveler",
+      "veil of summer",
+      "vilis, broker of blood"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "also FINDING (Finale = single point of failure)",
+    "key_missing": []
+  },
+  "crystal-sickness": {
+    "deck_key": "crystal-sickness",
+    "name": "Crystal Sickness",
+    "bottleneck": "BOARD",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "golbez, crystal collector",
+    "cmdr_cmc": 2.0,
+    "key_cards": [
+      "phyrexian dreadnought"
+    ],
+    "tutors": [
+      "tezzeret, cruel captain"
+    ],
+    "ramp": [
+      "crystal skull, isu spyglass",
+      "dimir signet",
+      "krark-clan ironworks",
+      "liquimetal torque",
+      "prized statue",
+      "sol ring",
+      "talisman of dominance",
+      "the mightstone and weakstone",
+      "urza, lord high artificer"
+    ],
+    "selection": [
+      "aether spellbomb",
+      "arcane denial",
+      "baleful strix",
+      "basim ibn ishaq",
+      "blood fountain",
+      "cryogen relic",
+      "forensic gadgeteer",
+      "l\u00f3rien revealed",
+      "matoya, archon elder",
+      "mirrodin besieged",
+      "mishra's bauble",
+      "obsessive pursuit",
+      "ponder",
+      "preordain",
+      "riddlesmith",
+      "sai, master thopterist",
+      "skullclamp",
+      "soul-guide lantern",
+      "street wraith",
+      "the mechanist, aerial artisan",
+      "the mightstone and weakstone",
+      "the one ring",
+      "thought monitor",
+      "thoughtcast",
+      "urza's bauble",
+      "uthros research craft"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "dev-gated (8 artifacts + fat creature), not pure finding",
+    "key_missing": []
+  },
+  "calamity-tax": {
+    "deck_key": "calamity-tax",
+    "name": "The Calamity Tax",
+    "bottleneck": "MANA",
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "glarb, calamity's augur",
+    "cmdr_cmc": 3.0,
+    "key_cards": [
+      "torment of hailfire"
+    ],
+    "tutors": [
+      "chord of calling",
+      "demonic tutor",
+      "green sun's zenith"
+    ],
+    "ramp": [
+      "culling ritual",
+      "delighted halfling",
+      "farseek",
+      "hour of promise",
+      "nature's lore",
+      "omenpath journey",
+      "skyshroud claim",
+      "sol ring",
+      "sowing mycospawn",
+      "tempt with discovery",
+      "three visits",
+      "titania's command"
+    ],
+    "selection": [
+      "archon of cruelty",
+      "life from the loam",
+      "veil of summer"
+    ],
+    "n_selection_needed": 2,
+    "mixed": null,
+    "key_missing": []
+  }
+}

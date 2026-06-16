@@ -317,6 +317,25 @@ def clock_turn(s):
     return int(m.group(1)) if m else None
 
 
+def front_edge(c, turn=7):
+    """P(decap <= `turn`) read off the lab decap CURVE (grid/decap), linearly
+    interpolated. 0 before the first grid point, flat after the last. Higher = a
+    faster front edge. NOTE: this reads the curve, not the baked `med`, so it is
+    sensitive to a re-harvest (the median oracle is not — refresh keeps med baked).
+    The real pod's bar is `decap by T<=7`, which the median oracle can't see."""
+    grid, dec = c.get("grid"), c.get("decap")
+    if not grid or not dec:
+        return None
+    if turn <= grid[0]:
+        return float(dec[0]) if turn == grid[0] else 0.0
+    if turn >= grid[-1]:
+        return float(dec[-1])
+    for (t0, c0), (t1, c1) in zip(zip(grid, dec), zip(grid[1:], dec[1:])):
+        if t0 <= turn <= t1:
+            return c0 + (turn - t0) / (t1 - t0) * (c1 - c0)
+    return float(dec[-1])
+
+
 # ----------------------------------------------------------------- Game Changers
 def load_gc():
     """Parse the numbered alphabetical Full List, stopping before the next section."""
@@ -592,7 +611,8 @@ def framework_values(idx, gc, aliases, clocks):
     plus the oracle values (faster clock = higher). Returns dict[name] -> list[16]."""
     cols = {k: [] for k in ("conversion_check", "disciple", "wotc_bracket",
                             "bdd_consistency", "bdd_mana", "pure_clock",
-                            "oracle_table", "oracle_decap", "oracle_gauntlet", "oracle_selfmeta")}
+                            "oracle_table", "oracle_decap", "oracle_frontedge",
+                            "oracle_gauntlet", "oracle_selfmeta")}
     for slug in DECKS:
         p = profile(slug, idx, gc, aliases)
         c = clocks.get(slug, {})
@@ -609,6 +629,8 @@ def framework_values(idx, gc, aliases, clocks):
         cols["pure_clock"].append(-decap if decap else None)            # faster decap = better
         cols["oracle_table"].append(-table if table else None)         # faster table = better
         cols["oracle_decap"].append(-decap if decap else None)
+        fe = front_edge(c, 7) if c else None
+        cols["oracle_frontedge"].append(fe)                            # P(decap<=7), higher=better
         cols["oracle_gauntlet"].append(float(gpw) if gpw is not None else None)   # P(win), higher=better
         cols["oracle_selfmeta"].append(float(smw) if smw is not None else None)
     return cols
@@ -623,10 +645,10 @@ def cmd_bakeoff(a, idx, gc, aliases):
                    ("bdd_consistency", "BDD consistency"),
                    ("wotc_bracket", "WotC bracket 1-5"),
                    ("pure_clock", "Pure clock (null)")]
-    print("FRAMEWORK BAKE-OFF — Spearman rho vs four outcome oracles")
+    print("FRAMEWORK BAKE-OFF — Spearman rho vs five outcome oracles")
     print("(every framework oriented so higher = 'should win'; clocks faster=better, P(win) higher=better)")
-    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'TABLE':>8}{'decap':>8}{'N':>4}  note")
-    print("-" * 78)
+    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'TABLE':>8}{'decap':>8}{'front7':>8}{'N':>4}  note")
+    print("-" * 86)
 
     def cell(key, oracle):
         r, _n = spearman(cols[key], cols[oracle])
@@ -640,9 +662,10 @@ def cmd_bakeoff(a, idx, gc, aliases):
         elif key == "pure_clock":
             note = "semi-circular: oracles derive from the clock"
         print(f"{label:<28}{cell(key,'oracle_gauntlet'):>9}{cell(key,'oracle_selfmeta'):>9}"
-              f"{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}{n:>4}  {note}")
+              f"{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}{cell(key,'oracle_frontedge'):>8}{n:>4}  {note}")
     print("\nORACLES — gauntlet: P(beat the T6-7 combo pod) · selfmeta: P(win in a roster pod)")
-    print("          TABLE/decap: lab kill clocks (faster=better). +1 agree · 0 unrelated · -1 backwards.")
+    print("          TABLE/decap: lab kill clocks (faster=better). front7: P(decap<=T7) off the curve")
+    print("          (the real pod's bar; sensitive to the mulligan). +1 agree · 0 unrelated · -1 backwards.")
     print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")
     print("oracles is semi-circular (they're built partly FROM the clock) — CC/Disciple/BDD are not.")
 
@@ -682,6 +705,28 @@ def cmd_winline(a, idx, gc, aliases):
           "\nrank-correlates with the lab clock (does cheaper win line => faster deck?).")
 
 
+def cmd_frontedge(a, idx, gc, aliases):
+    """Per-deck front edge P(decap <= T6/7/8) off the loaded clocks (respects --clocks).
+
+    The metric the plan-aware mulligan is meant to move (and the median oracle can't see).
+    Run once on the committed JSON and once on a plan-keep scratch JSON, then diff."""
+    clocks = load_clocks()
+    src = (_CLOCKS_PATH or CLOCKS).name
+    print(f"FRONT EDGE — P(decap <= T) off the decap curve   [clocks: {src}]\n")
+    print(f"{'deck':<22}{'T6':>7}{'T7':>7}{'T8':>7}   median(baked)")
+    print("-" * 56)
+    for slug in DECKS:
+        c = clocks.get(slug, {})
+        if not c:
+            print(f"{slug:<22}{'—':>7}{'—':>7}{'—':>7}")
+            continue
+        f6, f7, f8 = (front_edge(c, t) for t in (6, 7, 8))
+        med = c.get("med", ["?"])[0]
+        print(f"{DECKS[slug][0]:<22}{f6:>6.0f}%{f7:>6.0f}%{f8:>6.0f}%   {med}")
+    print("\nP(decap<=T7) = the real pod's bar. Sensitive to the mulligan (reads the curve, "
+          "not baked med).")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0],
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -691,6 +736,7 @@ def main():
     g.add_argument("--tags", metavar="SLUG|all", help="tagged breakdown for a deck (or 'all')")
     g.add_argument("--scores", action="store_true", help="per-deck score under each framework")
     g.add_argument("--winline", action="store_true", help="BDD win-line mana + decap cross-check")
+    g.add_argument("--frontedge", action="store_true", help="per-deck P(decap<=T6/7/8) off the clocks")
     g.add_argument("--bakeoff", action="store_true", help="Spearman: each framework vs the oracle")
     ap.add_argument("--clocks", metavar="FILE",
                     help="alternate clocks JSON (smart-mulligan experiment); default = the committed one")
@@ -712,6 +758,8 @@ def main():
         cmd_scores(a, idx, gc, aliases)
     elif a.winline:
         cmd_winline(a, idx, gc, aliases)
+    elif a.frontedge:
+        cmd_frontedge(a, idx, gc, aliases)
     elif a.bakeoff:
         cmd_bakeoff(a, idx, gc, aliases)
 

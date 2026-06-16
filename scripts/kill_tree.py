@@ -103,7 +103,7 @@ DECKS = {
     },
     "replication-crisis": {
         "title": "The Replication Crisis — Satya, Aetherflux Genius",
-        "root": "Satya attacking — each attack makes a free token COPY of a nontoken<br/>creature you control + {E}{E} · EVERY line needs Satya to connect",
+        "root": "Satya attacking — each attack makes a free token COPY of a nontoken<br/>creature you control + {E}{E} · EVERY line needs Satya to ATTACK (fires on attack, not on connect)",
         # Combat-gated, so the clock DIVERGES: decap T7 (focus one) / table T10+.
         "background": None,
         "lines": [
