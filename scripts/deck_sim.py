@@ -82,6 +82,8 @@ COMMANDERS = {
     "glarb-hybrid": "Glarb, Calamity's Augur",
     "glarb-hybrid-final": "Glarb, Calamity's Augur",
     "glarb-hybrid-b3": "Glarb, Calamity's Augur",
+    # 2026-06-16 external Glarb (Yd Freehold / proposals/External Glarb.md) vs Calamity Tax
+    "glarb-external-ext": "Glarb, Calamity's Augur",
     # 2026-06-13 lab-run candidates (decks/considering/)
     "berta-wise-extrapolator": "Berta, Wise Extrapolator",
     "najeela-blade-blossom": "Najeela, the Blade-Blossom",
