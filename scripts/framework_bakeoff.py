@@ -71,6 +71,47 @@ DECKS = {
     "calamity_tax":       ("The Calamity Tax",        "calamity-tax",         18, (5, 4, 4, 5)),
 }
 
+# Cheapest documented win line per deck (Phase 3, BDD mana-budget). `pieces` = the
+# non-commander cards that line needs (from each Summary's kill section + kill_tree +
+# Kill_Window_Lab_Sweep, 2026-06-16). Commander MV is auto-added unless needs_cmdr=False
+# (commander-independent combos). `override` = actual lethal mana for X / mana-gated lines
+# whose printed MV lies (Torment/Banefire/Finale). `fuzzy` = combat/attrition line with no
+# discrete piece set — an estimate. REVIEW + correct before trusting the bdd_mana column.
+WIN_LINE = {
+    "genome_project":      {"pieces": ["City on Fire"], "fuzzy": True,
+                            "line": "Trance Kuja + City on Fire (x3 dmg) — 1-2 casts kill the table"},
+    "radiation_sickness":  {"pieces": ["Mindcrank", "Bloodchief Ascension"], "needs_cmdr": False,
+                            "line": "Mindcrank + Bloodchief Ascension infinite (commander-independent)"},
+    "replication_crisis":  {"pieces": ["Sword of Feast and Famine", "Aggravated Assault"],
+                            "line": "Satya + Sword of F&F + Aggravated Assault -> infinite combats"},
+    "lorehold_spirits":    {"pieces": ["Reveillark", "Karmic Guide", "Goblin Bombardment"],
+                            "line": "Reveillark + Karmic Guide + Goblin Bombardment loop (table)"},
+    "earthbend_the_meta":  {"pieces": ["Triumph of the Hordes"], "fuzzy": True,
+                            "line": "Triumph of the Hordes one-card closer from an earthbent board"},
+    "exiles_return":       {"pieces": ["Hellkite Charger"], "fuzzy": True,
+                            "line": "Hellkite Charger + firebending extra-combats"},
+    "zero_sum_game":       {"pieces": ["Exquisite Blood", "Sanguine Bond"], "needs_cmdr": False,
+                            "line": "Exquisite Blood + Sanguine Bond loop + any life event (cmdr-indep.)"},
+    "curse_of_the_scarab": {"pieces": ["Gray Merchant of Asphodel"], "fuzzy": True,
+                            "line": "Gray Merchant burst drain off black devotion"},
+    "bumbleflower":        {"pieces": ["Jolrael, Mwonvuli Recluse"], "fuzzy": True,
+                            "line": "Jolrael alpha strike (lands -> X/X, X = hand size)"},
+    "eldrazi_stampede":    {"pieces": ["Craterhoof Behemoth"], "fuzzy": True,
+                            "line": "Craterhoof alpha over an Eldrazi/ramp board"},
+    "dark_lords_army":     {"pieces": ["Gray Merchant of Asphodel"], "fuzzy": True,
+                            "line": "Sheoldred/Underworld Dreams/Wound Reflection drain + Gary close"},
+    "diminishing_returns": {"pieces": ["Gravecrawler", "Phyrexian Altar"],
+                            "line": "Gravecrawler + Phyrexian Altar + sac/drain loop (Teysa doubles)"},
+    "lightning_war":       {"pieces": ["Banefire"], "override": 14, "fuzzy": True,
+                            "line": "X-burn finisher (Banefire/Crackle); ~14 mana from-40 lethal"},
+    "grand_design":        {"pieces": ["Finale of Devastation"], "override": 12, "fuzzy": True,
+                            "line": "Finale of Devastation X>=10 (sorcery funnel); combat backup"},
+    "crystal_sickness":    {"pieces": ["Phyrexian Dreadnought"], "fuzzy": True,
+                            "line": "Golbez drain off a high-power creature (needs digging + cycles)"},
+    "calamity_tax":        {"pieces": ["Torment of Hailfire"], "override": 14, "fuzzy": True,
+                            "line": "Torment of Hailfire X=12+ (requires ~14 total mana)"},
+}
+
 TAGS = ("ramp", "draw", "tutor", "interaction", "protection")
 
 
@@ -400,6 +441,47 @@ def score_pure_clock(slug, clocks):
     return clock_turn(c["med"][0]) if c else None
 
 
+def cumulative_mana(turn):
+    """BDD total-mana-by-turn budget ≈ triangular sum (~1 land/turn). T7≈28 (+ramp≈35 = his B3)."""
+    return turn * (turn + 1) // 2 if turn else None
+
+
+def deck_card_set(slug, idx, aliases):
+    return {canon for _c, _n, canon, card, _ic in deck_cards(slug, idx, aliases) if card}
+
+
+def commander_mv(slug, idx, aliases):
+    for _c, _n, canon, card, is_cmd in deck_cards(slug, idx, aliases):
+        if is_cmd and card:
+            return card_cmc(card), canon
+    return 0.0, None
+
+
+def score_bdd_mana(slug, idx, aliases):
+    """BDD win-line mana: override if set, else commander(if needed) + the pieces' MVs.
+
+    Returns (total, breakdown[(name, mv, in_deck)], missing). `in_deck=False` flags a piece
+    I named that isn't actually in this decklist — a self-check on the hand-encoded lines.
+    """
+    wl = WIN_LINE[slug]
+    if wl.get("override"):
+        return float(wl["override"]), [("[override: X/mana-gated]", float(wl["override"]), True)], []
+    deckset = deck_card_set(slug, idx, aliases)
+    total, breakdown, missing = 0.0, [], []
+    if wl.get("needs_cmdr", True):
+        mv, cn = commander_mv(slug, idx, aliases)
+        total += mv
+        breakdown.append((cn or "?commander", mv, True))
+    for name in wl["pieces"]:
+        canon = aliases.get(name.lower(), name.lower())
+        card = idx.get(canon)
+        if not card:
+            missing.append(name); continue
+        total += card_cmc(card)
+        breakdown.append((name, card_cmc(card), canon in deckset))
+    return round(total, 1), breakdown, missing
+
+
 # ----------------------------------------------------------------- commands
 def cmd_decks(_a, idx, gc, aliases):
     print(f"{'slug':<22}{'CC':>4}  decklist")
@@ -442,22 +524,38 @@ def cmd_tags(a, idx, gc, aliases):
 
 
 def cmd_scores(a, idx, gc, aliases):
-    """Per-deck score under every Phase-2 framework (bdd_mana is Phase 3)."""
+    """Per-deck score under every framework."""
     clocks = load_clocks()
-    hdr = (f"{'slug':<22}{'CC':>5}{'discip':>8}{'wotc':>6}{'bdd_c':>7}{'clock':>7}"
-           f"   disciple A/D/T/R/I   wotc[gc,mld,xT]")
+    hdr = (f"{'slug':<22}{'CC':>5}{'discip':>8}{'wotc':>6}{'bdd_c':>7}{'bddMana':>8}{'clock':>7}")
     print(hdr); print("-" * len(hdr))
     for slug in DECKS:
         p = profile(slug, idx, gc, aliases)
         cc = score_conversion_check(slug, p)
-        d = p["disciple"]
         pc = score_pure_clock(slug, clocks)
+        bm, _bd, _miss = score_bdd_mana(slug, idx, aliases)
         print(f"{slug:<22}{str(cc):>5}{score_disciple(slug, p):>8}{score_wotc(slug, p):>6}"
-              f"{score_bdd_consistency(slug, p):>7}{('T' + str(pc)) if pc else '?':>7}"
-              f"   {d['A']:.2f}/{d['D']}/{d['T']}/{d['R']}/{d['I']}"
-              f"   [{len(p['gc'])},{p['mld']},{p['extra_turns']}]")
-    print("\nCC=Conversion Check (None=unaudited) · discip=Disciple of the Vault P · "
-          "wotc=bracket 1-5 · bdd_c=BDD consistency 0-5 · clock=lab decap median (lower=faster)")
+              f"{score_bdd_consistency(slug, p):>7}{bm:>8}{('T' + str(pc)) if pc else '?':>7}")
+    print("\nCC=Conversion Check (None=unaudited) · discip=Disciple of the Vault P · wotc=bracket"
+          " 1-5 · bdd_c=BDD consistency 0-5 · bddMana=win-line mana (lower=faster) · clock=lab decap")
+
+
+def cmd_winline(a, idx, gc, aliases):
+    """BDD win-line mana per deck + the cumulative-mana-by-decap cross-check."""
+    clocks = load_clocks()
+    print("BDD win-line mana — cheapest documented kill line per deck.")
+    print("  * = fuzzy combat/attrition estimate · (!) = piece NOT in this decklist (review)\n")
+    for slug in DECKS:
+        total, bd, missing = score_bdd_mana(slug, idx, aliases)
+        wl = WIN_LINE[slug]
+        decap = score_pure_clock(slug, clocks)
+        budget = cumulative_mana(decap)
+        star = "*" if wl.get("fuzzy") else " "
+        pieces = ", ".join(f"{n} {mv:g}{'' if ind else ' (!)'}" for n, mv, ind in bd)
+        print(f"{slug:<22}{star} win-mana {total:>5}   decap T{decap}   budget≈{budget}")
+        print(f"     {wl['line']}")
+        print(f"     = {pieces}" + (f"   MISSING: {missing}" if missing else ""))
+    print("\nbudget = cumulative mana by decap turn (≈T(T+1)/2). Phase 4 tests whether win-mana"
+          "\nrank-correlates with the lab clock (does cheaper win line => faster deck?).")
 
 
 def main():
@@ -468,6 +566,7 @@ def main():
     g.add_argument("--gc", action="store_true", help="show parsed GC set + per-deck counts")
     g.add_argument("--tags", metavar="SLUG|all", help="tagged breakdown for a deck (or 'all')")
     g.add_argument("--scores", action="store_true", help="per-deck score under each framework")
+    g.add_argument("--winline", action="store_true", help="BDD win-line mana + decap cross-check")
     a = ap.parse_args()
 
     idx = load_oracle()
@@ -481,6 +580,8 @@ def main():
         cmd_tags(a, idx, gc, aliases)
     elif a.scores:
         cmd_scores(a, idx, gc, aliases)
+    elif a.winline:
+        cmd_winline(a, idx, gc, aliases)
 
 
 if __name__ == "__main__":
