@@ -40,6 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ORACLE_CARDS = ROOT / "collection" / "oracle-cards.json"
 GC_LIST = ROOT / "reference" / "REF_Game_Changers_List.md"
 ALIASES = ROOT / "reference" / "REF_Reskin_Aliases.md"
+CLOCKS = ROOT / "analysis" / "pod_gauntlet_clocks.json"
 DECK_DIR = ROOT / "decks"
 
 for _s in (sys.stdout, sys.stderr):
@@ -205,6 +206,50 @@ def tag_card(card):
     return tags
 
 
+# --- framework-specific counters (stricter than the generic substrate tags) ---
+def disciple_is_draw(card):
+    """DotV draw = sees 3+ cards in one shot, OR a permanent with repeatable draw.
+
+    Deliberately stricter than the 'draw' tag: a one-shot draw-two (Night's Whisper) does
+    NOT qualify, matching the rubric's 'see 3 cards, or a permanent that gives repeatable
+    draw' (examples Brainstorm / Howling Mine / Phyrexian Arena).
+    """
+    t = card_text(card)
+    if "draw" not in t:
+        return False
+    typ = card_type(card)
+    permanent = (any(k in typ for k in ("artifact", "enchantment", "creature", "planeswalker", "battle"))
+                 and "instant" not in typ and "sorcery" not in typ)
+    repeatable = permanent and bool(re.search(r"draws? (a|\w+) cards?", t))
+    sees3 = bool(re.search(r"draws? (three|four|five|six|seven|x|\d{2,}) cards", t)
+                 or re.search(r"draws? that many cards", t)
+                 or re.search(r"draws? cards equal", t)
+                 or re.search(r"look at the top (three|four|five|six|\d+)", t))
+    return repeatable or sees3
+
+
+_MLD_NAMES = {"armageddon", "ravages of war", "catastrophe", "jokulhaups", "obliterate",
+              "decree of annihilation", "impending disaster", "fall of the thran",
+              "wildfire", "burning of xinye", "boom // bust"}
+
+
+def is_mld(card):
+    t = card_text(card)
+    return (card.get("name", "").lower() in _MLD_NAMES
+            or "destroy all lands" in t
+            or ("each player" in t and re.search(r"sacrifices? .*lands", t)))
+
+
+def is_extra_turn(card):
+    return "take an extra turn" in card_text(card)
+
+
+def clock_turn(s):
+    """'T7' -> 7, '>T14' -> 14, 'T10' -> 10. Lower = faster."""
+    m = re.search(r"(\d+)", s or "")
+    return int(m.group(1)) if m else None
+
+
 # ----------------------------------------------------------------- Game Changers
 def load_gc():
     """Parse the numbered alphabetical Full List, stopping before the next section."""
@@ -263,32 +308,96 @@ def deck_cards(slug, idx, aliases):
 
 
 def profile(slug, idx, gc, aliases):
-    """Aggregate one deck into counts/tags. Returns a dict."""
+    """Aggregate one deck into counts/tags + framework-specific signals."""
     total = lands = nonland = 0
     cmc_sum = 0.0
     tag_counts = {k: 0 for k in TAGS}
     tag_examples = {k: [] for k in TAGS}
     gc_hits, missing = [], []
-    for cnt, name, canon, card, _is_cmd in deck_cards(slug, idx, aliases):
+    dD = dT = dR = dI = 0                  # Disciple components (commander counts 2 for D, T)
+    mld = extra_turns = 0
+    for cnt, name, canon, card, is_cmd in deck_cards(slug, idx, aliases):
         total += cnt
         if card is None:
             missing.append(name); continue
         if canon in gc:
             gc_hits.append(name)
+        if is_mld(card):
+            mld += cnt
+        if is_extra_turn(card):
+            extra_turns += cnt
         if is_land(card):
             lands += cnt; continue
         nonland += cnt
-        cmc_sum += card_cmc(card) * cnt
-        for tg in tag_card(card):
+        cmc = card_cmc(card)
+        cmc_sum += cmc * cnt
+        tags = tag_card(card)
+        for tg in tags:
             tag_counts[tg] += cnt
             if len(tag_examples[tg]) < 6:
                 tag_examples[tg].append(name)
+        if disciple_is_draw(card):
+            dD += 2 if is_cmd else cnt
+        if "tutor" in tags and (cmc <= 4 or is_cmd):
+            dT += 2 if is_cmd else cnt
+        if "ramp" in tags and (cmc <= 2 or is_cmd):
+            dR += cnt
+        if "interaction" in tags:
+            dI += cnt
+    avg = cmc_sum / nonland if nonland else 0.0
     return {
         "total": total, "lands": lands, "nonland": nonland,
-        "avg_cmc": round(cmc_sum / nonland, 2) if nonland else 0.0,
+        "avg_cmc": round(avg, 2),
         "tags": tag_counts, "examples": tag_examples,
         "gc": gc_hits, "missing": missing,
+        "disciple": {"A": max(avg, 1.0), "D": dD, "T": dT, "R": dR, "I": dI},
+        "mld": mld, "extra_turns": extra_turns,
     }
+
+
+# ----------------------------------------------------------------- scorers
+def load_clocks():
+    return json.load(CLOCKS.open(encoding="utf-8")) if CLOCKS.exists() else {}
+
+
+def score_conversion_check(slug, prof):
+    """Incumbent: the stored 4-axis total (None if unaudited)."""
+    return DECKS[slug][2]
+
+
+def score_disciple(slug, prof):
+    """DotV: P = 2/A + (D/2 + T + R/2)/2 + I/20."""
+    d = prof["disciple"]
+    return round(2 / d["A"] + (d["D"] / 2 + d["T"] + d["R"] / 2) / 2 + d["I"] / 20, 2)
+
+
+def score_wotc(slug, prof):
+    """Official bracket bucket from GC count + MLD + extra-turn signals.
+
+    Cheap 2-card-combo detection (the other B4 trigger) is out of scope for a regex pass,
+    so this LOWER-bounds the bracket; most of our >=1-GC roster lands at 3 (low resolution,
+    which is itself the expected finding for the official framework)."""
+    gc = len(prof["gc"])
+    if prof["mld"] or gc > 3 or prof["extra_turns"] >= 2:
+        return 4
+    return 3 if gc >= 1 else 2
+
+
+# BDD math-video targets (operationalized from the 11-to-guarantee-by-T2 / ~38-land guidance).
+BDD_TARGETS = {"lands": 36, "ramp": 8, "draw": 8, "interaction": 6, "protection": 6}
+
+
+def score_bdd_consistency(slug, prof):
+    """How completely the deck fills BDD's functional bases (0-5; higher = better-built)."""
+    counts = {"lands": prof["lands"], "ramp": prof["tags"]["ramp"], "draw": prof["tags"]["draw"],
+              "interaction": prof["tags"]["interaction"], "protection": prof["tags"]["protection"]}
+    return round(sum(min(counts[k] / t, 1.0) for k, t in BDD_TARGETS.items()), 2)
+
+
+def score_pure_clock(slug, clocks):
+    """Null hypothesis: lab decap median turn (lower = faster). Returns the turn number."""
+    c = clocks.get(slug)
+    return clock_turn(c["med"][0]) if c else None
 
 
 # ----------------------------------------------------------------- commands
@@ -332,6 +441,25 @@ def cmd_tags(a, idx, gc, aliases):
             print(f"  !! {len(p['missing'])} names not found in card data: {', '.join(p['missing'])}")
 
 
+def cmd_scores(a, idx, gc, aliases):
+    """Per-deck score under every Phase-2 framework (bdd_mana is Phase 3)."""
+    clocks = load_clocks()
+    hdr = (f"{'slug':<22}{'CC':>5}{'discip':>8}{'wotc':>6}{'bdd_c':>7}{'clock':>7}"
+           f"   disciple A/D/T/R/I   wotc[gc,mld,xT]")
+    print(hdr); print("-" * len(hdr))
+    for slug in DECKS:
+        p = profile(slug, idx, gc, aliases)
+        cc = score_conversion_check(slug, p)
+        d = p["disciple"]
+        pc = score_pure_clock(slug, clocks)
+        print(f"{slug:<22}{str(cc):>5}{score_disciple(slug, p):>8}{score_wotc(slug, p):>6}"
+              f"{score_bdd_consistency(slug, p):>7}{('T' + str(pc)) if pc else '?':>7}"
+              f"   {d['A']:.2f}/{d['D']}/{d['T']}/{d['R']}/{d['I']}"
+              f"   [{len(p['gc'])},{p['mld']},{p['extra_turns']}]")
+    print("\nCC=Conversion Check (None=unaudited) · discip=Disciple of the Vault P · "
+          "wotc=bracket 1-5 · bdd_c=BDD consistency 0-5 · clock=lab decap median (lower=faster)")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0],
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -339,6 +467,7 @@ def main():
     g.add_argument("--decks", action="store_true", help="show registry + resolved decklists")
     g.add_argument("--gc", action="store_true", help="show parsed GC set + per-deck counts")
     g.add_argument("--tags", metavar="SLUG|all", help="tagged breakdown for a deck (or 'all')")
+    g.add_argument("--scores", action="store_true", help="per-deck score under each framework")
     a = ap.parse_args()
 
     idx = load_oracle()
@@ -350,6 +479,8 @@ def main():
         cmd_gc(a, idx, gc, aliases)
     elif a.tags:
         cmd_tags(a, idx, gc, aliases)
+    elif a.scores:
+        cmd_scores(a, idx, gc, aliases)
 
 
 if __name__ == "__main__":
