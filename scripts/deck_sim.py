@@ -307,22 +307,32 @@ def install_keep_spec(deck_key):
     return _KEEP_SPEC
 
 
-def _plan_progress(hand, lands, spec):
-    """Does this (land-band-passing) hand advance the deck's plan? Branch on bottleneck."""
+def _axis_ok(axis, hand, lands, spec, names, has_ramp):
+    """Does the hand satisfy ONE bottleneck axis (FINDING / MANA / BOARD)?"""
     sets = spec["_sets"]
-    names = {nm.lower() for nm, _ in hand}
-    has_ramp = bool(names & sets["ramp"])
-    b = spec["bottleneck"]
-    if b == "FINDING":
+    if axis == "FINDING":
         if names & sets["key_cards"] or names & sets["tutors"]:
             return True
         return len(names & sets["selection"]) >= spec["n_selection_needed"]
-    if b == "MANA":                     # acceleration, not a land flood
+    if axis == "MANA":                  # acceleration, not a land flood
         return has_ramp or (spec["hi_curve"] and lands >= 4)
     # BOARD: deploy the commander ~on curve + have an early play
     cmdr_reach = lands >= spec["cmdr_cmc"] - 2 or has_ramp
     early = any((not is_land(rec)) and rec["cmc"] <= EARLY_PLAY_MAX_CMC for _, rec in hand)
     return cmdr_reach and early
+
+
+def _plan_progress(hand, lands, spec):
+    """Does this (land-band-passing) hand advance the deck's plan? Union over the primary
+    bottleneck + any secondary axes in spec['also'] (two-line decks): a hand strong on
+    EITHER line keeps, so we don't ship a board hand to chase a side combo (the Radiation
+    -9 lesson). 'also' absent/empty -> single-axis, identical to before."""
+    names = {nm.lower() for nm, _ in hand}
+    has_ramp = bool(names & spec["_sets"]["ramp"])
+    for axis in (spec["bottleneck"], *spec.get("also", [])):
+        if _axis_ok(axis, hand, lands, spec, names, has_ramp):
+            return True
+    return False
 
 
 def keep_hand(hand):

@@ -189,8 +189,33 @@ mis-modelled.** Resolution: re-tagged Radiation + Lorehold FINDING → BOARD (th
 **Confirmation (re-tag harvest).** With Radiation + Lorehold tagged BOARD, the front-edge harm
 vanishes exactly: **Radiation 76% (default) → 67% (FINDING) → 76% (BOARD)**; **Lorehold 47 → 43 →
 46**. Every other deck moved 0pp between the two plan harvests (only those two tags changed) — so the
-−9/−4 was provably the mis-tag, not the mulligan. A *union* keep (combo-piece OR board-curve) is the
-cleaner long-term model for two-line decks; deferred.
+−9/−4 was provably the mis-tag, not the mulligan. A *union* keep (combo-piece OR board-curve) for
+two-line decks was then explored — see below.
+
+### Union keep — explored 2026-06-16
+
+For genuinely two-line decks, a single axis is fragile: tag the wrong one and you over-dig (the −9).
+The **union keep** accepts a hand strong on EITHER line — `keep = land-band AND (primary OR also)`,
+an order-independent OR over axes (`deck_sim._axis_ok` + `spec["also"]`; `keep_spec.ALSO`). Applied
+to the four two-line decks: Radiation (BOARD + FINDING), Lorehold (BOARD + FINDING), Replication
+(BOARD + FINDING), Diminishing (FINDING + BOARD). Same-batch 8k A/B/C harvest, P(decap ≤ T7):
+
+| deck | default | pure-primary | union |
+|---|---:|---:|---:|
+| Radiation | 76 | 76 | 76 |
+| Replication | 59 | 59 | 59 |
+| Lorehold | 47 | 46 | 46 |
+| Diminishing | 11 | 11 | 11 |
+
+**Union is clock-neutral** — +0 vs pure-primary on all four, ~0 vs default, and 0pp on every
+single-line deck (the `also`-less ones are untouched). It doesn't move the front edge because (a)
+the sim mulligan is free and (b) the primary BOARD axis already keeps the fast-line hands. **Its
+value is robustness, not speed:** being an OR, it is *order-independent*, so it structurally cannot
+reproduce the single-axis −9 over-dig — you no longer have to nail which axis is "primary," only
+include the true fast axis somewhere in the union. It is also the more realistic keep (a player
+keeps a bomb combo hand). **Adopt it as the safer formulation for two-line decks** (clock-free
+hardening against future mis-tags), not for a number — exactly what a free-mulligan sim can and
+can't see.
 
 **Framework verdict held.** The `front7` Spearman ρ's barely moved default → plan-keep (CC
 −0.406→−0.392, Disciple −0.352→−0.323, BDD-consistency +0.346→+0.319, all within ~0.03). No

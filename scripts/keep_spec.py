@@ -87,6 +87,17 @@ JUDGMENT = {
 N_SELECTION_NEEDED = 2
 TAG_TO_BUCKET = {"ramp": "ramp", "tutor": "tutors", "draw": "selection"}
 
+# Union keep for genuinely TWO-LINE decks: the keep ALSO accepts a secondary axis, so a
+# hand strong on EITHER line is keepable (don't ship a board hand to chase a side combo —
+# the Radiation -9 lesson, nor vice-versa). Primary (JUDGMENT above) = the FAST clock;
+# `also` = the upside line. Single-line decks omit it (identical to before).
+ALSO = {
+    "radiation_sickness":  ["FINDING"],   # BOARD primary (counter-grown board) + Mindcrank/Bloodchief combo upside
+    "lorehold_spirits":    ["FINDING"],   # BOARD primary (spirits/Quintorius) + 3-card Reveillark loop upside
+    "diminishing_returns": ["BOARD"],     # FINDING primary (Gravecrawler combo) + aristocrats death-volume board
+    "replication_crisis":  ["FINDING"],   # BOARD primary (Satya attack) + Sword/Aggravated combo upside
+}
+
 
 def build_spec(slug, idx, gc, aliases):
     """One deck's spec: hand-curated JUDGMENT + generated card buckets."""
@@ -121,6 +132,7 @@ def build_spec(slug, idx, gc, aliases):
         "deck_key": fb.DECKS[slug][1],
         "name": fb.DECKS[slug][0],
         "bottleneck": bottleneck,
+        "also": ALSO.get(slug, []),
         "min_lands": lo, "max_lands": hi, "hi_curve": hi_curve,
         "cmdr": cmdr_canon, "cmdr_cmc": cmdr_cmc,
         "key_cards": sorted(key_cards),
@@ -163,7 +175,8 @@ def cmd_show_one(specs, frag):
     if not hits:
         sys.exit(f"no deck matches {frag!r}")
     for s in hits:
-        print(f"\n=== {s['name']} ({s['deck_key']}) — {s['bottleneck']} ===")
+        axes = " + ".join([s["bottleneck"], *s.get("also", [])])
+        print(f"\n=== {s['name']} ({s['deck_key']}) — {axes} ===")
         print(f"  band {s['min_lands']}-{s['max_lands']} lands · hi_curve {s['hi_curve']} "
               f"· commander {s['cmdr']} (cmc {s['cmdr_cmc']:.0f})")
         if s["mixed"]:
