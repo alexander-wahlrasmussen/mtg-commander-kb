@@ -230,6 +230,14 @@ over-digging losers further. So the +Δ's are an **upper bound** and the −Δ's
 the harm** — which only sharpens the diagnostic reading. Decision: **do NOT** replace the committed
 harvest with the plan-keep curves; keep plan-keep as an opt-in diagnostic (`DECK_SIM_PLAN_KEEP=1`).
 
+**What this tool is FOR (and isn't).** It is a **deckbuilding input, not a framework validator** — do
+NOT use it to argue the Conversion Check is right or wrong (the bake-off settled that; the keep spec
+encodes each deck's *plan*, independent of CC's score, so wiring it back as validation is circular).
+Read it the other way: `keep_specs.json` = "what a good hand/build looks like" per deck; keepable%
+under the plan keep = a redundancy gauge (low % → add pieces/tutors/ramp/curve, or the tag is wrong);
+the bottleneck class = the build lens (what to add). Frontloading the clock comes from **composition**
+(more, cheaper, redundant pieces), not the keep rule. See memory `feedback_mulligan_is_deckbuilding_input`.
+
 ## Open calls for review
 
 - **Land bands — RESOLVED 2026-06-16.** Ceiling 4 lands; 5 only for high-curve decks (Eldrazi,
