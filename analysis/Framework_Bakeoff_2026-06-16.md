@@ -3,13 +3,16 @@
 **2026-06-16 · `scripts/framework_bakeoff.py` · lab `pod_gauntlet_clocks.json` oracle**
 
 **Verdict.** Of six contestants, **only direct clock measurement positively predicts which
-deck actually wins.** Every published "deck quality / power" framework — the in-house
-**Conversion Check**, the community **Disciple of the Vault** power formula, the official
-**WotC brackets**, **Based Deck Department's mana-budget**, and **BDD's consistency** model —
-scores **≤ 0** against the win-speed oracle. The two most serious quality frameworks run
-*negative*: the decks they rate best are, if anything, **slower to win**. The answer to
-"would another framework pick better decks?" is **no — and Disciple would pick worse.** What
-works is what the repo already does: simulate the clock.
+deck actually wins — and it holds across all four outcome oracles** (two lab clocks + the two
+win-probability models, `pod_gauntlet` and `self_meta`). Every published "deck quality / power"
+framework — the in-house **Conversion Check**, the community **Disciple of the Vault** power
+formula, the official **WotC brackets**, **Based Deck Department's mana-budget**, and **BDD's
+consistency** model — scores **≤ 0** against the win oracle, with no consistent positive sign on
+any of the four. The two most serious quality frameworks run *negative*: **Disciple of the Vault
+is negative on all four oracles** (−0.37 to −0.45 — robustly backwards), and the Conversion Check
+is negative-to-zero on all four. The answer to "would another framework pick better decks?" is
+**no — and Disciple would pick worse.** What works is what the repo already does: simulate the
+clock.
 
 ---
 
@@ -31,24 +34,31 @@ framework against the outcome.
   - **BDD consistency** — BDD's math video (`mwTCvRTunKQ`, "11 to guarantee by T2" / ~38 lands): how completely the deck fills its functional bases.
   - **WotC brackets 1–5** — the official criteria (GC count + mass-land-denial + extra-turn detection).
   - **Pure clock (null)** — rank by the lab decap median turn. "Is it all just speed?"
-- **Oracle** = the lab-measured kill clocks (`pod_gauntlet_clocks.json`): **TABLE median** (closing *all* opponents = winning) as primary, **decap median** (first opponent dead) as secondary. Oriented so faster = better.
+- **Oracles (four)** — two lab kill clocks from `pod_gauntlet_clocks.json` (**TABLE median** = closing *all* opponents = winning; **decap median** = first opponent dead; faster = better) plus the two project *results models* (**`pod_gauntlet` P(beat the T6-7 combo pod)** and **`self_meta` P(win in a random roster pod)**; higher = better). Running against all four tests whether the verdict is an artifact of the goldfish clock or robust to the actual win-probability models.
 - **Statistic** — tie-aware Spearman ρ, every framework oriented so *higher = "this deck should win."* ρ = +1 perfect agreement, 0 unrelated, −1 backwards.
 
 Reproduce: `python scripts/framework_bakeoff.py --bakeoff` (and `--scores`, `--winline`, `--tags all`).
 
 ## Result
 
-| Framework | ρ vs TABLE (the win) | ρ vs decap | N |
-|---|---:|---:|---:|
-| **Pure clock (null)** | **+0.561** | +1.000¹ | 16 |
-| BDD consistency | +0.008 | +0.408 | 16 |
-| WotC bracket 1–5 | +0.029² | −0.116 | 16 |
-| BDD mana-budget | −0.034 | +0.085 | 16 |
-| **Conversion Check** | **−0.264** | −0.448 | 15³ |
-| **Disciple of the Vault** | **−0.419** | −0.376 | 16 |
+Spearman ρ for each framework against each of the four oracles (every framework oriented so
+higher = "should win"):
 
-¹ tautological — pure_clock *is* the decap clock. ² near-zero variance: 15/16 decks bucket to
-bracket 3, so WotC cannot rank-order this roster at all. ³ Zero-Sum is unaudited (no CC score).
+| Framework | gauntlet P(win) | self_meta P(win) | TABLE clock | decap clock | N |
+|---|---:|---:|---:|---:|---:|
+| **Pure clock (null)** | **+0.903**¹ | **+0.426** | **+0.561** | +1.000¹ | 16 |
+| BDD mana-budget | +0.139 | +0.019 | −0.034 | +0.085 | 16 |
+| BDD consistency | +0.258 | −0.200 | +0.008 | +0.408 | 16 |
+| WotC bracket 1–5 | −0.253 | +0.168 | +0.029² | −0.116 | 16 |
+| **Conversion Check** | −0.259 | −0.061 | **−0.264** | −0.448 | 15³ |
+| **Disciple of the Vault** | **−0.448** | **−0.374** | **−0.419** | −0.376 | 16 |
+
+¹ **semi-circular** — the P(win) models are built partly *from* the clock (gauntlet from decap +
+disruption; self_meta from the table clock + durability), so pure_clock correlates with them by
+construction. The honest read: even the *less*-circular self_meta number (which uses the table
+clock, not the decap clock pure_clock is scored on) is +0.426 — clock measurement still leads.
+² near-zero variance: 15/16 decks bucket to bracket 3, so WotC can't rank-order this roster.
+³ Zero-Sum is unaudited (no CC score).
 
 ## What it means
 
@@ -61,10 +71,13 @@ bracket 3, so WotC cannot rank-order this roster at all. ³ Zero-Sum is unaudite
    **lowest** Disciple (3.3) and only 15/20. This is the repo's "score ⊥ clock at the top"
    thesis, now measured — and it's not unique to the in-house framework: an external,
    widely-used community formula is *more* anti-correlated.
-3. **Only measuring the clock predicts the clock.** Pure-clock is the lone positive predictor
-   of the table win (+0.561). The best "framework" for forecasting results is direct
-   simulation — exactly the clock-lab methodology already in the repo. An off-the-shelf
-   framework adds nothing here, and a power-formula actively misleads.
+3. **Only measuring the clock predicts winning — on every oracle.** Pure-clock is the lone
+   framework with a consistent positive sign across all four (+0.43 to +0.90). The gauntlet/decap
+   figures are inflated by semi-circularity, but the clean number — self_meta P(win), which
+   derives from the *table* clock, not the decap clock pure_clock is scored on — is still +0.426.
+   The best "framework" for forecasting results is direct simulation, exactly the clock-lab
+   methodology already in the repo. An off-the-shelf framework adds nothing, and a power-formula
+   (Disciple) actively misleads — *robustly*, on all four oracles.
 4. **BDD's mana-budget is the interesting near-miss** (ρ ≈ 0). Its hypothesis — cheaper win
    line ⇒ faster deck — fails on the decks whose kill is **finding-gated, not mana-gated**.
    Showcase: Crystal Sickness has the *cheapest* win line (3 mana: Golbez + a high-power
@@ -94,12 +107,14 @@ bracket 3, so WotC cannot rank-order this roster at all. ³ Zero-Sum is unaudite
 
 ## Limitations — read before quoting a ρ
 
-- **N = 16 (CC = 15).** Critical |ρ| ≈ 0.50 at p < .05. So **pure_clock's +0.561 is the only
-  individually significant** correlation; the quality frameworks' negatives are *suggestive,
-  not significant in isolation*. The robust claim is **qualitative and consistent**: 4 of 4
-  quality frameworks sit ≤ +0.03 vs the win-clock, and the two serious ones are negative
-  against **both** oracles. Four independent frameworks all landing ≤ 0 is itself unlikely by
-  chance — but this is a 16-deck roster, not a proof about frameworks in general.
+- **N = 16 (CC = 15).** Critical |ρ| ≈ 0.50 at p < .05, so only pure_clock clears significance
+  on any single oracle; the quality frameworks' negatives are *suggestive, not significant in
+  isolation*. The robust claim is **cross-oracle consistency, not any one ρ**: across the four
+  oracles, **Disciple is negative on all four** (−0.37 to −0.45) and **pure_clock positive on all
+  four**, while CC is negative-to-zero on all four and BDD-mana/consistency/WotC never hold a
+  sign. A framework that genuinely predicted winning would show a stable positive ρ across
+  independent oracles; only pure_clock does. That pattern is hard to dismiss as 16-point noise —
+  but it is a verdict about *this roster*, not a proof about frameworks in general.
 - **The oracle is a *goldfish* clock, not real games.** This measures prediction of the
   *simulated* outcome (Layer 1). Whether the sim itself matches reality is **Layer 2** —
   `scripts/game_log.py` is the capture end; a future `calibrate.py` closes it.
@@ -115,10 +130,12 @@ bracket 3, so WotC cannot rank-order this roster at all. ³ Zero-Sum is unaudite
 
 ## Next
 
-- **Richer oracle:** rerun against `pod_gauntlet` P(beat the pod) and `self_meta_lab` P(win)
-  (the project's actual results models) to see if the verdict holds beyond the table clock.
-- **Layer 2:** accumulate real games via `game_log.py`, then `calibrate.py` to test the oracle
-  itself against reality — the only thing that can validate this whole tower.
+- **Richer oracle — DONE 2026-06-16.** Reran against `pod_gauntlet` P(beat the pod) and
+  `self_meta_lab` P(win); the verdict held (table above). The goldfish-clock proxy was not
+  driving it.
+- **Layer 2 (the remaining gap):** accumulate real games via `game_log.py`, then `calibrate.py`
+  to test the *oracles themselves* against reality — the only thing that can validate this whole
+  tower. Until then this is prediction of the *simulated* outcome.
 
 ## Related
 

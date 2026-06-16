@@ -112,6 +112,32 @@ WIN_LINE = {
                             "line": "Torment of Hailfire X=12+ (requires ~14 total mana)"},
 }
 
+# Richer outcome oracles = the project's results MODELS (P(win), higher=better). Harvested
+# 2026-06-16: pod_gauntlet = `pod_gauntlet.py --trials 20000` P(WIN) col (a=0.3, vs the
+# archenemy combo pod); self_meta = `self_meta_lab.py --trials 20000` WIN% col (random 4-seat
+# roster pod, T_grind=10). Snapshot, like the CC scores — regenerate by rerunning those labs.
+# CAVEAT: pod_gauntlet P(win) is partly DERIVED from the decap clock (+ disruption) and
+# self_meta from the TABLE clock (+ durability), so pure_clock correlates with them partly by
+# construction — flagged in --bakeoff. CC/Disciple/BDD are independent of both.
+RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta P(win))
+    "genome_project":      (66, 79),
+    "radiation_sickness":  (69, 42),
+    "replication_crisis":  (60, 18),
+    "lorehold_spirits":    (42, 31),
+    "earthbend_the_meta":  (42, 17),
+    "exiles_return":       (44, 36),
+    "zero_sum_game":       (36, 51),
+    "curse_of_the_scarab": (38, 24),
+    "bumbleflower":        (48, 12),
+    "eldrazi_stampede":    (28, 11),
+    "dark_lords_army":     (24, 24),
+    "diminishing_returns": (18, 3),
+    "lightning_war":       (38, 5),
+    "grand_design":        (24, 1),
+    "crystal_sickness":    (9, 12),
+    "calamity_tax":        (20, 35),
+}
+
 TAGS = ("ramp", "draw", "tutor", "interaction", "protection")
 
 
@@ -562,7 +588,7 @@ def framework_values(idx, gc, aliases, clocks):
     plus the oracle values (faster clock = higher). Returns dict[name] -> list[16]."""
     cols = {k: [] for k in ("conversion_check", "disciple", "wotc_bracket",
                             "bdd_consistency", "bdd_mana", "pure_clock",
-                            "oracle_table", "oracle_decap")}
+                            "oracle_table", "oracle_decap", "oracle_gauntlet", "oracle_selfmeta")}
     for slug in DECKS:
         p = profile(slug, idx, gc, aliases)
         c = clocks.get(slug, {})
@@ -570,6 +596,7 @@ def framework_values(idx, gc, aliases, clocks):
         table = clock_turn(c.get("med", [None, None])[1])
         bm, _bd, _m = score_bdd_mana(slug, idx, aliases)
         cc = score_conversion_check(slug, p)
+        gpw, smw = RICHER_ORACLE.get(slug, (None, None))
         cols["conversion_check"].append(float(cc) if cc is not None else None)
         cols["disciple"].append(score_disciple(slug, p))
         cols["wotc_bracket"].append(float(score_wotc(slug, p)))
@@ -578,6 +605,8 @@ def framework_values(idx, gc, aliases, clocks):
         cols["pure_clock"].append(-decap if decap else None)            # faster decap = better
         cols["oracle_table"].append(-table if table else None)         # faster table = better
         cols["oracle_decap"].append(-decap if decap else None)
+        cols["oracle_gauntlet"].append(float(gpw) if gpw is not None else None)   # P(win), higher=better
+        cols["oracle_selfmeta"].append(float(smw) if smw is not None else None)
     return cols
 
 
@@ -590,25 +619,28 @@ def cmd_bakeoff(a, idx, gc, aliases):
                    ("bdd_consistency", "BDD consistency"),
                    ("wotc_bracket", "WotC bracket 1-5"),
                    ("pure_clock", "Pure clock (null)")]
-    print("FRAMEWORK BAKE-OFF — Spearman rho vs the lab outcome oracle")
-    print("(every framework oriented so higher = 'should win'; oracle = faster clock = better)")
-    print(f"\n{'framework':<28}{'vs TABLE':>10}{'vs decap':>10}{'N':>5}   note")
-    print("-" * 72)
-    results = []
+    print("FRAMEWORK BAKE-OFF — Spearman rho vs four outcome oracles")
+    print("(every framework oriented so higher = 'should win'; clocks faster=better, P(win) higher=better)")
+    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'TABLE':>8}{'decap':>8}{'N':>4}  note")
+    print("-" * 78)
+
+    def cell(key, oracle):
+        r, _n = spearman(cols[key], cols[oracle])
+        return "—" if r is None else f"{r:+.3f}"
+
     for key, label in contestants:
-        rt, nt = spearman(cols[key], cols["oracle_table"])
-        rd, nd = spearman(cols[key], cols["oracle_decap"])
-        results.append((label, rt, rd, nt))
+        _r, n = spearman(cols[key], cols["oracle_gauntlet"])
         note = ""
-        if rt is None:
-            note = "no variance" if nt >= 3 else "n<3"
+        if cell(key, "oracle_table") == "—":
+            note = "no variance"
         elif key == "pure_clock":
-            note = "vs-decap is ~tautological (same clock)"
-        print(f"{label:<28}{('—' if rt is None else f'{rt:+.3f}'):>10}"
-              f"{('—' if rd is None else f'{rd:+.3f}'):>10}{nt:>5}   {note}")
-    print("\n+1 = framework ranks decks exactly as the outcome does · 0 = unrelated · -1 = backwards.")
-    print("TABLE clock = closing all opponents (the win); decap = first opponent dead.")
-    print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines (see --winline).")
+            note = "semi-circular: oracles derive from the clock"
+        print(f"{label:<28}{cell(key,'oracle_gauntlet'):>9}{cell(key,'oracle_selfmeta'):>9}"
+              f"{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}{n:>4}  {note}")
+    print("\nORACLES — gauntlet: P(beat the T6-7 combo pod) · selfmeta: P(win in a roster pod)")
+    print("          TABLE/decap: lab kill clocks (faster=better). +1 agree · 0 unrelated · -1 backwards.")
+    print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")
+    print("oracles is semi-circular (they're built partly FROM the clock) — CC/Disciple/BDD are not.")
 
 
 def cmd_scores(a, idx, gc, aliases):
