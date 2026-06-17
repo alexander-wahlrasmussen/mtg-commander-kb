@@ -39,7 +39,11 @@ Record schema (one line of game_results.jsonl):
     }
 
 Usage
-    # rich path — write the record as JSON and pipe it in (recommended for real games)
+    # frictionless path — answer prompts, nothing to remember (recommended after a game)
+    python scripts/game_log.py log
+    python scripts/game_log.py log --dry-run        # walk the prompts, write nothing
+
+    # rich path — write the record as JSON and pipe it in
     python scripts/game_log.py add --from-json game.json
     cat game.json | python scripts/game_log.py add --from-json -
 
@@ -254,6 +258,168 @@ def cmd_validate(_a):
     print(f"All {len(rows)} records valid.")
 
 
+# ---------------------------------------------------------- interactive logging
+# A guided front-door so a real game can be recorded without recalling the
+# --seat/--event comma syntax or the exact roster slugs. Per-field validation
+# keeps the assembled record clean by construction; it still runs problems()
+# before writing. Pipe a transcript on stdin to script it; --dry-run never writes.
+def _input(prompt):
+    try:
+        return input(prompt)
+    except (EOFError, KeyboardInterrupt):
+        print("\nAborted — nothing written.")
+        sys.exit(1)
+
+
+def ask(prompt, default=None):
+    suffix = f" [{default}]" if default not in (None, "") else ""
+    val = _input(f"{prompt}{suffix}: ").strip()
+    if val:
+        return val
+    return default if default is not None else ""
+
+
+def ask_int(prompt, optional=True, default=None):
+    suffix = f" [{default}]" if default is not None else (" [blank=skip]" if optional else "")
+    while True:
+        raw = _input(f"{prompt}{suffix}: ").strip()
+        if raw == "":
+            if default is not None:
+                return default
+            if optional:
+                return None
+            print("  (required — enter a number)")
+            continue
+        try:
+            return int(raw)
+        except ValueError:
+            print(f"  '{raw}' isn't a whole number — try again.")
+
+
+def ask_yesno(prompt, default=False):
+    hint = "Y/n" if default else "y/N"
+    while True:
+        raw = _input(f"{prompt} [{hint}]: ").strip().lower()
+        if raw == "":
+            return default
+        if raw in ("y", "yes"):
+            return True
+        if raw in ("n", "no"):
+            return False
+        print("  please answer y or n.")
+
+
+def ask_choice(prompt, choices, default=None):
+    choices = list(choices)
+    while True:
+        raw = ask(f"{prompt} ({'/'.join(choices)})", default)
+        if raw in choices:
+            return raw
+        hits = [c for c in choices if c.startswith(raw)] if raw else []
+        if len(hits) == 1:
+            return hits[0]
+        print(f"  pick one of: {', '.join(choices)}")
+
+
+def _norm_slug(raw):
+    return raw.strip().lower().replace(" ", "_").replace("-", "_")
+
+
+def ask_my_deck():
+    print("  your active decks: " + ", ".join(sorted(DECKS)))
+    while True:
+        key = _norm_slug(ask("Your deck this game"))
+        if key in DECKS:
+            return key
+        hits = sorted(d for d in DECKS if key and (d.startswith(key) or key in d))
+        if len(hits) == 1:
+            return hits[0]
+        if hits:
+            print(f"  ambiguous — matches: {', '.join(hits)}")
+        else:
+            print("  no match — it must be one of your active decks (back-tested against a lab).")
+
+
+def cmd_log(a):
+    print("Log a pod game — Enter accepts the [default]; Ctrl-C aborts.\n")
+    date = ask("Date played", _date.today().isoformat())
+    mine = ask_my_deck()
+
+    i_won = ask_yesno("Did you win?", default=False)
+    my_seat = {"deck": mine, "pilot": "me", "result": "win" if i_won else "loss"}
+    if not i_won:
+        ko = ask_int("  what turn were you knocked out?")
+        if ko is not None:
+            my_seat["ko_turn"] = ko
+    pod = [my_seat]
+
+    print("\nOpponents — one seat at a time; blank deck name to finish.")
+    while True:
+        deck = ask("  opponent deck (blank = done)")
+        if not deck:
+            break
+        seat = {"deck": _norm_slug(deck)}
+        pilot = ask("    pilot name")
+        if pilot:
+            seat["pilot"] = pilot
+        seat["result"] = ask_choice("    result", ["win", "loss", "draw"],
+                                     default="loss" if i_won else None)
+        ko = ask_int("    KO turn")
+        if ko is not None:
+            seat["ko_turn"] = ko
+        arch = ask("    archetype (optional, e.g. board/eminence)")
+        if arch:
+            seat["archetype"] = arch
+        pod.append(seat)
+
+    win_seats = [s for s in pod if s.get("result") == "win"]
+    if i_won:
+        winner = mine
+    elif len(win_seats) == 1:
+        winner = win_seats[0]["deck"]
+    else:
+        winner = _norm_slug(ask("Winning deck slug"))
+
+    win_turn = ask_int("Turn the game ENDED (table clock)", optional=False)
+    win_type = ask_choice("How did it end?", sorted(WIN_TYPES))
+    decap = ask_int("Turn the FIRST player was knocked out (decap clock)")
+
+    disruption = []
+    if ask_yesno("\nLog disruption events (counters, Abolisher, key removal)?", default=False):
+        print("  enter each as  turn,type,by[,target]  — blank to finish.")
+        while True:
+            raw = ask("  event")
+            if not raw:
+                break
+            disruption.append(parse_event(raw))
+
+    notes = ask("\nNotes (free text)")
+
+    rec = {
+        "date": date, "mine": mine, "pod": pod, "winner": winner,
+        "win_turn": win_turn, "win_type": win_type,
+        "first_decap_turn": decap, "disruption": disruption, "notes": notes,
+    }
+    rec = {k: v for k, v in rec.items() if v not in (None, [], "")}
+
+    issues = problems(rec)
+    print("\n" + json.dumps(rec, ensure_ascii=False, indent=2))
+    if issues:
+        print("\nThis record still has problems:", file=sys.stderr)
+        for p in issues:
+            print(f"  - {p}", file=sys.stderr)
+    if a.dry_run:
+        print("\n(dry run — not written)")
+        return
+    prompt = "Append anyway?" if issues else "\nAppend this game?"
+    if not ask_yesno(prompt, default=not issues):
+        print("Not written.")
+        return
+    append(rec)
+    print(f"\nAppended to {LOG.relative_to(ROOT)} ({sum(1 for _ in read_log())} games on record).")
+    print("Next: `python scripts/game_log.py summary` — your real results vs the lab clocks.")
+
+
 # ------------------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0],
@@ -276,6 +442,10 @@ def main():
     add.add_argument("--notes", help="free text")
     add.add_argument("--dry-run", action="store_true", help="print the record, don't write")
     add.set_defaults(func=cmd_add)
+
+    lg = sub.add_parser("log", help="guided interactive entry (no flags to remember)")
+    lg.add_argument("--dry-run", action="store_true", help="walk the prompts, write nothing")
+    lg.set_defaults(func=cmd_log)
 
     sub.add_parser("list", help="compact list of logged games").set_defaults(func=cmd_list)
     sub.add_parser("summary", help="per-deck W/L + avg clocks (proto-oracle)").set_defaults(func=cmd_summary)
