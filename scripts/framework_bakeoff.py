@@ -31,6 +31,7 @@ Usage (Phase 1)
     python scripts/framework_bakeoff.py --tags all              # one-line tag summary for all 16
 """
 import argparse
+import importlib.util
 import json
 import re
 import sys
@@ -43,6 +44,12 @@ ALIASES = ROOT / "reference" / "REF_Reskin_Aliases.md"
 CLOCKS = ROOT / "analysis" / "pod_gauntlet_clocks.json"
 DECK_DIR = ROOT / "decks"
 
+# Per-deck registry (identity, CC, win lines) — the single source of truth.
+_rspec = importlib.util.spec_from_file_location(
+    "deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = importlib.util.module_from_spec(_rspec)
+_rspec.loader.exec_module(deck_registry)
+
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
         try:
@@ -50,67 +57,16 @@ for _s in (sys.stdout, sys.stderr):
         except (ValueError, OSError):
             pass
 
-# slug -> (display name, decklist stem, CC total, CC axes). Slugs match pod_gauntlet /
-# clock_check. CC scores read from the Summaries (grep'd 2026-06-16); Zero-Sum unaudited.
-DECKS = {
-    "genome_project":     ("The Genome Project",     "the-genome-project",   15, (4, 4, 3, 4)),
-    "radiation_sickness": ("Radiation Sickness",      "radiation-sickness",   18, (5, 5, 4, 4)),
-    "replication_crisis": ("The Replication Crisis",  "the-replication-crisis", 17, (5, 4, 4, 4)),
-    "lorehold_spirits":   ("Lorehold Spirits",        "lorehold-spirit",      18, (5, 5, 4, 4)),
-    "earthbend_the_meta": ("Earthbend the Meta",      "earthbend-the-meta",   17, (5, 4, 4, 4)),
-    "exiles_return":      ("The Exile's Return",      "the-exiles-return",    17, (5, 4, 4, 4)),
-    "zero_sum_game":      ("Zero-Sum Game",           "zero-sum-game",      None, None),
-    "curse_of_the_scarab":("Curse of the Scarab",     "curse-of-the-scarab",  17, (5, 4, 4, 4)),
-    "bumbleflower":       ("Ms. Bumbleflower",        "this-bunny-goes-to-market", 15, (4, 3, 3, 5)),
-    "eldrazi_stampede":   ("Eldrazi Stampede Chaos",  "eldrazi-stampede-chaos", 14, (4, 4, 3, 3)),
-    "dark_lords_army":    ("The Dark Lord's Army",    "the-dark-lords-army",  19, (5, 4, 5, 5)),
-    "diminishing_returns":("Diminishing Returns",     "diminishing-returns",  17, (5, 4, 4, 4)),
-    "lightning_war":      ("Lightning War",           "lightning-war",        19, (5, 5, 4, 5)),
-    "grand_design":       ("The Grand Design",        "the-grand-design",     19, (5, 5, 5, 4)),
-    "crystal_sickness":   ("Crystal Sickness",        "crystal-sickness",     17, (5, 4, 4, 4)),
-    "calamity_tax":       ("The Calamity Tax",        "calamity-tax",         18, (5, 4, 4, 5)),
-}
+# slug -> (display name, decklist stem, CC total, CC axes). The roster + its CC scores live
+# in deck_registry (the single source of truth; slugs match pod_gauntlet / clock_check).
+DECKS = deck_registry.fb_decks()
 
-# Cheapest documented win line per deck (Phase 3, BDD mana-budget). `pieces` = the
-# non-commander cards that line needs (from each Summary's kill section + kill_tree +
-# Kill_Window_Lab_Sweep, 2026-06-16). Commander MV is auto-added unless needs_cmdr=False
-# (commander-independent combos). `override` = actual lethal mana for X / mana-gated lines
-# whose printed MV lies (Torment/Banefire/Finale). `fuzzy` = combat/attrition line with no
-# discrete piece set — an estimate. REVIEW + correct before trusting the bdd_mana column.
-WIN_LINE = {
-    "genome_project":      {"pieces": ["City on Fire"], "fuzzy": True,
-                            "line": "Trance Kuja + City on Fire (x3 dmg) — 1-2 casts kill the table"},
-    "radiation_sickness":  {"pieces": ["Mindcrank", "Bloodchief Ascension"], "needs_cmdr": False,
-                            "line": "Mindcrank + Bloodchief Ascension infinite (commander-independent)"},
-    "replication_crisis":  {"pieces": ["Sword of Feast and Famine", "Aggravated Assault"],
-                            "line": "Satya + Sword of F&F + Aggravated Assault -> infinite combats"},
-    "lorehold_spirits":    {"pieces": ["Reveillark", "Karmic Guide", "Goblin Bombardment"],
-                            "line": "Reveillark + Karmic Guide + Goblin Bombardment loop (table)"},
-    "earthbend_the_meta":  {"pieces": ["Triumph of the Hordes"], "fuzzy": True,
-                            "line": "Triumph of the Hordes one-card closer from an earthbent board"},
-    "exiles_return":       {"pieces": ["Hellkite Charger"], "fuzzy": True,
-                            "line": "Hellkite Charger + firebending extra-combats"},
-    "zero_sum_game":       {"pieces": ["Exquisite Blood", "Sanguine Bond"], "needs_cmdr": False,
-                            "line": "Exquisite Blood + Sanguine Bond loop + any life event (cmdr-indep.)"},
-    "curse_of_the_scarab": {"pieces": ["Gray Merchant of Asphodel"], "fuzzy": True,
-                            "line": "Gray Merchant burst drain off black devotion"},
-    "bumbleflower":        {"pieces": ["Jolrael, Mwonvuli Recluse"], "fuzzy": True,
-                            "line": "Jolrael alpha strike (lands -> X/X, X = hand size)"},
-    "eldrazi_stampede":    {"pieces": ["Craterhoof Behemoth"], "fuzzy": True,
-                            "line": "Craterhoof alpha over an Eldrazi/ramp board"},
-    "dark_lords_army":     {"pieces": ["Gray Merchant of Asphodel"], "fuzzy": True,
-                            "line": "Sheoldred/Underworld Dreams/Wound Reflection drain + Gary close"},
-    "diminishing_returns": {"pieces": ["Gravecrawler", "Phyrexian Altar"],
-                            "line": "Gravecrawler + Phyrexian Altar + sac/drain loop (Teysa doubles)"},
-    "lightning_war":       {"pieces": ["Banefire"], "override": 14, "fuzzy": True,
-                            "line": "X-burn finisher (Banefire/Crackle); ~14 mana from-40 lethal"},
-    "grand_design":        {"pieces": ["Finale of Devastation"], "override": 12, "fuzzy": True,
-                            "line": "Finale of Devastation X>=10 (sorcery funnel); combat backup"},
-    "crystal_sickness":    {"pieces": ["Phyrexian Dreadnought"], "fuzzy": True,
-                            "line": "Golbez drain off a high-power creature (needs digging + cycles)"},
-    "calamity_tax":        {"pieces": ["Torment of Hailfire"], "override": 14, "fuzzy": True,
-                            "line": "Torment of Hailfire X=12+ (requires ~14 total mana)"},
-}
+# Cheapest documented win line per deck (Phase 3, BDD mana-budget), from deck_registry.
+# `pieces` = the non-commander cards that line needs; commander MV is auto-added unless
+# needs_cmdr=False (commander-independent combos). `override` = actual lethal mana for
+# X/mana-gated lines whose printed MV lies (Torment/Banefire/Finale). `fuzzy` = a
+# combat/attrition line with no discrete piece set (an estimate).
+WIN_LINE = deck_registry.win_lines()
 
 # Richer outcome oracles = the project's results MODELS (P(win), higher=better). Harvested
 # 2026-06-16: pod_gauntlet = `pod_gauntlet.py --trials 20000` P(WIN) col (a=0.3, vs the

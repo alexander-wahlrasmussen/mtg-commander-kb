@@ -68,6 +68,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+# Per-deck display name + clock-lab pointer are OWNED by deck_registry (the single source of
+# truth). The CLOCKS harvest entries below mirror them and are guarded against drift at load;
+# the curves themselves (grid/decap/table/med/never) are this file's own lab snapshot.
+import importlib.util as _il
+_rspec = _il.spec_from_file_location("deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = _il.module_from_spec(_rspec)
+_rspec.loader.exec_module(deck_registry)
+
 for _s in (sys.stdout, sys.stderr):            # output uses →, Δ, §, 🔒, en-dashes
     if hasattr(_s, "reconfigure"):
         try:
@@ -301,6 +309,15 @@ CLOCKS = {
         med=("T13", ">T14"), never=(40, 60),
         src="matrix 06-13 sweep median (slow; curve reconstructed, race-irrelevant)"),
 }
+
+# Guard: the display name + lab pointer in each harvest entry must match the registry (the
+# authority). A new deck adds its row there; if these mirrors ever drift, fail loudly here.
+for _slug, _e in CLOCKS.items():
+    _r = deck_registry.DECKS.get(_slug)
+    if _r is not None:
+        assert _e["name"] == _r["name"], f"pod_gauntlet name drift vs deck_registry: {_slug}"
+        _elab = tuple(_e["lab"]) if _e["lab"] else None
+        assert _elab == _r["lab"], f"pod_gauntlet lab drift vs deck_registry: {_slug}"
 
 
 # --- pending swaps (Build_And_Swap_Tracker.md §2) --------------------------
