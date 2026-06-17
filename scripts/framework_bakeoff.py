@@ -138,6 +138,30 @@ RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta 
     "calamity_tax":        (20, 35),
 }
 
+# Backlog #6 — the INTERACTION/durability overlay oracle (interaction_meta_lab.py): self_meta's
+# roster-pod P(win) but a closing seat must push through the table's available answers, so the
+# Conversion Check's Interaction + Durability axes (worth 0 in the goldfish oracles) finally move
+# the number. Snapshot @ TAX=0.6, 120k trials (regenerate: interaction_meta_lab.py --tax 0.6).
+# Higher = better. TAX=0 reduces this column EXACTLY to oracle_selfmeta (the null check).
+INTERACTION_ORACLE = {                  # slug: interaction_meta_lab INTERACTIVE P(win)
+    "genome_project":      71,
+    "radiation_sickness":  45,
+    "replication_crisis":  19,
+    "lorehold_spirits":    25,
+    "earthbend_the_meta":  17,
+    "exiles_return":       38,
+    "zero_sum_game":       49,
+    "curse_of_the_scarab": 24,
+    "bumbleflower":        14,
+    "eldrazi_stampede":     8,
+    "dark_lords_army":     30,
+    "diminishing_returns":  3,
+    "lightning_war":        7,
+    "grand_design":         1,
+    "crystal_sickness":    11,
+    "calamity_tax":        38,
+}
+
 TAGS = ("ramp", "draw", "tutor", "interaction", "protection")
 
 
@@ -612,7 +636,7 @@ def framework_values(idx, gc, aliases, clocks):
     cols = {k: [] for k in ("conversion_check", "disciple", "wotc_bracket",
                             "bdd_consistency", "bdd_mana", "pure_clock",
                             "oracle_table", "oracle_decap", "oracle_frontedge",
-                            "oracle_gauntlet", "oracle_selfmeta")}
+                            "oracle_gauntlet", "oracle_selfmeta", "oracle_interactive")}
     for slug in DECKS:
         p = profile(slug, idx, gc, aliases)
         c = clocks.get(slug, {})
@@ -621,6 +645,7 @@ def framework_values(idx, gc, aliases, clocks):
         bm, _bd, _m = score_bdd_mana(slug, idx, aliases)
         cc = score_conversion_check(slug, p)
         gpw, smw = RICHER_ORACLE.get(slug, (None, None))
+        iaw = INTERACTION_ORACLE.get(slug)
         cols["conversion_check"].append(float(cc) if cc is not None else None)
         cols["disciple"].append(score_disciple(slug, p))
         cols["wotc_bracket"].append(float(score_wotc(slug, p)))
@@ -633,6 +658,7 @@ def framework_values(idx, gc, aliases, clocks):
         cols["oracle_frontedge"].append(fe)                            # P(decap<=7), higher=better
         cols["oracle_gauntlet"].append(float(gpw) if gpw is not None else None)   # P(win), higher=better
         cols["oracle_selfmeta"].append(float(smw) if smw is not None else None)
+        cols["oracle_interactive"].append(float(iaw) if iaw is not None else None)  # P(win) + interaction
     return cols
 
 
@@ -645,10 +671,10 @@ def cmd_bakeoff(a, idx, gc, aliases):
                    ("bdd_consistency", "BDD consistency"),
                    ("wotc_bracket", "WotC bracket 1-5"),
                    ("pure_clock", "Pure clock (null)")]
-    print("FRAMEWORK BAKE-OFF — Spearman rho vs five outcome oracles")
+    print("FRAMEWORK BAKE-OFF — Spearman rho vs six outcome oracles")
     print("(every framework oriented so higher = 'should win'; clocks faster=better, P(win) higher=better)")
-    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'TABLE':>8}{'decap':>8}{'front7':>8}{'N':>4}  note")
-    print("-" * 86)
+    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'intract':>9}{'TABLE':>8}{'decap':>8}{'front7':>8}{'N':>4}  note")
+    print("-" * 95)
 
     def cell(key, oracle):
         r, _n = spearman(cols[key], cols[oracle])
@@ -662,8 +688,11 @@ def cmd_bakeoff(a, idx, gc, aliases):
         elif key == "pure_clock":
             note = "semi-circular: oracles derive from the clock"
         print(f"{label:<28}{cell(key,'oracle_gauntlet'):>9}{cell(key,'oracle_selfmeta'):>9}"
-              f"{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}{cell(key,'oracle_frontedge'):>8}{n:>4}  {note}")
+              f"{cell(key,'oracle_interactive'):>9}{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}"
+              f"{cell(key,'oracle_frontedge'):>8}{n:>4}  {note}")
     print("\nORACLES — gauntlet: P(beat the T6-7 combo pod) · selfmeta: P(win in a roster pod)")
+    print("          intract: selfmeta + the INTERACTION/durability overlay (Backlog #6) — a closing seat")
+    print("          must push through the table's answers, so Interaction+Durability finally count.")
     print("          TABLE/decap: lab kill clocks (faster=better). front7: P(decap<=T7) off the curve")
     print("          (the real pod's bar; sensitive to the mulligan). +1 agree · 0 unrelated · -1 backwards.")
     print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")

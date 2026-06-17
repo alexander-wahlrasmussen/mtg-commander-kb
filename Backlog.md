@@ -103,3 +103,33 @@ consistency frameworks (Disciple, BDD-consistency) could finally show signal the
 **not** a verdict reversal — because it doesn't touch the bigger leak (the oracle is a solitaire
 goldfish: no interaction/durability modelling → half the Conversion Check scores 0 regardless). That
 interaction-overlay oracle is the deeper, separate frontier.
+
+---
+
+## ~~6. Interaction / durability overlay oracle~~ ✅ DONE 2026-06-16
+
+The "deeper, separate frontier" #5 named — the bigger bake-off leak. The oracle was a **solitaire
+goldfish**, so Interaction + Durability (half the Conversion Check, all of Disciple's `I` term) scored
+**0** and no quality framework could correlate. Built the **overlay** version (user-chosen over an actual
+multiplayer rules engine, which the repo's discipline forbids — "I won't fake one").
+
+Built: `scripts/interaction_meta_lab.py` — self_meta's 4-seat roster-pod race, but a closing seat must
+push its win **through the rest of the table's available answers**:
+`P(stopped) = TAX · (table holds a live answer) · (1 − protect-own)`, slip a turn + decay on a stop;
+earliest *effective* close wins, durability still takes the grind tail. Substrate all MEASURED + imported
+(`interact` = `pg.MEASURED` delay-lab disruption; `PROTECT`, clocks, durability from
+`pod_gauntlet`/`self_meta_lab`); only the **swept** `TAX` is new — no new card claims. **Null reduction
+verified:** `--tax 0` reproduces `self_meta_lab` bit-for-bit. Wired a sixth oracle (`oracle_interactive`,
+snapshot @ TAX=0.6) into `framework_bakeoff.py --bakeoff`.
+
+**Finding (honest prior held to the decimal):** modelling interaction **halves CC's anti-correlation but
+doesn't reverse it** — CC −0.061 (self_meta) → **−0.034** (interaction oracle), monotone toward zero
+across the tax sweep (−0.065 → −0.011), while pure-clock's lead erodes (+0.426 → +0.405); the two
+converge. Mechanism: the overlay **sinks the glass cannon** (Genome 15/20, the anti-CC #3 outlier, −14)
+and **lifts** interaction-dense/durable high-CC decks (Dark Lord +13, Calamity/Radiation/Exiles +5–6) —
+but the two **highest** CC decks (Lightning War / Grand Design, 19/20) are T14 fortresses interaction
+can't make *fast*, which caps the gain. So ~half of "score ⊥ results" was the goldfish artifact; the
+rest is genuine. Writeup: `analysis/Interaction_Oracle_2026-06-16.md`.
+
+**Still open (Layer 2):** real games via `game_log.py` → `calibrate.py` to validate the tower against
+reality. Everything above is Layer 1 (predicting the *simulated* outcome).
