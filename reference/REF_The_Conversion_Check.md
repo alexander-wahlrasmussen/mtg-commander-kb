@@ -50,6 +50,7 @@ Ask:
 - How many turns from engine-online to game-over?
 - How many distinct closing lines does the deck support? Minimum two real ones — and *independent*. If removing a single shared card disables every named line, that's one line wearing several names, not redundancy.
 - Can the deck close through common disruption — a wipe, a counterspell, targeted removal?
+- *At what speed does the kill resolve?* A line that wins on the stack or at instant speed (e.g. a Thassa's Oracle off Demonic Consultation on an opponent's end step) gives the table a far smaller answer window than one that needs the whole board committed and a sorcery-speed combat step. Two decks with the same turn count are not equally hard to interact with if one wins at instant speed and the other must pass priority with a lethal board on display. (Added 2026-06-18 — the "Timing" lens, after the Draftsim cEDH tier list named it as a first-class factor we only tracked implicitly.)
 - Does the deck draw disproportionate hate before it can actually close?
 
 Checkpoint: Name two different ways this deck ends the game and estimate how many turns each takes from engine-online. If both names route through the same card, you have one line, not two.
@@ -183,6 +184,8 @@ Anchor: Count the cards. If you can't identify which cards are engine pieces ver
 
 Anchor: Estimate the turn count from engine-online to game-over. If you can't estimate this, the kill plan is probably a 2. Count only *independent* lines — if several named lines collapse when one shared card is removed, they score as one line, which caps this axis at 3 regardless of how many names you can list.
 
+Timing qualifier (within-band, not band-moving — added 2026-06-18): kill speed (stack/instant vs board-and-combat) breaks ties *inside* a band; it does not change the numeric anchors above, so it never alters a historical score. Use it when choosing between two decks at the same number, and record it on the Kill Window descriptor (below). A board-and-combat closer is not penalized a point for it — but it should expect a wider through-interaction gap, which the clock already measures.
+
 ### 3. Durability
 
 | Score | Description |
@@ -257,6 +260,29 @@ The score and the clock are reported together but never merged:
 > `17/20 · Clock: T7–8 decap / T10 table (lab 2026-06-09)`
 
 The four axes are judged; the clock is measured. The clock is **not** a fifth axis — a measured quantity must not be absorbed into a judgment score, and folding it in would break comparability with every historical audit. Empirically the two are independent: a 19/20 deck carried an all-lines-through-one-unfindable-sorcery kill funnel (Grand Design, 2026-06-08) and the score gave no warning. Read the score for *whether* the deck converts, the clock for *when*, and the Pod Fit Checklist for whether *when* is good enough for the table it actually plays at.
+
+### Timing tag (added 2026-06-18)
+
+Append a one-word timing tag to the clock so the descriptor says not just *when* the kill lands but *how interactable* the landing is — the "answer window" the kill turn hands opponents. The tag is a property of the deck's **primary** closing line (the one the lab shows fires most often), not its best-case line. **Read it off the kill line, never off the clock** (see the divergence caveat below).
+
+The tag has **two independent parts** — do not collapse them (an earlier draft did, and it was wrong):
+
+**Board axis — does the kill need a committed board and a combat step?**
+
+- `board` — yes. Needs creatures in play and an attack (or attack triggers). Telegraphed a turn early and answerable *on the turn* by a fog, a chump block, a wrath, or instant removal. *Widest* answer window. (Grand Design, Replication Crisis, Exile's Return.)
+- `spell` — no. A board-independent payoff: an X-drain, table-wide pings, a drain loop, a mill, a combo. Immune to fogs, blocks, and combat tricks. The only answers are stack interaction on the kill turn, or removing the engine *before* it comes online.
+
+**Speed modifier — how fast can a `spell` kill fire?** This decides how tight the `spell` window actually is, and it is **usually conditional**, so state the gate. (`board` kills are sorcery-window by definition — combat is your turn — so the modifier only applies to `spell`.)
+
+- `instant` — fires at instant speed / on an opponent's turn, reliably. *Smallest* window: opponents need interaction held up on the right turn. Includes passive triggered drains that tick on opponents' own turns with no "cast" to respond to at all (Dark Lord's Sheoldred + Underworld Dreams punish each draw). `stack` is just the canonical name for a combo that is `spell, instant` (Thassa's Oracle off Consult; Hashaton).
+- `sorcery` — locked to your main phase. Board-independent but reachable only on your own turn, so opponents get their full turns to set up an answer. (Genome in practice: it *can* ping on instants, but a storm-pinger wants to untap with all its mana and chain its hand on its own turn — so verify instant density before calling it `instant`.)
+- `instant if <enabler>` — the common real case, and the one that matters: a sorcery payoff made instant-speed by a flash piece. Calamity's Torment of Hailfire is `sorcery` by default and `instant` only with **Seedborn Muse + a flash outlet (High Fae Trickster / Valley Floodcaller / Alchemist's Refuge) online**. This is an **availability question, not a free property** — score it like finisher availability (what fraction of kill turns is the enabler actually out?), not as guaranteed timing.
+
+Compound (`board → spell`, etc.) — a deck whose entry and payoff differ, or whose primary and a real secondary differ. Diminishing Returns is `board → spell`: it *decaps* with a combat board swing (T9) but *tables* through the aristocrat drain engine (T12), so the two clocks diverge because the two halves have different timing. (Zero-Sum is **not** compound: its loop "dies at instant speed" with many non-combat igniters, so it is `spell, instant`, not combat-gated.)
+
+Format: `19/20 · Clock: T10 decap / T12 table (board) (lab 2026-06-10)`, or with a gated speed modifier `Clock: … (spell, instant if Seedborn+flash)`. The tag is descriptive, like the clock — never folded into the score.
+
+**Divergence caveat (the reason to read the line, not the clock):** a wide decap-≪-table gap has *two* unrelated causes, and only one is `board`. (1) *Board-vulnerability* — Grand Design (T10/T12) must commit a board and swing, so the table is fog/wrath-able turns behind the decap. (2) *Single-target focus-fire* — Lightning War (T9/T13) diverges just as wide, but its kill is an uncounterable single-target X-burn; it is `spell` (unblockable burn), not `board`, and is in fact *hard* to interact with on the decap. Same clock shape, opposite interactability. The convergence of a `spell` deck whose payoff hits the whole table at once (Genome T7/T8) is a hint, not a proof. Assign the tag from what the primary kill *is*.
 
 ---
 
