@@ -108,6 +108,35 @@ Conversion-Check audit. BLEND weights and the `prot` / opponent `answer` /
 
 ---
 
+## Pending / build candidates
+
+Decks being built or considered, raced through the **same model** as the active
+matrix — `python scripts/pod_gauntlet.py --matrix --pending` (run 2026-06-18). Kept
+out of the active table above because the builds aren't finalized/audited; clocks are
+lab-sourced (`kfk_clock_lab` / `hsh_clock_lab`), `prot` values are priors.
+
+| Deck | Clock decap/table | prot | Acrk | H&K | tail | BLEND | Would slot |
+|---|---|---|---|---|---|---|---|
+| Hashaton (Thoracle) | T6 / T6 | 40% | 72% | 69% | 68% | **71%** | **above Radiation** (new #1) |
+| Kefka (Forced Liquidation) | T8 / T9 | 45% | 45% | 41% | 39% | **42%** | between Exile's Return (#6) and Earthbend (#7) |
+| Zero-Sum Game | T9 / T9 | 30% | 36% | 34% | 33% | **35%** | already active (row 10) |
+
+- **Hashaton would top the matrix — but as a *race ceiling*, not a lock** (the Genome
+  caveat, #4): a glass one-line Thassa's Oracle combo whose fragility the goldfish
+  clock can't see. Its 40% `prot` (counters guarding the combo turn) makes it less
+  glassy than Genome's 5%, but **Radiation stays the safer real-games pick** —
+  counter-immune board kills vs a single combo line.
+- **Kefka reads mid-pack here**, capped by its T8 clock — and this base race **does
+  not credit its anti-pod reason to exist**: the Cursed Totem lock + the on-your-turn
+  *triggered-damage* (anti-Abolisher) kill. That value lives in the `--lock` view, not
+  the blend. Its pitch is resilience vs the lock pod, not race speed.
+- **Zero-Sum** is already in the active table (built, cards on order); listed here only
+  to confirm ~35% is unchanged under `--pending`.
+
+Build status / sourcing: `Build_And_Swap_Tracker.md`.
+
+---
+
 ## What the sim adds
 
 One standing finding from `scripts/deck_sim.py` (consistency Monte Carlo, 20k
