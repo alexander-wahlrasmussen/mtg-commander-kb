@@ -11,7 +11,7 @@
 | **Game Changers** | Necropotence, Vampiric Tutor, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | *Not yet audited.* Proposal ceiling 18–19/20; the clock lab tempers the Speed axis — formal audit after first pod games. |
 | **Kill Window** | Clock: **T9 decap = T9 table** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
-| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). The `.txt` is the target state until the order lands. |
+| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); Chain of Smog line pending pod approval. The `.txt` is the target state until the order lands. |
 
 -----
 
@@ -23,7 +23,7 @@ Witherbloom, the Balancer — three abilities (verified `card_lookup.py` 2026-06
 2. **Flying, deathtouch.**
 3. **"Instant and sorcery spells you cast have affinity for creatures."** Generic-cost reduction only — coloured pips are untouched. This is the deck's mana engine: with a token board out, every tutor, ritual, and buyback spell costs its coloured pips only.
 
-She is deliberately **not** a combo piece. The primary kill is commander-independent; she accelerates it by discounting the tutor chain.
+She is not required for the *primary* kill (the lifeloop is commander-independent), but she is **the engine for the secondary affinity-infinite axis** (see Combo Suite Audit) — so she is both a tutor-discount and a combo enabler, not "not a combo piece" as earlier drafts claimed.
 
 -----
 
@@ -35,7 +35,7 @@ Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert b
    - Blood-halves ("opponent loses → you gain"): **Exquisite Blood**, **Bloodthirsty Conqueror**
    - Vito-halves ("you gain → opponent loses"): **Vito, Thorn of the Dusk Rose**, **Sanguine Bond**, **Enduring Tenacity**, **Defiant Bloodlord** (+ Professor Dellian Fel's −6 emblem as a 7th copy)
    - 2 × 4 redundancy is why this finds itself: 6 of the 8 pieces are creatures or enchantment creatures, so Chord of Calling / Finale of Devastation / Nature's Rhythm fetch them straight onto the battlefield.
-2. **Buyback token storm:** Sprout Swarm (convoke + buyback) and Lab Rats under the commander's affinity become free repeatable casts — each one a magecraft trigger for **Witherbloom Apprentice** (drain 1 / gain 1 per instant or sorcery). With both loop halves down this is also an igniter; standalone it's a slow drain clock.
+2. **Affinity infinite (secondary kill, NOT a "slow clock"):** with Witherbloom out and 4+ creatures, her spell-affinity zeroes the buyback on **Sprout Swarm** (convoke pays the {G}; the green Saproling it makes feeds the next cast) and on **Lab Rats** (paired with **Phyrexian Altar**: sac a Rat for {B}, recast for {B}, repeat). Both are *bona fide infinite* magecraft loops (Commander Spellbook-confirmed, 2026-06-19) — each cast drains the table through **Witherbloom Apprentice**. Earlier drafts called this "a slow drain clock"; that was wrong. It is commander-DEPENDENT (so it comes online later than the loop), which is why it's the secondary axis, not the primary.
 3. **Razaketh chain:** tokens become tutors at 2 life each; finds whatever the loop is missing at instant speed.
 
 **Igniters** (anything that starts the loop once both halves are down): any unblocked attacker (combat damage = life loss), Witherbloom Apprentice + any spell, Cauldron Familiar (+ Witch's Oven for every-turn recursion), any Food token ({2}, sac: gain 3 — Gilded Goose ships with one), Blood Artist / Zulaport Cutthroat / Marionette Apprentice + a sacrifice, Dellian Fel's +2.
@@ -46,11 +46,33 @@ Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert b
 
 **Line A — Exquisite Blood loop (primary).** Deploy a blood-half (5 MV) and a vito-half (3–5 MV), trigger once, table dies at instant speed. Confirmed by Sanguine Bond's own ruling: the loop runs until a player wins or someone breaks it. Commander-independent; survives a Witherbloom tax-out completely.
 
-**Line B — Apprentice storm.** Witherbloom + wide board → Lab Rats/Sprout Swarm buyback for free → Apprentice drains 1 per cast from each opponent. Not modeled in the lab (conservative); in practice it's the consolation clock when the loop is disrupted.
+**Line B — affinity infinite (secondary).** Witherbloom + 4+ creatures + **Sprout Swarm** (self-contained) OR **Lab Rats + Phyrexian Altar** → infinite free casts → **Witherbloom Apprentice** drains the table. A real infinite, not a clock — but commander-DEPENDENT, so it assembles later than the loop (isolated lab `wb_storm_lab.py`: standalone ~T12 / often beyond horizon because it needs the 8-mana commander + a payoff + the engine + a board; the loop is commander-free and faster). Its value is **resilience**, not speed: it wins through a different vector when the enchantment loop is answered.
 
 **Line C — Razaketh assembly.** 8 MV body that turns every token into Vampiric Tutor. The lab models him fetching missing loop pieces; he also finds answers.
 
 **Backup — combat.** Bitterblossom fliers + Tendershoot + Hornet Queen; irrelevant as a clock (T12+), relevant as ignition and Razaketh fuel.
+
+-----
+
+## Combo Suite Audit (Commander Spellbook find-my-combos, 2026-06-19)
+
+A systematic scan (variants API over the deck's combo-dense cards) confirms Zero-Sum carries **three independent infinite axes**, not one:
+
+1. **Lifeloop** (commander-INDEPENDENT) — Exquisite Blood / Bloodthirsty Conqueror + any of {Sanguine Bond, Vito, Enduring Tenacity, Defiant Bloodlord} (+ Professor Dellian Fel). Up to 8 two-card configs → highest redundancy; the T9 primary.
+2. **Sprout Swarm** affinity infinite (commander-dependent) → drains via Witherbloom Apprentice.
+3. **Lab Rats + Phyrexian Altar** affinity infinite (commander-dependent) → drains via Witherbloom Apprentice.
+
+~10 infinite kill configurations across two payoff types. Hating out one axis does **not** disarm the deck — its real strength is redundancy/resilience, which the lone T9 clock number understates. (Corrected lab: `wb_storm_lab.py`. An earlier finite-drip model wrongly called the affinity lines "slow"; they are infinites.)
+
+### Added 2026-06-19 (in the `.txt`; pod approval still pending for the new line)
+
+Committed swap **−Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx** (`decks/zero-sum-game-20260619.txt`, old list archived). Both adds verified mono-B; neither is a Game Changer (3/3 GC unaffected — Necropotence/Vampiric/Demonic). **Prices unverified — check at order.** Chain of Smog is a new 2-card infinite → **still needs pod re-approval before play** (deck is already approved for the lifeloop, 2026-06-01).
+
+- **Chain of Smog** ({1}{B}) — with the in-deck Witherbloom Apprentice, a two-card infinite drain needing **no board and no commander** ([combo](https://commanderspellbook.com/combo/326-2522/)). The only line that survives loop-hate AND commander removal AND a clogged board — the highest-value diversification.
+- **Professor Onyx** (6, planeswalker) — second magecraft payoff (each opp loses **2**) backing Chain of Smog + both affinity infinites; incidental drain on the deck's instants/sorceries + a resilient body.
+- Cut rationale: the deck keeps 3 catch-all removal (Assassin's Trophy, Abrupt Decay, Pernicious Deed) + Toxic Deluge + Deadly Rollick + Veil of Summer, so −Beast Within −Heroic Intervention leaves the interaction/protection suite intact.
+
+Marginal near-misses (NOT recommended — redundant with existing axes): Academy Manufactor / Samwise Gamgee (Cauldron Familiar infinites); additional Exquisite Blood partners (Marauding Blight-Priest, Vizkopa Guildmage, etc.).
 
 -----
 
@@ -80,12 +102,13 @@ Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert b
 
 ## Provenance & Files
 
-- Decklist: `decks/zero-sum-game-20260611.txt` (100 cards: 99 + commander; counted 2026-06-11)
+- Decklist: `decks/zero-sum-game-20260619.txt` (100 cards: 99 + commander; rev 2026-06-19, prior `zero-sum-game-20260611.txt` archived to `archive/old_decklists/`)
 - Proposal: `proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07)
 - Build readiness / donor analysis: `archive/proposals/Witherbloom_Build_Readiness_2026-06-11.md` (archived 2026-06-13 — deck is built)
 - Source list: `archive/old_decklists/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
-- Clock lab: `scripts/wb_clock_lab.py` (clock / gcswap / avail modes)
-- Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**)
+- Clock labs: `scripts/wb_clock_lab.py` (loop clock / gcswap / avail) + `scripts/wb_storm_lab.py` (Line-B affinity-infinite clock, 2026-06-19)
+- Combo audit: Commander Spellbook find-my-combos scan, 2026-06-19 (see Combo Suite Audit above)
+- Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**). **Added to .txt 2026-06-19: Chain of Smog + Professor Onyx (new buys, prices unverified; Chain of Smog line pending pod approval)** — see Combo Suite Audit.
 - Card text: all combo pieces, igniters, and tutors verified via `card_lookup.py` (2026-06-01 / 06-07 / 06-11 logs in the proposal and readiness docs)
 
 **Roster notes:** building this standalone consumed the deferred "Witherbloom into Calamity Tax as a 99" option (`decks/The_Calamity_Tax_Swaps_2026-06-01.md` §Witherbloom — now closed). Pest Control proposal is the natural roster casualty (same BG substrate, unbuilt). The Loam Cycle is dismantled and archived.

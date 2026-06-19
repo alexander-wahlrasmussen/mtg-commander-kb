@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """wb_clock_lab.py — Zero-Sum Game (Witherbloom, the Balancer) KILL-TURN goldfish.
 
-First lab for the NEW deck (decks/zero-sum-game-20260611.txt, built 2026-06-11
+First lab for the NEW deck (decks/zero-sum-game-20260619.txt, built 2026-06-11
 from proposals/witherbloom-balancer-v2b-20260607.txt minus Bayou/Coffers/Urborg).
 Converts the proposal's 2026-06-07 ad-hoc deployment model ("33% T6 / 46% T7 /
 56% T8 deployable") into a harness-cited clock per the verification rule.
@@ -90,7 +90,7 @@ _spec = importlib.util.spec_from_file_location(
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "zero-sum-game-20260611.txt"
+DECK = ROOT / "decks" / "zero-sum-game-20260619.txt"
 SEED = 20260611
 TURNS = 12
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]

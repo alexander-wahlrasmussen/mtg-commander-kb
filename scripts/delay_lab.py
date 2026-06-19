@@ -442,7 +442,7 @@ ROSTER = {
     "lorehold_spirits": ("lorehold-spirit-20260503-154449.txt", LOREHOLD),
     "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
     "exiles_return": ("the-exiles-return-20260417-194010.txt", EXILES),
-    "zero_sum_game": ("zero-sum-game-20260611.txt", ZEROSUM),
+    "zero_sum_game": ("zero-sum-game-20260619.txt", ZEROSUM),
     "curse_of_the_scarab": ("curse-of-the-scarab-20260510-215526.txt", CURSE),
     "bumbleflower": ("this-bunny-goes-to-market-20260404-080311.txt", BUMBLE),
     "eldrazi_stampede": ("eldrazi-stampede-chaos-20260306-133311.txt", ELDRAZI),
