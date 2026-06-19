@@ -7,7 +7,7 @@
 **Bracket:** 3 (3 of 3 Game Changer slots used; **no infinite combo**; no MLD; no extra turns)
 **Game Changers:** Fierce Guardianship, Opposition Agent, Jeska's Will
 **Conversion Check:** 19/20 (5/5/4/5)
-**Kill Window:** Clock: **T9 decap / T13 table** strict-from-40 goldfish (lab 2026-06-13, `lw_clock_lab.py`). **With realistic cross-table chip** (moderate 3/turn, @28 by T6): **decap T7–8 / table T10**, table never-wipe **40%→1%** (`--mode chipsweep`, 2026-06-14) — the from-40 sweep (14-mana Crackle `{X}{X}{X}{R}{R}`) is the *ceiling*, the chipped finish is the *median*, so "T6–7" is the real-pod **decap front edge**. The deck's incremental-pinger lever is **saturated** (3 pingers); its headroom axis is **finisher availability**, served by the copy package. See `analysis/Lightning_War_Chip_Model_2026-06-14.md`
+**Kill Window:** Clock: **T9 decap / T13 table** **(spell, sorcery — single-target burn; instant-capable via Electrodominance)** strict-from-40 goldfish (lab 2026-06-13, `lw_clock_lab.py`). **With realistic cross-table chip** (moderate 3/turn, @28 by T6): **decap T7–8 / table T10**, table never-wipe **40%→1%** (`--mode chipsweep`, 2026-06-14) — the from-40 sweep (14-mana Crackle `{X}{X}{X}{R}{R}`) is the *ceiling*, the chipped finish is the *median*, so "T6–7" is the real-pod **decap front edge**. The deck's incremental-pinger lever is **saturated** (3 pingers); its headroom axis is **finisher availability**, served by the copy package. See `analysis/Lightning_War_Chip_Model_2026-06-14.md`
 **Current decklist:** `lightning-war-20260614.txt` (−Vedalken Orrery / +Electrostatic Field on 2026-06-14; the `.txt` is ground truth, this is commentary)
 
 ---

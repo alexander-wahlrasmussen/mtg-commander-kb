@@ -10,8 +10,8 @@
 | **Bracket** | 3 by GC count (3/3). Contains a 2-card infinite — **pod-approved** for this build (2026-06-01, extension of the Berta approval). |
 | **Game Changers** | Necropotence, Vampiric Tutor, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | *Not yet audited.* Proposal ceiling 18–19/20; the clock lab tempers the Speed axis — formal audit after first pod games. |
-| **Kill Window** | Clock: **T9 decap = T9 table** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
-| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); Chain of Smog line pending pod approval. The `.txt` is the target state until the order lands. |
+| **Kill Window** | Clock: **T9 decap = T9 table** **(spell, instant)** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
+| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); the new 2-card infinite is pod-accepted under the 2026-06-19 house-rule revision (infinites accepted). The `.txt` is the target state until the order lands. |
 
 -----
 
@@ -64,9 +64,9 @@ A systematic scan (variants API over the deck's combo-dense cards) confirms Zero
 
 ~10 infinite kill configurations across two payoff types. Hating out one axis does **not** disarm the deck — its real strength is redundancy/resilience, which the lone T9 clock number understates. (Corrected lab: `wb_storm_lab.py`. An earlier finite-drip model wrongly called the affinity lines "slow"; they are infinites.)
 
-### Added 2026-06-19 (in the `.txt`; pod approval still pending for the new line)
+### Added 2026-06-19 (in the `.txt`)
 
-Committed swap **−Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx** (`decks/zero-sum-game-20260619.txt`, old list archived). Both adds verified mono-B; neither is a Game Changer (3/3 GC unaffected — Necropotence/Vampiric/Demonic). **Prices unverified — check at order.** Chain of Smog is a new 2-card infinite → **still needs pod re-approval before play** (deck is already approved for the lifeloop, 2026-06-01).
+Committed swap **−Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx** (`decks/zero-sum-game-20260619.txt`, old list archived). Both adds verified mono-B; neither is a Game Changer (3/3 GC unaffected — Necropotence/Vampiric/Demonic). **Prices unverified — check at order.** Chain of Smog is a new 2-card infinite — **pod-accepted** under the 2026-06-19 house-rule revision (`REF_Bracket_3_House_Rules.md`: infinites are now evaluated on merit, not gated on approval).
 
 - **Chain of Smog** ({1}{B}) — with the in-deck Witherbloom Apprentice, a two-card infinite drain needing **no board and no commander** ([combo](https://commanderspellbook.com/combo/326-2522/)). The only line that survives loop-hate AND commander removal AND a clogged board — the highest-value diversification.
 - **Professor Onyx** (6, planeswalker) — second magecraft payoff (each opp loses **2**) backing Chain of Smog + both affinity infinites; incidental drain on the deck's instants/sorceries + a resilient body.
@@ -108,7 +108,7 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 - Source list: `archive/old_decklists/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
 - Clock labs: `scripts/wb_clock_lab.py` (loop clock / gcswap / avail) + `scripts/wb_storm_lab.py` (Line-B affinity-infinite clock, 2026-06-19)
 - Combo audit: Commander Spellbook find-my-combos scan, 2026-06-19 (see Combo Suite Audit above)
-- Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**). **Added to .txt 2026-06-19: Chain of Smog + Professor Onyx (new buys, prices unverified; Chain of Smog line pending pod approval)** — see Combo Suite Audit.
+- Shopping list: `collection/deck_safe_collection.xlsx` → Shopping List tab, "Zero Sum Game" rows (51 cards; **prices unverified — check Cardmarket at order time**). **Added to .txt 2026-06-19: Chain of Smog + Professor Onyx (new buys, prices unverified; the new infinite is pod-accepted per the 2026-06-19 house-rule revision)** — see Combo Suite Audit.
 - Card text: all combo pieces, igniters, and tutors verified via `card_lookup.py` (2026-06-01 / 06-07 / 06-11 logs in the proposal and readiness docs)
 
 **Roster notes:** building this standalone consumed the deferred "Witherbloom into Calamity Tax as a 99" option (`decks/The_Calamity_Tax_Swaps_2026-06-01.md` §Witherbloom — now closed). Pest Control proposal is the natural roster casualty (same BG substrate, unbuilt). The Loam Cycle is dismantled and archived.

@@ -10,7 +10,7 @@
 | **Bracket** | 3 (2 Game Changers used; no two-card infinites; no extra turns; no MLD) |
 | **Game Changers** | Ancient Tomb, Mana Vault (2 of 3 slots used — room for one more) |
 | **Conversion Check** | **14/20** (4/4/3/3) — Solid |
-| **Kill Window** | Clock: **T8 decap** (median; T6 ≈ 10% god-hand) / **T12 table** (lab 2026-06-13, `esc_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no blockers/disruption model)*. The old "Goldfish T6–8" was the optimistic decap edge and conflated decap with table: decap median is T8 (T6 only 10%), the table clock is T12 (never stated). See `analysis/Eldrazi_Stampede_Clock_Lab_2026-06-13.md` |
+| **Kill Window** | Clock: **T8 decap** (median; T6 ≈ 10% god-hand) / **T12 table** **(board)** (lab 2026-06-13, `esc_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no blockers/disruption model)*. The old "Goldfish T6–8" was the optimistic decap edge and conflated decap with table: decap median is T8 (T6 only 10%), the table clock is T12 (never stated). See `analysis/Eldrazi_Stampede_Clock_Lab_2026-06-13.md` |
 
 -----
 

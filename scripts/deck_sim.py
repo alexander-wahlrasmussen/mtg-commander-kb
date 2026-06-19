@@ -43,78 +43,23 @@ ORACLE = ROOT / "collection" / "oracle-cards.json"
 PROFILES = Path(__file__).parent / "sim_profiles.json"
 ALIASES_DOC = ROOT / "reference" / "REF_Reskin_Aliases.md"
 
+# Per-deck identity (commander, display name) comes from the single source of truth.
+# Loaded by file path (the repo's cross-module idiom — no package on sys.path).
+import importlib.util as _il
+_rspec = _il.spec_from_file_location("deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = _il.module_from_spec(_rspec)
+_rspec.loader.exec_module(deck_registry)
+
 # Commander per decklist (filename stem prefix -> commander card name). Needed
 # because some exports list the commander inline in the 100-card main block; it
-# belongs in the command zone, not the shuffled library.
-COMMANDERS = {
-    "calamity-tax": "Glarb, Calamity's Augur",
-    "crystal-sickness": "Golbez, Crystal Collector",
-    "curse-of-the-scarab": "The Scarab God",
-    "diminishing-returns": "Teysa Karlov",
-    "earthbend-the-meta": "Toph, the First Metalbender",
-    "eldrazi-stampede-chaos": "Maelstrom Wanderer",
-    "lightning-war": "Fire Lord Azula",
-    "lorehold-spirit": "Quintorius, History Chaser",
-    "peace-offering": None,
-    "radiation-sickness": "Wise Mothman",
-    "the-dark-lords-army": "Sauron, the Dark Lord",
-    "the-exiles-return": "Fire Lord Zuko",
-    "the-genome-project": "Kuja, Genome Sorcerer",
-    "the-grand-design": "Atraxa, Grand Unifier",
-    "the-loam-cycle": "Teval, the Balanced Scale",
-    "the-replication-crisis": "Satya, Aetherflux Genius",
-    "this-bunny-goes-to-market": "Ms. Bumbleflower",
-    "zero-sum-game": "Witherbloom, the Balancer",
-    # 2026-06-12 bake-off candidates (decks/considering/) + the two externals
-    "insider-trading": "Yuriko, the Tiger's Shadow",
-    "hostile-takeover": "Godo, Bandit Warlord",
-    "quantitative-easing": "Kinnan, Bonder Prodigy",
-    "asset-stripping": "Korvold, Fae-Cursed King",
-    "forced-liquidation": "Kefka, Court Mage",
-    "clive-external": "Clive, Ifrit's Dominant",
-    "kefka-external": "Kefka, Court Mage",
-    # 2026-06-14 Hashaton benchmark (decks/considering/) — Esper Thoracle variant
-    "hashaton-thoracle": "Hashaton, Scarab's Fist",
-    # 2026-06-13 external Glarb lists under evaluation (decks/considering/) — all Glarb
-    "glarb-strong-ext": "Glarb, Calamity's Augur",
-    "glarb-mastermind-ext": "Glarb, Calamity's Augur",
-    "glarb-croak-dagger-ext": "Glarb, Calamity's Augur",
-    "glarb-hybrid": "Glarb, Calamity's Augur",
-    "glarb-hybrid-final": "Glarb, Calamity's Augur",
-    "glarb-hybrid-b3": "Glarb, Calamity's Augur",
-    # 2026-06-16 external Glarb (Yd Freehold / proposals/External Glarb.md) vs Calamity Tax
-    "glarb-external-ext": "Glarb, Calamity's Augur",
-    # 2026-06-13 lab-run candidates (decks/considering/)
-    "berta-wise-extrapolator": "Berta, Wise Extrapolator",
-    "najeela-blade-blossom": "Najeela, the Blade-Blossom",
-    # 2026-06-18 dismantle-3-build-1 candidate (decks/considering/) — Boros humans/Winota
-    "winota-joiner": "Winota, Joiner of Forces",
-    # 2026-06-19 dismantle-3-build-1 (rebuild of Diminishing Returns parts) — mono-B Yawgmoth aristocrats
-    "yawgmoth-liquidation": "Yawgmoth, Thran Physician",
-    # 2026-06-19 Sephiroth-commander variant (drain in the command zone) + targeted buys
-    "sephiroth-liquidation": "Sephiroth, Fabled SOLDIER",
-}
+# belongs in the command zone, not the shuffled library. The active roster is the
+# single source of truth (deck_registry); EXTRA_COMMANDERS adds the dismantled +
+# candidate/considering builds deck_sim must also parse. Order is load-bearing —
+# parse_deck() prefix-matches the FIRST key a stem startswith — and actives (emitted
+# first) are never a prefix of an extra stem, so every prefix match is preserved.
+COMMANDERS = {**deck_registry.active_commanders(), **deck_registry.EXTRA_COMMANDERS}
 
-DISPLAY = {
-    "calamity-tax": "The Calamity Tax",
-    "crystal-sickness": "Crystal Sickness",
-    "curse-of-the-scarab": "Curse of the Scarab",
-    "diminishing-returns": "Diminishing Returns",
-    "earthbend-the-meta": "Earthbend the Meta",
-    "eldrazi-stampede-chaos": "Eldrazi Stampede Chaos",
-    "lightning-war": "Lightning War",
-    "lorehold-spirit": "Lorehold Spirits",
-    "peace-offering": "Peace Offering",
-    "radiation-sickness": "Radiation Sickness",
-    "the-dark-lords-army": "The Dark Lord's Army",
-    "the-exiles-return": "The Exile's Return",
-    "the-genome-project": "The Genome Project",
-    "the-grand-design": "The Grand Design",
-    "the-loam-cycle": "The Loam Cycle",
-    "the-replication-crisis": "The Replication Crisis",
-    "this-bunny-goes-to-market": "Ms. Bumbleflower",
-    "zero-sum-game": "Zero-Sum Game",
-}
+DISPLAY = {**deck_registry.active_display(), **deck_registry.EXTRA_DISPLAY}
 
 
 # ---------------------------------------------------------------------------

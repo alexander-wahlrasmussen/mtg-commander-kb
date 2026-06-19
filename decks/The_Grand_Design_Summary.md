@@ -9,7 +9,7 @@
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
-|**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
+|**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ **(board)** — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
 
 -----
 
@@ -22,6 +22,8 @@
 > that feeds Hidetsugu and Kairi / reloads Acererak), and its **own Grand Abolisher + Teferi** (protect-own;
 > best answer to the 5C tail, the only shell that runs Abolisher). It is **weakest vs Hidetsugu and Kairi
 > (~34%)** — the ETB-lock is provably **inert** vs a death trigger, so there only exile + counters answer it.
+>
+> **External corroboration (Draftsim cEDH tier list, 2026-06-18):** an outside ranking framework that weights *speed* and *timing* (does the deck win on the stack / an opponent's turn, or must it commit the whole board?) independently lands on this same controller reframe — GD's primary kill is `board`-timed combat at sorcery speed, the maximal answer window, which is exactly why a 19/20 deck plays a turn-12 table clock. Confirms `score ⊥ clock`; the Timing tag is now in `REF_The_Conversion_Check.md`.
 >
 > **The swap is the necessary floor, not the lever — and more ramp was tested and rejected.** `gd_clock_lab
 > --mode levers/ramp`: an idealized "+2 mana/turn" knob screams T10→**T7**, but that's an always-on artifact

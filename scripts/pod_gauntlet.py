@@ -68,6 +68,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+# Per-deck display name + clock-lab pointer are OWNED by deck_registry (the single source of
+# truth). The CLOCKS harvest entries below mirror them and are guarded against drift at load;
+# the curves themselves (grid/decap/table/med/never) are this file's own lab snapshot.
+import importlib.util as _il
+_rspec = _il.spec_from_file_location("deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = _il.module_from_spec(_rspec)
+_rspec.loader.exec_module(deck_registry)
+
 for _s in (sys.stdout, sys.stderr):            # output uses →, Δ, §, 🔒, en-dashes
     if hasattr(_s, "reconfigure"):
         try:
@@ -144,6 +152,9 @@ PROTECT = {
     "diminishing_returns": 0.10,  # death-combo, no counters
     "genome_project":      0.05,  # BR burn/storm: kill is counterable spells, ~no counters
     # lorehold_spirits omitted = 0.0 (no counters; RW combat/spirits)
+    # --- pending build candidates (priors; --pending) ---
+    "kefka":               0.45,  # triggered-damage wheel kill (counter-immune, anti-Abolisher) + Grixis counters
+    "hashaton":            0.40,  # instant Thoracle combo protected by counters, but glass (one fragile line)
 }
 
 # Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
@@ -301,6 +312,15 @@ CLOCKS = {
         med=("T13", ">T14"), never=(40, 60),
         src="matrix 06-13 sweep median (slow; curve reconstructed, race-irrelevant)"),
 }
+
+# Guard: the display name + lab pointer in each harvest entry must match the registry (the
+# authority). A new deck adds its row there; if these mirrors ever drift, fail loudly here.
+for _slug, _e in CLOCKS.items():
+    _r = deck_registry.DECKS.get(_slug)
+    if _r is not None:
+        assert _e["name"] == _r["name"], f"pod_gauntlet name drift vs deck_registry: {_slug}"
+        _elab = tuple(_e["lab"]) if _e["lab"] else None
+        assert _elab == _r["lab"], f"pod_gauntlet lab drift vs deck_registry: {_slug}"
 
 
 # --- pending swaps (Build_And_Swap_Tracker.md §2) --------------------------
@@ -540,16 +560,23 @@ R_BASE = 0.25                                  # P(pod removes our lock each of 
 R_SWEEP = [0.0, 0.15, 0.25, 0.40, 0.60]
 POD_MANA_GROWTH = 1.4                          # mana the Ur-Dragon shell adds per turn (tau->Delta)
 
-# Build-candidate clocks (NOT active roster; lab-sourced) included ONLY in the --lock view,
-# so the model can race the deck it most illuminates: Kefka, whose Cursed Totem is its
-# anti-pod reason to exist. disrupt_class "warn" = it has a real one-shot counter suite;
-# the lock is scored separately via lock_availability.json (no double-count).
+# Build-candidate clocks (NOT active roster; lab-sourced). Used by the --lock view (Kefka,
+# whose Cursed Totem is its anti-pod reason to exist) AND folded into --matrix / --vs under
+# the --pending flag, so a deck being built can be placed in the matrix before it's sleeved.
+# disrupt_class "warn" = it has a real one-shot counter suite; the lock (Kefka) is scored
+# separately via lock_availability.json (no double-count).
 BUILD_CLOCKS = {
     "kefka": dict(
         name="Kefka (Forced Liq., build)", score="~17", disrupt_class="warn",
         grid=[4, 5, 6, 7, 8, 9, 10, 12],
         decap=[1, 4, 14, 34, 58, 75, 86, 96], table=[0, 2, 7, 19, 39, 58, 72, 88],
         med=("T8", "T9"), never=(4, 12), src="lab kfk_clock_lab @4k 2026-06-15"),
+    "hashaton": dict(
+        name="Hashaton (Thoracle, build)", score="~17", disrupt_class="warn",
+        grid=[3, 4, 5, 6, 7, 8, 9, 10, 12],
+        decap=[5, 21, 44, 61, 72, 77, 82, 86, 91],
+        table=[5, 21, 44, 61, 72, 77, 82, 86, 91],   # Thoracle: decap = table by construction
+        med=("T6", "T6"), never=(9, 9), src="lab hsh_clock_lab @8k 2026-06-18"),
 }
 
 
@@ -753,6 +780,8 @@ def run_matrix(args):
     rng = random.Random(args.seed)
     kd = pod_kdist(args)
     C = merged_clocks()
+    if getattr(args, "pending", False):
+        C = {**C, **BUILD_CLOCKS}                 # fold in build candidates (Kefka/Hashaton)
     okeys = list(OPPONENTS)
     rows = []
     for slug, c in C.items():
@@ -797,6 +826,8 @@ def run_vs(args):
     (no Abolisher, no counters) and sag vs H&K (a UB counter wall)."""
     rng = random.Random(args.seed)
     C = merged_clocks()
+    if getattr(args, "pending", False):
+        C = {**C, **BUILD_CLOCKS}                 # fold in build candidates (Kefka/Hashaton)
     which = "table" if args.strict else "decap"
     kd = pod_kdist(args)
     okeys = list(OPPONENTS)
@@ -1078,6 +1109,9 @@ def main():
     ap.add_argument("--vs", action="store_true",
                     help="race his TWO REAL decks (Acererak / Hidetsugu&Kairi / 5C tail) "
                          "separately + blended, with the interaction-against-us term")
+    ap.add_argument("--pending", action="store_true",
+                    help="fold pending BUILD_CLOCKS candidates (Kefka / Hashaton) into the "
+                         "--vs / --matrix run so they can be placed in the matrix")
     ap.add_argument("--vs-lock", dest="vs_lock", action="store_true",
                     help="--vs + a loop-typed PERSISTENT lock for decks that run one (VS_LOCKS); "
                          "e.g. GD's Elesh Norn vs Acererak's ETB loop")

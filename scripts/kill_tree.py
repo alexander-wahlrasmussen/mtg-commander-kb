@@ -17,7 +17,8 @@ clock so the picture stays honest. Kinds colour the leaves:
 
 The kill text is taken from each deck's `*_clock_lab.py` KILL CHECKS + its
 Summary (oracle-verified there); this file only re-draws them, it does not
-re-derive card text. Output: Mermaid to stdout and to analysis/kill_trees/.
+re-derive card text. The specs themselves live in deck_registry (the single
+source of truth). Output: Mermaid to stdout and to analysis/kill_trees/.
 Validate/render the .mmd with the Mermaid Chart tool.
 
 Usage
@@ -26,6 +27,7 @@ Usage
     python scripts/kill_tree.py --list
 """
 import argparse
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -39,89 +41,14 @@ for _s in (sys.stdout, sys.stderr):            # the diagrams use →, ⏱, en-d
         except (ValueError, OSError):
             pass
 
-# spec: line = (id, need?, kill, clock, kind). kind in {combo,table,combat,enabler}
-DECKS = {
-    "radiation-sickness": {
-        "title": "Radiation Sickness — The Wise Mothman",
-        "root": "The Wise Mothman resolved<br/>rad counters tick every opponent's main phase",
-        "background": ("rad counters + proliferate<br/>(Vorinclex / Tekuthal / Inexorable Tide)",
-                       "all-opponent rad drain", "table ~T10", "table"),
-        "lines": [
-            ("combo", "Mindcrank + Bloodchief Ascension<br/>(3 quest counters live)",
-             "infinite mill → drain loop", "table T7", "combo"),
-            ("simic", "Simic Ascendancy reaches<br/>20 growth counters",
-             "win at your upkeep", "table T8–9", "combo"),
-            ("triumph", "Triumph of the Hordes<br/>+ a wide creature board",
-             "+1/+1, trample & INFECT → 10 poison", "table T8", "table"),
-            ("combat", "counter-grown creatures connect<br/>(fallback)",
-             "focus one opponent", "decap T7", "combat"),
-        ],
-        "stall": "keep ticking rad + stacking counters —<br/>the passive drain closes ~T10",
-        "src": "rs_clock_lab.py + Radiation_Sickness_Summary.md",
-    },
-    "diminishing-returns": {
-        "title": "Diminishing Returns — Teysa Karlov",
-        "root": "Teysa Karlov online<br/>every death trigger fires TWICE",
-        "background": None,
-        "lines": [
-            ("loop", "Gravecrawler + Phyrexian Altar<br/>+ a sac outlet",
-             "infinite deaths → drain (deterministic)", "table T9+", "combo"),
-            ("gary", "Gray Merchant of Asphodel<br/>+ heavy black devotion",
-             "ETB drain ×2", "table", "table"),
-            ("kokusho", "Kokusho, the Evening Star<br/>+ a sac outlet",
-             "5-drain ×2 each death cycle", "table", "table"),
-            ("living", "Living Death<br/>(mass reanimation)",
-             "refill board → re-fire every death", "reset → table", "table"),
-            ("razaketh", "Razaketh, the Foulblooded<br/>+ fodder to sacrifice",
-             "tutor the missing piece of any line", "enabler", "enabler"),
-            ("combat", "wide token board swings<br/>(fallback)",
-             "focus one opponent", "decap T9", "combat"),
-        ],
-        "stall": "grind deaths — the table drain is slow (T12+);<br/>this deck disrupts, it doesn't race",
-        "src": "dr_clock_lab.py + Diminishing_Returns_Summary.md",
-    },
-    "genome-project": {
-        "title": "The Genome Project — Kuja, Genome Sorcerer",
-        "root": "Kuja resolved — Wizard tokens ping EVERY opponent on each noncreature cast<br/>transforms to Trance Kuja (×2 ALL Wizard damage) at 4 Wizards",
-        # No passive lane: pings require CASTS, so decap and table converge (T7/T8)
-        # off the same ping clock rather than diverging like the combat decks.
-        "background": None,
-        "lines": [
-            ("oneshot", "Trance Kuja + City on Fire (×3 all dmg)<br/>and/or Harmonic Prodigy / Roaming Throne",
-             "12–16+ damage per opponent per spell → one or two casts kill the table", "table T7", "combo"),
-            ("storm", "Trance Kuja + 4 Wizard tokens<br/>(Birgi / Storm-Kiln refund the mana)",
-             "8 dmg per opponent per noncreature cast → ~5 cheap casts", "table T8", "table"),
-            ("gystorm", "stocked graveyard + Mizzix's Mastery<br/>(Dawn Warriors' Legacy) or Underworld Breach",
-             "recast every i/s from the yard — each a REAL cast = full pings", "table T7–8", "combo"),
-            ("backup", "mana flood (Mana Geyser / Neheb / Jeska's Will)<br/>or 50 life via Aetherflux Reservoir",
-             "board-independent table drain / 50-life laser", "table (backup)", "table"),
-            ("combat", "Trance Kuja + a Wizard board<br/>(Trance doubles Wizard power) (fallback)",
-             "focus one opponent", "decap T7", "combat"),
-        ],
-        "stall": "build Wizards toward the 4-count transform & stock the yard —<br/>pings need CASTS (no passive drain), so dig for a multiplier + a cheap chain",
-        "src": "gp_clock_lab.py + The_Genome_Project_Summary.md",
-    },
-    "replication-crisis": {
-        "title": "The Replication Crisis — Satya, Aetherflux Genius",
-        "root": "Satya attacking — each attack makes a free token COPY of a nontoken<br/>creature you control + {E}{E} · EVERY line needs Satya to ATTACK (fires on attack, not on connect)",
-        # Combat-gated, so the clock DIVERGES: decap T7 (focus one) / table T10+.
-        "background": None,
-        "lines": [
-            ("infinite", "Sword of Feast and Famine on Satya<br/>+ Aggravated Assault",
-             "combat untaps all lands → infinite combats → infinite tokens + ETBs", "decap T6–7", "combo"),
-            ("brudiclad", "Brudiclad + a token pile<br/>+ a fat Satya copy (Inferno Titan)",
-             "convert every token into the bomb → lethal alpha (no infinite needed)", "decap T7", "combat"),
-            ("adeline", "Adeline + Anointed Procession",
-             "~6 humans per attack + doubled Satya token → wide alpha swing", "decap T7–8", "combat"),
-            ("conscripts", "Satya copies Zealous Conscripts<br/>(+ Strionic Resonator / Aggravated Assault)",
-             "steal the pod's best permanents, one per combat", "disrupt → decap", "enabler"),
-            ("grind", "repeated ETB copies (Inferno Titan ping,<br/>Cloudblazer draw, Skyclave exile) (fallback)",
-             "grind the pod out over 3–4 combats", "table T10+", "table"),
-        ],
-        "stall": "Satya must survive as a 3/5 through combat — protect her<br/>(Greaves / Boots / Slip Out the Back) and hold for a safe swing",
-        "src": "rc_speed_lab.py + The_Replication_Crisis_Summary.md",
-    },
-}
+# The decision-tree specs (display-slug -> title/root/background/lines/stall/src, in render
+# order) live in deck_registry, the single source of truth. spec line = (id, need?, kill,
+# clock, kind); kind in {combo,table,combat,enabler}. This file only renders them.
+_rspec = importlib.util.spec_from_file_location(
+    "deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = importlib.util.module_from_spec(_rspec)
+_rspec.loader.exec_module(deck_registry)
+DECKS = deck_registry.kill_trees()
 
 # Every class sets an explicit text `color:` — without it the node text inherits
 # the viewer's theme foreground, so on a DARK theme (e.g. gruvbox in Obsidian) the
