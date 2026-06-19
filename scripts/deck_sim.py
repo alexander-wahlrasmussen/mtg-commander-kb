@@ -87,6 +87,9 @@ COMMANDERS = {
     # 2026-06-13 lab-run candidates (decks/considering/)
     "berta-wise-extrapolator": "Berta, Wise Extrapolator",
     "najeela-blade-blossom": "Najeela, the Blade-Blossom",
+    # 2026-06-18 external BDD Azula combo lists (decks/considering/) — benchmark vs Lightning War
+    "bdd-azula-expensive": "Fire Lord Azula",
+    "bdd-azula-budget": "Fire Lord Azula",
 }
 
 DISPLAY = {

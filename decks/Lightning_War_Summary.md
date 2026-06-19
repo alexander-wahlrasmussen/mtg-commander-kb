@@ -1,14 +1,16 @@
-# Lightning War — Fire Lord Azula (Race / Burn Build)
+# Lightning War — Fire Lord Azula (Combo-Race Build)
 
 **Commander:** Fire Lord Azula ({1}{U}{B}{R}, 4/4, Legendary Creature — Human Noble)
 **Colors:** Grixis (UBR)
-**Archetype:** Spellslinger burn — copy-amplified X-spell finish
-**Role:** the deck pulled to **dictate pod tempo** when tired of losing to combo (see [[bracket_4_in_spirit]])
-**Bracket:** 3 (3 of 3 Game Changer slots used; **no infinite combo**; no MLD; no extra turns)
-**Game Changers:** Fierce Guardianship, Opposition Agent, Jeska's Will
-**Conversion Check:** 19/20 (5/5/4/5)
-**Kill Window:** Clock: **T9 decap / T13 table** strict-from-40 goldfish (lab 2026-06-13, `lw_clock_lab.py`). **With realistic cross-table chip** (moderate 3/turn, @28 by T6): **decap T7–8 / table T10**, table never-wipe **40%→1%** (`--mode chipsweep`, 2026-06-14) — the from-40 sweep (14-mana Crackle `{X}{X}{X}{R}{R}`) is the *ceiling*, the chipped finish is the *median*, so "T6–7" is the real-pod **decap front edge**. The deck's incremental-pinger lever is **saturated** (3 pingers); its headroom axis is **finisher availability**, served by the copy package. See `analysis/Lightning_War_Chip_Model_2026-06-14.md`
-**Current decklist:** `lightning-war-20260614.txt` (−Vedalken Orrery / +Electrostatic Field on 2026-06-14; the `.txt` is ground truth, this is commentary)
+**Archetype:** Spellslinger **combo-race** — Azula infinite combo (primary) + copy-amplified X-spell burn (backup)
+**Role:** the deck pulled to **race the combo pod** — out-tempo a Grand-Abolisher-protected combo rather than disrupt through it (see [[bracket_4_in_spirit]], [[grand_abolisher_blocks_counters]])
+**Bracket:** 3 (3 of 3 Game Changer slots used; **infinite combo present — pod-approved** [[infinites_ok_in_pod]]; no MLD; no extra turns)
+**Game Changers:** Fierce Guardianship, Mystical Tutor, Gifts Ungiven
+**Conversion Check:** 19/20 (axes shifted 2026-06-19 — Kill/clock up, Interaction down; the build trades disruption density for an Abolisher-immune combo — see Pod Fit)
+**Kill Window:** **combo decap=table ~T7–10** (`lw_combo_lab.py --mode recur`, 2026-06-19; ~52% by T10) · **race decap T7–8 / table T10** (`lw_clock_lab.py` chip, 2026-06-14). **pod_gauntlet P(WIN vs pod) 38%→64%** (race-led; clock gain ≫ static-disruption loss). Evidence: `proposals/Lightning_War_Consistency_Upgrade_2026-06-18.md` §10–13.
+**Current decklist:** `lightning-war-20260619.txt` (combo-race rebuild 2026-06-19: 13 swaps + 2 land; the `.txt` is ground truth, this is commentary)
+
+> **⚠ 2026-06-19 combo-race rebuild.** The header, Conversion Check, Bracket Compliance, Pod Fit, and Engine Role Map above/below are current. The lower narrative sections (*What the Deck Is Trying to Do*, *Kill Lines*, *Clock Note*, *Audit Note*) still describe the prior **race-only** build and are superseded by `proposals/Lightning_War_Consistency_Upgrade_2026-06-18.md` §10–13 (the canonical rebuild record) — refresh on a later pass.
 
 ---
 
@@ -56,44 +58,40 @@ The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, b
 
 **Core Loop — 5/5.** Engine is unmistakable from the 99: Azula + Twinning Staff + cast volume, ~28 cards directly serve the burn-finish loop. Functions with or without a flash enabler (instants copy natively).
 
-**Kill Reliability — 5/5** (up from 4). Multiple 2-card lethal paths (Azula + Crackle / Comet / Electrodominance), copy-doublers for redundancy, and a **three-tutor package** (Emeritus of Woe, Sanar, Mystical Teachings) that finds the missing piece. No longer dependent on a single named combo.
+**Kill Reliability — 5/5.** Two Azula infinite combos (draw-deck + infinite-mana) on top of multiple 2-card X-spell lethals (Crackle / Comet / Electrodominance), copy-doublers, and a **seven-tutor package** (Emeritus of Woe, Sanar, Mystical Teachings, Waterlogged Teachings, Mystical Tutor, Solve the Equation, Merchant Scroll) + Gifts Ungiven. Combo go-off ~52% by T10 (`lw_combo_lab.py`).
 
-**Durability — 4/5.** Premium mana base, commander protection (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon), and a deep instant/flash shell that tolerates attrition. Loses a point: the storm backup leans on the graveyard (Rest in Peace / Leyline of the Void hurt it), though the primary X-spell kill doesn't need the yard.
+**Durability — 4/5.** Premium mana base, commander protection (Mithril Coat, Silver Shroud Costume, Cavern of Souls, Command Beacon), and a Grixis **spell-recursion suite** (Snapcaster Mage, Yawgmoth's Will, Past in Flames, Invoke Calamity) that rebuys a countered/discarded combo piece and powers Gifts' binned pile. Graveyard-hate (Rest in Peace / Leyline of the Void) is the exposure, but the primary combos don't need the yard.
 
-**Interaction — 5/5.** 8 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat), Opposition Agent, Vendilion Clique, Hullbreaker Horror, plus removal (Deadly Rollick, Nowhere to Run, Toxic Deluge, Snap, Vandalblast, Redirect Lightning, Untimely Malfunction, V.A.T.S.) — and the burn package doubles as cheap removal for Grand Abolisher and other keystone creatures. During your combat, interaction is copied.
+**Interaction — 4/5 (race-led).** 9 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat; + Spell Pierce/Swan Song/Stubborn Denial/Delay/Three Steps Ahead/Narset's Reversal) + Hullbreaker Horror, Vendilion Clique, and burn-as-removal for Grand Abolisher. The 2026-06-19 rebuild **cut the broad removal and the only Abolisher-proof static** (Opposition Agent, V.A.T.S., Toxic Deluge, Snap, Vandalblast): delay_lab measures **−4 to −9pp disruption behind Abolisher**, deliberately traded for an Abolisher-immune combo (the kill is on our turn). Protect-own is strong: Banefire X≥5 is uncounterable under Fierce Guardianship.
 
 ---
 
 ## Bracket 3 Compliance
 
-**Game Changers (3/3):** Fierce Guardianship, Opposition Agent, Jeska's Will. All race-build adds verified non-GC; note **Emeritus of Woe // Demonic Tutor is a distinct card not on the GC list** under its spell-half name (see [[sos_prepared_cards_not_on_gc_list]]) — it costs no GC slot.
+**Game Changers (3/3):** Fierce Guardianship, **Mystical Tutor, Gifts Ungiven** (2026-06-19 — the Opposition Agent + Jeska's Will GC slots were re-spent on tutors; see proposal §7–8). Note **Emeritus of Woe // Demonic Tutor is a distinct card not on the GC list** under its spell-half name (see [[sos_prepared_cards_not_on_gc_list]]) — it costs no GC slot.
 
-**Infinite combo:** **None.** Aggravated Assault (the old 3-card infinite) was cut. Reiterate + buyback is finite (no infinite-mana enabler). This is cleaner Bracket-3 than the prior build.
+**Infinite combo:** **Yes — three, pod-approved** [[infinites_ok_in_pod]] (corrected 2026-06-19; the prior "none" claim was wrong; verified vs commanderspellbook.com). (1) **Frantic Search + Narset's Reversal** + Azula attacking → draw the deck → cast a found payoff (CSB-confirmed). (2) **Storm-Kiln Artist + Narset's Reversal** + Azula → infinite mana (CSB-confirmed; needs a spare cheap instant/sorcery in hand). (3) **Seething Song (standalone *or* the Blazing Firesinger half) + Reiterate (buyback)** + Azula → infinite red mana → Comet Storm / Crackle table kill (the Azula instance of CSB's *Reiterate + Seething Song* family — Azula is the copy-enabler, like the listed Bonus Round; net +4 R/loop). All three are Azula-dependent (she copies the loop piece). The deck stays **Bracket 3 by the 3-GC cap**; the pod accepts infinites.
 
-**Extra turns:** None. **Mass land denial:** None. Plays at Bracket-4 spirit via spell volume and X-spell burn within the 3-GC cap.
+**Extra turns:** None. **Mass land denial:** None. Plays at Bracket-4 spirit via the combo + X-spell burn within the 3-GC cap.
 
 ---
 
 ## Pod Fit: Tempo Dictation
 
-> **Anti-archenemy standing (2026-06-15): a legitimate bring, best when you expect Acererak.**
-> `pod_gauntlet.py --vs` ranks LW **4th — 50% blend (54% vs Acererak / 47% vs Hidetsugu and Kairi)**
-> once the model credits LW's **protect-own** counter-war (8 counters + uncounterable Banefire). The
-> flat "they answer our kill" term had under-rated it to 40% — exactly the protect-the-kill axis
-> [[feedback_interaction_role_protect_vs_disrupt]] flags — and the lift is **robust to that prior**
-> (blend 46–52% across protect 0.4–0.8). Takeaways: (1) it needs **no** counter-resilience card —
-> it already has the suite + Banefire X≥5 (don't add Red Elemental Blast/Pyroblast); (2) it's the
-> deck to bring vs his **favorite** (mono-B Acererak — no counters, so LW's race runs clean);
-> (3) the real ceiling is the **T9 decap clock** (lab) — climbing past 50% means finisher
-> *availability/speed* (chip model `--mode avail`), not more interaction (saturated). Caveat:
-> `PROTECT` is currently set only for LW + Grand Design, so other counter-heavy decks (Replication,
-> Dark Lord) are still under-credited in `--vs`.
+> **pod_gauntlet net (2026-06-19): the combo-race rebuild lifts P(WIN vs the pod) ~38% → ~64%.**
+> Feeding the new combined (combo ∪ race) decap clock + the rebuild's measured disruption into
+> `pod_gauntlet.simulate`: the **faster clock buys +30pp** while the lost static costs **−6pp** —
+> net **+26pp**, and the deck wins even with Abolisher always out (17%→48%) because the kill is on
+> OUR turn (Abolisher only acts on theirs). The build deliberately flips LW from **disruption-led**
+> (the old 12% pure-race / 37% win) to **race-led**. Caveat: most of the clock gain is the race
+> speeding up (7 tutors + Sol Ring; the lab credits tutors generously) — trust the direction +
+> decomposition over the absolute. Full evidence: proposal §13.
 
-1. **You set the clock.** Lead with engine creatures, tutor toward a finisher, force the pod to answer *your* T6–7 kill.
+1. **You set the clock.** Tutor toward a combo or finisher and kill on **your** turn — Abolisher can't stop a kill cast in your own combat.
 2. **Burn doubles as removal.** Kill Grand Abolisher (a 2/2) on sight — Emeritus of Conflict's repeatable Bolt, Electrodominance, Guttersnipe, any X-spell — before it locks your turn.
-3. **Banefire ignores counters** (X≥5). The answer to the counter-wall player.
-4. **Opposition Agent steals tutored pieces** at flash speed; counters answer the combo as it's cast.
-5. **One-cast lethal that isn't a named combo** — harder to hate out than an infinite, because it's "just a big burn spell."
+3. **Banefire ignores counters** (X≥5), and the combo's Comet Storm kills the table from infinite mana — the answer to the counter-wall player.
+4. **Gifts Ungiven + recursion** (Yawgmoth's Will / Past in Flames / Invoke Calamity) assembles a combo from the graveyard even when the pile is binned.
+5. **Two kill axes** — a fast Azula combo (primary) backed by the X-spell burn race — so a single answer rarely stops both.
 
 ---
 
@@ -102,10 +100,10 @@ The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, b
 | | Kuja (Genome Project) | Azula (Lightning War) |
 |---|---|---|
 | Engine timing | Main-phase storm | Combat-phase copy |
-| Win condition | Burn + storm count | Copy-amplified X-spell |
+| Win condition | Burn + storm count | Azula combo + copy-amplified X-spell |
 | Color access | BR | UBR (adds counters) |
-| Interaction density | Low | Very high (8 counters + removal) |
-| Play pattern | Explosive single turn | Race + protect, kill on your turn |
+| Interaction density | Low | Moderate (9 counters); race-led since the 2026-06-19 rebuild |
+| Play pattern | Explosive single turn | Tutor a combo, protect it, kill on your turn |
 
 Azula is the only Grixis deck in the collection. No engine overlap.
 
@@ -114,20 +112,18 @@ Azula is the only Grixis deck in the collection. No engine overlap.
 ## Engine Role Map (key cards; full 99 in the `.txt`)
 
 - **Commander:** Fire Lord Azula
-- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, High Fae Trickster, Borne Upon a Wind)
-- **X-spell finishers:** Crackle with Power, Comet Storm, Electrodominance, Banefire
-- **Copy-doublers:** Galvanic Iteration, Increasing Vengeance, Reiterate
-- **Pingers / passive burn:** Guttersnipe (2/each), Vivi Ornitier (1/each + ramp), Electrostatic Field (1/each, 0/4 wall) · amplifier Fated Firepower · Emeritus of Conflict // Lightning Bolt
-- **Execution ramp:** Storm-Kiln Artist, Goldspan Dragon, Blazing Firesinger // Seething Song, Jeska's Will, Dark/Desperate Ritual, Sanar's Treasure
-- **Cost reduction:** Dirgur Focusmage // Braingeyser, Nightscape Familiar
-- **Tutors:** Emeritus of Woe // Demonic Tutor, Sanar // Wild Idea, Mystical Teachings
-- **Mana retention:** Ozai the Phoenix King, Leyline Tyrant
-- **Graveyard storm:** Yawgmoth's Will, Past in Flames, Necromancy
-- **Counters (8):** Fierce Guardianship, Force of Negation, Deflecting Swat, Delay, Stubborn Denial, Swan Song, Three Steps Ahead, Narset's Reversal
-- **Disruption / removal:** Opposition Agent, Vendilion Clique, Hullbreaker Horror, Deadly Rollick, Nowhere to Run, Toxic Deluge, Snap, Vandalblast, Redirect Lightning, Untimely Malfunction, V.A.T.S.
+- **Combo pieces** (3 lines, verified vs commanderspellbook.com): Narset's Reversal + Frantic Search (draw-deck) · Narset's Reversal + Storm-Kiln Artist (infinite mana) · Reiterate + Seething Song / Blazing Firesinger (infinite red) → Comet Storm / Crackle payoff
+- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, Borne Upon a Wind)
+- **X-spell finishers / backup race:** Crackle with Power, Comet Storm, Electrodominance, Banefire · copy-doublers Galvanic Iteration, Increasing Vengeance
+- **Pingers / passive burn:** Guttersnipe (2/each), Vivi Ornitier (1/each + ramp), Electrostatic Field (1/each, 0/4 wall) · Emeritus of Conflict // Lightning Bolt
+- **Execution ramp:** Sol Ring, Storm-Kiln Artist, Goldspan Dragon, Dark/Desperate Ritual, Seething Song, Sanar's Treasure · cost reduction Dirgur Focusmage // Braingeyser, Nightscape Familiar
+- **Tutors (7):** Emeritus of Woe // Demonic Tutor, Mystical Tutor, Gifts Ungiven, Solve the Equation, Merchant Scroll, Mystical Teachings, Waterlogged Teachings, Sanar // Wild Idea
+- **Graveyard recursion:** Yawgmoth's Will, Past in Flames, Invoke Calamity, Snapcaster Mage
+- **Counters (9):** Fierce Guardianship, Force of Negation, Deflecting Swat, Spell Pierce, Delay, Stubborn Denial, Swan Song, Three Steps Ahead, Narset's Reversal
+- **Disruption / removal:** Vendilion Clique, Hullbreaker Horror, Deadly Rollick, Nowhere to Run, Redirect Lightning, Untimely Malfunction
 - **Protection:** Mithril Coat, Silver Shroud Costume, March of Swirling Mist
-- **Ramp rocks (4):** Arcane Signet, Fellwar Stone, Talisman of Dominance, Talisman of Indulgence
-- **Lands (28)** + filtering cantrips (Consider, Frantic Search, Faithless Looting, Valakut Awakening, Sink into Stupor, Waterlogged Teachings) round out the 99.
+- **Ramp rocks:** Sol Ring, Arcane Signet, Fellwar Stone, Talisman of Dominance, Talisman of Indulgence
+- **Lands (~30)** + selection (Ponder, Preordain, Brainstorm, Consider, Frantic Search, Faithless Looting, Valakut Awakening, Sink into Stupor) round out the 99.
 
 ---
 
