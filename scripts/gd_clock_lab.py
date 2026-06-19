@@ -132,6 +132,20 @@ def _atraxa_etb(g, powmap, doublings):
         g.deck.extend(c for c in window if c not in chosen)   # bottom the rest
 
 
+def _cantrip(g, powmap):
+    """Ponder / Preordain proxy (the BDD / Surf City 'smoothener'): look at the top 3,
+    draw the most kill-relevant one (same _pri ranking Atraxa uses) to hand, leave the
+    other two on top. Card-neutral (the cantrip replaced itself) — it does NOT add card
+    advantage; it digs toward ramp / Atraxa / a finisher. Mana-gated decks should barely
+    move; finding-gated decks should tighten. That contrast is the whole test."""
+    window = list(enumerate(g.deck[g.ptr:g.ptr + 3]))
+    if not window:
+        return
+    i_rel, best = max(window, key=lambda iv: _pri(iv[1][0], iv[1][1], powmap))
+    del g.deck[g.ptr + i_rel]
+    g.hand.append(best)
+
+
 def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
     """One trial -> (decap, table). cfg toggles the Atraxa-selection sensitivity +
     build levers; cfg=None reproduces the original published model (flat draw-5)."""
@@ -150,6 +164,8 @@ def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
     board = ncre = 0
     yard_fat = []
     atraxa = bloom = False
+    protect_set = cfg.get("protect_set")     # names of "your-turn lock" protection pieces
+    protect_turn = None                      # earliest turn one is in hand (pre-development)
 
     for T in range(1, TURNS + 1):
         g.begin_turn(T)
@@ -164,10 +180,26 @@ def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
         if bloom:
             g.avail += 4 if atraxa else 2
 
+        # cheap selection (Ponder/Preordain) — pay 1 to dig the best of the top 3 toward
+        # ramp/Atraxa/finisher. cfg-gated (other modes unaffected). Competes with early
+        # development for mana, so the tempo cost is modelled, not just the dig upside.
+        if cfg.get("cantrips"):
+            for cn in ("Ponder", "Preordain"):
+                while g.has(cn) and g.avail >= 1:
+                    g.cast(cn, 1)
+                    _cantrip(g, powmap)
+
         # repeat Atraxa ETB via flicker (once Atraxa is out) — Panharmonicon doubles
         if atraxa and repeat and g.avail >= 2 and (FLICKER & {nm for nm, _ in g.hand}):
             g.avail -= 2
             _atraxa_etb(g, powmap, 2 if g.has("Panharmonicon") else 1)
+
+        # protect-the-kill: record the first turn a your-turn lock is in hand at the start
+        # of the turn (after draw/cantrip/repeat-ETB, before development). Conservative by
+        # ~1 turn for a lock grabbed via Atraxa's FIRST ETB this same turn (that fires in
+        # development below). Availability only — it ignores mana to cast it (see mode_video).
+        if protect_set and protect_turn is None and (protect_set & {nm for nm, _ in g.hand}):
+            protect_turn = T
 
         # --- attack step: Finale / Craterhoof alpha, else standing board swings ---
         fired = False
@@ -183,6 +215,8 @@ def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
         if not fired and board > 0:
             tbl.hit_focus(board, T)
         if tbl.done:
+            if protect_set is not None:
+                cfg.setdefault("protect_out", []).append(protect_turn)
             return tbl.decap, tbl.table
 
         # --- develop ---
@@ -235,6 +269,8 @@ def goldfish_kill(library, commander, index, powmap, rng, cfg=None):
             keep = set(ranked[len(g.hand) - hand_cap:])
             g.hand = [g.hand[i] for i in sorted(keep)]
 
+    if protect_set is not None:
+        cfg.setdefault("protect_out", []).append(protect_turn)
     return tbl.decap, tbl.table
 
 
@@ -313,6 +349,71 @@ def mode_ramp(index, aliases, trials):
     print("   Relic = rock(3,1); Faeburrow Elder = 4c dork(3,2). Tapped-land entry optimism noted.)")
 
 
+# ---------------------------------------------------------------------------
+# mode_video — the two levers the Surf City "Atraxa Coaching #12" deck suggests:
+#   (A) cantrip "smootheners" (Ponder/Preordain) — does cheap selection move a
+#       deck our prior labs called MANA-gated, not finding-gated?
+#   (B) Tidal Barracuda as a your-turn lock — protection AVAILABILITY by the kill
+#       turn (the only Barracuda question a goldfish can honestly answer).
+# Writeup: analysis/Surf_City_Atraxa_Coaching_vs_Grand_Design_2026-06-19.md
+# ---------------------------------------------------------------------------
+CANTRIP_CUTS = ["Dovin's Veto", "Swan Song"]            # cheap counters the kill-goldfish ignores
+LOCK_BASE = ["Grand Abolisher", "Teferi, Time Raveler"]  # your-turn locks GD already runs
+
+
+def _whiff(res, trials):
+    return 100.0 * sum(1 for d, _ in res if d is None) / trials
+
+
+def mode_video(index, aliases, trials):
+    print(f"\n### VIDEO - Surf City 'Atraxa Coaching #12' levers on GD   trials={trials} seed={SEED}")
+    print("    (A) cantrip smootheners (Ponder/Preordain): do they move a MANA-gated clock?")
+    print("    (B) Tidal Barracuda your-turn lock: protection AVAILABILITY by the decap turn.\n")
+    library, commander = slc.load_parsed(NEW, index, aliases)
+    full = {"select": True, "repeat": True}
+
+    # (A) SMOOTHING: decap clock + whiff, full Atraxa model both rows --------
+    print("  (A) SMOOTHING: decap clock + whiff (full Atraxa select+repeat model both rows)")
+    smooth_lib = slc.build_lib(library, index, CANTRIP_CUTS, ["Ponder", "Preordain"])
+    print("  " + "build".ljust(44) + "".join(f"{t:>6}" for t in SHOW) + "  median  never12")
+    for tag, lib, cfg in (("baseline GD", library, full),
+                          ("-Dovin's Veto -Swan Song +Ponder +Preordain", smooth_lib,
+                           {**full, "cantrips": True})):
+        pm = _powmap(lib, commander)
+        res = _run(lib, commander, index, pm, trials, cfg)
+        print(slc.row(tag, slc.cum(res, 0, SHOW), SHOW, width=44)
+              + f"   {slc.median(res, 0):>5}  {_whiff(res, trials):5.0f}%")
+    print("    (The two cuts are interaction the kill-goldfish can't see, so the delta isolates")
+    print("     the dig; in a real game you also lose two counters - a cost this clock can't score.)")
+
+    # (B) PROTECT-THE-KILL: lock availability by decap turn ------------------
+    print("\n  (B) PROTECT-THE-KILL: P(a your-turn lock in hand by the decap turn)")
+    swap_lib = slc.build_lib(library, index, ["Grand Abolisher"], ["Tidal Barracuda"])  # 2 locks
+    add_lib = slc.build_lib(library, index, ["Dovin's Veto"], ["Tidal Barracuda"])       # 3 locks
+    print("  " + "lock suite".ljust(42) + "by-decap  by-T12  median-avail")
+    for tag, lib, locks in (
+            ("current  (GA + Teferi) = 2 locks", library, LOCK_BASE),
+            ("SWAP  GA -> Barracuda (+Teferi) = 2", swap_lib,
+             ["Tidal Barracuda", "Teferi, Time Raveler"]),
+            ("ADD   +Barracuda (GA+Teferi+Barra) = 3", add_lib,
+             LOCK_BASE + ["Tidal Barracuda"])):
+        pm = _powmap(lib, commander)
+        cfg = {**full, "protect_set": set(locks), "protect_out": []}
+        res = _run(lib, commander, index, pm, trials, cfg)
+        prot = cfg["protect_out"]
+        decapped = [(d, pt) for (d, _), pt in zip(res, prot) if d is not None]
+        by_decap = 100.0 * sum(1 for d, pt in decapped if pt is not None and pt <= d) / max(1, len(decapped))
+        by12 = 100.0 * sum(1 for pt in prot if pt is not None) / trials
+        avail = sorted(pt for pt in prot if pt is not None)
+        med = f"T{avail[len(avail) // 2]}" if avail else "-"
+        print("  " + tag.ljust(42) + f"{by_decap:6.0f}% {by12:6.0f}%   {med:>6}")
+    print("    SWAP is ~1-for-1 -> availability ~FLAT (it's a QUALITY change, not quantity).")
+    print("    ADD raises a lock to hand by the kill turn (GD only has it ~half the time at 2 locks)")
+    print("    - the real lever vs the Abolisher pod is lock COUNT, not which lock. The goldfish")
+    print("    still can't score Barracuda's edges (stops creature spells/flash, end-step-Chord")
+    print("    line) or its 4-vs-2 cost on a tight kill turn: delay_lab / interaction, not clock.")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers, "ramp": mode_ramp},
-                default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "levers": mode_levers, "ramp": mode_ramp,
+                          "video": mode_video}, default_trials=40000)
