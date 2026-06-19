@@ -38,7 +38,7 @@ _lwspec = importlib.util.spec_from_file_location("lw_clock_lab", Path(__file__).
 lw = importlib.util.module_from_spec(_lwspec); _lwspec.loader.exec_module(lw)
 ds = slc.ds
 
-OURS = ROOT / "decks" / "lightning-war-20260614.txt"
+OURS = ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt"
 BENCH = {
     "Lightning War (ours, B3 race)": OURS,
     "BDD expensive (B4 combo)": ROOT / "decks" / "considering" / "bdd-azula-expensive-20260618.txt",

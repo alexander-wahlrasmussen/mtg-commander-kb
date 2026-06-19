@@ -8,10 +8,7 @@ Self-imposed framework. Stricter than WotC's published Bracket 3 in some places,
 
 - **No mass land denial.** Armageddon, Ravages of War, Jokulhaups, Obliterate, Devastating Dreams, Catastrophe, Boom // Bust, Wildfire. Symmetrical or not. Ruinous Ultimatum is acceptable (doesn't hit lands).
 - **No extra turn chains.** Individual extra turn effects are permitted in limited quantity (typically 0–1 per deck). Loops or repeatable chains are not. Time Warp in a spellslinger is fine; Nexus of Fate + any copy/recursion chain is not.
-- **No early two-card infinite combos without pod approval.** Assume disallowed. A combo line is acceptable only if:
-  - The combo assembles late (turn 8+) under normal disruption, or
-  - The combo requires 3+ distinct cards, or
-  - The pod has pre-approved the specific line.
+- **Infinite combos are pod-accepted** (revised 2026-06-19 — see Exceptions and revisions). The pod has signed off on infinite combo lines, including early two-card infinites. Build and evaluate combo lines on their merits — speed, reliability, resilience to disruption — not on whether they "win on the spot." This does **not** reopen the mass-land-denial or extra-turn-chain exclusions above: an infinite that produces a win (mana → X-spell, damage, mill, ETB / token / blink loops) is fine; a repeatable *extra-turn* loop is still out.
 
 ---
 
@@ -34,6 +31,8 @@ Self-imposed framework. Stricter than WotC's published Bracket 3 in some places,
 
 ## Collection constraints
 
+- **Owned cards are a tiebreaker, not a constraint** (added 2026-06-19 — see Exceptions and revisions). Default to cards already in the collection when options are otherwise comparable, but **buy when there is a measurable improvement** — a faster or more reliable kill, added recursion, a real combo line, a stronger engine. Do **not** limit a deck's recursion, combo lines, or engine because the collection lacks a card. If a buy is a solid, demonstrable upgrade, propose it (with an approximate cost); preferring owned cards never means omitting a clearly-better line.
+- Still **verify cross-deck availability** before proposing a swap — a card may be physically deployed in another deck (`deck_safe_collection.xlsx`, or grep `decks/*.txt`).
 - **Proxies allowed** for testing, cross-deck staples, and cards pending physical acquisition.
 - **Physical acquisition preferred** for decks in regular rotation.
 - Surplus cards tracked in `deck_safe_collection.xlsx` (Full Card Matrix + Shopping List).
@@ -65,3 +64,8 @@ From the Conversion Check framework:
 ## Exceptions and revisions
 
 Rules can be revised. When a rule is revised, update this file with the revision and a one-line rationale. Do not rely on memory or ad-hoc decisions to carry the change.
+
+**Revisions:**
+
+- **2026-06-19 — Infinite combos now pod-accepted.** Was "no early two-card infinite combos without pod approval; assume disallowed." The pod has signed off on infinites, so combo lines are evaluated on merit within the 3-GC cap. MLD and extra-turn-chain exclusions unchanged.
+- **2026-06-19 — Owned-card preference downgraded to a tiebreaker.** Collection cards were the working default; now prefer owned only when options are comparable, and buy for measurable improvement. Never constrain a deck's recursion / combo lines / engine for lack of cards.

@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers) |
 | **Game Changers** | Fierce Guardianship, Cyclonic Rift, The One Ring (Deflecting Swat remains in deck as a free redirect but no longer counts toward the GC cap as of Oct 2025) |
 | **Conversion Check** | **17/20** (5/4/4/4) — rescored 2026-05-13 (holds post-swap) |
-| **Kill Window** | Goldfish: T7–8 (one player) / T10+ (table) · Through interaction: T9–12 — corrected 2026-06-09 by `scripts/rc_speed_lab.py`; the old "T5–7" was a god-draw artifact (T5 ≈ 2%). See `analysis/Replication_Crisis_Speed_Curve_Analysis.md` |
+| **Kill Window** | Goldfish: T7–8 (one player) / T10+ (table) **(board)** · Through interaction: T9–12 — corrected 2026-06-09 by `scripts/rc_speed_lab.py`; the old "T5–7" was a god-draw artifact (T5 ≈ 2%). See `analysis/Replication_Crisis_Speed_Curve_Analysis.md` |
 | **Last swap pass** | 2026-05-04 — 6 cards swapped to add a real infinite (Sword of F&F + AA), token multiplier (Anointed Procession + Adeline), draw engine (Bident, The One Ring), premium ETB (Solitude). See bottom of summary. |
 
 -----

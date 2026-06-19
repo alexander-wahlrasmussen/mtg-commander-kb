@@ -55,48 +55,18 @@ _spec = importlib.util.spec_from_file_location(
 fb = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(fb)
 
-# --- JUDGMENT (reviewed 2026-06-16) -----------------------------------------
-# slug -> (bottleneck, min_lands, max_lands, hi_curve, mixed-note)
-# Ceiling is 4 lands; 5 only for genuinely high-curve decks (and they still want
-# ramp over the 5th land). MANA = needs a rock/ramp piece, not a land flood.
-JUDGMENT = {
-    "genome_project":      ("BOARD",   2, 4, False, None),
-    # Re-tagged FINDING->BOARD 2026-06-16: the FINDING keep dug for the Mindcrank/Bloodchief
-    # combo (a SIDE line) and slowed the real clock (counter-grown board) -9pp at front7. The
-    # board IS the fast decap; BOARD keep (Mothman on curve + early play) matches it. (diagnostic
-    # in analysis/Plan_Aware_Mulligan_2026-06-16.md). Union (combo OR board) is a future refinement.
-    "radiation_sickness":  ("BOARD",   2, 4, False, "combo is a side line; fast clock = counter-board (was FINDING, -9pp front7)"),
-    "replication_crisis":  ("BOARD",   2, 4, False, "commander-gated; trigger on ATTACK (haste) — protect to swing"),
-    # Re-tagged FINDING->BOARD 2026-06-16: same finding (-4pp) — the 3-card Reveillark loop is a
-    # side line; the fast decap is spirits/Quintorius value, a BOARD clock.
-    "lorehold_spirits":    ("BOARD",   2, 4, False, "3-card loop is a side line; fast clock = spirits/Quintorius (was FINDING, -4pp front7)"),
-    "earthbend_the_meta":  ("MANA",    2, 4, False, "lands-matter board also a payoff axis"),
-    "exiles_return":       ("BOARD",   2, 4, False, None),
-    "zero_sum_game":       ("FINDING", 2, 4, False, None),
-    "curse_of_the_scarab": ("BOARD",   2, 5, False, None),
-    "bumbleflower":        ("BOARD",   2, 4, False, None),
-    "eldrazi_stampede":    ("MANA",    2, 5, True,  None),
-    "dark_lords_army":     ("BOARD",   2, 5, False, None),
-    "diminishing_returns": ("FINDING", 2, 4, False, "aristocrats board fallback (death volume) not in predicate — watch"),
-    "lightning_war":       ("BOARD",   2, 4, False, "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine"),
-    "grand_design":        ("MANA",    2, 5, True,  "also FINDING (Finale = single point of failure)"),
-    "crystal_sickness":    ("BOARD",   2, 4, False, "dev-gated (8 artifacts + fat creature), not pure finding"),
-    "calamity_tax":        ("MANA",    2, 4, False, None),
-}
+# --- JUDGMENT (the domain call) ---------------------------------------------
+# The bottleneck class + land band + hi_curve flag are the hand-curated part of the spec
+# (reviewed with the user 2026-06-16, incl. the Radiation/Lorehold FINDING->BOARD re-tags
+# and the union-keep `also` lists). They now live in deck_registry (single source of truth).
+#   JUDGMENT: slug -> (bottleneck, min_lands, max_lands, hi_curve, mixed-note)
+#   ALSO:     slug -> [secondary axes] for genuinely two-line decks (union keep)
+# Ceiling is 4 lands; 5 only for genuinely high-curve decks. MANA = needs a rock/ramp piece.
+JUDGMENT = fb.deck_registry.judgment()
+ALSO = fb.deck_registry.also()
 
 N_SELECTION_NEEDED = 2
 TAG_TO_BUCKET = {"ramp": "ramp", "tutor": "tutors", "draw": "selection"}
-
-# Union keep for genuinely TWO-LINE decks: the keep ALSO accepts a secondary axis, so a
-# hand strong on EITHER line is keepable (don't ship a board hand to chase a side combo —
-# the Radiation -9 lesson, nor vice-versa). Primary (JUDGMENT above) = the FAST clock;
-# `also` = the upside line. Single-line decks omit it (identical to before).
-ALSO = {
-    "radiation_sickness":  ["FINDING"],   # BOARD primary (counter-grown board) + Mindcrank/Bloodchief combo upside
-    "lorehold_spirits":    ["FINDING"],   # BOARD primary (spirits/Quintorius) + 3-card Reveillark loop upside
-    "diminishing_returns": ["BOARD"],     # FINDING primary (Gravecrawler combo) + aristocrats death-volume board
-    "replication_crisis":  ["FINDING"],   # BOARD primary (Satya attack) + Sword/Aggravated combo upside
-}
 
 
 def build_spec(slug, idx, gc, aliases):

@@ -133,3 +133,18 @@ rest is genuine. Writeup: `analysis/Interaction_Oracle_2026-06-16.md`.
 
 **Still open (Layer 2):** real games via `game_log.py` → `calibrate.py` to validate the tower against
 reality. Everything above is Layer 1 (predicting the *simulated* outcome).
+
+---
+
+## ~~7. Bridge to a real rules engine~~ — EVALUATED & DECLINED 2026-06-17
+
+The "deeper frontier" #6 named (model the judgment the solitaire goldfish can't). Use-case reframe was
+sound: a learning builder's real games (L2) confound *deck quality* with *pilot skill*, so a fixed-AI
+engine could decouple them — strength / play-difficulty / card-A/B independent of who's driving. Scoped a
+three-instrument design (Power / Difficulty / Inclusion) on Forge, then **checked Forge — and declined.**
+Coverage is NOT the blocker (Commander **99.8% incl. UB**, `sim` runs headless multiplayer AI-vs-AI); the
+wall is the **AI pilot** — heuristic/untrained, competent at aggro/midrange but **weak at combo *and*
+control**, i.e. this roster's core. So the tool is competent **only where you don't need it** — and for the
+hard (combo/control) decks the hand-scripted `*_clock_lab.py` goldfish already beats it. An engine imports a
+*weaker* judgment, not the missing one. Full record + verified Forge facts + the "if reopened" baseline:
+`reference/REF_Simulation_Fidelity.md` §3–§4 (which also stands as the durable fidelity-ladder reference).
