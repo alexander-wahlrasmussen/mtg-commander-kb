@@ -449,7 +449,7 @@ ROSTER = {
     "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
     "diminishing_returns": ("diminishing-returns-20260505.txt", DIMINISHING),
     "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
-    "lightning_war": ("lightning-war-20260614.txt", LIGHTNING_WAR),
+    "lightning_war": ("../archive/old_decklists/lightning-war-20260614.txt", LIGHTNING_WAR),
     "calamity_tax": ("calamity-tax-20260405-061741.txt", CALAMITY_TAX),
     "grand_design": ("the-grand-design-20260502.txt", GRAND_DESIGN),
 }
@@ -625,7 +625,7 @@ def main():
     burn_port = {"answers": {n: v for n, v in KEFKA_BURN["answers"].items()
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
-    lw = L(dks / "lightning-war-20260614.txt")
+    lw = L(ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt")
     cal = L(dks / "calamity-tax-20260405-061741.txt")
     gd = L(dks / "the-grand-design-20260502.txt")
 

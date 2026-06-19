@@ -47,7 +47,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "lightning-war-20260614.txt"
+DECK = ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt"
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]

@@ -232,6 +232,9 @@ EXTRA_COMMANDERS = {
     "winota-joiner": "Winota, Joiner of Forces",
     "yawgmoth-liquidation": "Yawgmoth, Thran Physician",
     "sephiroth-liquidation": "Sephiroth, Fabled SOLDIER",
+    # 2026-06-18 external BDD Azula combo lists (decks/considering/) — benchmark vs Lightning War
+    "bdd-azula-expensive": "Fire Lord Azula",
+    "bdd-azula-budget": "Fire Lord Azula",
 }
 
 # Display names for non-roster decks that deck_sim labels (the rest fall back to the stem).
