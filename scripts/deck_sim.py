@@ -87,6 +87,12 @@ COMMANDERS = {
     # 2026-06-13 lab-run candidates (decks/considering/)
     "berta-wise-extrapolator": "Berta, Wise Extrapolator",
     "najeela-blade-blossom": "Najeela, the Blade-Blossom",
+    # 2026-06-18 dismantle-3-build-1 candidate (decks/considering/) — Boros humans/Winota
+    "winota-joiner": "Winota, Joiner of Forces",
+    # 2026-06-19 dismantle-3-build-1 (rebuild of Diminishing Returns parts) — mono-B Yawgmoth aristocrats
+    "yawgmoth-liquidation": "Yawgmoth, Thran Physician",
+    # 2026-06-19 Sephiroth-commander variant (drain in the command zone) + targeted buys
+    "sephiroth-liquidation": "Sephiroth, Fabled SOLDIER",
 }
 
 DISPLAY = {
