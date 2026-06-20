@@ -1,0 +1,32 @@
+// Component library entry — the design system /design-sync uploads to Claude Design.
+// Bundle the design tokens so the library dist is self-contained (tokens + component CSS).
+import "../theme/tokens.css";
+
+export { Card } from "./Card";
+export type { CardProps } from "./Card";
+export { Badge } from "./Badge";
+export type { BadgeProps, BadgeVariant } from "./Badge";
+export { SegmentedControl } from "./SegmentedControl";
+export type { SegmentedControlProps, SegmentOption } from "./SegmentedControl";
+export { Slider } from "./Slider";
+export type { SliderProps } from "./Slider";
+export { Chip } from "./Chip";
+export type { ChipProps } from "./Chip";
+export { TabBar } from "./TabBar";
+export type { TabBarProps, TabItem } from "./TabBar";
+export { EmptyState } from "./EmptyState";
+export type { EmptyStateProps } from "./EmptyState";
+export { ProgressBar } from "./ProgressBar";
+export type { ProgressBarProps } from "./ProgressBar";
+export { StatTable } from "./StatTable";
+export type { StatTableProps, Column } from "./StatTable";
+export { BracketPod } from "./BracketPod";
+export type { BracketPodProps, Seat, Medal } from "./BracketPod";
+export { ChampionBanner } from "./ChampionBanner";
+export type { ChampionBannerProps } from "./ChampionBanner";
+export { BarChart } from "./BarChart";
+export type { BarChartProps, BarSeries, BarRow } from "./BarChart";
+export { LineChart } from "./LineChart";
+export type { LineChartProps, LineSeries, LinePoint } from "./LineChart";
+export { Heatmap } from "./Heatmap";
+export type { HeatmapProps, HeatRow, HeatCell } from "./Heatmap";

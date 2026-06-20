@@ -154,7 +154,7 @@ DECKS = {
     "lightning_war":      "archive/old_decklists/lightning-war-20260614.txt",
     "grand_design":       "decks/the-grand-design-20260502.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
-    "calamity_tax":       "decks/calamity-tax-20260405-061741.txt",
+    "calamity_tax":       "decks/calamity-tax-20260615.txt",
     "kefka":              "decks/considering/forced-liquidation-20260612.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)

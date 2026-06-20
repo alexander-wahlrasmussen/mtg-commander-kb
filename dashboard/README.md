@@ -1,0 +1,113 @@
+# The Pod Gauntlet — control room
+
+A fun, visual, interactive front-end for the gauntlet/lab/championship stack.
+Run the pod gauntlet, overlay the clock labs, and crown a champion from a browser
+with sliders instead of CLI flags.
+
+## Launch
+
+```bash
+python scripts/dashboard_server.py
+# then open http://127.0.0.1:8765
+```
+
+No build step, no dependencies — `dashboard_server.py` is stdlib `http.server`.
+(Charts and webfonts load from CDNs; offline, the charts degrade and the UI falls
+back to the system font stack.)
+
+### View on your phone (same Wi-Fi)
+
+```bash
+python scripts/dashboard_server.py --host 0.0.0.0
+```
+
+The banner prints a `phone:` URL (`http://<your-LAN-IP>:<port>`). Then, **once**, allow
+the port through Windows Firewall in an **elevated** PowerShell:
+
+```powershell
+New-NetFirewallRule -DisplayName "Pod Gauntlet 8765" -Direction Inbound -Action Allow `
+  -Protocol TCP -LocalPort 8765 -Profile Private,Public -RemoteAddress LocalSubnet
+```
+
+Open the `phone:` URL on a phone joined to the same Wi-Fi. The layout is responsive.
+No auth — anyone on the LAN can reach it; remove the rule with
+`Remove-NetFirewallRule -DisplayName "Pod Gauntlet 8765"` when done.
+
+## Host it as a static site (no backend) — view anywhere
+
+The dashboard can run with **no Python server**: precompute a grid of scenarios to JSON,
+then host the `dashboard/` folder on any static host. The page auto-detects the baked
+`data/manifest.json` and switches to **static mode** — sliders snap to the baked scenarios
+and the precision knobs (trials) lock; everything else works as normal. (Force the live
+API instead with `?live=1`.)
+
+```bash
+python scripts/dashboard_export.py      # writes dashboard/data/*.json (re-run after deck/engine changes)
+```
+
+Then deploy the `dashboard/` folder:
+
+- **Netlify (easiest, no git):** drag the `dashboard/` folder onto <https://app.netlify.com/drop>.
+  Can be password-protected on paid plans.
+- **GitHub Pages (this repo):** merge to `master` with the included
+  `.github/workflows/dashboard-pages.yml`, and set Settings → Pages → Source = *GitHub Actions*.
+  The site URL appears in the workflow run. **A Pages site is public** even from a private
+  repo — the baked JSON holds deck names + win-probabilities (no decklists/collection).
+
+Static mode needs internet on the phone for the Plotly/font CDNs; the baked JSON is served
+by the host. To check it locally before deploying:
+`cd dashboard && python -m http.server 8770` → <http://127.0.0.1:8770> (no `/api`, so it runs static).
+
+## What it does
+
+Four tabs, each driving the **existing** sim engine — nothing is reimplemented:
+
+| Tab | Engine | Knobs (= CLI flags) |
+|---|---|---|
+| ⚔️ **Gauntlet** | `pod_gauntlet.run_default` | Abolisher P(out) `--a`, pod speed `--pod-fast/slow`, decap↔table `--strict`, trials |
+| ⏱️ **Clocks / Labs** | harvested CDFs (`pod_gauntlet.merged_clocks`) | curve decap↔table, deck overlay chips |
+| 🔒 **Locks** | `pod_gauntlet.lock_sweep_rows` (`--lock-sweep`) | Abolisher `--a`, lock-removal `--r`, decap↔table, pod speed, trials |
+| 🏆 **Championship** | `pod_championship.main` | playoff trials, season trials, `--t-grind`, `--swapped` |
+
+Gauntlet and Clocks re-run live as you move a control; Locks and Championship are
+explicit **Run** (heavy compute — Locks loads the oracle data and measures every
+deck × lock).
+
+## Architecture
+
+```
+browser (dashboard/*)  ──HTTP/JSON──►  scripts/dashboard_server.py
+                                          │ importlib (house pattern)
+                                          ▼
+                       pod_championship → self_meta_lab → pod_gauntlet + delay_lab
+```
+
+The server is a **fourth consumer** of the same imported functions
+`pod_championship` and `self_meta_lab` already chain — it calls
+`merged_clocks() / build_cdf() / pure_race() / simulate() / disruption()` and the
+championship's `seed_field() / snake_groups() / pod_shares()` directly, so the
+browser charts the same numbers the writeups cite. A fixed RNG seed per request
+makes the curves move smoothly when you nudge a slider.
+
+## Files
+
+- `index.html` — markup + the only two CDN includes (Plotly, webfonts)
+- `style.css` — **all** the look lives in `:root` design tokens (type scale,
+  spacing, color, depth, motion). Re-skin the whole app by editing tokens; the
+  charts read the same tokens via `cssvar()` in `app.js`.
+- `app.js` — three independent modules (Gauntlet / Clocks / Championship) + shared
+  Plotly theming. Swap `PALETTE` or `baseLayout()` to experiment with chart style.
+
+## Endpoints (if you want to script against it)
+
+- `GET /api/clocks`
+- `GET /api/gauntlet?a=&pod=fast|base|slow&strict=0|1&trials=`
+- `GET /api/lock_sweep?a=&r=&pod=fast|base|slow&strict=0|1&trials=`
+- `GET /api/championship?trials=&season_trials=&t_grind=&swapped=0|1`
+
+## Discipline
+
+Inherited from the lab stack and shown in the UI footer: clock curves are
+unblocked goldfish ceilings; disruption is *availability*, not effectiveness; the
+durability tiebreak and `T_grind` are judgment. **Read the ranking and the gaps,
+not the second decimal.** This is a viewer for the labs, not a new model.

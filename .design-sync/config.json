@@ -1,0 +1,16 @@
+{
+  "pkg": "pod-gauntlet-ui",
+  "globalName": "PodGauntletUI",
+  "shape": "storybook",
+  "projectId": "68c44cf9-79e2-4bb6-b086-0a13cd0d20aa",
+  "storybookStatic": ".design-sync/sb-reference",
+  "storybookConfigDir": "ui/.storybook",
+  "buildCmd": "cd ui && npm run build:lib",
+  "readmeHeader": ".design-sync/conventions.md",
+  "overrides": {
+    "BarChart": { "cardMode": "column" },
+    "Heatmap": { "cardMode": "column" },
+    "LineChart": { "cardMode": "column" },
+    "TabBar": { "cardMode": "column" }
+  }
+}
