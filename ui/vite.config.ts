@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import dts from "vite-plugin-dts";
 import { resolve } from "node:path";
 
 // Two build modes:
@@ -8,7 +9,12 @@ import { resolve } from "node:path";
 export default defineConfig(({ mode }) => {
   if (mode === "lib") {
     return {
-      plugins: [react()],
+      plugins: [
+        react(),
+        // Emit per-component .d.ts (Card.d.ts/CardProps …) — the API contract the
+        // design-sync converter enumerates exports from and the design agent codes against.
+        dts({ include: ["src/components"], entryRoot: "src/components", insertTypesEntry: true }),
+      ],
       build: {
         outDir: "dist",
         lib: {

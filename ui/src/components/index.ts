@@ -1,4 +1,7 @@
 // Component library entry — the design system /design-sync uploads to Claude Design.
+// Bundle the design tokens so the library dist is self-contained (tokens + component CSS).
+import "../theme/tokens.css";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 export { Badge } from "./Badge";

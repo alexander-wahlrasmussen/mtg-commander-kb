@@ -7,6 +7,15 @@ _sync_drop/
 # Dashboard screenshot artifacts — regenerate with scripts/dashboard_screenshot.py
 .dashboard_shots/
 
+# design-sync — transient build/verification artifacts.
+# Committed: .design-sync/config.json, NOTES.md, conventions.md, previews/, overrides/
+.design-sync/sb-reference/
+.design-sync/learnings/
+.design-sync/.cache/
+.design-sync/node_modules
+.ds-sync/
+ds-bundle/
+
 # deck_sim.py machine-readable dump — regenerate with deck_sim.py --json
 sim_results.json
 
