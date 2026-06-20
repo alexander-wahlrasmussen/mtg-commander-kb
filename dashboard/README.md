@@ -17,16 +17,18 @@ back to the system font stack.)
 
 ## What it does
 
-Three tabs, each driving the **existing** sim engine — nothing is reimplemented:
+Four tabs, each driving the **existing** sim engine — nothing is reimplemented:
 
 | Tab | Engine | Knobs (= CLI flags) |
 |---|---|---|
 | ⚔️ **Gauntlet** | `pod_gauntlet.run_default` | Abolisher P(out) `--a`, pod speed `--pod-fast/slow`, decap↔table `--strict`, trials |
 | ⏱️ **Clocks / Labs** | harvested CDFs (`pod_gauntlet.merged_clocks`) | curve decap↔table, deck overlay chips |
+| 🔒 **Locks** | `pod_gauntlet.lock_sweep_rows` (`--lock-sweep`) | Abolisher `--a`, lock-removal `--r`, decap↔table, pod speed, trials |
 | 🏆 **Championship** | `pod_championship.main` | playoff trials, season trials, `--t-grind`, `--swapped` |
 
-Gauntlet and Clocks re-run live as you move a control; Championship is an explicit
-**Run** (it's the heavy compute).
+Gauntlet and Clocks re-run live as you move a control; Locks and Championship are
+explicit **Run** (heavy compute — Locks loads the oracle data and measures every
+deck × lock).
 
 ## Architecture
 
@@ -57,6 +59,7 @@ makes the curves move smoothly when you nudge a slider.
 
 - `GET /api/clocks`
 - `GET /api/gauntlet?a=&pod=fast|base|slow&strict=0|1&trials=`
+- `GET /api/lock_sweep?a=&r=&pod=fast|base|slow&strict=0|1&trials=`
 - `GET /api/championship?trials=&season_trials=&t_grind=&swapped=0|1`
 
 ## Discipline
