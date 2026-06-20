@@ -159,7 +159,7 @@ race model doesn't reward (limitation 3). **If you're optimising this matchup, t
 grind-fortress and the GD ramp are where the points are.** Calamity (`ct_speed_lab`
 on the build) and RS (`rs --mode upgrade`) and GD (`gd --mode ramp`) are
 lab-harvested; the three 🔒 swaps are clock-neutral notes. Assembly + per-card
-sourcing: `Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md`.
+sourcing: `proposals/Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md`.
 
 ---
 

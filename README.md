@@ -113,7 +113,16 @@ mtg-commander-kb/
 ├── campaigns/        # multi-session campaigns — kill-window sweep, bake-off, framework (see campaigns/README.md)
 ├── proposals/        # forward-looking build proposals — PROP_* + upgrade/direction (see proposals/README.md)
 │
-├── scripts/                                 # sync_to_project.py, deck_sim.py, *_clock_lab.py, build-collection.ps1, ...
+├── scripts/                                 # sync_to_project.py, deck_sim.py, *_clock_lab.py, build-collection.ps1, ... (see scripts/README.md)
+│
+│   # ── Pod Gauntlet web front-end (NOT synced to the Claude Project — web/dev artifacts) ──
+├── dashboard/                               # static, deployable browser UI for the gauntlet/lab/championship stack
+│   ├── index.html  style.css  app.js        #   hand-rolled HTML/CSS/JS (no framework); served by scripts/dashboard_server.py
+│   └── data/*.json                          #   baked scenarios for static-mode hosting (scripts/dashboard_export.py); see dashboard/README.md
+├── ui/                                      # React + Vite + Storybook rebuild of the dashboard = the design-system source
+│   ├── src/  public/  .storybook/           #   component library (build:lib) — local dev only
+├── .design-sync/                            # config + notes for syncing the ui/ Storybook components to Claude Design
+├── .github/workflows/dashboard-pages.yml    # GitHub Pages deploy for the static dashboard/
 │
 ├── archive/                                 # superseded: old_decklists/  proposals/  build_scratch/
 │
@@ -123,7 +132,9 @@ mtg-commander-kb/
 **Synced to the Claude Project = `decks/` + `collection/` + `Deck_Index.md` +
 `Collection_Master_Status.md` only** (the sync script walks just those). `reference/`,
 `workflows/`, `analysis/`, `campaigns/`, `proposals/`, and `scripts/` are local working
-material. For the sync procedure see CLAUDE.md → "Running the sync script".
+material; `dashboard/`, `ui/`, and `.design-sync/` are the web front-end (deployed as a
+static site, not uploaded to the Project). For the sync procedure see CLAUDE.md → "Running
+the sync script".
 
 ---
 

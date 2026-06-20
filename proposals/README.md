@@ -44,6 +44,7 @@ delay lab). Methodology: `../workflows/WF_Candidate_Bakeoff.md`.
 | File | Status | Note |
 |---|---|---|
 | `Loam_Parts_Bin_Allocation_2026-06-13.md` | LIVE | Where the Loam + Peace Offering teardown cards go (ALLOCATED/PROPOSED/CANDIDATE/POOL/PARK); feeds the GD, RS, and Calamity upgrades. |
+| `Assembly_RS_GCfix_and_Calamity_Grind_2026-06-14.md` | LIVE | Per-card sourcing + cross-build contention for the two ungated gauntlet wins (RS GC-fix, Calamity grind-fortress); builds in `decks/considering/`, companion to `../campaigns/Pod_Gauntlet_2026-06-14.md`. |
 
 ## Per-deck upgrade / direction (REFERENCE — cited by the deck's Summary, do not move)
 
