@@ -1,0 +1,60 @@
+.wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.table th,
+.table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+  z-index: 1;
+}
+.table tbody tr {
+  transition: background 0.12s var(--ease);
+}
+.table tbody tr:hover {
+  background: #ffffff07;
+}
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.barCell {
+  position: relative;
+}
+.fill {
+  position: absolute;
+  inset: 3px;
+  right: auto;
+  z-index: 0;
+  background: linear-gradient(90deg, var(--accent-soft), #5cd2ff10);
+  border-radius: 5px;
+  transform-origin: left;
+  animation: growx 0.6s var(--ease) both;
+}
+.inner {
+  position: relative;
+  z-index: 1;
+}
+@keyframes growx {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

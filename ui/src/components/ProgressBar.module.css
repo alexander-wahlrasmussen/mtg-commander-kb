@@ -1,0 +1,30 @@
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 50;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+  pointer-events: none;
+  overflow: hidden;
+}
+.on {
+  opacity: 1;
+}
+.on::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: slide 1.05s var(--ease) infinite;
+}
+@keyframes slide {
+  0% {
+    left: -35%;
+  }
+  100% {
+    left: 100%;
+  }
+}

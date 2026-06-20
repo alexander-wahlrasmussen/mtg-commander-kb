@@ -1,0 +1,74 @@
+/* ============================================================================
+   Pod Gauntlet — design tokens (the theme).
+   The whole look hangs off these custom properties; every component reads them.
+   Re-skin the system by editing :root. Ported from the vanilla dashboard so the
+   React rebuild starts visually identical.
+   ========================================================================== */
+:root {
+  /* surfaces */
+  --bg:        #0b0e14;
+  --bg-2:      #121826;
+  --bg-3:      #1a2233;
+  --panel:     #131a27;
+  --panel-2:   #18202f;
+  --line:      #28324356;
+  --line-2:    #2f3a4d;
+  --text:      #eef2f8;
+  --muted:     #9aa8bd;
+  --faint:     #6a7689;
+
+  /* brand / data */
+  --accent:     #5cd2ff;
+  --accent-2:   #ffb65c;
+  --accent-ink: #04121b;
+  --accent-soft:#5cd2ff22;
+  --good:       #43dca0;
+  --warn:       #ff6b6b;
+  --gold:       #ffd24a;
+  --silver:     #cdd6e2;
+  --bronze:     #db9a5c;
+
+  /* type scale (1.22) */
+  --fs-xs:  11.5px;
+  --fs-sm:  13px;
+  --fs-base:14.5px;
+  --fs-md:  16px;
+  --fs-lg:  19px;
+  --fs-xl:  23px;
+  --fs-2xl: 30px;
+  --font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
+
+  /* spacing rhythm */
+  --s1: 4px;  --s2: 8px;  --s3: 12px;  --s4: 16px;  --s5: 24px;  --s6: 32px;
+
+  /* shape / depth / motion */
+  --radius:    16px;
+  --radius-sm: 10px;
+  --shadow:    0 1px 0 #ffffff08 inset, 0 10px 30px -12px rgba(0,0,0,.6);
+  --shadow-lg: 0 1px 0 #ffffff0d inset, 0 22px 48px -18px rgba(0,0,0,.7);
+  --ease:      cubic-bezier(.2,.7,.2,1);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; min-height: 100%; }
+body {
+  background:
+    radial-gradient(1100px 520px at 82% -8%, #1b2740 0%, transparent 58%),
+    radial-gradient(900px 500px at 0% 0%, #14202f 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  letter-spacing: .1px;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { letter-spacing: -.2px; }
+::selection { background: var(--accent-soft); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,109 @@
+.pod {
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s4);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.pod:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-2);
+}
+.head {
+  margin: 0 0 var(--s3);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid var(--line);
+}
+.hint {
+  color: var(--faint);
+  font-size: var(--fs-xs);
+}
+.seat {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 7px;
+  background: var(--bg-3);
+  border: 1px solid transparent;
+}
+.seat:last-child {
+  margin-bottom: 0;
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  right: auto;
+  z-index: 0;
+  background: linear-gradient(90deg, var(--accent-soft), transparent);
+  transform-origin: left;
+  animation: growx 0.6s var(--ease) both;
+}
+.nm,
+.sd,
+.pct,
+.medal {
+  position: relative;
+  z-index: 1;
+}
+.nm {
+  flex: 1;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+.arrow {
+  color: var(--good);
+  font-weight: 700;
+}
+.sd {
+  color: var(--faint);
+  font-size: var(--fs-xs);
+  font-family: var(--mono);
+}
+.pct {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-sm);
+  color: var(--accent);
+}
+.medal {
+  font-size: 17px;
+}
+.adv {
+  border-color: var(--good);
+}
+.gold {
+  border-color: var(--gold);
+  box-shadow: 0 0 18px -6px var(--gold);
+}
+.silver {
+  border-color: var(--silver);
+}
+.bronze {
+  border-color: var(--bronze);
+}
+.final {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #ffd24a0d, var(--panel));
+}
+.final .head {
+  color: var(--gold);
+  border-color: #ffd24a40;
+}
+@keyframes growx {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
