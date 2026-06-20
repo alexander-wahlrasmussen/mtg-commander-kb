@@ -1009,17 +1009,29 @@ SWEEP_ABBR = {"Cursed Totem": "CursTot", "Drannith Magistrate": "Drannith",
               "Opposition Agent": "OppAgent"}
 
 
+_LOCK_LAB = None
+
+
+def _lock_lab():
+    """Load lock_lab + the oracle index/aliases ONCE and cache (the index is 176MB; reloading
+    it per call dominates a sweep, so this lets a bake / repeated server requests reuse it).
+    Read-only in the sweep. Cached per process — restart to pick up decklist edits."""
+    global _LOCK_LAB
+    if _LOCK_LAB is None:
+        import importlib.util as _il
+        spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
+        LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
+        _LOCK_LAB = (LL, LL.ds.load_oracle_index(), LL.ds.load_reskin_aliases())
+    return _LOCK_LAB
+
+
 def lock_sweep_rows(a, r, strict, trials, seed, pod_fast=False, pod_slow=False):
     """Structured deck × lock P(win)-lift matrix — the single source of truth shared by the
     CLI table (run_lock_sweep) and the dashboard endpoint. Returns (rows, meta):
       rows = [{slug, name, cur, cells:[{piece, lift, owned}]}]  sorted by cur desc
       meta = {which, trials, a, r, locks, abbr}
     Tutored-availability ceiling, baseline r; cells are P(win) lift in POINTS."""
-    import importlib.util as _il
-    spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
-    LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
-    index = LL.ds.load_oracle_index()
-    aliases = LL.ds.load_reskin_aliases()
+    LL, index, aliases = _lock_lab()
     t = min(trials, 8000)                      # O(decks x locks) measurement; cap for runtime
     C = {**merged_clocks(), **BUILD_CLOCKS}
     kdist = pod_kdist(SimpleNamespace(pod_fast=pod_fast, pod_slow=pod_slow))

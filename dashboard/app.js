@@ -1,8 +1,15 @@
 /* ============================================================================
    Pod Gauntlet dashboard — front-end logic.
-   Talks to the stdlib server's JSON API; renders with Plotly. All chart styling
-   reads the CSS theme tokens (cssvar) so the look stays editable in style.css.
-   Three independent modules: Gauntlet, Clocks, Championship.
+   Renders with Plotly; all chart styling reads the CSS theme tokens (cssvar) so
+   the look stays editable in style.css. Four modules: Gauntlet, Clocks, Locks,
+   Championship.
+
+   DATA SOURCE (two modes, auto-detected):
+     LIVE    — talks to the stdlib server's /api/* (re-runs sims on demand).
+     STATIC  — reads precomputed dashboard/data/*.json baked by dashboard_export.py
+               (no backend; for hosting on GitHub Pages / Netlify / a phone).
+   It picks STATIC when data/manifest.json is present, else LIVE. Force LIVE with
+   ?live=1. In STATIC mode the controls snap to the baked axes (see applyStaticUI).
    ========================================================================== */
 const $ = (sel) => document.querySelector(sel);
 const cssvar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -11,9 +18,56 @@ const kfmt = (n) => (n >= 1000 ? (n / 1000) + "k" : "" + n);
 
 async function getJSON(url) {
   const r = await fetch(url);
+  if (!r.ok) throw new Error("HTTP " + r.status);
   const j = await r.json();
   if (j.error) throw new Error(j.error);
   return j;
+}
+
+/* ---- data source: live API vs precomputed static bundles -----------------*/
+const _params = new URLSearchParams(location.search);
+const FORCE_LIVE = _params.has("live");        // ?live=1  — force the API even if baked data exists
+const FORCE_STATIC = _params.has("static");    // ?static=1 — force baked data even if the API is up
+let STATIC = false;
+let MANIFEST = null;
+const _bundles = {};
+const nearest = (v, arr) => arr.reduce((a, b) => (Math.abs(b - v) < Math.abs(a - v) ? b : a));
+
+async function initMode() {
+  if (FORCE_LIVE) return;
+  if (!FORCE_STATIC) {
+    try { await getJSON("/api/clocks"); return; }   // live server present -> LIVE mode
+    catch (e) { /* no API -> try baked */ }
+  }
+  try { MANIFEST = await getJSON("data/manifest.json"); STATIC = true; }
+  catch (e) { STATIC = false; }
+}
+async function bundle(name) {
+  if (!_bundles[name]) _bundles[name] = await getJSON(`data/${name}.json`);
+  return _bundles[name];
+}
+
+/* source-agnostic accessor: LIVE hits /api/<kind>?…; STATIC snaps the params to
+   the baked axes, builds the same key the exporter wrote, and looks it up. */
+async function apiGet(kind, p) {
+  if (!STATIC) {
+    const qs = new URLSearchParams(p).toString();
+    return getJSON(`/api/${kind}?${qs}`);
+  }
+  const name = kind === "lock_sweep" ? "locks" : kind;   // endpoint name -> bundle/manifest name
+  if (name === "clocks") return bundle("clocks");
+  const m = MANIFEST[name];
+  let key;
+  if (name === "gauntlet") {
+    key = `${p.pod}|${p.strict ? 1 : 0}|${nearest(+p.a, m.a).toFixed(2)}`;
+  } else if (name === "locks") {
+    key = `${p.pod}|${p.strict ? 1 : 0}|${nearest(+p.a, m.a).toFixed(2)}|${nearest(+p.r, m.r).toFixed(2)}`;
+  } else if (name === "championship") {
+    key = `${nearest(+p.t_grind, m.t_grind)}|${p.swapped ? 1 : 0}`;
+  }
+  const hit = (await bundle(name))[key];
+  if (!hit) throw new Error(`no baked scenario (${name} ${key})`);
+  return hit;
 }
 function debounce(fn, ms) {
   let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
@@ -100,7 +154,7 @@ async function runGauntlet() {
   setBadge(st, "running…", "busy");
   setLoading("#panel-gauntlet", true);
   try {
-    const d = await getJSON(`/api/gauntlet?a=${a}&pod=${pod}&strict=${strict}&trials=${trials}`);
+    const d = await apiGet("gauntlet", { a, pod, strict, trials });
     $("#gauntletClk").textContent = d.params.which === "table"
       ? "· TABLE clock (did we close the game?)"
       : "· DECAP clock (neutralise the archenemy)";
@@ -178,7 +232,7 @@ const cWhich = wireSeg("#clockWhich", () => drawClocks());
 
 async function initClocks() {
   try {
-    CLOCKS = await getJSON("/api/clocks");
+    CLOCKS = await apiGet("clocks", {});
   } catch (err) { return; }
   // default selection: the three race leaders + a slow fortress, for contrast
   const defaults = ["radiation_sickness", "genome_project", "replication_crisis", "grand_design"];
@@ -238,14 +292,13 @@ async function runChampionship() {
   const st = $("#champStatus");
   setBadge(st, "simulating…", "busy");
   setLoading("#panel-championship", true);
-  const q = new URLSearchParams({
-    trials: $("#champTrials").value,
-    season_trials: $("#seasonTrials").value,
-    t_grind: $("#tGrind").value,
-    swapped: champSwap() === "1" ? 1 : 0,
-  });
   try {
-    const d = await getJSON("/api/championship?" + q.toString());
+    const d = await apiGet("championship", {
+      trials: $("#champTrials").value,
+      season_trials: $("#seasonTrials").value,
+      t_grind: $("#tGrind").value,
+      swapped: champSwap() === "1" ? 1 : 0,
+    });
     $("#champEmpty").classList.add("hidden");
     $("#seasonCard").classList.remove("hidden");
     drawChampion(d);
@@ -327,13 +380,12 @@ async function runLocks() {
   const st = $("#lockStatus");
   setBadge(st, "measuring…", "busy");
   setLoading("#panel-locks", true);
-  const q = new URLSearchParams({
-    a: $("#lockA").value, r: $("#lockR").value,
-    strict: lockStrict() === "table" ? 1 : 0,
-    pod: lockPod(), trials: $("#lockTrials").value,
-  });
   try {
-    const d = await getJSON("/api/lock_sweep?" + q.toString());
+    const d = await apiGet("lock_sweep", {
+      a: $("#lockA").value, r: $("#lockR").value,
+      strict: lockStrict() === "table" ? 1 : 0,
+      pod: lockPod(), trials: $("#lockTrials").value,
+    });
     $("#lockEmpty").classList.add("hidden");
     $("#lockCard").classList.remove("hidden");
     drawHeatmap(d);
@@ -371,5 +423,56 @@ function drawHeatmap(d) {
   }), PLOT_CONFIG);
 }
 
+/* ===========================================================================
+   STATIC MODE — constrain the controls to the baked axes (manifest)
+   ========================================================================= */
+function setSliderAxis(id, axis) {
+  const el = $(id);
+  const s = [...axis].sort((a, b) => a - b);
+  let step = s[s.length - 1] - s[0];
+  for (let i = 1; i < s.length; i++) step = Math.min(step, +(s[i] - s[i - 1]).toFixed(4));
+  el.min = s[0]; el.max = s[s.length - 1]; el.step = step || 0.05;
+  el.value = nearest(+el.value, axis);
+  el.dispatchEvent(new Event("input"));        // refresh the <output> + any auto-run
+}
+function lockSeg(segId, allowed) {
+  $(segId).querySelectorAll("button").forEach((b) => {
+    const ok = allowed.includes(b.dataset.v);
+    b.disabled = !ok;
+    b.style.display = ok ? "" : "none";
+  });
+}
+function freezeControl(id, outId, label) {
+  const el = $(id);
+  el.disabled = true; el.style.opacity = "0.45"; el.style.cursor = "not-allowed";
+  if (outId) $(outId).textContent = label;
+}
+function applyStaticUI() {
+  const g = MANIFEST.gauntlet, l = MANIFEST.locks, c = MANIFEST.championship;
+  const strictVals = (arr) => arr.map((s) => (s ? "table" : "decap"));
+  // gauntlet
+  setSliderAxis("#aSlider", g.a);
+  lockSeg("#podSeg", g.pod);
+  lockSeg("#strictSeg", strictVals(g.strict));
+  freezeControl("#trialsSlider", "#trialsOut", kfmt(g.trials) + " (baked)");
+  // locks
+  setSliderAxis("#lockA", l.a);
+  setSliderAxis("#lockR", l.r);
+  lockSeg("#lockPod", l.pod);
+  lockSeg("#lockStrict", strictVals(l.strict));
+  freezeControl("#lockTrials", "#lockTrialsOut", kfmt(l.trials) + " (baked)");
+  // championship
+  setSliderAxis("#tGrind", c.t_grind);
+  freezeControl("#champTrials", "#champTrialsOut", kfmt(c.trials) + " (baked)");
+  freezeControl("#seasonTrials", "#seasonTrialsOut", kfmt(c.season_trials) + " (baked)");
+  // header hint
+  const sub = document.querySelector(".brand .sub");
+  if (sub) sub.textContent = `static build · precomputed ${MANIFEST.generated}`;
+}
+
 /* ---- boot ----------------------------------------------------------------*/
-showTab("gauntlet");
+(async () => {
+  await initMode();
+  if (STATIC) applyStaticUI();
+  showTab("gauntlet");
+})();

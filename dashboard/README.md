@@ -33,6 +33,31 @@ Open the `phone:` URL on a phone joined to the same Wi-Fi. The layout is respons
 No auth — anyone on the LAN can reach it; remove the rule with
 `Remove-NetFirewallRule -DisplayName "Pod Gauntlet 8765"` when done.
 
+## Host it as a static site (no backend) — view anywhere
+
+The dashboard can run with **no Python server**: precompute a grid of scenarios to JSON,
+then host the `dashboard/` folder on any static host. The page auto-detects the baked
+`data/manifest.json` and switches to **static mode** — sliders snap to the baked scenarios
+and the precision knobs (trials) lock; everything else works as normal. (Force the live
+API instead with `?live=1`.)
+
+```bash
+python scripts/dashboard_export.py      # writes dashboard/data/*.json (re-run after deck/engine changes)
+```
+
+Then deploy the `dashboard/` folder:
+
+- **Netlify (easiest, no git):** drag the `dashboard/` folder onto <https://app.netlify.com/drop>.
+  Can be password-protected on paid plans.
+- **GitHub Pages (this repo):** merge to `master` with the included
+  `.github/workflows/dashboard-pages.yml`, and set Settings → Pages → Source = *GitHub Actions*.
+  The site URL appears in the workflow run. **A Pages site is public** even from a private
+  repo — the baked JSON holds deck names + win-probabilities (no decklists/collection).
+
+Static mode needs internet on the phone for the Plotly/font CDNs; the baked JSON is served
+by the host. To check it locally before deploying:
+`cd dashboard && python -m http.server 8770` → <http://127.0.0.1:8770> (no `/api`, so it runs static).
+
 ## What it does
 
 Four tabs, each driving the **existing** sim engine — nothing is reimplemented:
