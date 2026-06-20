@@ -4,6 +4,9 @@
 # Sync output — generated build artifact
 _sync_drop/
 
+# Dashboard screenshot artifacts — regenerate with scripts/dashboard_screenshot.py
+.dashboard_shots/
+
 # deck_sim.py machine-readable dump — regenerate with deck_sim.py --json
 sim_results.json
 

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Pod Gauntlet — control room</title>
+  <!-- Webfonts via CDN; system stack is the fallback if offline (see --font in style.css). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Plotly via CDN: no build step. Swap the lib here if you want to experiment with another. -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+  <div id="progress" class="progress"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🏟️</span>
+      <div>
+        <h1>The Pod Gauntlet</h1>
+        <p class="sub">control room for the lab stack — race · labs · championship</p>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab is-active" data-tab="gauntlet">⚔️ Gauntlet</button>
+      <button class="tab" data-tab="clocks">⏱️ Clocks / Labs</button>
+      <button class="tab" data-tab="locks">🔒 Locks</button>
+      <button class="tab" data-tab="championship">🏆 Championship</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============================ GAUNTLET ============================ -->
+    <section class="panel" id="panel-gauntlet">
+      <div class="controls">
+        <div class="ctrl">
+          <label>Abolisher P(out) <output id="aOut">0.30</output></label>
+          <input type="range" id="aSlider" min="0" max="1" step="0.05" value="0.30" />
+        </div>
+        <div class="ctrl">
+          <label>Pod speed</label>
+          <div class="seg" id="podSeg" data-value="base">
+            <button data-v="fast">fast</button>
+            <button data-v="base" class="on">base</button>
+            <button data-v="slow">slow</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <label>Win condition</label>
+          <div class="seg" id="strictSeg" data-value="decap">
+            <button data-v="decap" class="on">decap</button>
+            <button data-v="table">table</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <label>Trials <output id="trialsOut">12k</output></label>
+          <input type="range" id="trialsSlider" min="2000" max="60000" step="2000" value="12000" />
+        </div>
+        <div class="ctrl status"><span id="gauntletStatus" class="badge">ready</span></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>P(beat the T6-7 pod) <span class="hint" id="gauntletClk"></span></h2>
+          <div id="gauntletBars" class="plot tall"></div>
+        </div>
+        <div class="card">
+          <h2>Abolisher sweep <span class="hint">P(win) vs P(Abolisher out) — legend toggles decks</span></h2>
+          <div id="gauntletSweep" class="plot tall"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>The numbers</h2>
+        <div class="tablewrap"><table id="gauntletTable"></table></div>
+      </div>
+    </section>
+
+    <!-- ============================ CLOCKS ============================== -->
+    <section class="panel hidden" id="panel-clocks">
+      <div class="controls">
+        <div class="ctrl">
+          <label>Curve</label>
+          <div class="seg" id="clockWhich" data-value="decap">
+            <button data-v="decap" class="on">decap</button>
+            <button data-v="table">table</button>
+          </div>
+        </div>
+        <div class="ctrl grow">
+          <label>Decks <span class="hint">click chips to overlay</span></label>
+          <div id="clockChips" class="chips"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Clock curves <span class="hint">cumulative P(close ≤ turn) — the harvested lab CDFs</span></h2>
+        <div id="clockPlot" class="plot tall"></div>
+      </div>
+    </section>
+
+    <!-- ============================ LOCKS ============================== -->
+    <section class="panel hidden" id="panel-locks">
+      <div class="controls">
+        <div class="ctrl">
+          <label>Abolisher P(out) <output id="lockAOut">0.30</output></label>
+          <input type="range" id="lockA" min="0" max="1" step="0.05" value="0.30" />
+        </div>
+        <div class="ctrl">
+          <label>Pod removes lock /turn <output id="lockROut">0.25</output></label>
+          <input type="range" id="lockR" min="0" max="1" step="0.05" value="0.25" />
+        </div>
+        <div class="ctrl">
+          <label>Win condition</label>
+          <div class="seg" id="lockStrict" data-value="decap">
+            <button data-v="decap" class="on">decap</button>
+            <button data-v="table">table</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <label>Pod speed</label>
+          <div class="seg" id="lockPod" data-value="base">
+            <button data-v="fast">fast</button>
+            <button data-v="base" class="on">base</button>
+            <button data-v="slow">slow</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <label>Trials <output id="lockTrialsOut">2k</output></label>
+          <input type="range" id="lockTrials" min="500" max="8000" step="500" value="2000" />
+        </div>
+        <div class="ctrl">
+          <button id="runLocks" class="run">▶ Run lock sweep</button>
+        </div>
+        <div class="ctrl status"><span id="lockStatus" class="badge">idle</span></div>
+      </div>
+
+      <div id="lockEmpty" class="empty">
+        <div class="empty-glyph">🔒</div>
+        <h3>No lock sweep run yet</h3>
+        <p>Press <strong>Run lock sweep</strong> to measure what each persistent lock buys each deck
+           vs the pod (tutored-availability ceiling). Heavy compute — it loads the oracle data and
+           measures every deck × lock, so give it a few seconds.</p>
+      </div>
+      <div class="card hidden" id="lockCard">
+        <h2>Lock-lift heatmap <span class="hint">P(win) points added vs the no-lock baseline · * = deck already runs it</span></h2>
+        <div id="lockHeatmap" class="plot xtall"></div>
+      </div>
+    </section>
+
+    <!-- ========================= CHAMPIONSHIP ========================== -->
+    <section class="panel hidden" id="panel-championship">
+      <div class="controls">
+        <div class="ctrl">
+          <label>Playoff trials <output id="champTrialsOut">15k</output></label>
+          <input type="range" id="champTrials" min="2000" max="60000" step="1000" value="15000" />
+        </div>
+        <div class="ctrl">
+          <label>Season trials <output id="seasonTrialsOut">40k</output></label>
+          <input type="range" id="seasonTrials" min="5000" max="120000" step="5000" value="40000" />
+        </div>
+        <div class="ctrl">
+          <label>T_grind <output id="tGrindOut">10</output></label>
+          <input type="range" id="tGrind" min="6" max="14" step="1" value="10" />
+        </div>
+        <div class="ctrl">
+          <label>Pending swaps</label>
+          <div class="seg" id="swapSeg" data-value="0">
+            <button data-v="0" class="on">current</button>
+            <button data-v="1">swapped</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <button id="runChamp" class="run">▶ Run the tournament</button>
+        </div>
+        <div class="ctrl status"><span id="champStatus" class="badge">idle</span></div>
+      </div>
+
+      <div id="champBanner" class="banner hidden"></div>
+      <div id="champEmpty" class="empty">
+        <div class="empty-glyph">🏆</div>
+        <h3>No tournament run yet</h3>
+        <p>Set the trials and T_grind, then press <strong>Run the tournament</strong> to seed 16 decks,
+           play 4 group pods, and crown a champion.</p>
+      </div>
+      <div class="bracket" id="bracket"></div>
+      <div class="card hidden" id="seasonCard">
+        <h2>Regular season <span class="hint">seeded by P(win | random 4-seat pod)</span></h2>
+        <div class="tablewrap"><table id="seasonTable"></table></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="discipline">
+    <strong>Read shapes, not decimals.</strong> Clock curves are unblocked goldfish ceilings;
+    disruption is <em>availability</em>, not effectiveness; the durability tiebreak and T_grind are
+    judgment. This is a viewer for the lab stack — trust the ranking and the gaps, not the second decimal.
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

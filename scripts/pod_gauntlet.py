@@ -65,6 +65,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 ROOT = Path(__file__).parent.parent
 
@@ -1008,26 +1009,30 @@ SWEEP_ABBR = {"Cursed Totem": "CursTot", "Drannith Magistrate": "Drannith",
               "Opposition Agent": "OppAgent"}
 
 
-def run_lock_sweep(args):
-    """Full deck x lock lift matrix: what each persistent lock buys each deck vs the pod
-    (tutored availability ceiling, baseline r). Cells = P(win) lift in points; '·' = <0.5pp.
-    Answers 'what every lock buys every deck' in one process (vs 85 --add calls)."""
+def lock_sweep_rows(a, r, strict, trials, seed, pod_fast=False, pod_slow=False):
+    """Structured deck × lock P(win)-lift matrix — the single source of truth shared by the
+    CLI table (run_lock_sweep) and the dashboard endpoint. Returns (rows, meta):
+      rows = [{slug, name, cur, cells:[{piece, lift, owned}]}]  sorted by cur desc
+      meta = {which, trials, a, r, locks, abbr}
+    Tutored-availability ceiling, baseline r; cells are P(win) lift in POINTS."""
     import importlib.util as _il
     spec = _il.spec_from_file_location("lock_lab", ROOT / "scripts" / "lock_lab.py")
     LL = _il.module_from_spec(spec); spec.loader.exec_module(LL)
     index = LL.ds.load_oracle_index()
     aliases = LL.ds.load_reskin_aliases()
-    t = min(args.trials, 8000)                 # O(decks x locks) measurement; cap for runtime
+    t = min(trials, 8000)                      # O(decks x locks) measurement; cap for runtime
     C = {**merged_clocks(), **BUILD_CLOCKS}
-    kdist = pod_kdist(args)
-    which = "table" if args.strict else "decap"
+    kdist = pod_kdist(SimpleNamespace(pod_fast=pod_fast, pod_slow=pod_slow))
+    which = "table" if strict else "decap"
     rows = []
     for slug in [s for s in LL.DECKS if s in C]:
+        if not (ROOT / LL.DECKS[slug]).is_file():    # tolerate stale/missing deck paths
+            continue
         base = LL.load(slug, index, aliases)
         have = {n for n, _ in base}
         c = C[slug]
         F = build_cdf(c["grid"], c[which])
-        cur = simulate(slug, F, args.a, kdist, t, random.Random(args.seed))[0]
+        cur = simulate(slug, F, a, kdist, t, random.Random(seed))[0]
         cells = []
         for piece in SWEEP_LOCKS:
             rec = index.get(piece.lower())
@@ -1037,20 +1042,31 @@ def run_lock_sweep(args):
             ld = dict(grid=LL.GRID, hl_drawn=[av[x] for x in LL.GRID],
                       hl_tut=[av[x] for x in LL.GRID], tau=[tau[x] for x in LL.GRID],
                       e=LL.combined_e(pkg), tau_total=LL.total_tau(pkg))
-            lk = lock_race(slug, F, ld, args.a, args.r, kdist, t, random.Random(args.seed),
-                           use_tut=True)
-            cells.append(((lk - cur) * 100, piece in have))
-        rows.append((slug, c, cur, cells))
-    rows.sort(key=lambda r: -r[2])
+            lk = lock_race(slug, F, ld, a, r, kdist, t, random.Random(seed), use_tut=True)
+            cells.append(dict(piece=piece, lift=(lk - cur) * 100, owned=(piece in have)))
+        rows.append(dict(slug=slug, name=c["name"], cur=cur, cells=cells))
+    rows.sort(key=lambda x: -x["cur"])
+    return rows, dict(which=which, trials=t, a=a, r=r,
+                      locks=list(SWEEP_LOCKS), abbr=dict(SWEEP_ABBR))
+
+
+def run_lock_sweep(args):
+    """Full deck x lock lift matrix: what each persistent lock buys each deck vs the pod
+    (tutored availability ceiling, baseline r). Cells = P(win) lift in points; '·' = <0.5pp.
+    Answers 'what every lock buys every deck' in one process (vs 85 --add calls)."""
+    rows, meta = lock_sweep_rows(args.a, args.r, args.strict, args.trials, args.seed,
+                                 args.pod_fast, args.pod_slow)
+    which, t = meta["which"], meta["trials"]
     print(f"\n{'='*100}\nLOCK SWEEP — P(win) lift per deck × lock   "
           f"[{which} · a={args.a} · r={args.r} · tutored avail · trials={t}]")
     print("  cell = points added vs the no-lock baseline (one-shot disruption). "
           "* = deck already runs it.\n")
     print("  " + "deck".ljust(24) + "cur".rjust(5)
           + "".join(SWEEP_ABBR[p].rjust(9) for p in SWEEP_LOCKS))
-    for slug, c, cur, cells in rows:
-        line = "  " + c["name"][:24].ljust(24) + f"{cur*100:>4.0f}%"
-        for d, owned in cells:
+    for row in rows:
+        line = "  " + row["name"][:24].ljust(24) + f"{row['cur']*100:>4.0f}%"
+        for cell in row["cells"]:
+            d, owned = cell["lift"], cell["owned"]
             s = f"+{d:.0f}" if d >= 0.5 else ("·" if d > -0.5 else f"{d:.0f}")
             line += (s + ("*" if owned else "")).rjust(9)
         print(line)
