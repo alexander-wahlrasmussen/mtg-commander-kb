@@ -15,6 +15,24 @@ No build step, no dependencies — `dashboard_server.py` is stdlib `http.server`
 (Charts and webfonts load from CDNs; offline, the charts degrade and the UI falls
 back to the system font stack.)
 
+### View on your phone (same Wi-Fi)
+
+```bash
+python scripts/dashboard_server.py --host 0.0.0.0
+```
+
+The banner prints a `phone:` URL (`http://<your-LAN-IP>:<port>`). Then, **once**, allow
+the port through Windows Firewall in an **elevated** PowerShell:
+
+```powershell
+New-NetFirewallRule -DisplayName "Pod Gauntlet 8765" -Direction Inbound -Action Allow `
+  -Protocol TCP -LocalPort 8765 -Profile Private,Public -RemoteAddress LocalSubnet
+```
+
+Open the `phone:` URL on a phone joined to the same Wi-Fi. The layout is responsive.
+No auth — anyone on the LAN can reach it; remove the rule with
+`Remove-NetFirewallRule -DisplayName "Pod Gauntlet 8765"` when done.
+
 ## What it does
 
 Four tabs, each driving the **existing** sim engine — nothing is reimplemented:

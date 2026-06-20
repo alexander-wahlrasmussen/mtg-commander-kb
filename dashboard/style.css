@@ -342,6 +342,29 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .discipline strong { color: var(--text); }
 .hidden { display: none; }
 
+/* ---- phones ---- */
+@media (max-width: 640px) {
+  .topbar { padding: 12px 14px; gap: 12px; }
+  .logo { font-size: 28px; }
+  .brand h1 { font-size: var(--fs-lg); }
+  .brand .sub { display: none; }
+  .tabs { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab { white-space: nowrap; padding: 8px 13px; }
+  main { padding: 14px 12px 4px; }
+  .controls { padding: 12px 14px; gap: 12px 18px; }
+  input[type=range] { width: 150px; }
+  .ctrl.status { margin-left: 0; }
+  .card { padding: 12px 13px; }
+  .grid-2 { gap: 12px; }
+  .plot { height: 300px; }
+  .plot.tall { height: 380px; }
+  .plot.xtall { height: 560px; }
+  .bracket { grid-template-columns: 1fr; }
+  .banner { flex-direction: column; text-align: center; padding: 16px; }
+  .banner h2 { font-size: var(--fs-xl); }
+  .discipline { padding: 14px; }
+}
+
 /* ---- respect reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

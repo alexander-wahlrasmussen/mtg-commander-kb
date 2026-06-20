@@ -23,9 +23,11 @@ second decimal. This is a viewer for the lab stack, not a new model.
 
 Launch:  python scripts/dashboard_server.py   (then open http://127.0.0.1:8765)
 """
+import argparse
 import importlib.util
 import json
 import random
+import socket
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -34,7 +36,7 @@ from urllib.parse import urlparse, parse_qs
 
 ROOT = Path(__file__).resolve().parent.parent
 DASHBOARD_DIR = ROOT / "dashboard"
-HOST, PORT = "127.0.0.1", 8765
+DEFAULT_HOST, DEFAULT_PORT = "127.0.0.1", 8765
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -250,12 +252,35 @@ class Handler(BaseHTTPRequestHandler):
         self._send(target.read_bytes(), ctype)
 
 
+def lan_ip():
+    """Best-guess LAN IPv4 (no traffic sent; just resolves the outbound interface)."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
+    except OSError:
+        return None
+    finally:
+        s.close()
+
+
 def main():
-    httpd = ThreadingHTTPServer((HOST, PORT), Handler)
-    url = f"http://{HOST}:{PORT}"
+    ap = argparse.ArgumentParser(description="Gauntlet dashboard server")
+    ap.add_argument("--host", default=DEFAULT_HOST,
+                    help="bind address; use 0.0.0.0 to allow your phone / other LAN devices")
+    ap.add_argument("--port", type=int, default=DEFAULT_PORT)
+    args = ap.parse_args()
+
+    httpd = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"\n  🏟️  Gauntlet dashboard serving the lab stack")
     print(f"      engine: pod_gauntlet + self_meta_lab + pod_championship (imported, not shelled)")
-    print(f"      open:   {url}")
+    print(f"      local:  http://127.0.0.1:{args.port}")
+    if args.host == "0.0.0.0":
+        ip = lan_ip()
+        if ip:
+            print(f"      phone:  http://{ip}:{args.port}   (same Wi-Fi; needs a firewall allow on TCP {args.port})")
+    else:
+        print(f"      (localhost only — relaunch with --host 0.0.0.0 to reach it from your phone)")
     print(f"      stop:   Ctrl-C\n")
     try:
         httpd.serve_forever()
