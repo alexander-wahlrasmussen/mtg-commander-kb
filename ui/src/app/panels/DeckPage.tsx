@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { LineChart } from "../../components";
 import { getDeck } from "../data";
 import type { DeckPage as DeckPageData } from "../data";
@@ -30,6 +31,56 @@ function keepCriteria(d: DeckPageData): string[] {
   return out;
 }
 
+/** The full 100-card list, grouped by the Summary's functional buckets (same
+ *  buckets as the composition bar above) — the pick-up-and-play reference. */
+function Decklist({ d, compColor }: { d: DeckPageData; compColor: Record<string, string> }) {
+  const dl = d.decklist;
+  const [copied, setCopied] = useState(false);
+  if (!dl) return null;
+
+  const copy = () => {
+    navigator.clipboard?.writeText(dl.text).then(
+      () => { setCopied(true); setTimeout(() => setCopied(false), 1600); },
+      () => { /* clipboard blocked (e.g. insecure context) — no-op */ },
+    );
+  };
+
+  return (
+    <div style={{ marginTop: "var(--s5)" }}>
+      <div className={s.subHead}>
+        <span className={s.subTick} />
+        <span className={s.subTitle}>The Decklist</span>
+        <span className={s.subHint}>{dl.total} cards · pick up &amp; play</span>
+        <button className={s.copyBtn} onClick={copy}>{copied ? "copied ✓" : "copy list"}</button>
+      </div>
+
+      <div className={s.dlCommander}>
+        <span className={s.dlCmdTag}>Commander</span>
+        <span className={s.dlCmdName}>{dl.commander.n}</span>
+        {dl.commander.gc && <span className={s.dlGc}>GC</span>}
+      </div>
+
+      <div className={s.dlColumns}>
+        {dl.groups.map((g, i) => (
+          <div key={i} className={s.dlGroup}>
+            <div className={s.dlGroupHead}>
+              <span className={s.dlSwatch} style={{ background: compColor[g.name] ?? "var(--ink3)" }} />
+              <span className={s.dlGroupName}>{g.name}</span>
+              <span className={s.dlGroupCount}>{g.count}</span>
+            </div>
+            {g.cards.map((c, j) => (
+              <div key={j} className={s.dlCard}>
+                <span className={s.dlCardName}>{c.n}</span>
+                {c.gc && <span className={s.dlGc}>GC</span>}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void }) {
   const { data: d, error } = usePageData<DeckPageData>(() => getDeck(slug), [slug]);
   if (error) return <div className={s.error}>error: {error}</div>;
@@ -37,6 +88,9 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
 
   const hasClock = d.clock.grid.length > 0;
   const compTotal = d.composition.reduce((sum, b) => sum + b.count, 0) || 1;
+  // share the composition bar's colours with the decklist groups (matched by name)
+  const compColor: Record<string, string> = {};
+  d.composition.forEach((b, i) => { compColor[b.name] = COMP_TONES[i % COMP_TONES.length]; });
 
   return (
     <div className={s.deckPage}>
@@ -178,6 +232,9 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
           ))}
         </div>
       </div>
+
+      {/* ===== The decklist — the composition bar expanded into actual cards ===== */}
+      <Decklist d={d} compColor={compColor} />
 
       {/* ===== The keep ===== */}
       <div style={{ marginTop: "var(--s5)" }}>

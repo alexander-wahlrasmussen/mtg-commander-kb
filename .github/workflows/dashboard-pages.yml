@@ -9,8 +9,9 @@
 # One-time setup: repo Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
 # Then push to master; the site publishes at the URL shown in the run summary.
 # NOTE: a GitHub Pages site is PUBLIC even from a private repo (free/Pro). The baked JSON
-# holds deck names + win-probabilities (no decklists/collection). Use Netlify with access
-# control if you need it private (see dashboard/README.md).
+# holds deck names, win-probabilities, and the per-deck DECKLISTS (the deck pages double as
+# an external pilot reference for other players) — but NOT the collection / ownership data.
+# Use Netlify with access control if you need it private (see dashboard/README.md).
 #
 # To refresh the data without a code change, re-run `python scripts/dashboard_export.py`
 # (mirrors into ui/public/data) and commit — that touches ui/** and re-triggers this job.

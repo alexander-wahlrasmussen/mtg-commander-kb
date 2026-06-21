@@ -159,6 +159,12 @@ export interface DeckPage {
   gamePlan: string; winLine: string;
   finishers: { name: string; tag: string; note: string }[];
   composition: { name: string; count: number }[];
+  decklist: {
+    total: number; grouped: boolean;
+    commander: { n: string; gc: boolean };
+    groups: { name: string; count: number; cards: { n: string; gc: boolean }[] }[];
+    text: string;
+  } | null;
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
 }
 

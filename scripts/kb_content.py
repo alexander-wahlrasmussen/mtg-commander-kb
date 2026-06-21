@@ -115,11 +115,25 @@ def _resolve(name):
 
 
 def _parse_decklist(path):
-    """(count, name) per line of a `N Card Name` decklist; sideboard excluded."""
-    out = []
+    """(count, name) per line of a `N Card Name` decklist; sideboard excluded.
+
+    Moxfield exports the maindeck, then a blank-line-separated `SIDEBOARD:` block
+    (our maybeboard), then the commander as a trailing block. The sideboard is NOT
+    part of the deck. A marker opens a skip region; the next blank line closes it,
+    so the trailing commander is still read. (Matching only a bare lowercase
+    `sideboard` missed Moxfield's `SIDEBOARD:` colon — it counted the maybeboard,
+    inflating both this list and the GC tallies built on it.)"""
+    out, skip = [], False
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
-        if not line or line.lower() in ("sideboard", "deck", "commander"):
+        if not line:
+            skip = False                      # blank line ends a section
+            continue
+        low = line.lower().rstrip(":")
+        if low in ("sideboard", "maybeboard"):
+            skip = True
+            continue
+        if skip or low in ("deck", "commander"):
             continue
         m = re.match(r"^(\d+)\s+(.+?)\s*$", line)
         if m:
@@ -386,6 +400,108 @@ def _composition(path):
     return out
 
 
+def _summary_buckets(path):
+    """Ordered [(bucket, [card names])] from a Summary's '## Decklist' section.
+
+    The labels (Mana Engines / Burn Finishers / …) are curation, not ground truth —
+    the .txt owns the card set. Used only to GROUP the .txt cards (see _decklist).
+    The Commander bucket is dropped; the commander is surfaced separately."""
+    if not path or not path.exists():
+        return []
+    out, cur, in_list = [], None, False
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        h2 = re.match(r"^##\s+(.+)", raw)
+        if h2:
+            in_list = "decklist" in h2.group(1).lower()
+            cur = None
+            continue
+        if not in_list:
+            continue
+        h3 = re.match(r"^###\s+(.+?)\s*(?:\(\d+\))?\s*$", raw.strip())
+        if h3:
+            name = h3.group(1).strip()
+            cur = None if "commander" in name.lower() else [name, []]
+            if cur:
+                out.append(cur)
+            continue
+        if cur is not None:
+            m = re.match(r"^(\d+)\s+(.+?)\s*$", raw.strip())
+            if m:
+                cur[1].append(_norm(m.group(2)))
+    return out
+
+
+def _decklist(txt_path, summary_path, commander, gc_names, aliases):
+    """The deck's 100 cards as a grouped, copy-pasteable, pilot-facing reference.
+
+    Ground truth is the dated .txt (CLAUDE.md hierarchy). The Summary only LABELS:
+    each .txt card is filed under the functional bucket the Summary assigns it (the
+    same buckets as the composition bar); .txt cards the Summary doesn't mention fall
+    to an 'Other' group rather than vanishing, so Summary drift is visible not silent.
+    No Summary section → a flat alphabetical fallback. No Scryfall needed."""
+    if not txt_path or not txt_path.exists():
+        return None
+
+    def _is_gc(name):
+        return aliases.get(name.lower(), name).lower() in gc_names
+
+    def _card(name):
+        return dict(n=name, gc=_is_gc(name))
+
+    def _key(name):  # alias-resolved, 'The'-insensitive identity for commander match
+        a = aliases.get(name.lower(), name).lower()
+        return re.sub(r"^the\s+", "", a).strip()
+
+    # Pull the commander out of the maindeck pool. The registry may store a short
+    # spelling ('Wise Mothman') while the .txt has the real card ('The Wise Mothman');
+    # match alias-resolved + 'The'-insensitive, and display the deck's actual name.
+    cmd_key, cmd_name, seen_cmd = _key(commander), commander, False
+    entries = []
+    for c, n in _parse_decklist(txt_path):
+        if not seen_cmd and _key(n) == cmd_key:
+            cmd_name, seen_cmd = n, True
+            continue
+        entries.append((c, n))
+    counts = {}
+    for c, n in entries:
+        counts[n] = counts.get(n, 0) + c
+    total = sum(counts.values()) + 1  # + commander
+
+    # bucket name → file order, so we can place each .txt card under its Summary label
+    buckets = _summary_buckets(summary_path)
+    where = {}
+    for bi, (_label, cards) in enumerate(buckets):
+        for nm in cards:
+            where.setdefault(nm.lower(), bi)
+
+    grouped = bool(buckets)
+    if grouped:
+        bins = [[] for _ in buckets]
+        other = []
+        for n in sorted(counts):
+            bi = where.get(n.lower())
+            (bins[bi] if bi is not None else other).append(n)
+        groups = []
+        for (label, _cards), names in zip(buckets, bins):
+            if names:
+                groups.append(dict(name=label, count=sum(counts[n] for n in names),
+                                   cards=[_card(n) for n in names]))
+        if other:
+            groups.append(dict(name="Other", count=sum(counts[n] for n in other),
+                               cards=[_card(n) for n in other]))
+    else:
+        names = sorted(counts)
+        groups = [dict(name="The 99", count=sum(counts.values()),
+                       cards=[_card(n) for n in names])]
+
+    return dict(
+        total=total, grouped=grouped,
+        commander=dict(n=cmd_name, gc=_is_gc(cmd_name)),
+        groups=groups,
+        text=txt_path.read_text(encoding="utf-8").strip(),
+    )
+
+
 def _first_sentence(text):
     p = _first_para(text)
     return re.split(r"(?<=[.!])\s", p)[0] if p else ""
@@ -445,10 +561,9 @@ def deck(slug):
     secs = _summary_sections(sp)
 
     # GC list (canonical names) from the newest .txt
-    gc_used, gc_names = [], _gc_names()
+    gc_used, gc_names, aliases = [], _gc_names(), _aliases()
     txt = _newest_txt(d["stem"])
     if txt:
-        aliases = _aliases()
         for _, name in _parse_decklist(txt):
             canon = aliases.get(name.lower(), name).lower()
             if canon in gc_names and gc_names[canon] not in gc_used:
@@ -483,6 +598,7 @@ def deck(slug):
         winLine=(d.get("win_line") or {}).get("line", ""),
         finishers=_kill_lines(secs),
         composition=_composition(sp),
+        decklist=_decklist(txt, sp, d["commander"], gc_names, aliases),
         keep=dict(
             bottleneck=d.get("bottleneck"), minLands=d.get("min_lands"),
             maxLands=d.get("max_lands"), mixed=d.get("mixed"),
