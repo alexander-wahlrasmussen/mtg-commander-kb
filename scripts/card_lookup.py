@@ -11,6 +11,10 @@ Usage:
 
 Data source: collection/oracle-cards.json + collection/rulings.json
 Run update_scryfall_data.py to refresh both files.
+
+Functional tags (Scryfall Tagger) are shown when collection/oracle-tags.json
+exists — build it with update_tag_index.py. Tags categorize function, not exact
+wording, so always read the oracle text above them before recommending a card.
 """
 
 import argparse
@@ -22,6 +26,7 @@ from pathlib import Path
 COLLECTION = Path(__file__).parent.parent / "collection"
 DATA_FILE = COLLECTION / "oracle-cards.json"
 RULINGS_FILE = COLLECTION / "rulings.json"
+TAGS_FILE = COLLECTION / "oracle-tags.json"
 
 # Layouts where oracle_text lives in card_faces, not at top level
 MULTI_FACE_LAYOUTS = {"transform", "modal_dfc", "split", "adventure", "flip",
@@ -47,6 +52,14 @@ def load_rulings_index():
     for r in rulings:
         index[r["oracle_id"]].append(r["comment"])
     return index
+
+
+def load_tags_index():
+    """oracle_id -> [tags]. Empty if oracle-tags.json hasn't been built yet."""
+    if not TAGS_FILE.exists():
+        return {}
+    with TAGS_FILE.open(encoding="utf-8") as f:
+        return json.load(f).get("by_oracle_id", {})
 
 
 def normalize_name(name):
@@ -83,7 +96,7 @@ def format_face(face, separator=False):
     return "\n".join(lines)
 
 
-def format_card(card, rulings_index):
+def format_card(card, rulings_index, tags_index=None):
     lines = []
     name = card.get("name", "?")
     layout = card.get("layout", "normal")
@@ -125,6 +138,10 @@ def format_card(card, rulings_index):
     commander_status = legalities.get("commander", "unknown")
     lines.append(f"Commander legal: {commander_status}")
 
+    tags = (tags_index or {}).get(card.get("oracle_id", ""), [])
+    if tags:
+        lines.append(f"Tags (Scryfall Tagger): {', '.join(tags)}")
+
     rulings = rulings_index.get(card.get("oracle_id", ""), [])
     if rulings:
         lines.append(f"\n--- Rulings ({len(rulings)}) ---")
@@ -163,6 +180,7 @@ def main():
     print("Loading card data...", file=sys.stderr)
     cards = load_cards()
     rulings_index = load_rulings_index()
+    tags_index = load_tags_index()
 
     if args.name_only:
         matches = fuzzy_match(cards, args.name_only)
@@ -196,7 +214,7 @@ def main():
         matches = matches[:5]
 
     for card in matches:
-        print(format_card(card, rulings_index))
+        print(format_card(card, rulings_index, tags_index))
         print()
 
 
