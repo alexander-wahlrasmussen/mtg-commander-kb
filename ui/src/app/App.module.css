@@ -1,6 +1,9 @@
 .boot {
   padding: 40px;
   color: var(--muted);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .topbar {
   display: flex;
@@ -9,12 +12,11 @@
   gap: var(--s5);
   flex-wrap: wrap;
   padding: var(--s4) var(--s6);
-  border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #121a28d9, #0b0e14a6);
+  border-bottom: 1.5px solid var(--ink);
+  background: var(--paper);
   position: sticky;
   top: 0;
   z-index: 20;
-  backdrop-filter: blur(12px) saturate(1.2);
 }
 .brand {
   display: flex;
@@ -22,18 +24,24 @@
   gap: var(--s3);
 }
 .logo {
-  font-size: 36px;
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
+  font-size: 34px;
+  filter: none;
 }
 .h1 {
   margin: 0;
+  font-family: var(--disp);
   font-size: var(--fs-xl);
-  font-weight: 800;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .subtitle {
-  margin: 2px 0 0;
+  margin: 3px 0 0;
   color: var(--muted);
-  font-size: var(--fs-sm);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .main {
   padding: var(--s5) var(--s6) var(--s2);
@@ -47,12 +55,12 @@
   flex-wrap: wrap;
   gap: var(--s4) var(--s6);
   align-items: flex-end;
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: var(--panel-2);
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
   padding: var(--s4) var(--s5);
   margin-bottom: var(--s4);
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 .statusRight {
   margin-left: auto;
@@ -69,16 +77,18 @@
   margin-bottom: var(--s4);
 }
 .run {
-  font-family: inherit;
+  font-family: var(--disp);
   font-size: var(--fs-base);
-  font-weight: 700;
-  color: var(--accent-ink);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--paper);
   cursor: pointer;
   border: none;
-  border-radius: 11px;
+  border-radius: 0;
   padding: 11px 22px;
-  background: linear-gradient(135deg, var(--accent), #2aa9da);
-  box-shadow: 0 10px 24px -10px var(--accent);
+  background: var(--acc);
+  box-shadow: none;
   transition: transform 0.12s var(--ease);
 }
 .run:hover {
@@ -103,12 +113,16 @@
   margin: var(--s2) auto var(--s6);
   padding: var(--s4) var(--s6);
   color: var(--muted);
+  font-family: var(--serif);
   font-size: var(--fs-xs);
   line-height: 1.65;
-  border-top: 1px solid var(--line);
+  border-top: 1.5px solid var(--ink);
 }
 .discipline strong {
   color: var(--text);
+  font-family: var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 @media (max-width: 1050px) {
   .grid2 {

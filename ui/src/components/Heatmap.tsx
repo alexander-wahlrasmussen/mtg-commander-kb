@@ -15,9 +15,10 @@ export interface HeatmapProps {
   rowHeight?: number;
 }
 
-const NEG = [255, 107, 107];
-const MID = [20, 26, 35];
-const POS = [67, 220, 160];
+// Newsprint diverging ramp: vermillion (negative) → paper (mid) → olive-good (positive).
+const NEG = [198, 58, 27];    // --acc #c63a1b
+const MID = [241, 236, 223];  // --paper2 #f1ecdf
+const POS = [79, 107, 30];    // --good #4f6b1e
 const lerp = (a: number[], b: number[], t: number) => a.map((x, i) => Math.round(x + (b[i] - x) * t));
 function diverging(v: number, maxabs: number) {
   const t = Math.max(0, Math.min(1, (v + maxabs) / (2 * maxabs)));
@@ -25,7 +26,7 @@ function diverging(v: number, maxabs: number) {
   return `rgb(${c[0]} ${c[1]} ${c[2]})`;
 }
 
-/** Diverging green/red matrix — e.g. deck × lock win-probability lift. */
+/** Diverging vermillion→paper→olive matrix — e.g. deck × lock win-probability lift. */
 export function Heatmap({ rows, cols, rowHeight = 30 }: HeatmapProps) {
   const [ref, width] = useElementWidth<HTMLDivElement>();
   const m = { left: 200, right: 14, top: 26, bottom: 6 };

@@ -1,26 +1,30 @@
 .pod {
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: var(--panel-2);
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
   padding: var(--s4);
-  box-shadow: var(--shadow);
-  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-shadow: none;
+  transition: border-color 0.2s var(--ease);
 }
 .pod:hover {
-  transform: translateY(-2px);
-  border-color: var(--line-2);
+  transform: none;
+  border-color: var(--ink);
 }
 .head {
   margin: 0 0 var(--s3);
+  font-family: var(--disp);
   font-size: var(--fs-sm);
-  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--ink);
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   padding-bottom: var(--s2);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--hair);
 }
 .hint {
+  font-family: var(--mono);
   color: var(--faint);
   font-size: var(--fs-xs);
 }
@@ -31,10 +35,10 @@
   align-items: center;
   gap: var(--s2);
   padding: 9px 11px;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   margin-bottom: 7px;
   background: var(--bg-3);
-  border: 1px solid transparent;
+  border: 1px solid var(--hair);
 }
 .seat:last-child {
   margin-bottom: 0;
@@ -44,7 +48,7 @@
   inset: 0;
   right: auto;
   z-index: 0;
-  background: linear-gradient(90deg, var(--accent-soft), transparent);
+  background: rgba(198, 58, 27, 0.14);
   transform-origin: left;
   animation: growx 0.6s var(--ease) both;
 }
@@ -57,6 +61,7 @@
 }
 .nm {
   flex: 1;
+  font-family: var(--serif);
   font-size: var(--fs-sm);
   font-weight: 500;
 }
@@ -73,7 +78,7 @@
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
   font-size: var(--fs-sm);
-  color: var(--accent);
+  color: var(--acc);
 }
 .medal {
   font-size: 17px;
@@ -83,7 +88,7 @@
 }
 .gold {
   border-color: var(--gold);
-  box-shadow: 0 0 18px -6px var(--gold);
+  box-shadow: none;
 }
 .silver {
   border-color: var(--silver);
@@ -93,11 +98,11 @@
 }
 .final {
   border-color: var(--gold);
-  background: linear-gradient(180deg, #ffd24a0d, var(--panel));
+  background: var(--panel-2);
 }
 .final .head {
   color: var(--gold);
-  border-color: #ffd24a40;
+  border-color: var(--hair);
 }
 @keyframes growx {
   from {

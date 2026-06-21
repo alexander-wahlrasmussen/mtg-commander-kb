@@ -1,36 +1,51 @@
-@import "./fonts.css"; /* self-hosted Spectral + IBM Plex Mono (base64 @font-face) — no remote dependency */
-
 /* ============================================================================
-   Pod Gauntlet — design tokens (the theme).
+   Pod Gauntlet — design tokens (the theme): "Tale of the Tape" newsprint LIGHT.
    The whole look hangs off these custom properties; every component reads them.
-   Re-skin the system by editing :root. Ported from the vanilla dashboard so the
-   React rebuild starts visually identical.
+   Re-skin the system by editing :root.
+
+   Two layers (the newspaper-kit technique):
+     1. PRIMITIVES — the newsprint vocabulary (paper / ink / accent + 3 fonts).
+     2. REMAP      — the tokens the shipped components actually consume, pointed
+                     at the primitives. Flipping these does ~80% of the restyle;
+                     the per-component *.module.css carry the rest.
    ========================================================================== */
 :root {
-  /* surfaces — Gruvbox dark */
-  --bg:        #282828;
-  --bg-2:      #32302f;
-  --bg-3:      #3c3836;
-  --panel:     #3c3836;
-  --panel-2:   #32302f;
-  --line:      #504945;
-  --line-2:    #5a5048;
-  --text:      #fbf1c7;
-  --muted:     #a89984;
-  --faint:     #928374;
+  /* ---- primitives: newsprint light ---- */
+  --disp:  "Oswald", ui-sans-serif, system-ui, sans-serif;   /* condensed display */
+  --serif: Georgia, "Times New Roman", serif;                /* running body */
+  --mono:  "IBM Plex Mono", ui-monospace, "Consolas", monospace; /* @kind font — every figure */
+  --paper:  #e9e3d4;
+  --paper2: #f1ecdf;
+  --ink:    #16130f;
+  --ink2:   #5b544a;
+  --ink3:   #8b8273;
+  --hair:   rgba(22, 19, 15, 0.20);
+  --hair2:  rgba(22, 19, 15, 0.07);
+  --acc:    #c63a1b;   /* the one vermillion accent */
+  --gold:   #946112;
+  --good:   #4f6b1e;
+  --warn:   #a3331a;
 
-  /* brand / data — Gruvbox */
-  --accent:     #fe8019;
-  --accent-2:   #fabd2f;
-  --accent-ink: #282828;
-  --accent-soft:#fe801926;
-  --good:       #b8bb26;
-  --warn:       #fb4934;
-  --gold:       #fabd2f;
+  /* ---- remap: the tokens the components consume ---- */
+  --bg:        var(--paper);
+  --bg-2:      var(--paper2);
+  --bg-3:      var(--paper2);
+  --panel:     var(--paper);
+  --panel-2:   var(--paper);
+  --line:      var(--hair);
+  --line-2:    var(--hair);
+  --text:      var(--ink);
+  --muted:     var(--ink2);
+  --faint:     var(--ink3);
+
+  --accent:     var(--acc);
+  --accent-2:   var(--gold);
+  --accent-ink: var(--paper2);
+  --accent-soft:#c63a1b22;
   --silver:     #cdd6e2;
   --bronze:     #db9a5c;
 
-  /* type scale (1.22) */
+  /* type scale (1.22) — sizes unchanged; faces flipped to the newsprint set */
   --fs-xs:  11.5px;
   --fs-sm:  13px;
   --fs-base:14.5px;
@@ -38,62 +53,36 @@
   --fs-lg:  19px;
   --fs-xl:  23px;
   --fs-2xl: 30px;
-  --font: "Spectral", Georgia, "Times New Roman", serif;
-  --mono: "IBM Plex Mono", ui-monospace, "Consolas", monospace;/* @kind font */
+  --font: var(--serif);
 
   /* spacing rhythm */
   --s1: 4px;  --s2: 8px;  --s3: 12px;  --s4: 16px;  --s5: 24px;  --s6: 32px;
 
-  /* shape / depth / motion */
-  --radius:    16px;
-  --radius-sm: 10px;
-  --shadow:    0 1px 0 #ffffff08 inset, 0 10px 30px -12px rgba(0,0,0,.6);
-  --shadow-lg: 0 1px 0 #ffffff0d inset, 0 22px 48px -18px rgba(0,0,0,.7);
-  --ease:      cubic-bezier(.2,.7,.2,1);/* @kind other */
-}
-
-/* Gruvbox light — opt-in via [data-pg-theme="light"] (matches the templates' selector,
-   so the bundle's light tokens serve them and their local override becomes redundant). */
-[data-pg-theme="light"] {
-  --bg:        #e7d9ad;
-  --bg-2:      #f2e5bc;
-  --bg-3:      #ece0bb;
-  --panel:     #f2e5bc;
-  --panel-2:   #fbf1c7;
-  --line:      #d5c4a1;
-  --line-2:    #c9b88f;
-  --text:      #282828;
-  --muted:     #665c54;
-  --faint:     #7c6f64;
-  --accent:     #af3a03;
-  --accent-2:   #b57614;
-  --accent-ink: #fbf1c7;
-  --accent-soft:#af3a0322;
-  --good:       #79740e;
-  --warn:       #9d0006;
-  --gold:       #b57614;
-  --silver:     #8a7f6a;
-  --bronze:     #a8662e;
+  /* shape / depth / motion — square corners, flat fills */
+  --radius:    0px;
+  --radius-sm: 0px;
+  --shadow:    none;
+  --shadow-lg: none;
+  --ease:      cubic-bezier(.2, .7, .2, 1);   /* @kind other */
 }
 
 * { box-sizing: border-box; }
 html, body, #root { margin: 0; min-height: 100%; }
 body {
+  /* paper + faint 4px horizontal newsprint hatch */
   background:
-    radial-gradient(1100px 520px at 82% -8%, #3c3836 0%, transparent 58%),
-    radial-gradient(900px 500px at 0% 0%, #32302f 0%, transparent 50%),
-    var(--bg);
+    repeating-linear-gradient(0deg, var(--hair2) 0, var(--hair2) 1px, transparent 1px, transparent 4px),
+    var(--paper);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font);
   font-size: var(--fs-base);
   line-height: 1.5;
-  letter-spacing: .1px;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 { letter-spacing: -.2px; }
 ::selection { background: var(--accent-soft); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

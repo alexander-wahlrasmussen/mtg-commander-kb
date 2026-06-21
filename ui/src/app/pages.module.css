@@ -1,0 +1,1039 @@
+/* ============================================================================
+   Newsprint page chrome + the five content-page layouts (Home / Decks /
+   Collection / Wishlist / DeckPage). All token-styled — no invented hex except
+   the soft-accent washes already used by the component skin.
+   ========================================================================== */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+
+/* ---- pagekit: masthead / section rule / pips ---- */
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s4);
+  padding-bottom: var(--s4);
+  border-bottom: 1px solid var(--hair);
+}
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 10px;
+}
+.title {
+  margin: 0;
+  font-family: var(--disp);
+  font-size: 40px;
+  line-height: 0.95;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+.mastheadRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sectionRule {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 8px;
+  margin-bottom: var(--s4);
+  border-bottom: 2px solid var(--ink);
+}
+.sectionTitle {
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.sectionRight {
+  margin-left: auto;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink2);
+}
+.pips {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.pips i {
+  display: inline-block;
+  border-radius: 50%;
+  border: 1px solid rgba(22, 19, 15, 0.3);
+  flex: none;
+}
+.linkBtn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--acc);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.linkBtn:hover {
+  text-decoration: underline;
+}
+
+/* ---- KPI strip (Home + Wishlist) ---- */
+.kpiStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1.5px solid var(--ink);
+}
+.kpi {
+  padding: 15px 22px;
+  border-right: 1px solid var(--hair);
+}
+.kpi:last-child {
+  border-right: none;
+}
+.kpiLabel {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.kpiValue {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+.kpiSub {
+  font-size: 11.5px;
+  color: var(--faint);
+  margin-top: 5px;
+}
+
+/* ---- Home ---- */
+.homeGrid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: var(--s5);
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+.rosterRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--hair2);
+  width: 100%;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.rosterRow:hover .deckName {
+  color: var(--acc);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.deckName {
+  font-size: 14px;
+  font-weight: 500;
+}
+.deckCmdr {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink2);
+  margin-left: 6px;
+}
+.clockCell {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink2);
+}
+.scoreCell {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  width: 46px;
+  text-align: right;
+}
+.podRow {
+  display: grid;
+  grid-template-columns: 1fr 44px;
+  gap: 10px;
+  align-items: center;
+}
+.bar {
+  display: block;
+  height: 9px;
+  background: var(--hair);
+  overflow: hidden;
+}
+.barFill {
+  display: block;
+  height: 100%;
+  background: var(--good);
+}
+.pct {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 14px;
+  text-align: right;
+}
+.award {
+  padding: 9px 0;
+  border-bottom: 1px dotted var(--hair);
+}
+.awardLabel {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.awardWinner {
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+.awardNote {
+  font-size: 11.5px;
+  color: var(--ink2);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* ---- Decks table ---- */
+.tierChips {
+  display: flex;
+  gap: 8px;
+}
+.tierChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid var(--hair);
+}
+.tierChip i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.deckTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.deckTable th {
+  text-align: left;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  padding: 12px 8px 11px 0;
+}
+.deckTable td {
+  padding: 11px 8px 11px 0;
+  border-top: 1px solid var(--hair2);
+  vertical-align: middle;
+}
+.deckRow {
+  cursor: pointer;
+}
+.deckRow:hover .deckName {
+  color: var(--acc);
+}
+.scoreWrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 118px;
+}
+.scoreNum {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 17px;
+  width: 46px;
+}
+.scoreBar {
+  flex: 1;
+  height: 6px;
+  background: var(--hair);
+  overflow: hidden;
+}
+.scoreBarFill {
+  display: block;
+  height: 100%;
+}
+.archetypeCell {
+  font-size: 13px;
+  color: var(--ink);
+}
+.gcCell {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---- Collection ---- */
+.colLayout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: var(--s5);
+}
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  border-right: 1px solid var(--hair);
+  padding-right: var(--s4);
+}
+.filterHead {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  margin-bottom: 11px;
+}
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  padding: 4px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+.filterRow:hover {
+  color: var(--acc);
+}
+.facetCount {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.colToolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 24px;
+}
+.colCount {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink2);
+}
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
+  gap: 15px;
+}
+.cardArt {
+  aspect-ratio: 0.716;
+  border: 1.5px solid var(--ink);
+  background: var(--paper2);
+  background-image: repeating-linear-gradient(135deg, transparent 0 8px, var(--hair2) 8px 9px);
+  position: relative;
+  overflow: hidden;
+}
+.cardQty {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  padding: 1px 5px;
+}
+.cardPip {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(22, 19, 15, 0.3);
+}
+.cardCost {
+  position: absolute;
+  left: 8px;
+  bottom: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+}
+.cardName {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 8px 0 5px;
+}
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.cardSet {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+}
+.roleTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1px solid var(--hair);
+  color: var(--ink2);
+}
+.roleTag i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.more {
+  text-align: center;
+  padding: var(--s4);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+
+/* ---- Wishlist ---- */
+.swapRow {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--hair2);
+}
+.swapDeck {
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.swapChange {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.swapOut {
+  color: var(--faint);
+  text-decoration: line-through;
+}
+.swapArrow {
+  font-family: var(--mono);
+  color: var(--acc);
+  font-weight: 600;
+}
+.swapInto {
+  font-weight: 600;
+}
+.tagRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  flex: none;
+}
+.tagFree {
+  color: var(--good);
+  background: rgba(79, 107, 30, 0.13);
+}
+.tagSmall {
+  color: var(--gold);
+  background: rgba(148, 97, 18, 0.13);
+}
+.tagMajor {
+  color: var(--warn);
+  background: rgba(163, 51, 26, 0.13);
+}
+.tagApplied {
+  color: var(--good);
+  background: rgba(79, 107, 30, 0.13);
+}
+.tagApproval {
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+}
+.builds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.buildCard {
+  background: var(--paper2);
+  border: 1.5px solid var(--ink);
+  padding: 16px 18px;
+}
+.buildHead {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 4px;
+}
+.buildName {
+  font-family: var(--disp);
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.buildTags {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+.buildTheme {
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink2);
+  margin-bottom: 12px;
+}
+.buildStats {
+  display: flex;
+  gap: 18px;
+  padding: 10px 0;
+  border-top: 1px solid var(--hair2);
+  border-bottom: 1px solid var(--hair2);
+  margin-bottom: 11px;
+}
+.buildStatLabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.buildStatValue {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.buildNote {
+  font-size: 12.5px;
+  color: var(--ink);
+  line-height: 1.45;
+}
+.buys {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px 28px;
+}
+.buyRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--hair2);
+}
+.buyCard {
+  font-size: 14px;
+  font-weight: 600;
+}
+.buyUnlocks {
+  font-size: 12px;
+  color: var(--ink2);
+}
+.buyQty {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+.legend {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 8px 0 16px;
+}
+
+/* ---- DeckPage (Tale of the Tape) ---- */
+.deckPage {
+  display: flex;
+  flex-direction: column;
+}
+.back {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 var(--s4);
+}
+.back:hover {
+  color: var(--acc);
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  gap: 30px;
+  align-items: start;
+  padding-bottom: 26px;
+}
+.heroKicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  margin-bottom: 11px;
+}
+.heroTitle {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 0.88;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+.heroMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+.gamePlanBox {
+  border: 1.5px solid var(--ink);
+  border-top: 4px solid var(--acc);
+}
+.gamePlanHead {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--acc);
+  padding: 9px 14px 7px;
+  border-bottom: 1px solid var(--hair);
+}
+.gamePlanBody {
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding: 11px 14px 13px;
+}
+.tapeBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 24px;
+  margin: 0 -24px;
+  background: var(--ink);
+  color: var(--paper);
+}
+.tapeBarTitle {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.tapeBarRule {
+  flex: 1;
+  height: 1px;
+  background: var(--paper);
+  opacity: 0.4;
+}
+.tapeBarHint {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.clockBox {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  align-items: stretch;
+  border: 1.5px solid var(--ink);
+  margin-top: var(--s4);
+}
+.clockCol {
+  padding: 18px 22px;
+  text-align: center;
+}
+.clockColLabel {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.clockBig {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  margin-top: 6px;
+}
+.clockBigAcc {
+  color: var(--acc);
+}
+.clockSub {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--faint);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--paper);
+  background: var(--ink);
+}
+.clockLabRef {
+  display: flex;
+  justify-content: flex-end;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.06em;
+  margin: 8px 2px 0;
+}
+.twoCol {
+  display: grid;
+  grid-template-columns: 1.32fr 1fr;
+  border-top: 1.5px solid var(--ink);
+  margin-top: var(--s5);
+}
+.twoColLeft {
+  border-right: 1.5px solid var(--ink);
+  padding: var(--s4) 24px 24px 0;
+}
+.twoColRight {
+  padding: var(--s4) 0 24px 24px;
+}
+.subHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.subTick {
+  width: 9px;
+  height: 9px;
+  background: var(--acc);
+  flex: none;
+}
+.subTickHollow {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--ink);
+  flex: none;
+}
+.subTitle {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.subHint {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+.finisher {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+.finIdx {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink3);
+  line-height: 1;
+}
+.finTop {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.finName {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 16px;
+}
+.finTag {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--acc);
+  flex: none;
+}
+.finNote {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink2);
+  margin-top: 3px;
+}
+.openRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.42;
+  margin-bottom: 11px;
+}
+.openArrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink3);
+}
+.recordBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  margin: var(--s5) -24px 0;
+  background: var(--paper2);
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1px solid var(--hair);
+}
+.recordKicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+.recordGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  background: var(--paper2);
+  margin: 0 -24px;
+}
+.recordLeft {
+  padding: 18px 24px 22px;
+  border-right: 1px solid var(--hair);
+}
+.recordRight {
+  padding: 18px 24px 22px;
+}
+.compBar {
+  display: flex;
+  height: 30px;
+  border: 1.5px solid var(--ink);
+  margin: 6px 0 11px;
+}
+.compSeg {
+  border-right: 1px solid var(--paper);
+}
+.compSeg:last-child {
+  border-right: none;
+}
+.compLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.compItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.compSwatch {
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--ink);
+  flex: none;
+}
+.compCount {
+  color: var(--ink);
+  font-weight: 600;
+}
+.axes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.axis {
+  border: 1px solid var(--hair);
+  padding: 10px 12px;
+}
+.axisLabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.axisScore {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  margin: 5px 0 7px;
+}
+.axisBar {
+  position: relative;
+  height: 9px;
+  background: var(--hair2);
+  overflow: hidden;
+}
+.axisBarFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--ink);
+}
+.gcRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: var(--ink2);
+  margin-bottom: 7px;
+}
+.gcBadge {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  padding: 2px 5px;
+  flex: none;
+}
+.keepCriteria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0 0;
+}
+.crit {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  padding: 5px 11px;
+  border: 1px solid var(--ink);
+  text-transform: uppercase;
+}
+
+.loading,
+.error {
+  padding: var(--s6);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.error {
+  color: var(--warn);
+}
+
+@media (max-width: 1050px) {
+  .homeGrid,
+  .colLayout,
+  .twoCol,
+  .builds,
+  .buys,
+  .recordGrid,
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .kpiStrip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .twoColLeft {
+    border-right: none;
+    padding: var(--s4) 0 24px;
+  }
+  .filters {
+    border-right: none;
+  }
+}

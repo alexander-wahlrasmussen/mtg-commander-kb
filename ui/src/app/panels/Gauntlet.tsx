@@ -61,8 +61,8 @@ export function Gauntlet() {
                 height={520}
                 rows={data.rows.map((r) => ({ label: r.name, values: { win: r.win * 100, pure: r.pure * 100 } }))}
                 series={[
-                  { key: "win", label: "P(WIN)", color: "var(--accent)" },
-                  { key: "pure", label: "PURE RACE", color: "var(--accent-2)" },
+                  { key: "win", label: "P(WIN)", color: "#c63a1b" },
+                  { key: "pure", label: "PURE RACE", color: "#5b544a" },
                 ]}
               />
             </Card>
