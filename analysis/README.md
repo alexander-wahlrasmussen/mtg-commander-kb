@@ -23,7 +23,6 @@ script walks only `decks/` + `collection/`).
 | `Earthbend_the_Meta_Clock_Lab_2026-06-13.md` | `decks/Earthbend_the_Meta_Summary.md` |
 | `Eldrazi_Stampede_Clock_Lab_2026-06-13.md` | `decks/Eldrazi_Stampede_Chaos_Summary.md` |
 | `Genome_Project_Clock_Lab_2026-06-10.md` | `decks/The_Genome_Project_Summary.md` |
-| `Lightning_War_Clock_Lab_2026-06-13.md` | `decks/Lightning_War_Summary.md` |
 | `Lorehold_Spirits_Clock_Lab_2026-06-13.md` | `decks/Lorehold_Spirits_Summary.md` |
 | `Ms_Bumbleflower_Clock_Lab_2026-06-13.md` | `decks/Ms_Bumbleflower_Summary.md` |
 | `Radiation_Sickness_Clock_Lab_2026-06-13.md` | `decks/Radiation_Sickness_Summary.md` |
@@ -37,7 +36,6 @@ script walks only `decks/` + `collection/`).
 | `Replication_Crisis_Speed_Curve_Analysis.md` | RC Summary + `Pod_Matchup_Matrix.md` |
 | `Exiles_Return_Speed_Curve_Analysis.md` | `decks/The_Exiles_Return_Summary.md` |
 | `Calamity_Tax_Speed_Curve_Analysis.md` | `decks/The_Calamity_Tax_Summary.md` |
-| `Lightning_War_Speed_Curve_Analysis.md` | `../campaigns/Framework_Clock_Gap_2026-06-09.md` |
 
 ## Cross-cutting matchup models (not per-deck Summary backers)
 
