@@ -1,24 +1,25 @@
-# Publish the static dashboard to GitHub Pages.
+# Publish the React "Pod Gauntlet" dashboard (ui/) to GitHub Pages.
 #
-# Deploys the dashboard/ folder (HTML/CSS/JS + the precomputed data/*.json baked by
-# scripts/dashboard_export.py) as a static site. The dashboard auto-detects the baked
-# data and runs without any Python backend.
+# Builds the Vite app (ui/) and deploys ui/dist as a static site. The app
+# auto-detects the baked data/*.json (committed under ui/public/data, mirrored
+# there by scripts/dashboard_export.py) and runs in STATIC mode with no Python
+# backend. vite base is "./" so it works under the project Pages subpath
+# (https://<user>.github.io/<repo>/).
 #
 # One-time setup: repo Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
-# Then merge this branch to master; the site publishes at the URL shown in the run summary.
+# Then push to master; the site publishes at the URL shown in the run summary.
 # NOTE: a GitHub Pages site is PUBLIC even from a private repo (free/Pro). The baked JSON
 # holds deck names + win-probabilities (no decklists/collection). Use Netlify with access
 # control if you need it private (see dashboard/README.md).
 #
-# Alternative (keep generated JSON out of git): run `python scripts/dashboard_export.py`
-# in this job before upload — but that needs the 176 MB Scryfall bulk in CI, so committing
-# the small baked JSON is simpler.
-name: Deploy dashboard to Pages
+# To refresh the data without a code change, re-run `python scripts/dashboard_export.py`
+# (mirrors into ui/public/data) and commit — that touches ui/** and re-triggers this job.
+name: Deploy Pod Gauntlet UI to Pages
 
 on:
   push:
     branches: [master]
-    paths: ["dashboard/**", ".github/workflows/dashboard-pages.yml"]
+    paths: ["ui/**", ".github/workflows/dashboard-pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -31,16 +32,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: ui
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+      - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dashboard
+          path: ui/dist
       - id: deployment
         uses: actions/deploy-pages@v4

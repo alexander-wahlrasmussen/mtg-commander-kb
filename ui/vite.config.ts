@@ -38,6 +38,10 @@ export default defineConfig(({ mode }) => {
   }
   // dev / app build — talks to the Python server in dev via a proxy
   return {
+    // Relative asset paths so the build works under a GitHub Pages project
+    // subpath (https://<user>.github.io/<repo>/) as well as at the root. The
+    // app fetches its data via relative `data/*.json` URLs, so this is enough.
+    base: "./",
     plugins: [react()],
     server: {
       proxy: { "/api": "http://127.0.0.1:8765" },
