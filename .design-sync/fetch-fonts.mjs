@@ -1,10 +1,12 @@
 // Scratch: fetch latin-subset woff2 from Google Fonts, base64-inline them as
 // @font-face rules, write ui/src/theme/fonts.css. Self-hosts the fonts so the
 // bundled CSS ships real fonts (no remote @import, clears the font warning).
+// Newsprint set (2026-06-21): Oswald (display/--disp) + IBM Plex Mono (figures/--mono);
+// Georgia (--serif body) is a system font and needs no @font-face.
 import { writeFileSync } from 'node:fs';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
-const CSS_URL = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Spectral:wght@400;500;600;700&display=swap';
+const CSS_URL = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap';
 
 const cssRes = await fetch(CSS_URL, { headers: { 'User-Agent': UA } });
 const css = await cssRes.text();
@@ -12,7 +14,7 @@ const css = await cssRes.text();
 // Each @font-face is preceded by a /* subset */ comment. Keep only latin.
 const re = /\/\*\s*([\w-]+)\s*\*\/\s*(@font-face\s*\{[^}]*\})/g;
 let m, kept = 0, out = [];
-out.push('/* Self-hosted Spectral + IBM Plex Mono (latin subset, base64). Generated from Google Fonts.');
+out.push('/* Self-hosted Oswald + IBM Plex Mono (latin subset, base64). Generated from Google Fonts.');
 out.push('   Ships real @font-face in the bundled CSS — no remote @import dependency. */');
 while ((m = re.exec(css)) !== null) {
   const subset = m[1];
