@@ -41,6 +41,10 @@ BAD = ("*", "<", ">", "[", "]", "...", "YYYY", "kebab", "$", "Deck_Name")
 # bare filenames that legitimately live outside the repo
 IGNORE_BARE = re.compile(r"^(project|feedback|reference)_.*\.md$"   # ~/.claude memory files
                          r"|^deck_safe_collection_builder\.py$")    # $DECKSAFE_REPO
+# git-ignored bulk Scryfall data: real files present locally but absent from a
+# fresh clone/worktree, so a reference to them resolves at runtime even when the
+# linter can't see the file (same spirit as IGNORE_BARE).
+IGNORE_DATA = {"oracle-cards.json", "oracle-tags.json", "rulings.json"}
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -62,7 +66,7 @@ def as_path(s):                                 # slash-bearing real path ref
     s = clean_token(s)
     if not s or s.startswith(("http", "#", "mailto:")):
         return None
-    if any(b in s for b in BAD):
+    if any(b in s for b in BAD) or os.path.basename(s) in IGNORE_DATA:
         return None
     return s if ("/" in s and s.endswith(EXT)) else None
 
@@ -73,7 +77,7 @@ def as_bare(s):                                 # bare filename (no slash), base
         return None
     if s.startswith((".", "_")):                # pure type/suffix fragment ('.txt', '_Summary.md')
         return None
-    if any(b in s for b in BAD) or IGNORE_BARE.match(s):
+    if any(b in s for b in BAD) or IGNORE_BARE.match(s) or s in IGNORE_DATA:
         return None
     return s
 
