@@ -1,3 +1,5 @@
+@import "./fonts.css"; /* self-hosted Spectral + IBM Plex Mono (base64 @font-face) — no remote dependency */
+
 /* ============================================================================
    Pod Gauntlet — design tokens (the theme).
    The whole look hangs off these custom properties; every component reads them.
@@ -5,26 +7,26 @@
    React rebuild starts visually identical.
    ========================================================================== */
 :root {
-  /* surfaces */
-  --bg:        #0b0e14;
-  --bg-2:      #121826;
-  --bg-3:      #1a2233;
-  --panel:     #131a27;
-  --panel-2:   #18202f;
-  --line:      #28324356;
-  --line-2:    #2f3a4d;
-  --text:      #eef2f8;
-  --muted:     #9aa8bd;
-  --faint:     #6a7689;
+  /* surfaces — Gruvbox dark */
+  --bg:        #282828;
+  --bg-2:      #32302f;
+  --bg-3:      #3c3836;
+  --panel:     #3c3836;
+  --panel-2:   #32302f;
+  --line:      #504945;
+  --line-2:    #5a5048;
+  --text:      #fbf1c7;
+  --muted:     #a89984;
+  --faint:     #928374;
 
-  /* brand / data */
-  --accent:     #5cd2ff;
-  --accent-2:   #ffb65c;
-  --accent-ink: #04121b;
-  --accent-soft:#5cd2ff22;
-  --good:       #43dca0;
-  --warn:       #ff6b6b;
-  --gold:       #ffd24a;
+  /* brand / data — Gruvbox */
+  --accent:     #fe8019;
+  --accent-2:   #fabd2f;
+  --accent-ink: #282828;
+  --accent-soft:#fe801926;
+  --good:       #b8bb26;
+  --warn:       #fb4934;
+  --gold:       #fabd2f;
   --silver:     #cdd6e2;
   --bronze:     #db9a5c;
 
@@ -36,8 +38,8 @@
   --fs-lg:  19px;
   --fs-xl:  23px;
   --fs-2xl: 30px;
-  --font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --mono: "JetBrains Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
+  --font: "Spectral", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Consolas", monospace;/* @kind font */
 
   /* spacing rhythm */
   --s1: 4px;  --s2: 8px;  --s3: 12px;  --s4: 16px;  --s5: 24px;  --s6: 32px;
@@ -47,15 +49,39 @@
   --radius-sm: 10px;
   --shadow:    0 1px 0 #ffffff08 inset, 0 10px 30px -12px rgba(0,0,0,.6);
   --shadow-lg: 0 1px 0 #ffffff0d inset, 0 22px 48px -18px rgba(0,0,0,.7);
-  --ease:      cubic-bezier(.2,.7,.2,1);
+  --ease:      cubic-bezier(.2,.7,.2,1);/* @kind other */
+}
+
+/* Gruvbox light — opt-in via [data-pg-theme="light"] (matches the templates' selector,
+   so the bundle's light tokens serve them and their local override becomes redundant). */
+[data-pg-theme="light"] {
+  --bg:        #e7d9ad;
+  --bg-2:      #f2e5bc;
+  --bg-3:      #ece0bb;
+  --panel:     #f2e5bc;
+  --panel-2:   #fbf1c7;
+  --line:      #d5c4a1;
+  --line-2:    #c9b88f;
+  --text:      #282828;
+  --muted:     #665c54;
+  --faint:     #7c6f64;
+  --accent:     #af3a03;
+  --accent-2:   #b57614;
+  --accent-ink: #fbf1c7;
+  --accent-soft:#af3a0322;
+  --good:       #79740e;
+  --warn:       #9d0006;
+  --gold:       #b57614;
+  --silver:     #8a7f6a;
+  --bronze:     #a8662e;
 }
 
 * { box-sizing: border-box; }
 html, body, #root { margin: 0; min-height: 100%; }
 body {
   background:
-    radial-gradient(1100px 520px at 82% -8%, #1b2740 0%, transparent 58%),
-    radial-gradient(900px 500px at 0% 0%, #14202f 0%, transparent 50%),
+    radial-gradient(1100px 520px at 82% -8%, #3c3836 0%, transparent 58%),
+    radial-gradient(900px 500px at 0% 0%, #32302f 0%, transparent 50%),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);

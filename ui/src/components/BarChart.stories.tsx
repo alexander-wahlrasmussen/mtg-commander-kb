@@ -18,8 +18,8 @@ export const Default: Story = {
   args: {
     rows,
     series: [
-      { key: "win", label: "P(WIN)", color: "#5cd2ff" },
-      { key: "pure", label: "PURE RACE", color: "#ffb454" },
+      { key: "win", label: "P(WIN)", color: "#fe8019" },
+      { key: "pure", label: "PURE RACE", color: "#fabd2f" },
     ],
     height: 360,
   },

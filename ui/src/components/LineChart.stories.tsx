@@ -15,10 +15,10 @@ export const ClockCurves: Story = {
     yLabel: "cum P(decap ≤ turn) %",
     refLineY: 50,
     series: [
-      { name: "Radiation Sickness", color: "#5cd2ff", points: curve(0) },
-      { name: "The Genome Project", color: "#ffb454", points: curve(1) },
-      { name: "The Replication Crisis", color: "#46d39a", points: curve(2) },
-      { name: "The Grand Design", color: "#ff6b6b", points: curve(4) },
+      { name: "Radiation Sickness", color: "#fe8019", points: curve(0) },
+      { name: "The Genome Project", color: "#fabd2f", points: curve(1) },
+      { name: "The Replication Crisis", color: "#b8bb26", points: curve(2) },
+      { name: "The Grand Design", color: "#fb4934", points: curve(4) },
     ],
   },
 };
