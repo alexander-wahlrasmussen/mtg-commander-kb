@@ -2,8 +2,8 @@
 // use it, else fall back to precomputed /data/*.json (static mode). ?live / ?static override.
 
 export const PALETTE = [
-  "#5cd2ff", "#ffb454", "#46d39a", "#ff6b6b", "#b48cff", "#ffd24a", "#6fd3c7", "#f48fb1",
-  "#9ccc65", "#4fc3f7", "#ff8a65", "#ba68c8", "#dce775", "#4db6ac", "#e57373", "#7986cb",
+  "#fe8019", "#fabd2f", "#b8bb26", "#fb4934", "#d3869b", "#8ec07c", "#83a598", "#d65d0e",
+  "#fabd2f", "#458588", "#cc241d", "#689d6a", "#b16286", "#98971a", "#d79921", "#a89984",
 ];
 
 export interface ClockDeck {
