@@ -10,6 +10,7 @@
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
 |**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ **(board)** — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
+| **Ramp** | 8 sources (0 burst / 8 repeatable) · 47 mana sources, 39 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
 

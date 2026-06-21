@@ -11,6 +11,7 @@
 | **Game Changers** | Necropotence, Vampiric Tutor, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | *Not yet audited.* Proposal ceiling 18–19/20; the clock lab tempers the Speed axis — formal audit after first pod games. |
 | **Kill Window** | Clock: **T9 decap = T9 table** **(spell, instant)** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
+| **Ramp** | 19 sources (4 burst / 14 repeatable) · 54 mana sources, 36 land · over band, 5 payoffs cmc>=6 (`ramp_audit.py` 2026-06-21) |
 | **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); the new 2-card infinite is pod-accepted under the 2026-06-19 house-rule revision (infinites accepted). The `.txt` is the target state until the order lands. |
 
 -----

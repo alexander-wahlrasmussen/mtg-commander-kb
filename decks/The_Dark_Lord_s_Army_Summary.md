@@ -6,6 +6,7 @@
 **Bracket:** 3 (3 Game Changers: Orcish Bowmasters, Cyclonic Rift, Demonic Tutor)  
 **Conversion Check:** 19/20 (5/4/5/5)  
 **Kill Window:** **Clock (vs pod-activity — engine is opponent-driven): decap T8–10 / table T11–15 by pod tempo; typical decap T9 / table T12** **(spell, instant — passive drain on opp draws)** (lab 2026-06-13, `dla_clock_lab.py`). Kills FASTER vs active pods (amass/drain feed on opponents' spells + draws). Claim "T8–10 / interaction T10–12" corroborated — among the best in the sweep. See `analysis/Dark_Lords_Army_Clock_Lab_2026-06-13.md`.  
+**Ramp:** 10 sources (3 burst / 7 repeatable) · 46 mana sources, 36 land · in band (`ramp_audit.py` 2026-06-21)  
 **Estimated buy cost:** ~$369 (48 cards to acquire; 42 already owned with surplus)
 
 -----

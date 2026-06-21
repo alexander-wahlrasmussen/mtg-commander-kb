@@ -11,6 +11,7 @@
 | **Game Changers** | Field of the Dead, Smothering Tithe, Crop Rotation (3 of 3 slots used) |
 | **Conversion Check** | **17/20** (5/4/4/4) |
 | **Kill Window** | **Clock: T8 decap** (median; T7 ≈ 34%) **/ T12 table** (lab 2026-06-13, `ebm_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified — goldfish only; no disruption/Cyclonic Rift model)*. The old single number "T7–9" was the decap window; table is ~4 turns later. See `analysis/Earthbend_the_Meta_Clock_Lab_2026-06-13.md`. |
+| **Ramp** | 17 sources (1 burst / 15 repeatable) · 50 mana sources, 34 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
 

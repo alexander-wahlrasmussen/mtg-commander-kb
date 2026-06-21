@@ -11,6 +11,7 @@
 | **Game Changers** | Aang's Shelter (= Teferi's Protection), Enlightened Tutor, Jeska's Will (3 of 3 slots used). *Deflecting Swat is in the deck but no longer a GC after the Oct 2025 delisting.* |
 | **Conversion Check** | **17/20** (5/4/4/4) |
 | **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) **(board)** · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). See `analysis/Exiles_Return_Speed_Curve_Analysis.md` |
+| **Ramp** | 13 sources (2 burst / 11 repeatable) · 50 mana sources, 37 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
 

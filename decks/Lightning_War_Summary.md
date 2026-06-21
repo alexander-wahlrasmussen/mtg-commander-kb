@@ -8,6 +8,7 @@
 **Game Changers:** Fierce Guardianship, Mystical Tutor, Gifts Ungiven
 **Conversion Check:** 19/20 (axes shifted 2026-06-19 — Kill/clock up, Interaction down; the build trades disruption density for an Abolisher-immune combo — see Pod Fit)
 **Kill Window:** **combo decap=table ~T7–10** (`lw_combo_lab.py --mode recur`, 2026-06-19; ~52% by T10) · **race decap T7–8 / table T10** (`lw_clock_lab.py` chip, 2026-06-14). **Timing: instant-capable** — the Comet Storm combo kill resolves at instant speed; the sorcery X-spells (Crackle/Banefire) need a flash enabler. **pod_gauntlet P(WIN vs pod) 38%→64%** (race-led; clock gain ≫ static-disruption loss). Evidence: `proposals/Lightning_War_Consistency_Upgrade_2026-06-18.md` §10–13.
+**Ramp:** 15 sources (5 burst / 8 repeatable) · 49 mana sources, 36 land · in band (`ramp_audit.py` 2026-06-21)  
 **Current decklist:** `lightning-war-20260619.txt` (combo-race rebuild 2026-06-19: 13 swaps + 2 land; the `.txt` is ground truth, this is commentary)
 
 > **⚠ 2026-06-19 combo-race rebuild.** The header, Conversion Check, Bracket Compliance, Pod Fit, and Engine Role Map above/below are current. The lower narrative sections (*What the Deck Is Trying to Do*, *Kill Lines*, *Clock Note*, *Audit Note*) still describe the prior **race-only** build and are superseded by `proposals/Lightning_War_Consistency_Upgrade_2026-06-18.md` §10–13 (the canonical rebuild record) — refresh on a later pass.

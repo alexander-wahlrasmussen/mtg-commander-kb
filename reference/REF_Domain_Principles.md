@@ -22,6 +22,7 @@ Hard-won lessons from prior analysis. Each entry exists because a mistake was ma
 - **Power-first, collection-constrained second.** Build the strongest legal list first, then resolve against collection/budget.
 - **Count token producers before recommending token doublers.** A doubler with only 2–3 token generators is a dead card most games. For Teysa aristocrats: Desecrated Tomb, Woe Strider, Endrek Sahr are the real producers. Sephiroth is *not*.
 - **No single axis compensates for a catastrophic gap in another.** A deck at 5/5/5/1 will lose games it should win.
+- **Audit ramp against the win line, not the curve.** A ramp count is only "too much" relative to what it ramps *toward*. Low-curve combo / X-spell / storm decks ramp toward an engine that a "count the cmc≥6 payoffs" proxy can't see, so a curve-only ramp audit misfires on exactly those decks. Match ramp TYPE to kill shape (burst↔one-turn combo, repeatable↔deploy-each-turn) and size to ~12 ramp / ~48–50 mana sources for fair decks. Tool: `scripts/ramp_audit.py`; framework: BDD "You're Probably Ramping Wrong" (memory `reference_bdd_ramp_framework`, `analysis/Ramp_Audit_2026-06-21.md`). (Added 2026-06-21.)
 
 ---
 
