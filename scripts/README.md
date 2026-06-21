@@ -40,8 +40,9 @@ The per-deck tables below give the full mapping.
 | `deck_sim.py` | Monte-Carlo consistency + combo-assembly simulator (not a rules engine). |
 | `speed_lab_core.py` | Shared harness the per-deck speed/clock labs build on. |
 | `clock_lab_template.py` | Copy to start a new `<deck>` kill-turn lab. |
-| `card_lookup.py` | Look up Scryfall oracle data + rulings by card name (`--fuzzy`). |
+| `card_lookup.py` | Look up Scryfall oracle data + rulings by card name (`--fuzzy`); shows Tagger function-tags when the index exists. |
 | `update_scryfall_data.py` | Download the latest Scryfall oracle-cards + rulings bulk data. |
+| `update_tag_index.py` | Build the Scryfall Tagger function-tag index (`otag:`) → `collection/oracle-tags.json`. |
 | `find_combos.py` | Check a full decklist for combos via Commander Spellbook. |
 | `availability_check.py` | Check a candidate decklist against ownership + deployed decks. |
 | `unlock_optimizer.py` | Rank cross-deck card contention and one-purchase unlocks. |

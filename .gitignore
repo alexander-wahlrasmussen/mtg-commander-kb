@@ -41,3 +41,5 @@ desktop.ini
 # Scryfall bulk data — large, refresh with scripts/update_scryfall_data.py
 collection/oracle-cards.json
 collection/rulings.json
+# Scryfall Tagger index — refresh with scripts/update_tag_index.py
+collection/oracle-tags.json
