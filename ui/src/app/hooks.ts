@@ -37,4 +37,23 @@ export function useDebouncedData<T>(
   return { data, status };
 }
 
+/** One-shot page load: run `fetcher` on mount (and when `deps` change). */
+export function usePageData<T>(fetcher: () => Promise<T>, deps: unknown[] = []) {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    setData(null);
+    setError(null);
+    track(fetcher())
+      .then((d) => alive && setData(d))
+      .catch((e) => alive && setError((e as Error).message));
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+  return { data, error };
+}
+
 export const kfmt = (n: number) => (n >= 1000 ? n / 1000 + "k" : "" + n);

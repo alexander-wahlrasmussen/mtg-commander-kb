@@ -4,49 +4,40 @@
   display: flex;
   align-items: center;
   gap: var(--s4);
-  background: linear-gradient(135deg, #ffd24a26, #ffd24a08 55%, transparent);
-  border: 1px solid var(--gold);
-  border-radius: var(--radius);
+  background: var(--panel-2);
+  border: 1.5px solid var(--gold);
+  border-radius: 0;
   padding: var(--s5);
-  box-shadow: var(--shadow-lg);
+  box-shadow: none;
 }
 .banner::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 40%;
-  left: -50%;
-  background: linear-gradient(100deg, transparent, #ffffff22, transparent);
-  animation: sheen 4.5s var(--ease) infinite;
-}
-@keyframes sheen {
-  0% {
-    left: -50%;
-  }
-  60%,
-  100% {
-    left: 130%;
-  }
+  display: none;
 }
 .trophy {
   font-size: 52px;
-  filter: drop-shadow(0 3px 10px #ffd24a55);
+  filter: none;
 }
 .name {
   margin: 0;
+  font-family: var(--disp);
   font-size: var(--fs-2xl);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--gold);
 }
 .sub {
   margin: 4px 0 0;
   color: var(--text);
+  font-family: var(--mono);
   font-weight: 600;
   font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
 }
 .note {
   margin: 4px 0 0;
   color: var(--muted);
+  font-family: var(--serif);
   font-size: var(--fs-sm);
 }
 @media (max-width: 640px) {

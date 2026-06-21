@@ -6,9 +6,9 @@
   gap: 6px;
   padding: var(--s6) var(--s5);
   color: var(--muted);
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
-  border: 1px dashed var(--line-2);
-  border-radius: var(--radius);
+  background: transparent;
+  border: 1.5px dashed var(--line-2);
+  border-radius: 0;
 }
 .glyph {
   font-size: 44px;
@@ -17,10 +17,14 @@
 .title {
   margin: 4px 0 0;
   color: var(--text);
+  font-family: var(--disp);
   font-size: var(--fs-md);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 .text {
   margin: 0;
   max-width: 460px;
+  font-family: var(--serif);
   font-size: var(--fs-sm);
 }

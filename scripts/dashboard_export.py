@@ -23,12 +23,14 @@ Usage:
 """
 import importlib.util
 import json
+import shutil
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "dashboard" / "data"
+UI_OUT = ROOT / "ui" / "public" / "data"   # the React build reads its baked JSON here too
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -122,6 +124,20 @@ def main():
     (OUT / "locks.json").write_text(json.dumps(lk), encoding="utf-8")
     print(" done")
 
+    # content pages (KB markdown / CSV / Scryfall — single payloads, no scenario grid)
+    print("content ...", end="", flush=True)
+    roster = ds.compute_roster()
+    (OUT / "roster.json").write_text(json.dumps(roster), encoding="utf-8")
+    (OUT / "wishlist.json").write_text(json.dumps(ds.compute_wishlist()), encoding="utf-8")
+    (OUT / "collection.json").write_text(json.dumps(ds.compute_collection()), encoding="utf-8")
+    (OUT / "home.json").write_text(json.dumps(ds.compute_home(GSEED)), encoding="utf-8")
+    decks_dir = OUT / "decks"
+    decks_dir.mkdir(exist_ok=True)
+    slugs = [d["slug"] for d in roster["decks"]]
+    for slug in slugs:
+        (decks_dir / f"{slug}.json").write_text(json.dumps(ds.compute_deck(slug)), encoding="utf-8")
+    print(f" done ({len(slugs)} deck pages)")
+
     manifest = dict(
         generated=time.strftime("%Y-%m-%d %H:%M"),
         clocks=True,
@@ -130,11 +146,21 @@ def main():
                    a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
         championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
                           trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON),
+        content=dict(roster=True, home=True, wishlist=True, collection=True, decks=slugs),
     )
     (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
+    # mirror the whole bake into the React app's public/data (its static fallback)
+    UI_OUT.mkdir(parents=True, exist_ok=True)
+    (UI_OUT / "decks").mkdir(exist_ok=True)
+    for p in OUT.glob("*.json"):
+        shutil.copy2(p, UI_OUT / p.name)
+    for p in decks_dir.glob("*.json"):
+        shutil.copy2(p, UI_OUT / "decks" / p.name)
+
     sizes = {p.name: p.stat().st_size for p in sorted(OUT.glob("*.json"))}
-    print(f"\nwrote {len(sizes)} files to {OUT.relative_to(ROOT)} in {time.time()-t0:.0f}s")
+    print(f"\nwrote {len(sizes)} files (+{len(slugs)} deck pages) to "
+          f"{OUT.relative_to(ROOT)} (mirrored to {UI_OUT.relative_to(ROOT)}) in {time.time()-t0:.0f}s")
     for name, sz in sizes.items():
         print(f"  {name:22} {sz/1024:6.1f} KB")
 

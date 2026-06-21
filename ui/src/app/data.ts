@@ -1,9 +1,10 @@
 // Data layer — mirrors the vanilla dashboard: probe /api; if a live server answers
 // use it, else fall back to precomputed /data/*.json (static mode). ?live / ?static override.
 
+// Newsprint palette — inks / earth tones that read on cream paper (SVG fill needs real hex).
 export const PALETTE = [
-  "#5cd2ff", "#ffb454", "#46d39a", "#ff6b6b", "#b48cff", "#ffd24a", "#6fd3c7", "#f48fb1",
-  "#9ccc65", "#4fc3f7", "#ff8a65", "#ba68c8", "#dce775", "#4db6ac", "#e57373", "#7986cb",
+  "#c63a1b", "#5b544a", "#946112", "#6f5577", "#4f6b1e", "#076678", "#a8662e", "#8f3f71",
+  "#427b58", "#b57614", "#9d0006", "#7c6f64", "#3a5e6b", "#79740e", "#af3a03", "#5b6c8f",
 ];
 
 export interface ClockDeck {
@@ -112,4 +113,67 @@ export async function getChampionship(p: { trials: number; season_trials: number
   const hit = (await bundle<Record<string, ChampData>>("championship"))[key];
   if (!hit) throw new Error(`no baked scenario (championship ${key})`);
   return hit;
+}
+
+/* -------------------------------------------------------------------------- *
+ * Content pages (KB markdown / CSV / Scryfall — single payloads, no scenario
+ * grid). Live: /api/<name>; static: data/<name>.json (decks/<slug>.json).
+ * -------------------------------------------------------------------------- */
+
+export interface RosterDeck {
+  slug: string; name: string; commander: string; colors: string; pips: string[];
+  score: number | null; archetype: string; tier: string; status: string;
+  decap: string | null; table: string | null; gc: number | null;
+}
+export interface RosterData { decks: RosterDeck[]; }
+
+export interface HomeData {
+  kpis: { label: string; value: string; sub: string }[];
+  champion: { name: string; seed: number; note: string };
+  clockSeries: { name: string; grid: number[]; decap: number[] }[];
+  roster: { name: string; commander: string; score: number | null; slug: string; decap: string | null; table: string | null; tier: string }[];
+  pod: { name: string; pct: number }[];
+  awards: { label: string; winner: string; note: string }[];
+}
+
+export interface WishlistData {
+  builds: { name: string; theme: string; clock: string; gc: string; acquire: number | null; cost: string; gate: boolean }[];
+  swaps: { deck: string; change: string; out: string; into: string; cost: string; gate: boolean; applied: boolean }[];
+  buys: { card: string; qty: string; unlocks: string; note: string }[];
+  counts: { free: number; small: number; builds: number; gates: number };
+}
+
+export interface CollectionCard {
+  name: string; set: string; color: string; cost: string; cmc: number; rarity: string; role: string; qty: number;
+}
+export interface CollectionData {
+  count: number; cards: CollectionCard[];
+  facets: { color: Record<string, number>; role: Record<string, number>; rarity: Record<string, number> };
+}
+
+export interface DeckPage {
+  slug: string; name: string; commander: string; colors: string; pips: string[];
+  archetype: string; status: string; bracket: number; score: number | null;
+  axes: { label: string; score: number }[]; gc: string[];
+  clock: { decap: string | null; table: string | null; grid: number[]; decapCurve: number[]; tableCurve: number[]; never: number[]; src: string };
+  gamePlan: string; winLine: string;
+  finishers: { name: string; tag: string; note: string }[];
+  composition: { name: string; count: number }[];
+  keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
+}
+
+export async function getRoster(): Promise<RosterData> {
+  return mode.static ? bundle<RosterData>("roster") : getJSON<RosterData>("/api/roster");
+}
+export async function getHome(): Promise<HomeData> {
+  return mode.static ? bundle<HomeData>("home") : getJSON<HomeData>("/api/home");
+}
+export async function getWishlist(): Promise<WishlistData> {
+  return mode.static ? bundle<WishlistData>("wishlist") : getJSON<WishlistData>("/api/wishlist");
+}
+export async function getCollection(): Promise<CollectionData> {
+  return mode.static ? bundle<CollectionData>("collection") : getJSON<CollectionData>("/api/collection");
+}
+export async function getDeck(slug: string): Promise<DeckPage> {
+  return mode.static ? bundle<DeckPage>(`decks/${slug}`) : getJSON<DeckPage>(`/api/deck?slug=${encodeURIComponent(slug)}`);
 }

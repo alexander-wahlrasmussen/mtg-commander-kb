@@ -12,6 +12,13 @@ their numbers as JSON, so the browser charts the same curves the writeups cite.
   GET /api/gauntlet?...     -> P(beat the T6-7 pod) per deck (run_default, parameterised)
   GET /api/championship?... -> the 16-deck bracket (pod_championship, parameterised)
 
+Content endpoints (kb_content — KB markdown / CSV / Scryfall, not the sim):
+  GET /api/roster           -> active roster (Deck_Index ⋈ registry ⋈ clocks ⋈ GC)
+  GET /api/home             -> dashboard hub (roster KPIs + a default gauntlet/championship)
+  GET /api/wishlist         -> Build & Swap Tracker (builds / swaps / cheap unlocks)
+  GET /api/collection       -> owned cards (Moxfield CSV ⋈ Scryfall) + facet counts
+  GET /api/deck?slug=       -> one deck's Tale-of-the-Tape page payload
+
 Knobs map 1:1 to the CLI flags:
   gauntlet:     a (Abolisher P-out), pod (fast|base|slow), strict (decap|table), trials
   championship: trials, season_trials, t_grind, swapped
@@ -58,6 +65,7 @@ def _load(name):
 pc = _load("pod_championship")
 sm = pc.sm                                   # self_meta_lab
 pg = pc.pg                                   # pod_gauntlet  (clocks, build_cdf, simulate, ...)
+kb = _load("kb_content")                     # KB content (roster / decks / collection / wishlist)
 
 CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -168,6 +176,35 @@ def compute_championship(trials, season_trials, t_grind, swapped, seed):
             changed=[names[s] for s in changed]))
 
 
+# --- content wrappers (KB markdown / CSV / Scryfall, not the sim) ----------
+def compute_roster():
+    """Active roster for the Decks page (Deck_Index ⋈ registry ⋈ clocks ⋈ GC)."""
+    return dict(decks=kb.roster())
+
+
+def compute_deck(slug):
+    """Full Tale-of-the-Tape payload for one deck."""
+    return kb.deck(slug)
+
+
+def compute_collection():
+    """Owned cards (Moxfield CSV ⋈ Scryfall) + colour/role/rarity facets."""
+    return kb.collection()
+
+
+def compute_wishlist():
+    """Build & Swap Tracker — builds, recommended swaps, cheap unlocks."""
+    return kb.wishlist()
+
+
+def compute_home(seed):
+    """Dashboard hub — roster KPIs + a default gauntlet & championship result."""
+    g = compute_gauntlet(a=pg.A_BASE, pod="base", strict=False, trials=8000, seed=seed)
+    c = compute_championship(trials=8000, season_trials=20000,
+                             t_grind=sm.T_GRIND, swapped=False, seed=sm.SEED)
+    return kb.home(g, c)
+
+
 # --- HTTP plumbing ---------------------------------------------------------
 def _qint(qs, key, default):
     try:
@@ -234,6 +271,16 @@ class Handler(BaseHTTPRequestHandler):
                     t_grind=_qint(qs, "t_grind", sm.T_GRIND),
                     swapped=_qbool(qs, "swapped"),
                     seed=_qint(qs, "seed", sm.SEED)))
+            if path == "/api/roster":
+                return self._json(compute_roster())
+            if path == "/api/home":
+                return self._json(compute_home(seed=_qint(qs, "seed", 20260614)))
+            if path == "/api/wishlist":
+                return self._json(compute_wishlist())
+            if path == "/api/collection":
+                return self._json(compute_collection())
+            if path == "/api/deck":
+                return self._json(compute_deck(qs.get("slug", [""])[0]))
         except Exception as e:                # surface engine errors to the UI, don't 500 silently
             import traceback
             traceback.print_exc()

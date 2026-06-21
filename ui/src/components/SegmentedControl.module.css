@@ -1,27 +1,33 @@
 .seg {
   display: inline-flex;
-  background: var(--bg-3);
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  padding: 3px;
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  padding: 0;
 }
 .seg button {
-  font-family: inherit;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
   border: none;
+  border-right: 1px solid var(--hair);
   background: transparent;
-  color: var(--muted);
-  padding: 7px 15px;
-  border-radius: 999px;
+  color: var(--ink2);
+  padding: 8px 16px;
+  border-radius: 0;
   cursor: pointer;
   font-size: var(--fs-sm);
   transition: all 0.15s var(--ease);
 }
+.seg button:last-child {
+  border-right: none;
+}
 .seg button:hover {
-  color: var(--text);
+  color: var(--ink);
 }
 .on {
-  background: var(--accent) !important;
-  color: var(--accent-ink) !important;
+  background: var(--acc) !important;
+  color: var(--paper) !important;
   font-weight: 600;
-  box-shadow: 0 2px 10px -3px var(--accent);
+  box-shadow: none !important;
 }
