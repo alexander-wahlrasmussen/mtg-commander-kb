@@ -1005,8 +1005,13 @@
 }
 
 /* ----- The decklist (pick-up-and-play card reference) ------------------- */
-.copyBtn {
+.dlControls {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.copyBtn {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -1041,6 +1046,59 @@
   font-family: var(--disp);
   font-weight: 600;
   font-size: 18px;
+}
+.curve {
+  border: 1px solid var(--hair);
+  padding: 11px 14px 9px;
+  margin-bottom: 16px;
+}
+.curveTitle {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  margin-bottom: 9px;
+}
+.curveTitle span {
+  color: var(--ink3);
+}
+.curveBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.curveCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+.curveN {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+  height: 12px;
+  line-height: 12px;
+}
+.curveTrack {
+  width: 100%;
+  height: 54px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.curveBar {
+  width: 64%;
+  min-height: 1px;
+  background: var(--acc);
+}
+.curveX {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink2);
 }
 .dlColumns {
   column-width: 215px;

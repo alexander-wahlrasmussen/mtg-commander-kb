@@ -163,6 +163,8 @@ export interface DeckPage {
     total: number; grouped: boolean;
     commander: { n: string; gc: boolean };
     groups: { name: string; count: number; cards: { n: string; gc: boolean }[] }[];
+    groupsByType: { name: string; count: number; cards: { n: string; gc: boolean }[] }[] | null;
+    curve: { cmc: string; n: number }[] | null;
     text: string;
   } | null;
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };

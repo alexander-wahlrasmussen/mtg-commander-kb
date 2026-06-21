@@ -400,6 +400,25 @@ def _composition(path):
     return out
 
 
+# Card-type grouping (the alternate decklist view) — priority order; a card with
+# several types files under the first it matches, so 'Artifact Creature' → Creatures.
+_TYPE_ORDER = ["Creature", "Planeswalker", "Instant", "Sorcery",
+               "Artifact", "Enchantment", "Battle", "Land"]
+_TYPE_PLURAL = {"Creature": "Creatures", "Planeswalker": "Planeswalkers",
+                "Instant": "Instants", "Sorcery": "Sorceries", "Artifact": "Artifacts",
+                "Enchantment": "Enchantments", "Battle": "Battles", "Land": "Lands",
+                "Other": "Other"}
+
+
+def _primary_type(rec):
+    """Front-face card type for grouping (split/MDFC → the face before '//')."""
+    tl = ((rec or {}).get("type_line") or "").split("//")[0]
+    for t in _TYPE_ORDER:
+        if t in tl:
+            return t
+    return "Other"
+
+
 def _summary_buckets(path):
     """Ordered [(bucket, [card names])] from a Summary's '## Decklist' section.
 
@@ -494,10 +513,30 @@ def _decklist(txt_path, summary_path, commander, gc_names, aliases):
         groups = [dict(name="The 99", count=sum(counts.values()),
                        cards=[_card(n) for n in names])]
 
+    # Alternate view + mana curve — Scryfall-derived (type_line / cmc), so both are
+    # None when the oracle bulk is absent and the front-end hides the toggle/curve.
+    groups_by_type, curve = None, None
+    if _cards_index():
+        by, curve_counts = {}, {}
+        for n in sorted(counts):
+            rec = _resolve(n)
+            by.setdefault(_primary_type(rec), []).append(n)
+            if "Land" not in ((rec or {}).get("type_line") or ""):  # curve = nonland spells
+                cmc = int((rec or {}).get("cmc", 0) or 0)
+                b = "7+" if cmc >= 7 else str(cmc)
+                curve_counts[b] = curve_counts.get(b, 0) + counts[n]
+        groups_by_type = [
+            dict(name=_TYPE_PLURAL[t], count=sum(counts[x] for x in by[t]),
+                 cards=[_card(x) for x in by[t]])
+            for t in _TYPE_ORDER + ["Other"] if t in by
+        ]
+        curve = [dict(cmc=b, n=curve_counts.get(b, 0))
+                 for b in ("0", "1", "2", "3", "4", "5", "6", "7+")]
+
     return dict(
         total=total, grouped=grouped,
         commander=dict(n=cmd_name, gc=_is_gc(cmd_name)),
-        groups=groups,
+        groups=groups, groupsByType=groups_by_type, curve=curve,
         text=txt_path.read_text(encoding="utf-8").strip(),
     )
 

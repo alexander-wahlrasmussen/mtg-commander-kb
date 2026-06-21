@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LineChart } from "../../components";
+import { LineChart, SegmentedControl } from "../../components";
 import { getDeck } from "../data";
 import type { DeckPage as DeckPageData } from "../data";
 import { usePageData } from "../hooks";
@@ -33,10 +33,35 @@ function keepCriteria(d: DeckPageData): string[] {
 
 /** The full 100-card list, grouped by the Summary's functional buckets (same
  *  buckets as the composition bar above) — the pick-up-and-play reference. */
+function Curve({ curve }: { curve: { cmc: string; n: number }[] }) {
+  const max = Math.max(1, ...curve.map((b) => b.n));
+  return (
+    <div className={s.curve}>
+      <div className={s.curveTitle}>Mana curve <span>· nonland</span></div>
+      <div className={s.curveBars}>
+        {curve.map((b) => (
+          <div key={b.cmc} className={s.curveCol}>
+            <span className={s.curveN}>{b.n || ""}</span>
+            <div className={s.curveTrack}>
+              <div className={s.curveBar} style={{ height: `${(b.n / max) * 100}%` }} />
+            </div>
+            <span className={s.curveX}>{b.cmc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Decklist({ d, compColor }: { d: DeckPageData; compColor: Record<string, string> }) {
   const dl = d.decklist;
   const [copied, setCopied] = useState(false);
+  const [view, setView] = useState<"role" | "type">("role");
   if (!dl) return null;
+
+  const byType = view === "type" && dl.groupsByType ? dl.groupsByType : dl.groups;
+  const groupColor = (name: string, i: number) =>
+    view === "type" ? COMP_TONES[i % COMP_TONES.length] : compColor[name] ?? "var(--ink3)";
 
   const copy = () => {
     navigator.clipboard?.writeText(dl.text).then(
@@ -51,7 +76,17 @@ function Decklist({ d, compColor }: { d: DeckPageData; compColor: Record<string,
         <span className={s.subTick} />
         <span className={s.subTitle}>The Decklist</span>
         <span className={s.subHint}>{dl.total} cards · pick up &amp; play</span>
-        <button className={s.copyBtn} onClick={copy}>{copied ? "copied ✓" : "copy list"}</button>
+        <div className={s.dlControls}>
+          {dl.groupsByType && (
+            <SegmentedControl
+              aria-label="group the decklist"
+              options={[{ value: "role", label: "By role" }, { value: "type", label: "By type" }]}
+              value={view}
+              onChange={(v) => setView(v as "role" | "type")}
+            />
+          )}
+          <button className={s.copyBtn} onClick={copy}>{copied ? "copied ✓" : "copy list"}</button>
+        </div>
       </div>
 
       <div className={s.dlCommander}>
@@ -60,11 +95,13 @@ function Decklist({ d, compColor }: { d: DeckPageData; compColor: Record<string,
         {dl.commander.gc && <span className={s.dlGc}>GC</span>}
       </div>
 
+      {dl.curve && <Curve curve={dl.curve} />}
+
       <div className={s.dlColumns}>
-        {dl.groups.map((g, i) => (
-          <div key={i} className={s.dlGroup}>
+        {byType.map((g, i) => (
+          <div key={`${view}-${i}`} className={s.dlGroup}>
             <div className={s.dlGroupHead}>
-              <span className={s.dlSwatch} style={{ background: compColor[g.name] ?? "var(--ink3)" }} />
+              <span className={s.dlSwatch} style={{ background: groupColor(g.name, i) }} />
               <span className={s.dlGroupName}>{g.name}</span>
               <span className={s.dlGroupCount}>{g.count}</span>
             </div>
