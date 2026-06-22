@@ -414,8 +414,9 @@ def _composition(path):
             # tolerate trailing text in the count paren, e.g. "Lands (36, plus … total)"
             m = re.match(r"^###\s+(.+?)\s*\((\d+)[^)]*\)", raw.strip())
             # exact match: the command-zone card sits under '### Commander (1)'; don't
-            # swallow real functional buckets like '### Commander Protection (5)'.
-            if m and m.group(1).strip().lower() != "commander":
+            # swallow real functional buckets like '### Commander Protection (5)'. Also
+            # drop a '### Sideboard/Maybeboard (N)' — it's not part of the 99.
+            if m and m.group(1).strip().lower() not in ("commander", "sideboard", "maybeboard"):
                 out.append(dict(name=m.group(1).strip(), count=int(m.group(2))))
     return out
 
@@ -461,7 +462,8 @@ def _summary_buckets(path):
             name = re.sub(r"\s*\(.*\)\s*$", "", h3.group(1)).strip()   # drop "(N)" / "(note)"
             # exact match only: keep '### Commander Protection' as a real bucket; the
             # command-zone card ('### Commander (1)') is surfaced separately by _decklist.
-            cur = None if name.lower() == "commander" else [name, []]
+            # Sideboard/Maybeboard headings aren't deck cards (and aren't in the .txt main).
+            cur = None if name.lower() in ("commander", "sideboard", "maybeboard") else [name, []]
             if cur:
                 out.append(cur)
             continue
