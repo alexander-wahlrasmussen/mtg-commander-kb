@@ -10,10 +10,14 @@ Two modes, both built on deck_sim.py's engine + oracle index:
   avail   Kill-package availability: P(every piece of >=1 complete kill package
           seen by turn T), drawn only — the deck has NO tutor that finds any
           piece (Ranger-Captain of Eos fetches MV<=1 creatures; no package piece
-          qualifies). Packages: Sword+AA infinite / Adeline+Procession alpha /
-          Brudiclad conversion, plus the PENDING-KIKI variant (-Bident +Kiki,
-          The_Replication_Crisis_Swaps_2026-06-01.md) where Kiki + (Conscripts
-          or Resto) is a Satya-free assembly win.
+          qualifies). Packages: Satya + Lightning Runner infinite (commander + 1
+          card, so availability == P(draw Lightning Runner)) / Sword+AA infinite /
+          Adeline+Procession alpha / Brudiclad conversion. Also prints the LEGACY
+          pre-LR 99 (the before/after for the 2026-06-22 swap) and the KIKI
+          stack-on variant (+Kiki, -Strionic Resonator as an illustrative donor;
+          The_Replication_Crisis_Swaps_2026-06-01.md — note Bident, that doc's
+          original donor, is already cut as of 2026-06-22) where Kiki + (Conscripts
+          or Resto) is a Satya-free assembly win that would stack as a 3rd infinite.
 
   clock   Goldfish kill-turn Monte Carlo. Unlike the availability model it
           tracks mana (lands + the 10 rocks), casts the board out greedily, and
@@ -65,7 +69,7 @@ ROOT = Path(__file__).parent.parent
 _spec = importlib.util.spec_from_file_location("deck_sim", Path(__file__).parent / "deck_sim.py")
 ds = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ds)
 
-DECK = ROOT / "decks" / "the-replication-crisis-20260504-202914.txt"
+DECK = ROOT / "decks" / "the-replication-crisis-20260622.txt"
 SEED = 12345
 TURNS = 12
 SHOW = [3, 4, 5, 6, 7, 8, 10, 12]
@@ -88,13 +92,31 @@ PACKAGES = {                       # slot-sets; a package is live when every slo
 }
 KIKI_PACKAGE = {"KIKI  Kiki + Conscripts/Resto": [[KIKI], KIKI_PARTNERS]}
 
+# --- Satya + Lightning Runner infinite (applied 2026-06-22) --------------------
+# Applied swap (-Goldspan Dragon/-Ponder/-Preordain, +Lightning Runner/+Sleight of
+# Hand/+Opt): the three cuts were each deployed in another physical deck (so the
+# RC slots were free), and Lightning Runner gives an owned commander + 1-card
+# infinite. Lightning Runner: "Whenever this attacks, you get {E}{E}, then you may
+# pay 8{E}: untap all creatures + an additional combat phase." Satya makes a token
+# copy of it each attack; once those token Runners are untapped they attack in the
+# NEXT combat and trigger too, so per-combat energy = 2*(Satya + #Runners). At >=3
+# Runners that is >=8/combat = self-sustaining => infinite combats/energy/tokens/
+# damage. CSB combo db lists this complete (Satya + Lightning Runner) — text
+# verified 2026-06-22. The LEGACY_* sets reconstruct the pre-swap 99 for the
+# before/after comparison the report prints.
+LRUNNER = "Lightning Runner"
+LR_PACKAGE = {"INF   Satya + Lightning Runner": [[LRUNNER]]}   # Satya is the cmdr => 1-card avail
+LEGACY_RM = [LRUNNER, "Sleight of Hand", "Opt"]
+LEGACY_ADD = ["Goldspan Dragon", "Ponder", "Preordain"]
+
 ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
          "Mind Stone": (2, 1), "Azorius Signet": (2, 1), "Boros Signet": (2, 1),
          "Izzet Signet": (2, 1), "Talisman of Conviction": (2, 1),
          "Talisman of Creativity": (2, 1), "Talisman of Progress": (2, 1)}
-DIG = {"Ponder": (1, 2), "Preordain": (1, 2)}          # (cost, gross cards)
+DIG = {"Ponder": (1, 2), "Preordain": (1, 2),          # (cost, gross cards)
+       "Sleight of Hand": (1, 2), "Opt": (1, 1)}        # proposed-variant cantrips
 ETB_DRAW = {"Cloudblazer": 2, "Wall of Omens": 1}      # drawn when cast
-HASTE = {"Goldspan Dragon", "Zealous Conscripts", KIKI}
+HASTE = {"Goldspan Dragon", "Zealous Conscripts", KIKI, LRUNNER}
 PAN = {"Panharmonicon", "Elesh Norn, Mother of Machines"}   # double the token's ETB
 WILL = "Akroma's Will"
 
@@ -153,17 +175,22 @@ def mode_avail(index, aliases, trials):
     if diag["unresolved"]:
         print(f"  UNRESOLVED: {diag['unresolved']}")
     print("  package".ljust(36) + "".join(f"{t:>6}" for t in SHOW))
+    print("  CURRENT deck (with Satya + Lightning Runner):")
     rng = random.Random(SEED)
-    per, any_c = simulate_packages(library, PACKAGES, trials, rng)
+    per, any_c = simulate_packages(library, {**PACKAGES, **LR_PACKAGE}, trials, rng)
     for name, d in per.items():
         print(_row(name, d))
-    print(_row("ANY of the three", any_c))
-    print("  --- pending-Kiki variant (-Bident of Thassa +Kiki-Jiki) ---")
-    kiki_lib = build_lib(library, index, ["Bident of Thassa"], [KIKI])
-    rng = random.Random(SEED)
-    per, any_c = simulate_packages(kiki_lib, {**PACKAGES, **KIKI_PACKAGE}, trials, rng)
-    print(_row(next(iter(KIKI_PACKAGE)), per[next(iter(KIKI_PACKAGE))]))
     print(_row("ANY of the four", any_c))
+    print("  --- legacy (pre-LR: -Lightning Runner/Sleight/Opt +Goldspan/Ponder/Preordain) ---")
+    legacy_lib = build_lib(library, index, LEGACY_RM, LEGACY_ADD)
+    rng = random.Random(SEED)
+    per, any_c = simulate_packages(legacy_lib, PACKAGES, trials, rng)
+    print(_row("ANY of the three (no LR)", any_c))
+    print("  --- KIKI stack-on variant (+Kiki-Jiki, -Strionic Resonator illustrative donor) ---")
+    kiki_lib = build_lib(library, index, ["Strionic Resonator"], [KIKI])
+    rng = random.Random(SEED)
+    per, any_c = simulate_packages(kiki_lib, {**PACKAGES, **LR_PACKAGE, **KIKI_PACKAGE}, trials, rng)
+    print(_row(next(iter(KIKI_PACKAGE)), per[next(iter(KIKI_PACKAGE))]))
 
 
 # ==========================================================================
@@ -188,7 +215,27 @@ def load_powers(names):
     return out
 
 
-def kill_turns(library, powers, rng, squad_only, with_kiki=False):
+def lr_infinite(energy, proc):
+    """True if a banked-energy + Satya + Lightning Runner board goes infinite.
+
+    Cascade each combat: bodies (Satya + all Lightning Runners) generate 2{E}
+    each; pay 8{E} for one extra combat; Satya makes `growth` token Runners
+    (2 with Anointed Procession, else 1) that attack next combat. Self-sustaining
+    once #Runners >= 3 (gen 2*(1+3) = 8 >= cost). Returns True iff the starting
+    bank survives the bootstrap (>=6 energy, >=4 with Procession)."""
+    e, runners, growth = energy, 1, (2 if proc else 1)
+    for _ in range(40):
+        e += 2 * (1 + runners)         # Satya + every Runner attacks
+        if e < 8:
+            return False               # can't buy the extra combat -> fizzles
+        e -= 8
+        runners += growth
+        if 2 * (1 + runners) >= 8:      # next combat generates >= cost -> runaway
+            return True
+    return False
+
+
+def kill_turns(library, powers, rng, squad_only, with_kiki=False, with_lr=False):
     """One trial. Returns (first_opp_dead_turn, table_dead_turn, via_infinite,
     kiki_online_turn) — turns are None if not reached by TURNS.
 
@@ -212,7 +259,7 @@ def kill_turns(library, powers, rng, squad_only, with_kiki=False):
 
     lands = rock_out = 0
     satya = False
-    sword_cast = sword_on = aa = proc = pan = brud = False
+    sword_cast = sword_on = aa = proc = pan = brud = lr_in_play = False
     will_used = False
     creatures = []                  # (name, power-or-None, cmc, cast_turn)
     kept = []                       # surviving token values (attack damage each)
@@ -294,6 +341,9 @@ def kill_turns(library, powers, rng, squad_only, with_kiki=False):
                     pan = True; break
         if not brud and cast(BRUDICLAD, 6):
             brud = True
+        if with_lr and satya and not lr_in_play and cast(LRUNNER, 5):
+            lr_in_play = True
+            creatures.append((LRUNNER, powers.get(LRUNNER.lower()), 5, T))
         reserve = 5 if (aa and satya) else 0
         while True:                                          # best copy-target creature
             best_i, best_v = None, 0
@@ -314,6 +364,10 @@ def kill_turns(library, powers, rng, squad_only, with_kiki=False):
 
         # ---- combat ------------------------------------------------------
         if satya:
+            if with_lr and lr_in_play and lr_infinite(energy, proc):
+                dmg = [40, 40, 40]                            # infinite combats/damage
+                first_dead = first_dead or T
+                return first_dead, T, True, kiki_online
             if brud:                                         # begin combat: Myr + convert
                 myr += 2 if proc else 1
                 tv = max([v for _, v in copy_targets()] or [0])
@@ -327,6 +381,8 @@ def kill_turns(library, powers, rng, squad_only, with_kiki=False):
                 satya_p = 5 if sword_on else 3
                 D += satya_p
                 energy += 2
+                if with_lr and lr_in_play:
+                    energy += 2                              # real Lightning Runner's attack energy
                 tgts = copy_targets()
                 if tgts:
                     nm_t, v = max(tgts, key=lambda x: x[1])
@@ -363,10 +419,11 @@ def kill_turns(library, powers, rng, squad_only, with_kiki=False):
                         return first_dead, T, via_inf, kiki_online
                 if aa and avail >= 5:                        # buy an extra combat
                     avail -= 5; combats += 1
-            keepable = sorted(new_tokens, key=lambda x: -x[0])
-            for v, mv in keepable:                           # pay energy to keep
-                if energy >= mv > 0:
-                    energy -= mv; kept.append(v)
+            if not (with_lr and lr_in_play):                 # else bank energy for the LR combo
+                keepable = sorted(new_tokens, key=lambda x: -x[0])
+                for v, mv in keepable:                        # pay energy to keep
+                    if energy >= mv > 0:
+                        energy -= mv; kept.append(v)
         if kiki_online is not None and table_dead is None:
             dmg = [40, 40, 40]                               # overwhelm: table dies
             return first_dead or kiki_online, kiki_online, via_inf, kiki_online
@@ -388,16 +445,27 @@ def mode_clock(index, aliases, trials):
     names = [nm for nm, _ in library] + [KIKI]
     powers = load_powers(names)
     print("  metric".ljust(36) + "".join(f"{t:>6}" for t in SHOW))
+    print("  CURRENT deck (Satya + Lightning Runner infinite modelled):")
     for tag, squad in [("ALL-IN", False), ("SQUAD", True)]:
         rng = random.Random(SEED)
-        res = [kill_turns(library, powers, rng, squad) for _ in range(trials)]
+        res = [kill_turns(library, powers, rng, squad, with_lr=True) for _ in range(trials)]
+        print(_row(f"{tag}: combo player dead", _cum(res, 0)))
+        print(_row(f"{tag}: table dead", _cum(res, 1)))
+        if not squad:
+            inf = [(r[1] if r[2] else None,) for r in res]
+            print(_row("      (via an infinite: LR or Sword+AA)", _cum(inf, 0)))
+    print("  --- legacy (pre-LR: -Lightning Runner/Sleight/Opt +Goldspan/Ponder/Preordain) ---")
+    legacy_lib = build_lib(library, index, LEGACY_RM, LEGACY_ADD)
+    for tag, squad in [("ALL-IN", False), ("SQUAD", True)]:
+        rng = random.Random(SEED)
+        res = [kill_turns(legacy_lib, powers, rng, squad) for _ in range(trials)]
         print(_row(f"{tag}: combo player dead", _cum(res, 0)))
         print(_row(f"{tag}: table dead", _cum(res, 1)))
         if not squad:
             inf = [(r[1] if r[2] else None,) for r in res]
             print(_row("      (via Sword+AA infinite)", _cum(inf, 0)))
-    print("  --- pending-Kiki variant (-Bident +Kiki): Satya-free assembly kill ---")
-    kiki_lib = build_lib(library, index, ["Bident of Thassa"], [KIKI])
+    print("  --- KIKI stack-on variant (+Kiki, -Strionic Resonator donor): Satya-free assembly kill ---")
+    kiki_lib = build_lib(library, index, ["Strionic Resonator"], [KIKI])
     rng = random.Random(SEED)
     res = [kill_turns(kiki_lib, powers, rng, True, with_kiki=True) for _ in range(trials)]
     kk = [(r[3],) for r in res]

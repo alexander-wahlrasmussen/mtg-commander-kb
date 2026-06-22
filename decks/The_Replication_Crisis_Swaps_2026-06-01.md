@@ -103,7 +103,9 @@ Not included in the core swap; hold until the combo's hit rate is felt.
 
 ## Decklist change (apply on acquisition)
 
-When Kiki is acquired + pod-approved: copy `the-replication-crisis-20260504-202914.txt`
-to `the-replication-crisis-<date>.txt`, remove `1 Bident of Thassa`, add
-`1 Kiki-Jiki, Mirror Breaker`, verify 100 cards, and move the old `.txt` to
-`archive/old_decklists/`.
+When Kiki is acquired + pod-approved: copy the current `.txt`
+(`the-replication-crisis-20260622.txt`) to `the-replication-crisis-<date>.txt`,
+remove `1 Bident of Thassa`, add `1 Kiki-Jiki, Mirror Breaker`, verify 100 cards,
+and move the old `.txt` to `archive/old_decklists/`. (Note: Kiki now stacks with
+the Satya + Lightning Runner infinite added 2026-06-22 as a third, Satya-free
+combo — see `The_Replication_Crisis_Swaps_2026-06-22.md`.)

@@ -438,7 +438,7 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260615.txt", RADIATION),
-    "replication_crisis": ("the-replication-crisis-20260504-202914.txt", REPLICATION),
+    "replication_crisis": ("the-replication-crisis-20260622.txt", REPLICATION),
     "lorehold_spirits": ("lorehold-spirit-20260503-154449.txt", LOREHOLD),
     "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
     "exiles_return": ("the-exiles-return-20260417-194010.txt", EXILES),

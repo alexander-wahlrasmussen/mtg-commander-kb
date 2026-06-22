@@ -4,7 +4,7 @@
 
 **Date:** 2026-06-09
 **Card text verified** against local Scryfall data (`card_lookup.py`) for Satya, Sword of Feast and Famine, Aggravated Assault, Adeline, Anointed Procession, Brudiclad, Inferno Titan, Strionic Resonator, and the pending-swap trio (Kiki-Jiki, Zealous Conscripts, Restoration Angel) — not pattern-matched.
-**Deck measured:** `decks/the-replication-crisis-20260504-202914.txt` (current 99) plus the pending-Kiki variant (−Bident +Kiki, `The_Replication_Crisis_Swaps_2026-06-01.md`, not yet applied).
+**Deck measured:** `archive/old_decklists/the-replication-crisis-20260504-202914.txt` (the 99 current as of this 2026-06-09 analysis; superseded 2026-06-22 by `the-replication-crisis-20260622.txt` — see the Addendum below) plus the pending-Kiki variant (−Bident +Kiki, `The_Replication_Crisis_Swaps_2026-06-01.md`, not yet applied).
 **Lab:** `scripts/rc_speed_lab.py` (40k trials, seed 12345), built on `deck_sim.py`'s engine. Unlike the prior labs it includes a **goldfish combat clock**: Satya attack tokens (copy value = power + Inferno Titan's enters/attacks 3), Anointed Procession doubling, Panharmonicon/Elesh Norn ETB-doubling, the energy bank paying to keep tokens, Brudiclad's begin-of-combat conversion, Aggravated Assault extra combats, the Sword+AA infinite, and Akroma's Will as a one-shot damage doubler.
 
 > **Bottom line up front: No — the deck cannot race a T6–7 combo clock, and the Summary's "Goldfish T5–7" window was a god-draw artifact.** At the *zero-blocker ceiling* (every creature unblocked, no interaction, Satya never dies), the deck has killed **one** focused opponent by T6 only **16%** of the time (median **T7**); under a defended-board proxy that drops to **6%** (median **T8**). The **table** kill — what "winning the race" actually requires if the combo player isn't decapitated first — is **T10–11 median even unblocked** (4% by T8). The Sword+AA infinite decides ~1–3% of games; the pending Kiki swap moves the clock by ~0 (it's a resilience fix, as its own proposal says). Bring Lightning War or Grand Design to that table instead.
@@ -88,6 +88,20 @@ The −Bident +Kiki proposal adds Kiki + Conscripts and Kiki + Resto — Satya-f
 **Recommendation: don't try to turn Satya into a racer.** Making this deck beat a T6–7 clock would mean grafting on a tutor package + a combat-independent kill — that's a different deck wearing Satya's clothes (the matrix's rec #3 anti-pattern). The right moves are already on file: apply the Kiki swap for resilience (pending purchase + pod approval), and bring **Lightning War** or **The Grand Design** (post finisher/ETB merge) to the combo table.
 
 ---
+
+## Addendum 2026-06-22 — Lightning Runner add (verdict unchanged)
+
+The deck since gained an owned 2-card infinite — **Satya + Lightning Runner**
+(commander + 1 card; `The_Replication_Crisis_Swaps_2026-06-22.md`,
+`the-replication-crisis-20260622.txt`). `rc_speed_lab.py` was extended to model
+the cascade. It **does not change this analysis's bottom line.** Table-via-an-
+infinite rises (1→5% T6, 3→18% T12) and defended-board table kill roughly doubles
+(SQUAD 47→56% T12), but the **decapitation clock is essentially unchanged** (T6
+14→18%, T8 ~80% both) — i.e. the deck is a far more *reliable closer*, not a
+faster *racer*. The "don't try to turn Satya into a racer / bring Lightning War
+or Grand Design to the T6–7 combo table" recommendation stands. What changed is
+the deck's floor: its real kill went from a ~1–3% draw to a ~12–18% one, because
+one combo half is now the always-available commander.
 
 ## Method caveats
 
