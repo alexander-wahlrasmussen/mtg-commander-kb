@@ -129,6 +129,136 @@ Two clocks, stated separately (the CLAUDE.md verification rule):
 
 Scripts are the permanent provenance; the superseded 06-13/06-14 writeups and the 06-18 rebuild proposal are in `archive/`.
 
+## Decklist (100 cards)
+
+### Commander (1)
+1 Fire Lord Azula
+
+### Infinite Combo & Copy-Doublers (8)
+1 Twinning Staff
+1 Bonus Round
+1 Galvanic Iteration
+1 Increasing Vengeance
+1 Narset's Reversal
+1 Reiterate
+1 Turnabout
+1 Expansion // Explosion
+
+### Flash Enablers (3)
+1 Leyline of Anticipation
+1 Borne Upon a Wind
+1 Cunning Nightbonder
+
+### X-Spell Finishers (5)
+1 Banefire
+1 Comet Storm
+1 Crackle with Power
+1 Electrodominance
+1 Torment of Hailfire
+
+### Pingers / Passive Burn (4)
+1 Guttersnipe
+1 Vivi Ornitier
+1 Thunderdrum Soloist
+1 Emeritus of Conflict
+
+### Execution Ramp / Rituals (7)
+1 Blazing Firesinger
+1 Dark Ritual
+1 Desperate Ritual
+1 Seething Song
+1 Storm-Kiln Artist
+1 Goldspan Dragon
+1 Nightscape Familiar
+
+### Mana Rocks (5)
+1 Sol Ring
+1 Arcane Signet
+1 Fellwar Stone
+1 Talisman of Dominance
+1 Talisman of Indulgence
+
+### Tutors (8)
+1 Emeritus of Woe
+1 Sanar, Unfinished Genius
+1 Mystical Tutor
+1 Gifts Ungiven
+1 Solve the Equation
+1 Merchant Scroll
+1 Mystical Teachings
+1 Waterlogged Teachings
+
+### Graveyard Recursion (5)
+1 Yawgmoth's Will
+1 Past in Flames
+1 Invoke Calamity
+1 Snapcaster Mage
+1 Agadeem's Awakening
+
+### Counterspells (8)
+1 Fierce Guardianship
+1 Force of Negation
+1 Deflecting Swat
+1 Spell Pierce
+1 Delay
+1 Stubborn Denial
+1 Swan Song
+1 Three Steps Ahead
+
+### Disruption / Removal (5)
+1 Deadly Rollick
+1 Untimely Malfunction
+1 Sink into Stupor
+1 Hullbreaker Horror
+1 Vendilion Clique
+
+### Protection (3)
+1 Mithril Coat
+1 March of Swirling Mist
+1 Malakir Rebirth
+
+### Card Selection / Draw (7)
+1 Brainstorm
+1 Consider
+1 Ponder
+1 Preordain
+1 Faithless Looting
+1 Frantic Search
+1 Valakut Awakening
+
+### Lands (31)
+1 Arena of Glory
+1 Blood Crypt
+1 Bojuka Bog
+1 Cascade Bluffs
+1 Cavern of Souls
+1 Command Beacon
+1 Command Tower
+1 Fiery Islet
+1 Gemstone Caverns
+1 Haunted Ridge
+1 Horizon of Progress
+1 Island
+1 Lindblum, Industrial Regency
+1 Luxury Suite
+1 Misty Rainforest
+1 Morphic Pool
+1 Mount Doom
+1 Mountain
+1 Otawara, Soaring City
+1 Plaza of Heroes
+1 Polluted Delta
+1 Reflecting Pool
+1 Scalding Tarn
+1 Shipwreck Marsh
+1 Starting Town
+1 Steam Vents
+1 Stormcarved Coast
+1 Talon Gates of Madara
+1 Training Center
+1 Watery Grave
+1 Xander's Lounge
+
 ## Don't-Miss Rulings
 
 - **Copies aren't "cast"** — they don't re-trigger Azula or magecraft; X values carry; additional costs paid on the original apply to the copy.

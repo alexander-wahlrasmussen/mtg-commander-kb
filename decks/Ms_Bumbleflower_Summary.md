@@ -193,6 +193,131 @@ Bumbleflower is the roster's only Bant deck and its only "spells-cast → forced
 
 - **2026-05-30:** First formal audit. Verified all FF/ATLA-flavored and unfamiliar cards via `card_lookup.py`; confirmed 100 cards and **0 Game Changers** against `REF_Game_Changers_List.md`. Scored 4/3/3/5 = **15/20**. Identified Willbreaker + Bumbleflower targeted-steal as the premium synergy and the slow combat-only kill as the defining weakness. Reskins in use: Wild Rose Rebellion = Counterspell (ATLA), Paradise Chocobo = Birds of Paradise (FF).
 
+## Decklist (100 cards)
+
+### Commander (1)
+1 Ms. Bumbleflower
+
+### Steal & Combat Payoffs (5)
+1 Willbreaker
+1 Jolrael, Mwonvuli Recluse
+1 Ty Lee, Chi Blocker
+1 Generous Patron
+1 Duelist's Heritage
+
+### Card-Draw Engine & Tax (8)
+1 Faerie Mastermind
+1 Smuggler's Share
+1 Tataru Taru
+1 Esper Sentinel
+1 Ledger Shredder
+1 Dusk Legion Duelist
+1 Fathom Mage
+1 Freestrider Lookout
+
+### Cantrips / Free Spells (7)
+1 Gitaxian Probe
+1 Snap
+1 Frantic Search
+1 Brainstorm
+1 Consider
+1 Opt
+1 Consult the Star Charts
+
+### Counterspells (9)
+1 An Offer You Can't Refuse
+1 Wild Rose Rebellion
+1 Long River's Pull
+1 Reprieve
+1 Rewind
+1 Unwind
+1 Tishana's Tidebinder
+1 Dawn Charm
+1 Sink into Stupor
+
+### Spot Removal (8)
+1 Path to Exile
+1 Swords to Plowshares
+1 Pongify
+1 Beast Within
+1 Generous Gift
+1 Brazen Borrower
+1 Witch Enchanter
+1 Fractured Identity
+
+### Mass Removal (3)
+1 Promise of Loyalty
+1 Tragic Arrogance
+1 Aetherize
+
+### Protection & Utility (7)
+1 Comeuppance
+1 Riot Control
+1 Heroic Intervention
+1 Galadriel's Dismissal
+1 Hydroelectric Specimen
+1 Dress Down
+1 Lion Sash
+
+### Bounce-to-Reuse (2)
+1 Shrieking Drake
+1 Whitemane Lion
+
+### Recursion (3)
+1 Snapcaster Mage
+1 Sin, Unending Cataclysm
+1 Auroral Procession
+
+### Mana Dorks (3)
+1 Hardbristle Bandit
+1 Incubation Druid
+1 Paradise Chocobo
+
+### Mana Rocks (4)
+1 Sol Ring
+1 Arcane Signet
+1 Bender's Waterskin
+1 Misleading Signpost
+
+### Ramp Spells (5)
+1 Farseek
+1 Nature's Lore
+1 Three Visits
+1 Growth Spiral
+1 Planar Genesis
+
+### Lands (35)
+1 Adarkar Wastes
+1 Branchloft Pathway
+1 Breeding Pool
+1 Brushland
+1 Command Tower
+1 Demolition Field
+1 Deserted Beach
+1 Dreamroot Cascade
+1 Eiganjo, Seat of the Empire
+1 Exotic Orchard
+1 Fabled Passage
+1 Flooded Strand
+1 Floodfarm Verge
+2 Forest
+1 Glacial Fortress
+1 Hallowed Fountain
+1 Hengegate Pathway
+1 Hinterland Harbor
+1 Hushwood Verge
+4 Island
+1 Misty Rainforest
+1 Overgrown Farmland
+2 Plains
+1 Reliquary Tower
+1 Spara's Headquarters
+1 Sunpetal Grove
+1 Temple Garden
+1 Windswept Heath
+1 Yavimaya Coast
+1 Yavimaya, Cradle of Growth
+
 ## Don't-Miss Rulings
 
 - **Bumbleflower's ability resolves BEFORE the spell that triggered it, and resolves even if that spell is countered.** The draw / counter / steal happens first — so a Willbreaker steal off your spell goes through even if the spell itself gets countered.

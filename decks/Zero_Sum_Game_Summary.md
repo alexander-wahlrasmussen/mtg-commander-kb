@@ -76,6 +76,125 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 
 -----
 
+## Decklist (100 cards)
+
+### Commander (1)
+1 Witherbloom, the Balancer
+
+### Drain Payoffs (lifeloop + magecraft) (9)
+1 Exquisite Blood
+1 Bloodthirsty Conqueror
+1 Vito, Thorn of the Dusk Rose
+1 Sanguine Bond
+1 Enduring Tenacity
+1 Defiant Bloodlord
+1 Professor Dellian Fel
+1 Witherbloom Apprentice
+1 Professor Onyx
+
+### Affinity-Infinite / Magecraft Loop (3)
+1 Sprout Swarm
+1 Lab Rats
+1 Chain of Smog
+
+### Aristocrats — Sac Payoffs & Igniters (5)
+1 Blood Artist
+1 Zulaport Cutthroat
+1 Marionette Apprentice
+1 Cauldron Familiar
+1 Mirkwood Bats
+
+### Sacrifice Outlets & Recursion (6)
+1 Phyrexian Altar
+1 Ashnod's Altar
+1 Warren Soultrader
+1 Viscera Seer
+1 Witch's Oven
+1 Corpse Dance
+
+### Token Generators / Go-Wide (5)
+1 Bitterblossom
+1 Saproling Migration
+1 Tendershoot Dryad
+1 Hornet Queen
+1 Springheart Nantuko
+
+### Mana Dorks (10)
+1 Birds of Paradise
+1 Llanowar Elves
+1 Elvish Mystic
+1 Fyndhorn Elves
+1 Boreal Druid
+1 Arbor Elf
+1 Elves of Deep Shadow
+1 Gilded Goose
+1 Delighted Halfling
+1 Deathrite Shaman
+
+### Mana Rocks & Rituals (5)
+1 Sol Ring
+1 Arcane Signet
+1 Jet Medallion
+1 Dark Ritual
+1 Cabal Ritual
+
+### Tutors (10)
+1 Vampiric Tutor
+1 Demonic Tutor
+1 Beseech the Queen
+1 Increasing Ambition
+1 Dark Petition
+1 Chord of Calling
+1 Finale of Devastation
+1 Nature's Rhythm
+1 Diabolic Intent
+1 Razaketh, the Foulblooded
+
+### Card Advantage / Draw (4)
+1 Necropotence
+1 Skullclamp
+1 Black Market Connections
+1 Night's Whisper
+
+### Interaction & Protection (6)
+1 Assassin's Trophy
+1 Abrupt Decay
+1 Deadly Rollick
+1 Toxic Deluge
+1 Pernicious Deed
+1 Veil of Summer
+
+### Lands (36)
+1 Overgrown Tomb
+1 Woodland Cemetery
+1 Twilight Mire
+1 Tainted Wood
+1 Llanowar Wastes
+1 Necroblossom Snarl
+1 Deathcap Glade
+1 Darkbore Pathway
+1 Undergrowth Stadium
+1 Polluted Delta
+1 Verdant Catacombs
+1 Bloodstained Mire
+1 Wooded Foothills
+1 Misty Rainforest
+1 Marsh Flats
+1 Windswept Heath
+1 Command Tower
+1 Yavimaya, Cradle of Growth
+1 Phyrexian Tower
+1 Bojuka Bog
+1 Boseiju, Who Endures
+1 Castle Locthwain
+1 Nurturing Peatland
+1 Underground Mortuary
+1 Khalni Garden
+1 Dryad Arbor
+1 Gemstone Caverns
+5 Swamp
+4 Forest
+
 ## Lab Results (wb_clock_lab.py, 40k trials, seed 20260611, 2026-06-11)
 
 | cumulative % killed by | T5 | T6 | T7 | T8 | T9 | T10 | T12 | median |
