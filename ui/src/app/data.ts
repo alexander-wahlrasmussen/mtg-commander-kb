@@ -32,20 +32,25 @@ export interface LocksData {
 
 export interface SeasonRow { seed: number; slug: string; name: string; table_med: string; never: number; dura: number; pwin: number; swap: boolean; }
 export interface ChampSeat { slug: string; name: string; seed: number; share: number; advances?: boolean; medal?: string; }
-export interface ChampData {
-  params: { trials: number; season_trials: number; t_grind: number; swapped: boolean };
-  season: SeasonRow[];
+// One pot-based random draw: a single bracket sharing the field's season ranking.
+export interface ChampDraw {
+  draw_seed: number;
   groups: { pod: string; seats: ChampSeat[] }[];
   final: ChampSeat[];
   champion: { slug: string; name: string; seed: number };
   notes: { runner_up: { name: string; seed: number }; upset: boolean; cinderella: { name: string; seed: number } | null; changed: string[] };
+}
+export interface ChampData {
+  params: { trials: number; season_trials: number; t_grind: number; swapped: boolean };
+  season: SeasonRow[];
+  draws: ChampDraw[];   // live: 1 fresh draw; static: N baked sample draws (Re-draw cycles them)
 }
 
 export interface Manifest {
   generated: string;
   gauntlet: { pod: string[]; strict: number[]; a: number[]; trials: number };
   locks: { pod: string[]; strict: number[]; a: number[]; r: number[]; trials: number };
-  championship: { t_grind: number[]; swapped: number[]; trials: number; season_trials: number };
+  championship: { t_grind: number[]; swapped: number[]; trials: number; season_trials: number; draws?: number };
 }
 
 async function getJSON<T>(url: string): Promise<T> {

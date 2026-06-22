@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """dashboard_export.py — bake the dashboard's sim results to static JSON.
 
-Precompute a grid of scenarios so the dashboard can run with NO Python backend
-(host the dashboard/ folder on GitHub Pages / Netlify and view it on a phone).
+Precompute a grid of scenarios so the React app can run with NO Python backend
+(deploy ui/dist to GitHub Pages / Netlify and view it on a phone).
 Reuses dashboard_server's compute_* functions — the SAME engine the live API
 serves — so static and live are identical, just precomputed vs on-demand.
 
@@ -31,6 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "dashboard" / "data"
 UI_OUT = ROOT / "ui" / "public" / "data"   # the React build reads its baked JSON here too
+ORACLE_CARDS = ROOT / "collection" / "oracle-cards.json"   # heavy Scryfall dump (locks step only)
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -65,6 +66,7 @@ CHAMP_TGRIND = list(range(6, 15))               # 6..14 (matches slider)
 CHAMP_SWAPPED = [False, True]
 CHAMP_TRIALS = 20000
 CHAMP_SEASON = 40000
+CHAMP_DRAWS = 8                                  # sample random draws baked per key (Re-draw cycles them)
 
 GSEED, LSEED, CSEED = 20260614, 20260614, ds.sm.SEED
 
@@ -103,26 +105,33 @@ def main():
     for tg in CHAMP_TGRIND:
         for sw in CHAMP_SWAPPED:
             c[f"{tg}|{k_strict(sw)}"] = ds.compute_championship(
-                trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, t_grind=tg, swapped=sw, seed=CSEED)
+                trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, t_grind=tg, swapped=sw,
+                seed=CSEED, draw_seed=CSEED, n_draws=CHAMP_DRAWS)
             n += 1
             print(f"\rchampionship {n}/{total} ...", end="", flush=True)
     (OUT / "championship.json").write_text(json.dumps(c), encoding="utf-8")
     print(" done")
 
-    # locks (the expensive one — measures availability per deck×lock)
-    lk = {}
-    total = len(LOCKS_POD) * len(LOCKS_STRICT) * len(LOCKS_A) * len(LOCKS_R)
-    n = 0
-    for pod in LOCKS_POD:
-        for strict in LOCKS_STRICT:
-            for a in LOCKS_A:
-                for r in LOCKS_R:
-                    lk[f"{pod}|{k_strict(strict)}|{a:.2f}|{r:.2f}"] = ds.compute_lock_sweep(
-                        a=a, r=r, strict=strict, trials=LOCKS_TRIALS, pod=pod, seed=LSEED)
-                    n += 1
-                    print(f"\rlocks {n}/{total} (slow) ...", end="", flush=True)
-    (OUT / "locks.json").write_text(json.dumps(lk), encoding="utf-8")
-    print(" done")
+    # locks (the expensive one — measures availability per deck×lock). Needs the heavy
+    # Scryfall oracle dump; if it's absent, skip and keep the existing locks.json rather
+    # than aborting the whole bake (everything else above doesn't need the oracle data).
+    if not ORACLE_CARDS.is_file():
+        print(f"locks ... SKIPPED — {ORACLE_CARDS.relative_to(ROOT)} missing "
+              f"(run scripts/update_scryfall_data.py to refresh locks); keeping existing locks.json")
+    else:
+        lk = {}
+        total = len(LOCKS_POD) * len(LOCKS_STRICT) * len(LOCKS_A) * len(LOCKS_R)
+        n = 0
+        for pod in LOCKS_POD:
+            for strict in LOCKS_STRICT:
+                for a in LOCKS_A:
+                    for r in LOCKS_R:
+                        lk[f"{pod}|{k_strict(strict)}|{a:.2f}|{r:.2f}"] = ds.compute_lock_sweep(
+                            a=a, r=r, strict=strict, trials=LOCKS_TRIALS, pod=pod, seed=LSEED)
+                        n += 1
+                        print(f"\rlocks {n}/{total} (slow) ...", end="", flush=True)
+        (OUT / "locks.json").write_text(json.dumps(lk), encoding="utf-8")
+        print(" done")
 
     # content pages (KB markdown / CSV / Scryfall — single payloads, no scenario grid)
     print("content ...", end="", flush=True)
@@ -145,7 +154,7 @@ def main():
         locks=dict(pod=LOCKS_POD, strict=[k_strict(s) for s in LOCKS_STRICT],
                    a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
         championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
-                          trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON),
+                          trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
         content=dict(roster=True, home=True, wishlist=True, collection=True, decks=slugs),
     )
     (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")

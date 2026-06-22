@@ -7,7 +7,7 @@ self_meta_lab already import — it does NOT reimplement any sim. It calls
 pod_gauntlet / self_meta_lab / pod_championship functions directly and returns
 their numbers as JSON, so the browser charts the same curves the writeups cite.
 
-  GET /                     -> dashboard/index.html (the SPA)
+  GET /                     -> ui/dist/index.html (the React SPA; run `npm run build` in ui/)
   GET /api/clocks           -> harvested decap/table CDFs per deck (for the Labs tab)
   GET /api/gauntlet?...     -> P(beat the T6-7 pod) per deck (run_default, parameterised)
   GET /api/championship?... -> the 16-deck bracket (pod_championship, parameterised)
@@ -28,7 +28,8 @@ goldfish ceilings; disruption availability != effectiveness; the durability
 tiebreak and T_grind are judgment. Trust the RANKING and the shapes, not the
 second decimal. This is a viewer for the lab stack, not a new model.
 
-Launch:  python scripts/dashboard_server.py   (then open http://127.0.0.1:8765)
+Launch:  cd ui && npm run build        (once, to build the React front-end)
+         python scripts/dashboard_server.py   (then open http://127.0.0.1:8765)
 """
 import argparse
 import importlib.util
@@ -42,7 +43,7 @@ from types import SimpleNamespace
 from urllib.parse import urlparse, parse_qs
 
 ROOT = Path(__file__).resolve().parent.parent
-DASHBOARD_DIR = ROOT / "dashboard"
+DASHBOARD_DIR = ROOT / "ui" / "dist"     # the built React app (run `npm run build` in ui/)
 DEFAULT_HOST, DEFAULT_PORT = "127.0.0.1", 8765
 
 for _s in (sys.stdout, sys.stderr):
@@ -71,8 +72,16 @@ CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
     ".css": "text/css; charset=utf-8",
     ".js": "application/javascript; charset=utf-8",
+    ".mjs": "application/javascript; charset=utf-8",
     ".json": "application/json; charset=utf-8",
     ".svg": "image/svg+xml",
+    ".png": "image/png",
+    ".ico": "image/x-icon",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
+    ".ttf": "font/ttf",
+    ".webmanifest": "application/manifest+json",
+    ".map": "application/json",
 }
 
 
@@ -124,23 +133,11 @@ def compute_lock_sweep(a, r, strict, trials, pod, seed):
         locks=meta["locks"], abbr=meta["abbr"], rows=rows)
 
 
-def compute_championship(trials, season_trials, t_grind, swapped, seed):
-    """Mirror of pod_championship.main, returning the bracket as structured JSON."""
-    rng = random.Random(seed)
-    C = pg.merged_clocks()
-    slugs = [s for s in sm.dl.ROSTER if s in C]
-    names = {s: C[s]["name"] for s in slugs}
-    defense = sm.defense_counts()
-    tcdf, dura, disp, changed = pc.swapped_clocks(slugs, C, defense, swapped)
-
-    seeds, pwin = pc.seed_field(slugs, tcdf, dura, t_grind, season_trials, rng)
-    seedmap = {s: i + 1 for i, s in enumerate(seeds)}
-    groups = pc.snake_groups(seeds)
-
-    season = [dict(seed=i + 1, slug=s, name=names[s], table_med=disp[s][0],
-                   never=disp[s][1], dura=round(dura[s], 3), pwin=pwin[s],
-                   swap=(s in changed))
-              for i, s in enumerate(seeds)]
+def _champ_draw(seeds, seedmap, names, tcdf, dura, t_grind, trials, changed, draw_seed):
+    """One pot-based random draw + playoffs -> a single bracket dict. Reproducible from
+    `draw_seed` (the draw rng also drives the playoff sims so a draw is self-contained)."""
+    rng = random.Random(draw_seed)
+    groups = pc.draw_groups(seeds, rng)
 
     group_out, winners = [], []
     for gi, pod in enumerate(groups):
@@ -164,9 +161,7 @@ def compute_championship(trials, season_trials, t_grind, swapped, seed):
     runner = franked[1]
     cinderella = max(winners, key=lambda s: seedmap[s])
     return dict(
-        params=dict(trials=trials, season_trials=season_trials,
-                    t_grind=t_grind, swapped=swapped),
-        season=season, groups=group_out, final=final_out,
+        draw_seed=draw_seed, groups=group_out, final=final_out,
         champion=dict(slug=champ, name=names[champ], seed=seedmap[champ]),
         notes=dict(
             runner_up=dict(slug=runner, name=names[runner], seed=seedmap[runner]),
@@ -174,6 +169,38 @@ def compute_championship(trials, season_trials, t_grind, swapped, seed):
             cinderella=(dict(slug=cinderella, name=names[cinderella],
                              seed=seedmap[cinderella]) if seedmap[cinderella] >= 9 else None),
             changed=[names[s] for s in changed]))
+
+
+def compute_championship(trials, season_trials, t_grind, swapped, seed,
+                         draw_seed=None, n_draws=1):
+    """Mirror of pod_championship.main as structured JSON. The regular season (seeded by
+    `seed`) is deterministic and computed once; the group stage is a pot-based RANDOM draw,
+    so this returns `n_draws` independent draws sharing that season. `draw_seed` pins the
+    first draw (subsequent draws derive from it); omit it for a fresh random bracket."""
+    season_rng = random.Random(seed)
+    C = pg.merged_clocks()
+    slugs = [s for s in sm.dl.ROSTER if s in C]
+    names = {s: C[s]["name"] for s in slugs}
+    defense = sm.defense_counts()
+    tcdf, dura, disp, changed = pc.swapped_clocks(slugs, C, defense, swapped)
+
+    seeds, pwin = pc.seed_field(slugs, tcdf, dura, t_grind, season_trials, season_rng)
+    seedmap = {s: i + 1 for i, s in enumerate(seeds)}
+
+    season = [dict(seed=i + 1, slug=s, name=names[s], table_med=disp[s][0],
+                   never=disp[s][1], dura=round(dura[s], 3), pwin=pwin[s],
+                   swap=(s in changed))
+              for i, s in enumerate(seeds)]
+
+    base = draw_seed if draw_seed is not None else random.randrange(1 << 30)
+    draws = [_champ_draw(seeds, seedmap, names, tcdf, dura, t_grind, trials, changed,
+                         base + i)
+             for i in range(max(1, n_draws))]
+
+    return dict(
+        params=dict(trials=trials, season_trials=season_trials,
+                    t_grind=t_grind, swapped=swapped),
+        season=season, draws=draws)
 
 
 # --- content wrappers (KB markdown / CSV / Scryfall, not the sim) ----------
@@ -201,8 +228,11 @@ def compute_home(seed):
     """Dashboard hub — roster KPIs + a default gauntlet & championship result."""
     g = compute_gauntlet(a=pg.A_BASE, pod="base", strict=False, trials=8000, seed=seed)
     c = compute_championship(trials=8000, season_trials=20000,
-                             t_grind=sm.T_GRIND, swapped=False, seed=sm.SEED)
-    return kb.home(g, c)
+                             t_grind=sm.T_GRIND, swapped=False, seed=sm.SEED,
+                             draw_seed=0, n_draws=1)
+    # kb.home reads champ["champion"]/["notes"]; flatten the first (fixed) draw up a level.
+    champ_flat = {**c, **c["draws"][0]}
+    return kb.home(g, champ_flat)
 
 
 # --- HTTP plumbing ---------------------------------------------------------
@@ -265,12 +295,16 @@ class Handler(BaseHTTPRequestHandler):
                     pod=qs.get("pod", ["base"])[0],
                     seed=_qint(qs, "seed", 20260614)))
             if path == "/api/championship":
+                # No draw_seed -> a fresh random bracket each request (so "Re-draw" reshuffles).
+                draw_seed = _qint(qs, "draw_seed", -1)
                 return self._json(compute_championship(
                     trials=max(500, min(120000, _qint(qs, "trials", 15000))),
                     season_trials=max(2000, min(300000, _qint(qs, "season_trials", 40000))),
                     t_grind=_qint(qs, "t_grind", sm.T_GRIND),
                     swapped=_qbool(qs, "swapped"),
-                    seed=_qint(qs, "seed", sm.SEED)))
+                    seed=_qint(qs, "seed", sm.SEED),
+                    draw_seed=(draw_seed if draw_seed >= 0 else None),
+                    n_draws=max(1, min(16, _qint(qs, "draws", 1)))))
             if path == "/api/roster":
                 return self._json(compute_roster())
             if path == "/api/home":
@@ -289,6 +323,12 @@ class Handler(BaseHTTPRequestHandler):
         return self._serve_static(path)
 
     def _serve_static(self, path):
+        if not (DASHBOARD_DIR / "index.html").is_file():
+            return self._send(
+                f"<h1>React build not found</h1><p>Expected <code>{DASHBOARD_DIR}</code>. "
+                f"Build the UI first:</p><pre>cd ui && npm ci && npm run build</pre>"
+                f"<p>Then reload. (The <code>/api/*</code> endpoints work without a build.)</p>",
+                CONTENT_TYPES[".html"], code=503)
         rel = "index.html" if path in ("/", "") else path.lstrip("/")
         target = (DASHBOARD_DIR / rel).resolve()
         if DASHBOARD_DIR not in target.parents and target != DASHBOARD_DIR:
@@ -321,6 +361,9 @@ def main():
     httpd = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"\n  🏟️  Gauntlet dashboard serving the lab stack")
     print(f"      engine: pod_gauntlet + self_meta_lab + pod_championship (imported, not shelled)")
+    print(f"      front:  {DASHBOARD_DIR.relative_to(ROOT)} (React build)"
+          + ("" if (DASHBOARD_DIR / 'index.html').is_file()
+             else "  ⚠ MISSING — run `cd ui && npm run build`"))
     print(f"      local:  http://127.0.0.1:{args.port}")
     if args.host == "0.0.0.0":
         ip = lan_ip()

@@ -5,9 +5,12 @@ The fun finale (2026-06-15). self_meta_lab.py answers "P(win | in a RANDOM 4-sea
 of my own decks)". This stages an actual TOURNAMENT on the same engine:
 
   REGULAR SEASON  the self-meta ranking (random-pod P(win)) -> seeds 1..16.
-  GROUP STAGE     snake-seed the 16 into 4 balanced pods of 4 (1-8-9-16, 2-7-10-15,
-                  3-6-11-14, 4-5-12-13). Each pod is simulated over --trials games;
-                  the deck with the highest WIN SHARE in that pod ADVANCES.
+  GROUP STAGE     a pot-based RANDOM DRAW: split the 16 seeds into 4 pots (1-4, 5-8,
+                  9-12, 13-16) and draw one deck from each pot into each of 4 pods, so
+                  every pod is balanced but the field is freshly shuffled each run. Each
+                  pod is simulated over --trials games; highest WIN SHARE ADVANCES.
+                  (--snake forces the old deterministic 1-8-9-16 bracket; --draw-seed
+                  reproduces a specific draw.)
   FINAL FOUR      the 4 group winners play one last 4-seat pod -> CHAMPION.
 
 The per-game winner of a pod is decided EXACTLY as in self_meta_lab.run():
@@ -96,6 +99,20 @@ def snake_groups(seeds):
     return groups
 
 
+def draw_groups(seeds, rng):
+    """Pot-based RANDOM draw: split the 16 ranked seeds into 4 pots (1-4, 5-8, 9-12,
+    13-16) and deal one deck from each pot into each of the 4 pods. Every pod gets
+    exactly one deck from each pot (balanced like the snake) but which decks land
+    together is shuffled — a fresh, valid bracket per `rng`."""
+    groups = [[], [], [], []]
+    for p in range(4):
+        pot = seeds[4 * p:4 * p + 4]
+        rng.shuffle(pot)
+        for pod_i, slug in enumerate(pot):
+            groups[pod_i].append(slug)
+    return groups
+
+
 def fmt(slug, names, seedmap):
     return f"{names[slug]} (#{seedmap[slug]})"
 
@@ -142,22 +159,31 @@ def main():
     ap.add_argument("--trials", type=int, default=60000, help="games per playoff pod")
     ap.add_argument("--season-trials", type=int, default=120000, help="random pods for seeding")
     ap.add_argument("--t-grind", type=int, default=sm.T_GRIND)
-    ap.add_argument("--seed", type=int, default=sm.SEED)
+    ap.add_argument("--seed", type=int, default=sm.SEED,
+                    help="RNG for the regular-season seeding (fixed -> stable seeds/pots)")
+    ap.add_argument("--draw-seed", type=int, default=None,
+                    help="RNG for the group draw + playoffs (default: fresh random each run)")
+    ap.add_argument("--snake", action="store_true",
+                    help="force the old deterministic snake bracket (1-8-9-16, ...) instead of a draw")
     ap.add_argument("--md", action="store_true", help="emit the markdown writeup to stdout")
     ap.add_argument("--swapped", action="store_true",
                     help="apply all proposed swaps (pod_gauntlet.SWAPS / Build_And_Swap §2)")
     args = ap.parse_args()
 
-    rng = random.Random(args.seed)
+    # Two RNGs: the season seed is fixed so the seeds/pots are stable; the draw seed
+    # shuffles the pots into pods (and drives the playoff sims) — fresh each run unless pinned.
+    season_rng = random.Random(args.seed)
+    draw_seed = args.draw_seed if args.draw_seed is not None else random.randrange(1 << 30)
+    draw_rng = random.Random(draw_seed)
     C = pg.merged_clocks()
     slugs = [s for s in sm.dl.ROSTER if s in C]
     names = {s: C[s]["name"] for s in slugs}
     defense = sm.defense_counts()
     tcdf, dura, disp, changed = swapped_clocks(slugs, C, defense, args.swapped)
 
-    seeds, pwin = seed_field(slugs, tcdf, dura, args.t_grind, args.season_trials, rng)
+    seeds, pwin = seed_field(slugs, tcdf, dura, args.t_grind, args.season_trials, season_rng)
     seedmap = {s: i + 1 for i, s in enumerate(seeds)}
-    groups = snake_groups(seeds)
+    groups = snake_groups(seeds) if args.snake else draw_groups(seeds, draw_rng)
 
     out = []  # markdown lines, mirrored to terminal sections below
 
@@ -168,6 +194,8 @@ def main():
     print(f"{'='*78}")
     print(f"  engine: self_meta_lab table-clock race + durability  ·  T_grind={args.t_grind}")
     print(f"  seeding={args.season_trials} random pods  ·  playoff pods={args.trials} games each")
+    draw_label = "snake (deterministic)" if args.snake else f"pot-based random draw (draw-seed={draw_seed})"
+    print(f"  group stage: {draw_label}")
     if args.swapped:
         movers = ", ".join(names[s] for s in changed) or "(none)"
         print(f"  swaps that move the TABLE clock: {movers}")
@@ -183,12 +211,13 @@ def main():
               f"{dura[s]:>6.2f}{pwin[s]:>7.0f}%{mark}")
 
     # ---- group stage -------------------------------------------------------
-    print(f"\n  GROUP STAGE — 4 snake-seeded pods, highest win share advances")
+    drawn = "snake-seeded" if args.snake else "randomly drawn (pot-balanced)"
+    print(f"\n  GROUP STAGE — 4 {drawn} pods, highest win share advances")
     winners = []
     group_results = []
     for gi, pod in enumerate(groups):
         pod = sorted(pod, key=lambda s: seedmap[s])
-        shares = pod_shares(pod, tcdf, dura, args.t_grind, args.trials, rng)
+        shares = pod_shares(pod, tcdf, dura, args.t_grind, args.trials, draw_rng)
         ranked = sorted(pod, key=lambda s: -shares[s])
         w = ranked[0]
         winners.append(w)
@@ -200,7 +229,7 @@ def main():
 
     # ---- final -------------------------------------------------------------
     final = sorted(winners, key=lambda s: seedmap[s])
-    shares = pod_shares(final, tcdf, dura, args.t_grind, args.trials, rng)
+    shares = pod_shares(final, tcdf, dura, args.t_grind, args.trials, draw_rng)
     ranked = sorted(final, key=lambda s: -shares[s])
     champ = ranked[0]
     print(f"\n  THE FINAL FOUR")

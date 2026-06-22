@@ -118,14 +118,13 @@ The per-deck tables below give the full mapping.
 | Winota, Joiner of Forces | `winota_clock_lab.py` |
 | Yawgmoth (aristocrats) | `yawgmoth_clock_lab.py` |
 
-## Dashboard back-end (web front-end lives in `../dashboard/` + `../ui/`)
+## Dashboard back-end (React front-end lives in `../ui/`)
 
 | Script | Does |
 |---|---|
-| `dashboard_server.py` | Interactive front-end server for the gauntlet/lab/championship stack. |
-| `dashboard_export.py` | Bake the dashboard's sim results to static JSON for no-backend hosting. |
-| `dashboard_screenshot.py` | Render the live dashboard with Playwright and shoot each tab. |
-| `ui_screenshot.py` | Render the React rebuild (`../ui/`) with Playwright and shoot each tab. |
+| `dashboard_server.py` | Serves the built React app (`../ui/dist`) + the live `/api/*` sim endpoints. Run `cd ui && npm run build` first. |
+| `dashboard_export.py` | Bake the sim results to static JSON (`../ui/public/data`) for no-backend hosting (GitHub Pages). |
+| `ui_screenshot.py` | Render the React app with Playwright and shoot each tab (`--url`, `?static=1` for no backend). |
 
 ## Data files (not scripts)
 

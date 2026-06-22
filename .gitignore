@@ -4,7 +4,7 @@
 # Sync output — generated build artifact
 _sync_drop/
 
-# Dashboard screenshot artifacts — regenerate with scripts/dashboard_screenshot.py
+# Dashboard screenshot artifacts — regenerate with scripts/ui_screenshot.py
 .dashboard_shots/
 
 # design-sync — transient build/verification artifacts.
