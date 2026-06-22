@@ -9,9 +9,9 @@
 | **Archetype** | ETB / Token Combo |
 | **Bracket** | 3 (3 Game Changers) |
 | **Game Changers** | Fierce Guardianship, Cyclonic Rift, The One Ring (Deflecting Swat remains in deck as a free redirect but no longer counts toward the GC cap as of Oct 2025) |
-| **Conversion Check** | **17/20** (5/4/4/4) — rescored 2026-05-13 (holds post-swap) |
-| **Kill Window** | Goldfish: T7–8 (one player) / T10+ (table) **(board)** · Through interaction: T9–12 — corrected 2026-06-09 by `scripts/rc_speed_lab.py`; the old "T5–7" was a god-draw artifact (T5 ≈ 2%). See `analysis/Replication_Crisis_Speed_Curve_Analysis.md` |
-| **Last swap pass** | 2026-05-04 — 6 cards swapped to add a real infinite (Sword of F&F + AA), token multiplier (Anointed Procession + Adeline), draw engine (Bident, The One Ring), premium ETB (Solitude). See bottom of summary. |
+| **Conversion Check** | **18/20** (5/4/4/5) — Interaction 4→5 on the 2026-06-22 add of a 2nd, one-sided sweeper (Winds of Abandon) + a premium modal counter (Sublime Epiphany), which retire the two reasons the axis was capped. Was 17/20 (5/4/4/4) rescored 2026-05-13. |
+| **Kill Window** | Goldfish decap T7 (T6 ≈ 16–18%) / table T10–12 **(board)**. After the 2026-06-22 Lightning Runner add the deck closes through a real infinite far more reliably: **Satya + Lightning Runner** (commander + 1 card) is available ~12% by T6 / ~18% by T12 and converts to a table kill ~5% T6 / ~18% T12, vs the old Sword+AA's 1–3%. **Still not a T6–7 racer** — the decap clock is unchanged; bring it as a reliable closer / value engine, not to out-race the combo pod. Lab `scripts/rc_speed_lab.py` (40k, 2026-06-22). See `analysis/Replication_Crisis_Speed_Curve_Analysis.md` |
+| **Last swap pass** | 2026-06-22 — **(a)** −Goldspan Dragon / −Ponder / −Preordain (each physically deployed in another deck, so the slots were already empty) → +Lightning Runner (the Satya+LR infinite), +Sleight of Hand, +Opt (cantrips to find it); **(b)** −Expansion // Explosion (needed in Lightning War) → +Sublime Epiphany; −Bident of Thassa → +Winds of Abandon (2nd sweeper). All owned, no purchase. See `The_Replication_Crisis_Swaps_2026-06-22.md` + swap log below. |
 
 -----
 
@@ -42,7 +42,7 @@ Satya's "whenever attacks" trigger creates a free token copy of any nontoken cre
 - **Token/pump ETBs:** Angel of Invention (fabricate 2 + anthem), Blade Splicer (create 3/3 golem with first strike), Siege-Gang Commander (create 3 goblin tokens), Adeline (Satya copy of Adeline doesn't fire her trigger from entering attacking, but a real attack with Adeline + Satya generates 3 humans/turn for the Brudiclad pile)
 - **Utility ETBs:** Restoration Angel (flash, flicker a non-Angel)
 
-**Layer 2 — Combat Engine (1 piece):** Aggravated Assault gives an extra combat for {3}{R}{R} (sorcery speed). Combined with **Sword of Feast and Famine** equipped to Satya, each combat untaps all lands → infinite combats.
+**Layer 2 — Combat Engine / Infinite (2 pieces):** **Lightning Runner** is the primary kill — with Satya it makes infinite combats off the deck's own energy (commander + 1 card; see Line 1). **Aggravated Assault** gives an extra combat for {3}{R}{R} (sorcery speed); combined with **Sword of Feast and Famine** equipped to Satya, each combat untaps all lands → infinite combats (the backup infinite, Line 2).
 
 **Layer 3 — ETB Doublers / Token Multipliers (4 pieces):** Panharmonicon (doubles ETBs of every Satya copy), Elesh Norn Mother of Machines (doubles your ETBs, shuts off opponents'), Strionic Resonator (copies Satya's attack trigger for a second token — the copied trigger creates a new token without re-using the "declared as attacking" check), **Anointed Procession** (doubles every token Satya creates, every Adeline trigger, every Siege-Gang trigger, every Brudiclad Myr).
 
@@ -56,21 +56,26 @@ Satya's "whenever attacks" trigger creates a free token copy of any nontoken cre
 
 ## Kill Lines
 
-**Line 1 — Sword of F&F + Aggravated Assault (infinite combats, 3 cards including commander)**
+**Line 1 — Satya + Lightning Runner (infinite combats, 2 cards = commander + 1) — PRIMARY (added 2026-06-22)**
+Both real Satya and real Lightning Runner attack. Each gives {E}{E}. Satya makes a token copy of Lightning Runner (enters tapped + attacking — its "whenever ~ attacks" does *not* fire that combat, same ruling as Adeline/Phelia). Lightning Runner's trigger: pay 8{E} → untap all creatures + an additional combat phase. In the next combat the token Runner is untapped and **declared** as an attacker, so it triggers too. Per-combat energy = 2 × (Satya + every Lightning Runner attacking). Once you have Satya + 3 Runners (combat 3, or combat 2 with Anointed Procession doubling the tokens) you generate ≥8/combat = self-sustaining → **infinite combats / energy / tokens / double-strike damage.** Bootstrap needs ~6 banked energy (4 with Procession) — trivial in a deck that banks 2{E} every Satya attack. Tokens persist through the loop (end step never arrives). Lethal regardless of blockers if Inferno Titan is a copy target (infinite ETB pings) or just by infinite attackers.
+
+Why it's the best line: **one piece is the commander** (always available) and the other is a single owned creature, so it's the deck's most-*assemblable* infinite by ~6–10× (available ~12% T6 / ~18% T12 drawn vs Sword+AA's ~1–3%; `rc_speed_lab.py` 2026-06-22). CSB combo [4918-5658]. Card text verified 2026-06-22.
+
+**Line 2 — Sword of F&F + Aggravated Assault (infinite combats, 3 cards including commander) — backup infinite**
 Equip Sword of Feast and Famine to Satya (menace + haste makes her hard to chump). Activate AA in main phase. Combat: Satya attacks, deals combat damage to a player → untap all lands. Post-combat main: AA again. Repeat indefinitely. Each loop also generates: a Satya token + 2 energy. With Anointed Procession, two tokens. With Brudiclad in play, all tokens become haste copies of whatever you chose.
 
-Earliest realistic assembly: turn 6 (Satya turn 4, Sword + equip turn 5, AA turn 6).
+Earliest realistic assembly: turn 6 (Satya turn 4, Sword + equip turn 5, AA turn 6). Lower availability than Line 1 (needs two specific cards drawn, no tutors), so it's the redundancy, not the plan.
 
-**Line 2 — Brudiclad Token Conversion (alpha strike, no infinite required)**
+**Line 3 — Brudiclad Token Conversion (alpha strike, no infinite required)**
 Sequencing: Turn N combat — Brudiclad's beginning-of-combat trigger fires *before* Satya attacks. The conversion that matters is **the following combat phase**. By that point, the Satya copy of Inferno Titan / Adeline / etc. is on the field. Brudiclad converts all your tokens (Myr, goblins from Siege-Gang, servos from Angel of Invention, humans from Adeline, the Satya token) into copies of the chosen token. Brudiclad-converted tokens **shed Satya's EoT-sacrifice clause** (the delayed trigger sticks to the original Satya token only), so the conversion also preserves them.
 
-**Line 3 — Adeline + Anointed Procession Token Flood**
+**Line 4 — Adeline + Anointed Procession Token Flood**
 With Adeline + Anointed Procession on board: each attack generates ~6 1/1 humans (3 per opponent in pod, doubled). Plus Satya's token (also doubled = 2). Plus Adeline herself (* power = creature count, often 8+ on a flooded board). Brudiclad on top converts the swarm. This is a 3–4 card alpha that doesn't need infinite combats.
 
-**Line 4 — Zealous Conscripts Steal**
+**Line 5 — Zealous Conscripts Steal**
 Satya copies Zealous Conscripts → steal an opponent's best permanent. Strionic Resonator copies Satya's attack trigger → second steal. Aggravated Assault → one steal per combat.
 
-**Line 5 — Value Grind**
+**Line 6 — Value Grind**
 Repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each combat. Cloudblazer copies draw 2 each combat. Skyclave Apparition copies exile a permanent each combat. Most pods can't survive 3–4 turns of this without running out of resources.
 
 -----
@@ -83,13 +88,13 @@ Repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each comb
 
 **Checkpoint:** Cover the commander. The 99 has 15 ETB creatures, Panharmonicon, Elesh Norn, flicker effects, and extra combat pieces. The strategy is unmistakable.
 
-### Kill Reliability: 4/5
+### Kill Reliability: 4/5 (a much stronger 4 after the 2026-06-22 Lightning Runner add)
 
-Five distinct closing lines, including one infinite combat loop (Sword of F&F + Aggravated Assault + Satya, 3 cards including commander). Adeline + Anointed Procession is a fast 3-card alpha that doesn't require an infinite. Brudiclad converts the token pile into a lethal alpha swing without needing an infinite loop. Estimated 2–3 turns from engine-online to kill.
+Six distinct closing lines, now including **two** infinite combat loops. The primary — **Satya + Lightning Runner** (commander + 1 card) — is the deck's most-*assemblable* kill by ~6–10×: because one half is the commander, its availability is just P(draw Lightning Runner) (~12% T6 / ~18% T12 drawn, `rc_speed_lab.py` 2026-06-22), versus the Sword + Aggravated Assault pair's ~1–3% (two specific cards, no tutors). Adeline + Anointed Procession is a fast non-infinite alpha; Brudiclad converts the token pile into a lethal swing. Estimated 2–3 turns from engine-online to kill.
 
-Doesn't reach 5 because every kill line requires Satya to be attacking — meaning she must survive as a 3/5 through a combat step. Instant-speed removal in response to the combat trigger shuts down the turn entirely. The deck has protection (Lightning Greaves, Swiftfoot Boots, Slip Out the Back, Clever Concealment) and Sword of F&F grants protection from black and green, but can't guarantee Satya survives every time and menace is stopped by any 2 blockers. A 5 would need kills that function independently of the combat step.
+Still doesn't reach 5 because **every line — including both infinites — requires Satya to be attacking**: she must survive as a 3/5 through a combat step, and instant-speed removal in response to the combat trigger shuts the turn down. (The owned-cards-only constraint means the one combat-*independent* fix — Kiki + Conscripts/Resto — isn't available; Kiki is unowned. See `The_Replication_Crisis_Swaps_2026-06-01.md`.) The deck has protection (Lightning Greaves, Swiftfoot Boots, Slip Out the Back, Clever Concealment) and Sword of F&F grants protection from black and green, but can't guarantee Satya survives every time and menace is stopped by any 2 blockers. A 5 would need kills that function independently of the combat step. **Kill Reliability stays 4** — the LR add is a large within-axis reliability gain, not a new axis. (The deck's *total* rose to 18/20 the same day via a separate Interaction 4→5 bump — see that axis below.)
 
-**Checkpoint:** Sword of F&F + Aggravated Assault + Satya = infinite combats (3 cards) once Satya connects for combat damage. Adeline + Anointed Procession + Satya = ~6 humans per attack in a 4-player pod plus a Satya copy, lethal alpha in 1–2 swings with Brudiclad conversion. Both achievable by turn 5–7.
+**Checkpoint:** Satya + Lightning Runner = infinite combats off the deck's own energy (2 cards, commander + 1) — the line you reach for. Sword of F&F + Aggravated Assault + Satya = infinite combats (3 cards) as the backup. Adeline + Anointed Procession + Satya = ~6 humans per attack in a 4-player pod plus a Satya copy, lethal alpha with Brudiclad conversion.
 
 ### Durability: 4/5
 
@@ -101,21 +106,21 @@ Doesn't reach 5 because the deck is meaningfully commander-dependent for its pri
 
 **Checkpoint:** Cyclonic Rift on turn 7. Replay Satya for 4 mana, deploy a creature. Next turn, attack and copy. Threatening again in 2 turns.
 
-### Interaction: 4/5
+### Interaction: 5/5 (4→5 on the 2026-06-22 add)
 
-17 interaction and protection pieces:
+Deep, flexible, and now with two mass answers:
 
-- **Counterspells (7):** Fierce Guardianship (free), Deflecting Swat (free redirect), Counterspell, Swan Song, An Offer You Can't Refuse, Arcane Denial, Reprieve
-- **Removal (7):** Cyclonic Rift (asymmetric wipe), Swords to Plowshares, Path to Exile, Generous Gift, Chaos Warp, Pongify, Abrade
-- **Flexible (2):** Narset's Reversal (counter/copy), Prismari Command (removal/ramp/draw)
-- **Board protection (4):** Akroma's Will, Clever Concealment, Slip Out the Back, Expansion/Explosion (can copy a counter)
+- **Counter-capable (7):** Fierce Guardianship (free), Deflecting Swat (free redirect), Counterspell, Swan Song, An Offer You Can't Refuse, Narset's Reversal (counter/copy), **Sublime Epiphany** (modal: counter spell *or* ability, bounce, copy a creature, draw)
+- **Removal (8):** Cyclonic Rift (asymmetric wipe), **Winds of Abandon** (overload = one-sided creature wipe), Swords to Plowshares, Path to Exile, Generous Gift, Chaos Warp, Pongify, Abrade
+- **Flexible / ETB-based:** Prismari Command (removal/ramp/draw); plus Reflector Mage, Skyclave Apparition, Solitude, Loran — repeatable removal Satya can copy
+- **Board protection (3):** Akroma's Will, Clever Concealment, Slip Out the Back
 - **Equipment (2):** Lightning Greaves, Swiftfoot Boots
 
-Two free spells (Fierce Guardianship, Deflecting Swat) mean the deck can protect its combo turn while tapped out. Reflector Mage and Skyclave Apparition double as ETB-based interaction that Satya can repeatedly copy.
+Two free spells (Fierce Guardianship, Deflecting Swat) protect the combo turn while tapped out.
 
-Doesn't reach 5 because the counterspell suite, while deep, includes several weaker options (Arcane Denial gives the opponent cards, An Offer gives them treasures, Reprieve only delays). The deck also lacks a second board wipe beyond Cyclonic Rift — if Rift is exiled or countered, there's no backup mass answer.
+**Reaches 5 (2026-06-22):** the two reasons this axis was held at 4 are both retired — the deck now has a **second mass answer** (Winds of Abandon's one-sided overload, alongside Cyclonic Rift) and a **premium flexible counter** (Sublime Epiphany) replacing the do-one-thing Expansion // Explosion. *Caveat:* Winds is a soft sweeper — 6-mana overload that hands opponents a basic land each — so this is a clean-but-not-overwhelming 5.
 
-### Total: 17/20 — Structurally excellent. Pilot skill is the main variable.
+### Total: 18/20 — Structurally excellent. Pilot skill is the main variable.
 
 -----
 
@@ -144,7 +149,9 @@ Phelia, Exuberant Shepherd replaced Inspiring Overseer. She's a flicker engine o
 
 *Note:* Deflecting Swat remains in the deck as a free redirect but no longer counts toward the GC cap.
 
-**Infinite combos:** Sword of Feast and Famine (equipped to a connecting attacker — typically Satya, who has menace + haste) + Aggravated Assault = infinite combat phases. Each combat: Satya deals damage, untaps all lands, post-combat main re-activates AA. Earliest realistic assembly turn ~6.
+**Infinite combos (both produce infinite combat *phases*, not extra turns — pod-OK as of 2026-06-19, see [[infinites_ok_in_pod]]):**
+1. **Satya + Lightning Runner** (commander + 1 card) = infinite combats / energy / tokens / double-strike damage. Bootstrap ~6 banked energy. The primary kill — see Line 1.
+2. **Sword of Feast and Famine + Aggravated Assault** (equipped to a connecting Satya) = infinite combat phases (untap all lands → re-cast AA). Backup — see Line 2. Earliest realistic assembly turn ~6.
 
 **Extra turns:** None.
 
@@ -219,8 +226,9 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 
 1 Restoration Angel
 
-### Combat Engine (1)
+### Combat Engine / Infinite Combo Pieces (2)
 
+1 Lightning Runner
 1 Aggravated Assault
 
 ### ETB Doublers / Token Multipliers (5)
@@ -235,20 +243,18 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 
 1 Brudiclad, Telchor Engineer
 
-### Combat Value Creatures (2)
+### Combat Value Creatures (1)
 
-1 Goldspan Dragon
 1 Professional Face-Breaker
 
 ### Tutors (1)
 
 1 Ranger-Captain of Eos
 
-### Stax / Draw (3)
+### Stax / Draw (2)
 
 1 Esper Sentinel
 1 Mystic Remora
-1 Bident of Thassa
 
 ### Counterspells (3)
 
@@ -256,13 +262,16 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 1 Swan Song
 1 An Offer You Can't Refuse
 
-### Removal (5)
+### Removal (6)
 
 1 Swords to Plowshares
 1 Path to Exile
 1 Generous Gift
 1 Chaos Warp
 1 Pongify
+1 Winds of Abandon
+
+*(Winds of Abandon overloads into a one-sided creature wipe — the deck's second mass answer alongside Cyclonic Rift.)*
 
 ### Flexible Removal (2)
 
@@ -272,7 +281,7 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 ### Flexible Interaction (3)
 
 1 Narset's Reversal
-1 Expansion/Explosion
+1 Sublime Epiphany
 1 Deflecting Swat
 
 ### Protection (4)
@@ -289,8 +298,8 @@ Both decks use combat as their engine phase, but they share zero engine pieces. 
 
 ### Card Selection (2)
 
-1 Ponder
-1 Preordain
+1 Sleight of Hand
+1 Opt
 
 ### Ramp (10)
 
@@ -394,9 +403,52 @@ dependence). The deck remains what Pod Fit says it is — an incremental value
 engine, **not** a racer; see the analysis doc before bringing it against the
 T6–7 combo pod.
 
+### 2026-06-22 — Lightning Runner infinite + interaction tune (5-card swap, all owned)
+
+New `.txt`: `the-replication-crisis-20260622.txt` (old `…-20260504-202914.txt`
+moved to `archive/old_decklists/`). Full writeup +
+benchmark: `The_Replication_Crisis_Swaps_2026-06-22.md`.
+
+| Out | In | Why |
+|---|---|---|
+| Goldspan Dragon | **Lightning Runner** | Goldspan is physically in Lightning War (1 owned, contended), so the RC slot was already empty. Lightning Runner completes the **Satya + Lightning Runner** infinite (commander + 1 card) — CSB [4918-5658], text-verified. Itself a 2/2 (a future power-2 tutor target) and a copy target. |
+| Ponder | **Sleight of Hand** | Ponder is a 1-of shared across 4 decks (physically elsewhere). Sleight of Hand (dig-2) is owned + unallocated; keeps card-selection count at 2 to find the new combo. |
+| Preordain | **Opt** | Same contention story. Opt (2 owned, 1 free) replaces the selection 1-for-1. |
+| Expansion // Explosion | **Sublime Epiphany** | E // E was needed in Lightning War (contended). Sublime Epiphany ({2}{U}{U} instant) is a strictly more flexible modal answer — counter spell/ability, bounce, copy a creature you control (ETB synergy), or draw. 2 owned + unallocated. |
+| Bident of Thassa | **Winds of Abandon** | Bident (the prior Kiki proposal's earmarked weakest card — redundant with the deep draw suite) makes room for the deck's **second mass answer**: Winds overloads into a one-sided creature wipe (exile each creature you don't control), which a go-wide creature deck wants far more than a symmetric wrath. |
+
+**Why this is the upgrade (`rc_speed_lab.py`, 40k, 2026-06-22):** the old deck's
+only true infinite (Sword + AA) is two specific cards with no tutors → complete
+~1% T6 / ~3% T12. Satya + Lightning Runner is **commander + 1 card**, so it's
+available ~12% T6 / ~18% T12 (just P(draw Lightning Runner)), fuelled by the
+deck's native energy. Table-kill-via-an-infinite rises **1→5% T6, 3→18% T12**;
+defended-board (SQUAD) table kill **47→56% T12** with far more T6–8 mass. The
+**decap clock is unchanged** — this is a reliability/closing upgrade, *not* a
+speed one; the deck still isn't a T6–7 racer (the 2026-06-09 verdict holds).
+
+**Compliance:** 99 + 1 = 100 (verified). GC 3/3 unchanged (Fierce Guardianship,
+Cyclonic Rift, The One Ring — none of the five swap cards are GCs, checked against
+`REF_Game_Changers_List.md`). Both infinites produce infinite combat *phases*,
+not extra turns — pod-OK as of 2026-06-19 ([[infinites_ok_in_pod]]). Card text
+verified via `card_lookup.py`: Satya, Lightning Runner, Sleight of Hand, Opt,
+Sublime Epiphany, Winds of Abandon.
+
+**Conversion Check 17 → 18/20.** Kill Reliability stays 4 (the LR infinite still
+needs Satya to connect — doesn't clear the "combat-step-independent" bar a 5
+requires). **Interaction 4 → 5:** the two reasons it was capped are retired — a
+second mass answer (Winds of Abandon, one-sided) and a premium flexible counter
+(Sublime Epiphany). Caveat: Winds is a soft 6-mana sweeper that ramps opponents,
+so it's a clean-but-not-overwhelming 5.
+
+**Knock-on:** Bident is now benched, so the pending −Bident +Kiki swap
+(`…_Swaps_2026-06-01.md`) would need a different donor; Kiki would stack as a
+3rd, Satya-free infinite. Removing Expansion // Explosion also drops the
+Narset's Reversal + E // E "infinite magecraft" near-combo (no magecraft payoff
+here, so no loss).
+
 ## Don't-Miss Rulings
 
-- **Tokens entering "tapped and attacking" do NOT trigger "whenever ~ attacks" abilities.** Satya copies of Adeline, Phelia, Goldspan, Bident-bearers, etc. **don't fire their attack triggers** — but their **ETB triggers DO** fire. (This is why the old Combat Celebrant infinite was broken and got cut.)
+- **Tokens entering "tapped and attacking" do NOT trigger "whenever ~ attacks" abilities** *the combat they're made* — but they **CAN attack normally in a later combat** (once untapped + declared), and *then* they trigger. Satya copies of Adeline, Phelia, Bident-bearers, etc. don't fire attack triggers on entry, but their **ETB triggers DO**. This is the whole engine of the Lightning Runner combo: the token Runner makes no energy the combat Satya creates it, but it untaps with the others and **does** make energy when it attacks in the next combat. (It's also why the old Combat Celebrant "infinite" was fake — exert is a one-time, can't-untap thing.)
 - **The copy must target a *nontoken* creature** — Brudiclad-converted tokens are not legal Satya targets.
 - **Energy is gained free; tokens are kept by paying their mana value in {E} at end step.** An Inferno Titan token costs 6{E} to keep — three attacks bank enough for one. Unkept tokens are sacrificed.
 - **Brudiclad-converted tokens shed Satya's end-of-turn sacrifice clause** (it's a delayed trigger stuck to the original token) — the cleanest way to keep tokens without paying energy.
@@ -413,7 +465,7 @@ T6–7 combo pod.
 
 **Threats & timing.**
 
-- **Commander-dependent.** Every kill line needs Satya attacking as a 3/5 — instant-speed removal in response to the combat trigger blanks the turn. Repeated Satya removal is the best counterplay against you.
+- **Commander-dependent.** Every kill line needs Satya attacking as a 3/5 — instant-speed removal in response to the combat trigger blanks the turn. Repeated Satya removal is the best counterplay against you. A reliable closer, not a racer.
 - **Protect the swing.** Lightning Greaves / Swiftfoot Boots, Slip Out the Back, Clever Concealment, Akroma's Will; Sword grants pro-black/green. Hold a free counter (Fierce Guardianship, Deflecting Swat) for the combo turn.
 - **Weak to stax / pillowfort.** Ghostly Prison & Propaganda tax your attacks; Torpor Orb & Hushbringer shut off the ETBs entirely. Enchantment removal is thin (Loran, Generous Gift).
-- **One true board wipe (Cyclonic Rift).** If Rift is countered or exiled, there's no backup mass answer — but 16 ETB creatures give deep redundancy, so you recover fast off any single creature.
+- **Two mass answers: Cyclonic Rift + Winds of Abandon** (overload = one-sided creature exile — doesn't touch your board). Plus Sublime Epiphany as a flexible modal counter/bounce/copy. 16 ETB creatures give deep redundancy, so you recover fast off any single creature.
