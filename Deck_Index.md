@@ -45,7 +45,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 ## Outstanding work
 
-- **H2:** Ms. Bumbleflower formal summary — ✅ done 2026-05-30 (15/20; `Ms_Bumbleflower_Summary.md` + `Ms_Bumbleflower_Primer.md`).
+- **H2:** Ms. Bumbleflower formal summary — ✅ done 2026-05-30 (15/20; `Ms_Bumbleflower_Summary.md`).
 - **Lorehold Spirits:** upgrade pass applied 2026-05-03. Goblin Bombardment acquired 2026-05-30 — combo line live; rescored 17/20 → 18/20.
 - **Proxy list:** 35 cards for cross-deck testing, physical testing not yet completed.
 

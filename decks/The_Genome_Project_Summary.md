@@ -340,3 +340,29 @@ User-applied reskins map to canonical MTG cards; FF set originals listed for pil
     - **Midgar, City of Mako**'s DFC Adventure side **Reactor Raid** is a {2}{B} sac-to-loot.
     - **Summon: G.F. Cerberus** mechanics documented in reference table.
 - **2026-04-03 (baseline build):** Decklist `the-genome-project-20260403-050230.txt`. 99 main + 1 commander. Pre-audit summary scored 4/4/3/4 = 15/20.
+
+## Don't-Miss Rulings
+
+- **Kuja is a Wizard** — he counts toward the 4 to flip. So **3 tokens + Kuja = flip.**
+- Token pings trigger **on cast** and resolve **before** the spell — the damage happens **even if the spell is countered.**
+- Trance Kuja's doubling is a **replacement effect**: doubles *all* Wizard damage, combat included. It **multiplies** with City on Fire (×3) and with trigger-doublers.
+- **Harmonic Prodigy / Roaming Throne** add an extra *ping trigger*; Trance doubles the *damage*. Different layers — they stack multiplicatively.
+- **Black Mage's Rod:** makes a 1/1 Hero token and auto-equips. The **equipped** creature becomes a Wizard and gains the ping — the token doesn't count as a Wizard until it's equipped.
+- **Black Waltz No. 3 pings for 2, not 1** — your highest single pinger. Protect it.
+- **Stormsplitter** tokens are Wizards (count toward the flip) but **do not ping** — combat damage only.
+- **Black Market Connections → "Hire a Mercenary"** = a 3/2 changeling = counts as a Wizard. Use it when you're one short of flipping.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **3–4 lands + early mana (rock or ritual) so Kuja lands on turn 4**, plus at least one **card-draw** or **Wizard-maker**.
+
+- **Keep:** lands + ramp + a draw spell (Night's Whisper, Sign in Blood, Necropotence) or an extra Wizard producer. The deck assembles the rest by drawing.
+- **Toss:** all-gas/no-mana hands; piles of multipliers with no way to cast Kuja; Kuja with zero follow-up and no protection.
+- You **do not** need a multiplier in your opener — tokens + draw will find one.
+
+**Threats & timing.**
+
+- **Board wipes are how you lose.** Cyclonic Rift / Toxic Deluge / Farewell reset you 3–4 turns. Don't over-extend tokens before you can actually go off.
+- **Exiling Kuja** (Swords, Oubliette) is worse than killing him — no commander, no flip. Protect him with Lightning Greaves, Kaya's Ghostform, Not Dead After All.
+- **No counterspells.** You interact with removal + **redirects** (Imp's Mischief, Redirect Lightning, Return the Favor). Hold a redirect for your combo turn if the pod packs targeted removal.
+- **Graveyard hate** (Rest in Peace, Dauthi Voidwalker) shuts off Underworld Breach / Mizzix's Mastery / Reanimate — your recovery plan folds to it.

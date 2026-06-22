@@ -116,10 +116,19 @@ def _name_to_slug():
 
 
 def _resolve(name):
-    """Reskin alias -> canonical, then the Scryfall record (or None)."""
-    low = name.lower()
-    canon = _aliases().get(low, name)
-    return _cards_index().get(canon.lower())
+    """Reskin alias -> canonical, then the Scryfall record (or None).
+
+    Tolerates Moxfield's split/adventure 'A/B' spelling: Scryfall indexes those as
+    'A // B' (and under each face), so the raw .txt 'Expansion/Explosion' would miss
+    and fall into the by-type 'Other' group (and count as CMC 0 in the curve). Fold
+    any '/'/'//' separator to ' // ', then fall back to the front face."""
+    idx = _cards_index()
+    canon = _aliases().get(name.lower(), name)
+    rec = idx.get(canon.lower())
+    if rec is None and "/" in canon:
+        rec = (idx.get(re.sub(r"\s*/+\s*", " // ", canon).lower())
+               or idx.get(canon.split("/")[0].strip().lower()))
+    return rec
 
 
 def _parse_decklist(path):
@@ -404,7 +413,9 @@ def _composition(path):
         if in_list:
             # tolerate trailing text in the count paren, e.g. "Lands (36, plus … total)"
             m = re.match(r"^###\s+(.+?)\s*\((\d+)[^)]*\)", raw.strip())
-            if m and "commander" not in m.group(1).lower():
+            # exact match: the command-zone card sits under '### Commander (1)'; don't
+            # swallow real functional buckets like '### Commander Protection (5)'.
+            if m and m.group(1).strip().lower() != "commander":
                 out.append(dict(name=m.group(1).strip(), count=int(m.group(2))))
     return out
 
@@ -448,7 +459,9 @@ def _summary_buckets(path):
         h3 = re.match(r"^###\s+(.+)$", raw.strip())
         if h3:
             name = re.sub(r"\s*\(.*\)\s*$", "", h3.group(1)).strip()   # drop "(N)" / "(note)"
-            cur = None if "commander" in name.lower() else [name, []]
+            # exact match only: keep '### Commander Protection' as a real bucket; the
+            # command-zone card ('### Commander (1)') is surfaced separately by _decklist.
+            cur = None if name.lower() == "commander" else [name, []]
             if cur:
                 out.append(cur)
             continue
@@ -598,6 +611,41 @@ def _kill_lines(sections):
     return out[:8]
 
 
+def _demph(s):
+    """Strip markdown bold/italic markers for plain-text display."""
+    return re.sub(r"\*+", "", s).strip()
+
+
+def _rulings(sections):
+    """Pilot 'don't-miss rulings' from a Summary — the card-text gotchas that lose
+    games when missed (hidden types, trigger ordering, threshold counting, reskin
+    behaviour). Parses bullets under a '## Don't-Miss Rulings' (or '… Key Rulings')
+    section: a leading '**headline**' becomes the name, the rest the note; a plain
+    bullet keeps its whole text as the note. This is the one piece of the retired
+    pilot primers the Summary/deck-page didn't already carry."""
+    # Prefer the deck-wide '## Don't-Miss Rulings'; only fall back to an incidental
+    # single-card '### … Key Rulings' subsection if the deck-wide one is absent.
+    body, best = "", 9
+    for low, (_head, sec) in sections.items():
+        tier = 0 if "miss ruling" in low else 1 if (low.endswith("key rulings") or low == "rulings") else 9
+        if tier < best:
+            body, best = sec, tier
+            if tier == 0:
+                break
+    out = []
+    for raw in body.splitlines():
+        m = re.match(r"^[-*]\s+(.*\S)\s*$", raw.strip())
+        if not m:
+            continue
+        item = m.group(1).strip()
+        b = re.match(r"^\*\*(.+?)\*\*\s*[—:.,;\-]*\s*(.*)$", item)
+        if b:
+            out.append(dict(name=_demph(b.group(1)).rstrip(":"), note=_demph(b.group(2))))
+        else:
+            out.append(dict(name="", note=_demph(item)))
+    return out[:12]
+
+
 def deck(slug):
     """Full Tale-of-the-Tape payload for one deck — structured spine + Summary prose."""
     d = DECKS.get(slug)
@@ -645,6 +693,7 @@ def deck(slug):
         gamePlan=game_plan,
         winLine=(d.get("win_line") or {}).get("line", ""),
         finishers=_kill_lines(secs),
+        rulings=_rulings(secs),
         composition=_composition(sp),
         decklist=_decklist(txt, sp, d["commander"], gc_names, aliases),
         keep=dict(

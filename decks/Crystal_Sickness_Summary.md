@@ -425,7 +425,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Darkwater Catacombs
 1 Underground River
 
-### Other Lands (3)
+### Fixing & Utility Lands (3)
 
 1 Undercity Sewers
 1 Spire of Industry
@@ -445,3 +445,32 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 ## Changelog
 
 - **2026-05-06:** Full card-text re-audit. Fixed major hallucinations: Mirrodin Besieged Phyrexian mode (was described as opponent-mill; actually a self-loot + 15-artifacts-in-your-yard alt-win — Kill Line 3 fully rewritten); Tezzeret, Master of the Bridge (was described as static drain at combat; actually +2 activated ability for X damage / X life — Kill Line 2 fully rewritten); Forensic Gadgeteer trigger (cast, not ETB); Prized Statue (self-refund only, not other-permanent-death); Enhanced Surveillance (look at additional 2 cards = surveil 1 → 3, additive not doubling; cost is exile, not sacrifice); Tithing Blade direction (front face IS the removal; back face is the passive drain); Flare of Denial alt cost (sacrifice nontoken *blue* creature); Flare of Malice alt cost (sacrifice nontoken *black* creature). Recategorized: Crystal Skull moved from Draw Engines to Cost Reduction (it's a top-of-library cast engine, not draw); Cryogen Relic moved from Mana Rocks to Draw Engines (it draws on ETB and LTB, doesn't add mana); Fomori Vault moved from Artifact Lands to Utility Lands (it's just a Land, not Artifact — does not count toward Golbez's thresholds); Obsessive Pursuit moved from Recursion to a new Utility Enchantments section (it has no graveyard interaction). Added Lady Octopus, Inspired Inventor coverage (printed under custom name "Merata, Neuron Hacker"; alias logged in REF_Reskin_Aliases.md). Added correct sacrifice color requirements to interaction breakdown. Added Demonic Junker to removal count (now 13 interaction pieces, was 12). Note about Urza, Lord High Artificer being delisted from GC list Oct 2025 was already correct.
+
+## Don't-Miss Rulings
+
+- **Golbez's 4-artifact threshold is checked at trigger AND resolution** — drop below 4 in between and the *whole* ability fizzles. The 8-artifact threshold is checked only at resolution. **If there's no legal creature target in your yard, the entire ability fails — no drain even at 8+.**
+- **Master of Etherium's power = your artifact count, and this works in the graveyard** — it's the best drain target because it scales with the same board that turns on the 8+ threshold.
+- **Every artifact token generator triggers on CAST, not ETB.** Token copies, reanimation, and cheated-in artifacts do NOT make tokens — plan to cast from hand.
+- **Mirrodin Besieged Phyrexian mode is a self-loot + self-mill alt-win** (15 artifacts in *your* yard), not opponent-mill. Mirran mode (Myr per artifact cast) is the combat-plan alternative — choose at the table.
+- **Fomori Vault is NOT an artifact land** — it doesn't count toward thresholds.
+- **Flare of Denial's alt-cost needs a nontoken *blue* creature; Flare of Malice needs a nontoken *black* one** (the deck has few). Plan free-cast turns around what you can actually sacrifice.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + 2–3 cheap artifacts + a token generator or cost reducer.** Golbez costs only {U}{B}, so he lands T2 routinely.
+
+- **Keep:** Golbez castable + artifact density to reach the thresholds.
+- **Toss:** no-land hands; all-payoff (Dreadnought / Tezzeret) with no artifacts to fuel them.
+
+**Threats & timing.**
+
+- **How you lose:** **artifact hate.** Vandalblast, Bane of Progress, Collector Ouphe, Null Rod, or Energy Flux can drop you below threshold in one card — counterspells are the only prevention (Dimir has no enchantment removal).
+- **Also graveyard hate** — Rest in Peace / Bojuka Bog / opposing Soul-Guide Lantern shut off both Golbez recursion and the Mirrodin path.
+- **Interaction:** five counters including two free (Fierce Guardianship, Flare of Denial). Mana Drain punishes expensive combo pieces.
+- **Low profile early.** A 1/4 surveiling for two mana doesn't look threatening until the count crosses 8 — you set up under the radar.
+
+## Reskins (for borrowers)
+
+| On the card | Really is | What it does |
+|---|---|---|
+| Merata, Neuron Hacker | Lady Octopus, Inspired Inventor | {U} 0/2 legend; gains an ingenuity counter on your first and second draw each turn; tap to free-cast an artifact from hand with MV ≤ counters. A major engine — often the second-most-impactful permanent after Golbez. |

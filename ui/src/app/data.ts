@@ -158,6 +158,7 @@ export interface DeckPage {
   clock: { decap: string | null; table: string | null; grid: number[]; decapCurve: number[]; tableCurve: number[]; never: number[]; src: string };
   gamePlan: string; winLine: string;
   finishers: { name: string; tag: string; note: string }[];
+  rulings: { name: string; note: string }[];
   composition: { name: string; count: number }[];
   decklist: {
     total: number; grouped: boolean;

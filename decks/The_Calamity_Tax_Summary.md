@@ -38,9 +38,9 @@ The deck runs 39 lands plus 20+ ramp pieces that aggressively accelerate land co
 
 ### Layer 2 — Top-of-Library Value Engine
 
-Glarb's {T}: Surveil 2 sculpts the top of the library, clearing sub-4 MV cards and positioning lands or big spells for free casting. **Seedborn Muse** (Game Changer) transforms this: Glarb untaps during each opponent's untap step, allowing surveil 2 on every player's turn — four activations per turn cycle in a 4-player game. With flash enablers (High Fae Trickster, Valley Floodcaller, Alchemist's Refuge), MV4+ sorceries can also be cast on opponents' turns.
+Glarb's {T}: Surveil 2 sculpts the top of the library, clearing sub-4 MV cards and positioning lands or big spells for free casting. **Seedborn Muse** (Game Changer) transforms this: Glarb untaps during each opponent's untap step, allowing surveil 2 on every player's turn — four activations per turn cycle in a 4-player game. With flash enablers (Valley Floodcaller, Alchemist's Refuge), MV4+ sorceries can also be cast on opponents' turns.
 
-Valley Floodcaller has two distinct roles. First, it is a full flash enabler — "You may cast noncreature spells as though they had flash" — allowing MV4+ sorceries from the top on any turn independently of High Fae Trickster. Second, every noncreature spell cast untaps all Birds, Frogs, Otters, and Rats you control (and gives them +1/+1). Since Glarb is a Frog, each noncreature spell untaps him for another surveil 2, enabling chains through the library on a single turn.
+Valley Floodcaller has two distinct roles. First, it is a full flash enabler — "You may cast noncreature spells as though they had flash" — allowing MV4+ sorceries from the top on any turn independently of any other enabler. Second, every noncreature spell cast untaps all Birds, Frogs, Otters, and Rats you control (and gives them +1/+1). Since Glarb is a Frog, each noncreature spell untaps him for another surveil 2, enabling chains through the library on a single turn.
 
 ### Layer 3 — Copy / Multiplication Payoffs
 
@@ -397,3 +397,28 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 | Reverent Silence | Enchantment removal | Free if opponent controls a Forest. Hits Rest in Peace. |
 | Bala Ged Recovery | Recursion | MDFC — Regrowth on front, tapped land on back. |
 | Villainous Wrath | Sweeper | ? |
+
+## Don't-Miss Rulings
+
+- **Glarb plays lands and casts MV4+ spells off the top, but normal timing still applies** — lands and sorceries only on your main phase *unless* a flash enabler is out (Valley Floodcaller / Alchemist's Refuge). MV4+ **instants** can be cast off the top at instant speed naturally.
+- **Valley Floodcaller does two things:** (1) flash-enables all your noncreature spells, and (2) each noncreature spell **untaps your Frogs — including Glarb** — for another surveil 2, letting you chain through the library in one turn.
+- **Seedborn Muse** untaps Glarb and all your lands on *every* opponent's turn — surveil and free casts each turn cycle, and you can hold up counters without skipping development.
+- **Cabal Coffers** taps for {B} per Swamp; **Urborg** makes every land a Swamp. 12+ lands = 12+ mana from a single Coffers tap.
+- **Kokusho + Rite:** the copies are legendary, all die instantly to the legend rule, each drains 5 → 25 per opponent.
+- **Surveil 2 is a free tap ability** — use it to bin sub-4-MV cards so the top of your library stays castable.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + ramp** (Sol Ring, signets, land tutors) pointed at 10+ lands, ideally with an extra-land-drop enabler (Exploration / Azusa / Oracle of Mul Daya) and/or Glarb castable on T3.
+
+- **Keep:** ramp-heavy hands; Glarb + fixing; Cabal Coffers + lands.
+- **Toss:** spell-heavy no-land hands; a finisher with no mana engine behind it.
+- You **do not** need a kill spell in your opener — surveil + ramp will find Torment.
+
+**Threats & timing.**
+
+- **39 lands survive every wipe and Glarb recasts for 3 mana** — board wipes barely slow you, and they clear opponents' boards before a Torment turn.
+- **Graveyard hate is the real weakness** (Rest in Peace, Dauthi Voidwalker) — it shuts off Reanimate, Noxious Revival, Lumra, and Icetill Explorer at once. Answers: Force of Vigor, Druid of Purification, Boseiju.
+- **The finisher creature pool is thin** (Archon, Kokusho, Gray Merchant, Massacre Wurm). If they get exiled, the copy kills weaken — lean on Torment, which needs no creatures.
+- **Interaction is deep** — 5 counters (3 free) and 4 free removal spells. Hold them up; Seedborn means you don't sacrifice development to do it.
+- **Don't announce the kill.** A 12+ land board with Coffers and Urborg telegraphs a Torment turn — let it resolve before anyone realizes.

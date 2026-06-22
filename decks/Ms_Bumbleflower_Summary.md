@@ -192,3 +192,37 @@ Bumbleflower is the roster's only Bant deck and its only "spells-cast → forced
 ## Changelog
 
 - **2026-05-30:** First formal audit. Verified all FF/ATLA-flavored and unfamiliar cards via `card_lookup.py`; confirmed 100 cards and **0 Game Changers** against `REF_Game_Changers_List.md`. Scored 4/3/3/5 = **15/20**. Identified Willbreaker + Bumbleflower targeted-steal as the premium synergy and the slow combat-only kill as the defining weakness. Reskins in use: Wild Rose Rebellion = Counterspell (ATLA), Paradise Chocobo = Birds of Paradise (FF).
+
+## Don't-Miss Rulings
+
+- **Bumbleflower's ability resolves BEFORE the spell that triggered it, and resolves even if that spell is countered.** The draw / counter / steal happens first — so a Willbreaker steal off your spell goes through even if the spell itself gets countered.
+- **The "draw two" is on the *second resolution* each turn** — cast at least two spells you trigger on. Free spells (Probe, Snap, Frantic Search) are how you reliably get there.
+- **The counter and flying go to the same target creature; you pick it every cast.** Aim it at: (a) your evasive threat, (b) **Dusk Legion Duelist / Fathom Mage** to draw a card, or (c) an opponent's creature **with Willbreaker out** to steal it. You keep stolen creatures only while Willbreaker lives.
+- **Willbreaker triggers on *any* of your targeted effects hitting an opponent's creature** — Bumbleflower's counter, Ty Lee's tap, Generous Patron's support. Pongify/Path/Swords also target, but they destroy; use the non-lethal effects to steal.
+- **The forced opponent-draw is a real cost — but you choose who.** Feed the least threatening player, or feed someone to turn on **Faerie Mastermind** (you draw on their 2nd draw), **Smuggler's Share** (draw per opponent who drew 2+), and **Tataru Taru** (Treasure when an opponent draws on your turn). Don't gift a draw-punisher (Nekusar) for free.
+- **Jolrael's pump sets *base* P/T to cards-in-hand and overwrites** — play it as a finisher with a full hand. Her Cat tokens come from your *second* draw each turn (which the commander's draw-two enables).
+- **Dress Down turns off ALL creature abilities, including yours** — use it to blank an opponent's engine/combo, not while you're relying on your own creatures; it sacrifices itself at end step.
+- **Generous Gift / Beast Within hand the target's controller a token** — fine as removal, just count the body you're giving back.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + ramp + a couple of cheap spells, with Bumbleflower reachable by T3–4.**
+
+- **Keep:** ramp + cantrips + a payoff (Willbreaker, Faerie Mastermind, Esper Sentinel) or the commander.
+- **Toss:** no-land hands; all-payoff with no cantrips to fuel the triggers; all-interaction with no engine.
+
+**Threats & timing.**
+
+- **How you lose:** **the race.** The kill is slow and combat-only; fast combo pods can win before you assemble lethal. Lean on your counters to buy time.
+- **Willbreaker is a removal magnet** — once you're stealing creatures, the table targets it; protect it (Heroic Intervention, hold a counter) or the steal plan collapses.
+- **Interaction:** very deep — 12+ pieces, mostly instant-speed. 7+ counters (Wild Rose Rebellion = Counterspell, An Offer, Rewind, Unwind, Long River's Pull, Reprieve, Tishana's Tidebinder, Dawn Charm), 8+ removal (Path, Swords, Pongify, Beast Within, Generous Gift, Fractured Identity, Tragic Arrogance, Witch Enchanter), plus a fog/protection shell (Heroic Intervention, Comeuppance, Riot Control, Aetherize, Galadriel's Dismissal phase-out). You can hold up answers and keep drawing.
+- **Low early profile** — a 1/5 Rabbit and cantrips look harmless until the card lead is insurmountable. You out-value the table long before you out-damage it; the skill is knowing when to stop drawing and start killing.
+
+## Reskins (for borrowers)
+
+| On the card | Really is | What it does |
+|---|---|---|
+| Wild Rose Rebellion | Counterspell | {U}{U} instant; counter target spell. |
+| Paradise Chocobo | Birds of Paradise | {G} 0/1 flyer; {T}: add one mana of any color. |
+
+*The deck also runs cards under official Universes Beyond names (Tataru Taru, Sin Unending Cataclysm, Ty Lee Chi Blocker, Bender's Waterskin, Galadriel's Dismissal, Long River's Pull, Hydroelectric Specimen, Witch Enchanter) — these are real printed cards with their own readable text, not aliases.*

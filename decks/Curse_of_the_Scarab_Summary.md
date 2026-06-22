@@ -466,7 +466,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 1 Watery Grave
 1 Three Tree City
 
-### Other Lands (3)
+### Fixing & Utility Lands (3)
 
 1 Command Tower
 1 Underground River
@@ -477,3 +477,30 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 7 Snow-Covered Island
 4 Snow-Covered Swamp
 7 Swamp
+
+## Don't-Miss Rulings
+
+- **Scarab God's activated ability EXILES the targeted creature card** (the original is gone) and the token is always a **4/4 black Zombie** keeping all the original's abilities.
+- **Its death trigger returns it to your HAND, not the command zone** — no commander tax accumulates. Only exile permanently answers it.
+- **The upkeep counts zombies at resolution** — instant-speed zombie creation in response raises the drain.
+- **Plague Belcher ETB puts two −1/−1 counters on a creature you control** — never a 1-toughness zombie (it dies); use a token, Carrion Feeder, or a Mikaeus undying creature.
+- **Crowded Crypt / Wilhelt decayed tokens** self-sac at end of combat when they attack, but still count for an upkeep drain and trigger death payoffs first.
+- **Mikaeus gives undying to every non-Human zombie** — board wipes cost opponents two wipes to clear.
+- **Warren Soultrader + Gravecrawler + Plague Belcher** is a Rule 0 combo loop (1 drain per cycle, self-limited by your life). Flag to the pod.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + an early 1-drop zombie or rock + a path to Scarab God by T5**, with a payoff or token generator behind it.
+
+- **Keep:** a 1-drop (Gravecrawler, Carrion Feeder, Champion, Stitcher's Supplier, Cryptbreaker) or mana rock + lands + a payoff.
+- **Toss:** no-land hands; all-payoff with no mana.
+- You **don't** need the combo or Gary in your opener — the deck grinds zombies and draws deep.
+
+**Threats & timing.**
+
+- **How you lose:** **graveyard hate.** Rest in Peace, Leyline of the Void, Dauthi Voidwalker, and Bojuka Bog shut off reanimation, Gravecrawler, and Scarab God's activated ability at once — Feed the Swarm (sorcery-speed) + Demonic Tutor are the only outs.
+- **Board wipes often help you** — they stock the yard for Living Death / Agadeem's / Rot Hulk, and Mikaeus means the first wipe doesn't fully clear. Don't play scared of them.
+- **Interaction:** two free counters (Fierce Guardianship, Force of Negation) protect combo turns; three paid counters back them up. Enchantments are the Dimir blindspot — Feed the Swarm is the only answer.
+- **Quiet threat.** Threat ramps quietly; opponents who wait to interact face the deck at its strongest.
+
+*No reskins — every card runs under its printed Magic name.*

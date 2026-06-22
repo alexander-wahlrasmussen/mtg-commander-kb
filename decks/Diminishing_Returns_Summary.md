@@ -296,7 +296,7 @@ No overlap in engine pieces. The decks share only generic staples (Sol Ring, lan
 
 1 Swiftfoot Boots
 
-### Other (2)
+### Tax Effects (2)
 
 1 Esper Sentinel
 1 Smothering Tithe
@@ -379,3 +379,28 @@ Follow-up lab (`dr_clock_lab.py --mode b4`, 12k trials) answered "more drain inf
 - Compact 2-card kills: **Leonin Relic-Warder + in-deck Animate Dead/Necromancy** (Recruiter tutors LRW), **Nim Deathmantle + Grave Titan + in-deck Ashnod's Altar (both owned, $0)**, Exquisite Blood + Vito (~€30, prices checked 2026-06-10).
 - Best measured build (full package + GC reallocation: −Smothering Tithe −Farewell +Demonic +Vampiric, still 3/3): table kill 30→41% by T12, never-kill 70→59%, **21% of games end via combo (T8–12)**. Decap stays T9 in all variants — this is a kill-reliability upgrade, not a race upgrade.
 - **Bracket consequence:** LRW+aura is an early-capable 2-card infinite → breaks the B3 letter; pod approval required before any swap. Decklist unchanged.
+
+## Don't-Miss Rulings
+
+- **Teysa doubles DEATH triggers only.** She does **NOT** double Gray Merchant (ETB), Mirkwood Bats (token create/sac), or Morbid Opportunist (capped once/turn). She doubles the *number of triggers*, not each effect.
+- **Agent of the Iron Throne is a Background enchantment**, not a creature — it grants Teysa a death-drain ability, which Teysa then doubles.
+- **Sephiroth front face is a sac outlet + draw engine + single-target drain** (not each opponent). After **4 trigger-resolutions = 2 deaths with Teysa**, he transforms. The back-face emblem drain is **not** doubled but **persists if Sephiroth is later removed** — real durability.
+- **K'rrik converts each {B} pip to 2 life** (changes how you pay coloured, not generic) and adds 3 devotion for Gary. Drain triggers pay the life back with interest.
+- **Edict creatures (Merciless Executioner, Plaguecrafter) are ETB edicts**, not death triggers — not doubled, but they double as fodder.
+- **Endrek Sahr self-sacrifices at 7+ Thrulls** — fine here, since the death payoffs happily eat both the Thrulls and Endrek.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **a sac outlet + a drain payoff + lands**, ideally with Teysa or a reanimation spell behind it.
+
+- **Keep:** sac outlet + drain piece; or ramp + Teysa + something to sacrifice; or a fast K'rrik/Dark Ritual start.
+- **Toss:** no-creature hands; all-payoff with nothing to sacrifice; no-land hands.
+- You **don't** need the full loop in your opener — the deck grinds and draws off its own deaths.
+
+**Threats & timing.**
+
+- **Hard to interact with.** Drains don't target, sac triggers can't be countered, damage comes from many small sources.
+- **Punishes removal and board wipes.** Killing your creatures triggers your payoffs — a wrath often does more damage to the table than to you.
+- **Grinds through stax.** Small mana increments and recursive creatures shrug off Rhystic Study / Thalia-style taxes.
+- **Weak to graveyard hate.** Rest in Peace, Dauthi Voidwalker, and Bojuka Bog shut off Gravecrawler recursion and Living Death at once — the structural ceiling.
+- **No counterspells (Orzhov).** A resolving combo can't be stopped on the stack — prevent it proactively with Grand Abolisher on your turn, or punish with edicts. Lean on Teferi's Protection / Flawless Maneuver to survive.

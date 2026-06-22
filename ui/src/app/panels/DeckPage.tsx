@@ -286,6 +286,23 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
           ))}
         </div>
       </div>
+
+      {/* ===== Don't-miss rulings — the card-text gotchas that lose games ===== */}
+      {d.rulings?.length > 0 && (
+        <div style={{ marginTop: "var(--s5)" }}>
+          <div className={s.subHead}>
+            <span className={s.subTick} />
+            <span className={s.subTitle}>Don't-miss rulings</span>
+            <span className={s.subHint}>gotchas that lose games when missed</span>
+          </div>
+          {d.rulings.map((r, i) => (
+            <div key={i} className={s.openRow}>
+              <span className={s.openArrow}>§</span>
+              <span>{r.name && <strong>{r.name}</strong>}{r.name && r.note ? " — " : ""}{r.note}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

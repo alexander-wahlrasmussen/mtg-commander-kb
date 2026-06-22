@@ -428,3 +428,32 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 ### Sideboard (2)
 1 Psychic Corrosion
 1 Swiftfoot Boots
+
+## Don't-Miss Rulings
+
+- **Rad counters decay ONLY when *nonland* cards are milled** — milling a land removes no rad counter, so it persists into the next turn. Fighting that decay with proliferate is the whole engine.
+- **Rad counters hit EVERYONE, including you** — you self-mill and lose life. Morgul-Knife (Shadowspear) lifelink is the built-in offset.
+- **Proliferate adds rad counters to opponents AND +1/+1 counters to your creatures simultaneously** — the central interaction.
+- **The multipliers stack multiplicatively:** Tekuthal doubles all proliferate; **Vorinclex MR** doubles every counter you place on opponents (Mothman ETB → 2 rad each) *and* your own placements; Doubling Season doubles counters on your permanents — including Bloodchief's quest counters, so the combo arms in 2 life-loss triggers, not 3.
+- **Mothman's +1/+1 distribution triggers once per mill *event***, regardless of how many players milled at once.
+- **Mindcrank + Bloodchief is not online the turn Bloodchief lands** — it needs 3 quest counters first (proliferate accelerates this).
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + ramp + Mothman or a proliferate engine.**
+
+- **Keep:** ramp + Mothman + a proliferate source or a counter doubler.
+- **Toss:** no-land hands; all-payoff with no engine to grow counters.
+
+**Threats & timing.**
+
+- **How you lose:** **enchantment/artifact removal.** Doubling Season, Hardened Scales, Branching Evolution, Simic Ascendancy, and Bloodchief Ascension are all targets; recovery is thin (Regrowth only).
+- **Also incidental graveyard hate** — opponents' yards fill from your rad counters; your own Bojuka Bog polices theirs.
+- **Interaction:** 12 pieces with one free counter (Force of Negation, works without commander on the field); Heroic Intervention protects the board from a wipe.
+- **Low early profile** — Mothman is a modest 3/3 flyer that survives early, but experienced players will recognize the proliferate engine and target it; protect Tekuthal / Doubling Season / Seedborn Muse.
+
+## Reskins (for borrowers)
+
+| On the card | Really is | What it does |
+|---|---|---|
+| Morgul-Knife | Shadowspear | {1} equip; +1/+1, trample, lifelink (offsets your rad self-damage); {1}: opponents' permanents lose hexproof and indestructible until end of turn. |

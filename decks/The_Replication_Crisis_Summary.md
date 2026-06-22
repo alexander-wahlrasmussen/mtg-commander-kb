@@ -393,3 +393,27 @@ Check score unchanged (Kill Reliability 4/5 already discounted the combat
 dependence). The deck remains what Pod Fit says it is — an incremental value
 engine, **not** a racer; see the analysis doc before bringing it against the
 T6–7 combo pod.
+
+## Don't-Miss Rulings
+
+- **Tokens entering "tapped and attacking" do NOT trigger "whenever ~ attacks" abilities.** Satya copies of Adeline, Phelia, Goldspan, Bident-bearers, etc. **don't fire their attack triggers** — but their **ETB triggers DO** fire. (This is why the old Combat Celebrant infinite was broken and got cut.)
+- **The copy must target a *nontoken* creature** — Brudiclad-converted tokens are not legal Satya targets.
+- **Energy is gained free; tokens are kept by paying their mana value in {E} at end step.** An Inferno Titan token costs 6{E} to keep — three attacks bank enough for one. Unkept tokens are sacrificed.
+- **Brudiclad-converted tokens shed Satya's end-of-turn sacrifice clause** (it's a delayed trigger stuck to the original token) — the cleanest way to keep tokens without paying energy.
+- **The Sword + AA loop relies on Satya herself connecting**, not the tokens. Menace + haste + 5 toughness makes it reliable, but **two blockers stop menace.**
+- **Panharmonicon / Elesh Norn double the *ETBs* of every Satya copy**; Strionic Resonator copies Satya's attack trigger for a second token. Phelia and Restoration Angel are the flicker engines (Phelia only flickers when *she* attacks).
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + ramp + a path to Satya on T4**, plus at least one ETB creature to start copying.
+
+- **Keep:** ramp + Satya + an ETB creature; or ramp + interaction with Satya findable.
+- **Toss:** no-land hands; hands with Satya but zero ETB creatures to copy; all-payoff/no-mana.
+- You **don't** need the combo in your opener — the deck grinds ETB value and assembles it.
+
+**Threats & timing.**
+
+- **Commander-dependent.** Every kill line needs Satya attacking as a 3/5 — instant-speed removal in response to the combat trigger blanks the turn. Repeated Satya removal is the best counterplay against you.
+- **Protect the swing.** Lightning Greaves / Swiftfoot Boots, Slip Out the Back, Clever Concealment, Akroma's Will; Sword grants pro-black/green. Hold a free counter (Fierce Guardianship, Deflecting Swat) for the combo turn.
+- **Weak to stax / pillowfort.** Ghostly Prison & Propaganda tax your attacks; Torpor Orb & Hushbringer shut off the ETBs entirely. Enchantment removal is thin (Loran, Generous Gift).
+- **One true board wipe (Cyclonic Rift).** If Rift is countered or exiled, there's no backup mass answer — but 16 ETB creatures give deep redundancy, so you recover fast off any single creature.

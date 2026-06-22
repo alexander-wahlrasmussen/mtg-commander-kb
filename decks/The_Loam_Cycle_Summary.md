@@ -303,3 +303,29 @@ All three touch the graveyard but use entirely different resources: Teval recurs
 - **2026-05-06:** Re-audit. Spot-checked ~25 cards against Scryfall; no material errors found. Minor fixes: Drownyard Temple "free to cast" → "no mana cost to play" (it's a land); Otawara reclassified from "channel removal" to "channel bounce" (Boseiju is removal, Otawara is bounce); Loam Loop mill count corrected from 6 to ~9 per cycle (playing AND cracking a fetch is two Hedron Crab triggers, not one); Gitrog trigger framing tightened to reflect per-batch counting.
 - **2026-05-03:** Full card-text re-audit. Corrected Game Changer count (1/3 → 3/3); corrected Ripples of Undeath text; corrected Teval framing (added zombie token engine); reclassified Teval's Judgment as value (not removal) and Afterlife from the Loam as mass reanimation (not self-mill); fixed Sidisi text (mills on enter+attack, library-mill triggers tokens); fixed Psychic Frog (draws on combat damage, not mills); fixed Lethal Scheme (connive, not surveil); fixed Unmarked Grave (sorcery-speed, nonlegendary only); removed phantom references to Entomb, Cabal Coffers, and Urborg; added coverage for Six's retrace, Conduit's second ability, Dauthi's full power, Scarab God's drain, Gitrog's land tax, Wonder's evasion role, channel lands as interaction.
 - **Pre-2026-05-03:** previous summary versions present in the original document; treat anything authored before this date with skepticism until re-verified.
+
+## Don't-Miss Rulings
+
+- **Teval's token** fires when **one or more cards *leave* your graveyard** — one Druid *per event*, not per card. Loam, reanimation, dredge, and Scarab God activations all trigger it.
+- **The Loam loop mills ~9 per cycle:** playing *and* cracking a fetch is **two** Hedron Crab landfall triggers (fetch enters, then the searched land enters), plus the dredge.
+- **Gitrog draws once per *batch* of lands** entering your graveyard, not once per land.
+- **Lord of Extinction's power counts *all* graveyards**, yours and opponents' — so it's biggest late.
+- **Living Death** sacrifices all creatures, then returns all creature *cards from all yards*. The asymmetry is the point — don't cast it when an opponent's yard is fuller than yours.
+- **Wonder** grants flying only while **you control an Island**.
+- **Drownyard Temple** has no mana cost to play (it's a land) and returns from the yard for {3} tapped — recurring fuel for sac costs and Crop Rotation.
+- **Unmarked Grave is nonlegendary-only** — it grabs Craterhoof, not your legends.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **lands + a way to fill the yard** (Hedron Crab, Stitcher's Supplier, Life from the Loam, a mill spell), ideally plus one recursion engine or payoff.
+
+- **Keep:** any hand that mills and makes land drops. Life from the Loam + a fetchland is a green light.
+- **Toss:** no-land hands; all-payoff (Craterhoof, Tooth and Nail) with nothing to fill the yard.
+- You **do not** need Teval in your opener — the engine is distributed across Crucible, Muldrotha, Meren, Gitrog, and Six.
+
+**Threats & timing.**
+
+- **You *want* board wipes.** Anything that dies feeds Living Death and Splendid Reclamation; you often recover faster than the player who cast the wrath. Don't play scared of removal.
+- **Graveyard exile is the real threat** (Rest in Peace, Leyline of the Void, an opponent's Bojuka Bog / Dauthi Voidwalker). Answers: **Tear Asunder** (kicked exile beats Rest in Peace), Assassin's Trophy, Beast Within, Boseiju. Dig for one against a known yard-hate pod.
+- **Counters are thin** — 4 total, only Fierce Guardianship is free. Fast combo that resolves T4–5 beats the grind, so prioritize disrupting it early.
+- **Don't telegraph the kill.** Tooth and Nail, Living Death, and Splendid Reclamation are visible "I win now" buttons; once seen, the table will keep you off 9 mana.

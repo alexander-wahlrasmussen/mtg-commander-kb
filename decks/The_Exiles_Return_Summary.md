@@ -366,3 +366,35 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 - **2026-06-09:** Kill-window verification + lever test (speed-curve analysis, **no card swaps**). `scripts/er_speed_lab.py` (40k trials): goldfish window corrected T6–8 → **T7–8 one player (med T8) / T10 table**; ten 1-card speed levers all within noise (no median moves) — the clock is broad counter compounding, gated by pre-T5 engine assembly, and no single add fixes that. Text fixes: Enlightened Tutor **cannot** find Sozin's Comet (sorcery — two listings corrected); Sozin foretell costs were inverted (pay {2} face-down, cast {2}{R}); Aggravated-Assault-style effects can never go infinite here (sorcery-speed activation vs firebending mana dying at end of combat) while Hellkite's in-combat trigger can. Pending Kiki swap measured: it *slows* the goldfish slightly (cuts Night's Whisper/Light Up the Stage velocity) — its case is resilience + Drannith disruption, not speed. Full analysis: `analysis/Exiles_Return_Speed_Curve_Analysis.md`.
 - **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander); GC count 3/3 (Aang's Shelter = Teferi's Protection, Enlightened Tutor, Jeska's Will). Commander text verified against local Scryfall data; all UB cards verified except Aang's Shelter (missing from local data file — alias resolves to Teferi's Protection per `REF_Reskin_Aliases.md`). Conversion Check score 17/20 (5/4/4/4) confirms `Deck_Index.md` entry. No card swaps recommended at this time.
+
+## Don't-Miss Rulings
+
+- **Zuko's counter trigger fires on *two* events** — casting a spell from exile **and** a permanent entering from exile. An **airbended-then-recast permanent fires both** (once on cast, once on ETB).
+- **The counter goes on *each* creature you control** — every flicker compounds the entire board, not just one creature.
+- **Reanimation from the *graveyard* does NOT trigger Zuko.** Sun Titan, Karmic Guide, and Reanimate-style effects are "from graveyard," not "from exile" — they're resilience tools, not engine pieces.
+- **Firebending mana lasts only until end of combat.**
+- **Panharmonicon doubles trigger #2** when the entering permanent is a creature or artifact.
+- **Norin self-exiles** whenever any player casts a spell or attacks (returns at end of turn), so single-target removal rarely lands on him — and under Panharmonicon his return double-pumps the board.
+- **Airbending your *own* bomb to recast for {2} is efficient and fires both triggers.** Airbending an *opponent's* creature only triggers Zuko if *they* choose to recast it (rare).
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **ramp + at least one engine piece by T3–4** — an impulse-draw source *or* a blinker plus something to blink — and a route to casting Zuko.
+
+- **Keep:** ramp + a blinker + Zuko; or an impulse-draw source with mana behind it. A doubler (Panharmonicon) or recurring blink is a bonus.
+- **Toss:** no-land hands; all-finisher (Hellkite/Sozin) with no engine; no way to cast Zuko.
+- The engine is **multi-piece** — mulligan toward at least one cast-from-exile or blink piece rather than keeping on raw payoff.
+
+**Threats & timing.**
+
+- **No counterspells — Mardu has none.** Only redirects (Imp's Mischief, Deflecting Swat, Redirect Lightning) touch single-target spells. Multi-target combo wins resolve unanswered, so disrupt combo pieces *before* they go off, or lock with Grand Abolisher.
+- **Mid-speed deck** — combo pods can outpace you. Lean on **Aang's Shelter (Teferi's Protection)** to phase out and buy turns.
+- **Durability is good:** Aang's Shelter is a hard reset, Karmic Guide / Sun Titan rebuild from the yard, Norin dodges removal. Rest in Peace is mostly fine; Leyline of the Void hurts the Sun Titan recursion.
+- **Zuko is the *only* +1/+1 source** — repeated commander removal slows you even though he recasts for two extra mana. Protect him on combo turns.
+
+## Reskins (for borrowers)
+
+| On the card | Really is | What it does |
+|---|---|---|
+| Aang's Shelter | Teferi's Protection | {2}{W} instant: until your next turn you phase out and gain protection from everything — dodges any wipe or kill. |
+| *Airbend (keyword)* | — | Exile target permanent; while exiled its owner may cast it for {2}. The recast triggers Zuko twice (cast + ETB from exile). |

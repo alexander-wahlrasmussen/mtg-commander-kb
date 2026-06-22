@@ -128,3 +128,25 @@ Two clocks, stated separately (the CLAUDE.md verification rule):
 - **Burn race (backup):** `lw_clock_lab.py`, chip 3/turn, 20k, seed 20260621 — **decap median T8 / table median T11**. The from-40 one-cast table sweep is the ceiling; cross-table chip collapses the *table* clock to the median (a real pod arrives below 40 from attacking each other). Finisher **availability** is the headroom axis, which the copy package + the eight tutors serve; the three pingers (Guttersnipe / Vivi / Thunderdrum Soloist) saturate the incremental-chip lever.
 
 Scripts are the permanent provenance; the superseded 06-13/06-14 writeups and the 06-18 rebuild proposal are in `archive/`.
+
+## Don't-Miss Rulings
+
+- **Copies aren't "cast"** — they don't re-trigger Azula or magecraft; X values carry; additional costs paid on the original apply to the copy.
+- **Azula only copies while attacking.** Sorcery X-spells (Crackle, Banefire) need a flash enabler to be cast during combat; instant X-spells (Comet Storm, Electrodominance) don't.
+- **Twinning Staff adds +1 to every copy event** — Azula makes 2 copies (3 total), and each copy-doubler likewise.
+- **Prepared cards** (Sanar, Emeritus of Conflict, Emeritus of Woe, Blazing Firesinger): casting the prepared copy **is a cast** — Azula copies it, magecraft triggers (Storm-Kiln, Guttersnipe), and the creature **stays** afterward.
+- **Ozai retains all unspent mana as red** to fund the X-spell mid-combat; firebending mana otherwise vanishes at end of combat.
+- **Storm-Kiln Artist makes a Treasure on every cast AND every copy** — a 3-spell Azula combat nets a pile of Treasures.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for **lands + early ramp + a route to Azula on T4**, ideally with one piece of interaction. A flash enabler or a finisher is gravy — you tutor for whatever's missing.
+
+- **Keep:** ramp/rocks + a counter or two + a path to Azula.
+- **Toss:** no-land hands; all-air hands with no early plays.
+
+**Threats & timing.**
+
+- **Interaction is still your backbone** — 8 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat) + removal that doubles as burn. Hold it up on opponents' turns; the deck develops in *your* combat.
+- **Rest in Peace / Leyline of the Void** shut off the graveyard-storm backup line — but the primary X-spell kill doesn't need the yard. Fall back on Crackle/Comet/Banefire + copy-doublers.
+- **Two ways to close, so hate splits** — the deck has 14 catalogued infinite lines (workhorse: Reiterate + Seething Song → infinite red mana; verified vs commanderspellbook.com 2026-06-21, pod-approved) *and* a finite copy-scaled X-spell that needs no combo. Graveyard/stack hate aimed at the combos still leaves the "just a big burn spell" kill — and vice versa.

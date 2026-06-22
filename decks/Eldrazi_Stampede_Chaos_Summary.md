@@ -253,7 +253,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 1 Void Winnower
 1 Portal to Phyrexia
 
-### Other Big Creatures / Closers (6)
+### Big Creatures / Closers (6)
 
 1 Avenger of Zendikar
 1 Combustible Gearhulk
@@ -370,3 +370,34 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 - **2026-05-16:** Formal audit pass. 14/20 (4/4/3/3) holds — Solid. ~10 card-text errors corrected: Conduit of Worlds is one-spell-per-turn-total when used, not a bonus cast; Void Winnower locks **all** even-MV opponent spells (not just creatures); both Ulamogs are **indestructible** (was omitted); Selvala Heart's draw is two-way (creature's controller draws, opponents trigger on their own greatest-power ETBs); Sunbird's Invocation triggers only on hand-cast spells (cascade/free-cast/Stampede ETBs don't trigger it); Rampaging Baloths landfall tokens are 4/4 vanilla Beasts (no trample by default); Conduit of Ruin's tutor is a cast trigger, not ETB; Goreclaw's attack-time pump applies to all your power-4+ creatures, not just attackers; Kozilek's Command is **instant** speed (instant-speed coverage was undercounted at ~30% — actual is ~50%); Boseiju channel floor is {G} — Maelstrom alone is enough, stacking legendaries doesn't help further. Structural fixes: **Kodama of the East Tree** recategorized from "Partner-shell" to a core cascade/free-cast engine (cheats equal-or-lesser-MV permanents from hand on every ETB); **Warstorm Surge** recategorized from "Combat Doublers" to ETB damage trigger. Land count corrected — section claimed 33, actual is **36** (37 including Ancient Tomb). Cascade exclusion list expanded to include Craterhoof (MV 8) and Breaker of Creation (MV 8); Kodama (MV 6) added to the "can cascade into" list. GC candidates fixed — **Smothering Tithe is illegal** in this deck (white, outside Temur). Legal alternatives named (Worldly Tutor, Seedborn Muse, Mystical Tutor, Force of Will, Fierce Guardianship, Cyclonic Rift, Rhystic Study, Crop Rotation, Survival of the Fittest, Natural Order). No card swaps made yet — chaos-leaning refinement pass pending; initial Moxfield CSV check showed most cascade staples (Apex Devastator, Bloodbraid Elf, Imoti, Maelstrom Nexus, Garruk's Horde, Wild-Magic Sorcerer, Etali Primal Conqueror) are not in the collection. Owned chaos-flavored hits so far: Tibalt's Trickery (x2), Insurrection, Birthing Pod, Inferno Titan. Wider net to be cast in a follow-up.
 
 - **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander). GC count 2/3 (Ancient Tomb, Mana Vault — room for one more). Commander text verified against local Scryfall data. `Green Dragon Inn` confirmed by user as reskin for `Homeward Path` (C16) — anti-creature-theft utility land — alias added to `REF_Reskin_Aliases.md`. Conversion Check 14/20 (4/4/3/3) — Solid. No card swaps recommended at this time; closest open item is filling the third GC slot (candidates: Worldly Tutor, Smothering Tithe, Seedborn Muse). *(Note 2026-05-16: Smothering Tithe was incorrectly suggested — it's {3}{W}, illegal in Temur.)*
+
+## Don't-Miss Rulings
+
+- **Cascade requires MV *strictly less than 8*.** Wanderer **cannot** cascade into the Eldrazi titans (Ulamogs 10/11, Kozileks 10), Craterhoof (8), or Ghalta (12) — those must be hardcast. It *can* hit Avenger (7), Etali (6), Selvala's Stampede (6), and lower.
+- **Sunbird's Invocation triggers ONLY on spells cast from hand** — cascade hits, Aetherworks / Etali / Creative Technique free-casts, and Selvala's Stampede ETBs do NOT trigger it.
+- **Both Ulamogs are indestructible** (survive non-exile wipes). Ulamog Infinite Gyre and Kozilek Butcher self-shuffle from the graveyard; **Ulamog Ceaseless Hunger does NOT self-recur** — once milled or exiled it's gone, so hardcast it or keep it in hand.
+- **Void Winnower:** while it's on the battlefield, opponents can't cast *even-MV* spells (2/4/6 removal and counters) AND can't block with even-MV creatures.
+- **Conduit of Worlds is one-spell-per-turn-total** when you grave-cast (not a bonus cast), and only at sorcery speed if you haven't cast a spell yet that turn.
+- **Creative Technique's Demonstrate lets an opponent copy it too** (you resolve first).
+- **Decimate needs a legal target in all four categories** (artifact + creature + enchantment + land) or it can't be cast.
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Looking for: **ramp that reaches 6+ mana by T4–5**, plus a payoff or an engine piece (Wanderer, Conduit of Ruin, Sunbird's).
+
+- **Keep:** 2+ ramp pieces + a threat or a cascade engine.
+- **Toss:** no-land hands; all-bombs with no ramp to cast them.
+
+**Threats & timing.**
+
+- **How you lose:** **no hard counterspells despite blue.** Kozilek the Great Distortion's discard-counter (MV-match) is the only stack interaction — combo decks that go off T4–6 pre-empt your T6–8 kill window. Disrupt their pieces early.
+- **Cyclonic Rift / Farewell are devastating** — recursion is thin, recovery takes 3+ turns. Re-ramp and re-deploy from hand.
+- **Politically loud** — Annihilator triggers and 12/12 Eldrazi draw the table's fire. Expect to be the early target once the engine fires.
+- **Strong against creature aggro** — Void Winnower wall, lifelink/ward bodies, token floods.
+
+## Reskins (for borrowers)
+
+| On the card | Really is | What it does |
+|---|---|---|
+| The Banyan Tree | The Great Henge | Cost reduced by your greatest creature power; +1/+1 and a draw on each nontoken creature ETB; {T}: {G}{G} + 2 life. |
+| Green Dragon Inn | Homeward Path | Utility land; {T}: each player gains control of creatures they own — undoes creature theft. |
