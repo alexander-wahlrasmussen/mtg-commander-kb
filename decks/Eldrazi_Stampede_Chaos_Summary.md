@@ -306,7 +306,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 1 Ancient Tomb
 1 Mana Vault
 
-### Ramp — Land Tutors (5)
+### Ramp — Land Tutors (6)
 
 1 Cultivate
 1 Kodama's Reach
@@ -317,7 +317,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 
 *(Skyshroud Claim brings 6 — 6 land tutors total, listed as 6 above; Rampant Growth + Farseek + Nature's Lore + Cultivate + Kodama's Reach + Skyshroud Claim = 6.)*
 
-### Ramp — Creature (5)
+### Ramp — Creature (7)
 
 1 Birds of Paradise
 1 Delighted Halfling

@@ -102,6 +102,14 @@ def _norm(s):
             .replace("–", "-").replace("—", "-").strip())
 
 
+def _strip_annot(s):
+    """Card name with any trailing `*(annotation)*` / `(note)` removed, then normed.
+
+    Summary decklists annotate cards inline (e.g. `The Banyan Tree *(reskin: The
+    Great Henge)*`); the annotation must come off or the name won't match the .txt."""
+    return _norm(re.sub(r"\s*\*?\([^)]*\)\*?\s*$", "", s))
+
+
 @lru_cache(maxsize=1)
 def _name_to_slug():
     return {_norm(d["name"]).lower(): s for s, d in DECKS.items()}
@@ -394,7 +402,8 @@ def _composition(path):
             in_list = "decklist" in h2.group(1).lower()
             continue
         if in_list:
-            m = re.match(r"^###\s+(.+?)\s*\((\d+)\)\s*$", raw.strip())
+            # tolerate trailing text in the count paren, e.g. "Lands (36, plus … total)"
+            m = re.match(r"^###\s+(.+?)\s*\((\d+)[^)]*\)", raw.strip())
             if m and "commander" not in m.group(1).lower():
                 out.append(dict(name=m.group(1).strip(), count=int(m.group(2))))
     return out
@@ -436,9 +445,9 @@ def _summary_buckets(path):
             continue
         if not in_list:
             continue
-        h3 = re.match(r"^###\s+(.+?)\s*(?:\(\d+\))?\s*$", raw.strip())
+        h3 = re.match(r"^###\s+(.+)$", raw.strip())
         if h3:
-            name = h3.group(1).strip()
+            name = re.sub(r"\s*\(.*\)\s*$", "", h3.group(1)).strip()   # drop "(N)" / "(note)"
             cur = None if "commander" in name.lower() else [name, []]
             if cur:
                 out.append(cur)
@@ -446,7 +455,7 @@ def _summary_buckets(path):
         if cur is not None:
             m = re.match(r"^(\d+)\s+(.+?)\s*$", raw.strip())
             if m:
-                cur[1].append(_norm(m.group(2)))
+                cur[1].append(_strip_annot(m.group(2)))
     return out
 
 

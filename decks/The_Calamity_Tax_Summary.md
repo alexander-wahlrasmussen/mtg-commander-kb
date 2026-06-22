@@ -209,10 +209,9 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 ## Decklist (100 cards)
 
-> **SUPERSEDED 2026-06-15 — ground truth is now `decks/calamity-tax-20260615.txt`**
-> (grind-fortress shell + anti-Ur-Dragon package). The list below is the retired V1
-> (`…20260405`, archived) and no longer matches the deployed deck. Re-derive this
-> section on the next audit.
+> Re-derived 2026-06-22 from `decks/calamity-tax-20260615.txt` (the deployed
+> grind-fortress + anti-Ur-Dragon list), replacing the retired V1 (`…20260405`,
+> archived). Functional buckets feed the dashboard composition bar / decklist view.
 
 ### Commander (1)
 
@@ -220,9 +219,9 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 ### Game Changers (3)
 
-1 Seedborn Muse
-1 Fierce Guardianship
 1 Demonic Tutor
+1 Fierce Guardianship
+1 Seedborn Muse
 
 ### Extra Land Drops (4)
 
@@ -231,14 +230,16 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Oracle of Mul Daya
 1 Icetill Explorer
 
-### Landfall Payoffs (2)
+### Landfall Payoffs (3)
 
 1 Lotus Cobra
 1 Nissa, Resurgent Animist
-
-### Land Recursion (2)
-
 1 Lumra, Bellow of the Woods
+
+### Land Recursion (3)
+
+1 Crucible of Worlds
+1 Life from the Loam
 1 Blossoming Tortoise
 
 ### Land Tutors / Ramp (12)
@@ -256,9 +257,12 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Omenpath Journey
 1 Planar Genesis
 
-### Mana (1)
+### Mana Acceleration (4)
 
 1 Sol Ring
+1 Birds of Paradise
+1 Bloom Tender
+1 Delighted Halfling
 
 ### Creature Tutors (3)
 
@@ -266,28 +270,23 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Chord of Calling
 1 Finale of Devastation
 
-### Top-of-Library Manipulation (1)
+### Card Advantage / Engines (2)
 
 1 Sylvan Library
+1 Lier, Disciple of the Drowned
 
-### Flash Enablers (2)
+### Flash Enablers (1)
 
-1 High Fae Trickster
 1 Valley Floodcaller
 
-### Copy Effects (5)
+### Reanimation / Recursion (4)
 
-1 Rite of Replication
-1 Doppelgang
-1 Flash Photography
-1 Mirrorform
-1 Espers to Magicite
+1 Reanimate
+1 Agadeem's Awakening
+1 Timeless Witness
+1 Noxious Revival
 
-### ETB Doubler (1)
-
-1 Starfield Vocalist
-
-### Finisher Creatures (4)
+### Finishers — Reanimation Targets (4)
 
 1 Archon of Cruelty
 1 Kokusho, the Evening Star
@@ -298,15 +297,20 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 1 Torment of Hailfire
 
+### Copy (1)
+
+1 Rite of Replication
+
 ### Counterspells (4)
 
 1 Force of Negation
 1 Mana Drain
-1 Swan Song
 1 Pact of Negation
+1 Swan Song
 
-### Removal (7)
+### Removal / Interaction (9)
 
+1 Beast Within
 1 Deadly Rollick
 1 Force of Vigor
 1 Submerge
@@ -314,53 +318,47 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Toxic Deluge
 1 Culling Ritual
 1 The Meathook Massacre
-
-### Utility Creatures (3)
-
-1 Druid of Purification
 1 Venser, Shaper Savant
-1 Savvy Trader
 
-### Recursion (3)
+### Fog / Defense (2)
 
-1 Timeless Witness
-1 Reanimate
-1 Noxious Revival
+1 Spore Frog
+1 Constant Mists
 
-### Protection (2)
+### Protection (1)
 
 1 Veil of Summer
-1 Blasphemous Edict
 
-### Lands (39)
+### Lands (38)
 
 1 Bayou
 1 Tropical Island
 1 Underground Sea
 1 Breeding Pool
 1 Overgrown Tomb
-1 Alchemist's Refuge
+1 Hedge Maze
+1 Undercity Sewers
+1 Underground Mortuary
 1 Cabal Coffers
 1 Urborg, Tomb of Yawgmoth
 1 Yavimaya, Cradle of Growth
 1 Command Tower
 1 Boseiju, Who Endures
 1 Otawara, Soaring City
+1 Minamo, School at Water's Edge
 1 Bojuka Bog
 1 Maze of Ith
 1 Three Tree City
 1 Shifting Woodland
 1 Vesuva
 1 Mistrise Village
-1 Hedge Maze
+1 Alchemist's Refuge
 1 Talon Gates of Madara
 1 Dryad Arbor
 1 Golgari Rot Farm
-1 Undercity Sewers
-1 Underground Mortuary
-1 Minamo, School at Water's Edge
 1 Ba Sing Se
-1 Agadeem's Awakening
+1 Urza's Cave
+1 Horizon of Progress
 1 Polluted Delta
 1 Flooded Strand
 1 Misty Rainforest
@@ -370,8 +368,6 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Scalding Tarn
 1 Wooded Foothills
 1 Windswept Heath
-1 Urza's Cave
-1 Horizon of Progress
 1 Forest
 
 -----
