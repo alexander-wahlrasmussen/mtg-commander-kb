@@ -9,7 +9,7 @@
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
 |**Conversion Check**|**19/20** (5/5/5/4)                              |
-|**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ **(board)** — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
+|**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ **(board)** — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. **Upgraded 2026-06-23** (`decks/the-grand-design-20260623.txt`): ramp + a tutorable Craterhoof move the applied build to **decap median T9 / whiff 10%→5%** (`gd_clock_lab.py --mode userpkg`). See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
 
 -----
 
@@ -60,17 +60,35 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 
 ## How We End Games
 
+> **⚡ Upgraded 2026-06-23 (7-for-7, applied — `decks/the-grand-design-20260623.txt`).**
+> OUT: Carpet of Flowers, Veil of Summer, Flawless Maneuver, Dovin's Veto, Grand Abolisher,
+> Displacer Kitten, Heroic Intervention. IN: Solemn Simulacrum, Sakura-Tribe Elder, Springbloom
+> Druid, Kodama's Reach, Coalition Relic, **Craterhoof Behemoth**, Fanatic of Rhonas (rationale:
+> `proposals/Grand_Design_Upgrade_2026-06-13.md`). **Craterhoof is the new *tutorable* primary
+> finisher** (Kill Line 1b below); Finale becomes the un-tutorable backup; ramp lifts decap T10→T9.
+> ⚠️ **Pending reconciliation:** the **Decklist section**, the **Interaction sub-score (was 4/5 →
+> now lower; ~4–5 interaction pieces cut)**, and the cut-card references in **Kill Line 5**
+> (Grand Abolisher / Veil of Summer) and **Protection** below were written for the *pre-swap* list.
+> The `.txt` is ground truth for the current 100; treat those sub-sections as stale until a full
+> Summary pass.
+
 ### Kill Line 1: Finale of Devastation at X≥10 — Primary One-Card Win
 
 **Cost:** 12 mana (GG + X where X=10). **Cards needed:** Just Finale.
 
 Finale searches your library or graveyard for a creature with MV ≤X, puts it onto the battlefield, and if X≥10, ALL your creatures get +X/+X and haste until end of turn. At X=10, that’s +10/+10 and haste to everything. With even 3 creatures on board, that’s 30+ power with haste — but note **the deck has almost no trample**, so without it this focus-fires **one opponent** (a decap), not the table; tabling needs a wide board or repeated swings.
 
-> **Clock reality (lab 2026-06-10, `scripts/gd_clock_lab.py`):** the "12 mana by turn 6–7" line is a god-hand, not the norm. Across 40k goldfish trials a lethal Finale (X≥10) fires in only **~9% of games, median turn 11** — too slow and too mana-hungry to be the deck's working closer. **96% of the deck's decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding), median decap **T10**. Treat Finale as the **late-game ceiling**, not "Kill Line 1 — Primary"; the real primary clock is Kill Line 10 (combat). This is exactly why a *fetchable* creature finisher matters — addressed in the single canonical GD upgrade `proposals/Grand_Design_Upgrade_2026-06-13.md` (lab-validated 7-for-7: ramp T10→T9 + Craterhoof/Rune-Scarred finisher diversification; supersedes the older Finisher/ETB/Mana passes, now in `archive/proposals/`).
+> **Clock reality (lab 2026-06-10, `scripts/gd_clock_lab.py`):** the "12 mana by turn 6–7" line is a god-hand, not the norm. Across 40k goldfish trials a lethal Finale (X≥10) fires in only **~9% of games, median turn 11** — too slow and too mana-hungry to be the deck's working closer. **96% of the deck's decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding), median decap **T10**. Treat Finale as the **late-game ceiling**, not "Kill Line 1 — Primary"; the real primary clock is now **Kill Line 1b (Craterhoof, tutorable)** + Kill Line 10 (combat). This is exactly why a *fetchable* creature finisher mattered — fixed in the applied 2026-06-23 upgrade `proposals/Grand_Design_Upgrade_2026-06-13.md` (lab-validated 7-for-7: ramp T10→T9 + Craterhoof; supersedes the older Finisher/ETB/Mana passes, now in `archive/proposals/`).
 
 12 mana for Finale is reachable with Sol Ring, Arcane Signet, Carpet of Flowers (conditional — needs opponents’ Islands), and Bloom Tender producing WUBG (4 mana) once Atraxa is on the battlefield — but the lab shows that conjunction lands a median of turn 11, not 6–7.
 
 The haste clause also solves the Living Death timing problem — if you cast Living Death to rebuild your board (everything has summoning sickness), casting Finale the following turn gives everything haste, making summoning sickness irrelevant.
+
+### Kill Line 1b: Craterhoof Behemoth — Tutorable Overrun (added 2026-06-23)
+
+**Cost:** {5}{G}{G}{G} hardcast (8 mana), or cheated in for far less — reanimate (1–3 mana), Birthing Pod (MV 8), Defense of the Heart, or Finale at X≥8. **Cards needed:** just Craterhoof + a board.
+
+ETB (with haste): creatures you control gain **trample** and get +X/+X where X = the number of creatures you control — it swings the turn it lands. The reason it's the deck's new working finisher: unlike Finale (an **untutorable sorcery**), Craterhoof is a **creature**, so the entire engine finds it — **Birthing Pod, Chord of Calling, Eladamri's Call, Defense of the Heart (straight onto the battlefield → immediate kill), Razaketh, and Finale itself (X≥8 fetches it to play).** It is reanimatable (Buried Alive / Grisly bin it; Reanimate / Animate Dead / Necromancy / Dread Return return it as a 1–3-mana overrun), **Persist now has a legal nonlegendary target**, and the flicker shell (Panharmonicon / Elesh Norn / Ephemerate / Soulherder / Thassa) re-triggers its ETB. The team-wide **trample** also fixes Finale's no-trample focus-fire limitation when both are online. Lab: adding it (with ramp) takes decap median **T10 → T9** and lifts the T8 front edge while halving the whiff rate (`gd_clock_lab.py --mode userpkg`). Finale stays as the late-game ceiling; Craterhoof is the closer the tutors can actually reach.
 
 ### Kill Line 2: Defense of the Heart — Automatic
 
