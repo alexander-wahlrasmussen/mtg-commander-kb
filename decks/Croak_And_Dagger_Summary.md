@@ -209,9 +209,20 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 ## Decklist (100 cards)
 
-> Re-derived 2026-06-22 from `decks/croak-and-dagger-20260623.txt` (the deployed
-> grind-fortress + anti-Ur-Dragon list), replacing the retired V1 (`…20260405`,
-> archived). Functional buckets feed the dashboard composition bar / decklist view.
+> Re-derived 2026-06-23 from `decks/croak-and-dagger-20260623-215731.txt` (the
+> deployed grind-fortress + anti-Ur-Dragon list), replacing the retired V1
+> (`…20260405`, archived). Functional buckets feed the dashboard composition bar /
+> decklist view.
+>
+> **2026-06-23 swap: −Lier, Disciple of the Drowned (loaned out) +Aesi, Tyrant of
+> Gyre Strait.** Aesi adds an extra land drop each turn + a landfall draw, deepening
+> the lands engine. Lab-tested clock-neutral on the kill (`ct_speed_lab --mode croak`,
+> 20k @ realistic dig=2): decap median **T10 unchanged**, table tail +4pp (86→90%
+> killed by T14) — the gain sits in the T9+ tail, behind the pod's T6–7 kill, so
+> `pod_gauntlet` P(WIN) is unchanged. The swap is a lands-engine/refuel upgrade, **not**
+> a speed gain. Note: the model can't credit what Lier did (spells-can't-be-countered
+> + the only instant/sorcery recursion, i.e. a 2nd Torment from the yard) — that
+> protection/recursion axis is **not** restored by Aesi.
 
 ### Commander (1)
 
@@ -230,11 +241,12 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Oracle of Mul Daya
 1 Icetill Explorer
 
-### Landfall Payoffs (3)
+### Landfall Payoffs (4)
 
 1 Lotus Cobra
 1 Nissa, Resurgent Animist
 1 Lumra, Bellow of the Woods
+1 Aesi, Tyrant of Gyre Strait
 
 ### Land Recursion (5)
 
@@ -270,10 +282,9 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1 Chord of Calling
 1 Finale of Devastation
 
-### Card Advantage / Engines (2)
+### Card Advantage / Engines (1)
 
 1 Sylvan Library
-1 Lier, Disciple of the Drowned
 
 ### Flash Enablers (1)
 
