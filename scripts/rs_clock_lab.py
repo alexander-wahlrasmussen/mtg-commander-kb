@@ -27,9 +27,10 @@ Engine spiral, oracle-verified (card_lookup.py 2026-06-13):
   * Mothman ({1}{B}{G}{U}, commander): ETB + attack -> each player a rad counter;
     each nonland-mill event -> +1/+1 on up to X creatures (X = nonland milled).
   * Bloodchief quest: +1 at an end step IF AN OPPONENT lost 2+ life that turn.
-  * Vorinclex MR: counters YOU place on permanents OR players are DOUBLED (rad,
-    +1/+1, growth, quest all x2). Tekuthal: proliferate twice. Doubling Season:
-    counters on YOUR permanents x2 (your +1/+1, growth, quest — NOT rad on players).
+  * Tekuthal: proliferate twice. Doubling Season: counters on YOUR permanents x2
+    (your +1/+1, growth, quest — NOT rad on players).
+    (Vorinclex MR — the rad-on-players doubler — was cut 2026-06-22 for Timeless
+    Witness, so vorx ≡ 1 below; its modeling was removed in the 06-23 retarget.)
 
 HEURISTIC, not a rules engine — and the COARSEST lab in the sweep: the counter
 spiral is tracked as expected-value floats (rad/growth/quest/board), opponent decks
@@ -50,7 +51,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "radiation-sickness-20260615.txt"
+DECK = ROOT / "decks" / "radiation-sickness-20260622.txt"   # retargeted 2026-06-23 (−Vorinclex +Timeless Witness)
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
@@ -91,7 +92,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
 
     g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
-    mothman = vorinclex = tekuthal = doubling = seedborn = False
+    mothman = tekuthal = doubling = seedborn = False
     simic = bloodchief = mindcrank = False
     ruin_crab = hedron_crab = altar = sidisi = False   # discrete mill producers (mills=True only)
     n_mult = 0                       # multiplicative creature-counter doublers (Branching/Corpsejack/DS)
@@ -104,14 +105,11 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
     new_cre = 0
 
     def deploy(nm, rec):
-        nonlocal vorinclex, tekuthal, doubling, seedborn, simic, bloodchief, mindcrank
+        nonlocal tekuthal, doubling, seedborn, simic, bloodchief, mindcrank
         nonlocal n_mult, new_board, new_cre, rad
         nonlocal ruin_crab, hedron_crab, altar, sidisi
         low = nm
-        if nm == "Vorinclex, Monstrous Raider":
-            vorinclex = True   # doubling is applied via vorx below; do NOT also add to
-            #                    n_mult or its +1/+1 counters get doubled twice (bug fix 2026-06-23)
-        elif nm == "Tekuthal, Inquiry Dominus":
+        if nm == "Tekuthal, Inquiry Dominus":
             tekuthal = True
         elif nm == "Doubling Season":
             doubling = True; n_mult_inc()
@@ -151,7 +149,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                 g.cast(rs, cost); g.lands += n; g.avail += n
 
         # commander: Mothman for 4 (ETB rad)
-        vorx = 2 if vorinclex else 1
+        vorx = 1   # Vorinclex (rad/counter doubler) cut 2026-06-22 — no doubler left in deck
         if not mothman and g.avail >= 4:
             g.avail -= 4; mothman = True; board += 3; ncre += 1
             rad += 1 * vorx
@@ -186,7 +184,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                     deploy(nm, rec); more = True
                     break
 
-        vorx = 2 if vorinclex else 1
+        vorx = 1   # Vorinclex (rad/counter doubler) cut 2026-06-22 — no doubler left in deck
         m_perm = (2 if doubling else 1) * vorx
         m_cre = vorx * (2 ** min(3, n_mult)) if n_mult else vorx
 
