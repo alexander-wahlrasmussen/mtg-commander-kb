@@ -23,6 +23,8 @@ Usage:
     python scripts/deck_sim.py                      # all decks, consistency table
     python scripts/deck_sim.py --deck calamity      # one deck (fuzzy filename match)
     python scripts/deck_sim.py --combos             # also run combo assembly (sim_profiles.json)
+    python scripts/deck_sim.py --deck rad --need ramp --by 3   # BDD count heuristic, measured:
+                                                    #   P(>=1 ramp in hand/castable by T3) vs the ~12-source anchor
     python scripts/deck_sim.py --trials 50000       # trial count (default 20000)
     python scripts/deck_sim.py --json out.json      # machine-readable dump (feeds the matrix)
 
@@ -480,6 +482,113 @@ def simulate_combos(library, profile, turns, trials, rng):
 
 
 # ---------------------------------------------------------------------------
+# "Need N sources" query (--need): the BDD count-by-turn heuristic, measured.
+#
+# The rule of thumb (Based Deck Department, "How I'd Build Commander Decks If I
+# Started Today"): to reliably see an effect by the opening/first few turns run
+# ~12 sources; by ~T6 ~8; by ~T10 ~5-6. This query replaces the back-of-envelope
+# with the real MC: P(>=1 source of a tagged class in hand by turn T). It reports
+# IN-HAND and CASTABLE separately on purpose — a naive hypergeometric (and the
+# bare rule of thumb) counts cards you can't cast yet, which is exactly how the
+# video's V1 over-counted its early game. Castable conditions the source's own
+# cmc on lands in play (same land-base-only floor as "has a play").
+#
+# Sources are tagged live via framework_bakeoff's verified function tagger, so
+# this works on any parsed .txt — including a proposal deck not in the roster.
+# ---------------------------------------------------------------------------
+_FB = None
+
+
+def _load_fb():
+    """Lazy-load framework_bakeoff (the verified tagger + its oracle loader). Only
+    pulled in for --need, so the default table path doesn't double-load oracle."""
+    global _FB
+    if _FB is None:
+        _spec = _il.spec_from_file_location(
+            "framework_bakeoff", Path(__file__).parent / "framework_bakeoff.py")
+        _FB = _il.module_from_spec(_spec)
+        _spec.loader.exec_module(_FB)
+    return _FB
+
+
+def need_source_set(library, klass):
+    """Set of printed-name(lower) in this library that the tagger marks as `klass`
+    (ramp|draw|tutor|interaction|protection). Resolves reskins via the bake-off's
+    alias table before tagging, so UB prints are not silently missed."""
+    fb = _load_fb()
+    fb_idx = fb.load_oracle()
+    fb_aliases = fb.load_aliases()
+    sources = set()
+    for nm in {n.lower() for n, _ in library}:
+        card = fb_idx.get(nm) or fb_idx.get(fb_aliases.get(nm, nm).lower())
+        if card and klass in fb.tag_card(card):
+            sources.add(nm)
+    return sources
+
+
+def simulate_need(library, source_names, turns, trials, rng):
+    """P(>=1 source in hand) and P(>=1 *castable* source in hand) by turn T.
+    Uses the same draw + land-play model as simulate(); castable = a source whose
+    cmc <= lands in play (land-base only, a floor — rocks/dorks not counted)."""
+    n = len(library)
+    src = {s.lower() for s in source_names}
+    in_hand = [0] * (turns + 1)
+    castable = [0] * (turns + 1)
+    for _ in range(trials):
+        deck = library[:]
+        hand, _ = opening_hand(deck, rng)
+        ptr = 7
+        in_play = []
+        for t in range(1, turns + 1):
+            if t > 1 and ptr < n:
+                hand.append(deck[ptr])
+                ptr += 1
+            li = next((i for i, (_, r) in enumerate(hand) if is_pure_land(r)), None)
+            if li is None:
+                li = next((i for i, (_, r) in enumerate(hand) if is_land(r)), None)
+            if li is not None:
+                in_play.append(hand.pop(li))
+            mana = len(in_play)
+            srcs = [r for nm, r in hand if nm.lower() in src]
+            if srcs:
+                in_hand[t] += 1
+                if any(r["cmc"] <= mana for r in srcs):
+                    castable[t] += 1
+    return {
+        "n_sources": len(src),
+        "in_hand_by_turn": {t: 100.0 * in_hand[t] / trials for t in range(1, turns + 1)},
+        "castable_by_turn": {t: 100.0 * castable[t] / trials for t in range(1, turns + 1)},
+    }
+
+
+def rule_of_thumb(turn):
+    """BDD's count anchor nearest to `turn`: (target_sources, label)."""
+    if turn <= 3:
+        return 12, "opening / first few turns"
+    if turn <= 7:
+        return 8, "~turn 6"
+    return 6, "~turn 10"
+
+
+def print_need_report(name, klass, need, turns, by):
+    show = [t for t in (2, 3, 4, 5, 6, 8, 10) if t <= turns]
+    print(f"\n  --need {klass}: {need['n_sources']} source(s) tagged in deck")
+    if need["n_sources"] == 0:
+        print(f"    (no card tagged '{klass}' — nothing to measure)")
+        return
+    print("  turn:           " + "".join(f"{t:>6}" for t in show))
+    print("  in hand:        " + "".join(fmt_pct(need['in_hand_by_turn'][t]) for t in show))
+    print("  castable:       " + "".join(fmt_pct(need['castable_by_turn'][t]) for t in show))
+    if by:
+        tgt, lbl = rule_of_thumb(by)
+        ih = need["in_hand_by_turn"].get(by, 0.0)
+        ca = need["castable_by_turn"].get(by, 0.0)
+        verdict = "meets" if need["n_sources"] >= tgt else "below"
+        print(f"    by T{by}: {ih:.0f}% in hand / {ca:.0f}% castable  |  "
+              f"BDD anchor {lbl}: ~{tgt} sources ({need['n_sources']} run, {verdict})")
+
+
+# ---------------------------------------------------------------------------
 # Output
 # ---------------------------------------------------------------------------
 
@@ -516,6 +625,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--deck", help="Fuzzy filename filter (e.g. 'calamity')")
     ap.add_argument("--combos", action="store_true", help="Run combo assembly from sim_profiles.json")
+    ap.add_argument("--need", choices=["ramp", "draw", "tutor", "interaction", "protection"],
+                    help="P(>=1 source of this tagged class in hand by turn T) — the BDD count heuristic, measured")
+    ap.add_argument("--by", type=int, metavar="T", help="With --need: headline a target turn against BDD's count anchor")
     ap.add_argument("--trials", type=int, default=20000)
     ap.add_argument("--turns", type=int, default=10)
     ap.add_argument("--seed", type=int, default=12345)
@@ -556,11 +668,19 @@ def main():
 
         name = DISPLAY.get(diag["deck_key"], path.stem)
         print_deck_report(name, diag, stats, combo_res, args.turns)
+
+        need_res = None
+        if args.need:
+            sources = need_source_set(library, args.need)
+            need_res = simulate_need(library, sources, args.turns, args.trials, rng)
+            print_need_report(name, args.need, need_res, args.turns, args.by)
+
         out[name] = {
             "diag": {k: v for k, v in diag.items() if k != "deck_key"},
             "identity": sorted(identity),
             "stats": stats,
             "combos": combo_res,
+            "need": {"class": args.need, **need_res} if need_res else None,
         }
 
     if args.json:
