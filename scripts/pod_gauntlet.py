@@ -140,7 +140,7 @@ PROTECT = {
     "lightning_war":       0.65,  # 8 counters (3 free) + Banefire X>=5 UNCOUNTERABLE finisher
     "radiation_sickness":  0.55,  # 5 counters + kills are BOARD-STATES (Simic Asc/Toxrill/rad) = counter-immune
     "replication_crisis":  0.55,  # 7 counters + combat/Kiki BOARD kill (counters don't stop it)
-    "grand_design":        0.45,  # 7 counters + own Grand Abolisher, but Finale/Craterhoof IS counterable
+    "grand_design":        0.40,  # 5 counters (FoW free) + Glen Elendra recursion; Grand Abolisher CUT 2026-06-23; Finale/Craterhoof IS counterable
     "dark_lords_army":     0.45,  # 7 counters (reactive grind shell)
     "curse_of_the_scarab": 0.40,  # 5 counters + zombie-army board kill
     "calamity_tax":        0.35,  # 5 counters + Veil; X-drain kill is a counterable spell
@@ -294,11 +294,12 @@ CLOCKS = {
         med=("T9", "T14"), never=(1, 39),
         src="lab lw_clock_lab @8k (strict goldfish; chip/reach not in decap)"),
     "grand_design": dict(
-        name="The Grand Design", score="19", disrupt_class="warn",
+        name="The Grand Design", score="18", disrupt_class="warn",
         lab=("gd_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
         grid=[4, 5, 6, 7, 8, 9, 10, 12],
-        decap=[0, 0, 1, 6, 21, 45, 65, 89], table=[0, 0, 0, 0, 0, 1, 2, 18],
-        med=("T10", ">T14"), never=(11, 82), src="lab gd_clock_lab @8k"),
+        decap=[0, 0, 3, 12, 33, 59, 79, 95], table=[0, 0, 0, 0, 2, 6, 13, 38],
+        med=("T9", ">T12"), never=(5, 62),
+        src="lab gd_clock_lab @40k (2026-06-23 ramp+Craterhoof swap; --refresh)"),
     "crystal_sickness": dict(
         name="Crystal Sickness", score="17", disrupt_class="warn",
         lab=("cs_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
@@ -339,10 +340,11 @@ SWAPS = {
         table=[3, 14, 32, 51, 67, 87, 96], gate=None,
         src="lab: ct_speed_lab.kill_turns on glarb-grind-fortress-20260614.txt (12k, 2026-06-14)",
         note="grind-fortress rebuild: decap T13→T9, table >T14→T9 (ungated, mostly owned)"),
-    "grand_design": dict(
-        grid=[4, 5, 6, 7, 8, 9, 10, 12], decap=[0, 0, 2, 11, 32, 58, 77, 95],
-        table=None, gate=None, src="gd_clock_lab --mode ramp (7-for-7)",
-        note="ramp+finisher: decap T10→T9, whiff 11→5%"),
+    # grand_design ramp+Craterhoof swap APPLIED 2026-06-23 (now the committed list,
+    # decks/the-grand-design-20260623.txt) — entry removed. Its baseline clock now comes
+    # straight from --refresh (gd_clock_lab --mode clock points at the new list). The swap
+    # moved BOTH clocks (decap T10→T9 AND table never ~82→~62%), so the old "decap-only/inert"
+    # framing no longer applies; the table gain is harvested into the baseline like any other deck.
     # radiation_sickness GC-fix swap APPLIED 2026-06-15 (now the committed list) — entry removed
     "exiles_return": dict(
         disrupt_class="static", gate="approval",
