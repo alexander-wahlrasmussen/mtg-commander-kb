@@ -1,5 +1,40 @@
 # Radiation Sickness — Kill-Turn Clock Lab (2026-06-13)
 
+> ## ⚠ ERRATUM — re-audit 2026-06-23 (read first)
+>
+> This writeup's central claim is **wrong**. It says the table clock (T10) is "driven by
+> rad drain + converge kills … creature-count-INDEPENDENT by construction" and that
+> "blockers barely affect the table clock," and the addendum below uses that to justify
+> leaving the omitted go-wide producers un-modelled. Instrumenting `goldfish_kill` to
+> attribute every table-close (8k trials) shows the opposite:
+>
+> | branch closing the table | share |
+> |---|---|
+> | **COMBAT** (`hit_focus`, go-wide board) | **76%** |
+> | kill_all (Mindcrank combo + Simic) | 14% |
+> | Triumph poison | 6% |
+> | **rad drain** (`hit_all`) | **3%** |
+>
+> Decap is the same: ~85% combat. So the table clock is an **unblocked, creature-count-
+> DEPENDENT, fully-blockable combat ceiling** — the project's "speed greed" pattern, and the
+> softest goldfish assumption — *not* the robust converge clock claimed below. Consequences:
+> - The addendum's "producers only move the tail, not the median" reasoning is **backwards**:
+>   the median rides on creature count, so Iridescent Hornbeetle / Walking Ballista / Hardened
+>   Scales / Winding Constrictor *would* move it. The lab if anything **under**-counts go-wide.
+> - The deck's strong `self_meta_lab` (#2) and `pod_gauntlet` (race-leader) standing rests on
+>   this unblocked combat number, against an Ur-Dragon shell that is precisely the blockers the
+>   goldfish assumes away. Read those rankings as an optimistic ceiling, not a win rate.
+> - Two real code bugs fixed 2026-06-23 (both immaterial to the curve — board overshoots 40 long
+>   before they matter): (1) Vorinclex's +1/+1 doubling was applied **twice** in `m_cre` (in
+>   `vorx` *and* `n_mult`); (2) the Bloodchief quest accrual doubled its own rate (`*2 if
+>   quest>=1`) with no card backing it. Re-run: table 74%→74% by T10, median T10 unchanged.
+> - **Deck change (now on master):** −Vorinclex, Monstrous Raider / +Timeless Witness
+>   (`radiation-sickness-20260622.txt`). The lab `DECK` was retargeted to it and the now-dead
+>   Vorinclex modeling dropped. Vorinclex's membership is ~immaterial to the curve.
+>
+> Everything below is preserved as the original 2026-06-13 record. The CDF grid still holds; only
+> the *interpretation* (why the table closes, and how robust/blocker-proof it is) was wrong.
+
 **Deck 2 of 10** in the Kill-Window Lab Sweep (`campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`).
 Lab: `scripts/rs_clock_lab.py` (40k trials, seed 20260613), on `speed_lab_core.py`.
 This is the **coarsest lab in the sweep** — the counter spiral is tracked as

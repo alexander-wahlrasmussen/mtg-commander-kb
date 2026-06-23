@@ -170,11 +170,11 @@ DECKS = {
     "grand_design": {
         "name": "The Grand Design", "stem": "the-grand-design",
         "commander": "Atraxa, Grand Unifier", "lab": ("gd_clock_lab", "clock"),
-        "cc": 19, "cc_axes": (5, 5, 5, 4),
-        "win_line": {"pieces": ["Finale of Devastation"], "override": 12, "fuzzy": True,
-                     "line": "Finale of Devastation X>=10 (sorcery funnel); combat backup"},
+        "cc": 18, "cc_axes": (5, 5, 5, 3),   # Interaction 4->3: 2026-06-23 ramp swap cut 5 interaction/protection pieces
+        "win_line": {"pieces": ["Craterhoof Behemoth"], "override": 8, "fuzzy": True,
+                     "line": "Craterhoof overrun (tutorable; reanimate/Pod/Defense cheat it in); Finale X>=10 backup"},
         "bottleneck": "MANA", "min_lands": 2, "max_lands": 5, "hi_curve": True,
-        "mixed": "also FINDING (Finale = single point of failure)",
+        "mixed": "ramp-gated; Craterhoof now tutorable (Finale was the single point of failure, fixed 2026-06-23)",
     },
     "crystal_sickness": {
         "name": "Crystal Sickness", "stem": "crystal-sickness",

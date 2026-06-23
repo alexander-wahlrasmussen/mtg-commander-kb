@@ -8,7 +8,7 @@
 | **Colors** | Sultai (BUG) |
 | **Archetype** | Proliferate / +1/+1 Counters / Rad Counters |
 | **Bracket** | 3 — **legal 3/3 GCs** (GC-fix applied 2026-06-15); 1 two-card infinite combo — Mindcrank + Bloodchief Ascension; no MLD; no extra turns |
-| **Game Changers** | **3/3 ✓** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift. (Survival of the Fittest — the uncounted 4th — **cut 2026-06-15** in the 3-for-3 GC-fix: −Survival +Sylvan Library, −Generous Patron +Hedron Crab, −Guardian Project +Sidisi, Brood Tyrant. All adds owned/proxy, $0. List `radiation-sickness-20260615.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.) |
+| **Game Changers** | **3/3 ✓** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift. (Survival of the Fittest — the uncounted 4th — **cut 2026-06-15** in the 3-for-3 GC-fix: −Survival +Sylvan Library, −Generous Patron +Hedron Crab, −Guardian Project +Sidisi, Brood Tyrant. All adds owned/proxy, $0. List `radiation-sickness-20260622.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.) |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
 | **Kill Window** | Clock: **T10 table-win** (median; T6 ≈ 1%, T9 ≈ 49%) / **T7 decap** one opponent (lab 2026-06-13, `rs_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified)*. The old "Goldfish T6–9" was optimistic for the actual win: this deck's kills (combo / Simic / Triumph) are whole-table kills, and the table median is T10. The "T5–6 combo" is a god-hand (1–4% by T7). See `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md` |
 
@@ -39,12 +39,12 @@ Without proliferate, rad counters are self-correcting — they decay every turn 
 ### The Engine — Three Layers
 
 **Layer 1 — Rad Counter Generation (4 cards):**
-The Wise Mothman (ETB + attack), Agent Frank Horrigan (ETB + attack, proliferate twice), Vexing Radgull (whenever you proliferate, each opponent gets a rad counter), Glowing One (attack trigger). These ensure rad counters accumulate faster than they decay. **Vorinclex, Monstrous Raider** further doubles every rad counter you place on opponents — Mothman's ETB now distributes 2 rad counters to each player instead of 1.
+The Wise Mothman (ETB + attack), Agent Frank Horrigan (ETB + attack, proliferate twice), Vexing Radgull (whenever you proliferate, each opponent gets a rad counter), Glowing One (attack trigger). These ensure rad counters accumulate faster than they decay.
 
 **Layer 2 — Proliferate (9 cards):**
 Tekuthal, Inquiry Dominus (doubles all proliferate — the key multiplier), Inexorable Tide (proliferate on every spell cast), Evolution Sage (landfall proliferate), Viral Drake (activated ability, repeatable), Contagion Engine (activated, also -1/-1 counters on opponents' boards), Sword of Truth and Justice (combat damage + protection), Tezzeret's Gambit (sorcery + draw), Karn's Bastion (land activation), Deepglow Skate (doubles all counters on a permanent on ETB).
 
-With Tekuthal in play, each of these triggers proliferates twice. With Seedborn Muse, the activated abilities (Viral Drake, Contagion Engine, Karn's Bastion) fire on every opponent's turn. With **Vorinclex MR**, every counter placed (including from proliferate) is doubled again — Tekuthal × Vorinclex stacks multiplicatively. The Phase C cut of Flux Channeler and Thrummingbird trimmed two of the lowest-impact proliferate sources (low noncreature-spell density made Flux Channeler underperform; Thrummingbird died to any blocker before connecting).
+With Tekuthal in play, each of these triggers proliferates twice. With Seedborn Muse, the activated abilities (Viral Drake, Contagion Engine, Karn's Bastion) fire on every opponent's turn. The Phase C cut of Flux Channeler and Thrummingbird trimmed two of the lowest-impact proliferate sources (low noncreature-spell density made Flux Channeler underperform; Thrummingbird died to any blocker before connecting).
 
 **Layer 3 — Counter Amplification (8 cards):**
 **Doubling Season** (replaces all counter placements on permanents you control with double — affects +1/+1 counters, growth counters on Simic Ascendancy, AND quest counters on Bloodchief Ascension, halving combo assembly time). Hardened Scales (+1 counter on every placement), Branching Evolution (doubles counters placed on creatures), Winding Constrictor (+1 counter on every placement), Corpsejack Menace (doubles counters placed on creatures), Kami of Whispered Hopes (+1 on every placement AND taps for mana equal to power), Ouroboroid (beginning of combat: X +1/+1 counters on EACH creature where X = its power — exponential scaling), The Ozolith (preserves counters through creature death).
@@ -81,11 +81,11 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 4-mana sorcery: until end of turn, your creatures get +1/+1, trample, and **infect**. With a wide board grown through Mothman, Hornbeetle tokens, and Herd Baloth Beasts, this poisons multiple opponents in one swing. 10 poison = lethal regardless of life total. Champion of Lambholt provides the evasion (creatures with power less than her power can't block). Doubling Season doubles the tokens from Hornbeetle/Herd Baloth/Broodscale, widening the kill range further.
 
 **Line 8 — Toxrill, the Corrosive (attrition control finisher)**
-7-mana 7/7 legendary creature. Each end step, slime counter each creature you don't control; creatures lose -1/-1 for each slime counter; opposing creatures that die become 1/1 Slugs you control; {U}{B} + sac a Slug: draw. **Vorinclex MR doubles your slime counter placements**, so 2 slime counters per end step = -2/-2 per cycle. Most opposing creatures (toughness 2-4) die within 1-2 cycles, each death feeding you a Slug for either Triumph board-width or sac-to-draw card flow. This is the deck's first non-combo non-combat kill line — pure attrition. Slow (Goldfish T9-10) but ignores most counterspell-stack interaction.
+7-mana 7/7 legendary creature. Each end step, slime counter each creature you don't control; creatures lose -1/-1 for each slime counter; opposing creatures that die become 1/1 Slugs you control; {U}{B} + sac a Slug: draw. Each end step adds one slime counter to every creature you don't control; the deck's proliferate suite then stacks more onto those counters, deepening the -1/-1 each cycle. Most opposing creatures (toughness 2-4) die within ~2-3 end steps (faster with proliferate online), each death feeding you a Slug for either Triumph board-width or sac-to-draw card flow. This is the deck's first non-combo non-combat kill line — pure attrition. Slow (Goldfish T9-10) but ignores most counterspell-stack interaction.
 
 -----
 
-## Kill Window (lab-verified 2026-06-13)
+## Kill Window (lab-verified 2026-06-13; re-audited 2026-06-23)
 
 `scripts/rs_clock_lab.py` (40k trials, seed 20260613 — a **coarse expected-value engine model**, the most heuristic lab in the sweep):
 
@@ -94,7 +94,7 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 | decap (one opponent) | 5% | 32% | 76% | 91% | 95% | 98% | 99% |
 | **table (win)** | 0% | 1% | 4% | 21% | **49%** | 74% | 96% |
 
-**Win clock (table): median T10.** Because every reliable kill (Mindcrank+Bloodchief combo, Simic Ascendancy at 20 growth, Triumph poison) kills the whole table at once, the table clock IS the win clock — and "Goldfish T6–9" was optimistic for it (T6 ≈ 1%, T9 ≈ 49%). The "T5–6 combo" is a five-piece god-hand (Mothman + Mindcrank + Bloodchief + a proliferate source + rad ticking 2+/turn), realized only 1–4% of the time by T7. The deck *does* pressure one opponent fast — decap median **T7** (76% by T7) via incidental combat + rad drain, which clears the pod's T≤7 decap bar and has real value against the archenemy — but decapping one player is pressure, not a win. Robust tail: 1% never-in-14. Full writeup + caveats: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+**Win clock (table): median T10.** ⚠ **Re-audit 2026-06-23 corrected *why* it closes.** The 2026-06-13 claim that the table win is a converge kill (Mindcrank+Bloodchief combo / Simic / Triumph hitting the whole table at once) was **falsified by instrumentation**: the table close is **~76% incidental go-wide combat** (an unblocked board focus-firing one opponent per turn), only ~14% the kill_all combo/Simic and ~3% the rad drain. So the table clock is a **creature-count-dependent, fully-blockable unblocked-combat ceiling**, not the robust blocker-proof converge clock previously described — the project's recurring "speed greed" optimism, and it overstates real performance against a pod full of blockers. Decap and table **diverge ~3 turns** (T7 vs T10) like a combat deck, not converge. "Goldfish T6–9" remains optimistic (T6 ≈ 1%, T9 ≈ 49%); the "T5–6 combo" is a five-piece god-hand (~1–4% by T7). The deck *does* pressure one opponent fast — decap median **T7** (76% by T7) via go-wide combat + rad drain — but that is pressure, not a win. The 1% never-in-14 tail means "does steady unblocked damage," not "inevitable through interaction." Full writeup + erratum: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
 
 -----
 
@@ -102,9 +102,9 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 
 ### Core Loop: 5/5
 
-The loop is dense: 9 proliferate sources (post Phase C cuts), 8 counter amplifiers (with Doubling Season + Vorinclex MR), 4 supplemental mill effects, 4 rad counter generators (with Vorinclex doubling the rad output). Total engine density: ~28 cards directly serve the loop. Phase C's cut of Flux Channeler + Thrummingbird trimmed bloat without weakening the engine — both were the lowest-impact proliferate sources. Engine density holds post-cut; **Vampiric Tutor** is the on-demand bridge to a missing Mothman/payoff piece (Survival of the Fittest, the old every-turn virtual tutor, was cut in the 2026-06-15 GC-fix).
+The loop is dense: 9 proliferate sources (post Phase C cuts), 8 counter amplifiers (headlined by Doubling Season), 4 supplemental mill effects, 4 rad counter generators. Total engine density: ~27 cards directly serve the loop. Phase C's cut of Flux Channeler + Thrummingbird trimmed bloat without weakening the engine — both were the lowest-impact proliferate sources. Engine density holds post-cut; **Vampiric Tutor** is the on-demand bridge to a missing Mothman/payoff piece (Survival of the Fittest, the old every-turn virtual tutor, was cut in the 2026-06-15 GC-fix).
 
-Doubling Season + Vorinclex MR + Tekuthal stack multiplicatively: a single Mothman ETB now distributes 2 rad counters to each player (Vorinclex), and any +1/+1 counter placement on your creatures is doubled by Doubling Season *before* counter-amplifier triggers fire. Bloodchief Ascension's quest counters are likewise doubled — combo activates in 2 life-loss triggers instead of 3.
+Doubling Season + Tekuthal stack multiplicatively: any +1/+1 counter placement on your creatures is doubled by Doubling Season *before* counter-amplifier triggers fire, and Tekuthal doubles every proliferate. Bloodchief Ascension's quest counters are likewise doubled by Doubling Season — combo activates in 2 life-loss triggers instead of 3.
 
 Commander dependency is moderate. Mothman is the bridge that converts mill events into +1/+1 counters, but the proliferate engine and counter doublers function independently. Without Mothman, you still grow creatures through Ouroboroid, Walking Ballista's self-loading, and proliferating existing counters.
 
@@ -113,7 +113,7 @@ Commander dependency is moderate. Mothman is the bridge that converts mill event
 Eight closing lines, four of them deterministic or near-deterministic:
 1. **Mindcrank + Bloodchief Ascension** — fastest deterministic kill. Vampiric Tutor now finds the missing piece on demand. With Doubling Season, Bloodchief's 3-quest-counter activation threshold is reached in 2 life-loss triggers. Realistic assembly T5–6.
 2. **Triumph of the Hordes** — single-card win on a wide board. Doubling Season widens every token producer; Mothman distributes counters across multiple creatures. 5–8 creatures by T6 is normal; even half at +1/+1 with infect = 10+ poison.
-3. **Simic Ascendancy** — Doubling Season + Vorinclex = ~4x growth counter accrual per proliferate cycle. 20 growth counters in 2 turns from deployment.
+3. **Simic Ascendancy** — Doubling Season multiplies growth-counter accrual (it doubles both the +1/+1 on your creatures and the growth counters placed on the Ascendancy), and proliferate adds to the growth counters directly each cycle. 20 growth counters in ~2-3 turns from deployment.
 4. **Toxrill attrition** — Phase C addition. Once Toxrill stabilizes (T7 + 1 end step), opposing boards collapse in 1-2 cycles, your Slug board widens for Triumph/combat. Non-combo non-combat win ignores most interaction stacks.
 
 Combat with big countered creatures remains the slowest path but is now genuinely lethal in 2 turns once the engine fires. The 5/5 here is the difference between "many kill lines on paper" (Phase A+B) and "multiple independent deterministic wins" (Phase C — Toxrill adds a non-combo line that cannot be answered by graveyard hate, Pithing Needle on Bloodchief, or wraths once it lands).
@@ -122,7 +122,7 @@ Combat with big countered creatures remains the slowest path but is now genuinel
 
 The Ozolith preserves counters through creature removal. Counter doublers are redundant. Proliferate sources are diverse. **Doubling Season is a high-value removal target** — taking it out is non-trivial (5-mana enchantment, no built-in protection) but losing it doesn't shut off the engine, just slows the doublings.
 
-Vampiric Tutor at 1 mana means recovery from wraths is faster — Tutor → next turn deploy the missing piece. Seedborn Muse is still the irreplaceable engine piece. A turn-7 Cyclonic Rift hurts but the Vampiric → Ozolith / Doubling Season / Mindcrank sequence rebuilds quickly.
+Vampiric Tutor at 1 mana means recovery from wraths is faster — Tutor → next turn deploy the missing piece. Seedborn Muse is still the irreplaceable engine piece. A turn-7 Cyclonic Rift hurts but the Vampiric → Ozolith / Doubling Season / Mindcrank sequence rebuilds quickly. **Timeless Witness** (added 2026-06-22, −Vorinclex) hardens this further: it regrows the highest-value casualty — Doubling Season, a combo piece, or a counter — straight after a wrath, and because rad self-mill routinely bins it, its Eternalize ({5}{G}{G}) makes that recovery repeatable. It's the deck's first recursion redundancy beyond Regrowth.
 
 ### Interaction Profile: 4/5
 
@@ -134,10 +134,12 @@ Toxrill provides asymmetric ongoing interaction by killing opponents' creatures 
 
 ### Total: 18/20
 
-The deck graduates from "17/20, multiple deterministic lines with cheap combo assembly" to "18/20, four-line kill plan with restored free interaction." The binding constraint sits at Interaction (12 pieces, 1 free counter) and Durability (no anti-wrath protection beyond Heroic Intervention + Ozolith). Pushing to 19+ would require either a 2nd free counter (Force of Will / Pact copies are all deployed) or Crucible-of-Worlds-style permanence.
+The deck graduates from "17/20, multiple deterministic lines with cheap combo assembly" to "18/20, four-line kill plan with restored free interaction." The binding constraint sits at Interaction (12 pieces, 1 free counter) and Durability (post-wrath recovery). **Timeless Witness (2026-06-22) is a first step toward the Crucible-of-Worlds-style permanence angle** — repeatable recursion via Eternalize — but one recursion creature is a soft Durability bump, not yet a clear 5/5; re-grade after pod games. The 2nd-free-counter route stays blocked: Force of Will, Pact of Negation, Fierce Guardianship, and Deflecting Swat are all deployed or over-allocated across the roster.
 
 **Upgrade history:**
-- **2026-06-13 — Kill-turn clock lab** (`rs_clock_lab.py`, coarse engine model; sweep deck 2). "Goldfish T6–9" verified as **optimistic on the win clock**: table-win median **T10** (T6 ≈ 1%, T9 ≈ 49%); decap one opponent median T7. The marquee T5–6 combo is a god-hand (1–4% by T7). No card swaps; 18/20 unchanged (the slow-but-near-certain table clock, 1% never-in-14, corroborates the reliability the score rewards). No card-text errors. Writeup: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+- **2026-06-23 — Clock-lab re-audit + retarget.** Instrumented `goldfish_kill`: the table close is **~76% unblocked go-wide combat**, only ~14% combo/Simic + ~3% rad drain → a blockable creature-count-dependent ceiling, **not** the rad-drain converge clock the 06-13 writeup claimed (it overstated robustness — `self_meta_lab`/`pod_gauntlet` rank the deck on this optimistic, unblocked number). Fixed two immaterial code bugs (Vorinclex doubled twice in `m_cre`; Bloodchief quest accrual doubling its own rate; CDF unchanged, 74% table by T10). **Retargeted the lab `DECK` → `radiation-sickness-20260622.txt` and dropped the now-dead Vorinclex modeling** — re-run on the post-swap list confirms the swap is clock-neutral (resolving the 06-22 "not re-run" caveat). Erratum atop `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+- **2026-06-22 — Durability swap: −Vorinclex, Monstrous Raider +Timeless Witness.** −Vorinclex (the only unowned card in the list) +Timeless Witness (owned, 2 spare copies; $0). Vorinclex was the deck's 6th counter-amplifier and its only rad-on-opponents doubler, but no kill line depended on it and it doubled the rad Mothman placed on *you*; the rad axis stays scaled additively through the proliferate suite. The slot was redirected to the named Durability gap (post-wrath recovery) via Eternalize-backed repeatable recursion. The other 19/20 lever — a 2nd free counter — is unavailable owned (Force of Will / Pact / Fierce Guardianship / Deflecting Swat all deployed or over-allocated). Soft Durability bump; score held at **18/20** pending pod games. **The lab was retargeted to this list on 2026-06-23 and re-run — the swap is confirmed clock-neutral (see the 06-23 re-audit bullet above).** Deck is now 100% owned/proxy (zero outstanding buys). List `radiation-sickness-20260622.txt`.
+- **2026-06-13 — Kill-turn clock lab** (`rs_clock_lab.py`, coarse engine model; sweep deck 2). "Goldfish T6–9" verified as **optimistic on the win clock**: table-win median **T10** (T6 ≈ 1%, T9 ≈ 49%); decap one opponent median T7. The marquee T5–6 combo is a god-hand (1–4% by T7). No card swaps; 18/20 unchanged. ~~the slow-but-near-certain table clock corroborates reliability~~ (see 06-23 re-audit: that clock is unblocked combat, not converge). No card-text errors. Writeup: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
 - Original build: 13/20 (4/3/3/3)
 - 2026-05-13 Phase A+B: corrected summary↔.txt mismatches; swapped Bloatfly Swarm / Contagion Clasp / Mesmeric Orb / Fierce Guardianship → Doubling Season / Vorinclex MR / Triumph of the Hordes / Vampiric Tutor. → 17/20 (5/4/4/4).
 - 2026-05-13 Phase C: swapped Flux Channeler / Thrummingbird / Inspiring Call → Toxrill / Survival of the Fittest / Force of Negation. Kill Reliability 4→5 (Toxrill adds 8th, non-combo non-combat kill line); Interaction restored a free counter (still 4/5 vs 15-piece benchmark). → 18/20 (5/5/4/4).
@@ -150,7 +152,7 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 > below plus Survival of the Fittest (GC #45), which an earlier version mislabeled as a non-GC
 > tutor. The 3-for-3 GC-fix (−Survival of the Fittest +Sylvan Library, −Generous Patron +Hedron
 > Crab, −Guardian Project +Sidisi, Brood Tyrant; all owned/proxy, $0) restores a legal **3/3**.
-> Applied in `radiation-sickness-20260615.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.
+> Applied in `radiation-sickness-20260622.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.
 
 **Game Changers (3/3 ✓):**
 1. Seedborn Muse — untaps all permanents on each opponent's turn; enables Contagion Engine/Viral Drake/Karn's Bastion activation 3x per turn cycle
@@ -169,9 +171,13 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 
 > **Anti-archenemy call (2026-06-15): this is the deck to bring vs his current meta.** Tops the
 > two-deck gauntlet (`pod_gauntlet.py --vs`: **71% vs Acererak / 60% vs Hidetsugu and Kairi / 65%
-> blend**) because its wins are *board states, not counterable spells* — rad-drain (a player
-> counter that ticks every upkeep), Simic Ascendancy at 20 growth, and Toxrill attrition give his
-> UB counter wall nothing to target, and under the Grand-Abolisher colour-lock (both his mains —
+> blend**) because its wins are *board states, not counterable spells* — its actual win is a
+> **go-wide +1/+1 combat board** (re-audit 2026-06-23: ~76% of table closes), with rad-drain,
+> Simic Ascendancy, and Toxrill attrition as backup; none of it is a counterable spell, so his
+> UB counter wall has nothing to target. ⚠ **Caveat (2026-06-23): counter-immune ≠ blocker-immune.**
+> The gauntlet's combat clock is *unblocked* — his Ur-Dragon shell fields exactly the blockers the
+> goldfish assumes away, so 71/60/65% is an optimistic ceiling, not a win rate. Under the
+> Grand-Abolisher colour-lock (both his mains —
 > mono-B Acererak, UB Hidetsugu and Kairi — are locked out of white) RS's 12-piece answer suite
 > mostly *resolves*. No tech card fits: the deck is at the 3-GC cap, and the standard hatebears
 > (Drannith / Rule of Law / Hushwing / Mindcensor) are off-colour for BUG while Torpor Orb /
@@ -212,7 +218,7 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 
 ## Acquisition Summary
 
-> **Historical context:** This section reflects the *original* build's acquisition state. The 2026-05-13 upgrade swapped in Doubling Season (already owned, surplus from Earthbend), Vorinclex MR (buy needed — pricing not verified, may be ~€30+ on Cardmarket), Triumph of the Hordes (buy a 2nd copy or swap with Earthbend), and Vampiric Tutor (already owned, surplus). Mesmeric Orb's buy-list entry below is no longer relevant — it was cut.
+> **Historical context:** This section reflects the *original* build's acquisition state. The 2026-05-13 upgrade swapped in Doubling Season (already owned, surplus from Earthbend), Vorinclex MR (buy needed — pricing not verified, may be ~€30+ on Cardmarket), Triumph of the Hordes (buy a 2nd copy or swap with Earthbend), and Vampiric Tutor (already owned, surplus). Mesmeric Orb's buy-list entry below is no longer relevant — it was cut. **Update 2026-06-22:** Vorinclex MR was cut for Timeless Witness (owned, 2 spare copies) — the only outstanding buy is gone; the deck is now 100% owned/proxy.
 
 ### Already Available From Surplus (49 cards + commander)
 All precon holdovers, generic staples, and cards with extra copies.
@@ -322,7 +328,7 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 1 Deepglow Skate
 1 Karn's Bastion
 
-### Rad Counter / Mill Synergy (9)
+### Rad Counter / Mill Synergy (8)
 1 Agent Frank Horrigan
 1 Vexing Radgull
 1 Glowing One
@@ -331,7 +337,6 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 1 Hedron Crab
 1 Sidisi, Brood Tyrant
 1 Mindcrank
-1 Vorinclex, Monstrous Raider
 
 ### Counter Amplifiers (8)
 1 Doubling Season
@@ -390,8 +395,9 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 1 Nuclear Fallout
 1 Heroic Intervention
 
-### Recursion (1)
+### Recursion (2)
 1 Regrowth
+1 Timeless Witness
 
 ### Lands (34)
 1 Breeding Pool

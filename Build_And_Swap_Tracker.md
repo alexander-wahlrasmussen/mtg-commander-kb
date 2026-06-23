@@ -28,7 +28,7 @@ lists are sleeved. Ground truth always remains the dated `.txt` decklists. Price
 
 Ranked from free-and-now to expensive:
 
-1. ✅ **Radiation Sickness GC-fix — DONE 2026-06-15.** Was *mandatory* (illegal at 4 GCs), **$0, no approval.** Cut Survival of the Fittest; added Sylvan Library + Hedron Crab + Sidisi. Now `decks/radiation-sickness-20260615.txt`, **3/3 legal** (validate.py: 0 errors).
+1. ✅ **Radiation Sickness GC-fix — DONE 2026-06-15.** Was *mandatory* (illegal at 4 GCs), **$0, no approval.** Cut Survival of the Fittest; added Sylvan Library + Hedron Crab + Sidisi. Now `decks/radiation-sickness-20260622.txt`, **3/3 legal** (validate.py: 0 errors). *(Later swap 2026-06-22: −Vorinclex, Monstrous Raider +Timeless Witness — Durability/post-wrath recovery, $0 owned; the deck's last unowned card is gone, now 100% owned/proxy.)*
 2. 🟢🟡 **Grand Design upgrade** — almost entirely owned spares; only **~€5–10** of new cards (Wood Elves, Rune-Scarred Demon). No approval needed.
 3. 🟢🔒 **Diminishing Returns Stage 1** — **$0** (Nim Deathmantle + Grave Titan + Grim Tutor + Jet Medallion all owned, undeployed) but **needs pod approval** for the combo.
 4. 🟡🔒 **Exile's Return** (Drannith owned + 1× Kiki ~€10–15) and **Replication Crisis** (2nd Kiki ~€10–15) — small buys, both need approval.
@@ -74,7 +74,7 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger �
 
 | Deck | Out → In | Source of the "In" cards | Cost | Gate | Status |
 |---|---|---|---|---|---|
-| **Radiation Sickness** ✅ | −Survival of the Fittest (GC) **+**Sylvan Library; −Generous Patron +Hedron Crab; −Guardian Project +Sidisi, Brood Tyrant | Sylvan Library (own ×2 real) · Hedron Crab (own ×2 real) · Sidisi (**proxy-only** — play proxy or buy ~€2) — all ex-Loam | 🟢 **$0** | none | **✅ APPLIED 2026-06-15** → `radiation-sickness-20260615.txt`, 3/3 legal |
+| **Radiation Sickness** ✅ | −Survival of the Fittest (GC) **+**Sylvan Library; −Generous Patron +Hedron Crab; −Guardian Project +Sidisi, Brood Tyrant | Sylvan Library (own ×2 real) · Hedron Crab (own ×2 real) · Sidisi (**proxy-only** — play proxy or buy ~€2) — all ex-Loam | 🟢 **$0** | none | **✅ APPLIED 2026-06-15** → `radiation-sickness-20260622.txt`, 3/3 legal; **+2026-06-22 −Vorinclex +Timeless Witness** (Durability, $0) |
 | **The Grand Design** | 7-for-7 (see proposal). Adds: Solemn Simulacrum, Sakura-Tribe Elder, Wood Elves, Faeburrow Elder, Coalition Relic, **Craterhoof Behemoth**, Rune-Scarred Demon | Solemn/Sakura/Coalition/Craterhoof = owned spares (real); Faeburrow = ex-Peace Offering (own 1); **Wood Elves + Rune-Scarred = buy** | 🟡 **~€5–10** | none | Proposal only. No new combo → no approval. |
 | **Diminishing Returns** | Staged toward B4. **Stage 1:** +Nim Deathmantle +Grave Titan +Grim Tutor (+Jet Medallion) −Mother of Runes −Skrelv −Giver of Runes | All Stage-1 adds owned + undeployed (Deathmantle ×1, Grave Titan ×3, Grim Tutor ×1, Jet Medallion ×1) | 🟢 **$0** (Stage 1) | 🔒 yes | Proposal only. Later stages cost money (see below). |
 | **The Exile's Return** | +Kiki-Jiki +Drannith Magistrate −Night's Whisper −Light Up the Stage | Drannith (own 1, undeployed) free; **Kiki-Jiki = buy** | 🟡 **~€10–15** | 🔒 yes | Proposal only. (Avatar's Wrath is NOT a cut — re-verified.) |
