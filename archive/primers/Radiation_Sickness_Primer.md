@@ -29,7 +29,7 @@ Looking for: **lands + ramp + Mothman or a proliferate engine.**
 
 1. **T1–3:** ramp (Sol Ring, dorks, Farseek, Nature's Lore).
 2. **T4:** Mothman — rad counters start hitting all players.
-3. **T5+:** proliferate engines + doublers (Tekuthal, Doubling Season, Vorinclex MR). Counters spiral; opponents mill and bleed more each turn.
+3. **T5+:** proliferate engines + doublers (Tekuthal, Doubling Season). Counters spiral; opponents mill and bleed more each turn.
 4. **Closing turn:** combat overload, Triumph infect, a Simic Ascendancy tick to 20, or assemble Mindcrank + Bloodchief.
 
 ## Don't-miss rulings
@@ -37,7 +37,7 @@ Looking for: **lands + ramp + Mothman or a proliferate engine.**
 - **Rad counters decay ONLY when *nonland* cards are milled** — milling a land removes no rad counter, so it persists into the next turn. Fighting that decay with proliferate is the whole engine.
 - **Rad counters hit EVERYONE, including you** — you self-mill and lose life. Morgul-Knife (Shadowspear) lifelink is the built-in offset.
 - **Proliferate adds rad counters to opponents AND +1/+1 counters to your creatures simultaneously** — the central interaction.
-- **The multipliers stack multiplicatively:** Tekuthal doubles all proliferate; **Vorinclex MR** doubles every counter you place on opponents (Mothman ETB → 2 rad each) *and* your own placements; Doubling Season doubles counters on your permanents — including Bloodchief's quest counters, so the combo arms in 2 life-loss triggers, not 3.
+- **The multipliers stack multiplicatively:** Tekuthal doubles all proliferate; Doubling Season doubles counters on your permanents — including Bloodchief's quest counters, so the combo arms in 2 life-loss triggers, not 3.
 - **Mothman's +1/+1 distribution triggers once per mill *event***, regardless of how many players milled at once.
 - **Mindcrank + Bloodchief is not online the turn Bloodchief lands** — it needs 3 quest counters first (proliferate accelerates this).
 

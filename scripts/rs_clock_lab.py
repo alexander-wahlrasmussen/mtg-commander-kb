@@ -5,8 +5,13 @@ Kill-Window Lab Sweep, deck 2 of 10 (proposals/Kill_Window_Lab_Sweep_2026-06-13.
 Summary claims "Goldfish T6-9" with the front-edge T6 flagged suspect. Built on
 speed_lab_core.py.
 
-KILL SHAPE: counter-engine. Unlike the combat decks, this deck's reliable kills all
-hit the WHOLE TABLE at once, so decap and table largely CONVERGE:
+KILL SHAPE: RE-AUDITED 2026-06-23. The original framing below ("converge kills, table
+driven by rad drain") was FALSIFIED by instrumenting which branch closes the table:
+76% is incidental go-wide COMBAT (hit_focus, board), only ~14% the kill_all combo/Simic
+and ~3% the rad drain. So decap (median T7) and table (median T10) do NOT converge — they
+diverge ~3 turns like any combat deck, and the table clock is an UNBLOCKED creature-count-
+DEPENDENT combat ceiling (fully blockable), not the robust converge clock once claimed. The
+branch menu is still real; the *weighting* is combat-dominated. Branches:
 
   COMBO    Mindcrank + Bloodchief Ascension (active = 3 quest counters): any
            opponent life-loss -> Mindcrank mills -> cards to their graveyard ->
@@ -22,9 +27,10 @@ Engine spiral, oracle-verified (card_lookup.py 2026-06-13):
   * Mothman ({1}{B}{G}{U}, commander): ETB + attack -> each player a rad counter;
     each nonland-mill event -> +1/+1 on up to X creatures (X = nonland milled).
   * Bloodchief quest: +1 at an end step IF AN OPPONENT lost 2+ life that turn.
-  * Vorinclex MR: counters YOU place on permanents OR players are DOUBLED (rad,
-    +1/+1, growth, quest all x2). Tekuthal: proliferate twice. Doubling Season:
-    counters on YOUR permanents x2 (your +1/+1, growth, quest — NOT rad on players).
+  * Tekuthal: proliferate twice. Doubling Season: counters on YOUR permanents x2
+    (your +1/+1, growth, quest — NOT rad on players).
+    (Vorinclex MR — the rad-on-players doubler — was cut 2026-06-22 for Timeless
+    Witness, so vorx ≡ 1 below; its modeling was removed in the 06-23 retarget.)
 
 HEURISTIC, not a rules engine — and the COARSEST lab in the sweep: the counter
 spiral is tracked as expected-value floats (rad/growth/quest/board), opponent decks
@@ -45,7 +51,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "radiation-sickness-20260615.txt"
+DECK = ROOT / "decks" / "radiation-sickness-20260622.txt"   # retargeted 2026-06-23 (−Vorinclex +Timeless Witness)
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
@@ -86,7 +92,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
 
     g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
-    mothman = vorinclex = tekuthal = doubling = seedborn = False
+    mothman = tekuthal = doubling = seedborn = False
     simic = bloodchief = mindcrank = False
     ruin_crab = hedron_crab = altar = sidisi = False   # discrete mill producers (mills=True only)
     n_mult = 0                       # multiplicative creature-counter doublers (Branching/Corpsejack/DS)
@@ -99,13 +105,11 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
     new_cre = 0
 
     def deploy(nm, rec):
-        nonlocal vorinclex, tekuthal, doubling, seedborn, simic, bloodchief, mindcrank
+        nonlocal tekuthal, doubling, seedborn, simic, bloodchief, mindcrank
         nonlocal n_mult, new_board, new_cre, rad
         nonlocal ruin_crab, hedron_crab, altar, sidisi
         low = nm
-        if nm == "Vorinclex, Monstrous Raider":
-            vorinclex = True; n_mult_inc()
-        elif nm == "Tekuthal, Inquiry Dominus":
+        if nm == "Tekuthal, Inquiry Dominus":
             tekuthal = True
         elif nm == "Doubling Season":
             doubling = True; n_mult_inc()
@@ -145,7 +149,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                 g.cast(rs, cost); g.lands += n; g.avail += n
 
         # commander: Mothman for 4 (ETB rad)
-        vorx = 2 if vorinclex else 1
+        vorx = 1   # Vorinclex (rad/counter doubler) cut 2026-06-22 — no doubler left in deck
         if not mothman and g.avail >= 4:
             g.avail -= 4; mothman = True; board += 3; ncre += 1
             rad += 1 * vorx
@@ -180,7 +184,7 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                     deploy(nm, rec); more = True
                     break
 
-        vorx = 2 if vorinclex else 1
+        vorx = 1   # Vorinclex (rad/counter doubler) cut 2026-06-22 — no doubler left in deck
         m_perm = (2 if doubling else 1) * vorx
         m_cre = vorx * (2 ** min(3, n_mult)) if n_mult else vorx
 
@@ -233,9 +237,9 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                 board += 3 * 0.18 * m_cre
         # quest accrual: opponents losing 2+ life
         if bloodchief and life_each >= 2:
-            quest += m_perm * 2 if quest >= 1 else m_perm  # first counter, then doubles
-            if quest < 1:
-                quest = m_perm
+            quest += m_perm   # Bloodchief gains ONE quest counter / upkeep (×m_perm under
+            #                   Doubling Season); the old `*2 if quest>=1` doubled the accrual
+            #                   RATE with no card backing it (bug fix 2026-06-23)
 
         # opponent drain (rad life loss) — all-opponent, converge
         if life_each > 0:
@@ -261,8 +265,9 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
 
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — Radiation Sickness kill-turn goldfish   trials={trials} seed={SEED}")
-    print("    decap = first opponent dead (40) · table = all three. Most kills are kill_all")
-    print("    (combo / Simic / Triumph / rad-drain) so decap and table CONVERGE.\n")
+    print("    decap = first opponent dead (40) · table = all three. RE-AUDIT 2026-06-23:")
+    print("    table close is ~76% go-wide COMBAT (board), only ~14% kill_all combo/Simic +")
+    print("    ~3% rad drain — an UNBLOCKED, blockable combat ceiling, NOT a converge clock.\n")
     library, commander = slc.load_parsed(DECK, index, aliases)
     powmap = _powmap(library, commander)
     rng = random.Random(SEED)
