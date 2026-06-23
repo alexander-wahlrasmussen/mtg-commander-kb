@@ -85,7 +85,7 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 
 -----
 
-## Kill Window (lab-verified 2026-06-13)
+## Kill Window (lab-verified 2026-06-13; re-audited 2026-06-23)
 
 `scripts/rs_clock_lab.py` (40k trials, seed 20260613 — a **coarse expected-value engine model**, the most heuristic lab in the sweep):
 
@@ -94,7 +94,7 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 | decap (one opponent) | 5% | 32% | 76% | 91% | 95% | 98% | 99% |
 | **table (win)** | 0% | 1% | 4% | 21% | **49%** | 74% | 96% |
 
-**Win clock (table): median T10.** Because every reliable kill (Mindcrank+Bloodchief combo, Simic Ascendancy at 20 growth, Triumph poison) kills the whole table at once, the table clock IS the win clock — and "Goldfish T6–9" was optimistic for it (T6 ≈ 1%, T9 ≈ 49%). The "T5–6 combo" is a five-piece god-hand (Mothman + Mindcrank + Bloodchief + a proliferate source + rad ticking 2+/turn), realized only 1–4% of the time by T7. The deck *does* pressure one opponent fast — decap median **T7** (76% by T7) via incidental combat + rad drain, which clears the pod's T≤7 decap bar and has real value against the archenemy — but decapping one player is pressure, not a win. Robust tail: 1% never-in-14. Full writeup + caveats: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+**Win clock (table): median T10.** ⚠ **Re-audit 2026-06-23 corrected *why* it closes.** The 2026-06-13 claim that the table win is a converge kill (Mindcrank+Bloodchief combo / Simic / Triumph hitting the whole table at once) was **falsified by instrumentation**: the table close is **~76% incidental go-wide combat** (an unblocked board focus-firing one opponent per turn), only ~14% the kill_all combo/Simic and ~3% the rad drain. So the table clock is a **creature-count-dependent, fully-blockable unblocked-combat ceiling**, not the robust blocker-proof converge clock previously described — the project's recurring "speed greed" optimism, and it overstates real performance against a pod full of blockers. Decap and table **diverge ~3 turns** (T7 vs T10) like a combat deck, not converge. "Goldfish T6–9" remains optimistic (T6 ≈ 1%, T9 ≈ 49%); the "T5–6 combo" is a five-piece god-hand (~1–4% by T7). The deck *does* pressure one opponent fast — decap median **T7** (76% by T7) via go-wide combat + rad drain — but that is pressure, not a win. The 1% never-in-14 tail means "does steady unblocked damage," not "inevitable through interaction." Full writeup + erratum: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
 
 -----
 
@@ -137,8 +137,9 @@ Toxrill provides asymmetric ongoing interaction by killing opponents' creatures 
 The deck graduates from "17/20, multiple deterministic lines with cheap combo assembly" to "18/20, four-line kill plan with restored free interaction." The binding constraint sits at Interaction (12 pieces, 1 free counter) and Durability (post-wrath recovery). **Timeless Witness (2026-06-22) is a first step toward the Crucible-of-Worlds-style permanence angle** — repeatable recursion via Eternalize — but one recursion creature is a soft Durability bump, not yet a clear 5/5; re-grade after pod games. The 2nd-free-counter route stays blocked: Force of Will, Pact of Negation, Fierce Guardianship, and Deflecting Swat are all deployed or over-allocated across the roster.
 
 **Upgrade history:**
-- **2026-06-22 — Durability swap: −Vorinclex, Monstrous Raider +Timeless Witness.** −Vorinclex (the only unowned card in the list) +Timeless Witness (owned, 2 spare copies; $0). Vorinclex was the deck's 6th counter-amplifier and its only rad-on-opponents doubler, but no kill line depended on it and it doubled the rad Mothman placed on *you*; the rad axis stays scaled additively through the proliferate suite. The slot was redirected to the named Durability gap (post-wrath recovery) via Eternalize-backed repeatable recursion. The other 19/20 lever — a 2nd free counter — is unavailable owned (Force of Will / Pact / Fierce Guardianship / Deflecting Swat all deployed or over-allocated). Soft Durability bump; score held at **18/20** pending pod games. **The clock lab (`rs_clock_lab.py`, 2026-06-13) predates this swap and was not re-run; the swap is expected clock-neutral-to-slightly-slower on the secondary rad-decap axis — neither re-verified.** Deck is now 100% owned/proxy (zero outstanding buys). List `radiation-sickness-20260622.txt`.
-- **2026-06-13 — Kill-turn clock lab** (`rs_clock_lab.py`, coarse engine model; sweep deck 2). "Goldfish T6–9" verified as **optimistic on the win clock**: table-win median **T10** (T6 ≈ 1%, T9 ≈ 49%); decap one opponent median T7. The marquee T5–6 combo is a god-hand (1–4% by T7). No card swaps; 18/20 unchanged (the slow-but-near-certain table clock, 1% never-in-14, corroborates the reliability the score rewards). No card-text errors. Writeup: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+- **2026-06-23 — Clock-lab re-audit + retarget.** Instrumented `goldfish_kill`: the table close is **~76% unblocked go-wide combat**, only ~14% combo/Simic + ~3% rad drain → a blockable creature-count-dependent ceiling, **not** the rad-drain converge clock the 06-13 writeup claimed (it overstated robustness — `self_meta_lab`/`pod_gauntlet` rank the deck on this optimistic, unblocked number). Fixed two immaterial code bugs (Vorinclex doubled twice in `m_cre`; Bloodchief quest accrual doubling its own rate; CDF unchanged, 74% table by T10). **Retargeted the lab `DECK` → `radiation-sickness-20260622.txt` and dropped the now-dead Vorinclex modeling** — re-run on the post-swap list confirms the swap is clock-neutral (resolving the 06-22 "not re-run" caveat). Erratum atop `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
+- **2026-06-22 — Durability swap: −Vorinclex, Monstrous Raider +Timeless Witness.** −Vorinclex (the only unowned card in the list) +Timeless Witness (owned, 2 spare copies; $0). Vorinclex was the deck's 6th counter-amplifier and its only rad-on-opponents doubler, but no kill line depended on it and it doubled the rad Mothman placed on *you*; the rad axis stays scaled additively through the proliferate suite. The slot was redirected to the named Durability gap (post-wrath recovery) via Eternalize-backed repeatable recursion. The other 19/20 lever — a 2nd free counter — is unavailable owned (Force of Will / Pact / Fierce Guardianship / Deflecting Swat all deployed or over-allocated). Soft Durability bump; score held at **18/20** pending pod games. **The lab was retargeted to this list on 2026-06-23 and re-run — the swap is confirmed clock-neutral (see the 06-23 re-audit bullet above).** Deck is now 100% owned/proxy (zero outstanding buys). List `radiation-sickness-20260622.txt`.
+- **2026-06-13 — Kill-turn clock lab** (`rs_clock_lab.py`, coarse engine model; sweep deck 2). "Goldfish T6–9" verified as **optimistic on the win clock**: table-win median **T10** (T6 ≈ 1%, T9 ≈ 49%); decap one opponent median T7. The marquee T5–6 combo is a god-hand (1–4% by T7). No card swaps; 18/20 unchanged. ~~the slow-but-near-certain table clock corroborates reliability~~ (see 06-23 re-audit: that clock is unblocked combat, not converge). No card-text errors. Writeup: `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md`.
 - Original build: 13/20 (4/3/3/3)
 - 2026-05-13 Phase A+B: corrected summary↔.txt mismatches; swapped Bloatfly Swarm / Contagion Clasp / Mesmeric Orb / Fierce Guardianship → Doubling Season / Vorinclex MR / Triumph of the Hordes / Vampiric Tutor. → 17/20 (5/4/4/4).
 - 2026-05-13 Phase C: swapped Flux Channeler / Thrummingbird / Inspiring Call → Toxrill / Survival of the Fittest / Force of Negation. Kill Reliability 4→5 (Toxrill adds 8th, non-combo non-combat kill line); Interaction restored a free counter (still 4/5 vs 15-piece benchmark). → 18/20 (5/5/4/4).
@@ -170,9 +171,13 @@ The deck graduates from "17/20, multiple deterministic lines with cheap combo as
 
 > **Anti-archenemy call (2026-06-15): this is the deck to bring vs his current meta.** Tops the
 > two-deck gauntlet (`pod_gauntlet.py --vs`: **71% vs Acererak / 60% vs Hidetsugu and Kairi / 65%
-> blend**) because its wins are *board states, not counterable spells* — rad-drain (a player
-> counter that ticks every upkeep), Simic Ascendancy at 20 growth, and Toxrill attrition give his
-> UB counter wall nothing to target, and under the Grand-Abolisher colour-lock (both his mains —
+> blend**) because its wins are *board states, not counterable spells* — its actual win is a
+> **go-wide +1/+1 combat board** (re-audit 2026-06-23: ~76% of table closes), with rad-drain,
+> Simic Ascendancy, and Toxrill attrition as backup; none of it is a counterable spell, so his
+> UB counter wall has nothing to target. ⚠ **Caveat (2026-06-23): counter-immune ≠ blocker-immune.**
+> The gauntlet's combat clock is *unblocked* — his Ur-Dragon shell fields exactly the blockers the
+> goldfish assumes away, so 71/60/65% is an optimistic ceiling, not a win rate. Under the
+> Grand-Abolisher colour-lock (both his mains —
 > mono-B Acererak, UB Hidetsugu and Kairi — are locked out of white) RS's 12-piece answer suite
 > mostly *resolves*. No tech card fits: the deck is at the 3-GC cap, and the standard hatebears
 > (Drannith / Rule of Law / Hushwing / Mindcensor) are off-colour for BUG while Torpor Orb /

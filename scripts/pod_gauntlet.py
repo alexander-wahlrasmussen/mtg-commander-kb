@@ -138,7 +138,7 @@ ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves th
 # not protect) + a judgment bump for counter-immune kills. PRIOR; tune freely. answer_eff *= (1-p).
 PROTECT = {
     "lightning_war":       0.65,  # 8 counters (3 free) + Banefire X>=5 UNCOUNTERABLE finisher
-    "radiation_sickness":  0.55,  # 5 counters + kills are BOARD-STATES (Simic Asc/Toxrill/rad) = counter-immune
+    "radiation_sickness":  0.55,  # 5 counters + kill is a go-wide +1/+1 COMBAT board (re-audit 06-23: ~76% of closes) = counter-immune (NOT blocker-immune)
     "replication_crisis":  0.55,  # 7 counters + combat/Kiki BOARD kill (counters don't stop it)
     "grand_design":        0.40,  # 5 counters (FoW free) + Glen Elendra recursion; Grand Abolisher CUT 2026-06-23; Finale/Craterhoof IS counterable
     "dark_lords_army":     0.45,  # 7 counters (reactive grind shell)

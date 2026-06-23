@@ -5,8 +5,13 @@ Kill-Window Lab Sweep, deck 2 of 10 (proposals/Kill_Window_Lab_Sweep_2026-06-13.
 Summary claims "Goldfish T6-9" with the front-edge T6 flagged suspect. Built on
 speed_lab_core.py.
 
-KILL SHAPE: counter-engine. Unlike the combat decks, this deck's reliable kills all
-hit the WHOLE TABLE at once, so decap and table largely CONVERGE:
+KILL SHAPE: RE-AUDITED 2026-06-23. The original framing below ("converge kills, table
+driven by rad drain") was FALSIFIED by instrumenting which branch closes the table:
+76% is incidental go-wide COMBAT (hit_focus, board), only ~14% the kill_all combo/Simic
+and ~3% the rad drain. So decap (median T7) and table (median T10) do NOT converge — they
+diverge ~3 turns like any combat deck, and the table clock is an UNBLOCKED creature-count-
+DEPENDENT combat ceiling (fully blockable), not the robust converge clock once claimed. The
+branch menu is still real; the *weighting* is combat-dominated. Branches:
 
   COMBO    Mindcrank + Bloodchief Ascension (active = 3 quest counters): any
            opponent life-loss -> Mindcrank mills -> cards to their graveyard ->
@@ -104,7 +109,8 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
         nonlocal ruin_crab, hedron_crab, altar, sidisi
         low = nm
         if nm == "Vorinclex, Monstrous Raider":
-            vorinclex = True; n_mult_inc()
+            vorinclex = True   # doubling is applied via vorx below; do NOT also add to
+            #                    n_mult or its +1/+1 counters get doubled twice (bug fix 2026-06-23)
         elif nm == "Tekuthal, Inquiry Dominus":
             tekuthal = True
         elif nm == "Doubling Season":
@@ -233,9 +239,9 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
                 board += 3 * 0.18 * m_cre
         # quest accrual: opponents losing 2+ life
         if bloodchief and life_each >= 2:
-            quest += m_perm * 2 if quest >= 1 else m_perm  # first counter, then doubles
-            if quest < 1:
-                quest = m_perm
+            quest += m_perm   # Bloodchief gains ONE quest counter / upkeep (×m_perm under
+            #                   Doubling Season); the old `*2 if quest>=1` doubled the accrual
+            #                   RATE with no card backing it (bug fix 2026-06-23)
 
         # opponent drain (rad life loss) — all-opponent, converge
         if life_each > 0:
@@ -261,8 +267,9 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
 
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — Radiation Sickness kill-turn goldfish   trials={trials} seed={SEED}")
-    print("    decap = first opponent dead (40) · table = all three. Most kills are kill_all")
-    print("    (combo / Simic / Triumph / rad-drain) so decap and table CONVERGE.\n")
+    print("    decap = first opponent dead (40) · table = all three. RE-AUDIT 2026-06-23:")
+    print("    table close is ~76% go-wide COMBAT (board), only ~14% kill_all combo/Simic +")
+    print("    ~3% rad drain — an UNBLOCKED, blockable combat ceiling, NOT a converge clock.\n")
     library, commander = slc.load_parsed(DECK, index, aliases)
     powmap = _powmap(library, commander)
     rng = random.Random(SEED)
