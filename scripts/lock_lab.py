@@ -154,7 +154,7 @@ DECKS = {
     "lightning_war":      "archive/old_decklists/lightning-war-20260614.txt",
     "grand_design":       "decks/the-grand-design-20260502.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
-    "calamity_tax":       "decks/calamity-tax-20260615.txt",
+    "croak_and_dagger":       "decks/calamity-tax-20260615.txt",
     "kefka":              "decks/considering/forced-liquidation-20260612.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)
@@ -165,7 +165,7 @@ NAMES = {  # display names (match the gauntlet where they overlap)
     "bumbleflower": "Ms. Bumbleflower", "eldrazi_stampede": "Eldrazi Stampede Chaos",
     "dark_lords_army": "The Dark Lord's Army", "diminishing_returns": "Diminishing Returns",
     "lightning_war": "Lightning War", "grand_design": "The Grand Design",
-    "crystal_sickness": "Crystal Sickness", "calamity_tax": "The Calamity Tax",
+    "crystal_sickness": "Crystal Sickness", "croak_and_dagger": "Croak and Dagger",
     "kefka": "Kefka (Forced Liquidation, build)",
 }
 
@@ -309,7 +309,7 @@ def mode_roster(index, aliases, trials):
 def mode_whatif(index, aliases, trials):
     """What would adding each catalog hard-lock buy a lock-LESS deck? Availability here;
     the P(win) lift is pod_gauntlet.py --lock --add <slug>=<piece> (imports lock_lab)."""
-    targets = ["calamity_tax", "diminishing_returns", "grand_design", "dark_lords_army"]
+    targets = ["croak_and_dagger", "diminishing_returns", "grand_design", "dark_lords_army"]
     adds = ["Cursed Totem", "Drannith Magistrate", "Rule of Law", "Sphere of Resistance",
             "Trinisphere", "Linvala, Keeper of Silence"]
     print(f"\n{'='*100}\nLOCK LAB — WHAT-IF: add one static to a lock-less deck   trials={trials}")

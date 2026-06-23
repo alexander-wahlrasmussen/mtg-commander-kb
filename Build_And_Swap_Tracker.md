@@ -32,7 +32,7 @@ Ranked from free-and-now to expensive:
 2. 🟢🟡 **Grand Design upgrade** — almost entirely owned spares; only **~€5–10** of new cards (Wood Elves, Rune-Scarred Demon). No approval needed.
 3. 🟢🔒 **Diminishing Returns Stage 1** — **$0** (Nim Deathmantle + Grave Titan + Grim Tutor + Jet Medallion all owned, undeployed) but **needs pod approval** for the combo.
 4. 🟡🔒 **Exile's Return** (Drannith owned + 1× Kiki ~€10–15) and **Replication Crisis** (2nd Kiki ~€10–15) — small buys, both need approval.
-5. 🟢 **Calamity Tax grind-fortress upgrade** — **$0, all owned, no approval** (it dropped the Thoracle/combo direction — §5). Another free win.
+5. 🟢 **Croak and Dagger grind-fortress upgrade** — **$0, all owned, no approval** (it dropped the Thoracle/combo direction — §5). Another free win.
 6. 🔴🔒 **The two builds (Hashaton, Kefka)** — neither is buildable from free cards; each needs ~24–37 acquired cards and raids your black decks. See §1.
 
 **Headline:** the *swaps* — and now the Calamity grind upgrade — are where the free wins are; the
@@ -44,7 +44,7 @@ redundancy is **resolved** (Calamity went grind — §5).
 ## 1. The two builds
 
 Both are 3/3 GC-legal (verified). Both pull heavily from your existing **black decks** — The Dark
-Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Calamity Tax — so building them
+Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger — so building them
 *and* keeping those decks intact means buying duplicates of the shared pieces.
 
 ### 1a. Hashaton, Scarab's Fist — *Thassa's Oracle combo* 🔴🔒
@@ -52,7 +52,7 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Calamity Tax — so
 - **Wincon:** discard/deploy Thassa's Oracle → Demonic Consultation / Tainted Pact empties library → ETB win. Hashaton is the tutor/dig/resilience engine.
 - **Sourcing (availability sweep, 100 cards):** **9 free** · 27 unowned · 10 proxy-only · 54 owned-but-deployed (most are surplus staples = effectively free; the scarce ones below are the real cost).
 - **Must acquire — the combo + key spells:** Thassa's Oracle, Demonic Consultation, Tainted Pact, Jace Wielder of Mysteries, Beseech the Mirror, Spellseeker, Putrid Imp, Tireless Tribe, Skirge Familiar, Ghostly Pilferer, Astral Dragon, Wishclaw Talisman, Scheming Symmetry, Painful Truths, Cut Down, Fatal Push, Prismatic Ending, Supreme Verdict, Silence, Shark Typhoon, Flusterstorm.
-- **Must acquire — the manabase is the budget-killer:** **Tundra, Scrubland, Mana Confluence** (unowned; Tundra/Scrubland are reserved-list ≈ €200–400 each), plus Darkslick Shores, Castle Locthwain. **Underground Sea** is owned (×2) but both copies are in Calamity Tax + Crystal Sickness.
+- **Must acquire — the manabase is the budget-killer:** **Tundra, Scrubland, Mana Confluence** (unowned; Tundra/Scrubland are reserved-list ≈ €200–400 each), plus Darkslick Shores, Castle Locthwain. **Underground Sea** is owned (×2) but both copies are in Croak and Dagger + Crystal Sickness.
 - **Scarce shared singletons it raids:** Mana Drain, Dauthi Voidwalker, Vampiric Tutor, Demonic Tutor (all owned but fully committed to other decks — buy or pull).
 - **Reality:** *Not priced yet, but this is the most expensive option by far if bought in paper.* The realistic path is **proxy the cEDH manabase** (Tundra/Scrubland/Underground Sea) and buy the cheap combo/dig pieces.
 - **Gate:** 🔒 pod approval of Thassa's Oracle + Consultation (the high-stigma combo).
@@ -79,7 +79,7 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Calamity Tax — so
 | **Diminishing Returns** | Staged toward B4. **Stage 1:** +Nim Deathmantle +Grave Titan +Grim Tutor (+Jet Medallion) −Mother of Runes −Skrelv −Giver of Runes | All Stage-1 adds owned + undeployed (Deathmantle ×1, Grave Titan ×3, Grim Tutor ×1, Jet Medallion ×1) | 🟢 **$0** (Stage 1) | 🔒 yes | Proposal only. Later stages cost money (see below). |
 | **The Exile's Return** | +Kiki-Jiki +Drannith Magistrate −Night's Whisper −Light Up the Stage | Drannith (own 1, undeployed) free; **Kiki-Jiki = buy** | 🟡 **~€10–15** | 🔒 yes | Proposal only. (Avatar's Wrath is NOT a cut — re-verified.) |
 | **Replication Crisis** | +Kiki-Jiki −Bident of Thassa | **Kiki-Jiki = buy a dedicated 2nd** (so it runs independently of Exile's Return) | 🟡 **~€10–15** | 🔒 yes | Proposal only. |
-| **The Calamity Tax** | **Grind-fortress upgrade** (`glarb-grind-fortress-20260614.txt`): −6 weak +Bloom Tender +Birds +Delighted Halfling +Crucible +Life from the Loam +Lier | **All 6 owned ($0)** — Loam pile + spares | 🟢 **$0** | none | Thoracle/Isochron dropped (combo unreliable here — lab 2026-06-14). Grind T9. Aspirational = Strong Glarb. See `analysis/Calamity_Grind_Fortress_2026-06-14.md`. |
+| **Croak and Dagger** | **Grind-fortress upgrade** (`glarb-grind-fortress-20260614.txt`): −6 weak +Bloom Tender +Birds +Delighted Halfling +Crucible +Life from the Loam +Lier | **All 6 owned ($0)** — Loam pile + spares | 🟢 **$0** | none | Thoracle/Isochron dropped (combo unreliable here — lab 2026-06-14). Grind T9. Aspirational = Strong Glarb. See `analysis/Calamity_Grind_Fortress_2026-06-14.md`. |
 
 **Diminishing Returns later stages** (all need the same pod approval as Stage 1):
 - Stage 2 — 🟡 +Leonin Relic-Warder (buy ~€1–5, the most efficient combo card) +Wishclaw Talisman (optional, buy).
@@ -137,7 +137,7 @@ These cards are wanted by **more than one** plan. Owning one copy ≠ enough.
 | **Dauthi Voidwalker** | Hashaton + Dark Lord's Army (deployed) | 1 (in Sauron) | Buy or pull |
 
 **Donor decks getting raided:** The Dark Lord's Army (Sauron) is hit by *both* builds (Sheoldred,
-Underworld Dreams, Dauthi). Crystal Sickness / Curse of the Scarab / Calamity Tax supply the
+Underworld Dreams, Dauthi). Crystal Sickness / Curse of the Scarab / Croak and Dagger supply the
 shared Dimir manabase + tutors. If you want those decks to stay playable, the shared pieces become
 buys, not pulls.
 
@@ -171,7 +171,7 @@ black-heavy roster), not as a cost hack — it won't make either build cheap. If
 
 ## 5. ✅ Resolved: Calamity is the grind pillar (not a Thoracle deck)
 
-**Resolved 2026-06-14.** Calamity Tax drops the Thoracle direction entirely and becomes a **grind /
+**Resolved 2026-06-14.** Croak and Dagger drops the Thoracle direction entirely and becomes a **grind /
 inevitability fortress** — its natural identity (Glarb casts MV4+ bombs off the top). A non-Thoracle
 Isochron Scepter + Dramatic Reversal combo was tested and **rejected** (unreliable in this shell —
 36% by T14; the deck can't tutor a non-creature combo and the GC cap blocks the blue tutors; lab

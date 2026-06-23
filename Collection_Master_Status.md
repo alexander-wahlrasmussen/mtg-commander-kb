@@ -26,7 +26,7 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 
 | Deck                      | Commander                   | % Complete | Notes                              |
 | ------------------------- | --------------------------- | ---------- | ---------------------------------- |
-| Calamity Tax              | Glarb, Calamity's Augur     | 100%       | —                                  |
+| Croak and Dagger          | Glarb, Calamity's Augur     | 100%       | —                                  |
 | Crystal Sickness          | Golbez, Crystal Collector   | 100%       | —                                  |
 | Curse of the Scarab       | The Scarab God              | 100%       | Cuts moved missing cards to SB     |
 | Diminishing Returns       | Teysa Karlov                | 100%       | —                                  |
