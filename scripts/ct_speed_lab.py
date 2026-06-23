@@ -89,6 +89,11 @@ ROOT = Path(__file__).parent.parent
 # The DEPLOYED list's clock (grind-fortress + anti-dragon pkg) is harvested separately into
 # analysis/pod_gauntlet_clocks.json — see analysis/Calamity_Tax_vs_Ur_Dragon_2026-06-15.md.
 DECK = ROOT / "archive" / "old_decklists" / "calamity-tax-20260405-061741.txt"
+# The DEPLOYED list (renamed Croak and Dagger 2026-06-23, -Lier +Aesi committed).
+# mode_gary A/Bs Gray Merchant against THIS committed list. mode_croak reproduces the
+# Lier loan-out A/B against the pre-swap baseline (Lier still in, now archived).
+CROAK_DECK = ROOT / "decks" / "croak-and-dagger-20260623-215731.txt"
+CROAK_BASE_LIER = ROOT / "archive" / "old_decklists" / "croak-and-dagger-20260623.txt"
 SEED = 12345
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12, 14]
@@ -137,6 +142,13 @@ DEMONIC = "Demonic Tutor"
 SYLVAN = "Sylvan Library"
 TENDER = "Bloom Tender"
 CARPET = "Carpet of Flowers"
+# --- Lier-replacement candidates (mode_croak, 2026-06-23) -------------------
+LIER = "Lier, Disciple of the Drowned"
+AESI = "Aesi, Tyrant of Gyre Strait"        # extra land drop + draw/land
+TATYOVA = "Tatyova, Benthic Druid"          # draw/land (+life, goldfish-dead)
+SAVVY = "Savvy Trader"                       # spells from top cost {1} less
+MIRROR = "Mirrorform"                        # instant: all nonlands -> copy of target
+WAN = "Wan Shi Tong, Librarian"             # ETB draw X/2 (opp-search draw goldfish-dead)
 
 ROCKS = {"Sol Ring": (1, 2)}
 RAMP1 = {"Farseek": 2, "Nature's Lore": 2, "Three Visits": 2}   # +1 land
@@ -154,9 +166,16 @@ POWER = {GRAY: 2, KOKUSHO: 5, ARCHON: 6, "Sheoldred, the Apocalypse": 4,
 CREATURE_TUTORS = {"Chord of Calling": 8, "Finale of Devastation": 7}  # -> Gray
 
 
-def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
+def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=None):
     """One trial. Returns (decap, table, via). via in
-    {'xdrain','copy','jarad','drain','combat',None}.
+    {'xdrain','copy','mirror','jarad','drain','combat',None}.
+
+    `cand` (mode_croak) swaps the Lier slot for a replacement engine, modelled
+    CONSERVATIVELY: 'aesi' = +1 extra land drop AND draw 1/land entering;
+    'tatyova' = draw 1/land (lifegain goldfish-dead); 'savvy' = +1 mana/turn once
+    Glarb is out (proxy for the {1}-off-from-top discount — generous-but-bounded);
+    'mirror' = a 6-mana Kokusho copy-death kill line (5 * (nonland perms - 1));
+    'wan' = a 4-mana ETB that draws 1 (the opponent-search draw is goldfish-dead).
 
     `dig` adds extra card selection per turn once Glarb is out — a sensitivity knob to
     test whether modelling MORE of Glarb's filtering (beyond the baseline surveil/top-cast/
@@ -170,6 +189,8 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
     witherbloom = dellian = False
     extra_drops = 0                # standing extra land drops
     landfall_mana = 0              # standing +mana per land entering
+    landfall_draw = 0              # standing +cards per land entering (Aesi/Tatyova)
+    cand_on = False                # the Lier-replacement candidate has resolved
     board = []                     # names of modelled permanents in play
     cast_turn = {}                 # name -> turn it entered
     zombies = 0                    # Scarab upkeep count (Gray + tokens)
@@ -199,12 +220,16 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
         nonlocal landfall_mana
         g.lands += n
         g.add_mana(landfall_mana * n)
+        if landfall_draw:
+            g.draw(landfall_draw * n)
 
     for T in range(1, TURNS + 1):
         played = g.begin_turn(T)
         if played:
             lands_in_play_names.add(played)
             g.add_mana(landfall_mana)
+            if landfall_draw:
+                g.draw(landfall_draw)
         # Coffers + Urborg: one tap, lands-2 black (counted off begin-of-turn lands)
         if coffers and urborg:
             g.add_mana(max(0, g.lands - 2))
@@ -212,6 +237,8 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
             g.add_mana(2)          # pod-meta assumption, see module docstring
         if TENDER in board and cast_turn[TENDER] < T:
             g.add_mana(3 if glarb else 1)
+        if cand == "savvy" and cand_on and glarb:
+            g.add_mana(1)          # {1}-off-from-top proxy: ~1 top-cast/turn under Glarb
         if sylvan:
             g.draw(1)
         if dig and glarb:
@@ -308,6 +335,15 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
             carpet = True
         if TENDER not in board and g.cast(TENDER, 2):
             enter(TENDER, T)
+        # ---- Lier-replacement candidate (mode_croak) -------------------------
+        if cand == "aesi" and not cand_on and g.cast(AESI, 6):
+            enter(AESI, T); extra_drops += 1; landfall_draw += 1; cand_on = True
+        elif cand == "tatyova" and not cand_on and g.cast(TATYOVA, 5):
+            enter(TATYOVA, T); landfall_draw += 1; cand_on = True
+        elif cand == "savvy" and not cand_on and g.cast(SAVVY, 4):
+            enter(SAVVY, T); cand_on = True           # ETB GY-replay ignored (conservative)
+        elif cand == "wan" and not cand_on and g.cast(WAN, 4):
+            enter(WAN, T); cand_on = True; g.draw(1)   # X=2 ETB draws 1; opp-search draw goldfish-dead
         if g.cast("Sheoldred, the Apocalypse", 4):
             enter("Sheoldred, the Apocalypse", T)
         # ---- V3 Witherbloom / Dellian ----------------------------------------
@@ -444,26 +480,34 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False):
                     enter(LORD, T)
 
         # ---- copy kills --------------------------------------------------------
+        # Mirrorform (cand): instant, all nonland permanents become a Kokusho copy ->
+        # legend rule kills all but one -> each death drains 5 (death trigger, NOT ETB,
+        # so it whiffs on Gray/Archon). board = modelled nonland perms (undercounts Sol
+        # Ring/Sylvan -> conservative). Cheaper than kicked Rite (6 vs 9) when board is wide.
+        if cand == "mirror" and KOKUSHO in board and g.cast(MIRROR, 6):
+            tb.hit_all(5 * max(0, len(board) - 1), T)
+            if tb.done:
+                return tb.decap, tb.table, "mirror"
         if GRAY in board and g.cast(RITE, max(2, 9 - affinity())):
             gray_tokens += 5
             zombies += 5
             gray_etb(5, T)                       # devotion counted after entry
             if tb.done:
-                return tb.decap, tb.table, "copy"
+                return tb.decap, tb.table, "copy-gray"
         elif KOKUSHO in board and g.cast(RITE, max(2, 9 - affinity())):
             tb.hit_all(25, T)                    # 5 legend-rule deaths
             if tb.done:
-                return tb.decap, tb.table, "copy"
+                return tb.decap, tb.table, "copy-kok"
         elif ARCHON in board and g.cast(RITE, max(2, 9 - affinity())):
             tb.hit_focus(15, T); g.draw(5)
             if tb.done:
-                return tb.decap, tb.table, "copy"
+                return tb.decap, tb.table, "copy-arc"
         if GRAY in board and g.cast(DOPPEL, max(2, 8 - affinity())):  # X=2 on Gray
             gray_tokens += 2
             zombies += 2
             gray_etb(2, T)
             if tb.done:
-                return tb.decap, tb.table, "copy"
+                return tb.decap, tb.table, "copy-gray"
         # Scarab eternalize a binned Gray
         if SCARAB in board and g.in_yard(GRAY) and g.avail >= 4:
             g.avail -= 4
@@ -606,8 +650,86 @@ def mode_unified(index, aliases, trials):
     print("  The hybrid's case is RESILIENCE (board-independent ~3-mana kill), not a speed blowout.")
 
 
+def mode_croak(index, aliases, trials):
+    print(f"\n### CROAK — Lier loan-out replacement A/B   trials={trials} seed={SEED}")
+    print("    Baseline = deployed croak-and-dagger-20260623.txt (WITH Lier). Each row swaps")
+    print("    -Lier +candidate. Goldfish kill-turn; same mana/kill engine as mode_clock.")
+    print("    CAVEAT: the model can't see what Lier DID (uncounterable + the only instant/")
+    print("    sorcery recursion = a 2nd Torment from yard) — those are goldfish-invisible. So")
+    print("    this measures 'what the candidate ADDS to the clock', not 'candidate vs Lier'.\n")
+    base, _ = core.load_parsed(CROAK_BASE_LIER, index, aliases)
+    variants = [
+        ("baseline (with Lier)", base, None),
+        ("-Lier +Aesi", core.build_lib(base, index, [LIER], [AESI]), "aesi"),
+        ("-Lier +Tatyova", core.build_lib(base, index, [LIER], [TATYOVA]), "tatyova"),
+        ("-Lier +Savvy Trader", core.build_lib(base, index, [LIER], [SAVVY]), "savvy"),
+        ("-Lier +Mirrorform", core.build_lib(base, index, [LIER], [MIRROR]), "mirror"),
+        ("-Lier +Wan Shi Tong", core.build_lib(base, index, [LIER], [WAN]), "wan"),
+    ]
+    for dig in (0, 2):
+        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        print(f"  -- {label} --")
+        print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
+        for tag, lib, cand in variants:
+            rng = random.Random(SEED)
+            res = [kill_turns(lib, rng, cand=cand, dig=dig) for _ in range(trials)]
+            print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW)
+                  + f"   {core.median(res, 0)}")
+            print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW)
+                  + f"   {core.median(res, 1)}")
+            via = {}
+            for r in res:
+                if r[1] is not None:
+                    via[r[2]] = via.get(r[2], 0) + 1
+            kills = sum(via.values())
+            if kills:
+                parts = ", ".join(f"{k} {100.0 * v / kills:.0f}%"
+                                  for k, v in sorted(via.items(), key=lambda x: -x[1]))
+                print(f"    table kills by line: {parts}   (killed {100.0 * kills / len(res):.0f}% in {TURNS}T)")
+        print()
+    print("  Read the DELTA vs baseline. Aesi is the only candidate whose extra LAND DROP")
+    print("  feeds the mana gate (vs pure draw = the flat-dig result); the rest are expected")
+    print("  flat on TURN -> their case is resilience/lifegain/anti-tutor the goldfish can't see.")
+
+
+def mode_gary(index, aliases, trials):
+    print(f"\n### GARY — is Gray Merchant pulling weight in the committed list?   trials={trials} seed={SEED}")
+    print("    Sultai devotion is LOW (Glarb 1B, Gray 2B, Kokusho/Archon 2B, M.Wurm 3B, Meathook 2B):")
+    print("    standalone Gray ETB drains only ~devotion (3-5 typical). Its real value is as the")
+    print("    kicked-Rite target — 5 copies count each other's pips => ~60/opp (vs Kokusho-Rite 25).")
+    print("    A/B the committed list (with Aesi) at realistic dig=2. copy-gray vs copy-kok in the")
+    print("    kill mix = how often Gray specifically is the closer.\n")
+    base, _ = core.load_parsed(CROAK_DECK, index, aliases)
+    variants = [
+        ("committed (with Gray Merchant)", base),
+        ("-Gray Merchant (removed)", core.build_lib(base, index, [GRAY], [])),
+        ("-Gray +Exsanguinate (2nd X-drain)", core.build_lib(base, index, [GRAY], [EXSANG])),
+    ]
+    print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
+    for tag, lib in variants:
+        rng = random.Random(SEED)
+        res = [kill_turns(lib, rng, dig=2) for _ in range(trials)]
+        print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW)
+              + f"   {core.median(res, 0)}")
+        print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW)
+              + f"   {core.median(res, 1)}")
+        via = {}
+        for r in res:
+            if r[1] is not None:
+                via[r[2]] = via.get(r[2], 0) + 1
+        kills = sum(via.values())
+        if kills:
+            parts = ", ".join(f"{k} {100.0 * v / kills:.0f}%"
+                              for k, v in sorted(via.items(), key=lambda x: -x[1]))
+            print(f"    table kills by line: {parts}   (killed {100.0 * kills / len(res):.0f}% in {TURNS}T)")
+    print("\n  Read: does removing Gray drop the kill rate, and how big is copy-gray's share?")
+    print("  If -Gray is ~flat and copy-gray is small, Gary rides entirely on the 2-card Gray+Rite")
+    print("  line (a near-blank 2/4 otherwise). +Exsanguinate tests a board-independent replacement.")
+
+
 def main():
-    core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest, "unified": mode_unified})
+    core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest,
+                           "unified": mode_unified, "croak": mode_croak, "gary": mode_gary})
 
 
 if __name__ == "__main__":

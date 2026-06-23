@@ -6,11 +6,11 @@
 |---|---|
 | **Commander** | Glarb, Calamity's Augur ({B}{G}{U}, 2/4 Frog Wizard Noble) |
 | **Colors** | Sultai (BUG) |
-| **Archetype** | Lands-matter / big mana / copy payoffs |
+| **Archetype** | Lands-matter / big mana → X-drain + reanimator (grind-fortress, anti-Ur-Dragon) |
 | **Bracket** | 3 (3 Game Changers; no infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Fierce Guardianship, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/4/4/5) |
-| **Kill Window** | **Clock — DEPLOYED (grind-fortress + anti-dragon pkg, realistic Glarb dig=2): T10 decap / T10 table** **(spell, instant if Seedborn+flash)** (lab 2026-06-15: `ct_speed_lab` kill_turns on `calamity-tax-20260615.txt` @dig=2, harvested to `analysis/pod_gauntlet_clocks.json` — re-derive from that json, as `ct_speed_lab.py` itself now runs the archived V1–V4 bake-off; dig-band T13 floor@0 → T9 ceiling@3). Historical V1 strict mana-floor (dig=0) was **T13 decap / table rarely in 14** (lab 2026-06-13) — hard mana-gated; **"T7–9" falsified** (biggest miss in the sweep). Real clock faster once Seedborn is online but **not** T7–9, and cannot out-race the T6–7 pod. 4-version bake-off (V1/V2/V3/V4): swaps move the kill *rate* (47→56%) not the *turn*; a different direction was needed **(RESOLVED 2026-06-15 — re-role below; this T13/V1 finding is retired).** See `analysis/Calamity_Tax_Kill_Turn_Lab_2026-06-13.md`. **Update 2026-06-13:** a dig-sensitivity test found the T13 *under-modeled Glarb's selection* — with realistic Glarb dig (surveil/Sylvan/Top) the X-drain lands **~T8–10**, not T13. **Re-roled 2026-06-15 → the pod's anti-fair / Ur-Dragon specialist** (Thoracle direction DROPPED — Hashaton owns that lane). Deployed list = `croak-and-dagger-20260623.txt`: the grind-fortress shell + a flying-agnostic fog/removal package (+Spore Frog +Constant Mists +Beast Within / −Blasphemous Edict −Espers to Magicite −Doppelgang). Lab `scripts/vs_dragon_lab.py`: **beats Ur-Dragon ~87% heads-up by ARCHETYPE** (3 flying-agnostic wraths + Maze + recursion + board-independent ~T9 drain); the package is **+2–3pp free insurance**, not the win. Caveats: 87% is a heads-up goldfish ceiling; hard archetype read (Glarb is the *worst* deck vs his combo, 5% gauntlet). 3/3 GCs unchanged. See `analysis/Calamity_Tax_vs_Ur_Dragon_2026-06-15.md`. |
+| **Kill Window** | **Clock (lab, realistic Glarb dig=2): ~T10 decap / ~T11 table** **(spell; instant if Seedborn + flash enabler)**. Mana-gated — fast once Seedborn is online but **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20% via `pod_gauntlet`). The old Summary "T7–9" was falsified; this deck wins by **grinding + disrupting**, not racing. Re-roled 2026-06-15 → the pod's **anti-Ur-Dragon specialist** (Thoracle line dropped — Hashaton owns it): `scripts/vs_dragon_lab.py` puts it ~**87% heads-up vs Ur-Dragon by archetype** (flying-agnostic wraths + Maze + recursion + board-independent drain), the fog/removal package being +2–3pp insurance, not the win. Caveat: 87% is a heads-up goldfish ceiling, and Glarb is the *worst* deck vs his **combo** decks (~5% in the gauntlet). 3/3 GCs. Labs: `ct_speed_lab.py --mode clock/croak/gary`, `vs_dragon_lab.py`, `pod_gauntlet.py`. |
 
 -----
 
@@ -30,7 +30,7 @@ Key rulings: Normal timing rules apply — lands only during your main phase, so
 
 ## What the Deck Does
 
-The deck ramps aggressively into a massive land count, uses Glarb's top-of-library engine to convert that mana into free spells and card advantage, then kills the table with scaling X-spells or copy effects on high-impact creatures. Seedborn Muse transforms Glarb from a once-per-turn engine into a once-per-opponent's-turn engine, and flash enablers let the deck cast MV4+ sorceries on any player's turn.
+The deck ramps aggressively into a massive land count, uses Glarb's top-of-library engine to convert that mana into free spells and card advantage, then kills the table with a scaling X-drain (Torment of Hailfire) or a burst copy/reanimator line (kicked Rite of Replication on a drainer). Seedborn Muse transforms Glarb from a once-per-turn engine into a once-per-opponent's-turn engine, and flash enablers let the deck cast MV4+ sorceries on any player's turn.
 
 ### Layer 1 — Ramp / Lands Engine (20+ pieces)
 
@@ -42,21 +42,18 @@ Glarb's {T}: Surveil 2 sculpts the top of the library, clearing sub-4 MV cards a
 
 Valley Floodcaller has two distinct roles. First, it is a full flash enabler — "You may cast noncreature spells as though they had flash" — allowing MV4+ sorceries from the top on any turn independently of any other enabler. Second, every noncreature spell cast untaps all Birds, Frogs, Otters, and Rats you control (and gives them +1/+1). Since Glarb is a Frog, each noncreature spell untaps him for another surveil 2, enabling chains through the library on a single turn.
 
-### Layer 3 — Copy / Multiplication Payoffs
+### Layer 3 — The Copy Payoff (Rite of Replication)
 
-Five copy effects multiply the impact of high-value creatures:
+The 2026-06-15 re-role cut the wide copy package (Doppelgang, Mirrorform, Flash Photography, Espers to Magicite, Starfield Vocalist) in favour of the grind-fortress shell, so **Rite of Replication is now the deck's single copy effect** — and it's a finisher, not value. Kicked (9 mana, one Coffers tap) it makes five token copies of a creature already on the battlefield; on the deck's drainers that is lethal:
 
-- **Rite of Replication** (kicked, 9 mana) — 5 copies of any creature
-- **Doppelgang** ({X}{X}{X}{G}{U}) — X copies of X permanents, scaling with mana
-- **Flash Photography** (4 mana, flashback 6 mana) — copy any permanent, castable twice
-- **Mirrorform** (6 mana, instant) — ALL nonland permanents you control become copies of one target
-- **Espers to Magicite** ({3}{B}, instant) — exiles all opponents' graveyards, then creates an artifact token copy of any exiled creature card; doubles as graveyard hate
+- **on Gray Merchant of Asphodel** — the five copies count each other's black pips, so each of the five ETBs sees ~11–13 devotion → **~60 per opponent** (the lab's most frequent copy kill — see How We End Games).
+- **on Kokusho, the Evening Star** — five legendary copies die at once to the legend rule → **25 per opponent**, devotion-independent.
 
-**Starfield Vocalist** doubles all ETB triggers from permanents entering the battlefield (Panharmonicon on a 4-mana creature body with warp {1}{U}), amplifying every copy that enters.
+Unkicked (4 mana) it's a flexible single copy — a second Lumra / Oracle of Mul Daya / Archon when grinding value is what the turn needs.
 
 ### Layer 4 — The Coffers Engine
 
-Cabal Coffers taps for {B} equal to the number of Swamps you control. Urborg, Tomb of Yawgmoth makes all lands Swamps in addition to their other types. Yavimaya, Cradle of Growth makes all lands Forests. With 12+ lands in play (typical by turn 6–7), Coffers produces 12+ mana from a single land. This directly fuels Torment of Hailfire kills and pays for kicked Rite of Replication or high-X Doppelgang in one tap.
+Cabal Coffers taps for {B} equal to the number of Swamps you control. Urborg, Tomb of Yawgmoth makes all lands Swamps in addition to their other types. Yavimaya, Cradle of Growth makes all lands Forests. With 12+ lands in play (typical by turn 6–7), Coffers produces 12+ mana from a single land. This directly fuels Torment of Hailfire kills and pays for kicked Rite of Replication in one tap.
 
 -----
 
@@ -70,35 +67,40 @@ With Cabal Coffers + Urborg + 10 other lands = tap Coffers for 12+ mana. Torment
 
 This is the primary kill because it converts the deck's core strength (massive mana production) directly into a win without requiring any other cards on board. Demonic Tutor finds it. Glarb can cast it from the top. One card, one turn, game over.
 
-### Kill Line 2 — Kokusho + Rite of Replication (Kicked)
+### Kill Line 2 — Kicked Rite of Replication on a drainer
 
-**Cost:** 10 mana total (Reanimate 1 mana + kicked Rite 9 mana), or Kokusho on board + 9 mana.
+**Cost:** kicked Rite (9 mana, one Coffers tap) + a drainer on the battlefield. **Best target: Gray Merchant of Asphodel** (~60 per opponent — lethal from full); fallback **Kokusho** (25 per opponent, devotion-free).
 
-Five legendary token copies of Kokusho enter → all five immediately die to the legend rule → each triggers "each opponent loses 5 life, you gain 5 life per opponent" → 25 damage per opponent, 75 life gained. Lethal against any opponent below 26 life.
+The five token copies are all on the battlefield *before* any ETB resolves, so each counts the other four. On **Gray Merchant** that means each of the five ETBs sees ~11–13 devotion to black (4 copies × 2 pips + Glarb + incidentals) → ~11–13 × 5 ≈ **60 per opponent**, one-shotting a full table. On **Kokusho**, five legendary copies die at once to the legend rule → **25 per opponent** — smaller, but needs no devotion and works straight from the graveyard.
 
-The cleanest version: Glarb's surveil naturally sends Kokusho to the graveyard. Reanimate him (1 mana), then cast kicked Rite (9 mana) = one-shot table kill for 10 mana total.
+Cleanest line: Glarb's surveil bins Gary, **Reanimate** (1) returns him, **kicked Rite** (9) one-shots the table — ~10 mana, two cards. Demonic Tutor / GSZ / Chord / Finale all assemble the missing half.
 
-### Kill Line 3 — Doppelgang at High X
+> **Lab note (2026-06-23, `ct_speed_lab --mode gary`):** the Gray + Rite line is the **closer in ~45% of modelled kills**; removing Gray drops the kill rate 86% → 78% and pushes both clocks out a turn (decap T10→T11, table T11→T12). So Gary *is* pulling real weight — but **only through Rite**: it's a 2-card, ~10-mana combo, and a bare Gray Merchant is a 5-mana 2/4 draining ~3–6 (Sultai devotion is low — Glarb is a single black pip). The 45% is a goldfish ceiling; real removal/counters make the 2-card line meaningfully more fragile, and a replacement 2nd X-drain (Exsanguinate) does **not** recover the lost rate because it's redundant with Torment rather than a separate axis.
 
-**Cost:** {X}{X}{X}{G}{U}. At X=3, costs 11 mana; at X=4, costs 14 mana.
+### Kill Line 3 — Value grind (the Seedborn engine)
 
-At X=3 targeting Archon of Cruelty + 2 lands: 3 Archon copies enter (each opponent discards 3, loses 9, sacrifices 3; you draw 3, gain 9) plus 6 extra lands. With Starfield Vocalist doubling the ETBs, this doubles to 6 Archon triggers each. Devastating even if not immediately lethal — opponents are stripped of resources.
+No single combo. Seedborn Muse untaps Glarb + all lands on every opponent's turn; with a flash enabler the deck casts 3–4 free MV4+ spells per turn cycle. The table cannot outpace this indefinitely. **Archon of Cruelty** (drain/discard/sac on every ETB *and* attack), **Massacre Wurm** (a -2/-2 sweep that also drains on each opposing creature death), and repeated land drops via Lumra, Nissa, Aesi, and Icetill Explorer grind out wins through accumulated value — and Archon/Massacre Wurm double as the deck's bodies and removal.
 
-### Kill Line 4 — Mirrorform
+-----
 
-**Cost:** {4}{U}{U}, instant speed.
+## The Finishers & Their Weak Points
 
-All nonland permanents you control become copies of target non-Aura permanent. With 5+ nonland permanents and Archon of Cruelty as the target, 5+ Archon ETBs fire — each draining 3, forcing a discard, and forcing a sacrifice per opponent. Being an instant allows deployment at end of turn or in response to a board wipe (copy Kokusho → everything becomes Kokusho → they die to legend rule → massive drain).
+The deck closes on **two independent axes**, which is its real strength — kill it on one and the other still operates:
 
-### Kill Line 5 — Gray Merchant Drain
+| Axis | Cards | Shape | Needs | Weak to |
+|---|---|---|---|---|
+| **A — X-drain (primary)** | Torment of Hailfire | Board-independent; mana → life loss | Just the spell + a big Coffers tap | Pure mana-gate (slow); a resolved counter; doesn't care about *their* board |
+| **B — copy / reanimator burst** | Kicked Rite on Gray Merchant (~60/opp) or Kokusho (25/opp) | A 2-card combo that one-shots the table | A drainer on the battlefield + kicked Rite (~10 mana) | Spot removal / counter on the kill turn; graveyard hate (kills the Reanimate line); exile of the creature pool |
 
-**Cost:** Gray Merchant (5 mana) + any copy effect.
+**Why two axes matters:** Axis A asks *"do they have a counter?"* and Axis B asks *"can they remove a creature or hate the yard?"* — different questions, so a single piece of interaction rarely stops both. Demonic Tutor picks whichever the table is weak to.
 
-Gray Merchant's ETB drains equal to black devotion. In a deck with Glarb ({B}{G}{U} = 2 black pips), plus incidental black permanents, devotion reaches 5–8 naturally. Kicked Rite on Gary = 5 copies, each counting all black pips including each other's = 30–50+ drain per opponent. The copies counting each other's pips creates a scaling feedback loop.
+**The weak points, plainly:**
 
-### Kill Line 6 — Value Grind
-
-No single combo. Seedborn Muse untaps Glarb + all lands on every opponent's turn. With flash enablers, the deck casts 3–4 free MV4+ spells per turn cycle. The table cannot outpace this rate of advantage generation indefinitely. Archon of Cruelty, Massacre Wurm, and repeated land drops with Lumra, Nissa, and Icetill Explorer grind out wins through accumulated value.
+- **It's a slow clock.** Lab decap median ~T10 (table ~T11) — the deck **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20%). It wins by *grinding and disrupting*, not racing. This is by design (the anti-Ur-Dragon re-role), but it means against a fast combo deck you are leaning on the counter suite, not your own clock.
+- **The finisher creature pool is thin** — Gray, Kokusho, Archon, Massacre Wurm (4 cards). Exile effects (Swords, Path, Farewell) that hit two of them gut Axis B; Torment is the resilience answer because it needs no creatures.
+- **Axis B is a 2-card combo.** Gary/Kokusho do ~nothing alone (a bare Gary drains ~3–6 in this low-devotion Sultai shell). Both halves are tutorable and Glarb digs hard, so it shows up often — but it is interactable on the kill turn in a way Torment isn't.
+- **Graveyard hate is the single worst card against us** (Rest in Peace, Dauthi Voidwalker) — it shuts off Reanimate, Noxious Revival, Lumra's land return, and Icetill Explorer at once. Answers: Force of Vigor, Boseiju, Beast Within.
+- **Telegraphed kills.** A 12+ land board with Coffers + Urborg screams "Torment next turn." Don't announce it — let it resolve.
 
 -----
 
@@ -112,11 +114,11 @@ Extra land drops (Exploration, Azusa, Oracle of Mul Daya, Icetill Explorer) + la
 
 Valley Floodcaller provides the chain mechanic: each noncreature spell untaps Glarb (Frog type) → surveil 2 → new top → potentially another spell → untap again. On a good turn, this chains through 3–4 cards.
 
-*Checkpoint: Cover the commander. The 99 has Exploration, Azusa, Oracle of Mul Daya, Icetill Explorer, 10+ land tutors, Seedborn Muse, copy effects, Torment of Hailfire, Cabal Coffers. The strategy is unmistakable: "produce massive mana, play threats from the top, copy the best ones, drain the table."*
+*Checkpoint: Cover the commander. The 99 has Exploration, Azusa, Oracle of Mul Daya, Icetill Explorer, 10+ land tutors, Seedborn Muse, Rite of Replication, Torment of Hailfire, Cabal Coffers. The strategy is unmistakable: "produce massive mana, play threats from the top, drain the table."*
 
 ### Kill Reliability: 4/5
 
-Six distinct closing lines, at least two fast (1–2 turns from engine-online). Torment of Hailfire at X=12+ is a one-card kill that needs only mana — the deck's core product. Kokusho + Rite of Replication is a 25-damage-per-opponent kill from 2 cards (10 mana via Reanimate + kicked Rite). Doppelgang and Mirrorform provide alternative angles. Demonic Tutor ensures the right closer is found when needed.
+Two independent closing axes (see *The Finishers & Their Weak Points*), at least one fast from engine-online. Torment of Hailfire at X=12+ is a one-card kill that needs only mana — the deck's core product. Kicked Rite of Replication on Gray Merchant (~60/opp) or Kokusho (25/opp) is a 2-card burst (~10 mana via Reanimate + kicked Rite). Demonic Tutor ensures the right closer is found when needed.
 
 From engine-online (10+ lands, approximately turn 6–7), the deck kills in 1–2 turns with either Torment (needs Coffers mana + the spell) or Kokusho + Rite (needs 2 specific cards). Three free counterspells protect the kill turn.
 
@@ -130,7 +132,7 @@ Strong structural resilience across multiple dimensions. Glarb costs 3 mana — 
 
 Seedborn Muse is a key accelerant but not a hard dependency — without it, the deck functions at reduced speed but the core engine (ramp → Glarb top-casting) still works. The commander is important but trivially cheap to recast. The sheer mass of redundant ramp pieces means no single removal spell derails the plan.
 
-Docked from 5 because the finisher creature pool is thin: Archon, Kokusho, Gray Merchant, Massacre Wurm = 4 cards. If multiple are exiled (Swords, Path, Farewell), the copy effects lose their best targets. Torment of Hailfire doesn't need creatures, which provides resilience — but the copy-based kills become significantly weaker. Graveyard hate (Rest in Peace, Dauthi Voidwalker) shuts off Reanimate, Noxious Revival, Lumra's land return, and Icetill Explorer simultaneously.
+Docked from 5 because the finisher creature pool is thin: Archon, Kokusho, Gray Merchant, Massacre Wurm = 4 cards. If multiple are exiled (Swords, Path, Farewell), the copy line (Rite of Replication) loses its best targets. Torment of Hailfire doesn't need creatures, which provides resilience — but the copy/reanimator burst becomes significantly weaker. Graveyard hate (Rest in Peace, Dauthi Voidwalker) shuts off Reanimate, Noxious Revival, Lumra's land return, and Icetill Explorer simultaneously.
 
 *Checkpoint: Cyclonic Rift on turn 7. Lands stay (39 of them). Recast Glarb for 5 mana. Surveil to find next threat. Noxious Revival puts best card on top for free casting. Threatening again in 1–2 turns.*
 
@@ -144,9 +146,9 @@ Docked from 5 because the finisher creature pool is thin: Archon, Kokusho, Gray 
 
 **Sweepers (3):** Toxic Deluge (scalable, ignores indestructible), Culling Ritual (destroys all MV2- nonlands, generates mana), The Meathook Massacre (scalable -X/-X + ongoing drain)
 
-**Permanent Removal (4):** Druid of Purification (ETB, each player removes an artifact/enchantment), Boseiju Who Endures (channel, uncounterable), Otawara Soaring City (channel bounce), Venser Shaper Savant (flash bounce any spell or permanent)
+**Permanent Removal (4):** Beast Within (instant, destroy any permanent — hits a dragon, the Ur-Dragon avatar, or a Rest in Peace), Boseiju Who Endures (channel, uncounterable), Otawara Soaring City (channel bounce), Venser Shaper Savant (flash bounce any spell or permanent)
 
-**Utility Interaction (4):** Bojuka Bog (graveyard exile on ETB), Maze of Ith (neutralizes any attacker), Veil of Summer (protection + draw vs blue/black), Blasphemous Edict (edict removal)
+**Utility Interaction (4):** Bojuka Bog (graveyard exile on ETB), Maze of Ith (neutralizes any attacker), Veil of Summer (protection + draw vs blue/black), Spore Frog (recurring Fog — sac to prevent all combat damage, returns via Reanimate/Muldrotha)
 
 Five counterspells including three that cost zero mana. Four free removal spells. Seedborn Muse untapping all lands on each opponent's turn resolves the develop-vs-hold-up tension completely — the deck holds counterspell mana while continuing to develop via Glarb's top-casting. This is the structural advantage that pushes to 5/5.
 
@@ -165,7 +167,9 @@ Five counterspells including three that cost zero mana. Four free removal spells
 
 ## The Path to 19
 
-Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongside Torment of Hailfire. With both in the deck, drawing either one closes the game from a strong mana position. Demonic Tutor can find whichever is better for the situation: Torment destroys boards and hands, Exsanguinate is pure life drain. Redundancy in the finisher slot moves toward deterministic kills — if one X-drain is in the deck, you find it about 10% of games; with two, that doubles. The most realistic candidate cut is Savvy Trader (value creature that doesn't directly serve a kill line). Exsanguinate is held in the maybeboard pending testing.
+The intuitive lever — a second X-drain (**Exsanguinate**) for finisher redundancy — was **lab-falsified** (`ct_speed_lab --mode gary`, 2026-06-23): swapping a creature for Exsanguinate left the kill rate flat (78% either way), because a second X-drain is *redundant with Torment* (same mana, same axis), not a new one. The deck already finds Torment reliably via tutors + Glarb dig, so the marginal X-drain adds almost nothing.
+
+The real Reliability lever is **a second distinct burst axis or better protection for the existing one**, not redundancy — e.g. a second copy enabler so the Gray/Kokusho line isn't single-threaded on Rite of Replication, or a way to make the 2-card burst harder to interact with. This is a candidate-search question, held pending a focused lab rather than a named swap.
 
 -----
 
@@ -191,7 +195,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 1. **Converts mana advantage into decisive kills.** Unlike ramp decks that build impressive boards but can't close, Torment of Hailfire and the Kokusho/Rite combo convert mana directly into lethal damage. Left alone past turn 8, this deck wins.
 2. **Resilient to creature removal.** The primary kill (Torment) doesn't require any creatures on board. Board wipes help by clearing opponents' boards before a Torment turn.
 3. **Punishes tap-out plays.** With Seedborn Muse, the deck holds counterspell mana while developing. Opponents who tap out to advance their plans walk into free counterspells on their combo turns.
-4. **Vulnerable to graveyard hate.** Rest in Peace, Leyline of the Void, and Dauthi Voidwalker threaten Reanimate, Noxious Revival, Lumra, and Icetill Explorer. The deck has Force of Vigor, Druid of Purification, and Boseiju for answers, but a resolved Rest in Peace is painful.
+4. **Vulnerable to graveyard hate.** Rest in Peace, Leyline of the Void, and Dauthi Voidwalker threaten Reanimate, Noxious Revival, Lumra, and Icetill Explorer. The deck has Force of Vigor, Beast Within, and Boseiju for answers, but a resolved Rest in Peace is painful.
 5. **Draws archenemy attention.** A visible 12+ land count with Cabal Coffers and Urborg signals an imminent kill. Manage threat perception — Torment doesn't need to be announced until it's resolving.
 6. **Strong against combo.** Five counterspells (3 free) mean the deck credibly threatens to stop any combo win attempt. This is the structural advantage over non-blue ramp strategies.
 
@@ -202,8 +206,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 | Deck Card Name | Original MTG Name | Notes |
 |---|---|---|
 | Ba Sing Se | Ba Sing Se | ATLA original card — {T}: Add {G}; Earthbend 2 ability; not a reskin of an existing card |
-| Espers to Magicite | Espers to Magicite | FF original card — {3}{B} instant; exiles opponents' graveyards + creates artifact-token creature copy; not a ramp spell |
-| Flash Photography | Flash Photography | FF original (not a reskin) |
+| V.A.T.S. | V.A.T.S. | Fallout original — split second; destroys any number of creatures with equal toughness; not a reskin |
 
 -----
 
@@ -387,7 +390,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 
 | Card | Role | Notes |
 |---|---|---|
-| Exsanguinate | Finisher | Redundant X-drain alongside Torment. Path to Kill Reliability 5 — cut Savvy Trader. |
+| Exsanguinate | Finisher | Redundant X-drain alongside Torment — lab-falsified as a Reliability lever (no kill-rate gain; same axis as Torment). Low priority. |
 | Avenger of Zendikar | Finisher | Creates plant tokens equal to lands. Strong copy target, threatens lethal next combat. |
 | Awaken the Woods | Ramp + landfall | Creates X Forest Dryad land creature tokens. Massive landfall burst. |
 | Breach the Multiverse | Reanimation | 7 mana — mill everyone 10, reanimate a creature/PW from each graveyard. |
@@ -429,7 +432,7 @@ Push Kill Reliability from 4 to 5 by adding **Exsanguinate** ({X}{B}{B}) alongsi
 **Threats & timing.**
 
 - **39 lands survive every wipe and Glarb recasts for 3 mana** — board wipes barely slow you, and they clear opponents' boards before a Torment turn.
-- **Graveyard hate is the real weakness** (Rest in Peace, Dauthi Voidwalker) — it shuts off Reanimate, Noxious Revival, Lumra, and Icetill Explorer at once. Answers: Force of Vigor, Druid of Purification, Boseiju.
+- **Graveyard hate is the real weakness** (Rest in Peace, Dauthi Voidwalker) — it shuts off Reanimate, Noxious Revival, Lumra, and Icetill Explorer at once. Answers: Force of Vigor, Beast Within, Boseiju.
 - **The finisher creature pool is thin** (Archon, Kokusho, Gray Merchant, Massacre Wurm). If they get exiled, the copy kills weaken — lean on Torment, which needs no creatures.
 - **Interaction is deep** — 5 counters (3 free) and 4 free removal spells. Hold them up; Seedborn means you don't sacrifice development to do it.
 - **Don't announce the kill.** A 12+ land board with Coffers and Urborg telegraphs a Torment turn — let it resolve before anyone realizes.
