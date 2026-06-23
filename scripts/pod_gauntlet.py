@@ -34,7 +34,7 @@ the ranking, not the second decimal):
               Fully data-backed for all 16 decks (clock curves are simulated).
   P(WIN)      the race WITH the disruption overlay. Disruption is MEASURED
               (delay_lab) for the three decks delay_lab covers (Grand Design,
-              Calamity Tax, Lightning War) and CLASS-BUCKETED from the matrix's
+              Croak and Dagger, Lightning War) and CLASS-BUCKETED from the matrix's
               "Through Abolisher?" column for the other 13. The bucket is the
               soft input; it is swept on P(Abolisher out) and exposed as a knob.
 
@@ -143,7 +143,7 @@ PROTECT = {
     "grand_design":        0.45,  # 7 counters + own Grand Abolisher, but Finale/Craterhoof IS counterable
     "dark_lords_army":     0.45,  # 7 counters (reactive grind shell)
     "curse_of_the_scarab": 0.40,  # 5 counters + zombie-army board kill
-    "calamity_tax":        0.35,  # 5 counters + Veil; X-drain kill is a counterable spell
+    "croak_and_dagger":        0.35,  # 5 counters + Veil; X-drain kill is a counterable spell
     "crystal_sickness":    0.30,  # 4 counters
     "earthbend_the_meta":  0.30,  # 3 counters incl. REB/Pyroblast (anti-blue: extra bite vs H&K)
     "exiles_return":       0.30,  # 1 counter + its OWN Grand Abolisher (protect-own) + Kiki/combat kill
@@ -186,7 +186,7 @@ VS_LOCKS = {
 A_GRID = [0.0, 0.25, 0.50, 0.75, 1.0]
 MEASURED = {
     "grand_design":  {6: [67, 55, 42, 30, 17], 7: [70, 58, 45, 33, 21]},
-    "calamity_tax":  {6: [52, 41, 30, 19,  8], 7: [56, 45, 33, 21, 10]},
+    "croak_and_dagger":  {6: [52, 41, 30, 19,  8], 7: [56, 45, 33, 21, 10]},
     "lightning_war": {6: [77, 63, 50, 37, 23], 7: [80, 67, 53, 40, 27]},
 }
 # 2026-06-15: overlay delay_lab-MEASURED disruption for ALL 16 decks (limitation #2 closed).
@@ -305,8 +305,8 @@ CLOCKS = {
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
         decap=[0, 1, 7, 19, 35, 49, 68, 80], table=[0, 0, 1, 6, 15, 27, 50, 66],
         med=("T11", "T13"), never=(20, 34), src="lab cs_clock_lab @8k"),
-    "calamity_tax": dict(
-        name="The Calamity Tax", score="18", disrupt_class="warn",
+    "croak_and_dagger": dict(
+        name="Croak and Dagger", score="18", disrupt_class="warn",
         lab=None, sel=None,                       # multi-variant lab; base not printed
         grid=[5, 6, 7, 8, 9, 11, 13, 14],
         decap=[0, 0, 1, 3, 8, 30, 50, 58], table=[0, 0, 0, 1, 2, 12, 25, 33],
@@ -334,7 +334,7 @@ for _slug, _e in CLOCKS.items():
 SWAP_BUCKET = {"static": (0.55, 0.30)}      # Exile's +Drannith: Abolisher-proof static floor
 
 SWAPS = {
-    "calamity_tax": dict(
+    "croak_and_dagger": dict(
         grid=[6, 7, 8, 9, 10, 12, 14], decap=[3, 16, 38, 63, 80, 96, 99],
         table=[3, 14, 32, 51, 67, 87, 96], gate=None,
         src="lab: ct_speed_lab.kill_turns on glarb-grind-fortress-20260614.txt (12k, 2026-06-14)",
@@ -1152,7 +1152,7 @@ def main():
                     help="lock-aware race: current vs + persistent-lock overlay (lock_lab.py)")
     ap.add_argument("--add", metavar="SLUG=PIECE",
                     help="what-if: inject a catalog static into a deck and race the lift "
-                         "(e.g. 'calamity_tax=Cursed Totem')")
+                         "(e.g. 'croak_and_dagger=Cursed Totem')")
     ap.add_argument("--lock-sweep", action="store_true",
                     help="full deck × lock lift matrix (what every lock buys every deck)")
     ap.add_argument("--r", type=float, default=R_BASE,

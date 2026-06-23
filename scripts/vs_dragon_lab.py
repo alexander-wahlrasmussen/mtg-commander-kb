@@ -40,7 +40,7 @@ import argparse
 import random
 
 # --- OUR kill clock: grind-fortress decap (board-independent drain) ----------
-# From pod_gauntlet SWAPS["calamity_tax"] (lab ct_speed_lab on glarb-grind-fortress,
+# From pod_gauntlet SWAPS["croak_and_dagger"] (lab ct_speed_lab on glarb-grind-fortress,
 # 12k). The package does NOT touch these cards, so base & upgrade share this curve.
 KILL_GRID = [6, 7, 8, 9, 10, 12, 14]
 KILL_DECAP = [3, 16, 38, 63, 80, 96, 99]          # cum P(over-the-top drain lethal <= T)

@@ -185,8 +185,8 @@ DECKS = {
         "bottleneck": "BOARD", "min_lands": 2, "max_lands": 4, "hi_curve": False,
         "mixed": "dev-gated (8 artifacts + fat creature), not pure finding",
     },
-    "calamity_tax": {
-        "name": "The Calamity Tax", "stem": "calamity-tax",
+    "croak_and_dagger": {
+        "name": "Croak and Dagger", "stem": "croak-and-dagger",
         "commander": "Glarb, Calamity's Augur", "lab": None,   # multi-variant lab; base not printed
         "cc": 18, "cc_axes": (5, 4, 4, 5),
         "win_line": {"pieces": ["Torment of Hailfire"], "override": 14, "fuzzy": True,

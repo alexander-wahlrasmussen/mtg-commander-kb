@@ -9,7 +9,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Deck                   | Commander                   | Colors |     Score | Archetype                   | Status                                                            |
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------------------------------------------------- |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
-| The Calamity Tax       | Glarb, Calamity's Augur     | Sultai |     18/20 | Control / tax               | Elite (Clock T13 decap / table rarely in 14 — mana-gated strict goldfish, "T7–9" falsified; lab 2026-06-13) |
+| Croak and Dagger       | Glarb, Calamity's Augur     | Sultai |     18/20 | Grind / drain               | Elite (Clock T13 decap / table rarely in 14 — mana-gated strict goldfish, "T7–9" falsified; lab 2026-06-13) |
 | Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |

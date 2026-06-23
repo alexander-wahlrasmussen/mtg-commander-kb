@@ -100,7 +100,7 @@ Rows ordered by blended **P(win)**. Each deck raced separately vs Acererak / H&K
 | 13 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% | 28% | 24% | 23% | **26%** | **Underdog.** combat kill, ~no protect. |
 | 14 | Diminishing Returns | 17 | T9 / >T14 | 10% | 19% | 15% | 14% | **17%** | **Underdog.** slow death-combo, no counters; self-meta strong. |
 | 15 | Crystal Sickness | 17 | T11 / T13 | 30% | 9% | 8% | 8% | **9%** | **Underdog.** slow clock (T11). |
-| 16 | The Calamity Tax | 18 | T13 / >T14 | 35% | 6% | 5% | 3% | **5%** | **Don't bring as built;** the grind-fortress rebuild → 27% (`--swapped`). |
+| 16 | Croak and Dagger | 18 | T13 / >T14 | 35% | 6% | 5% | 3% | **5%** | **Don't bring as built;** the grind-fortress rebuild → 27% (`--swapped`). |
 
 *(Peace Offering is off the active roster and excluded. Scores are the current
 Conversion-Check audit. BLEND weights and the `prot` / opponent `answer` /
