@@ -8,7 +8,7 @@
 |**Archetype**       |Reanimator / Flicker / Creature Toolbox          |
 |**Bracket**         |3 (strict — exactly 3 Game Changers)             |
 |**Game Changers**   |Force of Will, Rhystic Study, Cyclonic Rift      |
-|**Conversion Check**|**19/20** (5/5/5/4)                              |
+|**Conversion Check**|**18/20** (5/5/5/3) — was 19/20; Interaction 4→3 after the 2026-06-23 ramp swap cut 5 interaction/protection pieces (see breakdown)|
 |**Kill Window**     |Goldfish: decap T8–11 (median T10) / table T12+ **(board)** — lab-verified 2026-06-10 (`scripts/gd_clock_lab.py`). Old "T6–8" was the optimistic front edge (T6 ≈ 1% god-hand; T8 ≈ 20%). Finale X≥10 fires median T11 / ~9% of games, so the deck decaps via **incremental combat (96% of kills)**, not its named finisher. **Upgraded 2026-06-23** (`decks/the-grand-design-20260623.txt`): ramp + a tutorable Craterhoof move the applied build to **decap median T9 / whiff 10%→5%** (`gd_clock_lab.py --mode userpkg`). See `analysis/Grand_Design_Speed_Curve_Analysis.md` |
 
 -----
@@ -19,8 +19,11 @@
 > it to **45% blend (up to 49% if the lock sticks) and 59% vs Acererak** (his favorite). It needs **no new
 > card** — GD already runs the tech: **Elesh Norn** (opponents' ETBs don't trigger → hard-stops Acererak's
 > venture loop), **Path / Swords** (exile → answers *either* commander without the destroy-vs-exile trap
-> that feeds Hidetsugu and Kairi / reloads Acererak), and its **own Grand Abolisher + Teferi** (protect-own;
-> best answer to the 5C tail, the only shell that runs Abolisher). It is **weakest vs Hidetsugu and Kairi
+> that feeds Hidetsugu and Kairi / reloads Acererak), and **Teferi T.R. + Force of Will** (protect-own).
+> ⚠️ **Correction 2026-06-23:** the 7-for-7 ramp swap **cut Grand Abolisher** — earlier text crediting GD's
+> "own Grand Abolisher (the only shell that runs Abolisher)" no longer holds; the protect-own pillar is now
+> Teferi + Force of Will + Elesh Norn only. The Elesh-Norn-lock numbers stand (the lift is draw/tutor-gated,
+> Abolisher-independent), but the Abolisher tempo edge is gone. It is **weakest vs Hidetsugu and Kairi
 > (~34%)** — the ETB-lock is provably **inert** vs a death trigger, so there only exile + counters answer it.
 >
 > **External corroboration (Draftsim cEDH tier list, 2026-06-18):** an outside ranking framework that weights *speed* and *timing* (does the deck win on the stack / an opponent's turn, or must it commit the whole board?) independently lands on this same controller reframe — GD's primary kill is `board`-timed combat at sorcery speed, the maximal answer window, which is exactly why a 19/20 deck plays a turn-12 table clock. Confirms `score ⊥ clock`; the Timing tag is now in `REF_The_Conversion_Check.md`.
@@ -41,18 +44,18 @@ The deck abuses this ETB through three interlocking engines:
 
 **Reanimation Engine (9 spells + Karmic Guide):** The deck’s primary reanimation targets in the early game are Razaketh (repeatable tutor), Vilis (massive draw), and Elesh Norn (ETB doubler) — dumped into the graveyard via Buried Alive (deterministic), Grisly Salvage (instant-speed mill 5), or Fauna Shaman (slow but recurring), then reanimated for 1–3 mana. Atraxa herself can only be reanimated after she has been cast from the command zone at least once and you choose to send her to the graveyard instead of back to the command zone when she dies. Early game: reanimate bombs. Mid-to-late game: reanimate Atraxa for cheap re-entry.
 
-**Flicker Engine (7 pieces):** Ephemerate, Thassa Deep-Dwelling, Soulherder, Panharmonicon, Restoration Angel, Ghostly Flicker, and Displacer Kitten blink creatures to re-trigger ETBs. Panharmonicon and Elesh Norn Mother of Machines each add one additional ETB trigger — with both in play, each ETB fires 3 times total (base + 1 from Panharmonicon + 1 from Elesh Norn). Note: Elesh Norn also shuts off all opponents’ ETB triggers.
+**Flicker Engine (6 pieces):** Ephemerate, Thassa Deep-Dwelling, Soulherder, Panharmonicon, Restoration Angel, and Ghostly Flicker blink creatures to re-trigger ETBs (Displacer Kitten cut in the 2026-06-23 swap). Panharmonicon and Elesh Norn Mother of Machines each add one additional ETB trigger — with both in play, each ETB fires 3 times total (base + 1 from Panharmonicon + 1 from Elesh Norn). Note: Elesh Norn also shuts off all opponents’ ETB triggers.
 
 **Creature Toolbox (Birthing Pod + tutors):** Birthing Pod sacrifices a creature to find the next mana value up, directly to the battlefield. Activated at sorcery speed, once per turn. The deck has a complete creature chain from MV 1 through MV 8:
 
 - MV 1: Birds of Paradise
-- MV 2: Fauna Shaman, Grand Abolisher, Bloom Tender
-- MV 3: Ranger-Captain of Eos, Eternal Witness
-- MV 4: Restoration Angel, Glen Elendra Archmage
+- MV 2: Fauna Shaman, Bloom Tender, Fanatic of Rhonas, Sakura-Tribe Elder
+- MV 3: Ranger-Captain of Eos, Eternal Witness, Springbloom Druid
+- MV 4: Restoration Angel, Glen Elendra Archmage, Solemn Simulacrum
 - MV 5: Karmic Guide, Reveillark, Sidisi, Soulherder
 - MV 6: Sun Titan
 - MV 7: Atraxa (from command zone first, then graveyard), Elesh Norn
-- MV 8: Razaketh, Vilis
+- MV 8: Razaketh, Vilis, Craterhoof Behemoth
 
 Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, to hand) supplement Pod as creature tutors.
 
@@ -66,11 +69,11 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 > Druid, Kodama's Reach, Coalition Relic, **Craterhoof Behemoth**, Fanatic of Rhonas (rationale:
 > `proposals/Grand_Design_Upgrade_2026-06-13.md`). **Craterhoof is the new *tutorable* primary
 > finisher** (Kill Line 1b below); Finale becomes the un-tutorable backup; ramp lifts decap T10→T9.
-> ⚠️ **Pending reconciliation:** the **Decklist section**, the **Interaction sub-score (was 4/5 →
-> now lower; ~4–5 interaction pieces cut)**, and the cut-card references in **Kill Line 5**
-> (Grand Abolisher / Veil of Summer) and **Protection** below were written for the *pre-swap* list.
-> The `.txt` is ground truth for the current 100; treat those sub-sections as stale until a full
-> Summary pass.
+> ✅ **Reconciled 2026-06-23:** the Decklist section, the Interaction sub-score (**4/5 → 3/5**,
+> CC **19→18**; 5 interaction/protection pieces cut), Kill Lines 1b/5/6, the Pod creature chain,
+> the flicker count, the anti-archenemy banner, and the piloting notes are all updated to the
+> current 100. The Shopping List (a from-scratch acquisition list) is the only section still
+> pre-swap — flagged inline there.
 
 ### Kill Line 1: Finale of Devastation at X≥10 — Primary One-Card Win
 
@@ -122,14 +125,16 @@ Note: unlike the old Craterhoof line, this works on an opponent’s end step bec
 
 ### Kill Line 5: Protected Kill Turns
 
-Four independent protection methods, all tutorable through the creature engine:
+> _Thinned by the 2026-06-23 swap: **Grand Abolisher** (the only your-turn lock) and **Veil of
+> Summer** were cut for ramp. Two protection methods remain — and protection is now the deck's
+> softest axis (see Interaction 3/5)._
+
+Two independent protection methods, both tutorable through the creature engine:
 
 |Protector                |How it works                                                                                                                                                            |Limitation                                                                                                                                                     |How you find it                                        |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-|**Grand Abolisher**      |On your turn, opponents can’t cast spells or activate abilities of artifacts, creatures, or enchantments.                                                               |Doesn’t stop planeswalker abilities, land abilities, or triggered abilities.                                                                                   |Chord, Pod, Eladamri’s Call                            |
 |**Ranger-Captain of Eos**|Sacrifice: opponents can’t cast **noncreature** spells this turn.                                                                                                       |Does NOT stop creature spells. Opponents could flash in a creature. Stops counterspells, removal, and wraths.                                                  |Chord, Pod, Eladamri’s Call                            |
 |**Teferi, Time Raveler** |Static: opponents can only cast spells at sorcery speed.                                                                                                                |Must be on battlefield before the kill turn (loyalty abilities, not an ETB — flickering Teferi resets loyalty but doesn’t trigger anything with Panharmonicon).|Natural draws, Atraxa ETB                              |
-|**Veil of Summer**       |1 mana: your spells can’t be countered this turn + you and your permanents get hexproof from blue and black. Draws a card if an opponent has cast a blue or black spell.|Only protects from BLUE and BLACK. White or green interaction is not stopped.                                                                                  |Natural draws, Atraxa ETB, Razaketh tutor, Sidisi tutor|
 
 ### Kill Line 6: Karmic Guide + Reveillark Value Loop
 
@@ -145,7 +150,7 @@ Each cycle: tutor 2 cards, return a utility creature, costs 4 life. Continue unt
 
 Note: Phyrexian Tower does NOT enable this loop because it taps (one sacrifice per turn cycle). Razaketh’s sacrifice ability has no tap requirement, enabling multiple activations per turn.
 
-Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Bloom Tender (1/1), Grand Abolisher (2/2), Glen Elendra Archmage (2/2). Note: Ranger-Captain of Eos is 3/3 and is NOT a valid Reveillark target.
+Valid Reveillark targets in the deck (power ≤2): Karmic Guide (2/2), Eternal Witness (2/1), Fauna Shaman (2/2), Birds of Paradise (0/1), Bloom Tender (1/1), Glen Elendra Archmage (2/2), Solemn Simulacrum (2/2), Sakura-Tribe Elder (1/1), Springbloom Druid (1/1), Fanatic of Rhonas (1/4). Note: Ranger-Captain of Eos is 3/3 and Craterhoof Behemoth is 5/5 — NOT valid Reveillark targets.
 
 ### Kill Line 7: Birthing Pod Chain — Incremental Inevitability
 
@@ -193,9 +198,9 @@ Persist (the spell) cannot reanimate legendary creatures (Atraxa, Razaketh, Vili
 
 ### Kill Reliability: 5/5
 
-Eight distinct kill paths plus Atraxa combat as a permanent backup. Finale of Devastation at X≥10 is a one-card win (12 mana). Defense of the Heart is an automatic win. Razaketh provides adaptable tutoring for the exact closer needed. The Karmic Guide + Reveillark + Razaketh loop tutors your entire deck. Birthing Pod provides incremental inevitability over multiple turns.
+Multiple distinct kill paths plus Atraxa combat as a permanent backup. **Craterhoof Behemoth (added 2026-06-23) is now the working primary finisher** — a *tutorable* creature overrun the whole engine can fetch (Pod / Chord / Eladamri's / Defense / Razaketh / Finale itself) and reanimate, fixing the old single-point-of-failure where every line funneled through the un-tutorable Finale. Finale of Devastation at X≥10 remains the late-game one-card ceiling (12 mana). Defense of the Heart is an automatic win (now fetching Craterhoof straight to the battlefield). Razaketh provides adaptable tutoring for the exact closer needed; the Karmic Guide + Reveillark + Razaketh loop tutors your entire deck; Birthing Pod provides incremental inevitability.
 
-The deck draws 5–7 cards per Atraxa ETB, making it highly likely to find Finale naturally even without tutoring.
+The deck draws 5–7 cards per Atraxa ETB, making it highly likely to find a finisher naturally even without tutoring. Holds **5/5** — diversifying to a tutorable finisher kept reliability high while the ramp swap moved the clock (decap T10→T9).
 
 ### Durability: 5/5
 
@@ -203,30 +208,38 @@ The deck draws 5–7 cards per Atraxa ETB, making it highly likely to find Final
 
 Atraxa can only be reanimated after dying from the battlefield at least once (she starts in the command zone, not the library — Buried Alive and Grisly Salvage cannot put her into the graveyard directly). The early reanimation targets are Razaketh, Vilis, and Elesh Norn, which are often better early targets anyway.
 
-### Interaction: 4/5
+### Interaction: 3/5  _(was 4/5 — dropped 2026-06-23; the ramp swap cut 5 interaction/protection pieces)_
 
-**Counterspells (6 spells + 1 creature):**
+> **Re-scored 2026-06-23.** The 7-for-7 ramp/finisher swap cut **Dovin's Veto, Grand Abolisher,
+> Heroic Intervention, Flawless Maneuver, and Veil of Summer** — taking interaction/protection from
+> **20 → 15 pieces**. The *counter + removal* core is intact and still deep, but the deck lost its
+> **only proactive your-turn lock (Grand Abolisher)** and **3 of its 4 protection spells** — the
+> exact "protect the kill turn" tools. Counters/removal quantity alone clears the bar for 4, but the
+> protection collapse (down to Lightning Greaves + Teferi) is a full-grade quality hit, so **3/5**.
+> ⚠️ This also dents the "disruption-led fortress" identity below: the anti-archenemy plan that
+> credited *own Grand Abolisher* now leans on Teferi + Force of Will + Elesh Norn only.
+
+**Counterspells (5 spells + 1 creature):**
 
 - Force of Will (GC) — free (pitch a blue card, lose 1 life), counters ANY spell on ANY turn. 5 mana hard-cast.
 - Force of Negation — free on **opponents’ turns only** (pitch a blue card), noncreature spells only. On your own turn it costs 1UU.
 - Counterspell — 2 mana, counters ANY spell
 - Mana Drain — 2 mana, counters ANY spell, generates mana
 - Swan Song — 1 mana, counters instant/sorcery/enchantment only
-- Dovin’s Veto — 2 mana, uncounterable, noncreature spells only
 - Glen Elendra Archmage — sacrifice to counter a noncreature spell. Persist returns her with a -1/-1 counter for one more use (2 total per cycle). Flickering removes the counter for 2 more. Not unlimited — 2 per flicker cycle.
 
-**Counterspell, Mana Drain, and Force of Will can counter creature spells.** The previous gap on flash creatures and creature-based combos is closed by Force of Will.
+**Counterspell, Mana Drain, and Force of Will can counter creature spells.** The gap on flash creatures and creature-based combos is closed by Force of Will.
 
 **On your own turn:** 2 free spells (Force of Will, Deadly Rollick). Force of Negation costs full price.
 **On opponents’ turns:** 3 free spells (add Force of Negation).
 
 **Removal (6):** Cyclonic Rift (GC, asymmetric bounce), Deadly Rollick (free with Atraxa), Swords to Plowshares, Path to Exile, Generous Gift, Assassin’s Trophy, Toxic Deluge
 
-**Proactive disruption (2):** Teferi Time Raveler (opponents can only cast at sorcery speed — note: Teferi’s abilities are loyalty abilities, not ETBs; flickering resets his loyalty but does not trigger Panharmonicon or Elesh Norn), Grand Abolisher (your-turn protection)
+**Proactive disruption (1):** Teferi Time Raveler (opponents can only cast at sorcery speed — note: Teferi’s abilities are loyalty abilities, not ETBs; flickering resets his loyalty but does not trigger Panharmonicon or Elesh Norn). _(Grand Abolisher cut.)_
 
-**Protection (4):** Heroic Intervention, Flawless Maneuver, Veil of Summer (blue/black only), Lightning Greaves
+**Protection (1):** Lightning Greaves. _(Heroic Intervention, Flawless Maneuver, Veil of Summer cut.)_ Ranger-Captain of Eos (sac → no opponent noncreature spells) remains a tutorable soft-protection creature.
 
-**Total: 20 interaction and protection pieces.** Excellent quantity and mostly tutorable through the creature engine. The 4/5 ceiling comes from the inability to tutor for noncreature interaction (no Demonic Tutor or Vampiric Tutor — both Game Changers, and adding either would push the deck past the 3-GC bracket cap).
+**Total: 15 interaction and protection pieces.** Still good quantity and mostly tutorable through the creature engine; the un-tutorable-noncreature ceiling (no Demonic/Vampiric Tutor — both GCs) is unchanged. The drop to 3/5 is the **protection collapse**, not the counter/removal suite.
 
 -----
 
@@ -238,7 +251,7 @@ Exactly 3 Game Changers:
 1. **Rhystic Study** — passive card-draw engine; opponents pay 1 or you draw
 1. **Cyclonic Rift** — asymmetric board wipe
 
-**Notable non-GC power cards:** Razaketh, Finale of Devastation, Defense of the Heart, Birthing Pod, Chord of Calling, Force of Negation, Teferi Time Raveler, Mana Drain, Deadly Rollick, Glen Elendra Archmage, Ranger-Captain of Eos, Elesh Norn Mother of Machines, Karmic Guide, Reveillark, Sidisi Undead Vizier, Panharmonicon, Veil of Summer, Carpet of Flowers, Sun Titan, Phyrexian Tower.
+**Notable non-GC power cards:** Razaketh, Finale of Devastation, Craterhoof Behemoth, Defense of the Heart, Birthing Pod, Chord of Calling, Force of Negation, Teferi Time Raveler, Mana Drain, Deadly Rollick, Glen Elendra Archmage, Ranger-Captain of Eos, Elesh Norn Mother of Machines, Karmic Guide, Reveillark, Sidisi Undead Vizier, Panharmonicon, Sun Titan, Phyrexian Tower.
 
 -----
 
@@ -254,7 +267,9 @@ Exactly 3 Game Changers:
 1 Rhystic Study
 1 Cyclonic Rift
 
-### Flicker Engine (7)
+> _Decklist reconciled to the 2026-06-23 swap (`decks/the-grand-design-20260623.txt`)._
+
+### Flicker Engine (6)
 
 1 Ephemerate
 1 Thassa, Deep-Dwelling
@@ -262,7 +277,6 @@ Exactly 3 Game Changers:
 1 Soulherder
 1 Restoration Angel
 1 Ghostly Flicker
-1 Displacer Kitten
 
 ### Reanimation & Graveyard Filler (9)
 
@@ -276,7 +290,7 @@ Exactly 3 Game Changers:
 1 Buried Alive
 1 Grisly Salvage
 
-### Creatures — Value & Finishers (12)
+### Creatures — Value & Finishers (10)
 
 1 Elesh Norn, Mother of Machines
 1 Razaketh, the Foulblooded
@@ -287,9 +301,7 @@ Exactly 3 Game Changers:
 1 Sidisi, Undead Vizier
 1 Eternal Witness
 1 Fauna Shaman
-1 Bloom Tender
-1 Birds of Paradise
-1 Grand Abolisher
+1 Craterhoof Behemoth
 
 ### Creatures — Interactive (2)
 
@@ -311,13 +323,12 @@ Exactly 3 Game Changers:
 
 1 Defense of the Heart
 
-### Counterspells (5)
+### Counterspells (4)
 
 1 Counterspell
 1 Mana Drain
 1 Force of Negation
 1 Swan Song
-1 Dovin’s Veto
 
 ### Removal (6)
 
@@ -328,21 +339,25 @@ Exactly 3 Game Changers:
 1 Toxic Deluge
 1 Deadly Rollick
 
-### Protection (4)
+### Protection (1)
 
-1 Heroic Intervention
-1 Flawless Maneuver
-1 Veil of Summer
 1 Lightning Greaves
 
-### Ramp (6)
+### Ramp (13)
 
 1 Sol Ring
 1 Arcane Signet
-1 Carpet of Flowers
+1 Coalition Relic
 1 Three Visits
 1 Nature’s Lore
 1 Farseek
+1 Kodama’s Reach
+1 Birds of Paradise
+1 Bloom Tender
+1 Sakura-Tribe Elder
+1 Springbloom Druid
+1 Solemn Simulacrum
+1 Fanatic of Rhonas
 
 ### Lands (39)
 
@@ -381,6 +396,11 @@ Exactly 3 Game Changers:
 -----
 
 ## Shopping List
+
+> ⚠️ **Pre-swap (2026-06-23).** This is the original from-scratch acquisition list and still lists
+> cut cards (Carpet of Flowers, Displacer Kitten, Veil of Summer) and omits the swap's adds
+> (Craterhoof, Solemn, Sakura, Springbloom, Kodama's, Coalition Relic, Fanatic of Rhonas — all owned
+> spares, $0). The applied swap needs **no purchases**; see `proposals/Grand_Design_Upgrade_2026-06-13.md`.
 
 |Card                     |Role                                     |Est. Price|
 |-------------------------|-----------------------------------------|----------|
@@ -456,4 +476,4 @@ Exactly 3 Game Changers:
 - **Interaction is deep** — Force of Will, Counterspell, and Mana Drain all hit creature spells; Force of Will and Deadly Rollick are free with Atraxa. Hold counters up on opponents' turns.
 - **Graveyard hate hurts the reanimation half**, but Birthing Pod and Atraxa's ETB still function — you have a non-yard backup plan, so don't fold.
 - **You can't tutor noncreature answers** (no Demonic/Vampiric Tutor — that would break the 3-GC cap). Find interaction by drawing it.
-- **Protect the kill turn:** Grand Abolisher (your turn lock), Ranger-Captain (sac → no opponent noncreature spells), Teferi (sorcery-speed only), Veil of Summer.
+- **Protect the kill turn (now thin — see Interaction 3/5):** Ranger-Captain (sac → no opponent noncreature spells), Teferi (sorcery-speed only), Lightning Greaves (shroud the finisher), plus held counters. The 2026-06-23 ramp swap cut Grand Abolisher / Veil of Summer / Flawless Maneuver / Heroic Intervention, so sequence the kill behind a counter or Teferi rather than a dedicated lock.

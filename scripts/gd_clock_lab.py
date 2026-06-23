@@ -43,7 +43,11 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-NEW = ROOT / "decks" / "the-grand-design-20260502.txt"
+# LIVE = the current committed deck (mode_clock — this is what pod_gauntlet --refresh harvests).
+# BASELINE = the pre-swap list (archived 2026-06-23); the swap-comparison / sensitivity modes
+# (ramp / userpkg / levers / video) build their variants ON it, so it must stay reachable.
+LIVE = ROOT / "decks" / "the-grand-design-20260623.txt"
+BASELINE = ROOT / "archive" / "old_decklists" / "the-grand-design-20260502.txt"
 SEED = 12345
 TURNS = 12
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]
@@ -310,10 +314,11 @@ def _run(library, commander, index, powmap, trials, cfg):
 def mode_clock(index, aliases, trials):
     print(f"\n### CLOCK — Grand Design kill-turn goldfish   trials={trials} seed={SEED}")
     print("    decap = first opponent dead (40) · table = all three (120), unblocked.")
-    print("    Finale burst (X>=10, drawn-only) vs reanimator/combat board, earliest wins.\n")
-    library, commander = slc.load_parsed(NEW, index, aliases)
+    print("    Finale burst (X>=10, drawn-only) vs reanimator/combat board, earliest wins.")
+    print("    LIVE deck (2026-06-23 swap applied): Craterhoof is in, so the crater finisher is ON.\n")
+    library, commander = slc.load_parsed(LIVE, index, aliases)
     powmap = _powmap(library, commander)
-    res = _run(library, commander, index, powmap, trials, None)
+    res = _run(library, commander, index, powmap, trials, {"craterhoof": True})
     slc.report_clock(res, SHOW, TURNS, trials)
 
 
@@ -321,7 +326,7 @@ def mode_levers(index, aliases, trials):
     print(f"\n### LEVERS — Atraxa-selection sensitivity + build levers   trials={trials} seed={SEED}")
     print("    Tests whether modelling Atraxa's reveal-10 selection (the Glarb lesson) +")
     print("    build levers move GD's clock. decap = first opp dead.\n")
-    library, commander = slc.load_parsed(NEW, index, aliases)
+    library, commander = slc.load_parsed(BASELINE, index, aliases)
     powmap = _powmap(library, commander)
     crater_lib = slc.build_lib(library, index, ["Finale of Devastation"], ["Craterhoof Behemoth"])
     full = {"select": True, "repeat": True}
@@ -354,7 +359,7 @@ def mode_ramp(index, aliases, trials):
     print("    Same kill model for both (cfg=None) so the delta is purely the ramp package.")
     print(f"    OUT: {', '.join(RAMP_CUTS)}")
     print(f"    IN : {', '.join(RAMP_ADDS)}\n")
-    base, commander = slc.load_parsed(NEW, index, aliases)
+    base, commander = slc.load_parsed(BASELINE, index, aliases)
     ramp_lib = slc.build_lib(base, index, RAMP_CUTS, RAMP_ADDS)
     # combined: ramp package + Craterhoof (cut Displacer Kitten for it; Finale STAYS,
     # so the deck has two finisher types — the fragility fix the lever test motivates).
@@ -400,7 +405,7 @@ def mode_userpkg(index, aliases, trials):
     print("    full proposal IN : ...Faeburrow Elder + Rune-Scarred Demon")
     print("    Kodama's   IN    : ...Kodama's Reach   + Grim Tutor")
     print("    Fanatic    IN    : ...Fanatic of Rhonas + Grim Tutor\n")
-    base, commander = slc.load_parsed(NEW, index, aliases)
+    base, commander = slc.load_parsed(BASELINE, index, aliases)
     full_lib = slc.build_lib(base, index, USER_CUTS,
                              RAMP_ADDS + ["Craterhoof Behemoth", "Rune-Scarred Demon"])
     kod_lib = slc.build_lib(base, index, USER_CUTS, USER_COMMON + ["Kodama's Reach"])
@@ -457,7 +462,7 @@ def mode_video(index, aliases, trials):
     print(f"\n### VIDEO - Surf City 'Atraxa Coaching #12' levers on GD   trials={trials} seed={SEED}")
     print("    (A) cantrip smootheners (Ponder/Preordain): do they move a MANA-gated clock?")
     print("    (B) Tidal Barracuda your-turn lock: protection AVAILABILITY by the decap turn.\n")
-    library, commander = slc.load_parsed(NEW, index, aliases)
+    library, commander = slc.load_parsed(BASELINE, index, aliases)
     full = {"select": True, "repeat": True}
 
     # (A) SMOOTHING: decap clock + whiff, full Atraxa model both rows --------
