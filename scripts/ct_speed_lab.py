@@ -701,8 +701,10 @@ def mode_gary(index, aliases, trials):
     print("    kill mix = how often Gray specifically is the closer.\n")
     base, _ = core.load_parsed(CROAK_DECK, index, aliases)
     variants = [
-        ("committed (with Gray Merchant)", base),
+        ("committed (Rite only)", base),
         ("-Gray Merchant (removed)", core.build_lib(base, index, [GRAY], [])),
+        ("-Rite of Replication (copy axis GONE)", core.build_lib(base, index, [RITE], [])),
+        ("+Doppelgang (2nd mass-copy, 101)", core.build_lib(base, index, [], [DOPPEL])),
         ("-Gray +Exsanguinate (2nd X-drain)", core.build_lib(base, index, [GRAY], [EXSANG])),
     ]
     print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
