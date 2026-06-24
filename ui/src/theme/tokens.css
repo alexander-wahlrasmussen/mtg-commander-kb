@@ -1,3 +1,4 @@
+@import "./fonts.css"; /* self-hosted Oswald + IBM Plex Mono (base64 @font-face) — no remote dependency */
 /* ============================================================================
    Pod Gauntlet — design tokens (the theme): "Tale of the Tape" newsprint LIGHT.
    The whole look hangs off these custom properties; every component reads them.
