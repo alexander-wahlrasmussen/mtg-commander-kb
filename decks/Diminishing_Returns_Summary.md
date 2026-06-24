@@ -11,6 +11,7 @@
 | **Game Changers** | Farewell, Smothering Tithe, Teferi's Protection (3 of 3 slots used) |
 | **Conversion Check** | **17/20** (5/4/4/4) |
 | **Kill Window** | Clock: T9 decap / T12+ table (lab 2026-06-10, `dr_clock_lab.py`) · Through interaction: slower *(unverified — goldfish lab only; no interaction model)*. The old "Goldfish T7–9" claim was falsified: it held only as the back edge of the decap clock and conflated the two clocks — the board swing decapitates T9, the drain engine tables T12+. |
+| **Ramp** | 12 sources (1 burst / 11 repeatable) · 48 mana sources, 36 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
 

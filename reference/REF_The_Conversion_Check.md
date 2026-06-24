@@ -146,7 +146,7 @@ Post-game review is where the conversion question does its best work. "Did I con
 A checklist, not scored. Either the deck meets baseline requirements or it doesn't.
 
 - Mana base: Enough sources, acceptable color distribution, lands enter untapped when it matters.
-- Ramp: Enough acceleration for the deck's speed requirements.
+- Ramp: Enough acceleration for the deck's speed requirements — and the *right kind*. Size it to ~12 ramp / ~36–38 lands / ~48–50 mana sources (a fair-deck floor; combo decks correctly run leaner, faster mana). Match ramp **type to kill shape**: one-turn combos want burst (rituals, treasure — a treasure is as good as a land for a single explosive turn); decks that deploy a threat every turn want repeatable sources (rocks, dorks, land-ramp). Answer "ramp toward *what*, by which turn?" from the deck's **win line, not its curve** — a low curve with a combo / X-spell / engine target still needs ramp, and a "count the 6-drops" check will misjudge it. Measured by `scripts/ramp_audit.py`. (Added 2026-06-21 — BDD "You're Probably Ramping Wrong"; see `analysis/Ramp_Audit_2026-06-21.md`.)
 - Card draw / selection: Enough to find engine pieces and recover from disruption.
 - Protection: Ways to protect key pieces or the commander if commander-dependent.
 - Recursion: Ways to retrieve key cards if relevant to the strategy.
@@ -312,8 +312,9 @@ Different strategies manifest these axes differently. The framework accounts for
 4. **Name your closing lines — and test their independence.** Write them down. If you can't name two, the deck can't reliably end games. Then ask which single card, if removed, kills the most lines. If one card takes out all of them, you have one line, not several.
 5. **Test recovery mentally.** Board wipe on turn 7. How many turns until you're threatening again? More than 3 means you need more redundancy or recursion.
 6. **Prefer dual-role cards.** Every slot that serves two functions compresses the deck and raises the floor.
-7. **Don't confuse spectacle with lethality.** A scary board that can't close is a political liability, not a win condition.
-8. **Be honest about the pod.** Fill out the Pod Fit Checklist before you sleeve up.
+7. **Match ramp to the kill shape, and size it to the band.** Burst (rituals, treasure) for one-turn combos; repeatable (rocks, dorks, land-ramp) for decks that deploy a threat each turn; ~12 ramp / ~48–50 mana sources for fair decks (combo runs leaner). Ramp toward a *named* target by a *named* turn — read from the win line, not the curve. If you can't name the target, cut the ramp for a payoff or an answer. (`scripts/ramp_audit.py`)
+8. **Don't confuse spectacle with lethality.** A scary board that can't close is a political liability, not a win condition.
+9. **Be honest about the pod.** Fill out the Pod Fit Checklist before you sleeve up.
 
 ---
 

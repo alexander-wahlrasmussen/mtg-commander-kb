@@ -11,6 +11,7 @@
 | **Game Changers** | **3/3 ✓** — Seedborn Muse, Vampiric Tutor, Cyclonic Rift. (Survival of the Fittest — the uncounted 4th — **cut 2026-06-15** in the 3-for-3 GC-fix: −Survival +Sylvan Library, −Generous Patron +Hedron Crab, −Guardian Project +Sidisi, Brood Tyrant. All adds owned/proxy, $0. List `radiation-sickness-20260622.txt`; per `proposals/Radiation_Sickness_Upgrade_2026-06-13.md`.) |
 | **Conversion Check** | **18/20** (5/5/4/4) — Phase A+B audit upgrade then Phase C consistency/Toxrill add, both 2026-05-13 |
 | **Kill Window** | Clock: **T10 table-win** (median; T6 ≈ 1%, T9 ≈ 49%) / **T7 decap** one opponent (lab 2026-06-13, `rs_clock_lab.py` — coarse engine model) · Through interaction: slower *(unverified)*. The old "Goldfish T6–9" was optimistic for the actual win: this deck's kills (combo / Simic / Triumph) are whole-table kills, and the table median is T10. The "T5–6 combo" is a god-hand (1–4% by T7). See `analysis/Radiation_Sickness_Clock_Lab_2026-06-13.md` |
+| **Ramp** | 13 sources (1 burst / 12 repeatable) · 48 mana sources, 35 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
 
