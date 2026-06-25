@@ -1,7 +1,7 @@
 # The Grand Design — Finisher-Redundancy Optimization Pass
 
 > **ARCHIVED / SUPERSEDED 2026-06-13** by the single canonical GD upgrade
-> (`proposals/Grand_Design_Upgrade_2026-06-13.md`), which folds Craterhoof in as swap #6 of a
+> (`archive/proposals/Grand_Design_Upgrade_2026-06-13.md`), which folds Craterhoof in as swap #6 of a
 > lab-validated 7-for-7 (ramp + diversified finisher). Kept for the finisher-fragility analysis.
 
 **Date:** 2026-06-08

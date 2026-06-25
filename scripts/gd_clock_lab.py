@@ -391,7 +391,7 @@ def mode_ramp(index, aliases, trials):
 #        tested for the ramp slot.
 #   (ii) Rune-Scarred Demon (7-mana, ~1pp in mode_ramp) -> Grim Tutor (3-mana
 #        any-card tutor, owned $0) for the finisher-insurance slot.
-# Writeup: proposals/Grand_Design_Upgrade_2026-06-13.md
+# Writeup: archive/proposals/Grand_Design_Upgrade_2026-06-13.md
 # ---------------------------------------------------------------------------
 USER_CUTS = RAMP_CUTS + ["Displacer Kitten", "Heroic Intervention"]   # the proposal's 7 cuts
 USER_COMMON = ["Solemn Simulacrum", "Sakura-Tribe Elder", "Wood Elves",

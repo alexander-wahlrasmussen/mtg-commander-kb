@@ -2,7 +2,7 @@
 
 > **ARCHIVED 2026-06-13.** A closed analysis (the 39% colour-floor was a sim bug; no land
 > changes). GD's live plan is the single canonical upgrade
-> (`proposals/Grand_Design_Upgrade_2026-06-13.md`). Kept for the bug-fix record.
+> (`archive/proposals/Grand_Design_Upgrade_2026-06-13.md`). Kept for the bug-fix record.
 
 **Date:** 2026-06-09
 **Ask:** Execute the mana-fixing pass the Pod Matchup Matrix flagged as higher priority than any card swap ("Fix Grand Design's mana base — 39% all-colours-from-lands by T6").

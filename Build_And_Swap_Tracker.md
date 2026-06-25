@@ -29,10 +29,10 @@ lists are sleeved. Ground truth always remains the dated `.txt` decklists. Price
 Ranked from free-and-now to expensive:
 
 1. ✅ **Radiation Sickness GC-fix — DONE 2026-06-15.** Was *mandatory* (illegal at 4 GCs), **$0, no approval.** Cut Survival of the Fittest; added Sylvan Library + Hedron Crab + Sidisi. Now `decks/radiation-sickness-20260622.txt`, **3/3 legal** (validate.py: 0 errors). *(Later swap 2026-06-22: −Vorinclex, Monstrous Raider +Timeless Witness — Durability/post-wrath recovery, $0 owned; the deck's last unowned card is gone, now 100% owned/proxy.)*
-2. 🟢🟡 **Grand Design upgrade** — almost entirely owned spares; only **~€5–10** of new cards (Wood Elves, Rune-Scarred Demon). No approval needed.
+2. ✅ **Grand Design upgrade — DONE 2026-06-25.** 7-for-7 sleeved (owned spares + Wood Elves/Rune-Scarred bought). No approval needed. Now `decks/the-grand-design-20260623.txt`.
 3. 🟢🔒 **Diminishing Returns Stage 1** — **$0** (Nim Deathmantle + Grave Titan + Grim Tutor + Jet Medallion all owned, undeployed) but **needs pod approval** for the combo.
 4. 🟡🔒 **Exile's Return** (Drannith owned + 1× Kiki ~€10–15) and **Replication Crisis** (2nd Kiki ~€10–15) — small buys, both need approval.
-5. 🟢 **Croak and Dagger grind-fortress upgrade** — **$0, all owned, no approval** (it dropped the Thoracle/combo direction — §5). Another free win.
+5. ✅ **Croak and Dagger grind-fortress upgrade — DONE 2026-06-25.** $0, all owned, no approval (it dropped the Thoracle/combo direction — §5). Final build −Lier +Aesi; now `decks/croak-and-dagger-20260623-215731.txt`.
 6. 🔴🔒 **The two builds (Hashaton, Kefka)** — neither is buildable from free cards; each needs ~24–37 acquired cards and raids your black decks. See §1.
 
 **Headline:** the *swaps* — and now the Calamity grind upgrade — are where the free wins are; the
@@ -75,11 +75,11 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger �
 | Deck | Out → In | Source of the "In" cards | Cost | Gate | Status |
 |---|---|---|---|---|---|
 | **Radiation Sickness** ✅ | −Survival of the Fittest (GC) **+**Sylvan Library; −Generous Patron +Hedron Crab; −Guardian Project +Sidisi, Brood Tyrant | Sylvan Library (own ×2 real) · Hedron Crab (own ×2 real) · Sidisi (**proxy-only** — play proxy or buy ~€2) — all ex-Loam | 🟢 **$0** | none | **✅ APPLIED 2026-06-15** → `radiation-sickness-20260622.txt`, 3/3 legal; **+2026-06-22 −Vorinclex +Timeless Witness** (Durability, $0) |
-| **The Grand Design** | 7-for-7 (see proposal). Adds: Solemn Simulacrum, Sakura-Tribe Elder, Wood Elves, Faeburrow Elder, Coalition Relic, **Craterhoof Behemoth**, Rune-Scarred Demon | Solemn/Sakura/Coalition/Craterhoof = owned spares (real); Faeburrow = ex-Peace Offering (own 1); **Wood Elves + Rune-Scarred = buy** | 🟡 **~€5–10** | none | Proposal only. No new combo → no approval. |
+| **The Grand Design** ✅ | 7-for-7. Adds: Solemn Simulacrum, Sakura-Tribe Elder, Wood Elves, Faeburrow Elder, Coalition Relic, **Craterhoof Behemoth**, Rune-Scarred Demon | Solemn/Sakura/Coalition/Craterhoof = owned spares (real); Faeburrow = ex-Peace Offering (own 1); Wood Elves + Rune-Scarred bought | 🟢 **done** | none | **✅ APPLIED 2026-06-25** → `the-grand-design-20260623.txt`. Proposal archived. |
 | **Diminishing Returns** | Staged toward B4. **Stage 1:** +Nim Deathmantle +Grave Titan +Grim Tutor (+Jet Medallion) −Mother of Runes −Skrelv −Giver of Runes | All Stage-1 adds owned + undeployed (Deathmantle ×1, Grave Titan ×3, Grim Tutor ×1, Jet Medallion ×1) | 🟢 **$0** (Stage 1) | 🔒 yes | Proposal only. Later stages cost money (see below). |
 | **The Exile's Return** | +Kiki-Jiki +Drannith Magistrate −Night's Whisper −Light Up the Stage | Drannith (own 1, undeployed) free; **Kiki-Jiki = buy** | 🟡 **~€10–15** | 🔒 yes | Proposal only. (Avatar's Wrath is NOT a cut — re-verified.) |
 | **Replication Crisis** | +Kiki-Jiki −Bident of Thassa | **Kiki-Jiki = buy a dedicated 2nd** (so it runs independently of Exile's Return) | 🟡 **~€10–15** | 🔒 yes | Proposal only. |
-| **Croak and Dagger** | **Grind-fortress upgrade** (`glarb-grind-fortress-20260614.txt`): −6 weak +Bloom Tender +Birds +Delighted Halfling +Crucible +Life from the Loam +Lier | **All 6 owned ($0)** — Loam pile + spares | 🟢 **$0** | none | Thoracle/Isochron dropped (combo unreliable here — lab 2026-06-14). Grind T9. Aspirational = Strong Glarb. See `analysis/Calamity_Grind_Fortress_2026-06-14.md`. |
+| **Croak and Dagger** ✅ | **Grind-fortress upgrade**: −6 weak +Bloom Tender +Birds +Delighted Halfling +Crucible +Life from the Loam (final build −Lier +Aesi) | **All owned ($0)** — Loam pile + spares | 🟢 **done** | none | **✅ APPLIED 2026-06-25** → `croak-and-dagger-20260623-215731.txt`. Thoracle/Isochron dropped (combo unreliable — lab 2026-06-14). Grind T9. Aspirational = Strong Glarb (`analysis/Calamity_Grind_Fortress_2026-06-14.md`). |
 
 **Diminishing Returns later stages** (all need the same pod approval as Stage 1):
 - Stage 2 — 🟡 +Leonin Relic-Warder (buy ~€1–5, the most efficient combo card) +Wishclaw Talisman (optional, buy).
@@ -93,7 +93,7 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger �
 Grouped by what they unlock. Quantities matter where a card is wanted by more than one plan (§4).
 
 **Cheap, high-value, unlock free swaps:**
-- Wood Elves ×1, Rune-Scarred Demon ×1 → Grand Design (~€5–10 total)
+- ~~Wood Elves ×1, Rune-Scarred Demon ×1 → Grand Design~~ — **bought, applied 2026-06-25.**
 - Leonin Relic-Warder ×1 → Diminishing Returns Stage 2 (~€1–5)
 - Kiki-Jiki, Mirror Breaker **×2** → Exile's Return + Replication Crisis (~€20–30 total)
 - *(optional)* Sidisi, Brood Tyrant ×1 if you want a real copy for Radiation Sickness (~€2) — else play the proxy
@@ -178,7 +178,7 @@ Isochron Scepter + Dramatic Reversal combo was tested and **rejected** (unreliab
 `glarb_iso_clock_lab.py`). So **Hashaton is now the sole Thassa's Oracle deck** — no duplicated
 wincon, no doubled combo buys, no shared approval.
 
-- **Now ($0, no approval):** the grind-fortress upgrade in §2 — 6 owned adds, grind T9.
+- ✅ **Applied 2026-06-25 ($0, no approval):** the grind-fortress upgrade in §2 — owned adds, grind T9 (final build −Lier +Aesi).
 - **Aspirational (work toward):** migrate toward the Strong-Glarb external — Tier 1 Nyxbloom
   Ancient + Uro; Tier 2 Sphinx of the Second Sun + Beledros + Wilderness Reclamation; Tier 3 flash
   package (Leyline owned-proxy + Tidal Barracuda) + Spelunking; then a GC reconfig (Crop Rotation
@@ -212,7 +212,7 @@ rather than tracking per-deck. Worth doing in the same pod conversation.
 
 ## 8. Suggested order of operations
 
-1. **Now, free, no approval:** apply the **Radiation Sickness** GC-fix (mandatory — the deck is illegal until you do). Then the **Grand Design** upgrade (buy only Wood Elves + Rune-Scarred ≈ €5–10).
+1. ✅ **Done (free, no approval):** the **Radiation Sickness** GC-fix, the **Grand Design** upgrade, and the **Croak and Dagger** grind-fortress upgrade are all sleeved (2026-06-15 → 2026-06-25).
 2. **Resolve §5:** decide Hashaton vs Calamity-hybrid (vs both). This sets the whole Thoracle shopping bill.
 3. **One pod conversation:** ask for the Thoracle approval (for the deck chosen in step 2) *and* the standard 2-card infinites (Kiki ×2 decks, DR), and propose codifying the blanket exception.
 4. **After approval, free:** apply **Diminishing Returns Stage 1** ($0).

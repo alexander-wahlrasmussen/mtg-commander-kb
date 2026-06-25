@@ -1,7 +1,7 @@
 # The Grand Design — ETB Disruption / ETB-Tutor Optimization Pass
 
 > **ARCHIVED / SUPERSEDED 2026-06-13.** GD's upgrade is consolidated into the single canonical
-> proposal (`proposals/Grand_Design_Upgrade_2026-06-13.md`, the lab-validated ramp + finisher
+> proposal (`archive/proposals/Grand_Design_Upgrade_2026-06-13.md`, the lab-validated ramp + finisher
 > 7-for-7). This ETB-disruption direction was not adopted. Kept for history.
 
 **Date:** 2026-06-09

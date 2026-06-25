@@ -125,7 +125,7 @@ legal at our table; this is an **idea donor**, not a build to copy.
 
 1. **Land ramp + Coffers/Urborg/Field of the Dead as the B3 win axis.** Validated empirically (his
    90% Glarb). For **Grand Design** the ramp half is already in flight
-   (`proposals/Grand_Design_Upgrade_2026-06-13.md`, decap T10→T9); the *full* Coffers/Field package
+   (`archive/proposals/Grand_Design_Upgrade_2026-06-13.md`, decap T10→T9); the *full* Coffers/Field package
    is a better fit for **Calamity Tax** (§3) than for GD's creature-engine identity — don't bolt a
    lands sub-theme onto a flicker deck (BDD's "don't run a 4th half-plan").
 2. **Tidal Barracuda — now strongly validated.** The coach calls it *"the card that will win you more
@@ -226,6 +226,6 @@ kill goldfish.
 - [Surf City TCG — "Atraxa, Grand Unifier EDH Coaching #12"](https://youtu.be/-JUtk8yKzSc) (full transcript, user-supplied)
 - [Draftsim — Atraxa, Grand Unifier Commander Deck Guide](https://draftsim.com/atraxa-grand-unifier-edh-deck/)
 - Our corpus: `decks/The_Grand_Design_Summary.md`, `analysis/Grand_Design_Speed_Curve_Analysis.md`,
-  `proposals/Grand_Design_Upgrade_2026-06-13.md`, `analysis/External_Glarb_vs_Calamity_Tax_2026-06-16.md`;
+  `archive/proposals/Grand_Design_Upgrade_2026-06-13.md`, `analysis/External_Glarb_vs_Calamity_Tax_2026-06-16.md`;
   memory `reference-maldhound-azula-review`, `reference-bdd-azula-b4-combo`, `feedback-bracket-4-in-spirit`.
 - All video-deck card text verified via `scripts/card_lookup.py`.

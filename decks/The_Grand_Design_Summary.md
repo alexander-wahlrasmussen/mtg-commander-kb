@@ -67,7 +67,7 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 > OUT: Carpet of Flowers, Veil of Summer, Flawless Maneuver, Dovin's Veto, Grand Abolisher,
 > Displacer Kitten, Heroic Intervention. IN: Solemn Simulacrum, Sakura-Tribe Elder, Springbloom
 > Druid, Kodama's Reach, Coalition Relic, **Craterhoof Behemoth**, Fanatic of Rhonas (rationale:
-> `proposals/Grand_Design_Upgrade_2026-06-13.md`). **Craterhoof is the new *tutorable* primary
+> `archive/proposals/Grand_Design_Upgrade_2026-06-13.md`). **Craterhoof is the new *tutorable* primary
 > finisher** (Kill Line 1b below); Finale becomes the un-tutorable backup; ramp lifts decap T10→T9.
 > ✅ **Reconciled 2026-06-23:** the Decklist section, the Interaction sub-score (**4/5 → 3/5**,
 > CC **19→18**; 5 interaction/protection pieces cut), Kill Lines 1b/5/6, the Pod creature chain,
@@ -81,7 +81,7 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 
 Finale searches your library or graveyard for a creature with MV ≤X, puts it onto the battlefield, and if X≥10, ALL your creatures get +X/+X and haste until end of turn. At X=10, that’s +10/+10 and haste to everything. With even 3 creatures on board, that’s 30+ power with haste — but note **the deck has almost no trample**, so without it this focus-fires **one opponent** (a decap), not the table; tabling needs a wide board or repeated swings.
 
-> **Clock reality (lab 2026-06-10, `scripts/gd_clock_lab.py`):** the "12 mana by turn 6–7" line is a god-hand, not the norm. Across 40k goldfish trials a lethal Finale (X≥10) fires in only **~9% of games, median turn 11** — too slow and too mana-hungry to be the deck's working closer. **96% of the deck's decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding), median decap **T10**. Treat Finale as the **late-game ceiling**, not "Kill Line 1 — Primary"; the real primary clock is now **Kill Line 1b (Craterhoof, tutorable)** + Kill Line 10 (combat). This is exactly why a *fetchable* creature finisher mattered — fixed in the applied 2026-06-23 upgrade `proposals/Grand_Design_Upgrade_2026-06-13.md` (lab-validated 7-for-7: ramp T10→T9 + Craterhoof; supersedes the older Finisher/ETB/Mana passes, now in `archive/proposals/`).
+> **Clock reality (lab 2026-06-10, `scripts/gd_clock_lab.py`):** the "12 mana by turn 6–7" line is a god-hand, not the norm. Across 40k goldfish trials a lethal Finale (X≥10) fires in only **~9% of games, median turn 11** — too slow and too mana-hungry to be the deck's working closer. **96% of the deck's decaps are incremental combat** (Atraxa + cast/reanimated creatures grinding), median decap **T10**. Treat Finale as the **late-game ceiling**, not "Kill Line 1 — Primary"; the real primary clock is now **Kill Line 1b (Craterhoof, tutorable)** + Kill Line 10 (combat). This is exactly why a *fetchable* creature finisher mattered — fixed in the applied 2026-06-23 upgrade `archive/proposals/Grand_Design_Upgrade_2026-06-13.md` (lab-validated 7-for-7: ramp T10→T9 + Craterhoof; supersedes the older Finisher/ETB/Mana passes, now in `archive/proposals/`).
 
 12 mana for Finale is reachable with Sol Ring, Arcane Signet, Carpet of Flowers (conditional — needs opponents’ Islands), and Bloom Tender producing WUBG (4 mana) once Atraxa is on the battlefield — but the lab shows that conjunction lands a median of turn 11, not 6–7.
 
@@ -400,7 +400,7 @@ Exactly 3 Game Changers:
 > ⚠️ **Pre-swap (2026-06-23).** This is the original from-scratch acquisition list and still lists
 > cut cards (Carpet of Flowers, Displacer Kitten, Veil of Summer) and omits the swap's adds
 > (Craterhoof, Solemn, Sakura, Springbloom, Kodama's, Coalition Relic, Fanatic of Rhonas — all owned
-> spares, $0). The applied swap needs **no purchases**; see `proposals/Grand_Design_Upgrade_2026-06-13.md`.
+> spares, $0). The applied swap needs **no purchases**; see `archive/proposals/Grand_Design_Upgrade_2026-06-13.md`.
 
 |Card                     |Role                                     |Est. Price|
 |-------------------------|-----------------------------------------|----------|
