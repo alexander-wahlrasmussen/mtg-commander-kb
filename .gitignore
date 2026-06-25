@@ -19,6 +19,10 @@ ds-bundle/
 # deck_sim.py machine-readable dump — regenerate with deck_sim.py --json
 sim_results.json
 
+# DeckSafe-generated per-deck proxy lists — local "what to proxy to assemble this"
+# scratch, not source of truth. Regenerate with the DeckSafe builder.
+decks/proxy/
+
 # Python
 __pycache__/
 *.pyc
