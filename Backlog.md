@@ -148,3 +148,46 @@ control**, i.e. this roster's core. So the tool is competent **only where you do
 hard (combo/control) decks the hand-scripted `*_clock_lab.py` goldfish already beats it. An engine imports a
 *weaker* judgment, not the missing one. Full record + verified Forge facts + the "if reopened" baseline:
 `reference/REF_Simulation_Fidelity.md` §3–§4 (which also stands as the durable fidelity-ladder reference).
+
+---
+
+## 8. Deck Doctor extensions — NOT STARTED, raised 2026-06-25
+
+Forward ideas for `scripts/deck_doctor.py` (built 2026-06-25 — the one-command per-deck
+health check: size · banlist · colour-identity · GC · unresolved · clock-drift · CC datum
+· `--run-lab`; see `workflows/WF_Deck_Doctor.md` + [[project_deck_doctor_tool]]). Proven on
+the 22-candidate sweep: caught Berta's `Hengegate Pathway` ({WU} in a {GU} deck) and
+filtered the benchmark/superseded noise. The frame for every extension: **plug into the
+chain without duplicating a tool we already have** (note the tool each leans on, stay DRY).
+
+**A. New checks that drop into the per-deck pass**
+1. **Singleton-rule check** — flag any non-basic appearing >1×. A genuine *legality* gap the
+   tool doesn't cover today (it does banlist + colour, not the 1-copy rule). Cheap, pure-data.
+   First confirm `deck_sim.parse_deck` isn't already collapsing dupes silently (if it is, the
+   check moves a layer up).
+2. **Ownership / buildability + buy cost** — chain `unlock_optimizer.py` / `availability_check.py`:
+   "own N of 100 (incl. proxy), here's the buy list + €". The biggest gap — the doctor proves a
+   deck is *legal* but not *buildable*. Most valuable on `considering/` candidates.
+3. **Consistency vitals** — chain `deck_sim.py`: keepable-hand % + the BDD `--need ramp/draw`
+   count-by-target-turn ("12 ramp by T3?"). Adds the "is it consistent" axis, not just "is it legal".
+4. **Combo audit** — chain `find_combos.py` (Commander Spellbook): confirm the *intended* kill line
+   is present + flag **accidental** infinites. Doubles as a house-rules gate (infinites OK per
+   [[project_infinites_ok_in_pod]] since 2026-06-19, but MLD / repeatable extra-turns still out).
+5. **Bracket estimate** — beyond GC count, score the broader WotC-bracket signals (MLD, extra-turns,
+   2-card infinites, fast-mana density). GC ≤3 is one input; this is the fuller bracket read.
+
+**B. New modes / uses**
+6. **`--all` batch dashboard** — formalise the manual sweep into one command: roster + candidates,
+   PASS/WARN/FAIL table, errors inline. Natural feed for the gauntlet dashboard's deck pages.
+7. **`--diff old.txt new.txt`** — swap inspector: cards in/out between two dated versions, and whether
+   the change *crossed a boundary* (GC→4, added off-colour, moved the clock). The "did this swap stay
+   legal" check.
+
+**C. Integration**
+8. **Pre-commit / CI gate** — wire it into a hook (the docstring already advertises this) so a decklist
+   edit that breaks size/legality/CI/GC can't be committed. Turns "run it when you remember" into
+   "can't forget".
+
+**Recommended first pick:** #1 (singleton — closes a real legality hole in minutes) + #2 (ownership/buy
+— answers "can I build this candidate, for how much") in one pass; #6 (`--all`) is the natural third
+(already prototyped in the sweep).
