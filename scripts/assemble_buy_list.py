@@ -20,7 +20,7 @@ from deck_safe_collection_builder import (
     parse_collection, parse_deck, resolve_owned, canonical_name, clean_deck_name,
 )
 
-CSV = r"collection/moxfield_haves_2026-06-07-1031Z.csv"
+CSV = r"collection/moxfield_haves_2026-06-25-0748Z.csv"
 DECKS_DIR = r"decks"
 
 TARGETS = [

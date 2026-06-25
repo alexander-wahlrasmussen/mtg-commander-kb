@@ -3,10 +3,10 @@
 **Date:** 2026-06-25
 **Scenario:** Keep all three target decks built at once; **dismantle Diminishing Returns** (cards return to pool); the other 13 active decks stay built and hold their physical copies.
 **Mode:** **Worst case** = true buys (owned 0) **+** contention buys (owned but locked in a deck that stays built).
-**Source:** `scripts/assemble_buy_list.py` over `collection/moxfield_haves_2026-06-07-1031Z.csv`.
+**Source:** `scripts/assemble_buy_list.py` over `collection/moxfield_haves_2026-06-25-0748Z.csv`.
 **Forced Liquidation build:** `decks/considering/forced-liquidation-20260625.txt` (Displacer Kitten pass + Bolas/Channeler combo pass — see below). Prior builds archived under `archive/old_decklists/` (`-20260612`, `-20260623`).
 
-> ⚠️ **Stale-snapshot caveat.** The Moxfield export is dated **2026-06-07**, but every target decklist was finalized *after* it (FL 06-23, Zero-Sum 06-19, Lightning War 06-21). Cards bought or proxied for these decks since then are **not** in the snapshot and therefore appear as buys. The count is the worst case, not a verified shortfall — re-run after a fresh Moxfield export for an authoritative list.
+> ✅ **Verified against the current collection.** Re-run on the fresh **2026-06-25** Moxfield export and the result is byte-identical to the earlier 06-07 run — so the count is a real shortfall, not a stale-snapshot ceiling. (The 06-25 export differs from 06-07 only by −Sublime Epiphany −Timeless Witness +Thassa's Oracle, none of which are in these three decks.)
 
 **Total: 80 copies** — 57 true buys + 23 contention buys. *(Down from 87 before the FL passes.)*
 
