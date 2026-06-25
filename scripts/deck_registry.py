@@ -216,6 +216,8 @@ EXTRA_COMMANDERS = {
     "kefka-external": "Kefka, Court Mage",
     # 2026-06-14 Hashaton benchmark (decks/considering/) — Esper Thoracle variant
     "hashaton-thoracle": "Hashaton, Scarab's Fist",
+    # 2026-06-25 Urza mono-U artifact combo-control candidate (decks/considering/)
+    "planned-obsolescence": "Urza, Lord High Artificer",
     # 2026-06-13 external Glarb lists under evaluation (decks/considering/) — all Glarb
     "glarb-strong-ext": "Glarb, Calamity's Augur",
     "glarb-mastermind-ext": "Glarb, Calamity's Augur",

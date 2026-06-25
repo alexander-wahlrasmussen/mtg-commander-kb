@@ -151,6 +151,24 @@ MIRROR = "Mirrorform"                        # instant: all nonlands -> copy of 
 WAN = "Wan Shi Tong, Librarian"             # ETB draw X/2 (opp-search draw goldfish-dead)
 
 ROCKS = {"Sol Ring": (1, 2)}
+# Front-loaded-ramp counterfactual (mode_frontload, 2026-06-24). Cheap repeatable
+# ramp that comes online in the opening turns — the lever the BDD --need heuristic
+# flagged as MISSING (deck draws ramp early but only ~30% castable by T3 because the
+# suite is 4-6 MV land-tutors). Card text + cmc verified via card_lookup 2026-06-24:
+# Birds {G} cmc1 (already IN the deck but unmodelled as mana = a faithfulness gap);
+# all four rocks are {2} cmc2, untapped, BUG-castable (Talisman of Dominance is UB).
+# Modelled (name -> (cost, mana_output)) like Sol Ring: drawn naturally, deployed
+# cheapest-first when affordable. Caveat: the rock model taps same-turn-as-cast — exact
+# for rocks, ~1-turn optimistic for Birds (summoning sickness), so Birds is a slight ceiling.
+BIRDS = "Birds of Paradise"
+FAST_ROCKS = {"Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
+              "Mind Stone": (2, 1), "Talisman of Dominance": (2, 1)}
+# The deck's top-end MODELLED ramp — the fairly-costed cut for the realistic swap row.
+# These four are the only expensive ramp the lab already models faithfully (so removing
+# them is honestly priced); cutting Hour+Tempt also strips BOTH Coffers fetchers, which
+# is the real cost of front-loading — making that row a LOWER bound (pure-addition = upper).
+FRONT_OUT = ["Hour of Promise", "Skyshroud Claim", "Tempt with Discovery",
+             "Oracle of Mul Daya"]
 RAMP1 = {"Farseek": 2, "Nature's Lore": 2, "Three Visits": 2}   # +1 land
 RAMP2 = {"Skyshroud Claim": 4}                                  # +2 lands
 EXTRA_DROP = {"Azusa, Lost but Seeking": (3, 2), "Exploration": (1, 1),
@@ -166,9 +184,25 @@ POWER = {GRAY: 2, KOKUSHO: 5, ARCHON: 6, "Sheoldred, the Apocalypse": 4,
 CREATURE_TUTORS = {"Chord of Calling": 8, "Finale of Devastation": 7}  # -> Gray
 
 
-def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=None):
+def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=None,
+               rocks=None, land_ramp=None, lr_basics=None):
     """One trial. Returns (decap, table, via). via in
     {'xdrain','copy','mirror','jarad','drain','combat',None}.
+
+    `rocks` overrides the modelled mana-rock set (default ROCKS = Sol Ring only).
+    mode_frontload passes an extended dict to model Birds + cheap signets/talismans
+    as faithful drawn-and-deployed sources (the front-loaded-ramp counterfactual).
+
+    `land_ramp` (mode_landramp) is a list of (name, cost) ramp SORCERIES to model
+    on top of the deck's already-modelled RAMP1/2 (Farseek/Nature's Lore/Three Visits/
+    Skyshroud) — the Cultivate/Kodama's Reach counterfactual the user asked about.
+    `lr_basics` controls the fetch constraint: None = CEILING (each cast = +1 land,
+    ignores the basic-only restriction); an int = the basic-restricted REAL model —
+    Cultivate/Kodama fetch BASIC lands only (card_lookup 2026-06-24), so a counter of
+    basics-in-deck caps how much these spells can ever produce. The deployed list runs
+    exactly ONE basic (Forest), so lr_basics=1 makes the pair worth +1 land TOTAL,
+    once, then dead 3-mana sorceries. Generous: both found basics treated as in play
+    (real timing puts the 2nd in hand tapped) — so even this OVER-states the lever.
 
     `cand` (mode_croak) swaps the Lier slot for a replacement engine, modelled
     CONSERVATIVELY: 'aesi' = +1 extra land drop AND draw 1/land entering;
@@ -181,12 +215,13 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=No
     test whether modelling MORE of Glarb's filtering (beyond the baseline surveil/top-cast/
     Sylvan already here) speeds the kill. It does not (the kill is mana-gated): see
     mode_digtest. This is the honest answer to 'did we under-model Glarb's dig for V1/V4?'"""
-    g = core.Goldfish(library, rng, rocks=ROCKS)
+    g = core.Goldfish(library, rng, rocks=rocks or ROCKS)
     tb = core.Table()
     glarb = False
     coffers = urborg = False
     sylvan = carpet = False
     witherbloom = dellian = False
+    lr_basics_left = lr_basics     # basics still fetchable by Cultivate/Kodama (mode_landramp)
     extra_drops = 0                # standing extra land drops
     landfall_mana = 0              # standing +mana per land entering
     landfall_draw = 0              # standing +cards per land entering (Aesi/Tatyova)
@@ -294,6 +329,17 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=No
         for nm, cost in RAMP1.items():
             if g.cast(nm, cost):
                 land_entered()
+        # ---- land-ramp SORCERIES counterfactual (Cultivate/Kodama's Reach) ---
+        if land_ramp:
+            for nm, cost in land_ramp:
+                if g.cast(nm, cost):
+                    if lr_basics_left is None:        # ceiling: ignore the basic-only limit
+                        land_entered()
+                    elif lr_basics_left > 0:          # real: fetch up to 2 basics, capped
+                        got = min(2, lr_basics_left)
+                        lr_basics_left -= got
+                        land_entered(got)             # generous (2nd basic really goes to hand)
+                    # else: no basics left -> a dead 3-mana sorcery (the deployed 1-Forest case)
         if g.cast("Skyshroud Claim", 4):
             land_entered(2)
         if g.cast("Hour of Promise", 5):     # fetch Coffers/Urborg first
@@ -729,9 +775,93 @@ def mode_gary(index, aliases, trials):
     print("  line (a near-blank 2/4 otherwise). +Exsanguinate tests a board-independent replacement.")
 
 
+def mode_frontload(index, aliases, trials):
+    print(f"\n### FRONTLOAD — does CHEAP EARLY ramp pull the mana-gated clock?   trials={trials} seed={SEED}")
+    print("    The BDD --need heuristic (deck_sim --need ramp) found Croak DRAWS ramp early")
+    print("    (~65% in hand by T3) but only ~30% is CASTABLE by T3 — the suite is 4-6 MV")
+    print("    land-tutors. This A/Bs adding cheap repeatable ramp (Birds + 2-MV signets/")
+    print("    talismans) that comes online T1-3, to see if it moves the decap/table median.")
+    print("    BRACKET: pure-addition rows = UPPER bound (free, no cut cost); the realistic")
+    print("    swap = LOWER bound (cuts the deck's top-end ramp incl. BOTH Coffers fetchers).")
+    print("    Truth sits between. If even the upper bound is flat, the kill is mana-gated on")
+    print("    something cheap ramp can't fix (Coffers scaling + drawing Torment), lever dead.\n")
+    base, _ = core.load_parsed(CROAK_DECK, index, aliases)
+    birds_rocks = {**ROCKS, BIRDS: (1, 1)}
+    add2 = ["Arcane Signet", "Fellwar Stone"]
+    add4 = add2 + ["Mind Stone", "Talisman of Dominance"]
+    rocks2 = {**birds_rocks, **{k: FAST_ROCKS[k] for k in add2}}
+    rocks4 = {**birds_rocks, **FAST_ROCKS}
+    variants = [
+        ("baseline (Sol Ring only, as published)", base, ROCKS),
+        ("+ Birds modelled (already in deck)", base, birds_rocks),
+        ("+2 fast rocks (101 cards)", core.build_lib(base, index, [], add2), rocks2),
+        ("+4 fast rocks (103 cards)", core.build_lib(base, index, [], add4), rocks4),
+        ("realistic -4 topramp +4 rocks (99)",
+         core.build_lib(base, index, FRONT_OUT, add4), rocks4),
+    ]
+    for dig in (0, 2):
+        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        print(f"  -- {label} --")
+        print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
+        for tag, lib, rocks in variants:
+            rng = random.Random(SEED)
+            res = [kill_turns(lib, rng, dig=dig, rocks=rocks) for _ in range(trials)]
+            print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW)
+                  + f"   {core.median(res, 0)}")
+            print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW)
+                  + f"   {core.median(res, 1)}")
+        print()
+    print("  Read the DELTA vs baseline. +Birds is a faithfulness fix (cheap dork already")
+    print("  in the list); the fast-rock rows are the counterfactual. A flat decap median")
+    print("  across all rows = the front-loaded-ramp lever is flat (mana-gated elsewhere).")
+
+
+def mode_landramp(index, aliases, trials):
+    print(f"\n### LANDRAMP — do land-FETCH spells (Cultivate/Kodama) pull the clock?   trials={trials} seed={SEED}")
+    print("    Companion to mode_frontload (which tested cheap ROCKS). The user's point: ramp")
+    print("    can be land-fetch SORCERIES, not just dorks/rocks. CARD-TEXT GOTCHA (card_lookup")
+    print("    2026-06-24): Cultivate / Kodama's Reach / Explosive Veg / Migration Path /")
+    print("    Search for Tomorrow all fetch BASIC LANDS ONLY. The deployed list runs exactly")
+    print("    ONE basic (Forest) — so these are ~dead here. The land ramp that WORKS on a")
+    print("    dual manabase (Farseek, Nature's Lore, Three Visits @2-MV; Skyshroud @4) is")
+    print("    ALREADY in the deck and already modelled (RAMP1/RAMP2). Rows below bracket it:\n")
+    print("      real (1 Forest)  = +Cultivate+Kodama, basic-restricted to the deck's 1 basic")
+    print("      +5 Forests       = make basic-ramp live (build cost: +basics dilute the duals)")
+    print("      CEILING          = model them as generic 3-MV '+1 land', basic limit ignored\n")
+    base, _ = core.load_parsed(CROAK_DECK, index, aliases)
+    LR = [("Cultivate", 3), ("Kodama's Reach", 3)]
+    add_names = ["Cultivate", "Kodama's Reach"]
+    base_plus = core.build_lib(base, index, [], add_names)            # +2 cards (101)
+    base_plus_basics = core.build_lib(base, index, [], add_names + ["Forest"] * 5)  # +7 (106)
+    variants = [
+        ("baseline (as published)", base, None, None),
+        ("+Cultivate+Kodama  real (1 Forest)", base_plus, LR, 1),
+        ("+Cultivate+Kodama  +5 Forests (live)", base_plus_basics, LR, 6),
+        ("+Cultivate+Kodama  CEILING (ignore basics)", base_plus, LR, None),
+    ]
+    for dig in (0, 2):
+        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        print(f"  -- {label} --")
+        print("  metric".ljust(46) + "".join(f"{t:>6}" for t in SHOW) + "   median")
+        for tag, lib, lr, basics in variants:
+            rng = random.Random(SEED)
+            res = [kill_turns(lib, rng, dig=dig, land_ramp=lr, lr_basics=basics)
+                   for _ in range(trials)]
+            print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW, width=44)
+                  + f"   {core.median(res, 0)}")
+            print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW, width=44)
+                  + f"   {core.median(res, 1)}")
+        print()
+    print("  Read the DELTA vs baseline. The 'real' row is the honest answer to the user's")
+    print("  question; CEILING isolates the 3-MV netting SHAPE from the basic-fetch problem.")
+    print("  If even CEILING is flat, land-ramp spells are the same dead lever as fast rocks:")
+    print("  the kill is mana-gated on Coffers scaling + drawing Torment, not ramp velocity.")
+
+
 def main():
     core.run_cli(__doc__, {"clock": mode_clock, "digtest": mode_digtest,
-                           "unified": mode_unified, "croak": mode_croak, "gary": mode_gary})
+                           "unified": mode_unified, "croak": mode_croak, "gary": mode_gary,
+                           "frontload": mode_frontload, "landramp": mode_landramp})
 
 
 if __name__ == "__main__":

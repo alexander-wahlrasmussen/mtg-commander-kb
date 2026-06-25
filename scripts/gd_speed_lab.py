@@ -46,7 +46,12 @@ _spec = importlib.util.spec_from_file_location("deck_sim", Path(__file__).parent
 ds = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ds)
 
 OLD = ROOT / "archive" / "old_decklists" / "the-grand-design-20260402-100951.txt"
-NEW = ROOT / "decks" / "the-grand-design-20260502.txt"
+# NEW tracks the DEPLOYED list. Re-pointed 2026-06-24: the 0502 6-for-6 swap is the
+# historical milestone (frozen in proposals/Grand_Design_Speed_Curve_Analysis.md and the
+# 0502 file in archive/old_decklists/); it has since been folded into the deployed list,
+# which ALSO already carries the 2026-06-09 finisher fix (Craterhoof in). So the POST
+# column and the forward-looking modes now reflect the current deck, not the 0502 snapshot.
+NEW = ROOT / "decks" / "the-grand-design-20260623.txt"
 SEED = 12345
 TURNS = 10
 SHOW = [2, 3, 4, 5, 6, 7, 8, 10]
@@ -64,7 +69,13 @@ FAT = ["Razaketh, the Foulblooded", "Vilis, Broker of Blood",
 MANA_SHARED = ["Sol Ring", "Arcane Signet", "Carpet of Flowers", "Birds of Paradise",
                "Three Visits", "Nature's Lore", "Farseek"]
 MANA_OLD = MANA_SHARED + ["Seedborn Muse", "Sakura-Tribe Elder"]
-MANA_NEW = MANA_SHARED + ["Bloom Tender"]
+# Mana accelerants in the DEPLOYED list (0623 ramp suite) that help power a big Finale X.
+# Defined explicitly (not via MANA_SHARED) so the POST column matches the actual deck —
+# e.g. Carpet of Flowers is no longer run. Verified against the 0623 decklist 2026-06-24.
+MANA_NEW = ["Sol Ring", "Arcane Signet", "Coalition Relic", "Birds of Paradise",
+            "Bloom Tender", "Fanatic of Rhonas", "Three Visits", "Nature's Lore",
+            "Farseek", "Kodama's Reach", "Sakura-Tribe Elder", "Springbloom Druid",
+            "Solemn Simulacrum"]
 
 # Broad creature tutors modelled as wildcards for the Finale/Defense find.
 TUTORS = ["Eladamri's Call", "Chord of Calling", "Birthing Pod"]
@@ -282,36 +293,63 @@ def build_lib(base, index, removes, adds):
     return lib
 
 
-# creature tutors that can fetch a CREATURE finisher (Craterhoof/Ibex) — they
-# canNOT fetch Finale (a sorcery), which is the whole point of the asymmetry.
-CTUT = ["Birthing Pod", "Chord of Calling", "Eladamri's Call"]
+# Creature tutors that can fetch a CREATURE finisher (Craterhoof/Ibex/End-Raze).
+# They canNOT fetch Finale or Triumph (sorceries) — but Finale ITSELF puts a creature
+# onto the battlefield (and is a standalone overrun at X>=10), so it is BOTH a finisher
+# and a Craterhoof/Ibex tutor. Defense of the Heart fetches two creatures; Razaketh/
+# Sidisi/Fauna/Pod/Chord/Eladamri all reach a creature finisher. This is the whole point
+# of the 2026-06-09 fix: the deck's closer is now visible to its own tutor engine.
+CTUT = ["Birthing Pod", "Chord of Calling", "Eladamri's Call",
+        "Defense of the Heart", "Fauna Shaman", "Sidisi, Undead Vizier",
+        "Razaketh, the Foulblooded", "Finale of Devastation"]
 
 
 def mode_finishers(index, aliases, trials):
-    print(f"\n### FINISHERS — P(>=1 mass-finisher available by turn T) %   trials={trials} seed={SEED}")
-    print("    CURRENT shows 'drawn' only: the creature tutors (Pod/Chord/Eladamri,")
-    print("    plus Defense/Razaketh) CANNOT fetch Finale, so the deck's sole finisher")
-    print("    is invisible to its own tutor suite. PROPOSED adds CREATURE finishers,")
-    print("    so the entire creature engine can now find a closer (+tutors column).\n")
+    print(f"\n### FINISHERS — P(>=1 overrun finisher available by turn T) %   trials={trials} seed={SEED}")
+    print("    The DEPLOYED list already carries the fix (Craterhoof in), so a creature")
+    print("    finisher is now fetchable by the whole creature-tutor suite. This measures")
+    print("    the CURRENT reliability and whether a 2nd/3rd tutorable creature overrun")
+    print("    (Pathbreaker Ibex / End-Raze Forerunners) adds redundancy. Triumph of the")
+    print("    Hordes (a 4-MV sorcery overrun) shown as the untutorable-redundancy contrast.")
+    print("    drawn = a finisher in hand;  +tutors = also reachable via a creature tutor")
+    print("    (Craterhoof/Ibex/End-Raze only — Finale/Triumph are sorceries tutors miss).\n")
     base, _, _, _ = load(NEW, index, aliases)
-    core = build_lib(base, index, ["Displacer Kitten", "Grisly Salvage"],
-                     ["Craterhoof Behemoth", "Final Parting"])
-    three = build_lib(core, index, ["Bloom Tender"], ["Pathbreaker Ibex"])
+    plus_ibex = build_lib(base, index, [], ["Pathbreaker Ibex"])
+    plus_two = build_lib(plus_ibex, index, [], ["End-Raze Forerunners"])
+    plus_tri = build_lib(base, index, [], ["Triumph of the Hordes"])
     print("  build".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
+    # historical baseline: Finale alone, untutorable (why the deck used to funnel)
     rng = random.Random(SEED)
     d, _ = simulate_groups(base, [["Finale of Devastation"]], [], trials, rng)
-    print(_row("CURRENT  Finale only (drawn)", d))
+    print(_row("Finale only, untutorable (drawn)", d))
+    # current reality: Finale + Craterhoof, with the creature-tutor suite reaching it
     rng = random.Random(SEED)
-    d, wt = simulate_groups(core, [["Finale of Devastation", "Craterhoof Behemoth"]], CTUT, trials, rng)
-    print(_row("CORE     Finale+Craterhoof drawn", d))
-    print(_row("CORE     Finale+Craterhoof +tutors", wt))
+    d, wt = simulate_groups(base, [["Finale of Devastation", "Craterhoof Behemoth"]], CTUT, trials, rng)
+    print(_row("CURRENT  Finale+Craterhoof drawn", d))
+    print(_row("CURRENT  Finale+Craterhoof +tutors", wt))
+    # +Ibex (2nd tutorable creature overrun)
     rng = random.Random(SEED)
-    d, wt = simulate_groups(three, [["Finale of Devastation", "Craterhoof Behemoth", "Pathbreaker Ibex"]],
-                            CTUT, trials, rng)
+    d, wt = simulate_groups(plus_ibex,
+        [["Finale of Devastation", "Craterhoof Behemoth", "Pathbreaker Ibex"]], CTUT, trials, rng)
     print(_row("+IBEX    3 finishers drawn", d))
     print(_row("+IBEX    3 finishers +tutors", wt))
-    print("\n  (Defense of the Heart + Razaketh are ADDITIONAL creature-tutors not counted")
-    print("   above; with a creature finisher in the deck, Defense becomes a direct kill.)")
+    # +Ibex +End-Raze (3rd tutorable creature overrun)
+    rng = random.Random(SEED)
+    d, wt = simulate_groups(plus_two,
+        [["Finale of Devastation", "Craterhoof Behemoth", "Pathbreaker Ibex", "End-Raze Forerunners"]],
+        CTUT, trials, rng)
+    print(_row("+IBEX+ENDRAZE drawn", d))
+    print(_row("+IBEX+ENDRAZE +tutors", wt))
+    # contrast: +Triumph (sorcery) lifts DRAWN but not the +tutors reach
+    rng = random.Random(SEED)
+    d, wt = simulate_groups(plus_tri,
+        [["Finale of Devastation", "Craterhoof Behemoth", "Triumph of the Hordes"]], CTUT, trials, rng)
+    print(_row("+TRIUMPH (sorcery) drawn", d))
+    print(_row("+TRIUMPH (sorcery) +tutors", wt))
+    print("\n  Read: the +tutors lift OVER drawn = the value of a FETCHABLE finisher. Each")
+    print("  creature overrun (Ibex/End-Raze) raises the +tutors line; Triumph (a sorcery)")
+    print("  only raises drawn. Pure additions = UPPER bound; a real add needs a cut.")
+    print("  CAVEAT: all overruns are BOARD-dependent — availability != a board to swing.")
 
 
 # ==========================================================================
