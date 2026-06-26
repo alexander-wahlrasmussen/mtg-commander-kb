@@ -37,6 +37,7 @@ import json
 import os
 import random
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -68,7 +69,11 @@ DISPLAY = {**deck_registry.active_display(), **deck_registry.EXTRA_DISPLAY}
 # Card data
 # ---------------------------------------------------------------------------
 
+@lru_cache(maxsize=1)
 def load_oracle_index():
+    # Cached: parses the 176 MB Scryfall bulk into a read-only name->record index.
+    # Callers never mutate the records, so sharing one copy across every deck in a
+    # batch run (deck_doctor --all, pod_gauntlet) turns N reads into one.
     if not ORACLE.exists():
         sys.exit(f"ERROR: {ORACLE} not found — run scripts/update_scryfall_data.py first")
     print("Loading card data (large file, a few seconds)...", file=sys.stderr)

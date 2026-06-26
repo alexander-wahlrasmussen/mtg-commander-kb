@@ -151,7 +151,7 @@ hard (combo/control) decks the hand-scripted `*_clock_lab.py` goldfish already b
 
 ---
 
-## 8. Deck Doctor extensions — NOT STARTED, raised 2026-06-25
+## 8. Deck Doctor extensions — #1 + #2 + #6 + #7 SHIPPED 2026-06-26; rest open
 
 Forward ideas for `scripts/deck_doctor.py` (built 2026-06-25 — the one-command per-deck
 health check: size · banlist · colour-identity · GC · unresolved · clock-drift · CC datum
@@ -161,13 +161,20 @@ filtered the benchmark/superseded noise. The frame for every extension: **plug i
 chain without duplicating a tool we already have** (note the tool each leans on, stay DRY).
 
 **A. New checks that drop into the per-deck pass**
-1. **Singleton-rule check** — flag any non-basic appearing >1×. A genuine *legality* gap the
-   tool doesn't cover today (it does banlist + colour, not the 1-copy rule). Cheap, pure-data.
-   First confirm `deck_sim.parse_deck` isn't already collapsing dupes silently (if it is, the
-   check moves a layer up).
-2. **Ownership / buildability + buy cost** — chain `unlock_optimizer.py` / `availability_check.py`:
-   "own N of 100 (incl. proxy), here's the buy list + €". The biggest gap — the doctor proves a
-   deck is *legal* but not *buildable*. Most valuable on `considering/` candidates.
+1. ~~**Singleton-rule check**~~ ✅ SHIPPED 2026-06-26 — `singleton` section. `parse_deck`
+   does NOT collapse dupes (it expands `qty`), and crucially it EXCLUDES the `SIDEBOARD:`
+   block, so the check derives quantities from the parsed main deck (`canon_quantities`), not a
+   raw re-read (which over-counted Radiation's 2 sideboard cards). Honours the two exemption
+   shapes from the card's own text: "any number of cards named …" (→ ∞) and "up to N cards
+   named …" (Nazgûl 9, Seven Dwarves 7 — limit enforced). First pass false-flagged 4× Nazgûl
+   until the "up to N" wording was added — a worked example of read-the-card-text.
+2. ~~**Ownership / buildability + buy cost**~~ ✅ SHIPPED 2026-06-26 — `buildability` section.
+   Reuses `unlock_optimizer.load_owned` (alias-resolved real vs proxy) and joins on the ORACLE
+   canonical name (so `Morgul-Knife`→`Shadowspear` and `Wise Mothman`→`The Wise Mothman` match —
+   validated live on Radiation). Reports own N/100 (basics assumed owned), the buy list, and
+   INDICATIVE dated Scryfall € (flagged, never a quote; 82% eur coverage). Contention (free vs
+   locked elsewhere) explicitly deferred to `availability_check.py` — pointed to, not re-derived.
+   Candidate value proven: planned-obsolescence = own 74/100, buy 26 cards ≈ €96.
 3. **Consistency vitals** — chain `deck_sim.py`: keepable-hand % + the BDD `--need ramp/draw`
    count-by-target-turn ("12 ramp by T3?"). Adds the "is it consistent" axis, not just "is it legal".
 4. **Combo audit** — chain `find_combos.py` (Commander Spellbook): confirm the *intended* kill line
@@ -177,17 +184,30 @@ chain without duplicating a tool we already have** (note the tool each leans on,
    2-card infinites, fast-mana density). GC ≤3 is one input; this is the fuller bracket read.
 
 **B. New modes / uses**
-6. **`--all` batch dashboard** — formalise the manual sweep into one command: roster + candidates,
-   PASS/WARN/FAIL table, errors inline. Natural feed for the gauntlet dashboard's deck pages.
-7. **`--diff old.txt new.txt`** — swap inspector: cards in/out between two dated versions, and whether
-   the change *crossed a boundary* (GC→4, added off-colour, moved the clock). The "did this swap stay
-   legal" check.
+6. ~~**`--all` batch dashboard**~~ ✅ SHIPPED 2026-06-26 — `--all` (+ `--candidates`). Runs the
+   SAME checks in quiet mode (no second code path: `Report(quiet)` suppresses prints but still
+   tallies + fills a `facts` dict) and prints one `size·sing·ill·off·GC·owned/100·buy€` row per
+   deck, FAIL/WARN floated up. 16-deck roster all PASS/WARN; the 38-deck `--candidates` sweep
+   re-caught Berta's off-colour + the external lists' GC-cap violations.
+7. ~~**`--diff old.txt new.txt`**~~ ✅ SHIPPED 2026-06-26 — swap inspector. Cards out/in (added cards
+   annotated GC / off-colour / BANNED), then a boundary check off the two quiet-doctor `facts` dicts
+   (size, GC>cap, newly illegal/off-colour/singleton) shown `old -> new` with NEWLY/fixed flags; verdict
+   `OLD-tag -> NEW-tag`, exit 1 on any crossing. Canon-keyed (a reskin reprint isn't read as a swap; a
+   commander change is called out). Clock movement is NOT inferred from two static lists (medians are
+   per-slug) — prints the `--run-lab` command instead (kill-window-needs-a-lab). Validated on the real
+   Replication Crisis 0504->0622 optimization (5-out/5-in, all boundaries clean) + a crafted off-colour
+   swap (WARN->FAIL). **Perf:** this pass also `lru_cache`d `deck_sim.load_oracle_index` +
+   `deck_doctor.load_full_index` (the 176 MB bulk was re-read per deck) — `--all` 32s -> 2.6s, helping
+   every batch tool (pod_gauntlet, labs).
 
 **C. Integration**
 8. **Pre-commit / CI gate** — wire it into a hook (the docstring already advertises this) so a decklist
    edit that breaks size/legality/CI/GC can't be committed. Turns "run it when you remember" into
    "can't forget".
 
-**Recommended first pick:** #1 (singleton — closes a real legality hole in minutes) + #2 (ownership/buy
-— answers "can I build this candidate, for how much") in one pass; #6 (`--all`) is the natural third
-(already prototyped in the sweep).
+**Recommended first pick:** ~~#1 + #2 + #6 + #7~~ — all four shipped 2026-06-26 (singleton,
+buildability/buy-€, `--all` dashboard, `--diff` swap inspector). **Still open:** #3 consistency vitals
+(chain `deck_sim`), #4 combo audit (chain `find_combos`), #5 bracket estimate, #8 pre-commit/CI gate.
+Next natural pick: #8 (CI gate) — wire `deck_doctor`/`validate` into a hook so a decklist edit that
+breaks size/legality/singleton/GC can't be committed; or #3/#4 to add the "is it consistent / does the
+intended combo line exist" axes the doctor still lacks.
