@@ -30,12 +30,15 @@ tooling rather than re-deriving anything:
              BDD anchors  [NEW — chains deck_sim.simulate / need-source MC]
   --combos   intended kill line present? + Commander Spellbook combo DB (complete /
              one-away / repeatable-extra-turn red line)  [NEW — chains find_combos]
+  --interaction  resilience: can the deck answer an artifact / enchantment / creature
+             / land, and get past indestructible + hexproof/shroud/ward? Heuristic
+             over oracle text  [NEW — Trinket Mage "win any game" pillar 1]
   clock      cached lab decap/table medians (analysis/pod_gauntlet_clocks.json)
              + does the Summary's Clock: line still match it?   [clock_check.py]
   framework  the deck's Conversion Check score (a datum from deck_registry — the CC
              is judged by hand, not computed; deck_doctor reports it, doesn't grade)
   --run-lab  ALSO run the deck's *_clock_lab.py live and echo the fresh clock grid
-  --deep     run everything, including --vitals and --combos
+  --deep     run everything, including --vitals, --combos and --interaction
   --all      batch dashboard: one PASS/WARN/FAIL row per deck for the whole roster
              (+ --candidates for decks/considering/), same checks, table-rendered
   --diff     swap inspector: cards in/out between two versions + whether the swap
@@ -289,6 +292,80 @@ def is_extra_turn(rec):
     return rec is not None and "extra turn" in _all_text(rec)
 
 
+# --- interaction coverage (Trinket Mage "decks that can always win", pillar 1) -
+# A resilience scan the legality checks don't do: can the deck ANSWER a threat of
+# each kind? Buckets mirror the video — the four permanent types you might need to
+# remove (artifact / enchantment / creature / land) plus the two ways a threat
+# dodges ordinary removal (indestructible, and hexproof/shroud/ward = "protection").
+# HEURISTIC over oracle text + type line, exactly like keepable% is a land-count
+# heuristic: it flags coverage HOLES, it does NOT adjudicate an interaction. The
+# lens is B2-3 grind; a pure racer may leave holes on purpose (memory:
+# reference_trinketmage_win_any_game — "not a brake on race decks").
+INTERACTION_BUCKETS = ["artifact", "enchantment", "creature", "land",
+                       "indestructible", "protection"]
+
+
+def _has(t, pat):
+    return re.search(pat, t) is not None
+
+
+def interaction_caps(rec):
+    """Set of answer-bucket tags a card provides, from oracle text. HEURISTIC —
+    pattern-matched, deliberately generous; meant to catch 'zero ways to touch an
+    enchantment', not to rule edge cases."""
+    if rec is None:
+        return set()
+    t = _all_text(rec)
+    caps = set()
+
+    bounce  = _has(t, r"return (target|all|each)[^.]*to (its|their) owner")
+    # exile that removes a PERMANENT (not graveyard hate like Bojuka Bog) — this is
+    # what actually answers an indestructible threat.
+    exile_p = _has(t, r"exile (target|all|each)[^.]*\b(permanent|creature|artifact|"
+                      r"enchantment|land|planeswalker|nonland|nontoken|token)s?\b")
+    mass    = _has(t, r"(destroy|exile) all") or _has(t, r"(destroy|exile) each")
+    edict   = _has(t, r"(player|opponent)s?[^.]{0,40}sacrific")
+    minus   = _has(t, r"-[0-9xX]+/-[0-9xX]+")
+    shuffle = _has(t, r"shuffles? (it|target permanent)") and "target permanent" in t
+    # a GENERIC counter ("counter target spell") stops any threat before it resolves;
+    # a narrow one (counter target creature/noncreature/artifact… spell) does not.
+    counterG = (_has(t, r"counter target spell")
+                and not _has(t, r"counter target (creature|noncreature|artifact|"
+                                r"instant|sorcery|multicolored|monocolored) spell"))
+
+    # catch-all that hits every permanent type: destroy/exile a "… permanent",
+    # bounce a "… permanent" (Cyclonic Rift), or Chaos Warp's shuffle. A
+    # "nonland permanent" effect doesn't answer lands.
+    if (_has(t, r"(destroy|exile) (target|all|each)[^.]*permanent")
+            or _has(t, r"return (target|all|each)[^.]*permanent[^.]*to (its|their) owner")
+            or shuffle):
+        caps |= {"artifact", "enchantment", "creature"}
+        if "nonland permanent" not in t:
+            caps.add("land")
+
+    # targeted/mass removal naming a specific type (handles "artifact or enchantment",
+    # "artifact, creature, or land", "destroy all creatures", bounce-that-type)
+    for typ in ("artifact", "enchantment", "creature", "land"):
+        if (_has(t, rf"(destroy|exile)[^.]*\b{typ}s?\b")
+                or _has(t, rf"return[^.]*\b{typ}s?\b[^.]*to (its|their) owner")):
+            caps.add(typ)
+    # creature kill modes that never say "destroy"
+    if minus or _has(t, r"damage to (target|any target|each)") or _has(t, r"\bfights?\b") or edict:
+        caps.add("creature")
+    # a generic counter answers any of the permanent spell types on the stack
+    if counterG:
+        caps |= {"artifact", "enchantment", "creature"}
+
+    # past indestructible: exile / bounce / sacrifice / -X/-X / shuffle / counter
+    if exile_p or bounce or edict or minus or shuffle or counterG:
+        caps.add("indestructible")
+    # past hexproof/shroud/ward: anything that doesn't target the permanent —
+    # a mass effect, an edict (targets the player), damage-to-each, or a counter
+    if mass or edict or counterG or _has(t, r"damage to each"):
+        caps.add("protection")
+    return caps
+
+
 def eur_price(rec):
     """Indicative non-foil EUR price from the Scryfall bulk, or None. Prices go
     stale (REF: verify-prices) — callers must label this as indicative + dated."""
@@ -363,7 +440,7 @@ class Report:
 
 def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
            quiet=False, check_build=True, csv_path=None,
-           vitals=False, combos=False, trials_sim=SIM_TRIALS):
+           vitals=False, combos=False, trials_sim=SIM_TRIALS, interaction=False):
     path, slug = resolve_target(arg)
     if path is None or not path.exists():
         if not quiet:
@@ -666,6 +743,45 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
             rpt.line(WARN, f"Commander Spellbook unreachable — combo DB skipped "
                            f"({type(e).__name__})")
 
+    # --- 9b. interaction coverage (opt-in: resilience checklist) --------
+    # Can the deck ANSWER each kind of threat? (Trinket Mage "win any game",
+    # pillar 1 — see the interaction_caps() header.) Always computed under --all
+    # so the batch table can show a gaps column; printed only on demand.
+    if interaction:
+        rpt.section("interaction coverage (resilience)")
+        if not oracle:
+            rpt.line(WARN, "skipped (no oracle data)")
+        else:
+            cover = {b: [] for b in INTERACTION_BUCKETS}
+            for nm in pool:
+                rec = lookup(full, aliases, nm)
+                for b in interaction_caps(rec):
+                    cover[b].append(rec.get("name", nm) if rec else nm)
+            gaps = [b for b in INTERACTION_BUCKETS if not cover[b]]
+            rpt.facts["intxn_gaps"] = len(gaps)
+            for b in INTERACTION_BUCKETS:
+                names = sorted(set(cover[b]))
+                n = len(names)
+                if n == 0:
+                    # INFO, not WARN: a coverage hole is an advisory resilience
+                    # signal (a pure racer may leave it open on purpose), NOT a
+                    # legality/correctness failure — it must not flip the verdict.
+                    rpt.line(INFO, f"{b:13} 0 answers — no way to deal with a "
+                                   f"threat of this kind")
+                elif n <= 2:
+                    rpt.line(INFO, f"{b:13} thin ({n}): {', '.join(names)}")
+                else:
+                    rpt.line(OK, f"{b:13} {n} answers "
+                                 f"(e.g. {', '.join(names[:3])})")
+            if gaps:
+                rpt.note(f"holes: {', '.join(gaps)} — a flexible catch-all closes "
+                         f"several at once (Chaos Warp = any permanent + "
+                         f"indestructible; a board wipe = hexproof/shroud/ward; "
+                         f"Perilous Vault = both)")
+            rpt.note("heuristic over oracle text (flags holes, doesn't adjudicate); "
+                     "B2-3 grind lens — a pure racer may skip some on purpose "
+                     "(memory: reference_trinketmage_win_any_game)")
+
     # --- 10. bracket estimate + house-rule gate -------------------------
     rpt.section("bracket / house rules")
     if not oracle:
@@ -833,14 +949,15 @@ def batch(include_candidates=False, csv_path=None):
     print(f"=== Deck Doctor — batch ({len(targets)} decks"
           f"{', incl. candidates' if include_candidates else ''}) ===\n")
     hdr = (f"{'verdict':7} {'deck':28} {'size':>4} {'sing':>4} {'ill':>3} "
-           f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'owned':>7} {'buy €':>8}")
+           f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'gap':>3} {'owned':>7} {'buy €':>8}")
     print(hdr)
     print("-" * len(hdr))
 
     worst = 0
     rows = []
     for slug, path in targets:
-        res = doctor(path if path else slug, quiet=True, csv_path=csv_path)
+        res = doctor(path if path else slug, quiet=True, csv_path=csv_path,
+                     interaction=True)
         f = res["facts"]
         own = (f"{f['owned']}/{f['need']}" if "owned" in f else "—")
         if f.get("buy_n"):
@@ -861,14 +978,15 @@ def batch(include_candidates=False, csv_path=None):
               f"{_flag(f,'singleton'):>4} {_flag(f,'illegal'):>3} "
               f"{_flag(f,'offcolor'):>3} {_flag(f,'mld'):>3} "
               f"{str(f.get('gc','?')):>3} {str(f.get('bracket','?')):>3} "
-              f"{own:>7} {buy:>8}")
+              f"{_flag(f,'intxn_gaps'):>3} {own:>7} {buy:>8}")
 
     n_fail = sum(1 for r in rows if r[0]["tag"] == "FAIL")
     n_warn = sum(1 for r in rows if r[0]["tag"] == "WARN")
     print(f"\n=== {len(rows)} decks: {n_fail} FAIL, {n_warn} WARN, "
           f"{len(rows) - n_fail - n_warn} PASS ===")
     print("  columns: size(!=100 prefixed !) · sing(leton) · ill(egal) · off(-colour) "
-          "· MLD(house-banned) · GC · brk(et est) · owned/100 · buy € (indicative; + unpriced)")
+          "· MLD(house-banned) · GC · brk(et est) · gap(interaction-coverage holes, 0-6) "
+          "· owned/100 · buy € (indicative; + unpriced)")
     print("  drill into any deck: python scripts/deck_doctor.py <slug>")
     return 1 if worst else 0
 
@@ -1010,8 +1128,11 @@ def main():
                     help="consistency vitals: keepable%% + ramp/draw count-by-turn (MC sim)")
     ap.add_argument("--combos", action="store_true",
                     help="combo audit: intended kill line + Commander Spellbook DB (network)")
+    ap.add_argument("--interaction", action="store_true",
+                    help="resilience: can the deck answer artifact/ench/creature/land "
+                         "+ indestructible + protection? (heuristic over oracle text)")
     ap.add_argument("--deep", action="store_true",
-                    help="run every check including --vitals and --combos")
+                    help="run every check including --vitals, --combos and --interaction")
     ap.add_argument("--run-lab", action="store_true",
                     help="also run the deck's *_clock_lab.py live and echo the grid")
     ap.add_argument("--lab", metavar="MODULE:MODE",
@@ -1029,7 +1150,8 @@ def main():
     return doctor(args.deck, run_lab=args.run_lab, lab_override=args.lab,
                   trials=args.trials, check_build=not args.no_build,
                   csv_path=args.csv, vitals=args.vitals or args.deep,
-                  combos=args.combos or args.deep)["code"]
+                  combos=args.combos or args.deep,
+                  interaction=args.interaction or args.deep)["code"]
 
 
 if __name__ == "__main__":
