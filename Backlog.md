@@ -151,7 +151,7 @@ hard (combo/control) decks the hand-scripted `*_clock_lab.py` goldfish already b
 
 ---
 
-## 8. Deck Doctor extensions — #1 + #2 + #6 + #7 SHIPPED 2026-06-26; rest open
+## 8. Deck Doctor extensions — #1-#7 SHIPPED 2026-06-26; only #8 (CI gate) open
 
 Forward ideas for `scripts/deck_doctor.py` (built 2026-06-25 — the one-command per-deck
 health check: size · banlist · colour-identity · GC · unresolved · clock-drift · CC datum
@@ -175,13 +175,20 @@ chain without duplicating a tool we already have** (note the tool each leans on,
    INDICATIVE dated Scryfall € (flagged, never a quote; 82% eur coverage). Contention (free vs
    locked elsewhere) explicitly deferred to `availability_check.py` — pointed to, not re-derived.
    Candidate value proven: planned-obsolescence = own 74/100, buy 26 cards ≈ €96.
-3. **Consistency vitals** — chain `deck_sim.py`: keepable-hand % + the BDD `--need ramp/draw`
-   count-by-target-turn ("12 ramp by T3?"). Adds the "is it consistent" axis, not just "is it legal".
-4. **Combo audit** — chain `find_combos.py` (Commander Spellbook): confirm the *intended* kill line
-   is present + flag **accidental** infinites. Doubles as a house-rules gate (infinites OK per
-   [[project_infinites_ok_in_pod]] since 2026-06-19, but MLD / repeatable extra-turns still out).
-5. **Bracket estimate** — beyond GC count, score the broader WotC-bracket signals (MLD, extra-turns,
-   2-card infinites, fast-mana density). GC ≤3 is one input; this is the fuller bracket read.
+3. ~~**Consistency vitals**~~ ✅ SHIPPED 2026-06-26 — `--vitals` (opt-in, ~5s). Chains
+   `deck_sim.simulate` (keepable% @8k, fixed seed) + `need_source_set`/`simulate_need` for ramp
+   (BDD ~12 by T3) and draw (~8 by T6) count-by-turn. Framed as consistency not power (keepable%
+   informs HOW to build, doesn't grade). `--deep` turns it on with #4. Matched deck_sim's own 98.9%.
+4. ~~**Combo audit**~~ ✅ SHIPPED 2026-06-26 — `--combos` (opt-in, network). (a) network-free intended
+   kill-line check vs the registry `win_line` (fuzzy-aware); (b) `find_combos.query_deck` (CSB) for
+   complete + one-away combos. House-rules gate: a combo producing repeatable **extra turns** = ERROR;
+   other infinites pod-accepted ([[project_infinites_ok_in_pod]]). Refactored find_combos to expose a
+   reusable `query_deck`. Validated: Genome kill line present + 0 combos; Replication 2 infinite → bracket 4.
+5. ~~**Bracket estimate**~~ ✅ SHIPPED 2026-06-26 — default `bracket / house rules` section. Estimates
+   WotC bracket from GC + MLD + 2-card-infinite (when `--combos` ran) + fast-mana density + extra-turns,
+   AND enforces the pod house rules: **MLD = ERROR** (hard exclusion, curated set + "destroy all lands"
+   text backstop), >1 extra-turn = WARN (0-1 allowance, no chains). Added `MLD` + `brk` columns to `--all`
+   (so the dashboard now catches a house-banned card). Caught Time Warp's "take**s** an extra turn" wording.
 
 **B. New modes / uses**
 6. ~~**`--all` batch dashboard**~~ ✅ SHIPPED 2026-06-26 — `--all` (+ `--candidates`). Runs the
@@ -205,9 +212,7 @@ chain without duplicating a tool we already have** (note the tool each leans on,
    edit that breaks size/legality/CI/GC can't be committed. Turns "run it when you remember" into
    "can't forget".
 
-**Recommended first pick:** ~~#1 + #2 + #6 + #7~~ — all four shipped 2026-06-26 (singleton,
-buildability/buy-€, `--all` dashboard, `--diff` swap inspector). **Still open:** #3 consistency vitals
-(chain `deck_sim`), #4 combo audit (chain `find_combos`), #5 bracket estimate, #8 pre-commit/CI gate.
-Next natural pick: #8 (CI gate) — wire `deck_doctor`/`validate` into a hook so a decklist edit that
-breaks size/legality/singleton/GC can't be committed; or #3/#4 to add the "is it consistent / does the
-intended combo line exist" axes the doctor still lacks.
+**Status:** ~~#1-#7~~ all shipped 2026-06-26 (singleton, buildability/buy-€, `--all` dashboard,
+`--diff` swap inspector, consistency `--vitals`, combo `--combos`, bracket/house-rule gate). **Only #8
+(pre-commit/CI gate) remains** — wire `deck_doctor`/`validate` into a hook so a decklist edit that breaks
+size/legality/singleton/GC/MLD can't be committed; the per-deck checks + exit codes now all exist to gate on.

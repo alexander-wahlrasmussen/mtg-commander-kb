@@ -22,12 +22,20 @@ tooling rather than re-deriving anything:
   game ch.   ≤ 3 Game Changers, reskin-resolved   [validate.load_game_changers]
   names      no unresolved card names (oracle typos / missing data)
   build      own N of 100 (real + proxy), the buy list + indicative € to finish it
-             [NEW — chains unlock_optimizer.load_owned + Scryfall prices]
+             [chains unlock_optimizer.load_owned + Scryfall prices]
+  bracket    estimated WotC bracket from GC + MLD + infinite + fast-mana signals,
+             AND the pod house-rule gate: mass land denial = ERROR, extra-turn
+             chains flagged  [NEW — REF_Bracket_3_House_Rules.md]
+  --vitals   consistency: keepable opening-hand %% + ramp/draw count-by-turn vs the
+             BDD anchors  [NEW — chains deck_sim.simulate / need-source MC]
+  --combos   intended kill line present? + Commander Spellbook combo DB (complete /
+             one-away / repeatable-extra-turn red line)  [NEW — chains find_combos]
   clock      cached lab decap/table medians (analysis/pod_gauntlet_clocks.json)
              + does the Summary's Clock: line still match it?   [clock_check.py]
   framework  the deck's Conversion Check score (a datum from deck_registry — the CC
              is judged by hand, not computed; deck_doctor reports it, doesn't grade)
   --run-lab  ALSO run the deck's *_clock_lab.py live and echo the fresh clock grid
+  --deep     run everything, including --vitals and --combos
   --all      batch dashboard: one PASS/WARN/FAIL row per deck for the whole roster
              (+ --candidates for decks/considering/), same checks, table-rendered
   --diff     swap inspector: cards in/out between two versions + whether the swap
@@ -46,6 +54,7 @@ Usage
     python scripts/deck_doctor.py decks/considering/x.txt # any decklist file
     python scripts/deck_doctor.py grand-design --run-lab  # also run the clock lab live
     python scripts/deck_doctor.py planned-obsolescence --run-lab --lab urza_clock_lab:clock
+    python scripts/deck_doctor.py zero-sum-game --deep    # + vitals + combos + bracket
     python scripts/deck_doctor.py --all                   # roster PASS/WARN/FAIL table
     python scripts/deck_doctor.py --all --candidates      # + the considering/ candidates
     python scripts/deck_doctor.py --diff OLD.txt NEW.txt  # swap inspector (did it stay legal?)
@@ -61,6 +70,7 @@ from functools import lru_cache
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import deck_sim as ds                # noqa: E402  (simulate / need-source MC for --vitals)
 from deck_sim import (  # noqa: E402
     ROOT, ORACLE, parse_deck, load_oracle_index, load_reskin_aliases,
 )
@@ -82,6 +92,7 @@ for _s in (sys.stdout, sys.stderr):
 
 ERROR, WARN, OK, INFO = "ERROR", "WARN", "OK", "INFO"
 LAB_TRIALS = 8000        # quick read; the labs default to 40k, pod_gauntlet harvests at 8k
+SIM_TRIALS = 8000        # --vitals Monte Carlo (deck_sim defaults to 20k; this is a quick read)
 
 
 def rel(p):
@@ -244,6 +255,40 @@ def singleton_limit(rec):
     return 1
 
 
+# --- bracket / house-rule signals (REF_Bracket_3_House_Rules.md) -------------
+# Mass land denial is a HARD house-rule exclusion. Curated from the ref's named
+# list + close kin; backstopped by an oracle-text scan so an un-listed MLD card
+# still trips. Ruinous Ultimatum is deliberately absent (doesn't hit lands).
+MLD_CARDS = {
+    "armageddon", "ravages of war", "jokulhaups", "obliterate", "devastating dreams",
+    "catastrophe", "boom // bust", "wildfire", "decree of annihilation", "cataclysm",
+    "global ruin", "sunder", "impending disaster", "fall of the thran", "death cloud",
+    "bend or break", "keldon firebombers", "epicenter", "mana vortex", "tectonic break",
+}
+
+# Fast mana density is a bracket SIGNAL (not a gate). Curated rocks/rituals.
+FAST_MANA = {
+    "sol ring", "mana crypt", "mana vault", "grim monolith", "basalt monolith",
+    "chrome mox", "mox diamond", "mox opal", "mox amber", "mox ruby", "mox sapphire",
+    "mox emerald", "mox jet", "mox pearl", "jeweled lotus", "lotus petal",
+    "lion's eye diamond", "black lotus", "dark ritual", "cabal ritual", "rite of flame",
+    "pyretic ritual", "desperate ritual", "simian spirit guide", "elvish spirit guide",
+    "jeska's will", "seething song", "mana geyser", "culling the weak",
+}
+
+
+def is_mld(name_lower, rec):
+    if name_lower in MLD_CARDS:
+        return True
+    return "destroy all lands" in _all_text(rec) if rec else False
+
+
+def is_extra_turn(rec):
+    # "take/takes an extra turn" (Time Warp uses "takes"); "extra combat" cards
+    # (Aggravated Assault) don't say "extra turn", so the bare substring is safe.
+    return rec is not None and "extra turn" in _all_text(rec)
+
+
 def eur_price(rec):
     """Indicative non-foil EUR price from the Scryfall bulk, or None. Prices go
     stale (REF: verify-prices) — callers must label this as indicative + dated."""
@@ -317,7 +362,8 @@ class Report:
 
 
 def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
-           quiet=False, check_build=True, csv_path=None):
+           quiet=False, check_build=True, csv_path=None,
+           vitals=False, combos=False, trials_sim=SIM_TRIALS):
     path, slug = resolve_target(arg)
     if path is None or not path.exists():
         if not quiet:
@@ -535,7 +581,143 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
             rpt.note("contention (is an owned copy free or locked elsewhere?): "
                      "availability_check.py / unlock_optimizer.py")
 
-    # --- 8. clock (cached medians + Summary drift) ----------------------
+    # --- 8. consistency vitals (opt-in: chains deck_sim's Monte Carlo) ---
+    if vitals:
+        rpt.section("consistency vitals (MC sim)")
+        if not oracle:
+            rpt.line(WARN, "skipped (no oracle data)")
+        else:
+            import random as _random
+            rng = _random.Random(12345)            # fixed seed = reproducible
+            identity = set()
+            for _, r in library:
+                identity.update(r.get("color_identity", ()))
+            cmd_idx = index.get(commander.lower()) if commander else None
+            if cmd_idx:
+                identity.update(cmd_idx.get("color_identity", ()))
+            stats = ds.simulate(library, sorted(identity), 10, trials_sim, rng)
+            kp = stats["keepable_pct"]
+            sev = OK if kp >= 75 else (WARN if kp >= 65 else ERROR)
+            rpt.line(sev, f"keepable opening hand: {kp:.0f}%  "
+                          f"({trials_sim} trials; land-count heuristic)")
+            rpt.facts["keepable"] = round(kp)
+            # BDD count-by-turn for the two load-bearing classes
+            try:
+                for klass, by in (("ramp", 3), ("draw", 6)):
+                    srcs = ds.need_source_set(library, klass)
+                    need = ds.simulate_need(library, srcs, 10, trials_sim, rng)
+                    tgt, lbl = ds.rule_of_thumb(by)
+                    ih = need["in_hand_by_turn"].get(by, 0.0)
+                    verdict = "meets" if need["n_sources"] >= tgt else "below"
+                    rpt.line(INFO, f"{klass}: {need['n_sources']} sources "
+                                   f"(BDD ~{tgt} by T{by}: {verdict}) — "
+                                   f"{ih:.0f}% in hand by T{by}")
+            except Exception as e:                  # tagger is best-effort
+                rpt.line(WARN, f"ramp/draw tagging unavailable: "
+                               f"{type(e).__name__}: {str(e)[:80]}")
+            rpt.note("consistency, not power: keepable% informs HOW to build "
+                     "(redundancy/bottleneck), it doesn't grade the deck")
+
+    # --- 9. combo audit (opt-in: intended kill line + CSB) --------------
+    combo_infinite = None        # None = not checked; bracket reads it if set
+    if combos:
+        rpt.section("combos (kill line + accidental infinites)")
+        pool_lower = {n.lower() for n in pool}
+        # (a) intended kill line — network-free, from the registry win_line
+        wl = reg_row.get("win_line") if reg_row else None
+        if wl and wl.get("pieces"):
+            fuzzy = wl.get("fuzzy")
+            missing = [p for p in wl["pieces"]
+                       if not (p.lower() in pool_lower
+                               or (fuzzy and any(p.lower() in n for n in pool_lower)))]
+            if missing:
+                rpt.line(WARN, f"intended kill line incomplete — missing: "
+                               f"{', '.join(missing)}")
+            else:
+                rpt.line(OK, f"intended kill line present: {', '.join(wl['pieces'])}")
+        elif reg_row:
+            rpt.line(INFO, "no win_line on file for this deck — CSB scan only")
+        # (b) Commander Spellbook combo DB (network)
+        try:
+            import find_combos as fc
+            q = fc.query_deck(path)
+            inc = q["included"]
+
+            def _is_extra_turn_combo(c):
+                return any("extra turn" in f.lower() for f in fc._features(c))
+            et_combos = [c for c in inc if _is_extra_turn_combo(c)]
+            inf_combos = [c for c in inc
+                          if any("infinite" in f.lower() for f in fc._features(c))]
+            combo_infinite = len(inf_combos)
+            if et_combos:
+                rpt.line(ERROR, f"{len(et_combos)} repeatable extra-turn combo(s) "
+                                f"— house-rule banned (REF_Bracket_3_House_Rules)")
+                for c in et_combos[:3]:
+                    rpt.note(f"[{c['id']}] {', '.join(fc._features(c))}")
+            rpt.line(OK if not inc else INFO,
+                     f"{len(inc)} complete combo(s) in deck; "
+                     f"{len(inf_combos)} infinite (pod-accepted since 2026-06-19)")
+            near = [c for c in q["almost"]
+                    if sum(1 for n in fc._uses(c) if n.lower() not in q["deck_lower"]) <= 1]
+            if near:
+                rpt.line(INFO, f"{len(near)} combo(s) one card away — "
+                               f"`find_combos.py {slug or path.stem}` for the buy list")
+        except Exception as e:
+            rpt.line(WARN, f"Commander Spellbook unreachable — combo DB skipped "
+                           f"({type(e).__name__})")
+
+    # --- 10. bracket estimate + house-rule gate -------------------------
+    rpt.section("bracket / house rules")
+    if not oracle:
+        rpt.line(WARN, "skipped (no oracle data)")
+    else:
+        mld_hits, et_hits, fast_hits = [], [], []
+        for nm in pool:
+            rec = lookup(full, aliases, nm)
+            if is_mld(nm.lower(), rec):
+                mld_hits.append(rec.get("name", nm) if rec else nm)
+            if is_extra_turn(rec):
+                et_hits.append(rec.get("name", nm) if rec else nm)
+            if nm.lower() in FAST_MANA or aliases.get(nm.lower(), nm).lower() in FAST_MANA:
+                fast_hits.append(nm)
+        rpt.facts.update(mld=len(mld_hits), extra_turns=len(et_hits),
+                         fast_mana=len(fast_hits))
+        # house-rule hard gate: mass land denial
+        if mld_hits:
+            rpt.line(ERROR, f"mass land denial — house-rule banned: "
+                            f"{', '.join(sorted(set(mld_hits)))}")
+        # extra-turn allowance is 0-1; a repeatable loop is the real red line
+        if len(et_hits) > 1:
+            rpt.line(WARN, f"{len(et_hits)} extra-turn effects "
+                           f"({', '.join(sorted(set(et_hits)))}) — house rule allows 0-1, "
+                           f"no chains; verify with --combos")
+        elif et_hits:
+            rpt.note(f"1 extra-turn effect ({et_hits[0]}) — within the 0-1 allowance")
+        # estimated WotC bracket
+        gc_n = rpt.facts.get("gc", 0)
+        two_card_inf = (combo_infinite or 0) > 0
+        if gc_n > MAX_GC or mld_hits or two_card_inf:
+            brk, why = 4, []
+            if gc_n > MAX_GC:
+                why.append(f"{gc_n} GC")
+            if mld_hits:
+                why.append("MLD")
+            if two_card_inf:
+                why.append("infinite combo")
+        elif gc_n >= 1:
+            brk, why = 3, [f"{gc_n} GC"]
+        else:
+            brk, why = 2, ["0 GC, no combo/MLD signal"]
+        inf_note = ("" if combo_infinite is not None
+                    else "  (run --combos to detect 2-card infinites)")
+        rpt.facts["bracket"] = brk
+        rpt.line(INFO, f"estimated WotC bracket ~{brk} ({', '.join(why)}; "
+                       f"fast-mana {len(fast_hits)}, extra-turns {len(et_hits)})"
+                       f"{inf_note}")
+        rpt.note("pod runs B3-by-GC / B4-in-spirit; infinites OK, "
+                 "MLD + repeatable extra-turns house-banned")
+
+    # --- 11. clock (cached medians + Summary drift) ---------------------
     rpt.section("clock")
     clocks = (json.loads(cc.CLOCKS_JSON.read_text(encoding="utf-8"))
               if cc.CLOCKS_JSON.exists() else {})
@@ -651,7 +833,7 @@ def batch(include_candidates=False, csv_path=None):
     print(f"=== Deck Doctor — batch ({len(targets)} decks"
           f"{', incl. candidates' if include_candidates else ''}) ===\n")
     hdr = (f"{'verdict':7} {'deck':28} {'size':>4} {'sing':>4} {'ill':>3} "
-           f"{'off':>3} {'GC':>3} {'owned':>7} {'buy €':>8}")
+           f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'owned':>7} {'buy €':>8}")
     print(hdr)
     print("-" * len(hdr))
 
@@ -677,7 +859,8 @@ def batch(include_candidates=False, csv_path=None):
         size_cell = str(size) if size == DECK_SIZE else f"!{size}"
         print(f"{res['tag']:7} {res['title'][:28]:28} {size_cell:>4} "
               f"{_flag(f,'singleton'):>4} {_flag(f,'illegal'):>3} "
-              f"{_flag(f,'offcolor'):>3} {str(f.get('gc','?')):>3} "
+              f"{_flag(f,'offcolor'):>3} {_flag(f,'mld'):>3} "
+              f"{str(f.get('gc','?')):>3} {str(f.get('bracket','?')):>3} "
               f"{own:>7} {buy:>8}")
 
     n_fail = sum(1 for r in rows if r[0]["tag"] == "FAIL")
@@ -685,7 +868,7 @@ def batch(include_candidates=False, csv_path=None):
     print(f"\n=== {len(rows)} decks: {n_fail} FAIL, {n_warn} WARN, "
           f"{len(rows) - n_fail - n_warn} PASS ===")
     print("  columns: size(!=100 prefixed !) · sing(leton) · ill(egal) · off(-colour) "
-          "· GC · owned/100 · buy € (indicative; + = unpriced cards)")
+          "· MLD(house-banned) · GC · brk(et est) · owned/100 · buy € (indicative; + unpriced)")
     print("  drill into any deck: python scripts/deck_doctor.py <slug>")
     return 1 if worst else 0
 
@@ -823,6 +1006,12 @@ def main():
     ap.add_argument("--csv", help="Moxfield haves CSV for buildability (default: newest)")
     ap.add_argument("--no-build", action="store_true",
                     help="skip the ownership/buy-cost check (single-deck mode)")
+    ap.add_argument("--vitals", action="store_true",
+                    help="consistency vitals: keepable%% + ramp/draw count-by-turn (MC sim)")
+    ap.add_argument("--combos", action="store_true",
+                    help="combo audit: intended kill line + Commander Spellbook DB (network)")
+    ap.add_argument("--deep", action="store_true",
+                    help="run every check including --vitals and --combos")
     ap.add_argument("--run-lab", action="store_true",
                     help="also run the deck's *_clock_lab.py live and echo the grid")
     ap.add_argument("--lab", metavar="MODULE:MODE",
@@ -839,7 +1028,8 @@ def main():
         ap.error("a deck is required (or pass --all / --diff)")
     return doctor(args.deck, run_lab=args.run_lab, lab_override=args.lab,
                   trials=args.trials, check_build=not args.no_build,
-                  csv_path=args.csv)["code"]
+                  csv_path=args.csv, vitals=args.vitals or args.deep,
+                  combos=args.combos or args.deep)["code"]
 
 
 if __name__ == "__main__":

@@ -175,6 +175,32 @@ def _fmt_combo(combo, deck_lower=None, indent="    "):
     return "\n".join(lines)
 
 
+def query_deck(path):
+    """Parse a decklist, resolve reskins, and ask Commander Spellbook what combos
+    it holds. Returns a dict {identity, included, almost, changing, deck_lower,
+    meta, aliased}. Raises urllib/Timeout errors on network failure (caller's to
+    handle). The reusable core of main() — also used by deck_doctor's combo audit."""
+    commanders, main, meta = parse_decklist(path)
+    aliases = deck_sim.load_reskin_aliases()
+    aliased = []
+
+    def card_objs(entries):
+        objs = []
+        for qty, name in entries:
+            real = aliases.get(name.lower(), name)
+            if real != name:
+                aliased.append(f"{name} -> {real}")
+            objs.append({"card": real, "quantity": qty})
+        return objs
+
+    payload = {"commanders": card_objs(commanders), "main": card_objs(main)}
+    deck_lower = {c["card"].lower() for c in payload["commanders"] + payload["main"]}
+    identity, included, almost, changing = find_my_combos(payload)
+    return {"identity": identity, "included": included, "almost": almost,
+            "changing": changing, "deck_lower": deck_lower, "meta": meta,
+            "aliased": sorted(set(aliased))}
+
+
 def resolve_deck(arg):
     """Path or fuzzy stem substring -> Path to a decklist in decks/."""
     p = Path(arg)
@@ -201,32 +227,19 @@ def main():
     args = ap.parse_args()
 
     path = resolve_deck(args.deck)
-    commanders, main, meta = parse_decklist(path)
-
-    aliases = deck_sim.load_reskin_aliases()
-    aliased = []
-
-    def card_objs(entries):
-        objs = []
-        for qty, name in entries:
-            real = aliases.get(name.lower(), name)
-            if real != name:
-                aliased.append(f"{name} -> {real}")
-            objs.append({"card": real, "quantity": qty})
-        return objs
-
-    payload = {"commanders": card_objs(commanders), "main": card_objs(main)}
-    deck_lower = {c["card"].lower() for c in payload["commanders"] + payload["main"]}
 
     try:
-        identity, included, almost, changing = find_my_combos(payload)
+        q = query_deck(path)
     except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as e:
         sys.exit(f"Commander Spellbook request failed: {e}\n(Network access is required; nothing was reported.)")
+    identity, included, almost, changing = q["identity"], q["included"], q["almost"], q["changing"]
+    deck_lower, meta, aliased = q["deck_lower"], q["meta"], q["aliased"]
 
-    cmd_disp = ", ".join(c["card"] for c in payload["commanders"]) or "(none resolved)"
+    commanders, main, _ = parse_decklist(path)
+    cmd_disp = ", ".join(name for _, name in commanders) or "(none resolved)"
     print(f"Deck: {meta['stem']}")
     print(f"Commander(s): {cmd_disp}   |   color identity: {identity or '?'}")
-    print(f"Cards sent: {len(payload['main'])} main + {len(payload['commanders'])} commander")
+    print(f"Cards sent: {len(main)} main + {len(commanders)} commander")
     if not meta["registry_commander"]:
         print("  ! commander not in deck_registry — used Moxfield trailing-block fallback")
     if aliased:

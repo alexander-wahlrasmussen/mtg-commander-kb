@@ -48,10 +48,15 @@ The deck argument is flexible: a registry slug (`radiation_sickness`), a decklis
 | Game Changers | ≤ 3, reskin-resolved | ERROR |
 | unresolved names | every name resolves to oracle data | WARN |
 | buildability | own N of 100 (real + proxy), buy list + indicative € | INFO |
+| bracket / house rules | mass land denial (house-banned); extra-turn chains; WotC bracket estimate | **ERROR** (MLD) / WARN / INFO |
+| consistency vitals `--vitals` | keepable hand % + ramp/draw count-by-turn vs BDD anchors | OK/WARN |
+| combos `--combos` | intended kill line present? + CSB combo DB; repeatable extra-turn = banned | **ERROR** / INFO |
 | clock | cached lab decap/table medians + Summary `Clock:` drift | WARN |
 | Conversion Check | the deck's CC score (reported, **not** computed) | INFO |
 
-Exit code is `1` if any ERROR, `2` if the deck can't be resolved, else `0`.
+Exit code is `1` if any ERROR, `2` if the deck can't be resolved, else `0`. `--vitals`,
+`--combos` are opt-in (the MC sim is ~5 s; the combo DB needs network); `--deep` turns both
+on. `--all` does **not** run them (kept fast) — its `brk` column is the GC-only bracket read.
 
 The **singleton** check counts the MAIN deck only (it derives quantities from
 `deck_sim.parse_deck`, which excludes the `SIDEBOARD:` block — re-reading the raw `.txt`
@@ -81,6 +86,29 @@ prefixed `!`; a `+` on the buy-€ flags that some cards in the list are unprice
 rows float to the top within each group. Drill into any flagged deck with the single-deck
 command. Exit `1` if any deck FAILs.
 
+### Bracket / house rules (default)
+
+Estimates the WotC bracket from local signals — Game Changer count, **mass land denial**,
+fast-mana density, extra-turn count, and (with `--combos`) 2-card infinites — and enforces
+the pod's house rules from `REF_Bracket_3_House_Rules.md`: **MLD is an ERROR** (hard
+exclusion), more than one extra-turn effect is a WARN (allowance is 0–1, no chains), and
+infinite combos are pod-accepted (since 2026-06-19) so they're reported, not penalised. The
+estimate is a heuristic, not a verdict; the pod runs "B3-by-GC / B4-in-spirit".
+
+### Consistency vitals (`--vitals`)
+
+Chains `deck_sim`'s Monte Carlo: keepable opening-hand % (land-count heuristic, fixed seed)
+plus ramp/draw **count-by-turn** measured against the BDD anchors (~12 ramp by T3, ~8 draw
+by T6). It's a *consistency* read, not a power grade — it informs **how** to build
+(redundancy, bottleneck), per [[feedback_mulligan_is_deckbuilding_input]].
+
+### Combo audit (`--combos`)
+
+Two checks: (1) network-free — is the registry's intended `win_line` actually present in the
+list? (2) `find_combos.query_deck` asks Commander Spellbook for **complete** combos and
+**one-away** buys. A combo producing repeatable **extra turns** is an ERROR (house-banned);
+all other infinites are reported as pod-accepted. Degrades to a WARN if CSB is unreachable.
+
 ### `--diff OLD.txt NEW.txt` swap inspector
 
 Compares two dated versions and answers **"did this swap stay legal?"**. Prints the cards
@@ -106,6 +134,11 @@ measure it, per the kill-window-needs-a-lab rule.
   question (is a copy free or double-booked across decks?). Deck Doctor's buildability
   answers the *single-deck* question (do I physically own the 100, what's the buy list)
   by reusing `unlock_optimizer.load_owned`; it points to those two for contention.
+- **`deck_sim.py`** is the MC engine `--vitals` chains (`simulate` / `need_source_set` /
+  `simulate_need`) — Deck Doctor runs a quick 8k-trial read; run `deck_sim.py` directly for
+  the full table, more turns, or `--need tutor/interaction/protection`.
+- **`find_combos.py`** is the Commander Spellbook client `--combos` chains (via the reusable
+  `query_deck`). Run it directly for the full combo list, near-misses, or `--changing`.
 - **`clock_check.py`** is reused verbatim for the Summary `Clock:` drift line — Deck Doctor
   reports the same verdict for one deck. Refresh the medians first with
   `python scripts/pod_gauntlet.py --refresh` if a lab changed.
