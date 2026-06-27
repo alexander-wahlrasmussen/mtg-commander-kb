@@ -3,7 +3,7 @@
 Cross-deck collection rollup — what's owned, deployed, and shared across decks (DeckSafe snapshot). Deck *contents* are ground-truthed by each `.txt`; this is the collection-wide view.
 
 Last updated: 2026-04-29 (data as-built) — **STALE: dashboard rebuild pending.**
-Source: `collection/moxfield_haves_2026-06-07-1031Z.csv` (current export; the 2026-04-29 build CSV has rotated out) — DeckSafe run against 16 digitized decks.
+Source: `collection/moxfield_haves_2026-06-25-0748Z.csv` (current export; the 2026-04-29 build CSV has rotated out) — DeckSafe run against 16 digitized decks.
 
 ---
 
