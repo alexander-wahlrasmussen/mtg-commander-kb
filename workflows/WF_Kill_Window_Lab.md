@@ -43,7 +43,7 @@ pattern (validated 7-for-7 across the 2026-06-12 bake-off labs):
 |---|---|---|
 | All-opponent simultaneous (pings / drains / symmetric burn) | **converge** (≈equal) | `gp_clock_lab.py`, `wb_clock_lab.py` |
 | Combat focus-fire (attack one player) | **diverge 2–3 turns** | `er_speed_lab.py`, `rc_speed_lab.py` |
-| On-cast / closed-loop combo (Thoracle-type, infinite) | **decap = table by construction** | `knn`/`kfx`/`kvd_clock_lab.py` |
+| On-cast / closed-loop combo (Thoracle-type, infinite) | **decap = table by construction** | `hsh_clock_lab.py`, `urza_clock_lab.py` |
 
 State the prior as a number against the existing claim: *"claim is T6–8; combat
 focus-fire so I expect decap ~T7–8, table ~T10; front edge suspect."* A prior is
@@ -77,7 +77,7 @@ combo clocks.
 - `Table.kill_all()` for hit-all kills (decap=table); focus-fire one opponent and
   let `Table` track decap vs table separately for combat decks.
 - Mana is a **lands + rocks floor** (plus ritual/temporary nets if the deck has
-  them — see `godo_clock_lab.py`'s `burst`/`spend`). It is heuristic, not a rules
+  them — see `hsh_clock_lab.py`'s `burst`/`spend`). It is heuristic, not a rules
   engine: trust shapes and deltas, not second decimals.
 - The lab is also a **decklist linter** — a parse error is usually a misspelt or
   nonexistent card in the `.txt`. Fix ground truth before trusting the clock.
