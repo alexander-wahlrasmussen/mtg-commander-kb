@@ -46,6 +46,13 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes 
 
 ---
 
+## Functional Baseline
+
+- **Ramp:** 14 sources (2 burst / 11 repeatable + 1 creature) · 49 mana sources · 36 land · avg CMC 2.89 (`ramp_audit.py` 2026-06-27). **In-band (~48–50), no flags** — the repeatable-heavy split fits a deck that recasts wheels and redeploys punishers each turn; the 2 burst (Seething Song + a treasure) fund an explosive wheel turn. 4 nonland payoffs at CMC ≥ 6.
+- **Buildability:** own 83/100 real+proxy (`availability_check.py` vs `moxfield_haves_2026-06-25-0748Z.csv`). **17 true buys ≈ €78** (premium = Bloodletter of Aclazotz ~€25, Echo of Eons ~€12; the rest cheap). 14 free undeployed copies incl. the commander, Notion Thief, Psychosis Crawler, Displacer Kitten, Nicol Bolas, Magus of the Wheel, Molten Psyche, Grim Tutor, Final Parting. **Scarce contention** (only copy locked elsewhere): **Sheoldred** (Dark Lord's Army) and **Seething Song / Ponder / Preordain / Past in Flames** — the last four are shared with **Lightning War**, the other on-order deck, so buy a 2nd or proxy to run both. Everything else flagged donor-pull is surplus (Sol Ring ×25, Lightning Greaves ×5, etc.) = effectively free.
+
+---
+
 ## Durability
 
 **The limiting axis (3/5).** Grixis has no green/white, so post-wrath recovery leans on recursion (Past in Flames re-buys wheels/punishers from the yard, Final Parting stacks the graveyard + tutors) and on Kefka's command-zone recastability. The punishers are mostly enchantments (Underworld Dreams, Fate Unraveler, Megrim, Liliana's Caress, Waste Not) and small creatures, so a board wipe on T7 sets the kill back ~2–3 turns to redeploy two punishers + a wheel. Redundancy is the real resilience: ~7 wheels and ~11 punisher/amplifier effects mean no single removal spell turns off the plan, and Kefka baits removal off the pieces that actually kill. The deck races rather than grinds — if it can't assemble before the pod's T6–7 combo, it loses.
