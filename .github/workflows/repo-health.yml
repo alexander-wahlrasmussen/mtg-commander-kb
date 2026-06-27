@@ -13,6 +13,10 @@
 #            job's pass/fail IS the roster's legality gate. Needs the gitignored
 #            168 MB Scryfall bulk data, fetched fresh each run (stdlib urllib;
 #            oracle-tags.json is optional and intentionally not fetched).
+#   tests  — runs the pytest suite over the simulation/lab cores (deck_sim,
+#            speed_lab_core, deck_registry). Hermetic: synthetic card records,
+#            NO Scryfall bulk, no network — so it's a fast gate on the code that
+#            produces every clock/consistency number the Summaries cite.
 #
 # Both jobs publish their report to the run summary. This does not touch the
 # Pages deploy (dashboard-pages.yml) — separate trigger, separate concern.
@@ -24,14 +28,17 @@ on:
     paths:
       - "decks/**"
       - "**/*.md"
-      - "scripts/lint_links.py"
-      - "scripts/deck_doctor.py"
+      - "scripts/**"
+      - "tests/**"
+      - "requirements*.txt"
       - ".github/workflows/repo-health.yml"
   pull_request:
     paths:
       - "decks/**"
       - "**/*.md"
       - "scripts/**"
+      - "tests/**"
+      - "requirements*.txt"
       - ".github/workflows/repo-health.yml"
   workflow_dispatch:
 
@@ -89,5 +96,26 @@ jobs:
             echo '## Deck Doctor — roster'
             echo '```'
             tail -n 25 doctor.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  tests:
+    name: Unit tests (sim/lab cores)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test deps
+        run: pip install -r requirements-dev.txt
+      - name: Run pytest (hermetic — no Scryfall bulk)
+        run: |
+          set -o pipefail
+          python -m pytest | tee pytest.txt
+          {
+            echo '## Unit tests — sim/lab cores'
+            echo '```'
+            tail -n 20 pytest.txt
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"

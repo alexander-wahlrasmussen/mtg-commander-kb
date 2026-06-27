@@ -208,11 +208,74 @@ chain without duplicating a tool we already have** (note the tool each leans on,
    every batch tool (pod_gauntlet, labs).
 
 **C. Integration**
-8. **Pre-commit / CI gate** — wire it into a hook (the docstring already advertises this) so a decklist
-   edit that breaks size/legality/CI/GC can't be committed. Turns "run it when you remember" into
-   "can't forget".
+8. ~~**Pre-commit / CI gate**~~ ✅ SHIPPED 2026-06-27 — committed git hook (`hooks/pre-commit`, activated
+   by `scripts/install_hooks.py` via `core.hooksPath`, NOT the heavy pre-commit framework). Targeted +
+   fast: only works when relevant files are staged. Staged active `decks/*.txt` -> `deck_doctor <file>
+   --no-build` per file (size · legality · colour-id · GC · singleton · MLD/house-rule) PLUS
+   `validate.py --no-oracle` for the repo-wide filename-collision sweep a single-deck pass can't see;
+   staged `scripts|tests/*.py` -> `pytest` (the Tier-1 suite, #9). Degrades gracefully without the
+   Scryfall bulk (size+GC+collision still gate; full legality is the CI backstop). `.gitattributes`
+   pins the hook to LF so it runs on macOS. Verified: blocks a 41-card decklist, passes a clean tree,
+   instant-skips a docs-only commit. Bypass once with `git commit --no-verify`; CI (`repo-health.yml`)
+   re-runs the same tools regardless.
 
-**Status:** ~~#1-#7~~ all shipped 2026-06-26 (singleton, buildability/buy-€, `--all` dashboard,
-`--diff` swap inspector, consistency `--vitals`, combo `--combos`, bracket/house-rule gate). **Only #8
-(pre-commit/CI gate) remains** — wire `deck_doctor`/`validate` into a hook so a decklist edit that breaks
-size/legality/singleton/GC/MLD can't be committed; the per-deck checks + exit codes now all exist to gate on.
+**Status:** ~~#1-#8~~ **all shipped.** #1-#7 (2026-06-26): singleton, buildability/buy-€, `--all`
+dashboard, `--diff` swap inspector, consistency `--vitals`, combo `--combos`, bracket/house-rule gate.
+#8 (2026-06-27): the pre-commit hook — "run it when you remember" is now "can't forget" locally, with
+CI as the hard backstop. The Deck Doctor extension track is complete; further testing work lives in #9.
+
+---
+
+## 9. Test discipline — calibrate the instruments (Tier 1 SHIPPED 2026-06-27)
+
+The whole analytical edifice (clock labs, `deck_sim`, `deck_doctor`, the bake-off) emits numbers we
+make real buy/build decisions on — but until now **zero** tests guarded the code that produces them.
+That's the asymmetry: we have strict discipline for the *card-level* inputs (read-the-card, cite-the-lab,
+verify-prices) and none for the *code*. And it has already failed: the colour-divide retraction, Grand
+Design's "39%→89%" fetch bug, the singleton sideboard over-count were all the **same** failure — a false
+red/green from an uncalibrated instrument (in TDD terms, a bug in the test framework itself). Our clock
+labs *are* test-first deckbuilding; this extends the same epistemics down to the simulator.
+
+Framing: **two layers.** Layer A = test the instrument (ordinary software testing — the gap). Layer B =
+the labs themselves (deck-acceptance tests — mostly need *formalising*, not inventing). Can't trust B
+until A exists. (Layer C — calibration vs real games — is out of scope; `game_log.py` → `calibrate.py`,
+the L2 frontier, deliberately excluded.)
+
+### NOW — Tier 1 (✅ SHIPPED 2026-06-27)
+- `tests/` (pytest + Hypothesis), hermetic (synthetic card records, NO Scryfall bulk, no network) — 48
+  tests, ~1.3s. Covers the three cores every consumer imports: `deck_sim`, `speed_lab_core`,
+  `deck_registry`. Three kinds: unit, **property** (`@given` — land band, cum-monotonicity, parse
+  round-trip), and **REGRESSION** (one per retracted finding: the produced-mana colour bug, the
+  fetch-resolution bug, the sideboard over-count).
+- Pinned `requirements.txt` (runtime) + `requirements-dev.txt` (pytest/hypothesis) — a fixed seed only
+  reproduces if the libraries underneath don't move.
+- New `tests` job in `repo-health.yml` (alongside link-lint + Deck Doctor). Fast gate — no bulk fetch.
+- **The rule** (`tests/README.md`): every retraction earns a regression test — the code equivalent of
+  `REF_Domain_Principles.md` for card-text gotchas. Stop thinking "coverage"; think "this bug is red
+  forever."
+
+### NEXT — Tier 2 (the labs as characterization tests)
+- **Golden / snapshot tests** pinning the 16 committed clock medians at a fixed seed (read from
+  `analysis/pod_gauntlet_clocks.json`), so any refactor that shifts a number fails loudly and you decide
+  fix-vs-regression. Two-tier assertions: exact under a pinned seed, tolerance band (`median ±1 turn`)
+  when run stochastically.
+- **Formalise the null-reduction differentials** we already do ad hoc — `interaction_meta_lab --tax 0`
+  reproducing `self_meta_lab` bit-for-bit is a differential/metamorphic test; make it (and every future
+  overlay's null reduction) a CI test, not a one-time manual check.
+- **Contract tests** for the external APIs (CSB `find_combos`, Scryfall) with record/replay (VCR-style
+  fixtures) so they run offline and API drift surfaces deliberately.
+
+### THEN — Tier 3 (metamorphic + meta-check)
+- **Metamorphic suite** — the answer to our oracle problem (no ground truth without real games): assert
+  how output must *change*, not its exact value. Add a Sol Ring → median decap not slower; swap a reskin
+  alias → identical result; double the trial count → median converges / CI narrows; reorder the decklist
+  → identical.
+- **Deterministic simulation testing (DST)** — we already seed-fix; formalise one seed source threaded
+  through everything so any failure replays exactly (`git bisect`-able numbers).
+- **Mutation testing** (mutmut/cosmic-ray) — *later*, the meta-check: are the tests any good? Finds the
+  gaps without worshipping a coverage %.
+
+**Out of scope / anti-goals:** no coverage-% target; do NOT unit-test the one-off `analysis/` scripts
+(disposable, not load-bearing); real-game calibration stays Layer C (excluded here). Overlaps #8 — both
+are CI gates; the `tests` job and the (still-open) `deck_doctor`/`validate` pre-commit hook are
+complementary, not duplicates.

@@ -1,0 +1,17 @@
+# Runtime dependencies for the Commander KB tooling (scripts/).
+#
+# Pinned for cross-machine reproducibility (Windows + macOS). A sim's "fixed
+# seed" only reproduces if the libraries underneath it don't move — see
+# Backlog.md #9 (test discipline). Bump deliberately, not incidentally.
+#
+# Install:  pip install -r requirements.txt
+# Dev/test: pip install -r requirements-dev.txt   (pytest + hypothesis only)
+
+requests==2.32.5          # update_scryfall_data.py, find_combos.py (CSB API)
+requests-oauthlib==2.0.0  # update_tag_index.py (Scryfall Tagger OAuth)
+openpyxl==3.1.5           # availability_check.py / DeckSafe xlsx reads
+
+# Heavy, screenshot-only (ui_screenshot.py, dashboard shots). Needs a browser
+# install (`playwright install chromium`); not required for the core tooling or
+# the test suite. Comment out if you don't take screenshots.
+playwright==1.60.0

@@ -1,0 +1,79 @@
+#!/bin/sh
+# Commander KB pre-commit gate (Backlog #8.8).
+#
+# Blocks a commit that breaks a decklist's hard rules, and runs the unit suite
+# when the sim/lab cores change. Targeted + fast: it only does work when the
+# relevant files are staged, so doc/markdown commits pass instantly.
+#
+#   decklists staged -> Deck Doctor per file (size · legality · colour-id · GC ·
+#                       singleton · MLD/house-rules) + validate.py (repo-wide
+#                       filename-uniqueness / size / GC sweep)
+#   scripts|tests/*.py staged -> pytest (hermetic, ~1s)
+#
+# Install once per clone:  python scripts/install_hooks.py
+# Bypass a single commit:  git commit --no-verify
+# CI (repo-health.yml) is the hard backstop regardless of what runs here.
+set -u
+
+# Locate a Python interpreter (Git Bash on Windows, or macOS/Linux).
+PY=""
+for c in python python3 py; do
+    if command -v "$c" >/dev/null 2>&1; then PY="$c"; break; fi
+done
+if [ -z "$PY" ]; then
+    echo "pre-commit: no python on PATH — skipping local checks (CI will still gate)." >&2
+    exit 0
+fi
+
+repo_root=$(git rev-parse --show-toplevel) || exit 0
+cd "$repo_root" || exit 0
+
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+# Active decklists only: top-level decks/*.txt (not considering/ or proxy/).
+decklists=$(printf '%s\n' "$staged" | grep -E '^decks/[^/]+\.txt$' || true)
+code=$(printf '%s\n' "$staged" | grep -E '^(scripts|tests)/.*\.py$' || true)
+# The GC list / alias doc change legality + GC resolution for every deck.
+refs=$(printf '%s\n' "$staged" | grep -E '^reference/REF_(Game_Changers_List|Reskin_Aliases)\.md$' || true)
+
+fail=0
+
+if [ -n "$decklists" ] || [ -n "$refs" ]; then
+    echo "pre-commit: decklist gate (Deck Doctor + validate)..."
+    for f in $decklists; do
+        if out=$("$PY" scripts/deck_doctor.py "$f" --no-build 2>&1); then
+            echo "  ok    $f"
+        else
+            echo "  FAIL  $f"
+            printf '%s\n' "$out" | sed 's/^/        /'
+            fail=1
+        fi
+    done
+    # Repo-wide checks Deck Doctor's single-deck pass can't see (filename
+    # collisions in the sync set). --no-oracle: size + GC + uniqueness need no bulk.
+    if ! out=$("$PY" scripts/validate.py --no-oracle 2>&1); then
+        echo "  FAIL  validate.py (size / GC / filename-collision)"
+        printf '%s\n' "$out" | tail -n 30 | sed 's/^/        /'
+        fail=1
+    fi
+fi
+
+if [ -n "$code" ]; then
+    echo "pre-commit: sim/lab cores changed — running pytest..."
+    if out=$("$PY" -m pytest -q 2>&1); then
+        echo "  ok    pytest"
+    else
+        echo "  FAIL  pytest"
+        printf '%s\n' "$out" | tail -n 30 | sed 's/^/        /'
+        fail=1
+    fi
+fi
+
+if [ "$fail" -ne 0 ]; then
+    echo ""
+    echo "pre-commit BLOCKED the commit. Fix the above, or bypass once with:"
+    echo "    git commit --no-verify"
+    exit 1
+fi
+exit 0

@@ -1,0 +1,5 @@
+# Shell scripts and git hooks must stay LF so they run on macOS/Linux (and Git
+# Bash on Windows). Without this, autocrlf rewrites the shebang line with a
+# trailing CR and the hook fails with "bad interpreter".
+hooks/pre-commit text eol=lf
+*.sh            text eol=lf
