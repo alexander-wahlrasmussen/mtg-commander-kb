@@ -12,12 +12,19 @@ from an uncalibrated instrument. This suite calibrates the instrument.
 
 ```bash
 pip install -r ../requirements-dev.txt    # pytest + hypothesis only
-python -m pytest                          # from repo root; ~1–2s
+python -m pytest -m "not golden"          # fast hermetic gate; ~1–2s
+python -m pytest                          # + golden clock tier (needs the bulk; ~30s)
 ```
 
-Hermetic by design: synthetic card records (`helpers.py`), **no** 176 MB Scryfall
-bulk, no network, no browser. It runs in CI as the `tests` job of
-`.github/workflows/repo-health.yml`.
+**Tier 1 + the hermetic Tier-2 tests** (null-reduction, CSB contract replay) are
+hermetic by design: synthetic card records (`helpers.py`) or recorded fixtures,
+**no** 168 MB Scryfall bulk, no network, no browser. They run in CI as the
+`tests` job of `.github/workflows/repo-health.yml`.
+
+**The golden clock tier** (`-m golden`) re-runs the real labs, so it needs the
+gitignored Scryfall bulk and **auto-skips without it**. It runs in CI's
+bulk-having `decks` job (pinned to the snapshot's interpreter) and on a local
+full `pytest`. Markers are registered in `../pytest.ini`.
 
 ## What's covered (Tier 1)
 
@@ -34,6 +41,24 @@ Three kinds, by design:
 - **REGRESSION** — tagged in the test name. Pins a bug that already shipped a
   wrong conclusion. Deleting one re-opens that hole.
 
+## What's covered (Tier 2)
+
+Tier 1 tests the *cores*; Tier 2 pins the *labs' output* and the *relationships
+between scripts*.
+
+| File | Kind | Pins |
+|---|---|---|
+| `test_clock_golden.py` | golden / characterization | each clock lab re-run at its fixed seed + small trials. **EXACT** tier: curves bit-for-bit vs `golden/clock_snapshot.json` (same interpreter only — see the `_meta.python` guard). **TOLERANCE** tier: snapshot median within ±1 turn of the committed `analysis/pod_gauntlet_clocks.json` (cross-version robust). Reuses `pod_gauntlet.CLOCKS`/`parse_row` — the same machinery `--refresh` uses. `golden`-marked; needs the bulk. |
+| `test_null_reduction.py` | differential / metamorphic | `interaction_meta_lab --tax 0` reproduces `self_meta_lab`'s per-deck WIN bit-for-bit (Backlog #6's null reduction, now a CI test). Hermetic. |
+| `test_contract_csb.py` | contract (record/replay) | `find_combos.find_my_combos` parses + paginates + aggregates the Commander Spellbook response into `(identity, included, almost, changing)`. Replays `fixtures/csb_find_my_combos.json` offline; `--record` re-hits the live API to surface drift as a fixture diff. `contract`-marked; offline by default. |
+
+Regenerate the golden snapshot after an **intended** lab change (review the diff):
+
+```bash
+python tests/test_clock_golden.py --update     # needs the bulk
+python tests/test_contract_csb.py --record     # needs the network (CSB drift refresh)
+```
+
 ## The rule
 
 **Every retraction earns a regression test.** When a sim bug is found and fixed,
@@ -42,7 +67,9 @@ add a `*_REGRESSION` test here before moving on — the code equivalent of what
 
 ## Roadmap
 
-Tier 1 is this suite. Tier 2 (golden tests pinning the committed clock medians;
-formalised null-reduction differentials) and Tier 3 (metamorphic suite; mutation
-testing) are tracked in `../Backlog.md` #9. We do **not** chase coverage %, and we
-do **not** unit-test the one-off `analysis/` scripts.
+Tier 1 + Tier 2 are this suite. Tier 2 shipped the golden clock snapshot, the
+null-reduction differential, and the CSB contract test (Backlog #9). Tier 3
+(broader metamorphic suite — Sol Ring shouldn't slow the clock, reskin-alias
+invariance; deterministic-simulation seed threading; mutation testing) is tracked
+in `../Backlog.md` #9. We do **not** chase coverage %, and we do **not**
+unit-test the one-off `analysis/` scripts.

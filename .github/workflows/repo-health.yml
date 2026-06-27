@@ -12,11 +12,17 @@
 #            card, > 3 Game Changers, house-banned) and 0 on WARN/PASS, so the
 #            job's pass/fail IS the roster's legality gate. Needs the gitignored
 #            168 MB Scryfall bulk data, fetched fresh each run (stdlib urllib;
-#            oracle-tags.json is optional and intentionally not fetched).
+#            oracle-tags.json is optional and intentionally not fetched). Since it
+#            already has the bulk, it ALSO runs the Tier-2 GOLDEN clock tests
+#            (`pytest -m golden`) — re-running the labs and pinning their curves
+#            against tests/golden/clock_snapshot.json (the fast `tests` job can't,
+#            being bulk-free).
 #   tests  — runs the pytest suite over the simulation/lab cores (deck_sim,
-#            speed_lab_core, deck_registry). Hermetic: synthetic card records,
-#            NO Scryfall bulk, no network — so it's a fast gate on the code that
-#            produces every clock/consistency number the Summaries cite.
+#            speed_lab_core, deck_registry) PLUS the hermetic Tier-2 tests
+#            (null-reduction differential, CSB contract replay). Hermetic:
+#            synthetic card records, NO Scryfall bulk, no network (`-m "not
+#            golden"`) — a fast gate on the code that produces every
+#            clock/consistency number the Summaries cite.
 #
 # Both jobs publish their report to the run summary. This does not touch the
 # Pages deploy (dashboard-pages.yml) — separate trigger, separate concern.
@@ -85,7 +91,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          # Pinned to match the golden snapshot's interpreter (tests/golden/
+          # clock_snapshot.json _meta.python) so the EXACT clock tier runs here
+          # bit-for-bit; on a mismatch it would auto-skip to the tolerance tier.
+          python-version: "3.14"
       - name: Fetch Scryfall bulk data
         run: python scripts/update_scryfall_data.py
       - name: Run Deck Doctor --all (exits 1 on any FAIL deck)
@@ -96,6 +105,18 @@ jobs:
             echo '## Deck Doctor — roster'
             echo '```'
             tail -n 25 doctor.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Install test deps
+        run: pip install -r requirements-dev.txt
+      - name: Golden clock tests (labs vs pinned snapshot — needs the bulk)
+        run: |
+          set -o pipefail
+          python -m pytest -m golden -q | tee golden.txt
+          {
+            echo '## Golden clock tests (Tier 2)'
+            echo '```'
+            tail -n 15 golden.txt
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -109,10 +130,10 @@ jobs:
           python-version: "3.12"
       - name: Install test deps
         run: pip install -r requirements-dev.txt
-      - name: Run pytest (hermetic — no Scryfall bulk)
+      - name: Run pytest (hermetic — no Scryfall bulk; golden runs in the decks job)
         run: |
           set -o pipefail
-          python -m pytest | tee pytest.txt
+          python -m pytest -m "not golden" | tee pytest.txt
           {
             echo '## Unit tests — sim/lab cores'
             echo '```'

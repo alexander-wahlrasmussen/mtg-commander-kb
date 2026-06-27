@@ -8,7 +8,7 @@
 #   decklists staged -> Deck Doctor per file (size · legality · colour-id · GC ·
 #                       singleton · MLD/house-rules) + validate.py (repo-wide
 #                       filename-uniqueness / size / GC sweep)
-#   scripts|tests/*.py staged -> pytest (hermetic, ~1s)
+#   scripts|tests/*.py staged -> pytest -m "not golden" (hermetic, ~1s)
 #
 # Install once per clone:  python scripts/install_hooks.py
 # Bypass a single commit:  git commit --no-verify
@@ -60,8 +60,11 @@ if [ -n "$decklists" ] || [ -n "$refs" ]; then
 fi
 
 if [ -n "$code" ]; then
-    echo "pre-commit: sim/lab cores changed — running pytest..."
-    if out=$("$PY" -m pytest -q 2>&1); then
+    # -m "not golden": the golden clock tier re-runs every lab (~30s) and needs
+    # the Scryfall bulk — too heavy for the fast commit gate. It runs in CI's
+    # bulk-having job and on an explicit local `pytest`.
+    echo "pre-commit: sim/lab cores changed — running pytest (-m 'not golden')..."
+    if out=$("$PY" -m pytest -m "not golden" -q 2>&1); then
         echo "  ok    pytest"
     else
         echo "  FAIL  pytest"

@@ -226,7 +226,7 @@ CI as the hard backstop. The Deck Doctor extension track is complete; further te
 
 ---
 
-## 9. Test discipline — calibrate the instruments (Tier 1 SHIPPED 2026-06-27)
+## 9. Test discipline — calibrate the instruments (Tier 1 + Tier 2 SHIPPED 2026-06-27)
 
 The whole analytical edifice (clock labs, `deck_sim`, `deck_doctor`, the bake-off) emits numbers we
 make real buy/build decisions on — but until now **zero** tests guarded the code that produces them.
@@ -254,16 +254,27 @@ the L2 frontier, deliberately excluded.)
   `REF_Domain_Principles.md` for card-text gotchas. Stop thinking "coverage"; think "this bug is red
   forever."
 
-### NEXT — Tier 2 (the labs as characterization tests)
-- **Golden / snapshot tests** pinning the 16 committed clock medians at a fixed seed (read from
-  `analysis/pod_gauntlet_clocks.json`), so any refactor that shifts a number fails loudly and you decide
-  fix-vs-regression. Two-tier assertions: exact under a pinned seed, tolerance band (`median ±1 turn`)
-  when run stochastically.
-- **Formalise the null-reduction differentials** we already do ad hoc — `interaction_meta_lab --tax 0`
-  reproducing `self_meta_lab` bit-for-bit is a differential/metamorphic test; make it (and every future
-  overlay's null reduction) a CI test, not a one-time manual check.
-- **Contract tests** for the external APIs (CSB `find_combos`, Scryfall) with record/replay (VCR-style
-  fixtures) so they run offline and API drift surfaces deliberately.
+### NEXT — Tier 2 (the labs as characterization tests) — ✅ SHIPPED 2026-06-27
+- ~~**Golden / snapshot tests**~~ ✅ `tests/test_clock_golden.py` + `tests/golden/clock_snapshot.json`.
+  Re-runs each of the 15 single-deck clock labs at its fixed module seed + a small pinned trial count
+  and pins the curves **two-tier**, exactly as specced: **EXACT** — bit-for-bit vs the snapshot (the
+  labs are deterministic at (seed, trials); verified hash-seed- and OS-insensitive but NOT guaranteed
+  across CPython minors, so the snapshot records `_meta.python` and EXACT auto-skips on a mismatch);
+  **TOLERANCE** — snapshot median within ±1 turn of the committed `analysis/pod_gauntlet_clocks.json`
+  (cross-version robust), tying the cheap artifact to the numbers the Summaries cite. DRY: reuses
+  `pod_gauntlet.CLOCKS` + `parse_row` (the `--refresh` machinery). `golden`-marked, needs the bulk →
+  auto-skips on bulk-free machines; runs in CI's bulk-having `decks` job (pinned to py3.14 to keep EXACT
+  live). Regenerate: `python tests/test_clock_golden.py --update`.
+- ~~**Formalise the null-reduction differentials**~~ ✅ `tests/test_null_reduction.py`. `interaction_meta_lab
+  --tax 0` reproduces `self_meta_lab`'s per-deck WIN bit-for-bit (Backlog #6, now a CI test, not a manual
+  check) + asserts the overlay's own Δ is +0 everywhere. Hermetic (both labs race table CDFs, no bulk) →
+  runs in the fast `tests` job. The pattern for every future overlay's null reduction.
+- ~~**Contract tests** for the external APIs (CSB `find_combos`, Scryfall) with record/replay~~ ✅
+  `tests/test_contract_csb.py` + `tests/fixtures/csb_find_my_combos.json`. Replays a recorded (real,
+  trimmed, page-split) CSB response by monkeypatching `find_combos._post`, asserting `find_my_combos`
+  parses/paginates/aggregates the four result lists correctly — offline, `contract`-marked. `--record`
+  re-hits the live API so drift surfaces as a reviewable fixture diff. Scryfall's "contract" is the
+  oracle-index record shape, already pinned by `helpers.py` + `test_deck_sim` (Tier 1) — not re-done here.
 
 ### THEN — Tier 3 (metamorphic + meta-check)
 - **Metamorphic suite** — the answer to our oracle problem (no ground truth without real games): assert
