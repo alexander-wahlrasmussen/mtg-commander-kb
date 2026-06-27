@@ -9,10 +9,25 @@
 | **Archetype** | Spellslinger-drain / lifeloop combo (bracket-4-in-spirit) |
 | **Bracket** | 3 by GC count (3/3). Contains a 2-card infinite — **pod-approved** for this build (2026-06-01, extension of the Berta approval). |
 | **Game Changers** | Necropotence, Vampiric Tutor, Demonic Tutor (3 of 3 slots used) |
-| **Conversion Check** | *Not yet audited.* Proposal ceiling 18–19/20; the clock lab tempers the Speed axis — formal audit after first pod games. |
+| **Conversion Check** | **16/20 (5 / 5 / 4 / 2)** · audited 2026-06-27 from the list (pre-pod; re-audit after first games). Lowest axis = **Interaction** (only 6 dedicated pieces). See the Conversion Check section below. The proposal's 18–19 ceiling was optimistic — the interaction count is the real cap. |
 | **Kill Window** | Clock: **T9 decap = T9 table** **(spell, instant)** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
 | **Ramp** | 19 sources (4 burst / 14 repeatable) · 54 mana sources, 36 land · over band, 5 payoffs cmc>=6 (`ramp_audit.py` 2026-06-21) |
 | **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); the new 2-card infinite is pod-accepted under the 2026-06-19 house-rule revision (infinites accepted). The `.txt` is the target state until the order lands. |
+
+-----
+
+## Conversion Check — 16/20 (audited 2026-06-27)
+
+Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes are judged; the clock is measured (`wb_clock_lab.py`, 2026-06-11). Pre-pod — re-audit after first games.
+
+| Axis | Score | Rationale |
+|---|---|---|
+| **Core Loop** | **5/5** | Three independent infinite axes, ~10 two-card configs, the 2×4 lifeloop redundancy (blood-halves × vito-halves), and 10 tutors to find them. Highly redundant; the loop is the deck. |
+| **Kill Reliability** | **5/5** | Multiple *independent* infinites — the lifeloop is commander-free, Chain of Smog + Witherbloom Apprentice needs no board, the affinity infinites are a third vector. Instant-speed once online, 10 tutors to assemble. Hating one axis doesn't disarm the deck. |
+| **Durability** | **4/5** | The axes dodge each other's hate — Chain of Smog survives a wrath with no board, commander removal doesn't stop the loop, loop-hate doesn't stop the affinity lines. Off 5 because it still must reassemble two pieces after a reset, and graveyard hate nicks the recursion package. |
+| **Interaction** | **2/5** | The genuine soft spot. Only **6** dedicated pieces (Assassin's Trophy, Abrupt Decay, Deadly Rollick, Toxic Deluge, Pernicious Deed, Veil of Summer) — below the count anchor for a 3 (8–10). Plays a touch above a flat 2 on quality (cheap catch-alls + two sweepers + free Rollick) and tutor-access, but *protect-own* for the combo turn is thin (Veil ×1) and stack-interaction against an opposing combo is near-absent. |
+
+**Reading:** Solid (13–16), top of band. The deck is a glass-cannon combo: elite at finding and firing its kill (5/5 Core + Kill), genuinely resilient *to its own plan* (4 Durability via independent axes), but light on stopping *opponents* — it bets on racing plus an Abolisher-proof kill rather than on answers. **No single axis compensates** (framework): the interaction floor is the real ceiling, not the clock. Same total as Forced Liquidation (16) but the opposite shape (FL is Durability-capped). Lifting Interaction toward 3 (a couple of efficient counters / a 3rd protect-own piece) is the highest-leverage upgrade once pod games confirm it.
 
 -----
 

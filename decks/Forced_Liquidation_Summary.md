@@ -3,7 +3,7 @@
 **Commander:** Kefka, Court Mage // Kefka, Ruler of Ruin (Grixis / BRU)
 **Archetype:** Spellslinger — forced-draw wheel-burn / punisher static
 **Bracket:** 3 (3 GC; B4-in-spirit per house rules)
-**Score:** not yet audited — projected ~17/20 (5 / 4–5 / 3 / 4). Audit after first pod games.
+**Score:** 16/20 (5 / 4 / 3 / 4) · Clock: T8 decap / T9 table (spell, sorcery) (lab `kfk_clock_lab.py` 2026-06-25). Audited 2026-06-27 from the list (pre-pod; re-audit after first games).
 
 > Build ground truth: `decks/considering/forced-liquidation-20260625.txt` (cards on order as of 2026-06-27; promote to `decks/` on arrival). Proposal: `proposals/PROP_Kefka_Court_Mage.md`. Buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
 
@@ -28,6 +28,21 @@ This deck weaponizes *drawing cards* as a damage source. The shell is ~7 wheel e
 
 - **Goldfish:** Clock decap T8 / table T9 (lab `scripts/kfk_clock_lab.py`, 40k trials, 2026-06-25). Slower than the proposal's hand-estimated T6–7 brief — the usual optimistic-estimate correction.
 - **Through Interaction:** *(unverified)* — slower; the deck is lethal-or-bust and must protect ~2 punishers to the wheel turn.
+
+---
+
+## Conversion Check — 16/20 (audited 2026-06-27)
+
+Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes are judged; the clock is measured (`kfk_clock_lab.py`). Pre-pod — re-audit after first games.
+
+| Axis | Score | Rationale |
+|---|---|---|
+| **Core Loop** | **5/5** | ~7 wheels × ~13 punisher/payoff cards + 3 tutors = 20+ pieces serving one recognizable machine (force draws/discards → static punishers convert to damage). The loop is the deck; highly redundant. |
+| **Kill Reliability** | **4/5** | Multiple independent lines — Notion Thief + Psychosis (marquee), multi-punisher wheel, Peer, Kitten+Channeler backup combo. Held off 5 by *lethal-or-bust* (a mistimed wheel refuels opponents) and a sorcery-speed median T8/T9 kill. |
+| **Durability** | **3/5** | The cap. Grixis (no green/white), punishers are wrath-fragile creatures/enchantments, Past in Flames recurs only the wheels (not the enchantment punishers). Redundant but recovers slowly for a racing deck with no inevitability. |
+| **Interaction** | **4/5** | ~14 pieces — 8 removal (survive an Abolisher lock) + 6 counters + Deflecting Swat, instant-heavy and diverse. Off 5 because a racing, lethal-or-bust deck can't freely spend interaction without derailing its own clock. |
+
+**Reading:** Solid (13–16), top of band. Lowest axis is **Durability** — the deck races and is wrath-vulnerable; it wins by assembling the Abolisher-proof burn before the pod combos, not by grinding. Same total as Zero-Sum Game (16) but the opposite shape (ZSG is Interaction-floored, FL is Durability-capped).
 
 ---
 
