@@ -1,0 +1,93 @@
+# Repo health — catch link rot and broken decklists before they accumulate.
+#
+# Two independent jobs:
+#   links  — runs scripts/lint_links.py over every tracked markdown file. Pure
+#            stdlib, no external data. Report-only by default (the surviving
+#            broken refs are curated dated-history), but RATCHETS on broken
+#            *path* links: a push that introduces a NEW one (count > baseline)
+#            fails. Bump BROKEN_PATH_BASELINE below when you intentionally add
+#            or retire a historical reference.
+#   decks  — runs scripts/deck_doctor.py --all over the whole roster. The script
+#            already exits 1 on any FAIL deck (size != 100, illegal/off-colour
+#            card, > 3 Game Changers, house-banned) and 0 on WARN/PASS, so the
+#            job's pass/fail IS the roster's legality gate. Needs the gitignored
+#            168 MB Scryfall bulk data, fetched fresh each run (stdlib urllib;
+#            oracle-tags.json is optional and intentionally not fetched).
+#
+# Both jobs publish their report to the run summary. This does not touch the
+# Pages deploy (dashboard-pages.yml) — separate trigger, separate concern.
+name: Repo health
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "decks/**"
+      - "**/*.md"
+      - "scripts/lint_links.py"
+      - "scripts/deck_doctor.py"
+      - ".github/workflows/repo-health.yml"
+  pull_request:
+    paths:
+      - "decks/**"
+      - "**/*.md"
+      - "scripts/**"
+      - ".github/workflows/repo-health.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Link lint
+    runs-on: ubuntu-latest
+    env:
+      # The known, intentional broken *path* links — dated-history references
+      # whose targets were removed on purpose (e.g. moxfield_haves_2026-06-07
+      # snapshot citations). Raise this only when you add/retire such history.
+      BROKEN_PATH_BASELINE: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run lint_links
+        run: |
+          set -o pipefail
+          python scripts/lint_links.py | tee links.txt
+          {
+            echo '## Link lint'
+            echo '```'
+            tail -n 50 links.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Ratchet — no new broken path links
+        run: |
+          live=$(grep -oE '[0-9]+ live broken path links' links.txt | grep -oE '^[0-9]+' || echo 0)
+          echo "live broken path links: ${live:-0} (baseline ${BROKEN_PATH_BASELINE})"
+          if [ "${live:-0}" -gt "${BROKEN_PATH_BASELINE}" ]; then
+            echo "::error::Broken path links rose to ${live} (baseline ${BROKEN_PATH_BASELINE}). Fix the dead link, or bump BROKEN_PATH_BASELINE in repo-health.yml if it is intentional history."
+            exit 1
+          fi
+
+  decks:
+    name: Deck Doctor (roster)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch Scryfall bulk data
+        run: python scripts/update_scryfall_data.py
+      - name: Run Deck Doctor --all (exits 1 on any FAIL deck)
+        run: |
+          set -o pipefail
+          python scripts/deck_doctor.py --all | tee doctor.txt
+          {
+            echo '## Deck Doctor — roster'
+            echo '```'
+            tail -n 25 doctor.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
