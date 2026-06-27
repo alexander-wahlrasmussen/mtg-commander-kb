@@ -29,6 +29,8 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes 
 
 **Reading:** Solid (13–16), top of band. The deck is a glass-cannon combo: elite at finding and firing its kill (5/5 Core + Kill), genuinely resilient *to its own plan* (4 Durability via independent axes), but light on stopping *opponents* — it bets on racing plus an Abolisher-proof kill rather than on answers. **No single axis compensates** (framework): the interaction floor is the real ceiling, not the clock. Same total as Forced Liquidation (16) but the opposite shape (FL is Durability-capped). Lifting Interaction toward 3 (a couple of efficient counters / a 3rd protect-own piece) is the highest-leverage upgrade once pod games confirm it.
 
+**Deck Doctor `--interaction` / `--vitals` (2026-06-27) corroborate the floor:** coverage by type is OK (artifact 4 / enchantment 4 / creature 8 / land 3 / indestructible 4) but **past-protection/hexproof is thin (2: Pernicious Deed, Professor Onyx)** — the targeted removal (Trophy / Decay / Rollick) whiffs on a hexproof or warded threat, so a couple of the Interaction upgrade slots should be non-targeted or stack-based. The deck is also **draw-light** (5 draw sources, 47% in hand by T6 vs the BDD ~8 anchor): it substitutes its 10 tutors for raw card advantage — which finds combo pieces but refuels worse after a wipe (a quiet contributor to the Durability-4-not-5). Combo scan confirms the kill: intended line present (Exquisite Blood + Sanguine Bond), 14 complete / 14 infinite configs.
+
 -----
 
 ## Commander Rules Text

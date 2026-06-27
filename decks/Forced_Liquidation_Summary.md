@@ -89,6 +89,7 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 - **Wrath-vulnerable, racing deck.** Grixis can't go wide-and-recover like a green deck; a well-timed board wipe on the punisher shell costs ~2–3 turns and the deck has no inevitability to fall back on.
 - **Draw-denier anti-synergy.** Notion Thief and Narset-type effects turn off the *opponent-draw* punishers (opponents draw nothing). Notion Thief earns its slot via the *your-draw* axis (Psychosis/Niv) — but don't stack draw-deniers and expect the opponent-facing burn to still fire.
 - **Niv-Mizzet, Parun's `UUURRR` cost** strains a 3-color base; first cut if the manabase proves greedy.
+- **No real land answers** (Deck Doctor `--interaction`: 1 — Chaos Warp). The one coverage hole; acceptable for a racer not trying to fight manabases. Every other type is healthy (creature 17 / artifact 6 / enchantment 5 / indestructible 8 / past-protection 9). Early ramp is also a touch light (10 sources by T3 / 61%, under the BDD ~12 anchor) — offset by draw (16 sources, 88% by T6).
 
 ---
 
