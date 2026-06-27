@@ -39,7 +39,7 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 | The Exile's Return        | Fire Lord Zuko              | 100%       | —                                  |
 | The Genome Project        | Kuja, Genome Sorcerer       | 100%       | —                                  |
 | The Grand Design          | Atraxa, Grand Unifier       | 100%       | —                                  |
-| The Loam Cycle            | Teval, the Balanced Scale   | 100%       | —                                  |
+| The Loam Cycle            | Teval, the Balanced Scale   | —          | **Dismantled 2026-06-08** — decklist archived 2026-06-11; cards returned to pool |
 | The Replication Crisis    | Satya, Aetherflux Genius    | 100%       | —                                  |
 | This Bunny Goes To Market | Ms. Bumbleflower            | 100%       | Not in Deck_Index.md — needs entry |
 
