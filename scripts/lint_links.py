@@ -60,6 +60,12 @@ IGNORE_BARE = re.compile(r"^(project|feedback|reference)_.*\.md$"   # ~/.claude 
 # fresh clone/worktree, so a reference to them resolves at runtime even when the
 # linter can't see the file (same spirit as IGNORE_BARE).
 IGNORE_DATA = {"oracle-cards.json", "oracle-tags.json", "rulings.json"}
+# intentionally-unbuilt roadmap artifacts: named across the sim-fidelity docs as
+# planned next steps (Layer 2 = validate the sim tower against real pod outcomes).
+# calibrate.py is blocked on data, not code — game_results.jsonl is empty/unwritten
+# because game_log.py has logged zero real games yet. Flagged "unbuilt" in
+# REF_Simulation_Fidelity.md; not a missing file. Drop from this set once built.
+IGNORE_PLANNED = {"calibrate.py", "game_results.jsonl"}
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -81,7 +87,7 @@ def as_path(s):                                 # slash-bearing real path ref
     s = clean_token(s)
     if not s or s.startswith(("http", "#", "mailto:")):
         return None
-    if any(b in s for b in BAD) or os.path.basename(s) in IGNORE_DATA:
+    if any(b in s for b in BAD) or os.path.basename(s) in IGNORE_DATA | IGNORE_PLANNED:
         return None
     return s if ("/" in s and s.endswith(EXT)) else None
 
@@ -92,7 +98,7 @@ def as_bare(s):                                 # bare filename (no slash), base
         return None
     if s.startswith((".", "_")):                # pure type/suffix fragment ('.txt', '_Summary.md')
         return None
-    if any(b in s for b in BAD) or IGNORE_BARE.match(s) or s in IGNORE_DATA:
+    if any(b in s for b in BAD) or IGNORE_BARE.match(s) or s in IGNORE_DATA | IGNORE_PLANNED:
         return None
     return s
 

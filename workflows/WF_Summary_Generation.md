@@ -48,7 +48,7 @@ Use `TPL_Deck_Summary.md` as the starting skeleton. Do not reinvent the structur
 
 ## After writing
 
-- Save as `<deck-name-kebab>_Summary.md` (e.g., `the-exiles-return_Summary.md`). Claude Project convention uses title case with underscores; pick one and be consistent.
+- Save as `<Deck_Name_Title_Case>_Summary.md` (e.g., `The_Exiles_Return_Summary.md`) — title case with underscores, matching every existing summary in `decks/`.
 - Update `Deck_Index.md` with the new score if it changed.
 - Update `Collection_Master_Status.md` with the summary status (generated / updated / needs re-audit).
 
