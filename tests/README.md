@@ -59,6 +59,37 @@ python tests/test_clock_golden.py --update     # needs the bulk
 python tests/test_contract_csb.py --record     # needs the network (CSB drift refresh)
 ```
 
+## What's covered (Tier 3)
+
+The oracle problem: without real games there's no ground truth for "is this clock
+*right*." Metamorphic testing sidesteps it — assert how output must **change**
+under a transform with a known-correct effect, not its absolute value. All
+hermetic, in the fast gate.
+
+| File | Relation | Pins |
+|---|---|---|
+| `test_metamorphic.py` | MR-1 reorder → identical | decklist line order doesn't change the parsed deck (exact) / the estimate (aggregate). |
+| | MR-2 reskin alias → identical | a deck written with a UB reskin name simulates identically to its canonical name (exact). |
+| | MR-3 superset → ≥ | more labelled sources can only raise availability, pointwise (exact). |
+| | MR-4 more copies → not slower | swapping vanilla for more ramp copies doesn't push availability later. |
+| | MR-5 more trials → concentrates | the Monte-Carlo estimate's spread across seeds shrinks as trials grow. |
+| | MR-6 add Sol Ring → not slower | at the `speed_lab_core` goldfish (the layer that models a rock as *mana*), more Sol Rings reach a kill-cost threshold no later. |
+| | DST determinism | same seed → same goldfish run (and the seed matters) — the property that makes per-component fixed seeds enough to replay any failure. |
+
+**Mutation testing** (the deferred meta-check — "are the tests any good?") is *not*
+a CI gate; run it on demand when hardening a core, then act on the survivors.
+mutmut 3.x needs Linux/WSL (no native Windows):
+
+```bash
+pip install mutmut                                   # not pinned in requirements
+mutmut run --paths-to-mutate scripts/speed_lab_core.py \
+  --tests-dir tests --runner 'python -m pytest -x -q -m "not golden"'
+mutmut results
+```
+
+A surviving mutant = a change to the core that no test caught → write the test
+that kills it (same rule as a retraction). Don't chase a coverage %.
+
 ## The rule
 
 **Every retraction earns a regression test.** When a sim bug is found and fixed,
@@ -67,9 +98,8 @@ add a `*_REGRESSION` test here before moving on — the code equivalent of what
 
 ## Roadmap
 
-Tier 1 + Tier 2 are this suite. Tier 2 shipped the golden clock snapshot, the
-null-reduction differential, and the CSB contract test (Backlog #9). Tier 3
-(broader metamorphic suite — Sol Ring shouldn't slow the clock, reskin-alias
-invariance; deterministic-simulation seed threading; mutation testing) is tracked
-in `../Backlog.md` #9. We do **not** chase coverage %, and we do **not**
-unit-test the one-off `analysis/` scripts.
+Tiers 1–3 are this suite (Backlog #9): Tier 1 the cores, Tier 2 the golden clock
+snapshot + null-reduction + CSB contract, Tier 3 the metamorphic relations + DST
+determinism. The only deliberately-open item is **mutation testing** — the
+on-demand meta-check above, not a gate. We do **not** chase coverage %, and we do
+**not** unit-test the one-off `analysis/` scripts.

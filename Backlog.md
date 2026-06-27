@@ -226,7 +226,7 @@ CI as the hard backstop. The Deck Doctor extension track is complete; further te
 
 ---
 
-## 9. Test discipline — calibrate the instruments (Tier 1 + Tier 2 SHIPPED 2026-06-27)
+## 9. Test discipline — calibrate the instruments (Tiers 1–3 SHIPPED 2026-06-27; mutation deferred by design)
 
 The whole analytical edifice (clock labs, `deck_sim`, `deck_doctor`, the bake-off) emits numbers we
 make real buy/build decisions on — but until now **zero** tests guarded the code that produces them.
@@ -276,15 +276,31 @@ the L2 frontier, deliberately excluded.)
   re-hits the live API so drift surfaces as a reviewable fixture diff. Scryfall's "contract" is the
   oracle-index record shape, already pinned by `helpers.py` + `test_deck_sim` (Tier 1) — not re-done here.
 
-### THEN — Tier 3 (metamorphic + meta-check)
-- **Metamorphic suite** — the answer to our oracle problem (no ground truth without real games): assert
-  how output must *change*, not its exact value. Add a Sol Ring → median decap not slower; swap a reskin
-  alias → identical result; double the trial count → median converges / CI narrows; reorder the decklist
-  → identical.
-- **Deterministic simulation testing (DST)** — we already seed-fix; formalise one seed source threaded
-  through everything so any failure replays exactly (`git bisect`-able numbers).
-- **Mutation testing** (mutmut/cosmic-ray) — *later*, the meta-check: are the tests any good? Finds the
-  gaps without worshipping a coverage %.
+### THEN — Tier 3 (metamorphic + meta-check) — ✅ SHIPPED 2026-06-27 (mutation deferred by design)
+- ~~**Metamorphic suite**~~ ✅ `tests/test_metamorphic.py` (hermetic, 7 relations MR-1..6 + a DST check).
+  The answer to the oracle problem: assert how output must *change*, not its value. **All four named
+  relations, plus more:** reorder decklist → identical (MR-1: exact at the parser, statistical-in-aggregate
+  at the sim); swap a reskin alias → identical sim result (MR-2: exact); double the trials → estimate
+  concentrates / CI narrows (MR-5); add a Sol Ring → clock not slower (MR-6). Added two beyond the list:
+  source-set monotonicity (MR-3: A⊆B ⇒ availability ≥, exact) and add-source-copies → not slower (MR-4).
+  **Layering note:** MR-6 lives at the `speed_lab_core` goldfish — the only layer that models a rock as
+  *mana* (deck_sim's core treats it as a cheap spell), so that's where "Sol Ring → faster" is testable.
+  A *separate bulk-gated lab* metamorphic file was considered and **dropped**: the four relations are
+  calibrated hermetically on the cores every lab imports, the Tier-2 golden snapshot already pins each
+  real lab's exact output, and a lab-transform harness would be invasive (labs hard-code their `DECK`
+  path) and flaky (the repo's own "levers are within MC noise" finding).
+- ~~**Deterministic simulation testing (DST)**~~ ✅ formalised the property, **rejected the global-seed
+  refactor.** Threading one seed through every lab would churn every committed number (the labs carry
+  distinct fixed seeds whose outputs are already pinned in the golden snapshot + `pod_gauntlet_clocks.json`)
+  for zero replay benefit — per-component injected rng + per-lab fixed seed already make every failure
+  replay exactly (git-bisectable). Pinned the invariant that makes that sufficient: `test_metamorphic.py`
+  `test_goldfish_is_deterministic_for_a_fixed_seed` (same seed → same run, and the seed actually matters),
+  the `speed_lab_core` companion to deck_sim's determinism test in Tier 1.
+- **Mutation testing** (mutmut/cosmic-ray) — **deferred on purpose** (the backlog always flagged it
+  *later*). It's the meta-check ("are the tests any good?"), not a gate. mutmut 3.x dropped native-Windows
+  support (needs WSL/Linux), so rather than commit an unverified config, the turnkey how-to is documented
+  in `tests/README.md` (run on demand on Linux/WSL/CI, scoped to the cores + `-m "not golden"`); no dep
+  is pinned and it is intentionally NOT wired into CI. Run it when hardening a core, act on survivors.
 
 **Out of scope / anti-goals:** no coverage-% target; do NOT unit-test the one-off `analysis/` scripts
 (disposable, not load-bearing); real-game calibration stays Layer C (excluded here). Overlaps #8 — both
