@@ -10,7 +10,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------------------------------------------------- |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
 | Croak and Dagger       | Glarb, Calamity's Augur     | Sultai |     18/20 | Grind / drain               | Elite (Clock T13 decap / table rarely in 14 — mana-gated strict goldfish, "T7–9" falsified; lab 2026-06-13) |
-| Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13) |
+| Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13; **finisher/consistency upgrade cards on order** — 8 cards, see Buy List 2026-06-25) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
 | Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite (Clock T8 decap / T12 table, lab 2026-06-13)              |
@@ -24,6 +24,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
 | Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |  not audited | Lifeloop combo / spellslinger-drain | **Cards on order** (built 2026-06-11; Clock T9 decap=table, lab 2026-06-11) |
+| Forced Liquidation     | Kefka, Court Mage           | Grixis  |  not audited | Wheel-burn / punisher static | **Cards on order** (build `decks/considering/forced-liquidation-20260625.txt`; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
 
 ### Retired
 
@@ -39,7 +40,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 - **Elite (17+):** 13 decks.
 - **Solid (13–16):** 3 decks.
 - **Developing (9–12):** 0.
-- **Unscored:** 1 (Zero-Sum Game — audit after first pod games).
+- **Unscored:** 2 (Zero-Sum Game, Forced Liquidation — both cards-on-order; audit after first pod games).
 
 ---
 
@@ -56,7 +57,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 Flagged for consideration, not yet built:
 
 - ~~**Berta, Wise Extrapolator** (GU)~~ — **SHELVED 2026-06-14.** Real-engine re-lab (adding her own Intruder Alarm infinite + a dig engine the external lists run) lifted the in-cap clock only to **36% by T12 / median never / T7 10%** — still a decisively worse Najeela. Combo is falsified *for the 3-GC cap* (un-tutorable singleton enablers in GU; the bottleneck is drawing them, which more dorks/draw don't fix); "competes" would require **waiving the cap** (external Deck #1 = 7 GCs). Worked record: `proposals/PROP_Berta_Wise_Extrapolator.md` + `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md` (06-14 addendum).
-- Hashaton, Scarab's Fist (Esper) — proposal at `proposals/PROP_Hashaton_Scarabs_Fist.md`
+- ~~**Hashaton, Scarab's Fist** (Esper)~~ — **DROPPED 2026-06-27.** Was the sole Thassa's Oracle deck; user is **not building a Thoracle deck** (neither Hashaton nor the old Calamity-hybrid). Thoracle is out of the roster entirely. Proposal kept for record: `proposals/PROP_Hashaton_Scarabs_Fist.md`. The build slot went to **Forced Liquidation (Kefka)** — wheel-burn, no Thoracle, no pod approval — now cards-on-order in the active roster.
 - ~~**Najeela, the Blade-Blossom** (5C)~~ — **DROPPED 2026-06-14** (user done with the Berta/Najeela round). Warrior tribal + infinite-combat combo; `proposals/PROP_Najeela_Blade_Blossom.md`. Not falsified — clock lab 2026-06-13 had it at median T10 (reliable combo, not a T6–7 racer), the stronger of the two candidates, so it's the better starting point if ever revisited. See `analysis/Candidate_Clock_Labs_Berta_Najeela_2026-06-13.md`.
 - Hinata
 - Krark + Sakashima (pairs / partner shell)

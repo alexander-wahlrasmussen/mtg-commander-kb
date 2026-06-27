@@ -1,7 +1,16 @@
 # Build & Swap Tracker
 
-*Created 2026-06-14. One place to track the active build order (Hashaton + Kefka) and every
+*Created 2026-06-14. One place to track the active build order and every
 standing upgrade swap, with sourcing for each card.*
+
+> **⚠️ STATUS UPDATE 2026-06-27 — read before using §1/§3/§4/§5/§6.**
+> The build order changed. **Thassa's Oracle is out of the roster entirely** — the user is
+> building **neither Hashaton nor a Calamity-Thoracle hybrid.** The single build proceeding is
+> **Forced Liquidation (Kefka)** — wheel-burn, no Thoracle, no pod approval (kills through statics).
+> **Cards are bought and on order for three decks: Forced Liquidation, Zero-Sum Game, and a
+> Lightning War consistency upgrade** (consolidated buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`).
+> Croak and Dagger (ex-Calamity Tax) is **done** — grind/lands build applied, `decks/croak-and-dagger-20260623-215731.txt`.
+> Everything below tagged "Hashaton" / "Thassa's Oracle" / "Thoracle decision" is **superseded** — kept for record only.
 
 This is a **working dashboard**, not a reference doc — it will go stale as cards are bought and
 lists are sleeved. Ground truth always remains the dated `.txt` decklists. Prices are **unverified**
@@ -33,21 +42,23 @@ Ranked from free-and-now to expensive:
 3. 🟢🔒 **Diminishing Returns Stage 1** — **$0** (Nim Deathmantle + Grave Titan + Grim Tutor + Jet Medallion all owned, undeployed) but **needs pod approval** for the combo.
 4. 🟡🔒 **Exile's Return** (Drannith owned + 1× Kiki ~€10–15) and **Replication Crisis** (2nd Kiki ~€10–15) — small buys, both need approval.
 5. ✅ **Croak and Dagger grind-fortress upgrade — DONE 2026-06-25.** $0, all owned, no approval (it dropped the Thoracle/combo direction — §5). Final build −Lier +Aesi; now `decks/croak-and-dagger-20260623-215731.txt`.
-6. 🔴🔒 **The two builds (Hashaton, Kefka)** — neither is buildable from free cards; each needs ~24–37 acquired cards and raids your black decks. See §1.
+6. 🔴 **Forced Liquidation (Kefka)** — the one build proceeding (Hashaton dropped 2026-06-27). ~57 true buys across this + Zero-Sum + Lightning War; **cards on order.** No pod approval (statics kill). See §1b + buy list.
 
-**Headline:** the *swaps* — and now the Calamity grind upgrade — are where the free wins are; the
-two *builds* are where the money and the deck-cannibalisation are. The Hashaton/Calamity Thoracle
-redundancy is **resolved** (Calamity went grind — §5).
+**Headline:** the *swaps* are the free wins; the **Forced Liquidation build** is where the money goes
+(now cards-on-order alongside Zero-Sum + the Lightning War upgrade). The Hashaton/Calamity Thoracle
+question is moot — **Thoracle is out of the roster**; Croak and Dagger went grind (§5), Hashaton was dropped.
 
 ---
 
-## 1. The two builds
+## 1. The build (Forced Liquidation / Kefka)
 
-Both are 3/3 GC-legal (verified). Both pull heavily from your existing **black decks** — The Dark
-Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger — so building them
-*and* keeping those decks intact means buying duplicates of the shared pieces.
+> **Updated 2026-06-27:** this section originally tracked *two* builds (Hashaton + Kefka). **Hashaton
+> is dropped** — see §1a, struck. Only **Forced Liquidation (Kefka)** is proceeding, and it's now
+> cards-on-order. It pulls from your existing **black decks** (Sauron, Crystal Sickness, Curse of the
+> Scarab, Croak and Dagger), so keeping those intact means buying duplicate shared pieces — see the
+> contention buys in `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
 
-### 1a. Hashaton, Scarab's Fist — *Thassa's Oracle combo* 🔴🔒
+### 1a. ~~Hashaton, Scarab's Fist — *Thassa's Oracle combo*~~ 🔴🔒 — **DROPPED 2026-06-27 (Thoracle out of roster)**
 - **List:** `decks/considering/hashaton-thoracle-20260614.txt` · **Clock:** T6 decap = table (lab `hsh_clock_lab.py`) · **GCs:** 3/3 (Thassa's Oracle, Demonic Tutor, Vampiric Tutor)
 - **Wincon:** discard/deploy Thassa's Oracle → Demonic Consultation / Tainted Pact empties library → ETB win. Hashaton is the tutor/dig/resilience engine.
 - **Sourcing (availability sweep, 100 cards):** **9 free** · 27 unowned · 10 proxy-only · 54 owned-but-deployed (most are surplus staples = effectively free; the scarce ones below are the real cost).
@@ -57,8 +68,8 @@ Lord's Army (Sauron), Crystal Sickness, Curse of the Scarab, Croak and Dagger �
 - **Reality:** *Not priced yet, but this is the most expensive option by far if bought in paper.* The realistic path is **proxy the cEDH manabase** (Tundra/Scrubland/Underground Sea) and buy the cheap combo/dig pieces.
 - **Gate:** 🔒 pod approval of Thassa's Oracle + Consultation (the high-stigma combo).
 
-### 1b. Kefka, Court Mage — *Forced Liquidation (wheel-burn)* 🔴
-- **List:** `decks/considering/forced-liquidation-20260612.txt` · **Clock:** T8 decap / T9 table (lab) · **GCs:** 3/3 (Notion Thief, Demonic Tutor, Mana Vault) · **Commander owned (free).**
+### 1b. Kefka, Court Mage — *Forced Liquidation (wheel-burn)* 🔴 — **BUILDING (cards on order 2026-06-27)**
+- **List:** `decks/considering/forced-liquidation-20260625.txt` (Displacer Kitten + Bolas/Channeler passes; older `-20260612`/`-20260623` archived) · **Clock:** decap T8 / table T9 (lab `kfk_clock_lab.py`, 2026-06-25) · **GCs:** 3/3 (Notion Thief, Demonic Tutor, Mana Vault) · **Commander owned (free).** · **Buys:** see `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
 - **Wincon:** wheel (draw 7s) + static punishers (Sheoldred / Underworld Dreams / Fate Unraveler / Psychosis Crawler / Niv-Mizzet). Resolves on *your* turn through *statics* → **the one kill that ignores Grand Abolisher → no pod approval needed.**
 - **Sourcing (sweep, 80 cards):** **10 free** · 24 unowned · 7 proxy-only · 39 owned-deployed (manabase, rocks, protection, Notion Thief, Psychosis Crawler are free/surplus).
 - **Must acquire — premium wheels:** Wheel of Fortune, Echo of Eons, Time Spiral, Memory Jar, Reforge the Soul, Dark Deal.
@@ -190,7 +201,7 @@ wincon, no doubled combo buys, no shared approval.
 
 Everything combo-flavoured needs Rule-0 sign-off. There are two *classes*:
 
-- **Thassa's Oracle / Consultation (high stigma):** Hashaton, Calamity-hybrid. The "win out of nowhere, deck yourself" combo the pod is most likely to push back on.
+- ~~**Thassa's Oracle / Consultation (high stigma):** Hashaton, Calamity-hybrid.~~ **No longer needed (2026-06-27) — Thoracle is out of the roster.**
 - **Standard 2-card infinites:** Exile's Return (Kiki+Felidar), Replication Crisis (Kiki+Conscripts/Resto), Diminishing Returns (Deathmantle+Titan, LRW+aura).
 
 Kefka needs **none** — that's its whole pitch.
@@ -213,11 +224,11 @@ rather than tracking per-deck. Worth doing in the same pod conversation.
 ## 8. Suggested order of operations
 
 1. ✅ **Done (free, no approval):** the **Radiation Sickness** GC-fix, the **Grand Design** upgrade, and the **Croak and Dagger** grind-fortress upgrade are all sleeved (2026-06-15 → 2026-06-25).
-2. **Resolve §5:** decide Hashaton vs Calamity-hybrid (vs both). This sets the whole Thoracle shopping bill.
-3. **One pod conversation:** ask for the Thoracle approval (for the deck chosen in step 2) *and* the standard 2-card infinites (Kiki ×2 decks, DR), and propose codifying the blanket exception.
-4. **After approval, free:** apply **Diminishing Returns Stage 1** ($0).
-5. **Small buys after approval:** Kiki ×2 → Exile's Return + Replication Crisis.
-6. **Big builds:** **Kefka** (no approval — can start any time; spend is the wheels) and the chosen **Thoracle deck** (Hashaton or Calamity-hybrid). Proxy the reserved-list manabase.
+2. ✅ **Resolved 2026-06-27 — §5 + Thoracle decision both closed.** No Thoracle deck is being built (Hashaton dropped; Croak went grind). The build proceeding is **Forced Liquidation (Kefka)**.
+3. **Cards on order (2026-06-27):** Forced Liquidation + Zero-Sum + the Lightning War upgrade — consolidated buy list. **Kefka needs no pod approval** (statics kill).
+4. **One pod conversation (still pending):** ask for the **standard 2-card infinites** (Kiki ×2 decks, DR), and propose codifying the blanket exception. *(The high-stigma Thoracle approval is no longer needed — Thoracle is out.)*
+5. **After approval, free:** apply **Diminishing Returns Stage 1** ($0). **Small buys:** Kiki ×2 → Exile's Return + Replication Crisis.
+6. **On arrival of the on-order cards:** sleeve Forced Liquidation (promote from `considering/` to `decks/`), apply the Zero-Sum and Lightning War cards, then re-run DeckSafe + update `Collection_Master_Status.md`.
 
 ---
 
