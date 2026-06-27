@@ -1,0 +1,5 @@
+# Test-only dependencies. Deliberately does NOT pull in requirements.txt: the
+# test suite is hermetic (synthetic card records, no Scryfall bulk, no network,
+# no browser), so the CI gate stays fast. Install: pip install -r requirements-dev.txt
+pytest==9.1.1
+hypothesis==6.155.7
