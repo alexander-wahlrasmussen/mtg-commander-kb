@@ -36,8 +36,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 EXT = (".md", ".txt", ".py", ".json", ".xlsx", ".csv", ".jsonl")
-# tokens that mark a glob/placeholder, not a real path
-BAD = ("*", "<", ">", "[", "]", "...", "YYYY", "kebab", "$", "Deck_Name")
+# directories whose contents are generated/vendored — never part of the repo's
+# own cross-link corpus. _sync_drop is the Project upload staging area; the rest
+# are gitignored build/vendor/tooling trees. Crawling them buries real findings
+# under node_modules READMEs and pollutes the basename index with vendor files.
+SKIP_DIRS = {"_sync_drop", "node_modules", ".git", "dist",
+             "__pycache__", ".obsidian"}
+
+
+def _skip(p):
+    return any(part in SKIP_DIRS for part in p.parts)
+
+
+# tokens that mark a glob/placeholder, not a real path. "…" (U+2026) and "..."
+# both flag an abbreviated stem — docs write `…-20260504.txt` / `…_Swaps.md` as
+# shorthand for a file named in full nearby; the real file exists, so checking
+# the elided basename is a false positive.
+BAD = ("*", "<", ">", "[", "]", "...", "…", "YYYY", "kebab", "$", "Deck_Name")
 # bare filenames that legitimately live outside the repo
 IGNORE_BARE = re.compile(r"^(project|feedback|reference)_.*\.md$"   # ~/.claude memory files
                          r"|^deck_safe_collection_builder\.py$")    # $DECKSAFE_REPO
@@ -89,9 +104,9 @@ def main():
                     help="exit 1 on any LIVE broken slash-path link")
     args = ap.parse_args()
 
-    md_files = [p for p in ROOT.rglob("*.md") if "_sync_drop" not in p.parts]
+    md_files = [p for p in ROOT.rglob("*.md") if not _skip(p)]
     all_basenames = {p.name for p in ROOT.rglob("*")
-                     if p.is_file() and "_sync_drop" not in p.parts}
+                     if p.is_file() and not _skip(p)}
 
     def resolves(ref, src):
         ref = ref.split("#")[0]
