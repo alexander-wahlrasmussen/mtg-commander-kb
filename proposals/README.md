@@ -52,7 +52,7 @@ delay lab). Methodology: `../workflows/WF_Candidate_Bakeoff.md`.
 |---|---|
 | `Radiation_Sickness_Upgrade_2026-06-13.md` | `decks/Radiation_Sickness_Summary.md` — GC-fix (resolves the 4-GC violation) + Loam synergy adds (Sylvan/Hedron Crab/Sidisi); lab: reliability not speed (decap T7 / table T9; front edge +5pp). |
 | `Diminishing_Returns_B4_Pivot_2026-06-10.md` | `decks/Diminishing_Returns_Summary.md` |
-| `Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md` | `decks/The_Calamity_Tax_Summary.md` — chosen rebuild = 3-GC Thoracle hybrid (supersedes the retired swap proposals in `../archive/proposals/`). |
+| `Calamity_Tax_Direction_Glarb_Lists_2026-06-13.md` | `decks/Croak_And_Dagger_Summary.md` — Calamity Tax was rebuilt into Croak and Dagger as a grind/lands deck. The Thoracle-hybrid direction this doc evaluated was **abandoned** (Thoracle dropped from the roster 2026-06-27); kept for record only. |
 
 ---
 

@@ -26,7 +26,7 @@ script walks only `decks/` + `collection/`).
 | `Lorehold_Spirits_Clock_Lab_2026-06-13.md` | `decks/Lorehold_Spirits_Summary.md` |
 | `Ms_Bumbleflower_Clock_Lab_2026-06-13.md` | `decks/Ms_Bumbleflower_Summary.md` |
 | `Radiation_Sickness_Clock_Lab_2026-06-13.md` | `decks/Radiation_Sickness_Summary.md` |
-| `Calamity_Tax_Kill_Turn_Lab_2026-06-13.md` | `decks/The_Calamity_Tax_Summary.md` |
+| `Calamity_Tax_Kill_Turn_Lab_2026-06-13.md` | `decks/Croak_And_Dagger_Summary.md` (Calamity Tax was rebuilt into Croak and Dagger) |
 
 ## Speed-curve analyses — earlier availability/lever labs
 
@@ -35,7 +35,7 @@ script walks only `decks/` + `collection/`).
 | `Grand_Design_Speed_Curve_Analysis.md` | `decks/The_Grand_Design_Summary.md` |
 | `Replication_Crisis_Speed_Curve_Analysis.md` | RC Summary + `Pod_Matchup_Matrix.md` |
 | `Exiles_Return_Speed_Curve_Analysis.md` | `decks/The_Exiles_Return_Summary.md` |
-| `Calamity_Tax_Speed_Curve_Analysis.md` | `decks/The_Calamity_Tax_Summary.md` |
+| `Calamity_Tax_Speed_Curve_Analysis.md` | `decks/Croak_And_Dagger_Summary.md` (Calamity Tax was rebuilt into Croak and Dagger) |
 
 ## Cross-cutting matchup models (not per-deck Summary backers)
 
