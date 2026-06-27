@@ -1,0 +1,176 @@
+{
+  "_meta": {
+    "recorded_via": "find_combos._post (CSB find-my-combos)",
+    "payload": {
+      "commanders": [
+        {
+          "card": "Kinnan, Bonder Prodigy",
+          "quantity": 1
+        }
+      ],
+      "main": [
+        {
+          "card": "Basalt Monolith",
+          "quantity": 1
+        },
+        {
+          "card": "Thassa's Oracle",
+          "quantity": 1
+        },
+        {
+          "card": "Demonic Consultation",
+          "quantity": 1
+        }
+      ]
+    },
+    "note": "real pages SPLIT to test pagination; combos trimmed to id/uses/produces"
+  },
+  "pages": [
+    {
+      "count": 2,
+      "next": "https://backend.commanderspellbook.com/find-my-combos?limit=500&offset=1",
+      "previous": null,
+      "results": {
+        "identity": "BGU",
+        "included": [
+          {
+            "id": "742-1295",
+            "uses": [
+              {
+                "card": {
+                  "name": "Demonic Consultation"
+                }
+              },
+              {
+                "card": {
+                  "name": "Thassa's Oracle"
+                }
+              }
+            ],
+            "produces": [
+              {
+                "feature": {
+                  "name": "Exile your library"
+                }
+              },
+              {
+                "feature": {
+                  "name": "Win the game"
+                }
+              }
+            ]
+          }
+        ],
+        "includedByChangingCommanders": [],
+        "almostIncluded": [
+          {
+            "id": "1295-3093",
+            "uses": [
+              {
+                "card": {
+                  "name": "Tainted Pact"
+                }
+              },
+              {
+                "card": {
+                  "name": "Thassa's Oracle"
+                }
+              }
+            ],
+            "produces": [
+              {
+                "feature": {
+                  "name": "Win the game"
+                }
+              }
+            ]
+          },
+          {
+            "id": "4131-4547",
+            "uses": [
+              {
+                "card": {
+                  "name": "Basalt Monolith"
+                }
+              },
+              {
+                "card": {
+                  "name": "Forsaken Monument"
+                }
+              }
+            ],
+            "produces": [
+              {
+                "feature": {
+                  "name": "Infinite colorless mana"
+                }
+              }
+            ]
+          },
+          {
+            "id": "4131-4235",
+            "uses": [
+              {
+                "card": {
+                  "name": "Rings of Brighthearth"
+                }
+              },
+              {
+                "card": {
+                  "name": "Basalt Monolith"
+                }
+              }
+            ],
+            "produces": [
+              {
+                "feature": {
+                  "name": "Infinite colorless mana"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "next": null,
+      "previous": null,
+      "results": {
+        "identity": "BGU",
+        "included": [
+          {
+            "id": "129-4131",
+            "uses": [
+              {
+                "card": {
+                  "name": "Kinnan, Bonder Prodigy"
+                }
+              },
+              {
+                "card": {
+                  "name": "Basalt Monolith"
+                }
+              }
+            ],
+            "produces": [
+              {
+                "feature": {
+                  "name": "Infinite colorless mana"
+                }
+              }
+            ]
+          }
+        ],
+        "includedByChangingCommanders": [],
+        "almostIncluded": []
+      }
+    }
+  ],
+  "expect": {
+    "identity": "BGU",
+    "included": 2,
+    "almost": 3,
+    "changing": 0
+  }
+}
