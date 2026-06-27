@@ -33,12 +33,16 @@ tooling rather than re-deriving anything:
   --interaction  resilience: can the deck answer an artifact / enchantment / creature
              / land, and get past indestructible + hexproof/shroud/ward? Heuristic
              over oracle text  [NEW — Trinket Mage "win any game" pillar 1]
+  --footprint  hidden-commander rule 2: %% of nonland cards that go dead without the
+             engine (the win_line build-around) — ramp/draw/tutor/removal/standalone
+             body = a floor; the rest are low-floor synergy slots. Heuristic, INFO-
+             only  [NEW — Cubrious "two rules for a hidden-commander deck"]
   clock      cached lab decap/table medians (analysis/pod_gauntlet_clocks.json)
              + does the Summary's Clock: line still match it?   [clock_check.py]
   framework  the deck's Conversion Check score (a datum from deck_registry — the CC
              is judged by hand, not computed; deck_doctor reports it, doesn't grade)
   --run-lab  ALSO run the deck's *_clock_lab.py live and echo the fresh clock grid
-  --deep     run everything, including --vitals, --combos and --interaction
+  --deep     run everything, including --vitals, --combos, --interaction, --footprint
   --all      batch dashboard: one PASS/WARN/FAIL row per deck for the whole roster
              (+ --candidates for decks/considering/), same checks, table-rendered
   --diff     swap inspector: cards in/out between two versions + whether the swap
@@ -292,6 +296,37 @@ def is_extra_turn(rec):
     return rec is not None and "extra turn" in _all_text(rec)
 
 
+def _ramp_floor(rec):
+    """Generic mana floor the otag 'ramp' tag misses (Arbor Elf untaps a land,
+    Birds/Gilded Goose add any colour, signets/medallions are rocks/cost-cutters).
+    Ramp is the commonest standalone floor, so the footprint scan leans on oracle
+    text here rather than trusting the (incomplete) otag class alone."""
+    if rec is None:
+        return False
+    t = _all_text(rec)
+    return (re.search(r"add (\{|[\w]+ mana)", t) is not None            # produces mana
+            or (("untap target" in t or "untap up to" in t)            # Arbor Elf-type
+                and re.search(r"\b(land|forest|island|swamp|mountain|plains)s?\b", t))
+            or re.search(r"spells? (you cast )?cost \{?\d", t) is not None)  # cost cut
+
+
+def _power_at_least(rec, n):
+    """True if the card (or any face) is a creature with printed power >= n — a
+    crude 'standalone body' floor for the footprint scan. '*'/'X'/empty power
+    counts as 0 (no guaranteed body), so a Tarmogoyf-type reads as no floor; the
+    scan flags candidates for human judgment, it doesn't adjudicate."""
+    if rec is None:
+        return False
+    for f in (rec.get("card_faces") or [rec]):
+        p = f.get("power", rec.get("power"))
+        try:
+            if p is not None and int(p) >= n:
+                return True
+        except (TypeError, ValueError):
+            continue
+    return False
+
+
 # --- interaction coverage (Trinket Mage "decks that can always win", pillar 1) -
 # A resilience scan the legality checks don't do: can the deck ANSWER a threat of
 # each kind? Buckets mirror the video — the four permanent types you might need to
@@ -440,7 +475,8 @@ class Report:
 
 def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
            quiet=False, check_build=True, csv_path=None,
-           vitals=False, combos=False, trials_sim=SIM_TRIALS, interaction=False):
+           vitals=False, combos=False, trials_sim=SIM_TRIALS, interaction=False,
+           footprint=False):
     path, slug = resolve_target(arg)
     if path is None or not path.exists():
         if not quiet:
@@ -782,6 +818,71 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
                      "B2-3 grind lens — a pure racer may skip some on purpose "
                      "(memory: reference_trinketmage_win_any_game)")
 
+    # --- 9c. engine footprint (opt-in: hidden-commander rule 2) ---------
+    # Cubrious "two rules for a hidden-commander deck" (memory:
+    # reference_hidden_commander_footprint). RULE 2: a synergy card earns its
+    # slot only if it does SOMETHING without the engine (ramp / draw / tutor /
+    # removal, or a standalone body). This counts the nonland cards that go DEAD
+    # if the engine (the win_line pieces) is removed or never drawn. HEURISTIC
+    # over the tagger + oracle text, like 9b — flags build-quality candidates,
+    # never adjudicates, and is INFO-only (a tight combo deck may accept a high
+    # footprint on purpose). RULE 1 (analogs for the key card) = second-kill-path
+    # redundancy, which --combos already measures (complete + one-away lines), so
+    # it's pointed to rather than re-derived with a weak text heuristic.
+    if footprint:
+        rpt.section("engine footprint (hidden-commander rule 2)")
+        wl = reg_row.get("win_line") if reg_row else None
+        engine = [p.lower() for p in (wl.get("pieces") or [])] if wl else []
+        fuzzy = bool(wl.get("fuzzy")) if wl else False
+        if not engine:
+            rpt.line(INFO, "no win_line/engine on file — footprint needs a "
+                           "build-around to scope against (roster decks only)")
+        elif not oracle:
+            rpt.line(WARN, "skipped (no oracle data)")
+        else:
+            # tagger source sets are lowercased printed names (deck_sim DRY)
+            floor = (ds.need_source_set(library, "ramp")
+                     | ds.need_source_set(library, "draw")
+                     | ds.need_source_set(library, "tutor")
+                     | ds.need_source_set(library, "interaction"))
+
+            def _is_engine(low):
+                return any(p == low or (fuzzy and p in low) for p in engine)
+
+            low_floor, nonland = [], 0
+            for nm, _ in library:
+                rec = lookup(full, aliases, nm)
+                tl = rec.get("type_line", "") if rec else ""
+                if "Land" in tl:
+                    continue
+                nonland += 1
+                low = nm.lower()
+                if _is_engine(low):
+                    continue
+                has_floor = (low in floor
+                             or _ramp_floor(rec)
+                             or bool(interaction_caps(rec))
+                             or "search your library" in _all_text(rec)   # any tutor
+                             or ("Creature" in tl and _power_at_least(rec, 2)))
+                if not has_floor:
+                    low_floor.append(rec.get("name", nm) if rec else nm)
+            pct = 100 * len(low_floor) / max(nonland, 1)
+            rpt.facts["footprint_pct"] = round(pct)
+            # INFO only: footprint is a build-quality signal, NOT a legality
+            # failure — it must never flip the PASS/WARN/FAIL verdict.
+            rpt.line(INFO, f"{len(low_floor)}/{nonland} nonland cards ({pct:.0f}%) "
+                           f"do little without the engine "
+                           f"({', '.join(sorted(set(engine)))})")
+            if low_floor:
+                shown = ", ".join(sorted(low_floor)[:15])
+                more = f" … +{len(low_floor) - 15}" if len(low_floor) > 15 else ""
+                rpt.note(f"low-floor (only good with the engine): {shown}{more}")
+            rpt.note("rule 1 (analogs / second kill path): see --combos "
+                     "(complete + one-card-away lines)")
+            rpt.note("Cubrious hidden-commander rules; B2-3 build-quality lens — "
+                     "a tight combo deck may accept high footprint on purpose "
+                     "(memory: reference_hidden_commander_footprint)")
+
     # --- 10. bracket estimate + house-rule gate -------------------------
     rpt.section("bracket / house rules")
     if not oracle:
@@ -949,7 +1050,8 @@ def batch(include_candidates=False, csv_path=None):
     print(f"=== Deck Doctor — batch ({len(targets)} decks"
           f"{', incl. candidates' if include_candidates else ''}) ===\n")
     hdr = (f"{'verdict':7} {'deck':28} {'size':>4} {'sing':>4} {'ill':>3} "
-           f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'gap':>3} {'owned':>7} {'buy €':>8}")
+           f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'gap':>3} {'fp%':>4} "
+           f"{'owned':>7} {'buy €':>8}")
     print(hdr)
     print("-" * len(hdr))
 
@@ -957,7 +1059,7 @@ def batch(include_candidates=False, csv_path=None):
     rows = []
     for slug, path in targets:
         res = doctor(path if path else slug, quiet=True, csv_path=csv_path,
-                     interaction=True)
+                     interaction=True, footprint=True)
         f = res["facts"]
         own = (f"{f['owned']}/{f['need']}" if "owned" in f else "—")
         if f.get("buy_n"):
@@ -974,11 +1076,12 @@ def batch(include_candidates=False, csv_path=None):
     for res, f, own, buy in rows:
         size = f.get("size", "?")
         size_cell = str(size) if size == DECK_SIZE else f"!{size}"
+        fp = (f"{f['footprint_pct']}%" if "footprint_pct" in f else "·")
         print(f"{res['tag']:7} {res['title'][:28]:28} {size_cell:>4} "
               f"{_flag(f,'singleton'):>4} {_flag(f,'illegal'):>3} "
               f"{_flag(f,'offcolor'):>3} {_flag(f,'mld'):>3} "
               f"{str(f.get('gc','?')):>3} {str(f.get('bracket','?')):>3} "
-              f"{_flag(f,'intxn_gaps'):>3} {own:>7} {buy:>8}")
+              f"{_flag(f,'intxn_gaps'):>3} {fp:>4} {own:>7} {buy:>8}")
 
     n_fail = sum(1 for r in rows if r[0]["tag"] == "FAIL")
     n_warn = sum(1 for r in rows if r[0]["tag"] == "WARN")
@@ -986,7 +1089,7 @@ def batch(include_candidates=False, csv_path=None):
           f"{len(rows) - n_fail - n_warn} PASS ===")
     print("  columns: size(!=100 prefixed !) · sing(leton) · ill(egal) · off(-colour) "
           "· MLD(house-banned) · GC · brk(et est) · gap(interaction-coverage holes, 0-6) "
-          "· owned/100 · buy € (indicative; + unpriced)")
+          "· fp%(nonland cards dead without the engine) · owned/100 · buy € (indicative; + unpriced)")
     print("  drill into any deck: python scripts/deck_doctor.py <slug>")
     return 1 if worst else 0
 
@@ -1131,8 +1234,12 @@ def main():
     ap.add_argument("--interaction", action="store_true",
                     help="resilience: can the deck answer artifact/ench/creature/land "
                          "+ indestructible + protection? (heuristic over oracle text)")
+    ap.add_argument("--footprint", action="store_true",
+                    help="hidden-commander rule 2: %% of nonland cards that do little "
+                         "without the engine (win_line); flags low-floor synergy slots")
     ap.add_argument("--deep", action="store_true",
-                    help="run every check including --vitals, --combos and --interaction")
+                    help="run every check including --vitals, --combos, "
+                         "--interaction and --footprint")
     ap.add_argument("--run-lab", action="store_true",
                     help="also run the deck's *_clock_lab.py live and echo the grid")
     ap.add_argument("--lab", metavar="MODULE:MODE",
@@ -1151,7 +1258,8 @@ def main():
                   trials=args.trials, check_build=not args.no_build,
                   csv_path=args.csv, vitals=args.vitals or args.deep,
                   combos=args.combos or args.deep,
-                  interaction=args.interaction or args.deep)["code"]
+                  interaction=args.interaction or args.deep,
+                  footprint=args.footprint or args.deep)["code"]
 
 
 if __name__ == "__main__":
