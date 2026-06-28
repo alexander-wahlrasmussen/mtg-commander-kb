@@ -5,8 +5,8 @@ The whole simulation stack (the `*_clock_lab.py` suite, `pod_gauntlet.py`,
 `self_meta_lab.py`) predicts how our decks perform. Every lab so far has
 *falsified* a hand-estimate — but nothing has ever checked the LABS against
 real games. This file is the capture end of that loop: a structured, append-only
-record of actual pod results that a future `calibrate.py` (and the framework
-bake-off's outcome oracle) can back-test against.
+record of actual pod results that `calibrate.py` (the grading end, shipped
+2026-06-28) and the framework bake-off's outcome oracle back-test against.
 
 What it feeds, and the lab it validates:
     win_turn          -> the TABLE clock (winner closed all seats)      vs *_clock_lab table median

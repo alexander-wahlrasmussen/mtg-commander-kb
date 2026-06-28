@@ -118,6 +118,31 @@ def _winners(closes, pod, dura, t_grind):
     return [s for s in pod if abs(dura[s] - dmax) < 1e-9]
 
 
+def simulate(slugs, C, tcdf, dura, trials, tax, t_grind, rng):
+    """Core overlay sim, factored out of run() so tier_list.py can reuse it (DRY). Returns
+    (notax, inter, appear): per-deck self_meta-reproduction wins (TAX=0 branch), interaction-tax
+    wins, and pod appearances. The rng-consumption order is byte-identical to the historical
+    run() loop, so the printed table AND the null-reduction tests (which drive run() by
+    subprocess) are unchanged."""
+    notax = {s: 0.0 for s in slugs}        # self_meta reproduction (TAX=0 branch, same pods)
+    inter = {s: 0.0 for s in slugs}        # with the interaction tax
+    appear = {s: 0 for s in slugs}
+    for _ in range(trials):
+        pod = rng.sample(slugs, NSEAT)
+        for s in pod:
+            appear[s] += 1
+        t_raw = {s: pg.sample_kill(tcdf[s], rng) for s in pod}        # identical draw to self_meta
+        champs0 = _winners(t_raw, pod, dura, t_grind)
+        for s in champs0:
+            notax[s] += 1.0 / len(champs0)
+        eff = {s: effective_close(s, t_raw[s], [o for o in pod if o != s],
+                                  pg.PROTECT, tax, rng) for s in pod}
+        champs = _winners(eff, pod, dura, t_grind)
+        for s in champs:
+            inter[s] += 1.0 / len(champs)
+    return notax, inter, appear
+
+
 def run(args):
     rng = random.Random(args.seed)
     C = pg.merged_clocks()
@@ -127,22 +152,8 @@ def run(args):
     dura = {s: sm.durability(s, C, defense) for s in slugs}
     interact = {s: interact_at(s, 7) for s in slugs}                  # headline value (T7)
 
-    notax = {s: 0.0 for s in slugs}        # self_meta reproduction (TAX=0 branch, same pods)
-    inter = {s: 0.0 for s in slugs}        # with the interaction tax
-    appear = {s: 0 for s in slugs}
-    for _ in range(args.trials):
-        pod = rng.sample(slugs, NSEAT)
-        for s in pod:
-            appear[s] += 1
-        t_raw = {s: pg.sample_kill(tcdf[s], rng) for s in pod}        # identical draw to self_meta
-        champs0 = _winners(t_raw, pod, dura, args.t_grind)
-        for s in champs0:
-            notax[s] += 1.0 / len(champs0)
-        eff = {s: effective_close(s, t_raw[s], [o for o in pod if o != s],
-                                  pg.PROTECT, args.tax, rng) for s in pod}
-        champs = _winners(eff, pod, dura, args.t_grind)
-        for s in champs:
-            inter[s] += 1.0 / len(champs)
+    notax, inter, appear = simulate(slugs, C, tcdf, dura, args.trials, args.tax,
+                                    args.t_grind, rng)
 
     rows = []
     for s in slugs:

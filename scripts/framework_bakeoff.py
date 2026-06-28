@@ -15,8 +15,11 @@ Contestants (locked 2026-06-16):
     bdd_consistency    BDD math video: function counts vs the "11 to guarantee by T2" rule
     pure_clock         null hypothesis: rank by lab decap turn (is it all just speed?)
 
-Oracle = analysis/pod_gauntlet_clocks.json (lab decap/table medians + curves). Later we
-add pod_gauntlet P(win) / self_meta P(win) and the real-game log (calibrate.py, Layer 2).
+Oracles = six SIM oracles off analysis/pod_gauntlet_clocks.json (lab decap/table medians +
+curves, pod_gauntlet / self_meta / interaction P(win)) PLUS the REAL-games oracle: observed
+win% from analysis/game_results.jsonl (via calibrate.real_win_oracle, the Layer-C ground truth).
+The REAL column in --bakeoff is '—' until >=3 decks clear --real-min games; it's the only oracle
+NOT semi-circular with the clock, so it's the real test of every framework when the log fills.
 
 THIS FILE IS BUILT IN PHASES. Phase 1 (now) = shared infrastructure: decklist parsing,
 the Scryfall card index, the per-card function tagger, and the Game-Changer loader, plus
@@ -586,13 +589,35 @@ def spearman(x, y):
     return round(cov / (vx * vy) ** 0.5, 3), n
 
 
-def framework_values(idx, gc, aliases, clocks):
+def _load(name):
+    spec = importlib.util.spec_from_file_location(name, Path(__file__).parent / f"{name}.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def real_win_oracle(min_games=3, log_path=None):
+    """The ONLY ground-truth oracle: observed per-deck win% from the real game log (Layer C).
+    Reuses calibrate.observed_stats (which mirrors game_log). Decks below `min_games` are
+    EXCLUDED so a thin log never fabricates a ranking — returns dict[slug] -> win% (possibly
+    empty: today's state). Unlike the six sim oracles (snapshots derived from the clocks), this
+    is reality, so it grades CC/Disciple/BDD without the pure_clock semi-circularity."""
+    cal = _load("calibrate")
+    obs = cal.observed_stats(cal.load_log(log_path or cal.DEFAULT_LOG))
+    return {s: o["win_rate"] for s, o in obs.items()
+            if o["n"] >= min_games and o["win_rate"] is not None}
+
+
+def framework_values(idx, gc, aliases, clocks, real=None):
     """Per-deck value for every framework, ORIENTED so higher = 'should win',
-    plus the oracle values (faster clock = higher). Returns dict[name] -> list[16]."""
+    plus the oracle values (faster clock = higher). Returns dict[name] -> list[16].
+    `real` (slug -> observed win%) adds the ground-truth oracle column when a game log exists."""
+    real = real or {}
     cols = {k: [] for k in ("conversion_check", "disciple", "wotc_bracket",
                             "bdd_consistency", "bdd_mana", "pure_clock",
                             "oracle_table", "oracle_decap", "oracle_frontedge",
-                            "oracle_gauntlet", "oracle_selfmeta", "oracle_interactive")}
+                            "oracle_gauntlet", "oracle_selfmeta", "oracle_interactive",
+                            "oracle_realgame")}
     for slug in DECKS:
         p = profile(slug, idx, gc, aliases)
         c = clocks.get(slug, {})
@@ -615,22 +640,27 @@ def framework_values(idx, gc, aliases, clocks):
         cols["oracle_gauntlet"].append(float(gpw) if gpw is not None else None)   # P(win), higher=better
         cols["oracle_selfmeta"].append(float(smw) if smw is not None else None)
         cols["oracle_interactive"].append(float(iaw) if iaw is not None else None)  # P(win) + interaction
+        rw = real.get(slug)
+        cols["oracle_realgame"].append(float(rw) if rw is not None else None)        # observed win%, reality
     return cols
 
 
 def cmd_bakeoff(a, idx, gc, aliases):
     clocks = load_clocks()
-    cols = framework_values(idx, gc, aliases, clocks)
+    real = real_win_oracle(getattr(a, "real_min", 3), getattr(a, "real_log", None))
+    cols = framework_values(idx, gc, aliases, clocks, real)
     contestants = [("conversion_check", "Conversion Check (incumbent)"),
                    ("bdd_mana", "BDD mana-budget"),
                    ("disciple", "Disciple of the Vault"),
                    ("bdd_consistency", "BDD consistency"),
                    ("wotc_bracket", "WotC bracket 1-5"),
                    ("pure_clock", "Pure clock (null)")]
-    print("FRAMEWORK BAKE-OFF — Spearman rho vs six outcome oracles")
+    n_real = sum(1 for v in cols["oracle_realgame"] if v is not None)
+    print("FRAMEWORK BAKE-OFF — Spearman rho vs six SIM oracles + the REAL-games oracle")
     print("(every framework oriented so higher = 'should win'; clocks faster=better, P(win) higher=better)")
-    print(f"\n{'framework':<28}{'gauntlet':>9}{'selfmeta':>9}{'intract':>9}{'TABLE':>8}{'decap':>8}{'front7':>8}{'N':>4}  note")
-    print("-" * 95)
+    print(f"\n{'framework':<28}{'REAL':>8}{'gauntlet':>9}{'selfmeta':>9}{'intract':>9}"
+          f"{'TABLE':>8}{'decap':>8}{'front7':>8}{'N':>4}  note")
+    print("-" * 103)
 
     def cell(key, oracle):
         r, _n = spearman(cols[key], cols[oracle])
@@ -643,16 +673,24 @@ def cmd_bakeoff(a, idx, gc, aliases):
             note = "no variance"
         elif key == "pure_clock":
             note = "semi-circular: oracles derive from the clock"
-        print(f"{label:<28}{cell(key,'oracle_gauntlet'):>9}{cell(key,'oracle_selfmeta'):>9}"
-              f"{cell(key,'oracle_interactive'):>9}{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}"
+        print(f"{label:<28}{cell(key,'oracle_realgame'):>8}{cell(key,'oracle_gauntlet'):>9}"
+              f"{cell(key,'oracle_selfmeta'):>9}{cell(key,'oracle_interactive'):>9}"
+              f"{cell(key,'oracle_table'):>8}{cell(key,'oracle_decap'):>8}"
               f"{cell(key,'oracle_frontedge'):>8}{n:>4}  {note}")
-    print("\nORACLES — gauntlet: P(beat the T6-7 combo pod) · selfmeta: P(win in a roster pod)")
+    print(f"\nREAL = Spearman vs OBSERVED win% from the game log (Layer C, the only ground truth) — "
+          f"{n_real} deck(s)")
+    if n_real < 3:
+        print(f"       with n>={getattr(a, 'real_min', 3)} games. <3 eligible decks -> '—' (can't rank "
+              f"on a thin log). Log games:\n       python scripts/game_log.py log   ·   then re-run.  "
+              f"Grade the clocks too: python scripts/calibrate.py")
+    print("ORACLES — gauntlet: P(beat the T6-7 combo pod) · selfmeta: P(win in a roster pod)")
     print("          intract: selfmeta + the INTERACTION/durability overlay (Backlog #6) — a closing seat")
     print("          must push through the table's answers, so Interaction+Durability finally count.")
     print("          TABLE/decap: lab kill clocks (faster=better). front7: P(decap<=T7) off the curve")
     print("          (the real pod's bar; sensitive to the mulligan). +1 agree · 0 unrelated · -1 backwards.")
     print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")
-    print("oracles is semi-circular (they're built partly FROM the clock) — CC/Disciple/BDD are not.")
+    print("SIM oracles is semi-circular (they're built partly FROM the clock) — CC/Disciple/BDD are not,")
+    print("and NONE of them is circular vs REAL: that column is the real test when the log fills.")
 
 
 def cmd_scores(a, idx, gc, aliases):
@@ -725,6 +763,10 @@ def main():
     g.add_argument("--bakeoff", action="store_true", help="Spearman: each framework vs the oracle")
     ap.add_argument("--clocks", metavar="FILE",
                     help="alternate clocks JSON (smart-mulligan experiment); default = the committed one")
+    ap.add_argument("--real-min", type=int, default=3, metavar="N",
+                    help="per-deck game floor for the REAL-games oracle in --bakeoff (default 3)")
+    ap.add_argument("--real-log", metavar="FILE",
+                    help="alternate game_results.jsonl for the REAL oracle (default = the committed one)")
     a = ap.parse_args()
 
     global _CLOCKS_PATH

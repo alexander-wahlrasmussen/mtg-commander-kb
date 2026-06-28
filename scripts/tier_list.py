@@ -21,7 +21,10 @@ Tiers are cut on the composite. This is a SYNTHESIS read, not a new sim — it j
 existing labs (no narrated numbers). Caveats of each source are inherited (goldfish ceilings,
 soft durability/disruption priors). Reproduce: `python scripts/tier_list.py`.
 
-Writeup: analysis/Definitive_Tier_List_2026-06-15.md
+v2 (2026-06-28) ranks on the THREE convergent OUTCOME oracles (POWER → INTER replaces CC, which
+becomes a context column); `--legacy-power` reproduces the v1 (CC-as-axis) composite.
+
+Writeup: analysis/Definitive_Tier_List_2026-06-28.md  (v1: analysis/Definitive_Tier_List_2026-06-15.md)
 """
 import argparse
 import importlib.util
@@ -47,10 +50,18 @@ def _load(name):
 
 pc = _load("pod_championship")          # -> pc.pg (pod_gauntlet), pc.sm (self_meta_lab)
 pg, sm = pc.pg, pc.sm
+im = _load("interaction_meta_lab")      # the interaction-overlay oracle (added 2026-06-27)
 
-W = {"antipod": 0.40, "self": 0.35, "power": 0.25}
-# composite cutoffs, set on the roster's natural breaks (gaps at ~70 / 50 / 42 / 30)
-TIERS = [("S", 70), ("A", 50), ("B", 42), ("C", 30), ("D", 0)]
+# --- v2 (default): THREE convergent OUTCOME oracles. CC drops out of the composite (it's
+#     clock-blind — shown only as a context column). The mirror bar is measured twice, at two
+#     fidelities (self_meta + its interaction refinement); together they outweigh the single
+#     external-pod axis, but the external pod stays the largest SINGLE axis ("the meta that
+#     matters"). INTER, the more complete mirror oracle, carries more than raw SELF.
+W_V2 = {"antipod": 0.45, "inter": 0.35, "self": 0.20}
+TIERS_V2 = [("S", 70), ("A", 52), ("B", 40), ("C", 28), ("D", 0)]
+# --- v1 (--legacy-power): the 2026-06-15 composite (CC as the build-quality axis).
+W_V1 = {"antipod": 0.40, "self": 0.35, "power": 0.25}
+TIERS_V1 = [("S", 70), ("A", 50), ("B", 42), ("C", 30), ("D", 0)]
 
 
 def antipod_blend(slugs, C, trials, rng):
@@ -71,6 +82,17 @@ def self_meta(slugs, C, trials, rng, t_grind):
     return pwin
 
 
+def interaction(slugs, C, trials, rng, t_grind, tax):
+    """The interaction-overlay mirror oracle (self_meta + a measured interaction tax). Reuses
+    im.simulate (the same engine the lab prints), restricted to im's MEASURED pod order."""
+    mslugs = [s for s in slugs if s in pg.MEASURED]
+    tcdf = {s: pg.build_cdf(C[s]["grid"], C[s]["table"]) for s in mslugs}
+    defense = sm.defense_counts()
+    dura = {s: sm.durability(s, C, defense) for s in mslugs}
+    _, inter, appear = im.simulate(mslugs, C, tcdf, dura, trials, tax, t_grind, rng)
+    return {s: (100.0 * inter[s] / (appear[s] or 1) if s in inter else None) for s in slugs}
+
+
 def power(slugs, C):
     out = {}
     for s in slugs:
@@ -88,8 +110,8 @@ def norm(d):
             for k, v in d.items()}
 
 
-def tier_of(comp):
-    for name, cut in TIERS:
+def tier_of(comp, tiers):
+    for name, cut in tiers:
         if comp >= cut:
             return name
     return "D"
@@ -101,8 +123,12 @@ def main():
     ap.add_argument("--trials", type=int, default=40000)
     ap.add_argument("--t-grind", type=int, default=sm.T_GRIND)
     ap.add_argument("--seed", type=int, default=sm.SEED)
+    ap.add_argument("--tax", type=float, default=im.TAX, help="interaction-overlay tax (v2 axis)")
+    ap.add_argument("--legacy-power", action="store_true",
+                    help="reproduce the 2026-06-15 composite (CC as the 3rd axis, no overlay)")
     args = ap.parse_args()
 
+    W, TIERS = (W_V1, TIERS_V1) if args.legacy_power else (W_V2, TIERS_V2)
     rng = random.Random(args.seed)
     C = pg.merged_clocks()
     slugs = [s for s in sm.dl.ROSTER if s in C]
@@ -113,6 +139,8 @@ def main():
         "self": self_meta(slugs, C, args.trials, rng, args.t_grind),
         "power": power(slugs, C),
     }
+    if not args.legacy_power:
+        raw["inter"] = interaction(slugs, C, args.trials, rng, args.t_grind, args.tax)
     n = {ax: norm(raw[ax]) for ax in raw}
 
     comp = {}
@@ -123,28 +151,48 @@ def main():
         comp[s] = sum(W[ax] * parts[ax] for ax in avail) / wsum
     order = sorted(slugs, key=lambda s: -comp[s])
 
-    print(f"\n{'='*94}")
-    print("THE DEFINITIVE TIER LIST — composite of POWER · SELF-META · ANTI-POD")
-    print(f"{'='*94}")
-    print(f"  weights: anti-pod {W['antipod']} · self-meta {W['self']} · power {W['power']}  "
-          f"(closing > building)  ·  trials={args.trials}, T_grind={args.t_grind}\n")
-    print(f"  {'tier':>4}  {'deck':24}{'pwr/20':>7}{'self%':>7}{'anti%':>7}"
-          f"{'clock':>7}{'COMP':>7}")
+    if args.legacy_power:
+        title = "THE DEFINITIVE TIER LIST (v1, legacy) — composite of POWER · SELF-META · ANTI-POD"
+        wline = (f"  weights: anti-pod {W['antipod']} · self-meta {W['self']} · power "
+                 f"{W['power']}  (closing > building)")
+        cols = f"  {'tier':>4}  {'deck':24}{'pwr/20':>7}{'self%':>7}{'anti%':>7}{'clock':>7}{'COMP':>7}"
+    else:
+        title = "THE DEFINITIVE TIER LIST (v2) — composite of THREE convergent OUTCOME oracles"
+        wline = (f"  weights: anti-pod {W['antipod']} · interaction {W['inter']} · self-meta "
+                 f"{W['self']}  (CC = context only)  ·  tax={args.tax}")
+        cols = (f"  {'tier':>4}  {'deck':24}{'anti%':>7}{'inter%':>7}{'self%':>7}"
+                f"{'(cc)':>6}{'clock':>7}{'COMP':>7}")
+
+    print(f"\n{'='*94}\n{title}\n{'='*94}")
+    print(f"{wline}  ·  trials={args.trials}, T_grind={args.t_grind}\n")
+    print(cols)
     last = None
     for s in order:
-        t = tier_of(comp[s])
+        t = tier_of(comp[s], TIERS)
         if t != last:
-            print(f"  {'─'*4}  {('Tier '+t):─<54}")
+            print(f"  {'─'*4}  {('Tier '+t):─<60}")
             last = t
         scd = raw["power"][s]
         sct = f"{scd:.0f}" if scd is not None else "—"
-        print(f"  {t:>4}  {names[s]:24}{sct:>7}{raw['self'][s]:>6.0f}%"
-              f"{raw['antipod'][s]:>6.0f}%{C[s]['med'][1]:>7}{comp[s]:>7.0f}")
-    print(f"\n  COMP = weighted mean of the three min-max-normalised axes (0-100). Each axis "
-          f"inherits its\n  source's caveats (goldfish ceilings; soft durability/disruption "
-          f"priors). Synthesis, not a new sim.")
-    print(f"  Zero-Sum has no formal Conversion score (audit pending) — scored on the two "
-          f"win-axes only.\n")
+        if args.legacy_power:
+            print(f"  {t:>4}  {names[s]:24}{sct:>7}{raw['self'][s]:>6.0f}%"
+                  f"{raw['antipod'][s]:>6.0f}%{C[s]['med'][1]:>7}{comp[s]:>7.0f}")
+        else:
+            iv = raw["inter"][s]
+            ivs = f"{iv:.0f}%" if iv is not None else "—"
+            print(f"  {t:>4}  {names[s]:24}{raw['antipod'][s]:>6.0f}%{ivs:>7}"
+                  f"{raw['self'][s]:>6.0f}%{sct:>6}{C[s]['med'][1]:>7}{comp[s]:>7.0f}")
+    print(f"\n  COMP = weighted mean of the min-max-normalised axes (0-100). Each axis inherits "
+          f"its\n  source's caveats (goldfish ceilings; soft durability/disruption priors). "
+          f"Synthesis, not a new sim.")
+    if not args.legacy_power:
+        print(f"  v2 ranks by the three OUTCOME oracles; CC (cc) is shown for contrast, NOT in the "
+              f"composite.\n  self%/inter% are the SAME mirror bar at two fidelities (inter = "
+              f"self + interaction tax).\n  Zero-Sum has no Conversion score (—); v2 scores it "
+              f"fully (CC isn't a composite axis).\n  Legacy 2026-06-15 list: --legacy-power.\n")
+    else:
+        print(f"  Zero-Sum has no formal Conversion score (audit pending) — scored on the two "
+              f"win-axes only.\n")
 
 
 if __name__ == "__main__":

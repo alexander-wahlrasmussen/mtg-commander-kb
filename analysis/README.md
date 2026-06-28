@@ -46,7 +46,8 @@ script walks only `decks/` + `collection/`).
 | `Self_Meta_Quantified_2026-06-15.md` | the long-game model: quantifies the self-meta ranking (table-close race + durability overlay) via `self_meta_lab.py`; decomposes measured-vs-judgment, pivots on `T_grind` |
 | `Pod_Championship_2026-06-15.md` | the fun finale: a seeded 16-deck tournament on the self-meta engine (`pod_championship.py`); Genome champion in both fast & grindy metas, Dark Lord rises on low `T_grind` |
 | `Pod_Championship_Swapped_2026-06-15.md` | the championship re-run with all Build_And_Swap §2 swaps (`pod_championship.py --swapped`); only Calamity's rebuild moves the table clock → it crashes the podium (🥉), but Genome's crown is unchanged |
-| `Definitive_Tier_List_2026-06-15.md` | one ranked tier list = composite of POWER (Conversion /20) · SELF-META · ANTI-POD (`tier_list.py`); headline: the three 19/20 decks scatter S→A/B/C — score ⊥ winning |
+| `Definitive_Tier_List_2026-06-28.md` | **(current)** ranked tier list = composite of the THREE convergent OUTCOME oracles ANTI-POD · INTERACTION · SELF-META (`tier_list.py`), CC demoted to a context column; reconciles where the external-pod vs mirror bars disagree; headline: the two 19/20 decks (Lightning War, Dark Lord) rank 11th–12th — score ⊥ winning |
+| `Definitive_Tier_List_2026-06-15.md` | *(superseded by the 06-28 v2)* the original composite of POWER (Conversion /20) · SELF-META · ANTI-POD (`tier_list.py --legacy-power`) |
 
 (`pod_gauntlet_clocks.json`, `lock_availability.json`, `delay_disruption.json` and `kill_trees/`
 also live here; their writeups are in `../campaigns/` or above.)
