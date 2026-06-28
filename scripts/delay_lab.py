@@ -363,7 +363,6 @@ REPLICATION = _A(  # Satya 4 -> FG free; deep blue control suite
     ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
     ("Swan Song", ({"C"}, 1, {"ios", "ublue"})),
     ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
-    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
     ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
     ("Abrade", ({"R", "P"}, 2, {"ios"})),
     ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
@@ -398,7 +397,6 @@ EXILES = _A(  # Zuko 3 -> Rollick free; Mardu removal/sweepers, no hard counters
 
 ZEROSUM = _A(  # Witherbloom 8 -> Rollick full cost; Golgari removal + Deed
     ("Assassin's Trophy", ({"R", "P"}, 2, {"ios"})),
-    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
     ("Deadly Rollick", ({"R", "P"}, 4, {"ios", "inst"})),
     ("Toxic Deluge", ({"P"}, 3, {"ios"})),
     ("Pernicious Deed", ({"P"}, 4, set())))             # crack is activated -> Abolisher-blocked
@@ -412,7 +410,6 @@ CURSE = _A(  # Scarab God 5 -> FG full cost (not reliably out by their T6)
     ("Go for the Throat", ({"R", "P"}, 2, {"ios"})),
     ("Rapid Hybridization", ({"R", "P"}, 1, {"ios"})),
     ("Cyclonic Rift", ({"R", "P"}, 2, {"ios"})),
-    ("Fleshbag Marauder", ({"P"}, 3, {"crea"})),        # edict, dodgeable
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
 BUMBLE = _A(  # Ms. Bumbleflower (Bant) — white removal + a counter
@@ -432,8 +429,6 @@ DARKLORD = _A(  # Sauron 6 -> FG/Rollick full cost; Grixis control, deep suite
     ("Counterspell", ({"C"}, 2, {"ios", "ublue"})),
     ("Mana Drain", ({"C"}, 2, {"ios", "ublue"})),
     ("Swan Song", ({"C"}, 1, {"ios", "ublue"})),
-    ("An Offer You Can't Refuse", ({"C"}, 1, {"ios", "ublue"})),
-    ("Arcane Denial", ({"C"}, 2, {"ios", "ublue"})),
     ("Force of Negation", ({"C"}, 0, {"ios", "ublue", "inst"})),
     ("Go for the Throat", ({"R", "P"}, 2, {"ios"})),
     ("Chaos Warp", ({"R", "P"}, 3, {"ios"})),
@@ -447,7 +442,6 @@ DIMINISHING = _A(  # Teysa 4 (Orzhov aristocrats) — removal + edicts + sweeper
     ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
     ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
     ("Plaguecrafter", ({"P"}, 3, {"crea"})),            # edict, dodgeable
-    ("Fleshbag Marauder", ({"P"}, 3, {"crea"})),
     ("The Meathook Massacre", ({"P"}, 4, {"ios"})),     # X=2 wrath
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
