@@ -176,6 +176,22 @@ export interface DeckPage {
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
 }
 
+export interface TierRow {
+  slug: string; name: string; tier: string; comp: number;
+  anti: number; inter: number | null; self: number; cc: number | null;
+  decap: string; table: string;
+}
+export interface TierListData {
+  version: string;
+  weights: Record<string, number>;
+  tiers: string[];
+  tax: number; t_grind: number; trials: number;
+  rows: TierRow[];
+}
+
+export async function getTierList(): Promise<TierListData> {
+  return mode.static ? bundle<TierListData>("tierlist") : getJSON<TierListData>("/api/tierlist");
+}
 export async function getRoster(): Promise<RosterData> {
   return mode.static ? bundle<RosterData>("roster") : getJSON<RosterData>("/api/roster");
 }

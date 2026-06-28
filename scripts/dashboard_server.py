@@ -11,6 +11,7 @@ their numbers as JSON, so the browser charts the same curves the writeups cite.
   GET /api/clocks           -> harvested decap/table CDFs per deck (for the Labs tab)
   GET /api/gauntlet?...     -> P(beat the T6-7 pod) per deck (run_default, parameterised)
   GET /api/championship?... -> the 16-deck bracket (pod_championship, parameterised)
+  GET /api/tierlist?...      -> the Definitive Tier List v2 composite (tier_list, parameterised)
 
 Content endpoints (kb_content — KB markdown / CSV / Scryfall, not the sim):
   GET /api/roster           -> active roster (Deck_Index ⋈ registry ⋈ clocks ⋈ GC)
@@ -67,6 +68,7 @@ pc = _load("pod_championship")
 sm = pc.sm                                   # self_meta_lab
 pg = pc.pg                                   # pod_gauntlet  (clocks, build_cdf, simulate, ...)
 kb = _load("kb_content")                     # KB content (roster / decks / collection / wishlist)
+tl = _load("tier_list")                       # the v2 tier-list composite (reuses pg/sm/im)
 
 CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -224,6 +226,20 @@ def compute_wishlist():
     return kb.wishlist()
 
 
+def compute_tierlist(trials, t_grind, tax, seed, legacy):
+    """The Definitive Tier List v2 (or v1) as JSON — mirrors tier_list.compute_rows, rounding the
+    axis values for transport. A 4th-consumer wrapper: the composite logic lives in tier_list."""
+    p = tl.compute_rows(trials, t_grind, tax, seed, legacy)
+    def ri(v):
+        return None if v is None else round(v)
+    rows = [dict(slug=x["slug"], name=x["name"], tier=x["tier"], comp=round(x["comp"]),
+                 anti=round(x["anti"]), inter=ri(x["inter"]),
+                 self=round(x["self"]), cc=x["cc"], decap=x["decap"], table=x["table"])
+            for x in p["rows"]]
+    return dict(version=p["version"], weights=p["weights"], tiers=p["tiers"],
+                tax=p["tax"], t_grind=p["t_grind"], trials=p["trials"], rows=rows)
+
+
 def compute_home(seed):
     """Dashboard hub — roster KPIs + a default gauntlet & championship result."""
     g = compute_gauntlet(a=pg.A_BASE, pod="base", strict=False, trials=8000, seed=seed)
@@ -305,6 +321,13 @@ class Handler(BaseHTTPRequestHandler):
                     seed=_qint(qs, "seed", sm.SEED),
                     draw_seed=(draw_seed if draw_seed >= 0 else None),
                     n_draws=max(1, min(16, _qint(qs, "draws", 1)))))
+            if path == "/api/tierlist":
+                return self._json(compute_tierlist(
+                    trials=max(2000, min(120000, _qint(qs, "trials", 40000))),
+                    t_grind=_qint(qs, "t_grind", sm.T_GRIND),
+                    tax=_qfloat(qs, "tax", tl.im.TAX),
+                    seed=_qint(qs, "seed", sm.SEED),
+                    legacy=_qbool(qs, "legacy")))
             if path == "/api/roster":
                 return self._json(compute_roster())
             if path == "/api/home":

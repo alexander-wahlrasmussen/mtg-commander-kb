@@ -7,6 +7,7 @@ import { Gauntlet } from "./panels/Gauntlet";
 import { Clocks } from "./panels/Clocks";
 import { Locks } from "./panels/Locks";
 import { Championship } from "./panels/Championship";
+import { TierList } from "./panels/TierList";
 import { Decks } from "./panels/Decks";
 import { Collection } from "./panels/Collection";
 import { Wishlist } from "./panels/Wishlist";
@@ -19,6 +20,7 @@ const TABS = [
   { id: "clocks", label: "Clocks" },
   { id: "locks", label: "Locks" },
   { id: "championship", label: "Championship" },
+  { id: "tiers", label: "Tier List" },
   { id: "decks", label: "Decks" },
   { id: "collection", label: "Collection" },
   { id: "wishlist", label: "Wishlist" },
@@ -30,6 +32,7 @@ const SUBTITLES: Record<string, string> = {
   clocks: "harvested decap / table kill-curves",
   locks: "deck × lock win-probability lift",
   championship: "the 16-deck bracket",
+  tiers: "the v2 power ranking — three outcome oracles, score ⊥ winning",
   decks: "the active roster — Conversion Check + measured clock",
   collection: "the card browser",
   wishlist: "the build & swap tracker",
@@ -86,6 +89,7 @@ export function App() {
             {tab === "clocks" && <Clocks />}
             {tab === "locks" && <Locks />}
             {tab === "championship" && <Championship />}
+            {tab === "tiers" && <TierList />}
             {tab === "decks" && <Decks onOpenDeck={openDeck} />}
             {tab === "collection" && <Collection />}
             {tab === "wishlist" && <Wishlist />}

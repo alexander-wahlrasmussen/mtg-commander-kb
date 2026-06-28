@@ -140,6 +140,9 @@ def main():
     (OUT / "wishlist.json").write_text(json.dumps(ds.compute_wishlist()), encoding="utf-8")
     (OUT / "collection.json").write_text(json.dumps(ds.compute_collection()), encoding="utf-8")
     (OUT / "home.json").write_text(json.dumps(ds.compute_home(GSEED)), encoding="utf-8")
+    (OUT / "tierlist.json").write_text(json.dumps(ds.compute_tierlist(
+        trials=40000, t_grind=ds.sm.T_GRIND, tax=ds.tl.im.TAX, seed=ds.sm.SEED, legacy=False)),
+        encoding="utf-8")
     decks_dir = OUT / "decks"
     decks_dir.mkdir(exist_ok=True)
     slugs = [d["slug"] for d in roster["decks"]]
@@ -155,7 +158,7 @@ def main():
                    a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
         championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
                           trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
-        content=dict(roster=True, home=True, wishlist=True, collection=True, decks=slugs),
+        content=dict(roster=True, home=True, wishlist=True, collection=True, tierlist=True, decks=slugs),
     )
     (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 

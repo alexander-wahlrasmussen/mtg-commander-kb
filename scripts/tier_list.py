@@ -117,6 +117,45 @@ def tier_of(comp, tiers):
     return "D"
 
 
+def compute_rows(trials=40000, t_grind=None, tax=None, seed=None, legacy=False):
+    """The shared v2 (or legacy v1) ranking core behind main()'s print AND the dashboard's
+    /api/tierlist. Returns dict(version, weights, tiers, tax, t_grind, trials, rows) with rows
+    ordered COMP-descending; each row carries the FULL-precision axis values (anti/inter/self/cc),
+    the COMP, the tier letter, and the deck's clock. Rounding/formatting is the caller's job —
+    so the CLI's printed numbers stay byte-identical to before this was factored out."""
+    t_grind = sm.T_GRIND if t_grind is None else t_grind
+    tax = im.TAX if tax is None else tax
+    seed = sm.SEED if seed is None else seed
+    W, TIERS = (W_V1, TIERS_V1) if legacy else (W_V2, TIERS_V2)
+    rng = random.Random(seed)
+    C = pg.merged_clocks()
+    slugs = [s for s in sm.dl.ROSTER if s in C]
+    raw = {
+        "antipod": antipod_blend(slugs, C, trials, rng),
+        "self": self_meta(slugs, C, trials, rng, t_grind),
+        "power": power(slugs, C),
+    }
+    if not legacy:
+        raw["inter"] = interaction(slugs, C, trials, rng, t_grind, tax)
+    n = {ax: norm(raw[ax]) for ax in raw}
+    comp = {}
+    for s in slugs:
+        parts = {ax: n[ax][s] for ax in W}
+        avail = {ax: v for ax, v in parts.items() if v is not None}
+        wsum = sum(W[ax] for ax in avail)
+        comp[s] = sum(W[ax] * parts[ax] for ax in avail) / wsum
+    order = sorted(slugs, key=lambda s: -comp[s])
+    rows = [dict(
+        slug=s, name=C[s]["name"], tier=tier_of(comp[s], TIERS), comp=comp[s],
+        anti=raw["antipod"][s], self=raw["self"][s],
+        inter=(raw["inter"][s] if not legacy else None),
+        cc=raw["power"][s], decap=C[s]["med"][0], table=C[s]["med"][1],
+    ) for s in order]
+    return dict(version=("v1" if legacy else "v2"), weights=W,
+                tiers=[t for t, _ in TIERS], tax=tax, t_grind=t_grind,
+                trials=trials, rows=rows)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -128,28 +167,8 @@ def main():
                     help="reproduce the 2026-06-15 composite (CC as the 3rd axis, no overlay)")
     args = ap.parse_args()
 
-    W, TIERS = (W_V1, TIERS_V1) if args.legacy_power else (W_V2, TIERS_V2)
-    rng = random.Random(args.seed)
-    C = pg.merged_clocks()
-    slugs = [s for s in sm.dl.ROSTER if s in C]
-    names = {s: C[s]["name"] for s in slugs}
-
-    raw = {
-        "antipod": antipod_blend(slugs, C, args.trials, rng),
-        "self": self_meta(slugs, C, args.trials, rng, args.t_grind),
-        "power": power(slugs, C),
-    }
-    if not args.legacy_power:
-        raw["inter"] = interaction(slugs, C, args.trials, rng, args.t_grind, args.tax)
-    n = {ax: norm(raw[ax]) for ax in raw}
-
-    comp = {}
-    for s in slugs:
-        parts = {ax: n[ax][s] for ax in W}
-        avail = {ax: v for ax, v in parts.items() if v is not None}
-        wsum = sum(W[ax] for ax in avail)
-        comp[s] = sum(W[ax] * parts[ax] for ax in avail) / wsum
-    order = sorted(slugs, key=lambda s: -comp[s])
+    payload = compute_rows(args.trials, args.t_grind, args.tax, args.seed, args.legacy_power)
+    rows, W = payload["rows"], payload["weights"]
 
     if args.legacy_power:
         title = "THE DEFINITIVE TIER LIST (v1, legacy) — composite of POWER · SELF-META · ANTI-POD"
@@ -167,21 +186,19 @@ def main():
     print(f"{wline}  ·  trials={args.trials}, T_grind={args.t_grind}\n")
     print(cols)
     last = None
-    for s in order:
-        t = tier_of(comp[s], TIERS)
+    for r in rows:
+        t = r["tier"]
         if t != last:
             print(f"  {'─'*4}  {('Tier '+t):─<60}")
             last = t
-        scd = raw["power"][s]
-        sct = f"{scd:.0f}" if scd is not None else "—"
+        sct = f"{r['cc']:.0f}" if r["cc"] is not None else "—"
         if args.legacy_power:
-            print(f"  {t:>4}  {names[s]:24}{sct:>7}{raw['self'][s]:>6.0f}%"
-                  f"{raw['antipod'][s]:>6.0f}%{C[s]['med'][1]:>7}{comp[s]:>7.0f}")
+            print(f"  {t:>4}  {r['name']:24}{sct:>7}{r['self']:>6.0f}%"
+                  f"{r['anti']:>6.0f}%{r['table']:>7}{r['comp']:>7.0f}")
         else:
-            iv = raw["inter"][s]
-            ivs = f"{iv:.0f}%" if iv is not None else "—"
-            print(f"  {t:>4}  {names[s]:24}{raw['antipod'][s]:>6.0f}%{ivs:>7}"
-                  f"{raw['self'][s]:>6.0f}%{sct:>6}{C[s]['med'][1]:>7}{comp[s]:>7.0f}")
+            ivs = f"{r['inter']:.0f}%" if r["inter"] is not None else "—"
+            print(f"  {t:>4}  {r['name']:24}{r['anti']:>6.0f}%{ivs:>7}"
+                  f"{r['self']:>6.0f}%{sct:>6}{r['table']:>7}{r['comp']:>7.0f}")
     print(f"\n  COMP = weighted mean of the min-max-normalised axes (0-100). Each axis inherits "
           f"its\n  source's caveats (goldfish ceilings; soft durability/disruption priors). "
           f"Synthesis, not a new sim.")
