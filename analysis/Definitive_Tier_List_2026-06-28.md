@@ -1,9 +1,10 @@
 # The Definitive Tier List, v2 — 2026-06-28
 
 *Supersedes [`Definitive_Tier_List_2026-06-15.md`](Definitive_Tier_List_2026-06-15.md). One honest
-ranking of the 16 active decks — but now a composite of the **three convergent OUTCOME oracles**,
+ranking of the 17 active decks — but now a composite of the **three convergent OUTCOME oracles**,
 not two-outcome-plus-build-quality. Reproduce: `python scripts/tier_list.py`
-(legacy v1: `python scripts/tier_list.py --legacy-power`).*
+(legacy v1: `python scripts/tier_list.py --legacy-power`). Refreshed 2026-06-28 to add Forced
+Liquidation (Kefka) on its promotion to the active roster.*
 
 ---
 
@@ -37,25 +38,26 @@ measurement; re-weight in `tier_list.py`.
 
 | Tier | Deck | Anti% | Inter% | Self% | (cc) | Clock | COMP |
 |:--:|---|:--:|:--:|:--:|:--:|:--:|:--:|
-| **S** | **The Genome Project** | 61 | 70 | 77 | 15 | T8 | **93** |
-| **S** | **Radiation Sickness** | 70 | 44 | 41 | 18 | T10 | **76** |
-| **A** | The Replication Crisis | 64 | 26 | 23 | 17 | T10 | 57 |
-| **A** | Zero-Sum Game | 34 | 48 | 51 | — | T9 | 55 |
-| **B** | The Exile's Return | 44 | 37 | 33 | 18 | T10 | 51 |
-| **C** | Lorehold Spirits | 39 | 23 | 30 | 18 | T10 | 40 |
-| **C** | Curse of the Scarab | 39 | 24 | 23 | 17 | T11 | 38 |
-| **C** | Ms. Bumbleflower | 47 | 13 | 12 | 15 | T11 | 36 |
-| **C** | The Calamity Tax (Croak & Dagger) | 22 | 37 | 35 | 18 | T10 | 36 |
-| **C** | Earthbend the Meta | 42 | 16 | 16 | 17 | T11 | 35 |
+| **S** | **The Genome Project** | 61 | 68 | 75 | 15 | T8 | **93** |
+| **S** | **Radiation Sickness** | 70 | 42 | 38 | 18 | T10 | **76** |
+| **A** | **Forced Liquidation** | 48 | 48 | 49 | 16 | T9 | **66** |
+| **A** | The Replication Crisis | 64 | 25 | 23 | 17 | T10 | 58 |
+| **A** | Zero-Sum Game | 34 | 48 | 48 | — | T9 | 56 |
+| **B** | The Exile's Return | 44 | 33 | 31 | 18 | T10 | 50 |
+| **C** | Lorehold Spirits | 39 | 22 | 29 | 18 | T10 | 40 |
+| **C** | Curse of the Scarab | 39 | 22 | 22 | 17 | T11 | 37 |
+| **C** | Ms. Bumbleflower | 47 | 11 | 10 | 15 | T11 | 35 |
+| **C** | The Calamity Tax (Croak & Dagger) | 22 | 34 | 32 | 18 | T10 | 35 |
+| **C** | Earthbend the Meta | 42 | 15 | 15 | 17 | T11 | 34 |
 | **C** | Lightning War | 49 | 6 | 5 | **19** | T14 | 32 |
-| **C** | The Dark Lord's Army | 26 | 29 | 22 | **19** | T12 | 31 |
-| **D** | The Grand Design | 38 | 5 | 5 | 18 | >T12 | 22 |
-| **D** | Eldrazi Stampede Chaos | 26 | 8 | 11 | 14 | T12 | 17 |
-| **D** | Crystal Sickness | 9 | 11 | 11 | 17 | T13 | 6 |
-| **D** | Diminishing Returns | 17 | 3 | 4 | 17 | >T14 | 6 |
+| **C** | The Dark Lord's Army | 26 | 27 | 20 | **19** | T12 | 31 |
+| **D** | The Grand Design | 38 | 5 | 5 | 18 | >T12 | 23 |
+| **D** | Eldrazi Stampede Chaos | 26 | 7 | 10 | 14 | T12 | 17 |
+| **D** | Crystal Sickness | 9 | 10 | 11 | 17 | T13 | 6 |
+| **D** | Diminishing Returns | 17 | 3 | 3 | 17 | >T14 | 6 |
 
 *(Trials 40k, T_grind 10, TAX 0.6, seed from `self_meta_lab`. COMP = weighted mean of the three
-min-max-normalised axes.)*
+min-max-normalised axes — re-normalised over 17 decks, so COMPs shift slightly vs the 16-deck cut.)*
 
 ---
 
@@ -65,8 +67,9 @@ v1 noted the three 19/20-equivalent decks scattered S→A→C. v2, ranking **pur
 makes it undeniable:
 
 > **The two highest-scored decks you own — Lightning War and The Dark Lord's Army, both 19/20 —
-> rank 11th and 12th of 16.** Both land in **C tier.** The third-highest, Grand Design (18/20),
-> is **D**. Meanwhile the apex of the roster, The Genome Project, scores **15/20.**
+> rank 12th and 13th of 17.** Both land in **C tier.** The third-highest, Grand Design (18/20),
+> is **D**. Meanwhile the apex of the roster, The Genome Project, scores **15/20** — and the #3
+> deck overall, Forced Liquidation, scores **16/20.**
 
 The Conversion Check tells you a deck is *well-built for what it's trying to do.* It does **not**
 tell you the deck wins. Across three independent outcome oracles, the correlation between CC and
@@ -80,19 +83,31 @@ This is what v1 couldn't show with only two outcome axes. The two bars — **ext
 and **mirror** (inter/self) — pull different decks in different directions. Read the *gap*:
 
 ### Apex — strong on BOTH bars
-- **Genome Project** is the only deck top-2 on all three oracles (anti 61 · inter 70 · self 77).
+- **Genome Project** is the only deck top-2 on all three oracles (anti 61 · inter 68 · self 75).
   Fastest table clock on the roster (T8), a hit-all ping kill (decap ≈ table), 1% never-close. It
   both closes first **and** survives any seeding. *The interaction overlay is the only thing that
-  dings it (Δ−7): it's fast but answerable. It wins anyway.* The true #1, on 15/20.
+  dings it: it's fast but answerable. It wins anyway.* The true #1, on 15/20.
+
+### The balanced contender — no weak axis (the #3 newcomer)
+- **Forced Liquidation (Kefka)** — the only deck besides Genome with **no hole**: anti 48 · inter
+  48 · self 49, a near-flat profile that lands it **3rd overall** despite topping no single bar. A
+  Grixis **forced-draw burn** engine (decap T8 / table T9) that's respectable racing the external
+  pod *and* grinding the mirror. Its design purpose is the pod's specific weakness — forced draw +
+  Notion Thief **punishes the Grand Abolisher combo turn** instead of trying to counter through it,
+  so it doesn't fold to the lock the way pure counter-decks do. Leans a little on disruption (pure
+  race ~30% vs P(win) 49%), but the mirror numbers are real. It earns its A on balance, not a
+  spike — the opposite failure mode from the fortresses below.
 
 ### Specialists — strong on ONE bar, the mirror-image of each other
 - **Replication Crisis** — anti **64** (4th-best external) but mirror **23–26** (low). Its decap
   clock (T7) races the external combo pod; its **table** clock (T10) + 20% never-close can't grind
   a mirror. A *pod specialist* — tuned to neutralise the archenemy, not to win a fair four-way.
-- **Zero-Sum Game** — the exact inverse: mirror **48–51** (2nd) but anti **34**. The
+- **Zero-Sum Game** — the exact inverse: mirror **~48** (top-3) but anti **34**. The
   board-independent, **Abolisher-proof** lifeloop wins durability races, but its T9 decap is a beat
   too slow for the fast external pod. *A mirror grinder.* Still has **no formal CC score** — and v2
-  scores it on outcomes alone, where it's clearly A. (Audit it; it may belong higher.)
+  scores it on outcomes alone, where it's clearly A. (Audit it; it may belong higher.) *Note Forced
+  Liquidation reaches the same mirror tier from the opposite direction — it also races the external
+  pod, which is why it clears Zero-Sum overall.*
 
 ### Over-rated fortresses — high CC, low on BOTH bars
 - **Lightning War (19/20)** — the widest split on the roster: anti **49** (it survives the external
@@ -124,9 +139,11 @@ overlay is a verified null reduction — it reproduces self_meta bit-for-bit; `t
 2. **Radiation Sickness** — *specifically* the external pod's nightmare (anti 70, best on the
    roster): its kills are board states counterspells can't touch, and it's the best hedge vs the
    Ur-Dragon fair deck too.
-3. **Replication Crisis** — when you *know* it's the T6–7 combo pod: it races them (anti 64). Less so
+3. **Forced Liquidation** — the all-rounder (#3): no weak axis, and built to *punish* the pod's
+   Abolisher-combo plan rather than race it. The safe pick when you don't know the table.
+4. **Replication Crisis** — when you *know* it's the T6–7 combo pod: it races them (anti 64). Less so
    into a grind.
-4. **Zero-Sum Game** — the quiet overperformer and Abolisher-proof. Bring it into a slow/grindy table.
+5. **Zero-Sum Game** — the quiet overperformer and Abolisher-proof. Bring it into a slow/grindy table.
 
 **Stop over-rating these (the sheet lies about them):**
 - **Lightning War** and **The Dark Lord's Army** (both 19/20) — fortresses that hold answers but
