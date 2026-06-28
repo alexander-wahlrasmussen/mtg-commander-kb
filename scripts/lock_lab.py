@@ -140,7 +140,7 @@ CATALOG = {
 # gauntlet but is the deck this model most illuminates).
 DECKS = {
     "genome_project":     "decks/the-genome-project-20260510.txt",
-    "radiation_sickness": "decks/radiation-sickness-20260615.txt",
+    "radiation_sickness": "decks/radiation-sickness-20260622.txt",
     "replication_crisis": "decks/the-replication-crisis-20260622.txt",
     "lorehold_spirits":   "decks/lorehold-spirit-20260503-154449.txt",
     "earthbend_the_meta": "decks/earthbend-the-meta-20260404-075423.txt",
@@ -151,11 +151,11 @@ DECKS = {
     "eldrazi_stampede":   "decks/eldrazi-stampede-chaos-20260306-133311.txt",
     "dark_lords_army":    "decks/the-dark-lords-army-20260417-211206.txt",
     "diminishing_returns": "decks/diminishing-returns-20260505.txt",
-    "lightning_war":      "archive/old_decklists/lightning-war-20260614.txt",
-    "grand_design":       "decks/the-grand-design-20260502.txt",
+    "lightning_war":      "decks/lightning-war-20260621.txt",
+    "grand_design":       "decks/the-grand-design-20260623.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
-    "croak_and_dagger":       "decks/calamity-tax-20260615.txt",
-    "kefka":              "decks/considering/forced-liquidation-20260612.txt",
+    "croak_and_dagger":       "decks/croak-and-dagger-20260623-215731.txt",
+    "kefka":              "decks/forced-liquidation-20260625.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)
     "genome_project": "The Genome Project", "radiation_sickness": "Radiation Sickness",

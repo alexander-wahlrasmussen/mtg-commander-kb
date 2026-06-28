@@ -245,10 +245,11 @@ FORCED_LIQUIDATION = {
 }
 
 
-LIGHTNING_WAR = {
+LIGHTNING_WAR = {   # reconciled to lightning-war-20260621 (2026-06-28)
     "answers": {
         "Fierce Guardianship":      ({"C"}, 0, {"ios", "inst"}),   # Azula (4) out by their T6
         "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),   # 1-card pitch on their turn
+        "Spell Pierce":             ({"C"}, 1, {"ios", "inst"}),   # soft counter vs noncreature
         "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
         "Stubborn Denial":          ({"C"}, 1, {"ios", "inst"}),   # Azula = ferocious
         "Delay":                    ({"C"}, 2, {"ios", "inst"}),
@@ -257,18 +258,15 @@ LIGHTNING_WAR = {
         "Hullbreaker Horror":       ({"C"}, 7, {"inst"}),          # flash; repeatable spell-bounce
         "Electrodominance":         ({"R", "P"}, 4, {"ios", "inst"}),  # X=2 kills Abolisher/Kinnan
         "Comet Storm":              ({"R", "P"}, 4, {"ios", "inst"}),
-        "V.A.T.S.":                 ({"R", "P"}, 4, {"ios", "inst"}),  # split second
         "Deadly Rollick":           ({"R", "P"}, 0, {"ios", "inst"}),
-        "Snap":                     ({"R", "P"}, 2, {"ios", "inst"}),
         "Sink into Stupor":         ({"R", "P"}, 3, {"ios", "inst"}),
         "March of Swirling Mist":   ({"R", "P"}, 2, {"ios", "inst"}),  # X=1 phases out the piece
-        "Nowhere to Run":           ({"R", "P"}, 2, {"inst"}),     # flash; -3/-3 kills the 2/2s
         "Vendilion Clique":         ({"R", "P"}, 3, {"inst"}),     # flash hand-strip (soft)
         "Emeritus of Conflict":     ({"R", "P"}, 2, set()),        # prepared Bolt (conditional)
-        "Toxic Deluge":             ({"P"}, 3, {"ios"}),
         "Banefire":                 ({"P"}, 3, {"ios"}),           # X=2
         "Crackle with Power":       ({"P"}, 5, {"ios"}),           # X=1
-        "Opposition Agent":         ({"S"}, 3, {"inst"}),          # flash; hoses their tutors
+        # excluded per lab rules: Untimely Malfunction + Deflecting Swat (redirects);
+        # dropped on the 20260621 list: V.A.T.S./Snap/Nowhere to Run/Toxic Deluge/Opposition Agent
     },
     "tutors": {
         "Mystical Teachings": (4, "inst"), "Waterlogged Teachings": (4, "inst"),
@@ -276,7 +274,7 @@ LIGHTNING_WAR = {
     },
 }
 
-CALAMITY_TAX = {
+CROAK = {   # Croak and Dagger (croak-and-dagger-20260623-215731) — the Calamity Tax rebuild
     "answers": {
         "Pact of Negation":         ({"C"}, 0, {"ios", "inst"}),
         "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),
@@ -285,16 +283,16 @@ CALAMITY_TAX = {
         "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
         "Venser, Shaper Savant":    ({"C", "R", "P"}, 4, {"crea"}),  # flash; bounce spell OR permanent
         "Deadly Rollick":           ({"R", "P"}, 0, {"ios", "inst"}),
+        "Beast Within":             ({"R", "P"}, 3, {"ios", "inst"}),
         "Submerge":                 ({"R", "P"}, 5, {"ios", "inst"}),  # free mode (their Forest) not credited
-        "Espers to Magicite":       ({"R", "P"}, 4, {"ios", "inst"}),  # yard exile vs recursion lines
         "V.A.T.S.":                 ({"R", "P"}, 4, {"ios", "inst"}),
         "Toxic Deluge":             ({"P"}, 3, {"ios"}),
-        "Blasphemous Edict":        ({"P"}, 5, {"ios"}),
         "Culling Ritual":           ({"P"}, 4, {"ios"}),           # sweeps MV<=2 setups
         "Massacre Wurm":            ({"P"}, 6, {"crea"}),
         "The Meathook Massacre":    ({"P"}, 4, {"ios"}),           # X=2
+        # excluded: Veil of Summer (protect-own), Force of Vigor (narrow artifact/ench.)
     },
-    "tutors": {"Demonic Tutor": (2, "any")},
+    "tutors": {},   # roster convention: gauntlet reads the drawn (no-tutor) composed value
 }
 
 GRAND_DESIGN = {
@@ -303,7 +301,6 @@ GRAND_DESIGN = {
         "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),
         "Counterspell":             ({"C"}, 2, {"ios", "inst"}),
         "Mana Drain":               ({"C"}, 2, {"ios", "inst"}),
-        "Dovin's Veto":             ({"C"}, 2, {"ios", "inst"}),
         "Swan Song":                ({"C"}, 1, {"ios", "inst"}),
         "Glen Elendra Archmage":    ({"C"}, 4, {"crea"}),          # deploy-in-advance sac counter
         "Ranger-Captain of Eos":    ({"C"}, 3, {"crea"}),          # sac: no noncreature spells this turn
@@ -465,7 +462,7 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
 # the 13 above + the three delay_lab already measured (reuse their configs/paths).
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
-    "radiation_sickness": ("radiation-sickness-20260615.txt", RADIATION),
+    "radiation_sickness": ("radiation-sickness-20260622.txt", RADIATION),
     "replication_crisis": ("the-replication-crisis-20260622.txt", REPLICATION),
     "lorehold_spirits": ("lorehold-spirit-20260503-154449.txt", LOREHOLD),
     "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
@@ -477,9 +474,9 @@ ROSTER = {
     "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
     "diminishing_returns": ("diminishing-returns-20260505.txt", DIMINISHING),
     "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
-    "lightning_war": ("../archive/old_decklists/lightning-war-20260614.txt", LIGHTNING_WAR),
-    "croak_and_dagger": ("calamity-tax-20260405-061741.txt", CALAMITY_TAX),
-    "grand_design": ("the-grand-design-20260502.txt", GRAND_DESIGN),
+    "lightning_war": ("lightning-war-20260621.txt", LIGHTNING_WAR),
+    "croak_and_dagger": ("croak-and-dagger-20260623-215731.txt", CROAK),
+    "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260625.txt", FORCED_LIQUIDATION),
 }
 
@@ -654,9 +651,9 @@ def main():
     burn_port = {"answers": {n: v for n, v in KEFKA_BURN["answers"].items()
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
-    lw = L(ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt")
-    cal = L(dks / "calamity-tax-20260405-061741.txt")
-    gd = L(dks / "the-grand-design-20260502.txt")
+    lw = L(dks / "lightning-war-20260621.txt")
+    croak = L(dks / "croak-and-dagger-20260623-215731.txt")
+    gd = L(dks / "the-grand-design-20260623.txt")
 
     raw_configs = [
         ("Hashaton / Thoracle (NEW — benchmark target)", hsh, HASHATON),
@@ -665,9 +662,9 @@ def main():
         ("Kefka-burn + 3-card port (-Negate -ArcDenial -AnOffer "
          "/ +Revoker +Stormdrake +FireCov)", port, burn_port),
         ("Kefka-external (counter-wall calibrator)", ext, KEFKA_EXT),
-        ("ROSTER: Lightning War (19/20, clock T6-7 goldfish)", lw, LIGHTNING_WAR),
-        ("ROSTER: Calamity Tax (18/20, clock T7-9 goldfish)", cal, CALAMITY_TAX),
-        ("ROSTER: Grand Design (19/20, clock T10 decap lab)", gd, GRAND_DESIGN),
+        ("ROSTER: Lightning War (19/20, decap T10 goldfish)", lw, LIGHTNING_WAR),
+        ("ROSTER: Croak and Dagger (18/20, Calamity rebuild)", croak, CROAK),
+        ("ROSTER: Grand Design (18/20, clock T10 decap lab)", gd, GRAND_DESIGN),
     ]
     configs = [c for c in raw_configs if c[1] is not None]
     print(f"delay_lab — trials={args.trials} seed={args.seed} window={args.window}")
