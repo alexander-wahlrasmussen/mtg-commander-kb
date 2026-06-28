@@ -48,9 +48,20 @@ slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
 DECK = ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt"
+CURDECK = ROOT / "decks" / "lightning-war-20260621.txt"      # current list (mode_amp only)
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
+
+# mode_amp injectables (all oracle-verified 2026-06-28; none are GCs; all owned):
+#   Torbran {1}{R}{R}{R} 2/4 — a red source's damage to an opp/their permanent is +2.
+#   Pyretic Ritual {1}{R} -> {R}{R}{R} (net +1); Rite of Flame {R} -> {R}{R} (net +1).
+TORBRAN_REC = {"cmc": 4.0, "type_line": "Legendary Creature — Dwarf Noble",
+               "face_types": ["Creature"], "color_identity": ("R",)}
+RIT_REC = {"cmc": 2.0, "type_line": "Instant", "face_types": ["Instant"],
+           "color_identity": ("R",)}
+AMP_FILLER = ["Mithril Coat", "March of Swirling Mist", "Thunderdrum Soloist",
+              "Emeritus of Conflict", "Untimely Malfunction"]
 
 ROCKS = {"Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
          "Talisman of Dominance": (2, 1), "Talisman of Indulgence": (2, 1)}
@@ -72,7 +83,7 @@ def _powmap(library, commander):
 
 def goldfish_kill(library, commander, index, powmap, rng,
                   chip_rate=0, chip_start=3, extra_pingers=0,
-                  fin_always=False, enabler_always=False):
+                  fin_always=False, enabler_always=False, extra_rituals=None):
     """chip_rate = life each opponent loses per OUR turn from cross-table combat
     (the pod beating on each other), applied from chip_start onward. extra_pingers
     = an ALWAYS-ON pinger CEILING: +1/each per cast from turn 1, no draw/cast cost.
@@ -92,8 +103,9 @@ def goldfish_kill(library, commander, index, powmap, rng,
     g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
     azula_turn = None
-    guttersnipe = stormkiln = goldspan = vivi = estatic = False
+    guttersnipe = stormkiln = goldspan = vivi = estatic = torbran_active = False
     fated_x = 0
+    rituals = {**RITUALS, **extra_rituals} if extra_rituals else RITUALS
     vivi_pow = 0
     treasure_bank = 0
     board = ncre = 0
@@ -139,6 +151,7 @@ def goldfish_kill(library, commander, index, powmap, rng,
                     elif nm == "Goldspan Dragon": goldspan = True
                     elif nm == "Vivi Ornitier": vivi = True
                     elif nm == "Electrostatic Field": estatic = True   # 0/4 pinger (no swing)
+                    elif nm == "Torbran": torbran_active = True         # +2 to each red damage instance
                     elif is_xp: live_xp += 1                            # realistic added pinger
                     more = True
                     break
@@ -146,6 +159,9 @@ def goldfish_kill(library, commander, index, powmap, rng,
         if fated_x == 0 and g.has("Fated Firepower") and g.avail >= 5:
             x = min(4, g.avail - 3)
             g.cast("Fated Firepower", 3 + x); fated_x = x
+        # Torbran adds a FLAT +2 to every red damage instance to each opponent and
+        # stacks with Fated's +X. amp = the total per-instance bonus live this turn.
+        amp = fated_x + (2 if torbran_active else 0)
 
         # noncreature spell velocity (cantrips + a held burn/interaction cast)
         ncast = 0
@@ -160,9 +176,9 @@ def goldfish_kill(library, commander, index, powmap, rng,
             treasure_bank += ncast
         # pinger chip (Guttersnipe 2 + Vivi 1 + Electrostatic Field 1 per cast, each
         # amplified by Fated). extra_pingers = FURTHER Firebrand-class adds (1/each).
-        per_cast = ((2 + fated_x if guttersnipe else 0) + (1 + fated_x if vivi else 0)
-                    + (1 + fated_x if estatic else 0)
-                    + (live_xp + extra_pingers) * (1 + fated_x))
+        per_cast = ((2 + amp if guttersnipe else 0) + (1 + amp if vivi else 0)
+                    + (1 + amp if estatic else 0)
+                    + (live_xp + extra_pingers) * (1 + amp))
         if per_cast and ncast:
             tbl.hit_all(per_cast * ncast, T)
             if tbl.done:
@@ -170,13 +186,13 @@ def goldfish_kill(library, commander, index, powmap, rng,
 
         # ---- combat (Azula online, cast on a prior turn) -----------------------
         if azula_turn is not None and T > azula_turn:
-            swing = board + ncre * fated_x                   # Fated adds X per attacker
+            swing = board + ncre * amp                       # Fated/Torbran add per attacker
             if swing > 0:
                 tbl.hit_focus(swing, T)
                 if tbl.done:
                     return tbl.decap, tbl.table
             tre_mana = treasure_bank * (2 if goldspan else 1)
-            rit = sum(v for r, v in RITUALS.items() if g.has(r))
+            rit = sum(v for r, v in rituals.items() if g.has(r))
             cm = g.avail + 2 + tre_mana + rit
             enabler = enabler_always or any(g.has(e) for e in ENABLERS)
             n_amp = (sum(1 for a in AMPS if g.has(a))
@@ -196,22 +212,22 @@ def goldfish_kill(library, commander, index, powmap, rng,
                 return (g.has(fin) or have_tutor) and not (fin in SORCERY_FIN and not enabler)
 
             killed_table = killed_one = False
-            if castable("Crackle with Power"):               # (5X+fated) per instance, x inst
+            if castable("Crackle with Power"):               # (5X+amp) per instance, x inst
                 X = len(living)
-                while (5 * X + fated_x) * inst < need_each:
+                while (5 * X + amp) * inst < need_each:
                     X += 1
                 if cm >= 3 * X + 2:
                     killed_table = True
             if not killed_table and (castable("Comet Storm") or has_xfin):  # Comet-class
                 X = 1
-                while (X + fated_x) * inst < need_each:
+                while (X + amp) * inst < need_each:
                     X += 1
                 if cm >= X + 2 + (len(living) - 1):
                     killed_table = True
             for fin, base in (("Electrodominance", 2), ("Banefire", 1)):
                 if castable(fin):
                     X = 1
-                    while (X + fated_x) * inst < need_one:
+                    while (X + amp) * inst < need_one:
                         X += 1
                     if cm >= X + base:
                         killed_one = True
@@ -351,7 +367,42 @@ def mode_finlever(index, aliases, trials):
         _report("   ", _run(lib, commander, powmap, trials, chip_rate=3, **kw), trials)
 
 
+def mode_amp(index, aliases, trials):
+    print(f"\n### AMP/RITUAL — Torbran (+2/red instance) & added rituals   trials={trials} seed={SEED}")
+    print("    On the CURRENT list (20260621). Torbran adds a flat +2 to EVERY red damage")
+    print("    instance to each opponent (pingers, swing, finisher); rituals add finisher")
+    print("    burst mana. Moderate cross-table chip (3/turn, @28 by T6) — honest centre.")
+    print("    Each add is a real drawn+cast card (-1 filler, lib stays 99). Lead = TABLE.\n")
+    library, commander = slc.load_parsed(CURDECK, index, aliases)
+
+    def inj(adds):
+        lib, pool = list(library), list(AMP_FILLER)
+        for name, rec in adds:
+            for f in list(pool):
+                k = next((i for i, (nm, _) in enumerate(lib) if nm == f), None)
+                if k is not None:
+                    lib.pop(k); pool.remove(f); break
+            lib.append((name, dict(rec)))
+        return lib
+
+    xr = {"Pyretic Ritual": 1, "Rite of Flame": 1}
+    variants = [
+        ("baseline (current deck)", library, dict()),
+        ("+Torbran", inj([("Torbran", TORBRAN_REC)]), dict()),
+        ("+2 rituals (Pyretic+Rite)",
+         inj([("Pyretic Ritual", RIT_REC), ("Rite of Flame", RIT_REC)]), dict(extra_rituals=xr)),
+        ("+Torbran +2 rituals",
+         inj([("Torbran", TORBRAN_REC), ("Pyretic Ritual", RIT_REC), ("Rite of Flame", RIT_REC)]),
+         dict(extra_rituals=xr)),
+    ]
+    print("  P(kill <= turn T) %".ljust(42) + "".join(f"{t:>6}" for t in SHOW))
+    for tag, lib, kw in variants:
+        pm = _powmap(lib, commander)
+        print(f"  -- {tag} " + "-" * (42 - len(tag)))
+        _report("   ", _run(lib, commander, pm, trials, chip_rate=3, **kw), trials)
+
+
 if __name__ == "__main__":
     slc.run_cli(__doc__, {"clock": mode_clock, "chipsweep": mode_chipsweep,
                           "optimize": mode_optimize, "avail": mode_avail,
-                          "finlever": mode_finlever}, default_trials=40000)
+                          "finlever": mode_finlever, "amp": mode_amp}, default_trials=40000)
