@@ -174,6 +174,24 @@ export interface DeckPage {
     text: string;
   } | null;
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
+  killTree?: KillTree | null;
+  mulligan?: Mulligan | null;
+}
+
+export type KillKind = "combo" | "table" | "combat" | "enabler";
+export interface KillLine { id: string; need: string; kill: string; clock: string; kind: KillKind; }
+export interface KillTree {
+  title: string; root: string; stall: string; src: string;
+  background: { need: string; kill: string; clock: string; kind: KillKind } | null;
+  lines: KillLine[];
+}
+
+export interface MullCard { n: string; cmc: number | null; land: boolean; tags: string[]; }
+export interface MullHand { cards: MullCard[]; lands: number; keep: boolean; reasons: string[]; }
+export interface Mulligan {
+  deckKey: string; commander: string; bottleneck: string; also: string[];
+  minLands: number; maxLands: number; axisGloss: Record<string, string>;
+  mixed: string | null; hands: MullHand[];
 }
 
 export interface TierRow {

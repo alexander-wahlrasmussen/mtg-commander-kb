@@ -1269,3 +1269,150 @@
   width: 30px;
   text-align: right;
 }
+
+/* ===== Kill tree — cheapest-first ladder ============================== */
+/* kind palette (newsprint-tuned echo of kill_tree.py's gruvbox classes) */
+.ktLine[data-kind="combo"], .ktKindTag[data-kind="combo"] { --kk: #b16286; }
+.ktLine[data-kind="table"], .ktKindTag[data-kind="table"] { --kk: #1f6f78; }
+.ktLine[data-kind="combat"], .ktKindTag[data-kind="combat"] { --kk: #c2570e; }
+.ktLine[data-kind="enabler"], .ktKindTag[data-kind="enabler"] { --kk: #5b7f33; }
+.ktRoot {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper2);
+  padding: 9px 12px;
+  border-left: 3px solid var(--gold);
+}
+.ktLines { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+.ktLine {
+  display: grid;
+  grid-template-columns: 24px 1fr auto minmax(0, 1.15fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  background: color-mix(in srgb, var(--kk) 9%, var(--paper2));
+  border-left: 3px solid var(--kk);
+}
+.ktIdx {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--kk, var(--ink3));
+  line-height: 1;
+}
+.ktNeed { font-size: 12.5px; line-height: 1.38; color: var(--ink); }
+.ktArrow { font-family: var(--mono); color: var(--ink3); font-size: 12px; }
+.ktKill { min-width: 0; }
+.ktKillText { font-size: 12.5px; line-height: 1.38; font-weight: 600; color: var(--ink); }
+.ktMeta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.ktKindTag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper2);
+  background: var(--kk);
+  padding: 1px 6px;
+}
+.ktClock { font-family: var(--mono); font-size: 10.5px; color: var(--ink2); }
+.ktBg { margin-top: 7px; border-left-style: dashed; }
+.ktStall {
+  margin-top: 9px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink2);
+}
+.ktStallTag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  border: 1px solid var(--hair);
+  padding: 1px 5px;
+  margin-right: 4px;
+}
+
+/* ===== Mulligan trainer ============================================== */
+.mtMeta { font-size: 12px; color: var(--ink2); margin-bottom: 12px; line-height: 1.5; }
+.mtHand { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+.mtCard {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  background: var(--paper2);
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--ink2);
+}
+.mtCard[data-land] { border-left-color: var(--gold); background: color-mix(in srgb, var(--gold) 7%, var(--paper2)); }
+.mtCmc {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink2);
+  min-width: 12px;
+  text-align: center;
+}
+.mtCardName { font-size: 12.5px; color: var(--ink); }
+.mtTag {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  color: var(--acc);
+  border: 1px solid color-mix(in srgb, var(--acc) 40%, transparent);
+  padding: 0 4px;
+}
+.mtBtns { display: flex; gap: 10px; }
+.mtKeep, .mtMull, .mtNext {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 22px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper2);
+  color: var(--ink);
+  cursor: pointer;
+}
+.mtKeep:hover { background: var(--good); border-color: var(--good); color: var(--paper2); }
+.mtMull:hover { background: var(--acc); border-color: var(--acc); color: var(--paper2); }
+.mtReveal { border-top: 1px solid var(--hair); padding-top: 11px; }
+.mtVerdictRow { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.mtVerdict {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+.mtVerdict[data-keep="true"] { color: var(--good); }
+.mtVerdict[data-keep="false"] { color: var(--acc); }
+.mtJudge { font-family: var(--mono); font-size: 12px; }
+.mtJudge[data-ok="true"] { color: var(--good); }
+.mtJudge[data-ok="false"] { color: var(--acc); }
+.mtNext {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 5px 14px;
+  border-width: 1px;
+}
+.mtNext:hover { background: var(--ink); color: var(--paper2); }
+.mtReasons {
+  margin: 9px 0 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink2);
+}
+.mtScore {
+  margin-top: 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}

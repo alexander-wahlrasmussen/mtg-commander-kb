@@ -52,6 +52,15 @@ background-clock lane and the lab-measured clock on every leaf. Encoded **Radiat
 and **Diminishing Returns** (5 distinct lines each); both validated+rendered via the Mermaid
 Chart tool. Add a deck by encoding its lab's KILL CHECKS into `DECKS`.
 
+**Dashboard integration — 4-deck pilot (shipped 2026-06-28).** The 4 encoded kill trees
+(radiation/diminishing/genome/replication) now render on their dashboard deck pages as a
+hand-rolled cheapest-first LADDER (no mermaid/diagram dep — the lean-SVG ethos): `kb_content
+._kill_tree` bakes the structured `KILL_TREES` registry data (reg_slug-keyed) into each deck
+JSON; `DeckPage.tsx`'s `KillTree` component renders lines coloured by kind (combo/table/
+combat/enabler) with the lab clock on each rung + the always-on background lane + the stall
+note. Guard: `tests/test_kb_killlines.py` (hermetic shape tests). Decks without an encoded
+tree simply hide the section — encode the other 12 from their labs to light them up.
+
 ---
 
 *Source: 2026-06-14 brainstorm. Order ≈ value; #1 was the recommended first build.*
@@ -103,6 +112,32 @@ consistency frameworks (Disciple, BDD-consistency) could finally show signal the
 **not** a verdict reversal — because it doesn't touch the bigger leak (the oracle is a solitaire
 goldfish: no interaction/durability modelling → half the Conversion Check scores 0 regardless). That
 interaction-overlay oracle is the deeper, separate frontier.
+
+**Spin-off — mulligan TRAINER (shipped 2026-06-28).** `scripts/mulligan_trainer.py` turns the
+keep-spec into a keep/mull DRILL: deals raw 7-card hands from a chosen deck (no auto-mull — you
+call it), then reveals what the plan-keep model would do + WHY (land band, which axis fired,
+present key/tutor/ramp/dig cards) and scores session agreement + over-keep/over-mull coaching.
+The verdict is `deck_sim.keep_hand` with the spec installed — the SAME heuristic the sim
+mulligans on, so the drill can never disagree with the sim it trains against
+(`tests/test_mulligan_trainer.py` pins that invariant over a 400-hand battery). Motive: it's the
+one thing that turns "Layer C is blocked on real games (#10)" into *getting better at the games
+I'll log* — rep on the most frequent in-game decision, needing zero games. Interactive for a human
+terminal; `--auto` for non-interactive demo/CI. NOT an oracle — a documented plan-progress
+heuristic ([[feedback_mulligan_is_deckbuilding_input]]); colours / on-the-play / the specific pod
+are still the pilot's call.
+
+**Dashboard drill (shipped 2026-06-28).** Brought the trainer to the static dashboard with NO
+backend: `mulligan_trainer.bake_hands(slug)` bakes N=40 opening hands per deck WITH their
+authoritative `keep_hand` verdict + reasons into each deck JSON (in `dashboard_export`, kept
+out of the live per-request `compute_deck` path — it loads the bulk + sims). `DeckPage.tsx`'s
+`MulliganDrill` deals from the baked pool, takes a keep/mull guess, reveals the model's call +
+why + a running agreement score. **No client-side keep_hand re-impl → no drift** (the verdicts
+are the Python authority's, baked). Guards: `tests/test_mulligan_trainer.py` adds bulk-gated
+`bake_hands` shape + seed-reproducibility tests. Side-fix: regenerating `keep_specs.json` for
+the bake de-staled it — it was keyed on the OLD `calamity-tax` stem (now `croak-and-dagger`) and
+missing `forced-liquidation`; the CLI trainer for that deck was silently broken too. Now 17/17
+decks have a drill. Note: the drill shows in the BUILT/static site (`npm run preview`); the live
+dev API server intentionally skips the heavy mulligan bake (kill trees still show there).
 
 ---
 

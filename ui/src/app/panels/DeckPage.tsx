@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { LineChart, SegmentedControl } from "../../components";
 import { getDeck } from "../data";
-import type { DeckPage as DeckPageData } from "../data";
+import type { DeckPage as DeckPageData, KillKind, KillLine, MullHand } from "../data";
 import { usePageData } from "../hooks";
 import { Pips } from "../pagekit";
 import s from "../pages.module.css";
@@ -118,6 +118,145 @@ function Decklist({ d, compColor }: { d: DeckPageData; compColor: Record<string,
   );
 }
 
+/** Trusted KB strings carry `<br/>` line breaks — render them as real breaks. */
+function brk(text: string) {
+  return text.split(/<br\s*\/?>/i).map((part, i, a) => (
+    <span key={i}>{part}{i < a.length - 1 && <br />}</span>
+  ));
+}
+
+const KILL_KIND_LABEL: Record<KillKind, string> = {
+  combo: "combo", table: "table drain", combat: "decap", enabler: "enabler",
+};
+
+/** The deck's kill LINES as a cheapest-first ladder (hand-rolled, no diagram lib):
+ *  try the top line; if its pieces aren't up, fall to the next. Mirrors kill_tree.py. */
+function KillTree({ d }: { d: DeckPageData }) {
+  const kt = d.killTree;
+  if (!kt) return null;
+  return (
+    <div style={{ marginTop: "var(--s5)" }}>
+      <div className={s.subHead}>
+        <span className={s.subTick} />
+        <span className={s.subTitle}>Kill Tree</span>
+        <span className={s.subHint}>cheapest line first · fall to the next if pieces aren't up</span>
+      </div>
+      <div className={s.ktRoot}>{brk(kt.root)}</div>
+      <div className={s.ktLines}>
+        {kt.lines.map((l: KillLine, i: number) => (
+          <div key={l.id} className={s.ktLine} data-kind={l.kind}>
+            <span className={s.ktIdx}>{i === kt.lines.length - 1 ? "↳" : String(i + 1).padStart(2, "0")}</span>
+            <div className={s.ktNeed}>{brk(l.need)}</div>
+            <span className={s.ktArrow}>→</span>
+            <div className={s.ktKill}>
+              <div className={s.ktKillText}>{brk(l.kill)}</div>
+              <div className={s.ktMeta}>
+                <span className={s.ktKindTag} data-kind={l.kind}>{KILL_KIND_LABEL[l.kind]}</span>
+                <span className={s.ktClock}>⏱ {l.clock}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {kt.background && (
+        <div className={`${s.ktLine} ${s.ktBg}`} data-kind={kt.background.kind}>
+          <span className={s.ktIdx}>∞</span>
+          <div className={s.ktNeed}>{brk(kt.background.need)}</div>
+          <span className={s.ktArrow}>→</span>
+          <div className={s.ktKill}>
+            <div className={s.ktKillText}>{brk(kt.background.kill)}</div>
+            <div className={s.ktMeta}>
+              <span className={s.ktKindTag} data-kind={kt.background.kind}>always on</span>
+              <span className={s.ktClock}>⏱ {kt.background.clock}</span>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className={s.ktStall}><span className={s.ktStallTag}>when nothing's up</span> {brk(kt.stall)}</div>
+      <div className={s.clockLabRef}>{kt.src}</div>
+    </div>
+  );
+}
+
+/** Keep-or-mull drill on baked hands. The verdict is the AUTHORITATIVE deck_sim
+ *  keep_hand, computed in Python and baked — the client only reveals + scores it. */
+function MulliganDrill({ d }: { d: DeckPageData }) {
+  const m = d.mulligan;
+  // stable shuffle of hand order so the drill isn't always the same sequence,
+  // without a backend: a fixed permutation keyed off the deck slug.
+  const order = useMemo(() => {
+    const n = m?.hands.length ?? 0;
+    const idx = Array.from({ length: n }, (_, i) => i);
+    let seed = 0;
+    for (const ch of d.slug) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    for (let i = n - 1; i > 0; i--) { seed = (seed * 1103515245 + 12345) >>> 0; const j = seed % (i + 1); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+    return idx;
+  }, [m, d.slug]);
+
+  const [pos, setPos] = useState(0);
+  const [guess, setGuess] = useState<boolean | null>(null);
+  const [score, setScore] = useState({ agree: 0, seen: 0 });
+  if (!m || m.hands.length === 0) return null;
+
+  const hand: MullHand = m.hands[order[pos % order.length]];
+  const answer = (keep: boolean) => {
+    if (guess !== null) return;
+    setGuess(keep);
+    setScore((sc) => ({ agree: sc.agree + (keep === hand.keep ? 1 : 0), seen: sc.seen + 1 }));
+  };
+  const next = () => { setGuess(null); setPos((p) => p + 1); };
+  const axes = [m.bottleneck, ...m.also];
+
+  return (
+    <div style={{ marginTop: "var(--s5)" }}>
+      <div className={s.subHead}>
+        <span className={s.subTick} />
+        <span className={s.subTitle}>Mulligan Trainer</span>
+        <span className={s.subHint}>keep or mull? — score yourself vs the plan-keep model</span>
+      </div>
+      <div className={s.mtMeta}>
+        plan axis <strong>{axes.join(" + ")}</strong> · land band {m.minLands}–{m.maxLands} · the model is a heuristic, not an oracle
+      </div>
+
+      <div className={s.mtHand}>
+        {hand.cards.map((c, i) => (
+          <div key={i} className={s.mtCard} data-land={c.land || undefined}>
+            <span className={s.mtCmc}>{c.land ? "▦" : c.cmc}</span>
+            <span className={s.mtCardName}>{c.n}</span>
+            {c.tags.filter((t) => t !== "LAND").map((t) => (
+              <span key={t} className={s.mtTag}>{t}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {guess === null ? (
+        <div className={s.mtBtns}>
+          <button className={s.mtKeep} onClick={() => answer(true)}>Keep</button>
+          <button className={s.mtMull} onClick={() => answer(false)}>Mulligan</button>
+        </div>
+      ) : (
+        <div className={s.mtReveal}>
+          <div className={s.mtVerdictRow}>
+            <span className={s.mtVerdict} data-keep={hand.keep}>model: {hand.keep ? "KEEP" : "MULL"}</span>
+            <span className={s.mtJudge} data-ok={guess === hand.keep}>
+              {guess === hand.keep ? "✓ you agreed" : `✗ you said ${guess ? "KEEP" : "MULL"}`}
+            </span>
+            <button className={s.mtNext} onClick={next}>next hand →</button>
+          </div>
+          <ul className={s.mtReasons}>
+            {hand.reasons.map((r, i) => <li key={i}>{r}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {score.seen > 0 && (
+        <div className={s.mtScore}>agreed {score.agree}/{score.seen} ({Math.round((100 * score.agree) / score.seen)}%)</div>
+      )}
+    </div>
+  );
+}
+
 export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void }) {
   const { data: d, error } = usePageData<DeckPageData>(() => getDeck(slug), [slug]);
   if (error) return <div className={s.error}>error: {error}</div>;
@@ -223,6 +362,9 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
         </div>
       </div>
 
+      {/* ===== Kill tree — the cheapest-first ladder (4 encoded decks) ===== */}
+      <KillTree d={d} />
+
       {/* ===== For the record — composition + judges' card ===== */}
       <div className={s.recordBar}>
         <span className={s.recordKicker}>For the record</span>
@@ -286,6 +428,9 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
           ))}
         </div>
       </div>
+
+      {/* ===== Mulligan trainer — keep/mull drill on baked hands ===== */}
+      <MulliganDrill d={d} />
 
       {/* ===== Don't-miss rulings — the card-text gotchas that lose games ===== */}
       {d.rulings?.length > 0 && (

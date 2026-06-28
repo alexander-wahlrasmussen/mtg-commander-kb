@@ -105,7 +105,6 @@
     "ramp": [
       "azorius signet",
       "boros signet",
-      "goldspan dragon",
       "izzet signet",
       "knight of the white orchid",
       "mind stone",
@@ -117,14 +116,12 @@
     ],
     "selection": [
       "archivist of oghma",
-      "bident of thassa",
       "cloudblazer",
       "esper sentinel",
       "loran of the third path",
       "mind stone",
       "mystic remora",
-      "ponder",
-      "preordain",
+      "opt",
       "the one ring",
       "wall of omens"
     ],
@@ -556,25 +553,33 @@
     ],
     "tutors": [
       "emeritus of woe",
+      "gifts ungiven",
+      "merchant scroll",
       "mystical teachings",
-      "sanar, unfinished genius"
+      "mystical tutor",
+      "sanar, unfinished genius",
+      "solve the equation"
     ],
     "ramp": [
       "blazing firesinger",
       "dark ritual",
       "desperate ritual",
       "goldspan dragon",
-      "jeska's will",
       "sanar, unfinished genius",
+      "seething song",
+      "sol ring",
       "storm-kiln artist",
       "talisman of dominance",
       "talisman of indulgence"
     ],
     "selection": [
       "borne upon a wind",
+      "brainstorm",
       "consider",
       "faithless looting",
       "frantic search",
+      "ponder",
+      "preordain",
       "three steps ahead"
     ],
     "n_selection_needed": 2,
@@ -592,7 +597,7 @@
     "cmdr": "atraxa, grand unifier",
     "cmdr_cmc": 7.0,
     "key_cards": [
-      "finale of devastation"
+      "craterhoof behemoth"
     ],
     "tutors": [
       "birthing pod",
@@ -606,19 +611,24 @@
       "sidisi, undead vizier"
     ],
     "ramp": [
+      "fanatic of rhonas",
       "farseek",
+      "kodama's reach",
       "nature's lore",
+      "sakura-tribe elder",
       "sol ring",
+      "solemn simulacrum",
+      "springbloom druid",
       "three visits"
     ],
     "selection": [
       "rhystic study",
+      "solemn simulacrum",
       "teferi, time raveler",
-      "veil of summer",
       "vilis, broker of blood"
     ],
     "n_selection_needed": 2,
-    "mixed": "also FINDING (Finale = single point of failure)",
+    "mixed": "ramp-gated; Craterhoof now tutorable (Finale was the single point of failure, fixed 2026-06-23)",
     "key_missing": []
   },
   "crystal-sickness": {
@@ -680,9 +690,9 @@
     "mixed": "dev-gated (8 artifacts + fat creature), not pure finding",
     "key_missing": []
   },
-  "calamity-tax": {
-    "deck_key": "calamity-tax",
-    "name": "The Calamity Tax",
+  "croak-and-dagger": {
+    "deck_key": "croak-and-dagger",
+    "name": "Croak and Dagger",
     "bottleneck": "MANA",
     "also": [],
     "min_lands": 2,
@@ -700,7 +710,6 @@
     ],
     "ramp": [
       "culling ritual",
-      "delighted halfling",
       "farseek",
       "hour of promise",
       "nature's lore",
@@ -713,12 +722,67 @@
       "titania's command"
     ],
     "selection": [
+      "aesi, tyrant of gyre strait",
       "archon of cruelty",
       "life from the loam",
       "veil of summer"
     ],
     "n_selection_needed": 2,
     "mixed": null,
+    "key_missing": []
+  },
+  "forced-liquidation": {
+    "deck_key": "forced-liquidation",
+    "name": "Forced Liquidation",
+    "bottleneck": "FINDING",
+    "also": [],
+    "min_lands": 2,
+    "max_lands": 4,
+    "hi_curve": false,
+    "cmdr": "kefka, court mage",
+    "cmdr_cmc": 5.0,
+    "key_cards": [
+      "notion thief",
+      "psychosis crawler",
+      "windfall"
+    ],
+    "tutors": [
+      "demonic tutor",
+      "final parting",
+      "grim tutor"
+    ],
+    "ramp": [
+      "dimir signet",
+      "izzet signet",
+      "mana vault",
+      "mind stone",
+      "rakdos signet",
+      "seething song",
+      "sol ring",
+      "talisman of dominance",
+      "thought vessel",
+      "waste not"
+    ],
+    "selection": [
+      "aether channeler",
+      "arcane denial",
+      "commander's sphere",
+      "faithless looting",
+      "frantic search",
+      "glint-horn buccaneer",
+      "mind stone",
+      "nicol bolas, the ravager",
+      "niv-mizzet, parun",
+      "notion thief",
+      "ponder",
+      "preordain",
+      "psychosis crawler",
+      "sheoldred, the apocalypse",
+      "thrill of possibility",
+      "waste not"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "lethal-or-bust: never wheel on <2 punishers; Kitten+Channeler backup combo is resilience not speed",
     "key_missing": []
   }
 }

@@ -52,6 +52,8 @@ def _load(name):
 # ---------------------------------------------------------------- house modules
 deck_registry = _load("deck_registry")
 DECKS = deck_registry.DECKS
+# kill-tree specs keyed by registry slug (KILL_TREES is keyed by display-slug, carries reg_slug)
+_KILL_TREES_BY_REG = {sp["reg_slug"]: sp for sp in deck_registry.KILL_TREES.values()}
 
 
 @lru_cache(maxsize=1)
@@ -693,6 +695,22 @@ def _game_plan(secs, fallback):
     return fallback
 
 
+def _kill_tree(slug):
+    """Structured kill-LADDER for the deck page (4 encoded decks; None otherwise). The same
+    cheapest-first specs kill_tree.py renders to Mermaid (deck_registry.KILL_TREES), served
+    here to a hand-rolled React ladder. Pure registry data — no Scryfall, no sim. Text fields
+    keep their `<br/>` line breaks; the front-end splits on them."""
+    sp = _KILL_TREES_BY_REG.get(slug)
+    if not sp:
+        return None
+    bg = sp.get("background")
+    return dict(
+        title=sp["title"], root=sp["root"], stall=sp["stall"], src=sp["src"],
+        background=(dict(need=bg[0], kill=bg[1], clock=bg[2], kind=bg[3]) if bg else None),
+        lines=[dict(id=l[0], need=l[1], kill=l[2], clock=l[3], kind=l[4]) for l in sp["lines"]],
+    )
+
+
 def deck(slug):
     """Full Tale-of-the-Tape payload for one deck — structured spine + Summary prose."""
     d = DECKS.get(slug)
@@ -741,6 +759,7 @@ def deck(slug):
             bottleneck=d.get("bottleneck"), minLands=d.get("min_lands"),
             maxLands=d.get("max_lands"), mixed=d.get("mixed"),
         ),
+        killTree=_kill_tree(slug),
     )
 
 

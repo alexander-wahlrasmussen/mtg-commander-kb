@@ -49,6 +49,8 @@ def _load(name):
 
 
 ds = _load("dashboard_server")            # compute_gauntlet/clocks/lock_sweep/championship
+mt = _load("mulligan_trainer")            # baked mulligan-drill hands (static, no backend)
+MULLIGAN_HANDS = 40                       # opening hands baked per deck for the drill
 
 # ---- baked grids (regular so the sliders land exactly on baked values) ------
 GAUNTLET_A = [round(i * 0.05, 2) for i in range(0, 21)]   # 0.00 .. 1.00 step .05 (matches slider)
@@ -147,7 +149,12 @@ def main():
     decks_dir.mkdir(exist_ok=True)
     slugs = [d["slug"] for d in roster["decks"]]
     for slug in slugs:
-        (decks_dir / f"{slug}.json").write_text(json.dumps(ds.compute_deck(slug)), encoding="utf-8")
+        page = ds.compute_deck(slug)
+        # Bake the mulligan drill here (not in the live compute_deck path): it loads the
+        # Scryfall bulk + sims hands, too heavy for a per-request server hit. Verdicts are
+        # the authoritative keep_hand, computed once and baked (no client-side re-impl).
+        page["mulligan"] = mt.bake_hands(slug, n=MULLIGAN_HANDS, seed=0)
+        (decks_dir / f"{slug}.json").write_text(json.dumps(page), encoding="utf-8")
     print(f" done ({len(slugs)} deck pages)")
 
     manifest = dict(

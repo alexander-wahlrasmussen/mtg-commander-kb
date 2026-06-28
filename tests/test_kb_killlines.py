@@ -102,3 +102,34 @@ def test_game_plan_skips_empty_table_section():
 
 def test_game_plan_falls_back_to_win_line():
     assert kb._game_plan({"commander rules text": ("Commander Rules Text", "x")}, "WL") == "WL"
+
+
+# --- _kill_tree: structured kill-ladder for the deck page (hermetic registry transform) ---
+_KIND = {"combo", "table", "combat", "enabler"}
+
+
+def test_kill_tree_none_for_unencoded_deck():
+    """Only 4 decks are encoded; the rest return None and the dashboard hides the ladder."""
+    assert kb._kill_tree("lightning_war") is None
+    assert kb._kill_tree("not_a_real_slug") is None
+
+
+def test_kill_tree_shape_for_an_encoded_deck():
+    kt = kb._kill_tree("radiation_sickness")
+    assert kt is not None
+    assert set(kt) >= {"title", "root", "stall", "src", "background", "lines"}
+    assert kt["lines"] and all(
+        set(l) == {"id", "need", "kill", "clock", "kind"} and l["kind"] in _KIND
+        for l in kt["lines"])
+    # Radiation has an always-on background drain; its kind is valid too.
+    assert kt["background"] is not None and kt["background"]["kind"] in _KIND
+
+
+def test_kill_tree_all_four_encoded_decks_resolve():
+    """Every reg_slug in KILL_TREES round-trips through _kill_tree with valid line kinds."""
+    encoded = [sp["reg_slug"] for sp in kb.deck_registry.KILL_TREES.values()]
+    assert len(encoded) == 4
+    for slug in encoded:
+        kt = kb._kill_tree(slug)
+        assert kt and kt["lines"]
+        assert all(l["kind"] in _KIND for l in kt["lines"])
