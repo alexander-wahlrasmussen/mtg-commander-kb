@@ -346,3 +346,55 @@ armed-but-ungraded loop. The work that remains is *playing and logging* — the 
 are what finally grade the [v2 tier list](analysis/Definitive_Tier_List_2026-06-28.md), every
 framework, and the whole tower. This is the one open frontier the test-discipline anti-goals (#9)
 explicitly fenced off as Layer C.
+
+---
+
+## 11. All-finishers clock — race every kill line, not just the goldfish (raised 2026-06-28)
+
+**The gap.** Every tournament instrument (`pod_gauntlet.py`, `pod_championship.py`, `self_meta_lab.py`,
+and the dashboard via `dashboard_server.compute_*`) represents each deck as **one** harvested curve —
+a single `decap` CDF + a single `table` CDF in `pod_gauntlet.CLOCK`, with `--strict` just toggling which
+of the two is read. That curve is the deck's *strict-goldfish race* from 40 life. A deck's other kill
+lines — combo, cross-table chip, graveyard storm — are flattened out *before* they reach the sim. The
+canonical casualty is **Lightning War**: its primary/fastest table kill is the Reiterate + Seething Song
+infinite (`lw_combo_lab.py`, CAST median ~T9), but the gauntlet only sees `lw_clock_lab`'s race goldfish
+(`table >T14`). The harvested oracle even tags it: `pod_gauntlet_clocks.json` LW `src` reads
+"strict goldfish; **chip/combo not in this clock**." So LW's tier (C→D, anti-pod 49→33) is scored on the
+one axis it's worst at, and its real fastest line is invisible to the whole tower. This affects any deck
+whose fastest line isn't a combat race (LW today; latent for Diminishing/Replication/Croak combo lines).
+
+**The subtle trap (read before building).** The naive "sample each line's kill turn independently, take
+the earliest" is **wrong** and would inflate every deck — the lines are not independent draws, they share
+one opening hand and one library. Min-over-N-independent-CDFs is keeping the best of N god-draws, i.e. the
+exact optimistic-clock disease the kill-window sweep already falsified five times ([[project_framework_clock_gap]],
+[[project_kill_window_lab_sweep]]). The correct combination takes the min over lines **on the same simulated
+game**, not across independent labs.
+
+### MVP — "best-line" harvest, tournament untouched (~the 80%)
+Push the min **down into the per-deck goldfish**: have each deck's `speed_lab` / `*_clock_lab` track every
+kill line it knows on the *same* simulated game (LW already runs both a race and a combo lab — unify them so
+the min is taken on correlated draws) and report "earliest decap/table by **any** surviving line." Then the
+harvest into `pod_gauntlet_clocks.json` still emits **one** `(decap, table)` pair per deck — but it now means
+"fastest of all lines" instead of "race only." **Nothing in `pod_gauntlet` / `championship` / the dashboard
+changes** — they keep consuming one curve; the curve just stops lying. Result: LW's ~T9 combo finally shows
+up in the gauntlet and the tier list. Cost: unify LW's two labs + re-harvest; bounded, days not weeks.
+Guard: a golden snapshot delta (#9 Tier-2) so the re-harvest is reviewable, and the per-line CDFs stay
+lab-backed (never hand-assumed — the cite-the-lab rule).
+
+### Proper version — a finisher-mixture tournament (the rest)
+Make "all finishers" first-class. Each deck carries a **list** of finisher records
+`{line_id, kind (combo/race/chip/storm), decap_cdf, table_cdf, enablers, disablers}` instead of one curve;
+the sim resolves a game by applying pod state to each line and taking the earliest *viable* close. This is
+where the lines that the goldfish can't see get to count *and* get to be switched off: graveyard hate
+disables the storm line, a near-40 table disables chip, counters tax the race but not the on-your-turn combo
+([[feedback_interaction_role_protect_vs_disrupt]]). It reuses the disruption/lock layer the gauntlet already
+has — the new part is the per-line enabler/disabler vector. Two real costs: (a) **roster-wide coverage** —
+only LW has a combo lab today; every deck's secondary lines must be enumerated + labbed to the common schema,
+with card text verified first (the read-the-card rule), or the model degrades to race-only *unevenly* and
+just relocates the bias; (b) **calibration** — adding lines makes every deck look faster, so it's only real
+if back-tested via `calibrate.py` against logged games (#10) + golden tests so a re-bake can't drift silently.
+
+**Honest prior:** the MVP is mostly correct and cheap and fixes the LW-shaped distortion now; the proper
+version is the principled answer but is gated on the same thing as #10 — the per-line labs and real games
+to prove the mixture isn't just a faster fiction. Do the MVP first; let logged games decide whether the
+mixture earns its complexity.
