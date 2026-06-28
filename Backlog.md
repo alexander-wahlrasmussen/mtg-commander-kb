@@ -333,6 +333,13 @@ floor. Guarded by `tests/test_bakeoff_real_oracle.py` (hermetic — bakeoff load
 lazily). This finally lets the Bake-Off answer *does the number predict the result?* against
 **reality**, not just the sim's own outcome oracle.
 
+**The logging target (`calibrate.py --power`):** a Monte-Carlo power analysis that needs **no games**
+— it takes the committed ANTI-POD oracle as the assumed truth and asks how many i.i.d. games/deck
+until the observed-win% ranking recovers it. Answer at detect ρ≥0.5: **~5 games/deck (~80 total)**
+gets ≥80% recovery; below that the REAL column is small-sample noise (the 3-deck fixture hitting
+ρ=±1 is exactly that). An OPTIMISTIC floor — pilot variance / meta drift push it up. So the concrete
+ask is "log ~5+ games per deck," not "log a couple and trust the number."
+
 **Status: the instruments are built, tested, and ARMED — but Layer C itself is NOT closed.** The log
 holds **0 games**; with an empty log `calibrate.py` and the bake-off's REAL column both print the
 armed-but-ungraded loop. The work that remains is *playing and logging* — the first real pod games

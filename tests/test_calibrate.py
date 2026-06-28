@@ -108,3 +108,44 @@ def test_load_log_reads_fixture():
 
 def test_load_log_missing_file_is_empty():
     assert cal.load_log(ROOT / "tests" / "fixtures" / "does_not_exist.jsonl") == []
+
+
+# --------------------------------------------------------------- power_curve
+def _toy_spearman(x, y):
+    """Minimal exact Spearman on tie-free integer-rankable data — enough for the power test
+    (keeps it independent of framework_bakeoff's import)."""
+    n = len(x)
+    if n < 3:
+        return None, n
+    rx = sorted(range(n), key=lambda i: x[i])
+    ry = sorted(range(n), key=lambda i: y[i])
+    rankx = {i: r for r, i in enumerate(rx)}
+    ranky = {i: r for r, i in enumerate(ry)}
+    d2 = sum((rankx[i] - ranky[i]) ** 2 for i in range(n))
+    return 1 - 6 * d2 / (n * (n * n - 1)), n
+
+
+def test_power_curve_shape_and_bounds():
+    truth = {f"d{i}": p for i, p in enumerate([10, 25, 40, 55, 70, 85])}
+    grid = [3, 30]
+    rows = cal.power_curve(truth, grid, trials=400, seed=1, spearman=_toy_spearman, detect=0.5)
+    assert [r[0] for r in rows] == grid
+    for _N, med, p10, pdet in rows:
+        assert -1.0 <= med <= 1.0 and -1.0 <= p10 <= 1.0 and 0.0 <= pdet <= 1.0
+
+
+def test_power_curve_more_games_recovers_ranking():
+    """The whole point: more games/deck -> the observed ranking matches truth better."""
+    truth = {f"d{i}": p for i, p in enumerate([10, 25, 40, 55, 70, 85])}
+    rows = cal.power_curve(truth, [3, 30], trials=400, seed=7, spearman=_toy_spearman)
+    med3, med30 = rows[0][1], rows[1][1]
+    pdet3, pdet30 = rows[0][3], rows[1][3]
+    assert med30 > med3                 # median correlation rises with sample size
+    assert pdet30 >= pdet3              # detection power is monotone non-decreasing
+
+
+def test_power_curve_is_seed_deterministic():
+    truth = {f"d{i}": p for i, p in enumerate([10, 30, 50, 70, 90])}
+    a = cal.power_curve(truth, [5], trials=200, seed=42, spearman=_toy_spearman)
+    b = cal.power_curve(truth, [5], trials=200, seed=42, spearman=_toy_spearman)
+    assert a == b

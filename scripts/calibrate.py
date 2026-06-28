@@ -30,6 +30,7 @@ Usage
     python scripts/calibrate.py                      # grade analysis/game_results.jsonl
     python scripts/calibrate.py --log path.jsonl     # grade a different log (fixtures/tests)
     python scripts/calibrate.py --min-games 5        # raise the per-deck inclusion bar
+    python scripts/calibrate.py --power              # how many games/deck to log? (needs NO games)
 
 Caveats (inherited + new)
     * Lab predictions are unblocked goldfish ceilings / soft-overlay P(win); see each source.
@@ -150,6 +151,35 @@ def mae(rows, key):
     return (sum(errs) / len(errs)) if errs else None
 
 
+def power_curve(truth_pct, n_grid, trials, seed, spearman, detect=0.5):
+    """How many games-per-deck before reality can adjudicate? A Monte-Carlo power analysis: IF
+    `truth_pct` (slug -> true win%) were the real ordering and games were i.i.d. Bernoulli, draw
+    N games for every deck, rank the decks by OBSERVED win%, and Spearman it against the truth —
+    `trials` times per N. Returns [(N, median_rho, p10_rho, p_detect)] where p_detect =
+    P(rho >= detect): the chance N games/deck recovers the ranking cleanly enough to act on.
+
+    `spearman` is injected (framework_bakeoff.spearman) so this stays a pure, seeded, testable
+    function. Assumes the oracle IS the truth and games are independent — an OPTIMISTIC floor:
+    real pilot variance / meta drift / non-independence only push the required N up."""
+    slugs = sorted(truth_pct)
+    truth = [truth_pct[s] for s in slugs]
+    ps = [truth_pct[s] / 100.0 for s in slugs]
+    rng = random.Random(seed)
+    out = []
+    for N in n_grid:
+        rhos = []
+        for _ in range(trials):
+            obs = [100.0 * sum(rng.random() < pi for _ in range(N)) / N for pi in ps]
+            r, _n = spearman(obs, truth)
+            rhos.append(r if r is not None else 0.0)
+        rhos.sort()
+        med = rhos[len(rhos) // 2]
+        p10 = rhos[max(0, len(rhos) // 10 - 1)]
+        pdet = sum(r >= detect for r in rhos) / len(rhos)
+        out.append((N, med, p10, pdet))
+    return out
+
+
 # --------------------------------------------------------------------- rendering
 def _fmt(v, suffix="", nd=1):
     return f"{v:.{nd}f}{suffix}" if isinstance(v, (int, float)) else "—"
@@ -168,6 +198,37 @@ def render_empty():
     print("  every number it emits today predicts a *simulated* outcome.\n")
 
 
+def cmd_power(args):
+    """How many games/deck before the REAL oracle can adjudicate? Uses the committed ANTI-POD
+    snapshot (framework_bakeoff.RICHER_ORACLE) as the assumed truth — no games and no live sim
+    needed, so it yields an actionable logging target TODAY."""
+    fb = _load("framework_bakeoff")
+    truth = {s: g for s, (g, _sm) in fb.RICHER_ORACLE.items() if g is not None}
+    grid = [3, 5, 8, 12, 20, 30, 50]
+    rows = power_curve(truth, grid, max(args.trials // 20, 1000), args.seed, fb.spearman, args.detect)
+
+    print("\n" + "=" * 78)
+    print("LAYER C — POWER: how many games per deck before reality can adjudicate?")
+    print("=" * 78)
+    print(f"  Assumed truth = the ANTI-POD oracle ({len(truth)} decks); games i.i.d. Bernoulli;")
+    print(f"  trials={max(args.trials // 20, 1000)}, seed={args.seed}. 'detect' = P(Spearman >= {args.detect}).")
+    print(f"\n  {'games/deck':>11}{'median ρ':>11}{'p10 ρ':>9}{'P(ρ>=' + str(args.detect) + ')':>11}")
+    for N, med, p10, pdet in rows:
+        print(f"  {N:>11}{med:>11.2f}{p10:>9.2f}{pdet:>10.0%}")
+    # the smallest N that recovers the ranking >=80% of the time
+    target = next((N for N, _m, _p, pd in rows if pd >= 0.80), None)
+    print()
+    if target:
+        total = target * len(truth)
+        print(f"  → Log ~{target} games/deck (~{total} games across {len(truth)} decks) to recover the")
+        print(f"    predicted ranking ≥80% of the time. Below that, the REAL column is noise — the")
+        print(f"    3-deck synthetic fixture hitting ρ=±1 is exactly that small-sample artifact.")
+    else:
+        print(f"  → Even {grid[-1]} games/deck doesn't clear 80% detection at this threshold — the")
+        print(f"    roster's true win-rates are too bunched to rank-separate cheaply (lower --detect).")
+    print("  OPTIMISTIC floor: pilot variance / meta drift / non-independence push the target UP.\n")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -177,7 +238,15 @@ def main():
     ap.add_argument("--trials", type=int, default=40000)
     ap.add_argument("--seed", type=int, default=20260614)
     ap.add_argument("--tax", type=float, default=0.6, help="interaction-overlay tax")
+    ap.add_argument("--power", action="store_true",
+                    help="games-per-deck power analysis (needs NO games — answers 'how much to log?')")
+    ap.add_argument("--detect", type=float, default=0.5,
+                    help="--power: the Spearman threshold counted as 'signal recovered' (default 0.5)")
     args = ap.parse_args()
+
+    if args.power:
+        cmd_power(args)
+        return
 
     records = load_log(args.log)
     if not records:
