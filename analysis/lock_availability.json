@@ -119,7 +119,7 @@
       0.03,
       0.03,
       0.03,
-      0.03,
+      0.04,
       0.04,
       0.04
     ],
@@ -569,21 +569,21 @@
     ],
     "hl_drawn": [
       0.0,
-      6.9,
-      8.6,
-      10.0,
-      11.2,
-      12.4,
-      13.5
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
     ],
     "hl_tut": [
       0.0,
-      6.9,
-      8.6,
-      10.0,
-      11.2,
-      12.4,
-      13.5
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
     ],
     "tau": [
       0.0,
@@ -594,17 +594,10 @@
       0.0,
       0.0
     ],
-    "e": 0.4,
+    "e": 0.0,
     "tau_total": 0,
     "median_online": "never",
-    "package": [
-      {
-        "name": "Opposition Agent",
-        "kind": "hardlock",
-        "cost": 3,
-        "val": 0.4
-      }
-    ]
+    "package": []
   },
   "grand_design": {
     "name": "The Grand Design",
@@ -648,12 +641,6 @@
     "tau_total": 0,
     "median_online": "never",
     "package": [
-      {
-        "name": "Grand Abolisher",
-        "kind": "excluded",
-        "cost": 2,
-        "val": 0.0
-      },
       {
         "name": "Teferi, Time Raveler",
         "kind": "excluded",
@@ -705,8 +692,8 @@
     "median_online": "never",
     "package": []
   },
-  "calamity_tax": {
-    "name": "The Calamity Tax",
+  "croak_and_dagger": {
+    "name": "Croak and Dagger",
     "grid": [
       2,
       3,
@@ -769,13 +756,13 @@
       13.5
     ],
     "hl_tut": [
-      7.8,
-      26.7,
-      32.6,
-      35.7,
-      38.9,
-      42.0,
-      44.7
+      7.1,
+      21.0,
+      25.5,
+      28.1,
+      30.6,
+      33.3,
+      35.6
     ],
     "tau": [
       0.0,
