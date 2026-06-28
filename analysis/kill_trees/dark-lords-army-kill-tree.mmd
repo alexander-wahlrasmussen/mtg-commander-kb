@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Sauron resolved — engine is OPPONENT-DRIVEN<br/>every opponent spell amasses Orcs; the draw-punishers drain on every opponent draw"]):::root
+    S --> A1{"Army amassed by opponent spells<br/>+ evasion (Cover of Darkness / Rogue's Passage)"}:::ask
+    A1 -- assembled --> K1["<b>10+ power unblockable Orc Army → focus one opponent in 2–3 swings</b><br/>⏱ decap T9"]:::combat
+    A1 --> A2{"Gray Merchant of Asphodel ETB<br/>(high black devotion from the engine)"}:::ask
+    A2 -- assembled --> K2["<b>each opponent loses your black devotion on ETB → burst close</b><br/>⏱ table (burst)"]:::table
+    A2 --> A3{"Dictate of Erebos + Goblin Bombardment + Pitiless Plunderer<br/>(sac the Army, it reforms free)"}:::ask
+    A3 -- assembled --> K3["<b>forced opponent sacs + Treasure → relentless grind</b><br/>⏱ grind (relentless)"]:::enabler
+    A3 --> A4{"Living Death / Reanimate / Agadeem's Awakening<br/>(Ring discards stock the yard)"}:::ask
+    A4 -- assembled --> K4["<b>reanimate Sheoldred / Gray Merchant / Yawgmoth → re-fire the drain</b><br/>⏱ reset → table"]:::enabler
+    A4 -- not yet --> STALL["let the pod play the game — amass + drain feed on THEIR spells and draws;<br/>deploy engine pieces and hold up interaction (faster vs active pods)"]:::stall
+    BG[["Sheoldred + Underworld Dreams + Bowmasters<br/>(Wound Reflection doubles the end-step loss)"]]:::bg
+    BG -. always on .-> KBG["<b>all-opponent drain on every opponent draw</b><br/>⏱ table T12 (typical pod)"]:::table

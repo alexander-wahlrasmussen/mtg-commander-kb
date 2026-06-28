@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Golbez online with 8+ artifacts<br/>each end step return a creature from your yard; with 8+ artifacts EACH opponent loses life = its power"]):::root
+    S --> A1{"Phyrexian Dreadnought in the yard (12 power)<br/>recur + re-bin for 1 mana each turn"}:::ask
+    A1 -- assembled --> K1["<b>12 drain to each opponent every end step → ~4 cycles</b><br/>⏱ table T13"]:::table
+    A1 --> A2{"Master of Etherium in the yard<br/>(= your artifact count; reads in graveyard)"}:::ask
+    A2 -- assembled --> K2["<b>10+ drain to each opponent, scales with the 8-artifact board</b><br/>⏱ table T13"]:::table
+    A2 --> A3{"Tezzeret, Master of the Bridge +2<br/>(X = artifacts, to EACH opponent, once/turn)"}:::ask
+    A3 -- assembled --> K3["<b>stacks with Golbez → 20+ life loss per opp per turn</b><br/>⏱ table ~T11"]:::table
+    A3 --> A4{"Urza's Construct (= artifacts) / 6+ flying Thopters<br/>(3/3 with Master + Stridehangar)"}:::ask
+    A4 -- assembled --> K4["<b>focus-fire one opponent in the air (decap leads by ~2)</b><br/>⏱ decap T11"]:::combat
+    A4 --> A5{"Mirrodin Besieged (Phyrexian)<br/>+ 15 artifact cards in YOUR graveyard (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>target opponent loses the game each end step (dodges lifegain/fog)</b><br/>⏱ table T13+ (slowest)"]:::table
+    A5 -- not yet --> STALL["deploy artifacts toward the 8-count and bin a drain bomb (Dreadnought self-sac / Troll swampcycle / surveil);<br/>refill the hand — the engine is card draw, not the curve"]:::stall

@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["The Scarab God resolved (~T5)<br/>flood the board with Zombies (tribal + tokens + reanimation)<br/>Zombie count drives drain, draw & combat"]):::root
+    S --> A1{"Gray Merchant of Asphodel ETB<br/>(devotion 6–10; recur via Reanimate / Necromancy / Scarab activated)"}:::ask
+    A1 -- assembled --> K1["<b>each opponent loses your black devotion on ETB; recurs for repeat bursts</b><br/>⏱ table (fastest non-combo)"]:::table
+    A1 --> A2{"Warren Soultrader + Gravecrawler + Plague Belcher<br/>(Rule 0)"}:::ask
+    A2 -- assembled --> K2["<b>sac/recast Gravecrawler loop → each cycle drains 1; up to 39 at 40 life</b><br/>⏱ table T8+"]:::combo
+    A2 --> A3{"Rooftop Storm + Necroduality + Diregraf Colossus"}:::ask
+    A3 -- assembled --> K3["<b>empty a Zombie hand for free → 12+ Zombies → 12+ Scarab drain next upkeep</b><br/>⏱ table T9–10"]:::table
+    A3 --> A4{"lord-pumped Zombies (Death Baron / Warchief / Mikaeus)<br/>+ Cyclonic Rift (overload) clears blockers (fallback)"}:::ask
+    A4 -- assembled --> K4["<b>focus-fire one opponent with a 4/4+ wide board</b><br/>⏱ decap T8"]:::combat
+    A4 -- not yet --> STALL["grow the Zombie count + draw (Kindred Discovery); the upkeep drain is passive<br/>inevitability — board wipes feed the yard for Living Death, so don't fear them"]:::stall
+    BG[["a wide Zombie board live"]]:::bg
+    BG -. always on .-> KBG["<b>each opponent loses X = Zombies you control, every upkeep (no mana/attack)</b><br/>⏱ table ~T11"]:::table

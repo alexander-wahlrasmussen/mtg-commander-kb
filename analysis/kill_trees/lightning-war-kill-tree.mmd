@@ -1,0 +1,20 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Fire Lord Azula attacking — every spell you cast that combat is COPIED<br/>(3× with Twinning Staff); she only needs to be DECLARED as an attacker, not connect"]):::root
+    S --> A1{"Reiterate + Seething Song (infinite red mana)<br/>or Narset's Reversal + Frantic Search / Turnabout / Storm-Kiln"}:::ask
+    A1 -- assembled --> K1["<b>infinite mana/draw → Torment of Hailfire / multikicked Comet Storm = dead table</b><br/>⏱ table T9"]:::combo
+    A1 --> A2{"Azula attacking + an X-finisher (Crackle / Comet Storm)<br/>doubled by Twinning Staff / Galvanic Iteration"}:::ask
+    A2 -- assembled --> K2["<b>Crackle X=3 ×Twinning = 45 to each opp; chip from Guttersnipe / Vivi pingers</b><br/>⏱ table T11 / decap T10"]:::table
+    A2 --> A3{"Banefire X≥5 (uncounterable, can't be prevented)<br/>copied by Azula + a flash enabler"}:::ask
+    A3 -- assembled --> K3["<b>delete the counter-wall player — ignores countermagic</b><br/>⏱ decap"]:::combat
+    A3 --> A4{"flash enabler + Yawgmoth's Will / Past in Flames / Invoke Calamity<br/>(replay the yard in Azula's combat)"}:::ask
+    A4 -- assembled --> K4["<b>every replayed spell copied → 40+ damage (non-infinite, dies to gy hate)</b><br/>⏱ table (fragile backup)"]:::enabler
+    A4 -- not yet --> STALL["tutor toward one loop piece + a sink and kill on YOUR turn<br/>(Abolisher can't stop a kill cast in your own combat); burn doubles as removal — delete Grand Abolisher on sight"]:::stall

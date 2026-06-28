@@ -59,7 +59,18 @@ hand-rolled cheapest-first LADDER (no mermaid/diagram dep — the lean-SVG ethos
 JSON; `DeckPage.tsx`'s `KillTree` component renders lines coloured by kind (combo/table/
 combat/enabler) with the lab clock on each rung + the always-on background lane + the stall
 note. Guard: `tests/test_kb_killlines.py` (hermetic shape tests). Decks without an encoded
-tree simply hide the section — encode the other 12 from their labs to light them up.
+tree simply hide the section.
+
+**Roster completion — all 17 decks encoded (shipped 2026-06-28).** Encoded the remaining 13 trees from
+each deck's `*_clock_lab.py` KILL CHECKS + its Summary's verified Kill Lines (gathered by 4 parallel
+evidence-extraction agents returning verbatim lab/Summary quotes; authored from the quotes, not memory —
+the read-the-card rule). Verified all 13 commanders' oracle text via the bulk first (fixed roots:
+Quintorius is a planeswalker, Golbez returns-to-hand-then-drains, Sauron amasses on opp *spells* while
+the punishers drain on *draws*). Sanitized mana-cost braces (`{5}{R}{R}` → `5RR`) that break Mermaid's
+rhombus parser; validated representative trees (incl. the `MV<8` and `≥`/`×` ones) via the Mermaid Chart
+tool = valid. Harvested decap/table medians used for the primary line, never the optimistic Summary edges.
+`kill_tree.py --all` regenerates all 17 `.mmd`; the README embeds all 17 as GitHub-native blocks;
+`tests/test_kb_killlines.py` now asserts 17/17 resolve with valid kinds.
 
 ---
 

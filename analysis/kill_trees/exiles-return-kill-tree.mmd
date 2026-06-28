@@ -1,0 +1,20 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Fire Lord Zuko resolved<br/>each cast-from-exile + each permanent entering from exile puts +1/+1 on EACH creature you control"]):::root
+    S --> A1{"blink + cast-from-exile engine running<br/>(Panharmonicon doubles enters-events) → Zuko 7+ power"}:::ask
+    A1 -- assembled --> K1["<b>counter-pumped board + 21 Zuko commander damage in ~3 swings</b><br/>⏱ decap T7–8"]:::combat
+    A1 --> A2{"Hellkite Charger + Sozin's Comet<br/>(firebending 5 on all; only Diabolic Intent finds either)"}:::ask
+    A2 -- assembled --> K2["<b>20R combat income pays Hellkite's 5RR → infinite extra combats → table</b><br/>⏱ table T10"]:::combo
+    A2 --> A3{"The Legend of Roku III → Avatar Roku<br/>(4/4 firebending 4)"}:::ask
+    A3 -- assembled --> K3["<b>attacks for 4R, funds dragon-token activations — backup when blink is down</b><br/>⏱ decap T11+"]:::combat
+    A3 --> A4{"Sun Titan attacks → return a ≤MV3 permanent<br/>(+ a blink piece to re-loop it) (fallback)"}:::ask
+    A4 -- assembled --> K4["<b>rebuild the engine every attack → grind out, very durable post-wipe</b><br/>⏱ decap (slow/durable)"]:::enabler
+    A4 -- not yet --> STALL["land an impulse-draw or blinker, then a doubler (Panharmonicon) / repeating blink<br/>(Teleportation Circle, Airbender Ascension, Norin) — pile counters until Zuko swings"]:::stall

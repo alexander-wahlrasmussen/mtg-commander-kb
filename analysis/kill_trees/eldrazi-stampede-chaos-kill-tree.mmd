@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Maelstrom Wanderer cast (5GUR)<br/>two cascades into nonland MV<8 + creatures you control have haste"]):::root
+    S --> A1{"Ghalta, Primal Hunger<br/>(a wide Eldrazi/power board drops its cost toward GG)"}:::ask
+    A1 -- assembled --> K1["<b>12/12 trample lands cheap → annihilator + trample close</b><br/>⏱ decap T5–7"]:::combat
+    A1 --> A2{"Wanderer's two hasty cascades<br/>+ its own 7 power + beater pile"}:::ask
+    A2 -- assembled --> K2["<b>15–25 turn-of-cast → focus one opponent</b><br/>⏱ decap T8"]:::combat
+    A2 --> A3{"Craterhoof Behemoth (8 mana, haste)<br/>+ 8 creatures on board"}:::ask
+    A3 -- assembled --> K3["<b>+X/+X & TRAMPLE → swing distributes across the table</b><br/>⏱ table T12"]:::table
+    A3 --> A4{"Sunbird's Invocation resolved<br/>then hardcast a big Eldrazi from hand"}:::ask
+    A4 -- assembled --> K4["<b>free chained spells off each cast → snowball to lethal</b><br/>⏱ table T6+"]:::enabler
+    A4 --> A5{"Ulamog, the Ceaseless Hunger hardcast (10 mana)<br/>(fallback)"}:::ask
+    A5 -- assembled --> K5["<b>attacks exile 20 cards → mill out (uncounterable back-up)</b><br/>⏱ table T8+ (slow)"]:::table
+    A5 -- not yet --> STALL["re-ramp toward the 8-mana Wanderer cast and a wide board —<br/>no passive drain; the Craterhoof table-alpha is what closes (~T12)"]:::stall

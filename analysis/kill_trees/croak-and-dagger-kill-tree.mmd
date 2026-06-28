@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Glarb online (cast MV4+ spells & play lands off the top, tap to surveil 2)<br/>+ a massive land count; Seedborn Muse untaps him + lands on EVERY opponent's turn"]):::root
+    S --> A1{"Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>just the spell + a big Coffers tap"}:::ask
+    A1 -- assembled --> K1["<b>each opponent: 12× lose-3 / sac / discard → lethal table drain (board-independent)</b><br/>⏱ table T10"]:::table
+    A1 --> A2{"kicked Rite of Replication (9 mana) on a drainer<br/>— Gray Merchant (~60/opp) or Kokusho (25/opp)"}:::ask
+    A2 -- assembled --> K2["<b>5 token copies' ETBs / legend-rule deaths drain the whole table at once</b><br/>⏱ table T10"]:::combo
+    A2 --> A3{"Glarb surveil bins Gray Merchant → Reanimate (1 mana) returns him<br/>→ kicked Rite (9)"}:::ask
+    A3 -- assembled --> K3["<b>feeds the Rite copy kill from the graveyard (~10 mana, 2 cards)</b><br/>⏱ enabler → table T10"]:::enabler
+    A3 --> A4{"Seedborn engine — Glarb untapped every opponent's turn<br/>+ flash enabler → Archon of Cruelty / Massacre Wurm value"}:::ask
+    A4 -- assembled --> K4["<b>grind the table out through accumulated drain / removal (no single combo)</b><br/>⏱ table (grind)"]:::table
+    A4 --> A5{"drainers + creatures attack (Archon attack trigger)<br/>(fallback)"}:::ask
+    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap T10"]:::combat
+    A5 -- not yet --> STALL["ramp toward 10+ lands + Coffers/Urborg and surveil for Torment —<br/>can't out-race the T6–7 pod, so grind + hold the counter suite; don't announce the kill"]:::stall

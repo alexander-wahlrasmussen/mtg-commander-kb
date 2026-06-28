@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Quintorius (planeswalker) resolved<br/>each time cards LEAVE your graveyard → a 3/2 Spirit (one per event)"]):::root
+    S --> A1{"Quintorius −4 (ready ~1 turn after landing) + 4+ Spirits<br/>(Akroma's Will / anthems pile on)"}:::ask
+    A1 -- assembled --> K1["<b>Spirits gain double strike + vigilance → lethal alpha across the table</b><br/>⏱ table T7–9"]:::combat
+    A1 --> A2{"Purphoros + Anointed Procession<br/>+ a recursion turn (3 events)"}:::ask
+    A2 -- assembled --> K2["<b>2→4 dmg to EACH opp per Spirit ETB → ~12 to each opp passively</b><br/>⏱ table T7–9"]:::table
+    A2 --> A3{"Moonshaker Cavalry ETB<br/>+ a wide Spirit board (Procession / Patchwork)"}:::ask
+    A3 -- assembled --> K3["<b>all creatures gain flying + a counter → one-turn lethal swing on one opp</b><br/>⏱ decap T7–9"]:::combat
+    A3 --> A4{"Reveillark + Karmic Guide + Goblin Bombardment<br/>+ a ≤2-power creature in yard"}:::ask
+    A4 -- assembled --> K4["<b>unbounded sac loop → arbitrary GB damage + arbitrary Spirits</b><br/>⏱ table T7–8"]:::combo
+    A4 --> A5{"Patchwork Banner + Balefire Liege + Tocasia's Welcome<br/>(Quintorius & Moonshaker down) (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>anthem + 3-per-RW-cast chip → 3–4 turn grindout</b><br/>⏱ table T9–11"]:::table
+    A5 -- not yet --> STALL["run Quintorius +1 to fill the yard + dig; deploy recursion + a multiplier —<br/>every recursion event is a Spirit, so build toward the −4 alpha"]:::stall

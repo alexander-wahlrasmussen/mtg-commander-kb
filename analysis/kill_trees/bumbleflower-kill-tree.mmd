@@ -1,0 +1,18 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Ms. Bumbleflower online (~T3–4)<br/>each spell you cast: an opp draws, +1/+1 counter (+flying) on a creature;<br/>the 2nd cast each turn → you draw two"]):::root
+    S --> A1{"Jolrael, Mwonvuli Recluse + a full hand + a board<br/>(Cats / payoff creatures / stolen bodies)"}:::ask
+    A1 -- assembled --> K1["<b>Jolrael's 4GG pump sets your team to X/X (X = cards in hand) → 8–12-power alpha</b><br/>⏱ decap T8"]:::combat
+    A1 --> A2{"Willbreaker + aim Bumbleflower's counter at an opp's creature each cast"}:::ask
+    A2 -- assembled --> K2["<b>steal a creature every spell (it flies in that turn) → swing with their own board</b><br/>⏱ decap (grindy)"]:::combat
+    A2 --> A3{"pile +1/+1 counters & flying on one carrier each cast<br/>(optionally vacuum them into Sin, Unending Cataclysm) (fallback)"}:::ask
+    A3 -- assembled --> K3["<b>a single evasive counter-grown threat flies over</b><br/>⏱ decap T8+ (slowest)"]:::combat
+    A3 -- not yet --> STALL["out-value the table — chain cantrips for the 2nd-cast draw-two, deploy draw payoffs,<br/>hold up the deep counter/removal suite; the kill is slow & combat-only, so close from dominance"]:::stall

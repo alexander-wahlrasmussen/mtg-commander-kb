@@ -1,0 +1,20 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Grixis 'forced draw' punisher shell — static draw/discard punishers in play<br/>the kill is a WHEEL cast on YOUR turn feeding STATICS, so it fires THROUGH Grand Abolisher"]):::root
+    S --> A1{"Notion Thief + Psychosis Crawler + any wheel<br/>(Niv-Mizzet, Parun = redundant version)"}:::ask
+    A1 -- assembled --> K1["<b>you draw ~28 (your 7 + ~21 redirected) → each opponent loses ~28 AND draws nothing</b><br/>⏱ table T9"]:::table
+    A1 --> A2{"2+ opponent-draw punishers (Underworld Dreams / Fate Unraveler / Sheoldred / Ob Nixilis)<br/>+ a wheel · Bloodletter of Aclazotz doubles it"}:::ask
+    A2 -- assembled --> K2["<b>each opponent draws 7 → ~14–28 life loss each (lethal-or-bust — never spin on one)</b><br/>⏱ table T9"]:::table
+    A2 --> A3{"Peer into the Abyss aimed at one opponent<br/>with a draw-punisher out"}:::ask
+    A3 -- assembled --> K3["<b>they draw ~half their library → that much damage + lose half their life</b><br/>⏱ decap T8"]:::combat
+    A3 --> A4{"Displacer Kitten + Aether Channeler + Sol Ring + Mana Vault<br/>+ Niv-Mizzet or Psychosis Crawler (all in play)"}:::ask
+    A4 -- assembled --> K4["<b>infinite ETB → infinite draw → lethal (Abolisher-proof, commander-independent)</b><br/>⏱ table ~1% by T12 (slow backup)"]:::combo
+    A4 -- not yet --> STALL["assemble + protect ~2 punishers to the wheel turn (lethal-or-bust — a half-loaded wheel refuels the pod);<br/>kill Grand Abolisher / draw-deniers on sight, and don't stack Notion Thief with the opponent-draw punishers"]:::stall

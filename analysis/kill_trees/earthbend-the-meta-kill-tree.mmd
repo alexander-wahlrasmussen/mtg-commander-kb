@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Toph resolved — your nontoken artifacts are LANDS (each artifact ETB is a landfall)<br/>end step earthbends a land into a 0/0+counters creature"]):::root
+    S --> A1{"Scute Swarm at 6+ lands + Purphoros<br/>(+ Impact Tremors / Cathars' Crusade)"}:::ask
+    A1 -- assembled --> K1["<b>each landfall copies Scute → 2 dmg to EACH opp per body → 20+ to each opp</b><br/>⏱ table T7–9"]:::table
+    A1 --> A2{"Triumph of the Hordes<br/>+ 3 earthbent lands at 4+ counters"}:::ask
+    A2 -- assembled --> K2["<b>+1/+1, trample & INFECT → 10 poison kills regardless of life</b><br/>⏱ table T7–9"]:::table
+    A2 --> A3{"All Will Be One + amplifier suite<br/>(Hardened Scales / Earth Crystal / Doubling Season)"}:::ask
+    A3 -- assembled --> K3["<b>each +1/+1 counter placed → that much to ONE opp; earthbend 2 = 12+</b><br/>⏱ decap T7–9"]:::combat
+    A3 --> A4{"Toph, Greatest Earthbender (double strike)<br/>+ 3–4 earthbent lands (8–24 each)"}:::ask
+    A4 -- assembled --> K4["<b>land-creatures swing for lethal double-strike damage on one opp</b><br/>⏱ decap T7–9"]:::combat
+    A4 --> A5{"Moraug + multiple land drops<br/>+ double-strike land-creatures (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>3–5 extra combat phases → lethal through accumulated steps on one opp</b><br/>⏱ decap T7–9"]:::combat
+    A5 -- not yet --> STALL["ramp + animate lands each end step, stacking counters under the amplifier suite —<br/>the deck doesn't tutor, so dig for a finisher while Scute snowballs"]:::stall

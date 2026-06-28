@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["go wide cheaply (dorks / Bitterblossom / Saprolings)<br/>Witherbloom's instant/sorcery affinity discounts your tutors & rituals<br/>(the primary lifeloop is commander-INDEPENDENT)"]):::root
+    S --> A1{"a blood-half (Exquisite Blood / Bloodthirsty Conqueror)<br/>+ a vito-half (Vito / Sanguine Bond / Enduring Tenacity / Defiant Bloodlord)<br/>+ any life event (combat, Cauldron Familiar, a sac)"}:::ask
+    A1 -- assembled --> K1["<b>the loop drains the whole table one player at a time, at instant speed</b><br/>⏱ table T9"]:::combo
+    A1 --> A2{"Chain of Smog + Witherbloom Apprentice<br/>(no board, no commander needed)"}:::ask
+    A2 -- assembled --> K2["<b>target yourself → infinite magecraft copies → 1–2 to each opp per copy</b><br/>⏱ table"]:::combo
+    A2 --> A3{"Witherbloom + 4+ creatures + Sprout Swarm<br/>(or Lab Rats + Phyrexian Altar) + Witherbloom Apprentice"}:::ask
+    A3 -- assembled --> K3["<b>infinite free casts → magecraft drains the table</b><br/>⏱ table (later)"]:::combo
+    A3 --> A4{"Razaketh, the Foulblooded + tokens to sacrifice"}:::ask
+    A4 -- assembled --> K4["<b>2 life + a token each → tutor the missing loop piece at instant speed</b><br/>⏱ enabler"]:::enabler
+    A4 --> A5{"Bitterblossom fliers + Tendershoot + Hornet Queen<br/>(fallback)"}:::ask
+    A5 -- assembled --> K5["<b>focus one opponent — irrelevant as a clock, real as loop ignition</b><br/>⏱ decap T12+"]:::combat
+    A5 -- not yet --> STALL["build a token board (affinity discounts + sac fodder + ignition) and dig<br/>with the tutors for a blood-half + a vito-half — the loop is the deck"]:::stall

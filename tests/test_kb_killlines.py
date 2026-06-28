@@ -108,10 +108,10 @@ def test_game_plan_falls_back_to_win_line():
 _KIND = {"combo", "table", "combat", "enabler"}
 
 
-def test_kill_tree_none_for_unencoded_deck():
-    """Only 4 decks are encoded; the rest return None and the dashboard hides the ladder."""
-    assert kb._kill_tree("lightning_war") is None
+def test_kill_tree_none_for_unencoded_slug():
+    """A slug with no KILL_TREES entry returns None and the dashboard hides the ladder."""
     assert kb._kill_tree("not_a_real_slug") is None
+    assert kb._kill_tree("") is None
 
 
 def test_kill_tree_shape_for_an_encoded_deck():
@@ -125,11 +125,18 @@ def test_kill_tree_shape_for_an_encoded_deck():
     assert kt["background"] is not None and kt["background"]["kind"] in _KIND
 
 
-def test_kill_tree_all_four_encoded_decks_resolve():
-    """Every reg_slug in KILL_TREES round-trips through _kill_tree with valid line kinds."""
-    encoded = [sp["reg_slug"] for sp in kb.deck_registry.KILL_TREES.values()]
-    assert len(encoded) == 4
+def test_kill_tree_every_encoded_deck_resolves():
+    """Every reg_slug in KILL_TREES round-trips through _kill_tree with valid line kinds,
+    a title/root/stall/src, and (if present) a valid background kind. All 17 active decks
+    are encoded as of 2026-06-28; assert the registry and the resolver agree."""
+    specs = kb.deck_registry.KILL_TREES
+    encoded = [sp["reg_slug"] for sp in specs.values()]
+    assert len(encoded) == len(specs) == 17
+    assert len(set(encoded)) == len(encoded)        # no duplicate reg_slugs
     for slug in encoded:
         kt = kb._kill_tree(slug)
-        assert kt and kt["lines"]
-        assert all(l["kind"] in _KIND for l in kt["lines"])
+        assert kt and kt["lines"], slug
+        assert kt["title"] and kt["root"] and kt["stall"] and kt["src"], slug
+        assert all(l["kind"] in _KIND for l in kt["lines"]), slug
+        if kt["background"]:
+            assert kt["background"]["kind"] in _KIND, slug

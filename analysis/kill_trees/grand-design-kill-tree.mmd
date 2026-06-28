@@ -1,0 +1,22 @@
+flowchart TD
+    classDef root fill:#3c3836,color:#fbf1c7,stroke:#fabd2f,stroke-width:3px;
+    classDef ask fill:#ebdbb2,color:#1d2021,stroke:#7c6f64,stroke-width:1.5px;
+    classDef combo fill:#f5b8d6,color:#1d2021,stroke:#b16286,stroke-width:2px;
+    classDef table fill:#aed1f0,color:#1d2021,stroke:#458588,stroke-width:2px;
+    classDef combat fill:#fec07c,color:#1d2021,stroke:#d65d0e,stroke-width:2px;
+    classDef enabler fill:#b8e6a0,color:#1d2021,stroke:#689d6e,stroke-width:2px;
+    classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
+    classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
+
+    S(["Atraxa cast — ETB reveals top 10, take one of each card type (nets 5–7 cards)<br/>fuels reanimation + flicker + Birthing Pod creature chain"]):::root
+    S --> A1{"Craterhoof Behemoth + a board<br/>(hardcast 8, or Pod / Defense / reanimate / Finale X≥8 cheat it in)"}:::ask
+    A1 -- assembled --> K1["<b>ETB haste: creatures gain TRAMPLE + +X/+X → overrun (reliably decaps; table slower)</b><br/>⏱ decap T9"]:::combat
+    A1 --> A2{"Defense of the Heart resolves<br/>(any opponent has 3+ creatures at your upkeep)"}:::ask
+    A2 -- assembled --> K2["<b>free: search 2 creatures onto battlefield (Craterhoof straight to play → immediate kill)</b><br/>⏱ decap T9"]:::enabler
+    A2 --> A3{"Razaketh reanimated (Reanimate ~1 mana)<br/>+ creatures to sacrifice"}:::ask
+    A3 -- assembled --> K3["<b>sac fodder, pay 2 life: tutor any card → grab Craterhoof / Finale → kill next turn</b><br/>⏱ decap T10–11"]:::enabler
+    A3 --> A4{"Finale of Devastation X≥10 (12 mana, untutorable sorcery)<br/>+ a creature in play"}:::ask
+    A4 -- assembled --> K4["<b>+X/+X & haste to all — but no trample, so it FOCUS-FIRES one opponent</b><br/>⏱ decap T11 (~9% of games)"]:::combat
+    A4 --> A5{"Atraxa swinging (7/7 flying, vigilance, deathtouch, lifelink)<br/>+ a developed board (fallback)"}:::ask
+    A5 -- assembled --> K5["<b>incremental combat — 96% of the deck's decaps; or 21 commander damage</b><br/>⏱ decap T10 / table T12+"]:::combat
+    A5 -- not yet --> STALL["build the engine (reanimate a bomb T3–4, cast Atraxa T6–7, or start a Pod chain) —<br/>the deck grinds at sorcery speed; protect the kill turn behind a counter or Teferi (protection is thin)"]:::stall
