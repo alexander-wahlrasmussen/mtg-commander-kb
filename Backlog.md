@@ -324,8 +324,18 @@ its `n`; decks below `--min-games` are shown but excluded from MAE/Spearman; Spe
 decks. **It is the same question as the Framework Bake-Off — does the number predict the result? —
 but graded against REALITY instead of the sim's own outcome oracle.**
 
-**Status: the instrument is built, tested, and ARMED — but Layer C itself is NOT closed.** The log
-holds **0 games**; with an empty log `calibrate.py` prints the armed-but-ungraded loop and exits 0.
-The work that remains is *playing and logging* — the first real pod games are what finally grade
-the [v2 tier list](analysis/Definitive_Tier_List_2026-06-28.md) and the whole tower. This is the
-one open frontier the test-discipline anti-goals (#9) explicitly fenced off as Layer C.
+**Wired into the bake-off too:** `framework_bakeoff.py --bakeoff` now grades every framework
+(Conversion Check, Disciple, BDD, WotC, pure-clock) against a **seventh oracle — REAL** (observed
+win% via `real_win_oracle`, reusing `calibrate.observed_stats`), alongside the six sim oracles. It's
+the only oracle NOT semi-circular with the clock, so it's the true framework test. `--real-min N`
+sets the per-deck floor, `--real-log` points at an alternate log; '—' until ≥3 decks clear the
+floor. Guarded by `tests/test_bakeoff_real_oracle.py` (hermetic — bakeoff loads the 168 MB index
+lazily). This finally lets the Bake-Off answer *does the number predict the result?* against
+**reality**, not just the sim's own outcome oracle.
+
+**Status: the instruments are built, tested, and ARMED — but Layer C itself is NOT closed.** The log
+holds **0 games**; with an empty log `calibrate.py` and the bake-off's REAL column both print the
+armed-but-ungraded loop. The work that remains is *playing and logging* — the first real pod games
+are what finally grade the [v2 tier list](analysis/Definitive_Tier_List_2026-06-28.md), every
+framework, and the whole tower. This is the one open frontier the test-discipline anti-goals (#9)
+explicitly fenced off as Layer C.
