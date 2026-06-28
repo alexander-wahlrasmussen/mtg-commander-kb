@@ -585,16 +585,38 @@ def _split_finisher(title_raw, note):
     return dict(name=title.rstrip(":.").strip(), tag=tag, note=note)
 
 
-_LINE_SUB = re.compile(r"(?i)^(?:kill\s+)?line\s*\d+\s*[:—-]\s*(.+)")
-_LINE_BOLD = re.compile(r"(?i)^\*\*\s*(?:kill\s+)?line\s*\d+\s*[—:.-]\s*(.+?)\*\*[:.]?\s*(.*)$")
+# Index may be a number (Line 1) or a letter (Line A — Zero-Sum's style).
+_LINE_SUB = re.compile(r"(?i)^(?:kill\s+)?line\s*(?:\d+|[a-z])\s*[:—-]\s*(.+)")
+_LINE_BOLD = re.compile(r"(?i)^\*\*\s*(?:kill\s+)?line\s*(?:\d+|[a-z])\s*[—:.-]\s*(.+?)\*\*[:.]?\s*(.*)$")
+# Fallback list shape (Forced Liquidation): 'N. **Card Name** *(tag)* — note', where the
+# bold lead IS the line's name rather than a 'Line N' label.
+_LINE_NUM = re.compile(r"^(?:\d+[.)]|[-*])\s+\*\*(.+?)\*\*\s*(.*)$")
+
+
+def _finisher_from_numbered(name, rest):
+    """A '**Name** *(tag)* — note' list item → {name, tag, note} (the bold is the name; a
+    leading italic *(tag)* and an em-dash note follow)."""
+    rest = rest.strip()
+    tag = ""
+    tm = re.match(r"^\*\(?\s*([^*)]+?)\s*\)?\*\s*[—:.\-]*\s*(.*)$", rest)   # leading *italic* tag
+    if tm:
+        tag, rest = tm.group(1).strip(), tm.group(2)
+    else:
+        dm = re.match(r"^[—:.\-]+\s*(.*)$", rest)
+        if dm:
+            rest = dm.group(1)
+    return dict(name=_demph(name).rstrip(":.").strip(), tag=_demph(tag),
+                note=_first_sentence(rest))
 
 
 def _kill_lines(sections):
-    """Finishers from a Summary — handles both heading styles and bold-lead lists.
+    """Finishers from a Summary — tolerant of the heading/format variants across Summaries.
 
     A) '### Kill Line N: Title — tag' / '### Line N — Title (tag)' subheadings.
-    B) '**Line N — Title:** desc' list items under a '## Kill Lines' / 'How We
-       End Games' section. Subheadings win; else fall back to the list."""
+    B) under a '## Kill Lines' / '## Closing Lines' / 'How We End Games' section, in priority:
+       B1) '**Line N — Title:** desc' (or 'Line A —' letter index) bold-lead items;
+       B2) fallback 'N. **Name** *(tag)* — note' numbered/bulleted bold-lead items.
+    Subheadings win; else B1; else B2."""
     out = []
     for low, (head, body) in sections.items():
         if _LINE_SUB.match(low):
@@ -603,13 +625,20 @@ def _kill_lines(sections):
         return out[:8]
     body = ""
     for low, (_head, sec) in sections.items():
-        if any(k in low for k in ("kill line", "how we end games", "how you win", "how we win")):
+        if any(k in low for k in ("kill line", "closing line", "how we end games",
+                                  "how you win", "how we win")):
             body = sec
             break
     for ln in body.splitlines():
         m = _LINE_BOLD.match(ln.strip())
         if m:
             out.append(_split_finisher(m.group(1), m.group(2)))
+    if out:
+        return out[:8]
+    for ln in body.splitlines():                       # B2 — numbered bold-lead (FL style)
+        m = _LINE_NUM.match(ln.strip())
+        if m:
+            out.append(_finisher_from_numbered(m.group(1), m.group(2)))
     return out[:8]
 
 
