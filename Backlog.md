@@ -306,3 +306,26 @@ the L2 frontier, deliberately excluded.)
 (disposable, not load-bearing); real-game calibration stays Layer C (excluded here). Overlaps #8 — both
 are CI gates; the `tests` job and the (still-open) `deck_doctor`/`validate` pre-commit hook are
 complementary, not duplicates.
+
+---
+
+## 10. Layer C — the grading instrument (`calibrate.py` SHIPPED 2026-06-28; awaiting real games)
+
+The frontier every prior tier deferred: nothing has back-tested the LABS against real games. The
+capture end (`game_log.py` → `analysis/game_results.jsonl`) already existed; this builds the
+**grading end**. `scripts/calibrate.py` reads the game log and grades, per deck and per oracle:
+**CLOCK** (observed mean table/decap turn vs the lab medians → signed Δ + MAE in turns) and
+**WIN-RATE** (observed win% vs ANTI-POD / SELF / INTER P(win) → tie-aware Spearman, reusing
+`framework_bakeoff.spearman`). DRY: predictions come straight from the `tier_list.py` axes (the
+same oracles the v2 tier list ranks on); heavy oracle loads are lazy so the pure aggregation
+helpers stay hermetically unit-tested (`tests/test_calibrate.py`, 10 tests, + a synthetic
+`tests/fixtures/calibrate_synthetic.jsonl`). Honest by construction: every per-deck stat carries
+its `n`; decks below `--min-games` are shown but excluded from MAE/Spearman; Spearman needs n≥3
+decks. **It is the same question as the Framework Bake-Off — does the number predict the result? —
+but graded against REALITY instead of the sim's own outcome oracle.**
+
+**Status: the instrument is built, tested, and ARMED — but Layer C itself is NOT closed.** The log
+holds **0 games**; with an empty log `calibrate.py` prints the armed-but-ungraded loop and exits 0.
+The work that remains is *playing and logging* — the first real pod games are what finally grade
+the [v2 tier list](analysis/Definitive_Tier_List_2026-06-28.md) and the whole tower. This is the
+one open frontier the test-discipline anti-goals (#9) explicitly fenced off as Layer C.

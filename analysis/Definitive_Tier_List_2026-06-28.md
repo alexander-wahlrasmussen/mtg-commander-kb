@@ -150,6 +150,8 @@ death-volume-gated).
   not a measurement. `--legacy-power` shows the v1 (CC-as-axis) list for contrast.
 - This is a synthesis for orientation. Real deck decisions still go through the per-deck clock labs
   and `campaigns/Kill_Window_Lab_Sweep_2026-06-13.md`.
-- **Layer C still open:** every number here predicts a *simulated* outcome. Nothing yet validates
-  the tower against real games (`game_log.py` is built; `analysis/game_results.jsonl` is empty;
-  `calibrate.py` unbuilt). The first logged pod games are where this list gets graded.
+- **Layer C still open:** every number here predicts a *simulated* outcome. The grading instrument
+  now exists end-to-end — `game_log.py` (capture) → `calibrate.py` (back-test: CLOCK MAE +
+  WIN-RATE Spearman vs these same oracles) — but `analysis/game_results.jsonl` is still **empty**,
+  so nothing has yet validated the tower against reality. The first logged pod games are where this
+  list gets graded (`python scripts/calibrate.py`).
