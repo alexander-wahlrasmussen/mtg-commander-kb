@@ -193,6 +193,19 @@ DECKS = {
                      "line": "Torment of Hailfire X=12+ (requires ~14 total mana)"},
         "bottleneck": "MANA", "min_lands": 2, "max_lands": 4, "hi_curve": False, "mixed": None,
     },
+    "forced_liquidation": {
+        "name": "Forced Liquidation", "stem": "forced-liquidation",
+        "commander": "Kefka, Court Mage", "lab": ("kfk_clock_lab", "clock"),
+        "cc": 16, "cc_axes": (5, 4, 3, 4),
+        "win_line": {"pieces": ["Notion Thief", "Psychosis Crawler", "Windfall"],
+                     "line": "Notion Thief + Psychosis Crawler + any wheel -> one-wheel table kill "
+                             "(statics fire through Grand Abolisher)"},
+        # FINDING: lethal-or-bust assembly — needs 2+ punishers + a wheel before spinning, or it
+        # refuels the pod. The Displacer Kitten + Aether Channeler combo is a $0 backup axis only
+        # (~1% by T12; never beats the burn — resilience, not the plan).
+        "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False,
+        "mixed": "lethal-or-bust: never wheel on <2 punishers; Kitten+Channeler backup combo is resilience not speed",
+    },
 }
 
 
@@ -211,7 +224,9 @@ EXTRA_COMMANDERS = {
     "hostile-takeover": "Godo, Bandit Warlord",
     "quantitative-easing": "Kinnan, Bonder Prodigy",
     "asset-stripping": "Korvold, Fae-Cursed King",
-    "forced-liquidation": "Kefka, Court Mage",
+    # forced-liquidation PROMOTED to the active roster 2026-06-28 (now a DECKS row) — its
+    # stem resolves via active_commanders(); leaving it here would break the active-stem
+    # prefix invariant (an active stem may not also be an EXTRA key).
     "clive-external": "Clive, Ifrit's Dominant",
     "kefka-external": "Kefka, Court Mage",
     # 2026-06-14 Hashaton benchmark (decks/considering/) — Esper Thoracle variant

@@ -216,6 +216,34 @@ KEFKA_EXT = {
     },
 }
 
+# Active-roster suite (forced-liquidation-20260625.txt, promoted 2026-06-28). The 06-25
+# build differs from the historical KEFKA_BURN calibrator above (06-12 list): Bedevil ->
+# Soul Shatter, Terminate -> Heartless Act, Infernal Grasp -> Dismember, Diabolic ->
+# Grim Tutor, Mastermind's -> Final Parting. Card text re-verified via card_lookup 2026-06-28.
+# Deflecting Swat is OMITTED (protect-own redirect; marginal pod-disruption — same call as KEFKA_BURN).
+FORCED_LIQUIDATION = {
+    "answers": {
+        "Counterspell":             ({"C"}, 2, {"ios"}),
+        "Negate":                   ({"C"}, 2, {"ios"}),
+        "Swan Song":                ({"C"}, 1, {"ios"}),
+        "An Offer You Can't Refuse": ({"C"}, 1, {"ios"}),
+        "Arcane Denial":            ({"C"}, 2, {"ios"}),
+        "Drown in the Loch":        ({"C", "R", "P"}, 2, {"ios"}),  # genuinely both modes
+        "Soul Shatter":             ({"R", "P"}, 3, {"ios"}),       # edict on highest-MV: hits combo bodies
+        "Heartless Act":            ({"R", "P"}, 2, {"ios"}),
+        "Go for the Throat":        ({"R", "P"}, 2, {"ios"}),
+        "Dismember":                ({"R", "P"}, 2, {"ios"}),       # {1}{B/P}{B/P}: castable ~2 mana via life
+        "Rakdos Charm":             ({"R", "P"}, 2, {"ios"}),
+        "Chaos Warp":               ({"R", "P"}, 3, {"ios"}),
+        "Bloodchief's Thirst":      ({"P"}, 1, {"ios"}),            # SORCERY: preempt only
+        "Blasphemous Act":          ({"P"}, 5, {"ios"}),            # cost-reduction judgment override (MV9)
+        "Cursed Totem":             ({"S"}, 2, set()),
+    },
+    "tutors": {
+        "Demonic Tutor": (2, "any"), "Grim Tutor": (3, "any"), "Final Parting": (5, "any"),
+    },
+}
+
 
 LIGHTNING_WAR = {
     "answers": {
@@ -452,6 +480,7 @@ ROSTER = {
     "lightning_war": ("../archive/old_decklists/lightning-war-20260614.txt", LIGHTNING_WAR),
     "croak_and_dagger": ("calamity-tax-20260405-061741.txt", CALAMITY_TAX),
     "grand_design": ("the-grand-design-20260502.txt", GRAND_DESIGN),
+    "forced_liquidation": ("forced-liquidation-20260625.txt", FORCED_LIQUIDATION),
 }
 
 

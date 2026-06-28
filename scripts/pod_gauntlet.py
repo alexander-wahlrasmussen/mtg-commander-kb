@@ -313,6 +313,12 @@ CLOCKS = {
         decap=[0, 0, 1, 3, 8, 30, 50, 58], table=[0, 0, 0, 1, 2, 12, 25, 33],
         med=("T13", ">T14"), never=(40, 60),
         src="matrix 06-13 sweep median (slow; curve reconstructed, race-irrelevant)"),
+    "forced_liquidation": dict(
+        name="Forced Liquidation", score="16", disrupt_class="warn",
+        lab=("kfk_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
+        grid=[4, 5, 6, 7, 8, 9, 10, 12],
+        decap=[1, 5, 15, 34, 56, 74, 86, 96], table=[0, 3, 9, 21, 40, 59, 73, 89],
+        med=("T8", "T9"), never=(4, 11), src="lab kfk_clock_lab @40k 2026-06-28"),
 }
 
 # Guard: the display name + lab pointer in each harvest entry must match the registry (the

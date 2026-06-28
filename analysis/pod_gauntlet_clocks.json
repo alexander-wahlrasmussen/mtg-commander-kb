@@ -456,7 +456,7 @@
       3,
       10
     ],
-    "src": "lab dla_clock_lab @8k (MID pod tempo — engine is opponent-driven)"
+    "src": "lab dla_clock_lab @8k (MID pod tempo \u2014 engine is opponent-driven)"
   },
   "diminishing_returns": {
     "name": "Diminishing Returns",
@@ -667,5 +667,47 @@
       14
     ],
     "src": "lab ct_speed_lab kill_turns on croak-and-dagger-20260623.txt @12k dig=2 (deployed grind-fortress + anti-dragon pkg; dig-band: T13 floor@0 / T9 ceiling@3; 2026-06-15)"
+  },
+  "forced_liquidation": {
+    "name": "Forced Liquidation",
+    "grid": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12
+    ],
+    "decap": [
+      1,
+      5,
+      15,
+      34,
+      56,
+      74,
+      86,
+      96
+    ],
+    "table": [
+      0,
+      3,
+      9,
+      21,
+      40,
+      59,
+      73,
+      89
+    ],
+    "med": [
+      "T8",
+      "T9"
+    ],
+    "never": [
+      4,
+      11
+    ],
+    "src": "lab kfk_clock_lab @40k 2026-06-28"
   }
 }

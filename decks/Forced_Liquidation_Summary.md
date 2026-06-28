@@ -5,7 +5,7 @@
 **Bracket:** 3 (3 GC; B4-in-spirit per house rules)
 **Score:** 16/20 (5 / 4 / 3 / 4) · Clock: T8 decap / T9 table (spell, sorcery) (lab `kfk_clock_lab.py` 2026-06-25). Audited 2026-06-27 from the list (pre-pod; re-audit after first games).
 
-> Build ground truth: `decks/considering/forced-liquidation-20260625.txt` (cards on order as of 2026-06-27; promote to `decks/` on arrival). Proposal: `proposals/PROP_Kefka_Court_Mage.md`. Buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
+> Build ground truth: `decks/forced-liquidation-20260625.txt` (promoted from `considering/` to the active roster 2026-06-28). Proposal: `proposals/PROP_Kefka_Court_Mage.md`. Buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
 
 ---
 
@@ -90,6 +90,116 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 - **Draw-denier anti-synergy.** Notion Thief and Narset-type effects turn off the *opponent-draw* punishers (opponents draw nothing). Notion Thief earns its slot via the *your-draw* axis (Psychosis/Niv) — but don't stack draw-deniers and expect the opponent-facing burn to still fire.
 - **Niv-Mizzet, Parun's `UUURRR` cost** strains a 3-color base; first cut if the manabase proves greedy.
 - **No real land answers** (Deck Doctor `--interaction`: 1 — Chaos Warp). The one coverage hole; acceptable for a racer not trying to fight manabases. Every other type is healthy (creature 17 / artifact 6 / enchantment 5 / indestructible 8 / past-protection 9). Early ramp is also a touch light (10 sources by T3 / 61%, under the BDD ~12 anchor) — offset by draw (16 sources, 88% by T6).
+
+---
+
+## Decklist (100 cards)
+
+*Functional buckets — partitioned card-for-card against `forced-liquidation-20260625.txt` (the dated `.txt` is ground truth; these headings only label it). Sums to 99 + commander.*
+
+### Commander (1)
+1 Kefka, Court Mage
+
+### Wheels & Mass Draw (8)
+1 Windfall
+1 Echo of Eons
+1 Reforge the Soul
+1 Magus of the Wheel
+1 Jace's Archivist
+1 Molten Psyche
+1 Dark Deal
+1 Peer into the Abyss
+
+### Draw Punishers (8)
+1 Sheoldred, the Apocalypse
+1 Underworld Dreams
+1 Fate Unraveler
+1 Kederekt Parasite
+1 Ob Nixilis, the Hate-Twisted
+1 Notion Thief
+1 Psychosis Crawler
+1 Niv-Mizzet, Parun
+
+### Discard Punishers & Amplifiers (6)
+1 Megrim
+1 Liliana's Caress
+1 Waste Not
+1 Glint-Horn Buccaneer
+1 Bloodletter of Aclazotz
+1 Nicol Bolas, the Ravager
+
+### Backup Combo (Displacer Kitten line) (2)
+1 Displacer Kitten
+1 Aether Channeler
+
+### Tutors (3)
+1 Demonic Tutor
+1 Grim Tutor
+1 Final Parting
+
+### Card Filtering & Recursion (6)
+1 Faithless Looting
+1 Frantic Search
+1 Thrill of Possibility
+1 Ponder
+1 Preordain
+1 Past in Flames
+
+### Removal (8)
+1 Soul Shatter
+1 Heartless Act
+1 Go for the Throat
+1 Bloodchief's Thirst
+1 Chaos Warp
+1 Dismember
+1 Rakdos Charm
+1 Blasphemous Act
+
+### Counters (6)
+1 Counterspell
+1 Negate
+1 Swan Song
+1 An Offer You Can't Refuse
+1 Arcane Denial
+1 Drown in the Loch
+
+### Protection & Static (4)
+1 Lightning Greaves
+1 Swiftfoot Boots
+1 Deflecting Swat
+1 Cursed Totem
+
+### Mana Rocks & Rituals (12)
+1 Sol Ring
+1 Arcane Signet
+1 Dimir Signet
+1 Rakdos Signet
+1 Izzet Signet
+1 Talisman of Dominance
+1 Mind Stone
+1 Thought Vessel
+1 Commander's Sphere
+1 Ruby Medallion
+1 Seething Song
+1 Mana Vault
+
+### Lands (36)
+1 Command Tower
+1 Exotic Orchard
+1 Blood Crypt
+1 Steam Vents
+1 Watery Grave
+1 Sulfur Falls
+1 Drowned Catacomb
+1 Shivan Reef
+1 Underground River
+1 Temple of Epiphany
+1 Temple of Deceit
+1 Otawara, Soaring City
+1 Reliquary Tower
+8 Island
+8 Swamp
+7 Mountain
 
 ---
 

@@ -26,7 +26,7 @@ DECKS_DIR = r"decks"
 TARGETS = [
     "decks/zero-sum-game-20260619.txt",
     "decks/lightning-war-20260621.txt",
-    "decks/considering/forced-liquidation-20260625.txt",
+    "decks/forced-liquidation-20260625.txt",   # promoted from considering/ 2026-06-28
 ]
 DISMANTLE = [
     "decks/diminishing-returns-20260505.txt",

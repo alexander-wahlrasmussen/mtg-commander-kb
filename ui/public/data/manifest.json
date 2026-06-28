@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-20 15:52",
+  "generated": "2026-06-28 09:07",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -76,6 +76,33 @@
       1
     ],
     "trials": 20000,
-    "season_trials": 40000
+    "season_trials": 40000,
+    "draws": 8
+  },
+  "content": {
+    "roster": true,
+    "home": true,
+    "wishlist": true,
+    "collection": true,
+    "tierlist": true,
+    "decks": [
+      "dark_lords_army",
+      "lightning_war",
+      "radiation_sickness",
+      "lorehold_spirits",
+      "grand_design",
+      "croak_and_dagger",
+      "replication_crisis",
+      "earthbend_the_meta",
+      "exiles_return",
+      "curse_of_the_scarab",
+      "diminishing_returns",
+      "crystal_sickness",
+      "forced_liquidation",
+      "genome_project",
+      "bumbleflower",
+      "eldrazi_stampede",
+      "zero_sum_game"
+    ]
   }
 }
