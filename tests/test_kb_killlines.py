@@ -74,3 +74,31 @@ def test_line_labels_win_over_numbered_fallback():
 
 def test_no_kill_section_returns_empty():
     assert kb._kill_lines(_sections("What the Deck Does", "It does things.")) == []
+
+
+# --- gamePlan selection (the same audit's second parser gap) ------------------
+def test_game_plan_prefers_what_the_deck_prose():
+    secs = _sections("What the Deck Does", "It builds a wide Wizard board and pings the table.")
+    assert kb._game_plan(secs, "fallback").startswith("It builds a wide")
+
+
+def test_game_plan_matches_heading_variant_by_prefix():
+    """Lightning War uses '## What the Deck Is Trying to Do' — must still match (was falling
+    through to the terse win-line)."""
+    secs = {"what the deck is trying to do":
+            ("What the Deck Is Trying to Do", "Dictate tempo, then end on an X-burn finisher.")}
+    assert kb._game_plan(secs, "fallback") == "Dictate tempo, then end on an X-burn finisher."
+
+
+def test_game_plan_skips_empty_table_section():
+    """Eldrazi stalled on 'Quick Reference' (a table → empty first paragraph) and never reached
+    its prose 'Core Loop'. Skip empties and fall through."""
+    secs = {
+        "quick reference": ("Quick Reference", "| Archetype | Eldrazi ramp |\n| Clock | T8 |"),
+        "core loop": ("Core Loop", "The deck ramps hard into Maelstrom Wanderer and Craterhoof."),
+    }
+    assert kb._game_plan(secs, "fallback").startswith("The deck ramps hard")
+
+
+def test_game_plan_falls_back_to_win_line():
+    assert kb._game_plan({"commander rules text": ("Commander Rules Text", "x")}, "WL") == "WL"

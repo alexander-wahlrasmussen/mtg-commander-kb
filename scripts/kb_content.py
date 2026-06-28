@@ -677,6 +677,22 @@ def _rulings(sections):
     return out[:12]
 
 
+def _game_plan(secs, fallback):
+    """The deck-page one-paragraph overview. Prefer a prose section with a SUBSTANTIVE first
+    paragraph; skip empties so we never stop on a table ('Quick Reference' is a table, not
+    prose). Match any '## What the Deck …' heading by prefix ('does' / 'is trying to do' both
+    occur in the Summaries), then the other overview headings in priority; else the terse
+    win-line. (Audit 2026-06-28: Eldrazi stalled on Quick Reference, LW on a heading variant.)"""
+    keys = [low for low in secs if low.startswith("what the deck")]
+    keys += [k for k in ("core loop", "overview", "how it wins", "the plan", "strategy")
+             if k in secs]
+    for low in keys:
+        para = _first_para(secs[low][1])
+        if len(para) >= 40:                         # a real sentence, not a list lead-in stub
+            return para
+    return fallback
+
+
 def deck(slug):
     """Full Tale-of-the-Tape payload for one deck — structured spine + Summary prose."""
     d = DECKS.get(slug)
@@ -700,13 +716,7 @@ def deck(slug):
     axes = ([dict(label=lab, score=sc) for lab, sc in zip(axes_labels, d["cc_axes"])]
             if d.get("cc_axes") else [])
 
-    game_plan = ""
-    for key in ("what the deck does", "overview", "quick reference", "core loop"):
-        if key in secs:
-            game_plan = _first_para(secs[key][1])
-            break
-    if not game_plan:
-        game_plan = (d.get("win_line") or {}).get("line", "")
+    game_plan = _game_plan(secs, (d.get("win_line") or {}).get("line", ""))
 
     return dict(
         slug=slug, name=d["name"], commander=d["commander"],
