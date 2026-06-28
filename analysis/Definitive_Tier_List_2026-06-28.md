@@ -4,7 +4,10 @@
 ranking of the 17 active decks — but now a composite of the **three convergent OUTCOME oracles**,
 not two-outcome-plus-build-quality. Reproduce: `python scripts/tier_list.py`
 (legacy v1: `python scripts/tier_list.py --legacy-power`). Refreshed 2026-06-28 to add Forced
-Liquidation (Kefka) on its promotion to the active roster.*
+Liquidation (Kefka) on its promotion to the active roster, and re-run after the lab decklist-pointer
+audit (Lightning War's clock lab repointed to its current list + delay_lab/lock_lab refreshed) —
+which drops Lightning War from C to D (its strict race clock slowed; the combo's ~T9 table kill isn't
+in the goldfish-clock oracles).*
 
 ---
 
@@ -39,20 +42,20 @@ measurement; re-weight in `tier_list.py`.
 | Tier | Deck | Anti% | Inter% | Self% | (cc) | Clock | COMP |
 |:--:|---|:--:|:--:|:--:|:--:|:--:|:--:|
 | **S** | **The Genome Project** | 61 | 68 | 75 | 15 | T8 | **93** |
-| **S** | **Radiation Sickness** | 70 | 42 | 38 | 18 | T10 | **76** |
-| **A** | **Forced Liquidation** | 48 | 48 | 49 | 16 | T9 | **66** |
+| **S** | **Radiation Sickness** | 71 | 42 | 38 | 18 | T10 | **76** |
+| **A** | **Forced Liquidation** | 49 | 48 | 50 | 16 | T9 | **66** |
 | **A** | The Replication Crisis | 64 | 25 | 23 | 17 | T10 | 58 |
-| **A** | Zero-Sum Game | 34 | 48 | 48 | — | T9 | 56 |
+| **A** | Zero-Sum Game | 33 | 48 | 49 | — | T9 | 55 |
 | **B** | The Exile's Return | 44 | 33 | 31 | 18 | T10 | 50 |
-| **C** | Lorehold Spirits | 39 | 22 | 29 | 18 | T10 | 40 |
+| **B** | Lorehold Spirits | 39 | 23 | 29 | 18 | T10 | 40 |
 | **C** | Curse of the Scarab | 39 | 22 | 22 | 17 | T11 | 37 |
-| **C** | Ms. Bumbleflower | 47 | 11 | 10 | 15 | T11 | 35 |
-| **C** | The Calamity Tax (Croak & Dagger) | 22 | 34 | 32 | 18 | T10 | 35 |
+| **C** | Croak and Dagger | 22 | 34 | 32 | 18 | T10 | 35 |
+| **C** | Ms. Bumbleflower | 48 | 11 | 10 | 15 | T11 | 35 |
 | **C** | Earthbend the Meta | 42 | 15 | 15 | 17 | T11 | 34 |
-| **C** | Lightning War | 49 | 6 | 5 | **19** | T14 | 32 |
-| **C** | The Dark Lord's Army | 26 | 27 | 20 | **19** | T12 | 31 |
-| **D** | The Grand Design | 38 | 5 | 5 | 18 | >T12 | 23 |
-| **D** | Eldrazi Stampede Chaos | 26 | 7 | 10 | 14 | T12 | 17 |
+| **C** | The Dark Lord's Army | 26 | 27 | 20 | **19** | T12 | 30 |
+| **D** | The Grand Design | 36 | 5 | 5 | 18 | >T12 | 21 |
+| **D** | Lightning War | 33 | 3 | 3 | **19** | >T14 | 18 |
+| **D** | Eldrazi Stampede Chaos | 26 | 8 | 10 | 14 | T12 | 17 |
 | **D** | Crystal Sickness | 9 | 10 | 11 | 17 | T13 | 6 |
 | **D** | Diminishing Returns | 17 | 3 | 3 | 17 | >T14 | 6 |
 
@@ -67,9 +70,9 @@ v1 noted the three 19/20-equivalent decks scattered S→A→C. v2, ranking **pur
 makes it undeniable:
 
 > **The two highest-scored decks you own — Lightning War and The Dark Lord's Army, both 19/20 —
-> rank 12th and 13th of 17.** Both land in **C tier.** The third-highest, Grand Design (18/20),
-> is **D**. Meanwhile the apex of the roster, The Genome Project, scores **15/20** — and the #3
-> deck overall, Forced Liquidation, scores **16/20.**
+> rank 14th and 12th of 17.** Lightning War lands in **D**, Dark Lord in **C**; the third-highest,
+> Grand Design (18/20), is also **D** (13th). Meanwhile the apex of the roster, The Genome Project,
+> scores **15/20** — and the #3 deck overall, Forced Liquidation, scores **16/20.**
 
 The Conversion Check tells you a deck is *well-built for what it's trying to do.* It does **not**
 tell you the deck wins. Across three independent outcome oracles, the correlation between CC and
@@ -110,10 +113,13 @@ and **mirror** (inter/self) — pull different decks in different directions. Re
   pod, which is why it clears Zero-Sum overall.*
 
 ### Over-rated fortresses — high CC, low on BOTH bars
-- **Lightning War (19/20)** — the widest split on the roster: anti **49** (it survives the external
-  pod — best disruption suite, holds answers 80%, Banefire uncounterable) but mirror **5–6**
-  (*dead last*). A T14 table clock with 39% never-close: it decaps one seat and then cannot finish
-  the other two. The canonical over-rate — the score sheet's favourite, the mirror's punching bag.
+- **Lightning War (19/20)** — now the roster's starkest over-rate, dropped to **D**: anti **33**
+  (mid — the combo-lean rebuild thinned its interaction suite and slowed the strict clock) and mirror
+  **3** (*dead last*). A >T14 strict table clock with 58% never-close: as a goldfish racer it decaps
+  one seat and cannot finish the other two. **Caveat:** its actual fastest table kill is the
+  infinite-mana combo (~T9 → Torment of Hailfire / multikicked Comet Storm), which the goldfish-clock
+  oracles here do NOT model — so D is its *race-only* standing, not its ceiling. Still the score
+  sheet's favourite (19/20) and the mirror's punching bag.
 - **The Dark Lord's Army (19/20)** — the subtle one. CC's #1, the **most durable** deck on the
   roster (0.86), and the **only** deck the interaction overlay *lifts* meaningfully (Δ**+7** — it
   taxes opponents' closes while outlasting them). But a T12 clock buries it: anti 26, and it needs a
@@ -152,7 +158,9 @@ overlay is a verified null reduction — it reproduces self_meta bit-for-bit; `t
 
 **The rebuild pile (D):** Grand Design, Eldrazi Stampede (lowest CC *and* lowest outcomes — the
 clearest next project), Crystal Sickness (worst external number, 9), Diminishing Returns (>T14,
-death-volume-gated).
+death-volume-gated). *(Lightning War also sits in D now, but it's a combo-race hybrid the
+goldfish-clock oracles under-credit — its ~T9 infinite-mana table kill is real and unmodelled here,
+so it's a measurement artifact, not a rebuild target.)*
 
 ---
 
