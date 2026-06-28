@@ -370,7 +370,7 @@ exact optimistic-clock disease the kill-window sweep already falsified five time
 [[project_kill_window_lab_sweep]]). The correct combination takes the min over lines **on the same simulated
 game**, not across independent labs.
 
-### MVP — "best-line" harvest, tournament untouched (~the 80%)
+### MVP — "best-line" harvest, tournament untouched (~the 80%) — ✅ SHIPPED 2026-06-28
 Push the min **down into the per-deck goldfish**: have each deck's `speed_lab` / `*_clock_lab` track every
 kill line it knows on the *same* simulated game (LW already runs both a race and a combo lab — unify them so
 the min is taken on correlated draws) and report "earliest decap/table by **any** surviving line." Then the
@@ -380,6 +380,25 @@ changes** — they keep consuming one curve; the curve just stops lying. Result:
 up in the gauntlet and the tier list. Cost: unify LW's two labs + re-harvest; bounded, days not weeks.
 Guard: a golden snapshot delta (#9 Tier-2) so the re-harvest is reviewable, and the per-line CDFs stay
 lab-backed (never hand-assumed — the cite-the-lab rule).
+
+**Built:** `lw_clock_lab.py --mode bestline` — races the burn goldfish (`goldfish_kill`) AND the
+Reiterate/Seething Song combo (`lw_combo_lab.assembly_turn`) on **one** shuffled game (a shared pre-rolled
+opening hand + library injected into both via a new `g=` param) and reports the earliest decap/table by
+either line. The min is over **correlated draws on one game**, never over two labs' independent CDFs — the
+optimistic-clock trap the brief flagged (a brick hand bricks the min). Repointed the harvest pointer
+(`deck_registry` + `pod_gauntlet.CLOCKS` lightning_war `lab` → `bestline`) and re-harvested LW @8k:
+**decap T10→T8, table >T14→T9** (`pod_gauntlet_clocks.json`). Side-fix: `lw_combo_lab`'s tutor picks were
+iterating a *set* (PYTHONHASHSEED-dependent) — sorted them so the lab is reproducible and the golden EXACT
+tier holds across hash seeds. Guards green: golden snapshot regenerated (LW-only delta, EXACT+TOLERANCE pass
+under two hash seeds), `clock_check` + `deck_doctor lightning_war` OK, fast test gate (101) + full golden (33)
+pass. Propagated to the LW Summary Kill Window + the matrix LW row. **Effect:** the live gauntlet ranks LW #4
+(was bottom on the race axis) and `tier_list.py` lifts it to **S-tier #2** (was ~11–12) — exactly the
+LW-shaped distortion the brief named.
+
+**Follow-up (NOT in this MVP, own commit):** the *committed* `analysis/Definitive_Tier_List_2026-06-28.md`
+writeup + the baked dashboard JSON (`dashboard_export.py` → both data dirs) still need a re-bake to match the
+live tools — and they're *already* independently stale from the 2026-06-28 Forced-Liquidation promotion, so
+that re-bake is one chore, separate from #11.
 
 ### Proper version — a finisher-mixture tournament (the rest)
 Make "all finishers" first-class. Each deck carries a **list** of finisher records

@@ -160,12 +160,15 @@ DECKS = {
     },
     "lightning_war": {
         "name": "Lightning War", "stem": "lightning-war",
-        "commander": "Fire Lord Azula", "lab": ("lw_clock_lab", "clock"),
+        "commander": "Fire Lord Azula", "lab": ("lw_clock_lab", "bestline"),
         "cc": 19, "cc_axes": (5, 5, 4, 5),
         "win_line": {"pieces": ["Banefire"], "override": 14, "fuzzy": True,
                      "line": "X-burn finisher (Banefire/Crackle); ~14 mana from-40 lethal"},
         "bottleneck": "BOARD", "min_lands": 2, "max_lands": 4, "hi_curve": False,
         "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine",
+        # lab=bestline (not clock): the all-finishers harvest (Backlog #11) races the burn
+        # goldfish AND the Reiterate+Seething Song combo on one game so the gauntlet sees the
+        # deck's fastest line (combo ~T9), not just the race goldfish (table >T14).
     },
     "grand_design": {
         "name": "The Grand Design", "stem": "the-grand-design",

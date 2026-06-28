@@ -10,7 +10,7 @@
 | **Bracket** | 3 by GC count (3/3). B4-in-spirit; infinites pod-approved ([[infinites_ok_in_pod]]); no MLD, no repeatable extra turns. |
 | **Game Changers** | Fierce Guardianship, Gifts Ungiven, Mystical Tutor (3 of 3) |
 | **Conversion Check** | **19/20 (A)** · audited 2026-06-28 |
-| **Kill Window** | Clock: **T10 decap / >T14 table** strict goldfish (lw_clock_lab.py, 2026-06-28). Combo median **T9** (lw_combo_lab.py); chip-adjusted + combo clocks in Kill Window below. |
+| **Kill Window** | Clock: **T8 decap / T9 table** best-line goldfish · burn race ∪ Reiterate/Seething Song combo raced on ONE game (lw_clock_lab.py --mode bestline, 2026-06-28). Race-only was T10/>T14; the combo (CAST ~T9) is the fast table kill. Per-line clocks in Kill Window below. |
 | **Status** | built — `lightning-war-20260621.txt` (ground truth) |
 
 -----
@@ -47,12 +47,13 @@ Lightning War exploits **cast-and-copy volume in Azula's combat**: with Azula at
 
 ## Kill Window
 
-Three clocks, stated separately (the CLAUDE.md verification rule; decap ≠ table):
+Clocks stated separately (the CLAUDE.md verification rule; decap ≠ table):
 
-- **Goldfish (strict from 40):** decap **T10** / table **>T14** (never-in-14: decap 2% / table 58%) — `lw_clock_lab.py --mode clock` @8k, 2026-06-28. This is the *race-only* ceiling; it slowed vs the prior list because the deck traded a pinger + race slots for combo pieces and tutors.
+- **Best-line (the harvested clock — what `pod_gauntlet` now races):** decap **T8** / table **T9** (never-in-14: decap 1% / table 17%) — `lw_clock_lab.py --mode bestline` @8k, 2026-06-28. Backlog #11 (all-finishers MVP): the burn race **and** the combo are raced on the *same* simulated game and the earliest close by either line is reported, so the deck's fastest line (the combo) is no longer flattened out before the gauntlet sees it. The min is over correlated draws on one game, **not** over two labs' independent CDFs (that would be the optimistic-clock disease). This is the headline clock; the rows below are the per-line decomposition.
+- **Goldfish (strict from 40, race only):** decap **T10** / table **>T14** (never-in-14: decap 2% / table 58%) — `lw_clock_lab.py --mode clock` @8k, 2026-06-28. The *race-only* ceiling; it slowed vs the prior list because the deck traded a pinger + race slots for combo pieces and tutors. This is the line the best-line clock *replaced* as the harvested curve.
 - **Realistic cross-table chip (3/turn, @28 by T6):** decap **T8** / table **T11** — `lw_clock_lab.py --mode chipsweep/amp`. A real pod arrives below 40 from attacking each other, which collapses the *table* clock; this is the honest planning centre.
 - **Combo assembly (the fastest table-wide route):** CAST median **T9** (50% by T9, 64% by T12) — `lw_combo_lab.py --mode bench`, current list. Infinite mana → Torment of Hailfire / multikicked Comet Storm kills the table in one cast, so for the *table* the combo (~T9) beats the race table sweep (~T11). The combo is **finding/tutor-gated, not mana-gated** (SEEN≈CAST; selection adds ~0pp).
-- **Through interaction:** not separately modelled; `pod_gauntlet.py` P(win vs pod) ~64% (race ∪ combo; ~48% with Grand Abolisher always out — the kill is on our turn, so Abolisher only taxes theirs). Trust the direction over the absolute.
+- **Through interaction:** `pod_gauntlet.py` P(win vs pod) **51%** at Abolisher P(out)=0.3 (best-line clock; 61% at a=0, 42% at a=0.75 — the kill is on our turn, so Abolisher only taxes theirs); two-deck `--matrix` blend **57%** (vs Acererak 60% / H&K 55% / 5C-tail 54%). Folding the combo into the harvested clock lifted LW from a race-axis bottom-feeder to ~4th in the gauntlet (Backlog #11). Trust the direction over the absolute.
 
 -----
 
@@ -256,5 +257,6 @@ Verified via `card_lookup.py` (read the card + rulings).
 
 ## Changelog
 
+- **2026-06-28 (all-finishers MVP, Backlog #11):** The harvested clock `pod_gauntlet` races is now the **best-line** curve (`lw_clock_lab.py --mode bestline`): the burn race and the Reiterate/Seething Song combo run on the *same* simulated game and the earliest decap/table by either line is reported (correlated draws, not independent CDFs). Headline clock moved **T10/>T14 → T8/T9**; LW rose from a race-axis bottom-feeder to ~4th in the gauntlet (P(win) ~51% @a=0.3). The burn lab gained a `bestline` mode that injects a shared opening hand into both `goldfish_kill` and `lw_combo_lab.assembly_turn`; the combo lab's tutor picks were made hash-seed-deterministic so the golden snapshot is reproducible. Tournament/dashboard code unchanged — they still consume one curve; the curve just stopped hiding the combo.
 - **2026-06-28:** Repointed `lw_clock_lab.py` to the current `lightning-war-20260621` list (was the archived 20260614); strict-goldfish clock is now decap T10 / table >T14 (the deck leaned combo, so the race-only clock slowed). Corrected the framing: the infinite-mana combo (~T9) is the **fastest table-wide kill**, not the race table sweep (~T11). Removed a wrong-card ("Ozai") ruling. Rebuilt the Summary onto the canonical template schema.
 - **2026-06-21:** Combo-consistency pass — added a standalone Seething Song + tutor/selection density (combo assembly: never-in-horizon → median T9) and combo glue (Bonus Round / Turnabout / Expansion); swapped two weak slots + board-answer cards for payoff/combo within the 3-GC cap.

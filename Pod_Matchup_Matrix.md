@@ -88,7 +88,7 @@ Rows ordered by blended **P(win)**. Each deck raced separately vs Acererak / H&K
 | 1 | Radiation Sickness | 18 | T7 / T10 | 55% | 73% | 68% | 67% | **70%** | **Bring — top + robust.** Counter-immune board kills (Simic Asc / Toxrill / rad) give H&K's wall nothing to target (Δ Acrk−H&K just +5). The default pick. |
 | 2 | The Replication Crisis | 17 | T7 / T10 | 55% | 67% | 62% | 59% | **64%** | **Bring — #2.** 7 counters + combat/Kiki board kill, badly under-rated until protect-credited. Kiki swap adds an Abolisher-proof line. |
 | 3 | The Genome Project | 15 | T7 / T8 | 5% | 65% | 58% | 57% | **61%** | **Race ceiling, not a lock.** 15/20 glass, combo-reliant, ~no protect — discount for the fragility the goldfish can't see. |
-| 4 | Lightning War | 19 | T9 / T14 | 65% | 54% | 47% | 43% | **49%** | **Bring vs Acererak (54%).** Tempo + counter-war + uncounterable Banefire; fights H&K's wall rather than folding to it. |
+| 4 | Lightning War | 19 | T8 / T9 | 65% | 60% | 55% | 54% | **57%** | **Bring — combo now counted (Backlog #11).** Best-line clock folds the Reiterate/Seething Song combo (~T9) into the race, so the gauntlet stops scoring LW on the burn axis it's worst at. Tempo + counter-war + uncounterable Banefire; strongest vs Acererak (60%). |
 | 5 | Ms. Bumbleflower | 15 | T8 / T11 | 15% | 53% | 43% | 40% | **47%** | **Soft.** decap T8 but the combat-only kill is goldfish-optimistic; thin protect. |
 | 6 | The Exile's Return | 18 | T8 / T10 | 30% | 48% | 41% | 39% | **44%** | **Even–favoured.** Own Abolisher protects its turn; Drannith swap adds static; Kiki/combat kill. |
 | 7 | Earthbend the Meta | 17 | T8 / T11 | 30% | 46% | 39% | 37% | **42%** | **Even.** REB/Pyroblast bite H&K's blue specifically; mid clock. |

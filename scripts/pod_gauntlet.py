@@ -288,11 +288,12 @@ CLOCKS = {
         med=("T9", ">T14"), never=(4, 70), src="lab dr_clock_lab @8k"),
     "lightning_war": dict(
         name="Lightning War", score="19", disrupt_class="warn",
-        lab=("lw_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
+        lab=("lw_clock_lab", "bestline"), sel=("decap (one opponent", "table (all three)"),
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[0, 1, 7, 21, 44, 65, 89, 98], table=[0, 0, 0, 1, 3, 7, 21, 42],
-        med=("T10", ">T14"), never=(2, 58),
-        src="lab lw_clock_lab @8k (current list 20260621; strict goldfish; chip/combo not in this clock)"),
+        decap=[11, 28, 41, 55, 70, 83, 96, 99], table=[11, 27, 38, 45, 52, 59, 71, 83],
+        med=("T8", "T9"), never=(1, 17),
+        src="lab lw_clock_lab @8k bestline (Backlog #11: burn race + Reiterate/Seething Song "
+            "combo raced on ONE game; was race-only decap T10/table >T14, combo invisible)"),
     "grand_design": dict(
         name="The Grand Design", score="18", disrupt_class="warn",
         lab=("gd_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),

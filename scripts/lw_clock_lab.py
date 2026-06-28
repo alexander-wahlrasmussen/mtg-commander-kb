@@ -46,6 +46,10 @@ ROOT = Path(__file__).parent.parent
 _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).parent / "speed_lab_core.py")
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
+# The combo-assembly clock lives in lw_combo_lab; the bestline mode races it against
+# this lab's burn goldfish on the SAME shuffled game (Backlog #11 all-finishers MVP).
+_cspec = importlib.util.spec_from_file_location("lw_combo_lab", Path(__file__).parent / "lw_combo_lab.py")
+lcl = importlib.util.module_from_spec(_cspec); _cspec.loader.exec_module(lcl)
 
 DECK = ROOT / "decks" / "lightning-war-20260621.txt"         # current list (repointed 2026-06-28)
 SEED = 20260613
@@ -78,7 +82,7 @@ def _powmap(library, commander):
     return {k: (v if isinstance(v, int) else 1) for k, v in raw.items()}
 
 
-def goldfish_kill(library, commander, index, powmap, rng,
+def goldfish_kill(library, commander, index, powmap, rng, g=None,
                   chip_rate=0, chip_start=3, extra_pingers=0,
                   fin_always=False, enabler_always=False, extra_rituals=None):
     """chip_rate = life each opponent loses per OUR turn from cross-table combat
@@ -97,7 +101,8 @@ def goldfish_kill(library, commander, index, powmap, rng,
     def pw(nm):
         return powmap.get(nm.lower(), 1)
 
-    g = slc.Goldfish(library, rng, rocks=ROCKS)
+    if g is None:                                    # bestline_kill injects a shared start
+        g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
     azula_turn = None
     guttersnipe = stormkiln = goldspan = vivi = estatic = torbran_active = False
@@ -290,6 +295,61 @@ def _inject(library, adds):
     return lib
 
 
+# --- BEST-LINE (Backlog #11 all-finishers MVP) -----------------------------
+# pod_gauntlet harvests ONE (decap, table) curve per deck. For Lightning War that
+# curve was the burn RACE goldfish (mode_clock), which buries the deck's fastest
+# table kill — the Reiterate+Seething Song / Narset combo (lw_combo_lab, CAST ~T9).
+# bestline races BOTH lines on the SAME simulated game and reports the earliest
+# close by either, so the harvested curve means "fastest of all lines," not "race
+# only." The min is taken on ONE shared opening hand + library (correlated draws),
+# NOT over two independent labs' CDFs — the latter is the optimistic-clock disease
+# the kill-window sweep already falsified five times (keeping best-of-N god draws).
+def _goldfish_from(start, rocks):
+    """A Goldfish pinned to a pre-rolled (deck, hand, ptr) so two kill lines race the
+    SAME shuffled game, each carrying its own rock set. __new__ bypasses the shuffle so
+    no rng is consumed (the start was already rolled once, shared by both lines)."""
+    deck, hand, ptr = start
+    g = slc.Goldfish.__new__(slc.Goldfish)
+    g.deck, g.hand, g.ptr = list(deck), list(hand), ptr
+    g.yard, g.lands, g.rock_out = [], 0, 0
+    g.rocks, g.avail = rocks or {}, 0
+    return g
+
+
+def bestline_kill(library, commander, powmap, combo_rocks, rng):
+    """Earliest (decap, table) by ANY of Lightning War's kill lines on one game:
+      BURN  — chip + copy-amped X-spell race (goldfish_kill, this lab).
+      COMBO — Reiterate+Seething Song / Narset assembly (lw_combo_lab); going off ends
+              the game, so its CAST turn is both a decap and a table kill.
+    Both lines start from the same pre-rolled hand+library, so the min is over correlated
+    draws on one game (a brick hand is a brick for the min), not over independent CDFs."""
+    g0 = slc.Goldfish(library, rng, rocks=ROCKS)         # roll the shared start once
+    start = (g0.deck, g0.hand, g0.ptr)
+    db, tb = goldfish_kill(library, commander, None, powmap, rng,
+                           g=_goldfish_from(start, ROCKS))
+    _, cast = lcl.assembly_turn(library, rng, combo_rocks,
+                                g=_goldfish_from(start, combo_rocks))
+    decap = min([x for x in (db, cast) if x is not None], default=None)
+    table = min([x for x in (tb, cast) if x is not None], default=None)
+    return decap, table
+
+
+def mode_bestline(index, aliases, trials):
+    print(f"\n### BEST-LINE — earliest decap/table by ANY kill line   trials={trials} seed={SEED}")
+    print("    Races the BURN goldfish (this lab) AND the Reiterate+Seething Song / Narset")
+    print("    combo (lw_combo_lab) on the SAME shuffled game, reporting the earlier close.")
+    print("    This is the curve pod_gauntlet harvests (Backlog #11): 'fastest of all lines',")
+    print("    not race-only. min is on ONE game (correlated draws), never over independent CDFs.\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    combo_rocks = lcl.deck_rocks(library)
+    rng = random.Random(SEED)
+    res = [bestline_kill(library, commander, powmap, combo_rocks, rng) for _ in range(trials)]
+    slc.report_clock(res, SHOW, TURNS, trials)
+    print("\n  cf. --mode clock (burn race only): decap ~T10 / table >T14. The combo line")
+    print("  (lw_combo_lab CAST median ~T9) is what this surfaces — invisible to the race goldfish.")
+
+
 def mode_chipsweep(index, aliases, trials):
     print(f"\n### CHIP SWEEP — opponents arrive pre-chipped by the pod   trials={trials} seed={SEED}")
     print("    chip_rate = life each opponent loses per our turn from cross-table combat")
@@ -401,6 +461,7 @@ def mode_amp(index, aliases, trials):
 
 
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "chipsweep": mode_chipsweep,
+    slc.run_cli(__doc__, {"clock": mode_clock, "bestline": mode_bestline,
+                          "chipsweep": mode_chipsweep,
                           "optimize": mode_optimize, "avail": mode_avail,
                           "finlever": mode_finlever, "amp": mode_amp}, default_trials=40000)

@@ -103,8 +103,9 @@ def top_names(g, depth):
     return [g.deck[i][0] for i in range(g.ptr, min(g.ptr + depth, len(g.deck)))]
 
 
-def assembly_turn(library, rng, rocks, dig_on=True, use_added=True, recursion_on=True):
-    g = slc.Goldfish(library, rng, rocks=rocks)
+def assembly_turn(library, rng, rocks, g=None, dig_on=True, use_added=True, recursion_on=True):
+    if g is None:                                    # lw_clock_lab.bestline injects a shared start
+        g = slc.Goldfish(library, rng, rocks=rocks)
     azula_turn = None
     bf_play = stormkiln = goldspan = False
     has_ss_card = any(nm == SS for nm, _ in library)              # standalone Seething Song?
@@ -150,7 +151,10 @@ def assembly_turn(library, rng, rocks, dig_on=True, use_added=True, recursion_on
         # Azula copies an INSTANT-speed tutor cast in her combat -> it fetches TWO
         # pieces at once (BDD's core accelerant: one copied Teachings = the whole
         # Combo A). Only reaches instant/sorcery pieces, never the creature half.
-        copyable = next((t for t in COPYABLE_TUTOR if g.has(t)), None)
+        # sorted() so the pick is hash-seed-INDEPENDENT (the model doesn't claim a "best"
+        # tutor — any reaches the pieces — but a set's iteration order would make the lab
+        # non-reproducible run-to-run, which the bestline golden snapshot can't tolerate).
+        copyable = next((t for t in sorted(COPYABLE_TUTOR) if g.has(t)), None)
         if online and copyable and g.avail >= 4:
             g.cast(copyable, 4)
             miss_is = [x for x in miss if x in IS_PIECES]
@@ -168,10 +172,10 @@ def assembly_turn(library, rng, rocks, dig_on=True, use_added=True, recursion_on
             return
         if g.has("Emeritus of Woe") and g.avail >= 2:
             g.cast("Emeritus of Woe", 2); g.fetch(miss[0]); return
-        anyt = next((t for t in TUTOR_ANY if g.has(t)), None)
+        anyt = next((t for t in sorted(TUTOR_ANY) if g.has(t)), None)   # sorted: hash-seed-independent
         if anyt and g.avail >= 2:
             g.cast(anyt, 2); g.fetch(miss[0]); return
-        ist = next((t for t in TUTOR_IS if g.has(t)), None)
+        ist = next((t for t in sorted(TUTOR_IS) if g.has(t)), None)     # sorted: hash-seed-independent
         tgt = next((m for m in miss if m in IS_PIECES), None)     # IS tutors can't get the creature
         if ist and tgt and g.avail >= 3:
             g.cast(ist, 3); g.fetch(tgt)
