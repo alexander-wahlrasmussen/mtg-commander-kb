@@ -24,6 +24,19 @@ This deck weaponizes *drawing cards* as a damage source. The shell is ~7 wheel e
 
 ---
 
+## Don't-Miss Rulings
+
+- **Notion Thief is a replacement, not a trigger** — it uses no stack and can't be countered. It redirects to you every opponent draw *except* the first one in each of their draw steps; wheel draws aren't draw-step draws, so **all** of them are stolen. Flash it in *before* the wheel resolves.
+- **Notion Thief turns OFF your opponent-draw punishers** — while it's out, opponents don't draw (you do), so **Underworld Dreams / Fate Unraveler won't fire on a wheel.** Psychosis Crawler carries that kill instead. Don't plan on both at once.
+- **Psychosis Crawler counts YOUR draws** — each opponent loses 1 life per card *you* draw, once per card (its ruling: multiple draws → multiple triggers). Notion Thief + a 7-card wheel = ~7 per opponent stolen onto you = a ~21 table swing. The marquee line.
+- **Kefka draws per card TYPE, not per card** — each player discards one card; you draw one card for each *distinct type* among them (three lands → 1 draw; land + instant + creature → 3). And those are *your* draws, so they ping through Psychosis Crawler.
+- **Peer into the Abyss rounds UP both halves** — aimed at an opponent with the draw-punishers out, they ping themselves drawing half their library; aimed at an opponent under your Notion Thief, *you* draw their half-library (Crawler hammers the table) and they still lose half their life. It only refuels that one player, never the table.
+- **Underworld Dreams / Fate Unraveler ping per card and only on OPPONENTS' draws** — a "put into hand" that doesn't use the word *draw* (a tutor) doesn't ping; a wheel or Peer does.
+- **The wheel-kill resolves THROUGH a Grand Abolisher** — it's a sorcery cast on *your* turn feeding *static* triggers, with no targeting of opponents' permanents and no stack interaction with their combo, so their Abolisher (which only locks you out on *their* turn) can't stop it. The entire reason this deck exists.
+- **Displacer Kitten triggers on NONCREATURE spells only** — the backup combo (Kitten + Aether Channeler + Sol Ring + Mana Vault) blinks a rock for net mana and Channeler for a draw each cast. Don't blink a *token* (it vanishes), and remember the blink strips counters and auras.
+
+---
+
 ## Kill Window
 
 - **Goldfish:** Clock decap T8 / table T9 (lab `scripts/kfk_clock_lab.py`, 40k trials, 2026-06-25). Slower than the proposal's hand-estimated T6–7 brief — the usual optimistic-estimate correction.

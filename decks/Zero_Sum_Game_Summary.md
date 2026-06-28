@@ -72,6 +72,18 @@ Go wide cheaply (dorks, Bitterblossom, Saprolings, Hornet Queen), then convert b
 
 -----
 
+## Don't-Miss Rulings
+
+- **Exquisite Blood + a "you-gain/opponent-loses" half loops until someone wins or breaks it** — this is Sanguine Bond's own ruling, not an assumption. One life-gain (or one opponent-life-loss) event seeds the loop; you don't need a payoff turn, just the trigger.
+- **Which half decides table-vs-single** — with a *Vito-style "each opponent loses"* half it's a **table kill**; with **Sanguine Bond** (it targets ONE opponent) the loop only drains that one player to death — re-aim it or run the each-opponent half to actually close the game.
+- **Exquisite Blood can lose YOU the game first** — if you and an opponent lose life simultaneously and it drops you to 0, you lose before its trigger resolves (its own ruling). Watch symmetrical life-loss while the loop is live.
+- **Magecraft triggers on cast OR COPY** — Witherbloom Apprentice (1) and Professor Onyx (2) fire on every *copy* too, which is exactly what makes the copy loops lethal rather than one-shot.
+- **Chain of Smog goes infinite targeting YOURSELF** — once your hand is empty each copy still triggers magecraft (you "discard two" = discard what you can, including zero) and you may keep copying at no further cost, draining 1/2 per copy. Land the Apprentice or Onyx *first*.
+- **The affinity infinites need the commander** — Witherbloom, the Balancer grants your instants/sorceries *affinity for creatures*, which zeroes the GENERIC on Sprout Swarm's buyback (convoke taps a creature for the {G}; the Saproling it makes feeds the next cast) and on Lab Rats + Phyrexian Altar (sac the Rat for {B} to recast). Affinity reduces generic mana only — never the colored pip.
+- **The primary lifeloop is commander-INDEPENDENT** — Exquisite Blood + a vito-half still kills with Witherbloom dead; the affinity infinites are the commander-*dependent* backup, which is why they come online a turn later and rank as the secondary axis.
+
+-----
+
 ## Combo Suite Audit (Commander Spellbook find-my-combos, 2026-06-19)
 
 A systematic scan (variants API over the deck's combo-dense cards) confirms Zero-Sum carries **three independent infinite axes**, not one:
