@@ -1,282 +1,260 @@
-# Lightning War — Fire Lord Azula (Combo-Race Build)
+# Lightning War
 
-**Commander:** Fire Lord Azula ({1}{U}{B}{R}, 4/4, Legendary Creature — Human Noble)
-**Colors:** Grixis (UBR)
-**Archetype:** Spellslinger **combo-race** — Azula infinite combo (primary) + copy-amplified X-spell burn (backup)
-**Role:** pulled to **race the combo pod** — out-tempo a Grand-Abolisher-protected combo rather than disrupt through it ([[bracket_4_in_spirit]], [[grand_abolisher_blocks_counters]])
-**Bracket:** 3 (3 of 3 Game Changer slots used; **infinite combos present — pod-approved** [[infinites_ok_in_pod]]; no MLD; no extra turns)
-**Game Changers (3/3):** Fierce Guardianship, Mystical Tutor, Gifts Ungiven
-**Conversion Check:** 19/20 (5/5/4/5)
-**Kill Window:** `Clock: T8 decap / T11 table (lw_clock_lab.py, chip 3/turn, 2026-06-21); combo assembly median T9 (lw_combo_lab.py, 2026-06-21); 14 catalogued infinite combos (commanderspellbook.com via find_combos.py, 2026-06-21).` Comet Storm and the infinite-mana lines kill at instant speed in Azula's combat; the sorcery X-spells (Crackle / Banefire / Torment of Hailfire) need a flash enabler to fire mid-combat. **pod_gauntlet P(WIN vs pod) ~64%** (race-led; `pod_gauntlet.py`).
-**Current decklist:** `lightning-war-20260621.txt` — the `.txt` is ground truth, this is commentary. (Prior `20260619` build archived; the 2026-06-21 pass swapped two weak slots + three board-answer cards for stronger payoff/combo cards within the 3-GC cap.)
+## Quick Reference
 
----
+| Field | Value |
+|---|---|
+| **Commander** | Fire Lord Azula ({1}{U}{B}{R}, Legendary Creature — Human Noble, 4/4) |
+| **Colors** | Grixis (UBR) |
+| **Archetype** | Combo-Race spellslinger — Azula infinite combo (primary) + copy-amplified X-spell burn (backup) |
+| **Bracket** | 3 by GC count (3/3). B4-in-spirit; infinites pod-approved ([[infinites_ok_in_pod]]); no MLD, no repeatable extra turns. |
+| **Game Changers** | Fierce Guardianship, Gifts Ungiven, Mystical Tutor (3 of 3) |
+| **Conversion Check** | **19/20 (A)** · audited 2026-06-28 |
+| **Kill Window** | Clock: **T10 decap / >T14 table** strict goldfish (lw_clock_lab.py, 2026-06-28). Combo median **T9** (lw_combo_lab.py); chip-adjusted + combo clocks in Kill Window below. |
+| **Status** | built — `lightning-war-20260621.txt` (ground truth) |
+
+-----
 
 ## Commander Rules Text
 
-- **Firebending 2:** Whenever Azula attacks, add {R}{R}. **This mana lasts until end of combat** — it evaporates before main phase 2 unless spent in the combat.
-- **Spell Copy:** Whenever you cast a spell while Azula is attacking, copy that spell (you may choose new targets). A copy of a permanent spell becomes a token.
-- **Key rulings:** The copy resolves before the original. Copies are **not "cast"** (no re-trigger of cast-triggered abilities like Guttersnipe). X values are preserved. Additional costs paid on the original apply to the copy. **Azula only needs to be *declared as an attacker* to copy — she does not need to connect**, so blocking her doesn't stop the engine.
+Verified via `card_lookup.py` (2026-06-28).
 
----
+- **Firebending 2** — *"Whenever this creature attacks, add {R}{R}. This mana lasts until end of combat."* Free red every combat, but it **evaporates at end of combat** — spend it on the kill, not main phase 2.
+- **Spell Copy** — *"Whenever you cast a spell while Fire Lord Azula is attacking, copy that spell."* A copy of a permanent spell becomes a token. This is the engine: declare Azula as an attacker and every spell you cast that combat resolves twice (three times with Twinning Staff).
+- **Key rulings:** the copy resolves **before** the original; the copy is **not "cast"** (no re-trigger of cast-triggered abilities such as Guttersnipe/Vivi); X values carry to the copy; additional costs paid on the original apply to the copy. Azula only needs to be **declared as an attacker** — she does not need to connect, so blocking her doesn't stop the engine.
+
+Azula is the engine and a combo linchpin (combat is when the deck goes off), but the infinite lines are **commander-independent** once assembled — she accelerates and copies, she isn't a required combo piece.
+
+-----
 
 ## What the Deck Does
 
-Azula turns your combat into the most dangerous part of the turn: every instant/sorcery cast while she attacks is copied — instants natively, sorceries once a flash enabler is online — and Twinning Staff makes every copy event **+1**. The deck's primary plan is to **assemble an Azula infinite combo and kill the table on your own turn**, faster and more reliably than the pod's combo decks go off, with a copy-amplified X-spell burn race as the backup. You set the clock; they react.
+Lightning War exploits **cast-and-copy volume in Azula's combat**: with Azula attacking (and Twinning Staff out, every spell resolves three times), the deck assembles an **infinite combo and kills the whole table on its own turn**, with a copy-amplified X-spell burn race as the backup. The primary win is a mana/draw loop (Narset's Reversal + Frantic Search/Turnabout, Reiterate + Seething Song, Narset's + Storm-Kiln) poured into a table-wide sink — **Torment of Hailfire** or multikicked **Comet Storm** — so infinite mana means a dead table in one cast. This is deliberately a **race**: the 2026-05-31 pod-loss review ([[pod_combo_opponent]], [[grand_abolisher_blocks_counters]]) showed stacked counters are dead against a Grand-Abolisher-protected combo, so the answer is to out-tempo and close on **your** turn, where Abolisher can't act. Eight tutors plus a Grixis recursion suite make the kill consistent and rebuy pieces lost to interaction; burn doubles as removal to delete Abolisher on sight.
 
-This is a **race**, deliberately. The 2026-05-31 pod-loss review ([[pod_combo_opponent]], [[grand_abolisher_blocks_counters]]) showed that against Grand-Abolisher-protected combo, stacked counterspells are illusory — they're dead on the opponent's turn. The chosen answer is to **out-tempo and out-race**, not to build a static lock.
-
-**Layer 1 — the copy engine.** Azula + **Twinning Staff** = every spell cast in her combat resolves 3×. Flash enablers (Leyline of Anticipation, Borne Upon a Wind) let sorceries join. Cunning Nightbonder makes your flash spells cost less and uncounterable.
-
-**Layer 2 — the infinite combo (primary kill).** 14 catalogued infinite lines (CSB 2026-06-21). The workhorse trio: **Narset's Reversal + (Frantic Search *or* Turnabout)** → draw the deck; **Narset's Reversal + Storm-Kiln Artist** → infinite mana + Treasures; **Reiterate + Seething Song** (standalone or the Blazing Firesinger half) → infinite red mana. Each dumps into a table-finisher. **Bonus Round, Turnabout, and Expansion // Explosion** are the glue that multiplies the catalogued count (Bonus Round alone enables four lines).
-
-**Layer 3 — X-spell finishers (combo payoff + backup race).** **Torment of Hailfire** is the premier infinite-mana sink — each opponent loses 3 per X, can't be prevented, forces sacrifice/discard: the cleanest "infinite mana = dead table" button. Crackle with Power (5×X to each of up to X targets) and multikicked Comet Storm fork to the whole table; Electrodominance and Banefire are single-target deletes (point them at one opponent or Grand Abolisher). Comet Storm/Electrodominance are instants (no enabler needed); **Banefire at X≥5 is uncounterable** — the button for the player behind a counter wall.
-
-**Layer 4 — copy-doublers.** Galvanic Iteration, Increasing Vengeance, Bonus Round, Expansion // Explosion each multiply the finisher/loop on top of Azula.
-
-**Layer 5 — execution ramp.** Storm-Kiln Artist (Treasure on every cast *and* copy), Goldspan Dragon (Treasures tap for 2), Blazing Firesinger (ritual on a body), Sanar (Treasure), Dark/Desperate Ritual, Seething Song, and Nightscape Familiar's cost reduction all spike on the kill turn. Lands + rocks (Sol Ring, Signet, Fellwar, both Talismans) carry the early game.
-
-**Layer 6 — tutors (8).** Because Azula is always in the command zone, you only need **one** combo piece or finisher. Emeritus of Woe (→ Demonic Tutor, any card), Sanar (→ Wild Idea, any I/S), Mystical Teachings, Waterlogged Teachings, Mystical Tutor, Solve the Equation, Merchant Scroll, and Gifts Ungiven make the kill consistent.
-
-The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, bank Treasure, tutor toward a combo or finisher, and close on your own turn while the pod is forced to go off into your open mana.
-
----
+-----
 
 ## Kill Lines
 
-**Line 1 — Azula infinite combo (primary).** The workhorse trio (draw-deck / infinite mana / infinite red) → dump into **Torment of Hailfire**, Comet Storm, or Crackle for a table kill. 14 catalogued lines (`find_combos.py`, CSB 2026-06-21); Bonus Round and Turnabout each enable several.
+**Line 1 — Azula infinite combo (primary, combo):** Assemble a loop — Narset's Reversal + (Frantic Search *or* Turnabout) = draw the deck; Narset's Reversal + Storm-Kiln Artist = infinite mana/Treasure; **Reiterate + Seething Song** (standalone *or* the Blazing Firesinger // Seething Song prepare half) = infinite red mana — then dump into **Torment of Hailfire** / multikicked Comet Storm / Crackle for a table kill. 14 catalogued lines (`find_combos.py`, CSB 2026-06-21); Bonus Round and Turnabout each enable several. Tutor-gated: needs to *find* one loop piece + a sink.
 
-**Line 2 — Copy-amplified X-spell (backup race, 2 cards).** Azula attacking + a finisher, doubled by Twinning Staff / Galvanic Iteration / Increasing Vengeance / Bonus Round / Expansion. Crackle X=3 with Twinning Staff = 3 × 15 = 45 to each opp (11 mana); Comet Storm forks at instant speed.
+**Line 2 — Copy-amplified X-spell (backup race, 2 cards):** Azula attacking + a finisher, doubled by Twinning Staff / Galvanic Iteration / Increasing Vengeance / Bonus Round. Crackle X=3 with Twinning Staff = 3 × 15 = 45 to each opponent (11 mana); Comet Storm forks at instant speed. No combo required.
 
-**Line 3 — Banefire through the wall.** X≥5 Banefire is uncounterable and can't be prevented; a one-player delete that ignores their countermagic. Doubled by Azula with a flash enabler for overkill.
+**Line 3 — Banefire through the wall (single-target):** X≥5 Banefire is **uncounterable** and can't be prevented — a one-player delete that ignores countermagic. The button for the player behind a counter wall; doubled by Azula + a flash enabler for overkill.
 
-**Line 4 — Graveyard storm (backup).** Flash enabler + Yawgmoth's Will / Past in Flames / Invoke Calamity mid-combat replays the yard, each spell copied. Non-infinite, 40+ damage; vulnerable to Rest in Peace.
+**Line 4 — Graveyard storm (backup, fragile):** flash enabler + Yawgmoth's Will / Past in Flames / Invoke Calamity mid-combat replays the yard, each spell copied — 40+ damage, non-infinite. **Single point of failure:** dies to Rest in Peace / Leyline of the Void.
 
----
+-----
 
-## Conversion Check — 19/20 (5/5/4/5)
+## Kill Window
 
-**Core Loop — 5/5.** Engine is unmistakable from the 99: Azula + Twinning Staff + cast volume; ~28 cards directly serve the combo/burn loop. Functions with or without a flash enabler (instants copy natively).
+Three clocks, stated separately (the CLAUDE.md verification rule; decap ≠ table):
 
-**Kill Reliability — 5/5.** **14 catalogued infinite combos** on top of multiple 2-card X-spell lethals (Crackle / Comet / Torment of Hailfire), copy-doublers, and an **eight-tutor package** (Emeritus of Woe, Sanar, Mystical Teachings, Waterlogged Teachings, Mystical Tutor, Solve the Equation, Merchant Scroll) + Gifts Ungiven. Combo assembly median **T9** (`lw_combo_lab.py`).
+- **Goldfish (strict from 40):** decap **T10** / table **>T14** (never-in-14: decap 2% / table 58%) — `lw_clock_lab.py --mode clock` @8k, 2026-06-28. This is the *race-only* ceiling; it slowed vs the prior list because the deck traded a pinger + race slots for combo pieces and tutors.
+- **Realistic cross-table chip (3/turn, @28 by T6):** decap **T8** / table **T11** — `lw_clock_lab.py --mode chipsweep/amp`. A real pod arrives below 40 from attacking each other, which collapses the *table* clock; this is the honest planning centre.
+- **Combo assembly (the fastest table-wide route):** CAST median **T9** (50% by T9, 64% by T12) — `lw_combo_lab.py --mode bench`, current list. Infinite mana → Torment of Hailfire / multikicked Comet Storm kills the table in one cast, so for the *table* the combo (~T9) beats the race table sweep (~T11). The combo is **finding/tutor-gated, not mana-gated** (SEEN≈CAST; selection adds ~0pp).
+- **Through interaction:** not separately modelled; `pod_gauntlet.py` P(win vs pod) ~64% (race ∪ combo; ~48% with Grand Abolisher always out — the kill is on our turn, so Abolisher only taxes theirs). Trust the direction over the absolute.
 
-**Durability — 4/5.** Premium mana base, commander protection (Mithril Coat indestructible, Cavern of Souls, Command Beacon), and a Grixis **spell-recursion suite** (Snapcaster Mage, Yawgmoth's Will, Past in Flames, Invoke Calamity) that rebuys a countered/discarded combo piece and powers Gifts' binned pile. Graveyard-hate (Rest in Peace / Leyline of the Void) is the exposure, but the primary combos don't need the yard.
+-----
 
-**Interaction — 4/5 (race-led).** 9 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat; + Spell Pierce / Swan Song / Stubborn Denial / Delay / Three Steps Ahead / Narset's Reversal) + Hullbreaker Horror, Vendilion Clique, Deadly Rollick, and burn-as-removal for Grand Abolisher. The 2026-06-21 strengthening swapped board-answer fat (Nowhere to Run, Redirect Lightning) for combo glue — interaction density is unchanged. Protect-own is strong: Banefire X≥5 is uncounterable under Fierce Guardianship, and the kill is on **our** turn (Abolisher-immune).
+## Conversion Check — 19/20 (audited 2026-06-28)
 
----
+Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged axes; the clock is measured.
 
-## Bracket 3 Compliance
-
-**Game Changers (3/3):** Fierce Guardianship, Mystical Tutor, Gifts Ungiven. **Emeritus of Woe // Demonic Tutor is a distinct card not on the GC list** under its spell-half name ([[sos_prepared_cards_not_on_gc_list]]) — it costs no GC slot. The 2026-06-21 adds (Thunderdrum Soloist, Torment of Hailfire, Bonus Round, Expansion // Explosion, Turnabout) are all non-GC; the cap is unchanged.
-
-**Infinite combo:** **Yes — 14 catalogued, pod-approved** [[infinites_ok_in_pod]] (verified vs commanderspellbook.com, 2026-06-21). The three workhorses: (1) **Narset's Reversal + Frantic Search** + Azula → draw the deck → cast a found payoff; (2) **Narset's Reversal + Storm-Kiln Artist** + Azula → infinite mana/Treasure; (3) **Reiterate + Seething Song** (standalone *or* the Blazing Firesinger half) + Azula → infinite red mana → Comet Storm / Crackle / Torment table kill. Glue: **Bonus Round** adds four lines (Reiterate+Seething Song, Reiterate+Desperate Ritual, Narset's+Storm-Kiln, Invoke Calamity+Narset's), **Turnabout** two, **Expansion // Explosion** one. The deck stays **Bracket 3 by the 3-GC cap**; the pod accepts infinites.
-
-**Extra turns:** None. **Mass land denial:** None. Plays at Bracket-4 spirit via the combo + X-spell burn within the 3-GC cap.
-
----
-
-## Pod Fit: Tempo Dictation
-
-> **pod_gauntlet (race-led rebuild): P(WIN vs the pod) ~64%** (`pod_gauntlet.py`). The faster combined (combo ∪ race) clock buys the win even with Abolisher always out (~48%), because the kill is on **OUR** turn — Abolisher only acts on theirs. Most of the clock credit is the race speeding up (tutors + Sol Ring; the lab credits tutors generously) — trust the direction over the absolute.
-
-1. **You set the clock.** Tutor toward a combo or finisher and kill on **your** turn — Abolisher can't stop a kill cast in your own combat.
-2. **Burn doubles as removal.** Kill Grand Abolisher (a 2/2) on sight — Emeritus of Conflict's repeatable Bolt, Electrodominance, Guttersnipe, any X-spell — before it locks your turn.
-3. **Banefire ignores counters** (X≥5), and the combo dumps into Torment of Hailfire / Comet Storm for the table — the answer to the counter-wall player.
-4. **Gifts Ungiven + recursion** (Yawgmoth's Will / Past in Flames / Invoke Calamity) assembles a combo from the graveyard even when the pile is binned.
-5. **Two kill axes** — a fast Azula combo (primary) backed by the X-spell burn race — so a single answer rarely stops both.
-
----
-
-## Differentiation From Existing Decks
-
-| | Kuja (Genome Project) | Azula (Lightning War) |
+| Axis | Score | Rationale |
 |---|---|---|
-| Engine timing | Main-phase storm | Combat-phase copy |
-| Win condition | Burn + storm count | Azula combo + copy-amplified X-spell |
-| Color access | BR | UBR (adds counters) |
-| Interaction density | Low | Moderate (9 counters); race-led |
-| Play pattern | Explosive single turn | Tutor a combo, protect it, kill on your turn |
+| **Core Loop** | **5/5** | Engine is unmistakable from the 99: Azula + Twinning Staff + cast volume; ~28 cards serve the combo/burn loop. Instants copy natively; sorceries need a flash enabler. |
+| **Kill Reliability** | **5/5** | 14 catalogued infinite lines + multiple 2-card X-spell lethals (Crackle / Comet / Torment), copy-doublers, and an 8-tutor package + Gifts Ungiven. Combo assembly median T9. |
+| **Durability** | **4/5** | Premium mana base, commander protection, and a Grixis spell-recursion suite that rebuys countered/discarded pieces. Graveyard hate is the exposure. |
+| **Interaction** | **5/5** | 8 counters (3 free) + burn-as-removal + bounce; protect-own is excellent (uncounterable Banefire under Fierce Guardianship; kill is on our turn, Abolisher-immune). Race-led, not stax. |
 
-Azula is the only Grixis deck in the collection. No engine overlap.
+**Reading:** A-band. The limiting axis is Durability (graveyard-hate exposure on the recursion/storm backup); the primary combos mostly don't need the yard.
 
----
+-----
 
-## Engine Role Map (key cards; full 99 in the `.txt`)
+## Durability
 
-- **Commander:** Fire Lord Azula
-- **Combo pieces** (14 catalogued lines, verified vs commanderspellbook.com): Narset's Reversal · Frantic Search · Turnabout · Storm-Kiln Artist · Reiterate · Seething Song / Blazing Firesinger · Bonus Round · Expansion // Explosion · Twinning Staff · Hullbreaker Horror (+ Sol Ring)
-- **Copy engine:** Twinning Staff · flash enablers (Leyline of Anticipation, Borne Upon a Wind) · Cunning Nightbonder (flash cost + uncounterable)
-- **X-spell finishers / backup race:** Torment of Hailfire, Crackle with Power, Comet Storm, Electrodominance, Banefire, Expansion // Explosion · copy-doublers Galvanic Iteration, Increasing Vengeance, Bonus Round
-- **Pingers / passive burn:** Guttersnipe (2/each), Vivi Ornitier (1/each + ramp), Thunderdrum Soloist (1/each; 3 on a 5+-mana spell) · Emeritus of Conflict // Lightning Bolt
-- **Execution ramp:** Sol Ring, Storm-Kiln Artist, Goldspan Dragon, Dark/Desperate Ritual, Seething Song, Sanar's Treasure · cost reduction Nightscape Familiar
-- **Tutors (8):** Emeritus of Woe // Demonic Tutor, Sanar // Wild Idea, Mystical Tutor, Gifts Ungiven, Solve the Equation, Merchant Scroll, Mystical Teachings, Waterlogged Teachings
-- **Graveyard recursion:** Yawgmoth's Will, Past in Flames, Invoke Calamity, Snapcaster Mage
-- **Counters (9):** Fierce Guardianship, Force of Negation, Deflecting Swat, Spell Pierce, Delay, Stubborn Denial, Swan Song, Three Steps Ahead, Narset's Reversal
-- **Disruption / removal:** Vendilion Clique, Hullbreaker Horror, Deadly Rollick, Untimely Malfunction
-- **Protection:** Mithril Coat, March of Swirling Mist
-- **Ramp rocks:** Sol Ring, Arcane Signet, Fellwar Stone, Talisman of Dominance, Talisman of Indulgence
-- **Lands (~30)** + selection (Ponder, Preordain, Brainstorm, Consider, Frantic Search, Faithless Looting, Valakut Awakening, Sink into Stupor) round out the 99.
+Recovers well from disruption but not from graveyard exclusion. The mana base is premium (fast-mana + duals + utility lands), the commander has protection (Mithril Coat indestructible auto-attach, Cavern of Souls, Command Beacon to recast Azula), and a four-card Grixis recursion suite (Snapcaster Mage, Yawgmoth's Will, Past in Flames, Invoke Calamity) rebuys a countered or discarded combo piece and powers the Gifts Ungiven pile. After a turn-7 wipe the deck re-threatens in 1–2 turns because the kill needs only Azula (command zone) + one found piece. The hard stop is **Rest in Peace / Leyline of the Void**, which turns off the storm-recursion backup and Gifts — but the workhorse mana/draw combos don't rely on the yard, so it slows rather than stops the deck.
 
----
+-----
 
-## Kill Window (2026-06-21)
+## Interaction Package
 
-Two clocks, stated separately (the CLAUDE.md verification rule):
+**~13 dedicated pieces.** Counters: **8** — Fierce Guardianship (free), Force of Negation (free), Deflecting Swat (free), Spell Pierce, Delay, Stubborn Denial, Swan Song, Three Steps Ahead (+ Narset's Reversal as a soft counter/combo piece). Removal: **burn-as-removal** (Banefire, Electrodominance, Guttersnipe, Emeritus of Conflict) + Deadly Rollick + Hullbreaker Horror (bounce). Targeted disruption: Vendilion Clique, Untimely Malfunction. Instant speed: **most of it** — counters, Rollick, Hullbreaker, and (with a flash enabler) the burn all operate on opponents' turns; the deck itself develops in *its own* combat.
 
-- **Combo assembly (primary kill):** `lw_combo_lab.py`, 20k, seed 20260621 — median **T9** (by-T10 55%, by-T12 64%). The combo is tutor-gated, not dig-gated; the 2026-06-21 glue (Bonus Round / Turnabout / Expansion) lifted the median one turn and raised the CSB combo count 7 → 14.
-- **Burn race (backup):** `lw_clock_lab.py`, chip 3/turn, 20k, seed 20260621 — **decap median T8 / table median T11**. The from-40 one-cast table sweep is the ceiling; cross-table chip collapses the *table* clock to the median (a real pod arrives below 40 from attacking each other). Finisher **availability** is the headroom axis, which the copy package + the eight tutors serve; the three pingers (Guttersnipe / Vivi / Thunderdrum Soloist) saturate the incremental-chip lever.
+-----
 
-Scripts are the permanent provenance; the superseded 06-13/06-14 writeups and the 06-18 rebuild proposal are in `archive/`.
+## Known Weaknesses
+
+- **Graveyard hate** (Rest in Peace / Leyline of the Void) shuts the storm-recursion backup and the Gifts pile. Primary combos survive it, but the safety net is gone.
+- **Slow as a pure race now** — strict-goldfish table clock is never-in-14 from 40. The deck *needs* the combo (~T9) or a pre-chipped pod (table T11); a grindy, low-aggression table that stays near 40 and disrupts your tutors stretches the table clock badly.
+- **Tutor/finding-gated combo** — assembly is bound by drawing/tutoring a loop piece (not mana). Stack interaction or removal aimed at your 8 tutors delays the kill.
+- **Creature-light, few blockers** — go-wide aggro can pressure you or race; the plan is to answer/kill, not block.
+- **Grand Abolisher / Drannith** must be killed on sight (burn doubles as removal); the on-your-turn kill dodges Abolisher's tax but you still have to deploy into it.
+
+-----
+
+## Don't-Miss Rulings
+
+Verified via `card_lookup.py` (read the card + rulings).
+
+- **Copies aren't "cast"** — Azula's copies (and Reiterate / Narset's Reversal copies) do **not** re-trigger cast-triggered abilities (Guttersnipe, Vivi, Aria-style pingers); X values carry; additional costs paid on the original apply to the copy. This is why the pingers can't be "looped" by the copy combos.
+- **Azula's firebending mana vanishes at end of combat** — *"this mana lasts until end of combat."* Spend the {R}{R} on the kill spell during her attack; it does not carry to main phase 2.
+- **Azula only copies while attacking** — sorcery X-spells (Crackle, Banefire, Torment of Hailfire) need a flash enabler to be cast during combat; instant X-spells (Comet Storm, Electrodominance) don't.
+- **Twinning Staff adds +1 to every copy event** — Azula makes 2 copies (3 total), and each copy-doubler likewise; it also amplifies copied cantrips, rituals, and Storm-Kiln triggers.
+- **Prepare cards** (Blazing Firesinger // Seething Song, Sanar, Emeritus of Woe, Emeritus of Conflict): a prepare card is a **creature in hand** and can only be cast with its base (creature) characteristics — the spell half (e.g. Seething Song) is castable only **after** the creature is in play and prepared. Casting that prepared copy **is a cast** (Azula copies it, cast-triggers fire), and the creature **stays** (just unprepared). The deck also runs a *standalone* Seething Song instant that any I/S tutor reaches directly.
+- **Storm-Kiln Artist makes a Treasure on every cast AND every copy** — a 3-spell Azula combat banks a pile of Treasures.
+
+-----
 
 ## Decklist (100 cards)
 
 ### Commander (1)
-1 Fire Lord Azula
+- Fire Lord Azula
 
 ### Infinite Combo & Copy-Doublers (8)
-1 Twinning Staff
-1 Bonus Round
-1 Galvanic Iteration
-1 Increasing Vengeance
-1 Narset's Reversal
-1 Reiterate
-1 Turnabout
-1 Expansion // Explosion
+- Twinning Staff
+- Bonus Round
+- Galvanic Iteration
+- Increasing Vengeance
+- Narset's Reversal
+- Reiterate
+- Turnabout
+- Expansion // Explosion
 
 ### Flash Enablers (3)
-1 Leyline of Anticipation
-1 Borne Upon a Wind
-1 Cunning Nightbonder
+- Leyline of Anticipation
+- Borne Upon a Wind
+- Cunning Nightbonder
 
 ### X-Spell Finishers (5)
-1 Banefire
-1 Comet Storm
-1 Crackle with Power
-1 Electrodominance
-1 Torment of Hailfire
+- Banefire
+- Comet Storm
+- Crackle with Power
+- Electrodominance
+- Torment of Hailfire
 
 ### Pingers / Passive Burn (4)
-1 Guttersnipe
-1 Vivi Ornitier
-1 Thunderdrum Soloist
-1 Emeritus of Conflict
+- Guttersnipe
+- Vivi Ornitier
+- Thunderdrum Soloist
+- Emeritus of Conflict
 
 ### Execution Ramp / Rituals (7)
-1 Blazing Firesinger
-1 Dark Ritual
-1 Desperate Ritual
-1 Seething Song
-1 Storm-Kiln Artist
-1 Goldspan Dragon
-1 Nightscape Familiar
+- Blazing Firesinger
+- Dark Ritual
+- Desperate Ritual
+- Seething Song
+- Storm-Kiln Artist
+- Goldspan Dragon
+- Nightscape Familiar
 
 ### Mana Rocks (5)
-1 Sol Ring
-1 Arcane Signet
-1 Fellwar Stone
-1 Talisman of Dominance
-1 Talisman of Indulgence
+- Sol Ring
+- Arcane Signet
+- Fellwar Stone
+- Talisman of Dominance
+- Talisman of Indulgence
 
 ### Tutors (8)
-1 Emeritus of Woe
-1 Sanar, Unfinished Genius
-1 Mystical Tutor
-1 Gifts Ungiven
-1 Solve the Equation
-1 Merchant Scroll
-1 Mystical Teachings
-1 Waterlogged Teachings
+- Emeritus of Woe
+- Sanar, Unfinished Genius
+- Mystical Tutor  *(GC)*
+- Gifts Ungiven  *(GC)*
+- Solve the Equation
+- Merchant Scroll
+- Mystical Teachings
+- Waterlogged Teachings
 
 ### Graveyard Recursion (5)
-1 Yawgmoth's Will
-1 Past in Flames
-1 Invoke Calamity
-1 Snapcaster Mage
-1 Agadeem's Awakening
+- Yawgmoth's Will
+- Past in Flames
+- Invoke Calamity
+- Snapcaster Mage
+- Agadeem's Awakening
 
 ### Counterspells (8)
-1 Fierce Guardianship
-1 Force of Negation
-1 Deflecting Swat
-1 Spell Pierce
-1 Delay
-1 Stubborn Denial
-1 Swan Song
-1 Three Steps Ahead
+- Fierce Guardianship  *(GC)*
+- Force of Negation
+- Deflecting Swat
+- Spell Pierce
+- Delay
+- Stubborn Denial
+- Swan Song
+- Three Steps Ahead
 
 ### Disruption / Removal (5)
-1 Deadly Rollick
-1 Untimely Malfunction
-1 Sink into Stupor
-1 Hullbreaker Horror
-1 Vendilion Clique
+- Deadly Rollick
+- Untimely Malfunction
+- Sink into Stupor
+- Hullbreaker Horror
+- Vendilion Clique
 
 ### Protection (3)
-1 Mithril Coat
-1 March of Swirling Mist
-1 Malakir Rebirth
+- Mithril Coat
+- March of Swirling Mist
+- Malakir Rebirth
 
 ### Card Selection / Draw (7)
-1 Brainstorm
-1 Consider
-1 Ponder
-1 Preordain
-1 Faithless Looting
-1 Frantic Search
-1 Valakut Awakening
+- Brainstorm
+- Consider
+- Ponder
+- Preordain
+- Faithless Looting
+- Frantic Search
+- Valakut Awakening
 
 ### Lands (31)
-1 Arena of Glory
-1 Blood Crypt
-1 Bojuka Bog
-1 Cascade Bluffs
-1 Cavern of Souls
-1 Command Beacon
-1 Command Tower
-1 Fiery Islet
-1 Gemstone Caverns
-1 Haunted Ridge
-1 Horizon of Progress
-1 Island
-1 Lindblum, Industrial Regency
-1 Luxury Suite
-1 Misty Rainforest
-1 Morphic Pool
-1 Mount Doom
-1 Mountain
-1 Otawara, Soaring City
-1 Plaza of Heroes
-1 Polluted Delta
-1 Reflecting Pool
-1 Scalding Tarn
-1 Shipwreck Marsh
-1 Starting Town
-1 Steam Vents
-1 Stormcarved Coast
-1 Talon Gates of Madara
-1 Training Center
-1 Watery Grave
-1 Xander's Lounge
+- Arena of Glory
+- Blood Crypt
+- Bojuka Bog
+- Cascade Bluffs
+- Cavern of Souls
+- Command Beacon
+- Command Tower
+- Fiery Islet
+- Gemstone Caverns
+- Haunted Ridge
+- Horizon of Progress
+- Island
+- Lindblum, Industrial Regency
+- Luxury Suite
+- Misty Rainforest
+- Morphic Pool
+- Mount Doom
+- Mountain
+- Otawara, Soaring City
+- Plaza of Heroes
+- Polluted Delta
+- Reflecting Pool
+- Scalding Tarn
+- Shipwreck Marsh
+- Starting Town
+- Steam Vents
+- Stormcarved Coast
+- Talon Gates of Madara
+- Training Center
+- Watery Grave
+- Xander's Lounge
 
-## Don't-Miss Rulings
+*(Functional buckets total 99 + commander = 100. The dated `.txt` is ground truth; this supplies labels only.)*
 
-- **Copies aren't "cast"** — they don't re-trigger Azula or magecraft; X values carry; additional costs paid on the original apply to the copy.
-- **Azula only copies while attacking.** Sorcery X-spells (Crackle, Banefire) need a flash enabler to be cast during combat; instant X-spells (Comet Storm, Electrodominance) don't.
-- **Twinning Staff adds +1 to every copy event** — Azula makes 2 copies (3 total), and each copy-doubler likewise.
-- **Prepared cards** (Sanar, Emeritus of Conflict, Emeritus of Woe, Blazing Firesinger): casting the prepared copy **is a cast** — Azula copies it, magecraft triggers (Storm-Kiln, Guttersnipe), and the creature **stays** afterward.
-- **Ozai retains all unspent mana as red** to fund the X-spell mid-combat; firebending mana otherwise vanishes at end of combat.
-- **Storm-Kiln Artist makes a Treasure on every cast AND every copy** — a 3-spell Azula combat nets a pile of Treasures.
+-----
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for **lands + early ramp + a route to Azula on T4**, ideally with one piece of interaction. A flash enabler or a finisher is gravy — you tutor for whatever's missing.
+**Mulligan.** Keep lands + early ramp + a route to Azula on T4, ideally with a piece of interaction. A flash enabler or finisher is gravy — you tutor for whatever's missing. Toss no-land hands and all-air hands with no early plays.
 
-- **Keep:** ramp/rocks + a counter or two + a path to Azula.
-- **Toss:** no-land hands; all-air hands with no early plays.
+**Threat assessment & lines:**
 
-**Threats & timing.**
+- **You set the clock.** Tutor toward a loop piece + a sink and kill on **your** turn — Abolisher can't stop a kill cast in your own combat.
+- **Burn doubles as removal** — kill Grand Abolisher (a 2/2) on sight (Emeritus of Conflict's Bolt, Electrodominance, Guttersnipe, any X-spell) before it locks your turn.
+- **Banefire X≥5 ignores counters**, and the combo dumps into Torment of Hailfire / Comet Storm for the table — the answer to the counter-wall player.
+- **Gifts Ungiven + recursion** (Yawgmoth's Will / Past in Flames / Invoke Calamity) assembles a combo from the graveyard even when the pile is binned.
+- **Two kill axes split hate** — graveyard/stack hate aimed at the combos still leaves the finite copy-scaled X-spell, and vice versa.
 
-- **Interaction is still your backbone** — 8 counters (3 free: Fierce Guardianship, Force of Negation, Deflecting Swat) + removal that doubles as burn. Hold it up on opponents' turns; the deck develops in *your* combat.
-- **Rest in Peace / Leyline of the Void** shut off the graveyard-storm backup line — but the primary X-spell kill doesn't need the yard. Fall back on Crackle/Comet/Banefire + copy-doublers.
-- **Two ways to close, so hate splits** — the deck has 14 catalogued infinite lines (workhorse: Reiterate + Seething Song → infinite red mana; verified vs commanderspellbook.com 2026-06-21, pod-approved) *and* a finite copy-scaled X-spell that needs no combo. Graveyard/stack hate aimed at the combos still leaves the "just a big burn spell" kill — and vice versa.
+-----
+
+## Changelog
+
+- **2026-06-28:** Repointed `lw_clock_lab.py` to the current `lightning-war-20260621` list (was the archived 20260614); strict-goldfish clock is now decap T10 / table >T14 (the deck leaned combo, so the race-only clock slowed). Corrected the framing: the infinite-mana combo (~T9) is the **fastest table-wide kill**, not the race table sweep (~T11). Removed a wrong-card ("Ozai") ruling. Rebuilt the Summary onto the canonical template schema.
+- **2026-06-21:** Combo-consistency pass — added a standalone Seething Song + tutor/selection density (combo assembly: never-in-horizon → median T9) and combo glue (Bonus Round / Turnabout / Expansion); swapped two weak slots + board-answer cards for payoff/combo within the 3-GC cap.

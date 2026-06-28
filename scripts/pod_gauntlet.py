@@ -290,9 +290,9 @@ CLOCKS = {
         name="Lightning War", score="19", disrupt_class="warn",
         lab=("lw_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[0, 1, 10, 32, 58, 77, 93, 99], table=[0, 0, 0, 2, 5, 12, 33, 61],
-        med=("T9", "T14"), never=(1, 39),
-        src="lab lw_clock_lab @8k (strict goldfish; chip/reach not in decap)"),
+        decap=[0, 1, 7, 21, 44, 65, 89, 98], table=[0, 0, 0, 1, 3, 7, 21, 42],
+        med=("T10", ">T14"), never=(2, 58),
+        src="lab lw_clock_lab @8k (current list 20260621; strict goldfish; chip/combo not in this clock)"),
     "grand_design": dict(
         name="The Grand Design", score="18", disrupt_class="warn",
         lab=("gd_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),

@@ -47,8 +47,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt"
-CURDECK = ROOT / "decks" / "lightning-war-20260621.txt"      # current list (mode_amp only)
+DECK = ROOT / "decks" / "lightning-war-20260621.txt"         # current list (repointed 2026-06-28)
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
@@ -60,11 +59,9 @@ TORBRAN_REC = {"cmc": 4.0, "type_line": "Legendary Creature — Dwarf Noble",
                "face_types": ["Creature"], "color_identity": ("R",)}
 RIT_REC = {"cmc": 2.0, "type_line": "Instant", "face_types": ["Instant"],
            "color_identity": ("R",)}
-AMP_FILLER = ["Mithril Coat", "March of Swirling Mist", "Thunderdrum Soloist",
-              "Emeritus of Conflict", "Untimely Malfunction"]
 
-ROCKS = {"Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
-         "Talisman of Dominance": (2, 1), "Talisman of Indulgence": (2, 1)}
+ROCKS ={"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
+         "Talisman of Dominance": (2, 1), "Talisman of Indulgence": (2, 1)}   # Sol Ring is maindeck (20260621)
 ENABLERS = {"Leyline of Anticipation", "Vedalken Orrery", "Borne Upon a Wind", "High Fae Trickster"}
 AMPS = {"Twinning Staff", "Galvanic Iteration", "Increasing Vengeance", "Reiterate"}
 TUTORS = {"Mystical Teachings", "Emeritus of Woe", "Sanar, Unfinished Genius"}
@@ -270,7 +267,8 @@ def _report(label, res, trials):
           + f"   med {slc.median(res, 1)}  nvr {nt:.0f}%")
 
 
-FILLER_POOL = ["March of Swirling Mist", "Redirect Lightning", "Silver Shroud Costume"]
+FILLER_POOL = ["Mithril Coat", "March of Swirling Mist", "Thunderdrum Soloist",
+               "Emeritus of Conflict", "Untimely Malfunction"]   # low-impact cuts in the current list
 PINGER_REC = {"cmc": 2.0, "type_line": "Creature — Wall", "face_types": ["Creature"],
               "color_identity": ("R",)}
 SPELL_REC = {"cmc": 2.0, "type_line": "Instant", "face_types": ["Instant"],
@@ -369,14 +367,14 @@ def mode_finlever(index, aliases, trials):
 
 def mode_amp(index, aliases, trials):
     print(f"\n### AMP/RITUAL — Torbran (+2/red instance) & added rituals   trials={trials} seed={SEED}")
-    print("    On the CURRENT list (20260621). Torbran adds a flat +2 to EVERY red damage")
+    print("    On the current list (DECK). Torbran adds a flat +2 to EVERY red damage")
     print("    instance to each opponent (pingers, swing, finisher); rituals add finisher")
     print("    burst mana. Moderate cross-table chip (3/turn, @28 by T6) — honest centre.")
     print("    Each add is a real drawn+cast card (-1 filler, lib stays 99). Lead = TABLE.\n")
-    library, commander = slc.load_parsed(CURDECK, index, aliases)
+    library, commander = slc.load_parsed(DECK, index, aliases)
 
     def inj(adds):
-        lib, pool = list(library), list(AMP_FILLER)
+        lib, pool = list(library), list(FILLER_POOL)
         for name, rec in adds:
             for f in list(pool):
                 k = next((i for i, (nm, _) in enumerate(lib) if nm == f), None)
