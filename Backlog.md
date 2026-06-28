@@ -395,10 +395,11 @@ pass. Propagated to the LW Summary Kill Window + the matrix LW row. **Effect:** 
 (was bottom on the race axis) and `tier_list.py` lifts it to **S-tier #2** (was ~11–12) — exactly the
 LW-shaped distortion the brief named.
 
-**Follow-up (NOT in this MVP, own commit):** the *committed* `analysis/Definitive_Tier_List_2026-06-28.md`
-writeup + the baked dashboard JSON (`dashboard_export.py` → both data dirs) still need a re-bake to match the
-live tools — and they're *already* independently stale from the 2026-06-28 Forced-Liquidation promotion, so
-that re-bake is one chore, separate from #11.
+**Follow-up (NOT in this MVP, own commit) — ✅ DONE 2026-06-28 (`399ca4c`):** re-baked the *committed*
+`analysis/Definitive_Tier_List_2026-06-28.md` writeup (LW D #14 → S #2; LW reframed as the cautionary
+score⊥results FLIP — the race-only clock lied, not CC) + the baked dashboard JSON (`dashboard_export.py` →
+both `dashboard/data` + `ui/public/data`) so they match the live tools. Guard: `tests/test_tier_list.py`
+contract green; baked tierlist matches live `tier_list.py` (LW S #2, COMP 75).
 
 ### Proper version — a finisher-mixture tournament (the rest)
 Make "all finishers" first-class. Each deck carries a **list** of finisher records
@@ -417,3 +418,45 @@ if back-tested via `calibrate.py` against logged games (#10) + golden tests so a
 version is the principled answer but is gated on the same thing as #10 — the per-line labs and real games
 to prove the mixture isn't just a faster fiction. Do the MVP first; let logged games decide whether the
 mixture earns its complexity.
+
+**Coverage audit — cost (a) is already paid (2026-06-28, `analysis/Finisher_Coverage_Map_2026-06-28.md`).**
+"Coverage first" turned up a clean **negative result**: every active deck's harvested clock already comes
+from a **multi-line best-line goldfish** that takes the earliest decap/table across all of that deck's kill
+lines on ONE correlated game — the exact "min over correlated draws, never independent CDFs" discipline this
+brief demands. The backlog's worry ("only LW has a combo lab") conflated *has a separate combo-lab file* with
+*models the combo line*: every clock lab folds its deck's combo/storm/drain lines into its kill checks
+(verified by lab inspection — `dr` Gravecrawler `kill_all`, `rc` Lightning Runner `lr_infinite`, `ct`
+X-drain/Rite/reanim, `rs` Mindcrank+Bloodchief `kill_all`, `lor` Reveillark loop `kill_all`, `gp` City-on-Fire
+×3, `wb` lifeloop). **LW was the sole true gap** (two *separate* labs, one harvested) — fixed by the MVP. The
+only other active decks with a separate secondary lab resolve cleanly: **Grand Design** `gd_combo_lab` evaluates
+a *proposed* combo whose pieces (Viscera Seer + Zulaport) are **not in the committed deck**, so there is no
+board-independent line to miss; **Zero-Sum** `wb_storm_lab`/`wb_raid_lab` model *slower* backup axes, while the
+harvested `wb_clock_lab` already models the fastest (lifeloop). So there is **no roster-wide labbing gap and no
+common-schema build to do** — the per-line MIN already exists per-deck. The genuine remaining delta of the
+proper version is **only** the part the audit shows is still missing: making each line **first-class and
+switchable** (the enabler/**disabler** vector) so pod state can disable a line — which requires the labs to
+**emit per-line CDFs separately** (today they collapse to one blended curve that can't be switched off
+component-wise). That refactor collapses into the **same gate as cost (b)/#10**: it only earns its complexity
+once logged real games can validate the switched mixture. Net: #11's remaining scope = the disabler-vector
+refactor, gated on #10 (0 games logged) — not a coverage build.
+
+**Disabler-vector pilot — SHIPPED 2026-06-28 (`analysis/Finisher_Mixture_Pilot_2026-06-28.md`).**
+Built the switchable-line capability the audit isolated as the one genuinely-missing piece. (1)
+`lw_clock_lab.perline_kill` — the per-line primitive: races LW's burn + combo lines on ONE shared
+game and returns each line's `(decap,table)` separately; `bestline_kill` is now the min wrapper, so
+the harvested curve + golden snapshot are **byte-identical** (golden EXACT/tolerance green). (2)
+`scripts/finisher_mixture.py` + `analysis/finisher_lines.json` (schema: per deck `{grid, split,
+lines:[{line_id,kind,decap,table,med,never,disablers,note}], bestline_check}`) — reads lines
+separately, applies a pod-state **disabler vector**, reports the earliest VIABLE close over the
+surviving lines. **Load-bearing safety property: the vector only ever REMOVES lines, so the mixture
+is bounded ABOVE by the harvested best-line curve** — degradation, never a faster fiction (defuses
+the "every deck looks faster" worry by construction). **Null reduction (exact):** mixture{} ==
+harvested curve bit-for-bit (LW `bestline_check` @8k == `pod_gauntlet_clocks.json` LW). LW demo, all
+card-grounded: `{}`→T8/T9; `{graveyard_hate}`→**unchanged** (both LW lines assemble from hand);
+`{rule_of_law}`→**never** (one-noncreature-spell lock kills both multi-spell lines). Guards:
+`tests/test_finisher_mixture.py` (hermetic engine tests in the fast gate + golden real-LW null
+reduction); fast gate (108) + golden (33) + clock_check (0 DRIFT) + deck_doctor LW all green. **NOT
+baked into tier list / gauntlet** — a separate consumer, exactly as the MVP left the tournament
+untouched. Only LW is `split`; every other deck is a single pass-through line. UNCALIBRATED: the
+disabler tags are oracle-grounded but not back-tested on win-rate. **Roster-wide split + calibration
+remain gated on #10** (priority gy-dependent decks to split next: Genome / Diminishing / Radiation).

@@ -316,19 +316,33 @@ def _goldfish_from(start, rocks):
     return g
 
 
-def bestline_kill(library, commander, powmap, combo_rocks, rng):
-    """Earliest (decap, table) by ANY of Lightning War's kill lines on one game:
+def perline_kill(library, commander, powmap, combo_rocks, rng):
+    """Per-LINE (decap, table) for each of Lightning War's kill lines on ONE shared game:
       BURN  — chip + copy-amped X-spell race (goldfish_kill, this lab).
       COMBO — Reiterate+Seething Song / Narset assembly (lw_combo_lab); going off ends
-              the game, so its CAST turn is both a decap and a table kill.
-    Both lines start from the same pre-rolled hand+library, so the min is over correlated
-    draws on one game (a brick hand is a brick for the min), not over independent CDFs."""
+              the game, so its CAST turn is both the decap and the table kill.
+    Returns {"burn": (decap, table), "combo": (decap, table)}. Both lines start from the
+    SAME pre-rolled hand+library (correlated draws — a brick hand bricks both), so a
+    consumer can take the min (bestline_kill) OR keep them separate so a pod-state disabler
+    can switch one line OFF (finisher_mixture.py, Backlog #11 proper version). This is the
+    primitive; bestline_kill is the min wrapper, so the harvested curve is unchanged."""
     g0 = slc.Goldfish(library, rng, rocks=ROCKS)         # roll the shared start once
     start = (g0.deck, g0.hand, g0.ptr)
     db, tb = goldfish_kill(library, commander, None, powmap, rng,
                            g=_goldfish_from(start, ROCKS))
     _, cast = lcl.assembly_turn(library, rng, combo_rocks,
                                 g=_goldfish_from(start, combo_rocks))
+    return {"burn": (db, tb), "combo": (cast, cast)}
+
+
+def bestline_kill(library, commander, powmap, combo_rocks, rng):
+    """Earliest (decap, table) by ANY of Lightning War's kill lines on one game — the min
+    over perline_kill's lines taken on correlated draws (a brick hand is a brick for the
+    min), NOT over two independent labs' CDFs. This is the curve pod_gauntlet harvests
+    (Backlog #11 MVP); routing it through perline_kill leaves the computation — and so the
+    harvested curve and its golden snapshot — byte-identical."""
+    lines = perline_kill(library, commander, powmap, combo_rocks, rng)
+    (db, tb), (cast, _) = lines["burn"], lines["combo"]
     decap = min([x for x in (db, cast) if x is not None], default=None)
     table = min([x for x in (tb, cast) if x is not None], default=None)
     return decap, table
@@ -348,6 +362,27 @@ def mode_bestline(index, aliases, trials):
     slc.report_clock(res, SHOW, TURNS, trials)
     print("\n  cf. --mode clock (burn race only): decap ~T10 / table >T14. The combo line")
     print("  (lw_combo_lab CAST median ~T9) is what this surfaces — invisible to the race goldfish.")
+
+
+def mode_perline(index, aliases, trials):
+    print(f"\n### PER-LINE — each kill line's own decap/table + the bestline min   trials={trials} seed={SEED}")
+    print("    The two lines raced on ONE shared game (perline_kill). finisher_mixture.py")
+    print("    consumes these SEPARATELY so a pod-state disabler can switch a line off; the")
+    print("    BESTLINE row is the min over them (== what pod_gauntlet harvests, unchanged).\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    powmap = _powmap(library, commander)
+    combo_rocks = lcl.deck_rocks(library)
+    rng = random.Random(SEED)
+    res = [perline_kill(library, commander, powmap, combo_rocks, rng) for _ in range(trials)]
+    burn = [r["burn"] for r in res]
+    combo = [r["combo"] for r in res]
+    best = [(min([x for x in (b[0], c[0]) if x is not None], default=None),
+             min([x for x in (b[1], c[1]) if x is not None], default=None))
+            for b, c in zip(burn, combo)]
+    print("  P(kill <= turn T) %".ljust(42) + "".join(f"{t:>6}" for t in SHOW))
+    _report("  BURN  (race)", burn, trials)
+    _report("  COMBO (Reiterate+SS)", combo, trials)
+    _report("  BESTLINE (min)", best, trials)
 
 
 def mode_chipsweep(index, aliases, trials):
@@ -462,6 +497,6 @@ def mode_amp(index, aliases, trials):
 
 if __name__ == "__main__":
     slc.run_cli(__doc__, {"clock": mode_clock, "bestline": mode_bestline,
-                          "chipsweep": mode_chipsweep,
+                          "perline": mode_perline, "chipsweep": mode_chipsweep,
                           "optimize": mode_optimize, "avail": mode_avail,
                           "finlever": mode_finlever, "amp": mode_amp}, default_trials=40000)
