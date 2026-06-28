@@ -143,7 +143,7 @@ Warren Soultrader + Gravecrawler + Plague Belcher is a three-card mana-neutral l
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 

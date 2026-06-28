@@ -61,7 +61,7 @@ Chord of Calling (instant speed, convoke) and Eladamri’s Call (instant speed, 
 
 -----
 
-## How We End Games
+## Kill Lines
 
 > **⚡ Upgraded 2026-06-23 (7-for-7, applied — `decks/the-grand-design-20260623.txt`).**
 > OUT: Carpet of Flowers, Veil of Summer, Flawless Maneuver, Dovin's Veto, Grand Abolisher,
@@ -184,7 +184,7 @@ Atraxa is a 7/7 with flying, vigilance, deathtouch, and lifelink. Three combat s
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 18/20
 
 ### Core Loop: 5/5
 

@@ -265,7 +265,7 @@ The deck does NOT threaten a decisive turn before T6 under any circumstances. No
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 

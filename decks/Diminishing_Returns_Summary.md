@@ -97,7 +97,7 @@ The life cost is a non-issue in this deck. Every drain trigger gains life. A sin
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 

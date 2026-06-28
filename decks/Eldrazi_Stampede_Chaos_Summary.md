@@ -28,7 +28,7 @@ This matters for closing-line math: Wanderer's two cascades are *not* determinis
 
 -----
 
-## Core Loop
+## What the Deck Does
 
 The deck ramps aggressively (19 dedicated ramp pieces — Sol Ring, Arcane Signet, Mana Vault, Ancient Tomb, Talisman, Thran Dynamo, Birds of Paradise, Llanowar Loamspeaker, Lotus Cobra, Sakura-Tribe Elder, Solemn Simulacrum, Tireless Provisioner, Delighted Halfling, Cultivate, Kodama's Reach, Farseek, Nature's Lore, Rampant Growth, Skyshroud Claim) into a wall of high-mana-value threats and cascade/free-cast effects, then chains the chaos to compound triggers.
 
@@ -44,7 +44,7 @@ The deck ramps aggressively (19 dedicated ramp pieces — Sol Ring, Arcane Signe
 
 -----
 
-## Closing Lines
+## Kill Lines
 
 **Line 1 — Maelstrom Wanderer cascade dump (T6–7).** Cast Wanderer for {5}{G}{U}{R}. Two cascades resolve: each often hits a 6–7 MV creature with haste (Avenger of Zendikar floods board with 0/1 Plants then a landfall pump; Etali attacks immediately and casts off two opponents' top decks; Bane of Bala Ged or Sire of Seven Deaths attack for big damage). Wanderer itself attacks for 7 trampleless. Combined turn-of-cast damage: typically 15–25. Engine-online → kill: 1–2 turns.
 
@@ -173,7 +173,7 @@ No engine overlap with other decks in the roster — the Temur color identity an
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 14/20
 
 ### Core Loop: 4/5
 

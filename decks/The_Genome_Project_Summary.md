@@ -45,20 +45,6 @@ The damage math scales multiplicatively. With four Wizard tokens and Trance Kuja
 4. **Go off:** Generate mana via Birgi, Bayo/Electro, Storm-Kiln Artist, Jeska's Will, or Mana Geyser. Chain noncreature spells. Each spell triggers every Wizard token simultaneously. Multipliers (Harmonic Prodigy, Roaming Throne, City on Fire) push individual spells into lethal range.
 5. **Close the game** in one explosive turn or finish with Exsanguinate, Aetherflux Reservoir, or Peer into the Abyss refueling another spell chain.
 
-### Kill Lines
-
-**Line 1 — Wizard Ping Storm (primary):** Trance Kuja + 4 Wizard tokens = 8 damage per opponent per noncreature spell. Five spells kills the table. With Birgi refunding {R} per spell and Storm-Kiln Artist generating Treasures, chaining five cheap spells is achievable in a single turn.
-
-**Line 2 — Multiplier Stack:** Trance Kuja + Harmonic Prodigy (or Roaming Throne) + 3–4 Wizard tokens = 12–16 damage per spell per opponent. Three spells kills the table. Adding City on Fire to any multiplier configuration creates one-spell lethality.
-
-**Line 3 — Bonus Round / Mizzix's Mastery / Underworld Breach Graveyard Storm:** Bonus Round doubles every instant and sorcery for the rest of the turn — **but its copies are NOT cast** (oracle ruling: the copy "is created on the stack, so it's not 'cast'"), so **copies do not trigger Wizard pings**. Bonus Round doubles spell *effects* (rituals, draw, Exsanguinate X) and still triggers Storm-Kiln Artist (magecraft counts copies); same is true of Cerberus chapters II–III and Primal Wellspring. The true ping-storm replays are the cast-based ones: Dawn Warriors' Legacy (Mizzix's Mastery) overloaded **casts** every instant and sorcery copy from the graveyard — each one triggers all Wizards — and Underworld Breach escapes are real casts too (mana cost + exile 3 other GY cards; pace the chain, hold up reactive escapes). Storm-Kiln Artist Treasures pay the escape costs; Birgi rebates a {R} per cast. Combined with Trance Kuja, Mastery or Breach is often lethal from a stocked graveyard. *(Corrected 2026-06-10 — prior text claimed Bonus Round copies ping; they don't.)*
-
-**Line 4 — Aetherflux Reservoir:** Chain spells to gain escalating life (1st spell = 1 life, 2nd = 2, etc.). Reach 50+ life and pay 50 to laser a player. This line operates independently of Wizard tokens and serves as a backup when the token board has been swept.
-
-**Line 5 — Exsanguinate:** After generating large mana via Mana Geyser (multiplayer = massive output), Neheb (post-combat mana from ping damage), or Jeska's Will, fire a lethal Exsanguinate at the table.
-
-**Line 6 — Peer into the Abyss → Chain:** Draw half your library. Cast everything cheap to trigger Wizard pings. This is the reload line when the hand is depleted but the board is set.
-
 ### The Multiplier Web
 
 The deck stacks damage multipliers that interact multiplicatively:
@@ -99,7 +85,22 @@ The 7 Wizard producers (beyond Kuja and Stormsplitter copies) each have non-obvi
 
 -----
 
-## Conversion Check Assessment: 15/20
+## Kill Lines
+
+**Line 1 — Wizard Ping Storm (primary):** Trance Kuja + 4 Wizard tokens = 8 damage per opponent per noncreature spell. Five spells kills the table. With Birgi refunding {R} per spell and Storm-Kiln Artist generating Treasures, chaining five cheap spells is achievable in a single turn.
+
+**Line 2 — Multiplier Stack:** Trance Kuja + Harmonic Prodigy (or Roaming Throne) + 3–4 Wizard tokens = 12–16 damage per spell per opponent. Three spells kills the table. Adding City on Fire to any multiplier configuration creates one-spell lethality.
+
+**Line 3 — Bonus Round / Mizzix's Mastery / Underworld Breach Graveyard Storm:** Bonus Round doubles every instant and sorcery for the rest of the turn — **but its copies are NOT cast** (oracle ruling: the copy "is created on the stack, so it's not 'cast'"), so **copies do not trigger Wizard pings**. Bonus Round doubles spell *effects* (rituals, draw, Exsanguinate X) and still triggers Storm-Kiln Artist (magecraft counts copies); same is true of Cerberus chapters II–III and Primal Wellspring. The true ping-storm replays are the cast-based ones: Dawn Warriors' Legacy (Mizzix's Mastery) overloaded **casts** every instant and sorcery copy from the graveyard — each one triggers all Wizards — and Underworld Breach escapes are real casts too (mana cost + exile 3 other GY cards; pace the chain, hold up reactive escapes). Storm-Kiln Artist Treasures pay the escape costs; Birgi rebates a {R} per cast. Combined with Trance Kuja, Mastery or Breach is often lethal from a stocked graveyard. *(Corrected 2026-06-10 — prior text claimed Bonus Round copies ping; they don't.)*
+
+**Line 4 — Aetherflux Reservoir:** Chain spells to gain escalating life (1st spell = 1 life, 2nd = 2, etc.). Reach 50+ life and pay 50 to laser a player. This line operates independently of Wizard tokens and serves as a backup when the token board has been swept.
+
+**Line 5 — Exsanguinate:** After generating large mana via Mana Geyser (multiplayer = massive output), Neheb (post-combat mana from ping damage), or Jeska's Will, fire a lethal Exsanguinate at the table.
+
+**Line 6 — Peer into the Abyss → Chain:** Draw half your library. Cast everything cheap to trigger Wizard pings. This is the reload line when the hand is depleted but the board is set.
+
+
+## Conversion Check — 15/20
 
 ### Core Loop — 4/5
 

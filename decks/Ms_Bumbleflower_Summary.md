@@ -103,7 +103,7 @@ A single creature (commander or a payoff body) accumulates a +1/+1 counter and f
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 15/20
 
 ### Core Loop: 4/5
 The loop — "cast cheap spells → each cast triggers Bumbleflower (opponent draws, +1/+1 counter, flying; second cast draws two) → draw payoffs and the counter-target cascade into advantage or theft" — is supported by roughly 16–18 cards: ~10 selection/fuel cantrips and ~10 draw/cast payoffs (with overlap). The identity is recognizable with the commander covered: a spellslinger card-advantage shell (Ledger Shredder, Faerie Mastermind, Jolrael, Fathom Mage, Esper Sentinel, Willbreaker). Not a 5 because the loop generates advantage rather than winning on its own, and Bumbleflower is the hub that maximizes it — the payoffs still fire off secondary triggers without her, but at much lower frequency.

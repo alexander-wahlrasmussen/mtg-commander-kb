@@ -9,13 +9,13 @@
 
 ---
 
-## Core Loop
+## What the Deck Does
 
 This deck weaponizes *drawing cards* as a damage source. The shell is ~7 wheel effects (Windfall, Echo of Eons, Reforge the Soul, Magus of the Wheel, Jace's Archivist, Molten Psyche, Dark Deal) plus Peer into the Abyss, backed by a redundant suite of static punishers that convert every draw or discard into life loss. Because the kill is a *wheel resolved on your own turn* feeding *static* triggers — not casts or activated abilities — it fires straight through a Grand Abolisher lock, which is the entire reason this deck exists (it answers the pod's recurring T6–7 Abolisher combo archenemy that the counter-heavy decks can't). Kefka himself is the value/disruption engine and a deliberate removal-magnet, **not** a combo linchpin: his ETB (each player discards, you draw one per card *type* discarded) is guaranteed value per cast, and the win runs entirely from the command zone if he dies.
 
 ---
 
-## Closing Lines
+## Kill Lines
 
 1. **Notion Thief + Psychosis Crawler + any wheel** *(marquee, near-deterministic)* — Notion Thief redirects every opponent's wheel-draws to you; Psychosis Crawler pings each opponent 1 per *your* draw. One wheel → you draw your 7 + ~21 redirected ≈ 28 → each opponent loses ~28 → table dead, **and they draw nothing** (solves the refuel trap). Niv-Mizzet, Parun is the redundant version (~28 aimed damage). Online from ~T6–7 once two pieces assemble.
 2. **Multi-punisher wheel** *(the default burn)* — with 2+ opponent-draw punishers down (Underworld Dreams, Fate Unraveler, Kederekt Parasite, Ob Nixilis the Hate-Twisted, Sheoldred), one wheel makes each opponent draw 7 → ~14–28 damage/life-loss each. **Bloodletter of Aclazotz doubles all of it** during your turn. **Lethal-or-bust:** never spin on a single punisher — that hands them 7 fresh cards.

@@ -139,7 +139,7 @@ Tezzeret, Cruel Captain gains loyalty on each artifact ETB (often 3–5 per turn
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 

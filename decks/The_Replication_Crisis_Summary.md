@@ -80,7 +80,7 @@ Repeated ETB abuse turn after turn. Inferno Titan copies deal 3 damage each comb
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 

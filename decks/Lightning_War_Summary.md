@@ -20,7 +20,7 @@
 
 ---
 
-## What the Deck Is Trying to Do
+## What the Deck Does
 
 Azula turns your combat into the most dangerous part of the turn: every instant/sorcery cast while she attacks is copied — instants natively, sorceries once a flash enabler is online — and Twinning Staff makes every copy event **+1**. The deck's primary plan is to **assemble an Azula infinite combo and kill the table on your own turn**, faster and more reliably than the pod's combo decks go off, with a copy-amplified X-spell burn race as the backup. You set the clock; they react.
 
@@ -54,7 +54,7 @@ The play pattern: T1–3 ramp and hold interaction; T4 cast Azula; T5+ attack, b
 
 ---
 
-## Conversion Check Assessment — 19/20 (5/5/4/5)
+## Conversion Check — 19/20 (5/5/4/5)
 
 **Core Loop — 5/5.** Engine is unmistakable from the 99: Azula + Twinning Staff + cast volume; ~28 cards directly serve the combo/burn loop. Functions with or without a flash enabler (instants copy natively).
 
@@ -120,7 +120,7 @@ Azula is the only Grixis deck in the collection. No engine overlap.
 
 ---
 
-## Clock & Evidence (2026-06-21)
+## Kill Window (2026-06-21)
 
 Two clocks, stated separately (the CLAUDE.md verification rule):
 

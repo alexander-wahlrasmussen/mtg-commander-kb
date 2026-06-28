@@ -99,7 +99,7 @@ Whenever one or more +1/+1 counters are placed on a creature you control, create
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 18/20
 
 ### Core Loop: 5/5
 

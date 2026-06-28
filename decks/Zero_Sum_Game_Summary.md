@@ -225,7 +225,7 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 5 Swamp
 4 Forest
 
-## Lab Results (wb_clock_lab.py, 40k trials, seed 20260611, 2026-06-11)
+## Kill Window (wb_clock_lab.py, 40k trials, seed 20260611, 2026-06-11)
 
 | cumulative % killed by | T5 | T6 | T7 | T8 | T9 | T10 | T12 | median |
 |---|---|---|---|---|---|---|---|---|

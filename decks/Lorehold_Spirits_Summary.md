@@ -160,7 +160,7 @@ The 2-turn gap between goldfish and through-interaction is consistent with a dec
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 18/20
 
 ### Core Loop: 5/5
 

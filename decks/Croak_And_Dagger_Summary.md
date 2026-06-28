@@ -57,7 +57,7 @@ Cabal Coffers taps for {B} equal to the number of Swamps you control. Urborg, To
 
 -----
 
-## How We End Games
+## Kill Lines
 
 ### Kill Line 1 — Torment of Hailfire (Primary)
 
@@ -104,7 +104,7 @@ The deck closes on **two independent axes**, which is its real strength — kill
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 18/20
 
 ### Core Loop: 5/5
 

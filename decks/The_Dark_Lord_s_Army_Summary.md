@@ -25,16 +25,6 @@ In a 4-player game, Sauron triggers 3+ amass before your next turn just from nor
 1. **Sacrifice Army** to Goblin Bombardment / Yawgmoth / Braids / Skullclamp / Deadly Dispute for value
 1. **Army reforms free** on the next opponent’s spell → Return to step 1
 
-### Kill Lines
-
-**Line 1 — Drain:** Sheoldred + Underworld Dreams + Bowmasters punish opponents’ card draws — 3 life per draw (Sheoldred 2, Underworld Dreams 1) plus a Bowmasters ping on bonus draws. Wound Reflection doubles opponents’ life loss at end step. Gray Merchant ETB closes from a stocked board (devotion to black is high here). Sauron’s own discard-and-draw ability gains *you* 8 life per Ring tempt under Sheoldred — a defensive cushion that lets the slow drain finish the game.
-
-**Line 2 — Voltron Army:** The Army grows via amass stacking across the turn cycle. With evasion, a 10+ power unblockable token closes games in 2–3 swings.
-
-**Line 3 — Aristocrats Grind:** Dictate of Erebos + Goblin Bombardment + Pitiless Plunderer. Sacrifice the Army → opponents each sacrifice a creature → you get a treasure → Army reforms free on next spell. Not infinite, but relentless.
-
-**Line 4 — Graveyard Reset:** Ring temptation discards stock the graveyard. Living Death, Reanimate, Agadeem’s Awakening, or Animate Dead bring back Sheoldred, Gray Merchant, Yawgmoth, etc.
-
 ### The Oppression Package
 
 The deck runs Ellie’s Rage (Dictate of Erebos, flash), Propaganda, Underworld Dreams, and Wound Reflection to create a tax-and-drain web that makes every action opponents take painful. Braids, Arisen Nightmare forces end-step sacrifices or gives you cards + drain. Yawgmoth provides repeatable sacrifice + draw + removal via -1/-1 counters, and his proliferate grows amass counters. Strionic Resonator copies Sauron’s amass trigger (or Saruman’s, or Pitiless Plunderer’s treasure trigger) for explosive turns. Barad-dûr is a hidden amass engine — `{X}{X}{B}, {T}` to amass Orcs X if a creature died this turn.
@@ -50,7 +40,18 @@ This deck occupies a unique space compared to other common archetypes:
 
 -----
 
-## Conversion Check Assessment: 19/20
+## Kill Lines
+
+**Line 1 — Drain:** Sheoldred + Underworld Dreams + Bowmasters punish opponents’ card draws — 3 life per draw (Sheoldred 2, Underworld Dreams 1) plus a Bowmasters ping on bonus draws. Wound Reflection doubles opponents’ life loss at end step. Gray Merchant ETB closes from a stocked board (devotion to black is high here). Sauron’s own discard-and-draw ability gains *you* 8 life per Ring tempt under Sheoldred — a defensive cushion that lets the slow drain finish the game.
+
+**Line 2 — Voltron Army:** The Army grows via amass stacking across the turn cycle. With evasion, a 10+ power unblockable token closes games in 2–3 swings.
+
+**Line 3 — Aristocrats Grind:** Dictate of Erebos + Goblin Bombardment + Pitiless Plunderer. Sacrifice the Army → opponents each sacrifice a creature → you get a treasure → Army reforms free on next spell. Not infinite, but relentless.
+
+**Line 4 — Graveyard Reset:** Ring temptation discards stock the graveyard. Living Death, Reanimate, Agadeem’s Awakening, or Animate Dead bring back Sheoldred, Gray Merchant, Yawgmoth, etc.
+
+
+## Conversion Check — 19/20
 
 ### Core Loop — 5/5
 

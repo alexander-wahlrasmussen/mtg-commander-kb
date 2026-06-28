@@ -180,6 +180,53 @@ def lint_clock_claims(paths):
     return flagged
 
 
+# Canonical Summary section schema (the harmonized format — see templates/TPL_Deck_Summary.md).
+# REQUIRED H2 sections every active deck Summary must carry, with canonical names:
+CANON_REQUIRED = ("What the Deck Does", "Kill Lines", "Conversion Check",
+                  "Don't-Miss Rulings", "Decklist")
+# Known NON-canonical H2 heading variants (lowercased base, before any — / : / () ) -> canonical.
+NONCANON_H2 = {
+    "core loop": "What the Deck Does", "what the deck is trying to do": "What the Deck Does",
+    "overview": "What the Deck Does", "closing lines": "Kill Lines",
+    "how we end games": "Kill Lines", "how we win": "Kill Lines",
+    "clock & evidence": "Kill Window", "lab results": "Kill Window",
+    "conversion check assessment": "Conversion Check — N/20",
+    "conversion check breakdown": "Conversion Check — N/20",
+}
+
+
+def lint_summary_structure(paths):
+    """Flag deck Summaries that deviate from the canonical section schema — the source-side
+    guard that keeps the deck pages consistent (kb_content's parser tolerates the old variants,
+    this stops new ones drifting back in). Reports, per Summary: missing required H2 sections and
+    known non-canonical heading variants (incl. a '### Kill Lines' that should be top-level).
+    Returns [(path, [issue, ...]), ...] for flagged Summaries only."""
+    flagged = []
+    for p in paths:
+        if not p.name.endswith("_Summary.md"):
+            continue
+        lines = p.read_text(encoding="utf-8").splitlines()
+        h2 = [re.sub(r"^##\s+", "", l).strip() for l in lines if re.match(r"^##\s", l)]
+        h2low = [h.lower() for h in h2]
+        issues = []
+        for req in CANON_REQUIRED:
+            rl = req.lower()
+            if not any(hl == rl or hl.startswith(rl + " ") or hl.startswith(rl + " —")
+                       or (req == "Conversion Check" and hl.startswith("conversion check"))
+                       for hl in h2low):
+                issues.append(f"missing required '## {req}'")
+        for h, hl in zip(h2, h2low):
+            base = re.split(r"\s*[—:(]", hl)[0].strip()
+            if base in NONCANON_H2:
+                issues.append(f"non-canonical '## {h}' → use '## {NONCANON_H2[base]}'")
+        if (any(re.match(r"^###\s+Kill Lines\s*$", l) for l in lines)
+                and "kill lines" not in h2low):
+            issues.append("'### Kill Lines' should be a top-level '## Kill Lines'")
+        if issues:
+            flagged.append((p, issues))
+    return flagged
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -254,6 +301,19 @@ def main():
             warns += 1
     print("  NOTE: this checks a citation EXISTS; `scripts/clock_check.py` checks the cited "
           "decap/table\n        turns still MATCH the lab (run `pod_gauntlet.py --refresh` first).")
+
+    print("\n--- Summary section schema (canonical headings) ---")
+    summaries = sorted((ROOT / "decks").glob("*_Summary.md"))
+    drift = lint_summary_structure(summaries)
+    if not drift:
+        print(f"  [OK] all {len(summaries)} deck Summaries match the canonical schema "
+              f"(templates/TPL_Deck_Summary.md)")
+    else:
+        for p, issues in drift:
+            print(f"  [WARN] {p.relative_to(ROOT)}:")
+            for it in issues:
+                print(f"            {it}")
+            warns += 1
 
     print(f"\n=== {errors} error(s), {warns} warning(s) ===")
     return 1 if errors else 0

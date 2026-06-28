@@ -52,7 +52,7 @@ The deck converts exile-zone interactions into a board-wide +1/+1 counter engine
 
 -----
 
-## Closing Lines
+## Kill Lines
 
 **Line 1 — Hellkite Charger + Firebending Stack**
 With Sozin's Comet up (firebending 5 on all your creatures for the turn) and Hellkite Charger out, attack with Hellkite + 3 other creatures: 5R from Hellkite firebending alone, +5R per supporting attacker = 20R floor. Pay Hellkite's {5}{R}{R} for an extra combat phase, untap, repeat. Each combat also fires Zuko's firebending. Reconnaissance can untap-and-remove-from-combat the supporting creatures, banking the firebending mana while protecting them. Lethal in 1–2 combat phases on a stocked board. **Requires:** Hellkite Charger + Sozin's Comet (or 4+ creatures with persistent firebending). Engine-online → kill: 1–2 turns.
@@ -169,7 +169,7 @@ No engine overlap with other Avatar decks (Lightning War, Earthbend the Meta) �
 
 -----
 
-## Conversion Check Breakdown
+## Conversion Check — 17/20
 
 ### Core Loop: 5/5
 
