@@ -1,8 +1,14 @@
 # The Definitive Tier List — 2026-06-15
 
+> **SUPERSEDED 2026-06-28 by [`Definitive_Tier_List_2026-06-28.md`](Definitive_Tier_List_2026-06-28.md)**
+> (v2), which ranks on the **three convergent OUTCOME oracles** (pod_gauntlet · interaction_meta ·
+> self_meta) instead of two-outcome-plus-Conversion-Check. The interaction-overlay oracle didn't
+> exist when this v1 was written. Kept for the record; reproduce this exact list with
+> `python scripts/tier_list.py --legacy-power`.
+
 *One honest ranking of the 16 active decks, as a composite of the three things the lab stack
 actually measures. The synthesis read — caveats baked in. Reproduce:
-`python scripts/tier_list.py`.*
+`python scripts/tier_list.py --legacy-power` (was `tier_list.py` before the v2 default).*
 
 **Composite** = weighted mean of three min-max-normalised axes (`scripts/tier_list.py`):
 
