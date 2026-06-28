@@ -18,6 +18,19 @@ Repo-specific gotchas and decisions for future syncs. Committed; read before re-
   widen the plan's `deletes` to clobber the user's other project files.
 
 ## Decisions
+- **[GENERAL] `cssEntry` now PINNED to `dist/pod-gauntlet-ui.css` (2026-06-28).** The Vite 8 bump
+  (`9ffa461`/`e37d692`, Storybook 8→10 + Vite 8) renamed the lib-mode CSS output from `dist/style.css`
+  → `dist/pod-gauntlet-ui.css` (Vite 8 names the lib CSS after the library, not `style.css`). The
+  converter's default CSS candidate list (`dist/styles.css`, `dist/style.css`, …) no longer matched, so
+  it fell back to **scraping the storybook build's CSS** (`[CSS_FROM_STORYBOOK]`). That CSS hashes
+  CSS-Module class names *differently* from the lib build, so the bundle JS (lib hashes like
+  `_active_12f8h_51`) referenced classes the scraped CSS didn't define → every CSS-Module component
+  rendered UNSTYLED in previews (LineChart drew solid-black area fills, StatTable/TabBar/EmptyState lost
+  all layout, BarChart lost its legend swatches; SVG-with-explicit-hex bars still rendered, which is why
+  it wasn't total). The canary spot-check caught it. Fix: `cfg.cssEntry: "dist/pod-gauntlet-ui.css"`
+  (resolved relative to PKG_DIR=`ui/`). After the fix: token refs 15→38, 7 `@font-face` present, all 14
+  graded `match`. **If a future Vite/build change renames the lib CSS again, update this key** — a
+  `[CSS_FROM_STORYBOOK]` line in the build log is the tell.
 - **Active theme = "Tale of the Tape" newsprint LIGHT (2026-06-21).** The master merge
   (`9023009 newsprint supersedes the Gruvbox retheme`) replaced the warm Gruvbox dark palette. `tokens.css`
   `:root` now carries newsprint primitives — cream paper (`--paper #e9e3d4`/`--paper2 #f1ecdf`), near-black
@@ -48,6 +61,11 @@ Repo-specific gotchas and decisions for future syncs. Committed; read before re-
   `@kind` consumer in this converter and Vite minifies them out of `dist/style.css`. Harmless.
 
 ## Re-sync risks
+- **CSS entry (Vite 8+):** lib CSS is `dist/pod-gauntlet-ui.css`, pinned via `cfg.cssEntry`. If the build
+  log prints `[CSS_FROM_STORYBOOK]`, the lib CSS moved/renamed again — fix `cssEntry`, never ship the
+  scraped storybook CSS (class-hash mismatch → unstyled CSS-Module components). See the `[GENERAL]`
+  decision above. `[REFERENCE_STALE?]` after a *cssEntry-only* change is a benign false positive (the DS
+  source/storybook didn't change; only how the bundle sources its CSS did).
 - **Fonts:** self-hosted base64 `@font-face` (Oswald + IBM Plex Mono) via `tokens.css` `@import "./fonts.css"`.
   No remote dependency → no font warning expected. Regenerate `ui/src/theme/fonts.css` with
   `.design-sync/fetch-fonts.mjs` if weights/subset change. Latin subset only — non-latin glyphs fall back

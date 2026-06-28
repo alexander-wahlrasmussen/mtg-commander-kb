@@ -6,6 +6,7 @@
   "storybookStatic": ".design-sync/sb-reference",
   "storybookConfigDir": "ui/.storybook",
   "buildCmd": "cd ui && npm run build:lib",
+  "cssEntry": "dist/pod-gauntlet-ui.css",
   "readmeHeader": ".design-sync/conventions.md",
   "overrides": {
     "BarChart": { "cardMode": "column" },
