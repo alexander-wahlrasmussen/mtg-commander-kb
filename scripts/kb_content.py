@@ -470,9 +470,12 @@ def _summary_buckets(path):
                 out.append(cur)
             continue
         if cur is not None:
-            m = re.match(r"^(\d+)\s+(.+?)\s*$", raw.strip())
+            # card lines come in two Summary styles — numbered ("1 Card Name") and
+            # bulleted ("- Card Name"); accept either lead-in (Lightning War et al. bullet
+            # their decklist, so a numbered-only match filed every card under "Other").
+            m = re.match(r"^(?:\d+|[-*])\s+(.+?)\s*$", raw.strip())
             if m:
-                cur[1].append(_strip_annot(m.group(2)))
+                cur[1].append(_strip_annot(m.group(1)))
     return out
 
 
