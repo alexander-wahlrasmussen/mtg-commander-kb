@@ -10,6 +10,17 @@ its harvested clock and **lifts Lightning War from D to S (#2 overall)**. The mo
 had LW in D on a **race-only** clock that the combo's table kill was invisible to; #11 fixed the
 **instrument**, not the deck — see "the one finding" below for why that matters.*
 
+> **Refreshed 2026-06-29 (post codebase-audit).** Re-run on the corrected clocks from the
+> 2026-06-29 bug audit. Four tier moves, all from sim fixes rather than deck changes:
+> **Radiation Sickness S→A** — The Wise Mothman (the commander) was attacking the turn it was cast
+> (no haste); fixing it slowed Radiation's race front edge (pod P(win) 69→60), so **Genome is now
+> the sole apex and the top external racer**, and Radiation joins the pod-specialists. **Croak and
+> Dagger C→D** — its `dig` knob was modelling Glarb's *selection* as raw card draw; the honest
+> clock is a ~T13 grind, not ~T10. **The Exile's Return B→A** — Fire Lord Zuko is MV3 not MV4, so
+> the deck comes online a turn earlier. **Lorehold Spirits C→B** on the renormalisation. Medians
+> for every deck's *published Summary clock* were unchanged by these fixes (the moves are
+> front-edge/normalisation effects); the narrative below is updated to match.*
+
 ---
 
 ## What changed from v1, and why it's a stronger read
@@ -42,28 +53,28 @@ measurement; re-weight in `tier_list.py`.
 
 | Tier | Deck | Anti% | Inter% | Self% | (cc) | Clock | COMP |
 |:--:|---|:--:|:--:|:--:|:--:|:--:|:--:|
-| **S** | **The Genome Project** | 61 | 63 | 70 | 15 | T8 | **93** |
-| **S** | **Lightning War** | 57 | 49 | 46 | **19** | T9 | **75** |
-| **S** | **Radiation Sickness** | 71 | 37 | 34 | 18 | T10 | **74** |
-| **A** | **Forced Liquidation** | 49 | 44 | 45 | 16 | T9 | **65** |
-| **A** | The Replication Crisis | 64 | 22 | 20 | 17 | T10 | 56 |
-| **A** | Zero-Sum Game | 33 | 45 | 47 | — | T9 | 55 |
-| **B** | The Exile's Return | 44 | 30 | 28 | 18 | T10 | 49 |
-| **C** | Lorehold Spirits | 39 | 20 | 26 | 18 | T10 | 39 |
-| **C** | Curse of the Scarab | 39 | 19 | 19 | 17 | T11 | 36 |
-| **C** | Croak and Dagger | 22 | 31 | 29 | 18 | T10 | 34 |
-| **C** | Ms. Bumbleflower | 48 | 8 | 7 | 15 | T11 | 33 |
-| **C** | Earthbend the Meta | 42 | 12 | 12 | 17 | T11 | 32 |
-| **C** | The Dark Lord's Army | 26 | 23 | 17 | **19** | T12 | 29 |
-| **D** | The Grand Design | 36 | 4 | 4 | 18 | >T12 | 21 |
-| **D** | Eldrazi Stampede Chaos | 26 | 7 | 8 | 14 | T12 | 17 |
-| **D** | Diminishing Returns | 17 | 2 | 3 | 17 | >T14 | 6 |
-| **D** | Crystal Sickness | 9 | 9 | 10 | 17 | T13 | 6 |
+| **S** | **The Genome Project** | 61 | 65 | 71 | 15 | T8 | **98** |
+| **S** | **Lightning War** | 57 | 52 | 48 | **19** | T9 | **80** |
+| **A** | **Forced Liquidation** | 49 | 46 | 47 | 16 | T9 | **69** |
+| **A** | **Radiation Sickness** | 63 | 33 | 31 | 18 | T10 | **69** |
+| **A** | The Replication Crisis | 64 | 24 | 22 | 17 | T10 | 63 |
+| **A** | The Exile's Return | 49 | 33 | 31 | 18 | T10 | 58 |
+| **A** | Zero-Sum Game | 33 | 45 | 48 | — | T9 | 57 |
+| **B** | Lorehold Spirits | 39 | 23 | 28 | 18 | T10 | 44 |
+| **C** | Ms. Bumbleflower | 48 | 11 | 10 | 15 | T11 | 39 |
+| **C** | Curse of the Scarab | 37 | 20 | 19 | 17 | T11 | 38 |
+| **C** | Earthbend the Meta | 42 | 14 | 14 | 17 | T11 | 37 |
+| **C** | The Dark Lord's Army | 26 | 26 | 20 | **19** | T12 | 32 |
+| **D** | The Grand Design | 36 | 5 | 5 | 18 | >T12 | 24 |
+| **D** | Eldrazi Stampede Chaos | 26 | 7 | 9 | 14 | T12 | 19 |
+| **D** | Diminishing Returns | 17 | 3 | 3 | 17 | >T14 | 7 |
+| **D** | Crystal Sickness | 9 | 9 | 11 | 17 | T13 | 7 |
+| **D** | Croak and Dagger | 8 | 8 | 8 | 18 | >T14 | 4 |
 
 *(Trials 40k, T_grind 10, TAX 0.6, seed from `self_meta_lab`. COMP = weighted mean of the three
-min-max-normalised axes — re-normalised over 17 decks. Lightning War's best-line clock (Backlog #11)
-lifts its mirror axes from 3/3 to 49/46 and shifts the whole mirror's normalisation, so non-LW COMPs
-move a touch vs the morning cut.)*
+min-max-normalised axes — re-normalised over 17 decks. Refreshed 2026-06-29 on the post-audit
+clocks: Radiation's Mothman fix slowed its race front edge (S→A), the ct-dig fix slowed Croak to a
+~T13 grind (C→D), and the Zuko fix sped Exile's Return (B→A); see the top-of-doc refresh note.)*
 
 ---
 
@@ -73,7 +84,7 @@ v1 noted the three 19/20-equivalent decks scattered S→A→C. v2, ranking **pur
 keeps it standing:
 
 > **The Dark Lord's Army (19/20) ranks 12th of 17 — tier C.** Grand Design (18/20) is **13th, tier
-> D.** Meanwhile the apex of the roster, The Genome Project, scores **15/20**, and the #4 deck
+> D.** Meanwhile the apex of the roster, The Genome Project, scores **15/20**, and the #3 deck
 > overall, Forced Liquidation, scores **16/20.** The Conversion Check and finishing position
 > disagree, mildly **negatively**, at the top.
 
@@ -99,13 +110,13 @@ This is what v1 couldn't show with only two outcome axes. The two bars — **ext
 and **mirror** (inter/self) — pull different decks in different directions. Read the *gap*:
 
 ### Apex — strong on BOTH bars
-- **Genome Project** is the top deck on all three oracles combined (anti 61 · inter 63 · self 70).
+- **Genome Project** is the top deck on all three oracles combined (anti 61 · inter 65 · self 71).
   Fastest table clock on the roster (T8), a hit-all ping kill (decap ≈ table), 1% never-close. It
   both closes first **and** survives any seeding. *The interaction overlay is the only thing that
   dings it: it's fast but answerable. It wins anyway.* The true #1, on 15/20.
 
 ### The instrument-corrected #2 — a combo-race hybrid that's strong on BOTH bars
-- **Lightning War (19/20)** — anti **57** (4th external) **and** mirror **49/46** (2nd on the
+- **Lightning War (19/20)** — anti **57** (4th external) **and** mirror **52/48** (2nd on the
   interaction bar, behind only Genome). Once the best-line clock credits the ~T9 Reiterate + Seething
   Song combo (Backlog #11), LW stops being a one-seat combat racer and becomes a deck that closes the
   **table** fast on its own turn — exactly the line Grand Abolisher can't tax. No weak axis, the
@@ -115,9 +126,9 @@ and **mirror** (inter/self) — pull different decks in different directions. Re
   clock you harvest decides the deck you think you own. Verify against logged games (Layer C) before
   treating #2 as settled.
 
-### The balanced contender — no weak axis (the #4 newcomer)
+### The balanced contender — no weak axis (the #3 newcomer)
 - **Forced Liquidation (Kefka)** — besides Genome and the corrected Lightning War, the deck with
-  **no hole**: anti 49 · inter 44 · self 45, a near-flat profile that lands it **4th overall** despite
+  **no hole**: anti 49 · inter 46 · self 47, a near-flat profile that lands it **3rd overall** despite
   topping no single bar. A Grixis **forced-draw burn** engine (decap T8 / table T9) that's respectable
   racing the external
   pod *and* grinding the mirror. Its design purpose is the pod's specific weakness — forced draw +
@@ -126,12 +137,18 @@ and **mirror** (inter/self) — pull different decks in different directions. Re
   race ~30% vs P(win) 49%), but the mirror numbers are real. It earns its A on balance, not a
   spike — the opposite failure mode from the fortresses below.
 
-### Specialists — strong on ONE bar, the mirror-image of each other
-- **Replication Crisis** — anti **64** (2nd-best external, behind Radiation) but mirror **20–22**
-  (low). Its decap clock (T7) races the external combo pod; its **table** clock (T10) + 20%
-  never-close can't grind a mirror. A *pod specialist* — tuned to neutralise the archenemy, not to
-  win a fair four-way.
-- **Zero-Sum Game** — the exact inverse: mirror **~46** (top-3) but anti **33**. The
+### Specialists — strong on ONE bar
+- **Replication Crisis** and **Radiation Sickness** are the two **external specialists** — top of the
+  roster on the anti-pod bar (anti **64** / **63**, essentially tied for best external) but low in the
+  mirror (Repl 22–24, Radiation 31–33). Both race the external T6–7 combo on a fast decap (T7) yet
+  can't grind a four-way: their **table** clocks (T10) + double-digit never-close don't close a peer
+  pod. Radiation is the new arrival to this group — it *used* to read as a top-3 apex deck (S, "best
+  external ~71"), but that race edge was inflated by a sim bug: its commander, The Wise Mothman, was
+  attacking the turn it was cast (no haste). With the 2026-06-29 fix its front edge drops (anti 71→63,
+  pod P(win) 69→60) and it's an A-tier external specialist — still the **Ur-Dragon fair-deck
+  nightmare**, just no longer a mirror threat or the apex racer. *Pod specialists, tuned to neutralise
+  the archenemy, not to win a fair four-way.*
+- **Zero-Sum Game** — the exact inverse: mirror **~45–48** (top-3) but anti **33**. The
   board-independent, **Abolisher-proof** lifeloop wins durability races, but its T9 decap is a beat
   too slow for the fast external pod. *A mirror grinder.* Still has **no formal CC score** — and v2
   scores it on outcomes alone, where it's clearly A. (Audit it; it may belong higher.) *Note Forced
@@ -156,8 +173,8 @@ line is counted.)*
   better clock to surface.
 
 ### The interaction overlay's net verdict (second-order, not a reversal)
-The overlay **lifts** durable / answer-dense grinders (Dark Lord +6, Radiation +3, Exile's +3,
-Croak +2) and **sinks** fast-but-answerable glass (Genome −7, Lorehold −6). But it does **not**
+The overlay **lifts** durable / answer-dense grinders (Dark Lord +6, Radiation +2, Exile's +2) and
+**sinks** fast-but-answerable glass (Genome −6, Lorehold −5). But it does **not**
 rescue a genuine fortress into contention — Grand Design and Dark Lord stay low in the mirror with or
 without it. **The decap/table clock dominates; interaction is a real but secondary correction** —
 which is exactly why getting the *clock* right (Backlog #11) moved Lightning War three tiers while
@@ -173,13 +190,14 @@ bit-for-bit; `tests/test_null_reduction.py`.)
 2. **Lightning War** — the corrected #2: a combo-race hybrid that closes the **table** ~T9 on its own
    turn (Abolisher-proof) with an uncounterable Banefire backstop. No weak axis. The one asterisk is
    that its rank rests on the best-line clock — verify it in real games before betting the night on it.
-3. **Radiation Sickness** — *specifically* the external pod's nightmare (anti 71, best on the
-   roster): its kills are board states counterspells can't touch, and it's the best hedge vs the
-   Ur-Dragon fair deck too.
-4. **Forced Liquidation** — the all-rounder (#4): no weak axis, and built to *punish* the pod's
+3. **Forced Liquidation** — the all-rounder (#3): no weak axis, and built to *punish* the pod's
    Abolisher-combo plan rather than race it. The safe pick when you don't know the table.
-5. **Replication Crisis** — when you *know* it's the T6–7 combo pod: it races them (anti 64). Less so
-   into a grind.
+4. **Radiation Sickness** — the external pod's nightmare (anti 63, 2nd-best on the roster behind
+   Replication): its kills are board states counterspells can't touch, and it's the best hedge vs the
+   Ur-Dragon fair deck too. Weak in the mirror, so A not S — and its old apex standing was partly the
+   Mothman summoning-sickness bug (now fixed).
+5. **Replication Crisis** — when you *know* it's the T6–7 combo pod: it races them (anti 64, best
+   external). Less so into a grind.
 6. **Zero-Sum Game** — the quiet overperformer and Abolisher-proof. Bring it into a slow/grindy table.
 
 **Stop over-rating these (the sheet lies about them):**
@@ -190,8 +208,13 @@ bit-for-bit; `tests/test_null_reduction.py`.)
 
 **The rebuild pile (D):** Grand Design, Eldrazi Stampede (lowest CC *and* lowest outcomes — the
 clearest next project), Crystal Sickness (worst external number, 9), Diminishing Returns (>T14,
-death-volume-gated). *(Lightning War left this pile in the #11 re-bake — its ~T9 infinite-mana table
-kill is now modelled, so it's S, not a rebuild target.)*
+death-volume-gated). **Croak and Dagger** dropped into D in the audit re-bake — but, like Lightning
+War, that's a *measurement* note, not a verdict on the deck: its honest clock is a ~T13 grind (the
+old `dig` knob was faking ~T10 by modelling Glarb's *selection* as raw draw), and it's the deliberate
+anti-Ur-Dragon **grind fortress** (~87% heads-up vs the Dragon), built to grind + disrupt, never to
+race the combo pod — D on the race oracles is its *role*, not a flaw. *(Lightning War left this pile
+in the #11 re-bake — its ~T9 infinite-mana table kill is now modelled, so it's S, not a rebuild
+target.)*
 
 ---
 
