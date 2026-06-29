@@ -10,7 +10,7 @@ their numbers as JSON, so the browser charts the same curves the writeups cite.
   GET /                     -> ui/dist/index.html (the React SPA; run `npm run build` in ui/)
   GET /api/clocks           -> harvested decap/table CDFs per deck (for the Labs tab)
   GET /api/gauntlet?...     -> P(beat the T6-7 pod) per deck (run_default, parameterised)
-  GET /api/championship?... -> the 16-deck bracket (pod_championship, parameterised)
+  GET /api/championship?... -> the roster bracket (pod_championship, parameterised)
   GET /api/tierlist?...      -> the Definitive Tier List v2 composite (tier_list, parameterised)
 
 Content endpoints (kb_content — KB markdown / CSV / Scryfall, not the sim):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""pod_championship.py — crown a champion of the 16 active decks.
+"""pod_championship.py — crown a champion of the active roster (17 decks as of 2026-06-29).
 
 The fun finale (2026-06-15). self_meta_lab.py answers "P(win | in a RANDOM 4-seat pod
 of my own decks)". This stages an actual TOURNAMENT on the same engine:
@@ -91,7 +91,8 @@ def seed_field(slugs, tcdf, dura, t_grind, trials, rng):
 
 
 def snake_groups(seeds):
-    """Snake-seed 16 ranked seeds into 4 balanced pods: 1-8-9-16, 2-7-10-15, ..."""
+    """Snake-seed the ranked seeds into 4 balanced pods: 1-8-9-16, 2-7-10-15, ... A
+    non-multiple-of-4 field lands its leftover seeds in the lowest pods (17 -> [5,4,4,4])."""
     groups = [[], [], [], []]
     order = list(range(4)) + list(range(3, -1, -1))   # 0,1,2,3,3,2,1,0
     for i, slug in enumerate(seeds):
@@ -100,13 +101,17 @@ def snake_groups(seeds):
 
 
 def draw_groups(seeds, rng):
-    """Pot-based RANDOM draw: split the 16 ranked seeds into 4 pots (1-4, 5-8, 9-12,
-    13-16) and deal one deck from each pot into each of the 4 pods. Every pod gets
-    exactly one deck from each pot (balanced like the snake) but which decks land
-    together is shuffled — a fresh, valid bracket per `rng`."""
+    """Pot-based RANDOM draw: split the ranked seeds into pots of 4 (1-4, 5-8, ...)
+    and deal one deck from each pot into each of the 4 pods. Every pod gets one deck
+    per full pot (balanced like the snake) but which decks land together is shuffled —
+    a fresh, valid bracket per `rng`. A non-multiple-of-4 field (e.g. the 17-deck
+    roster) deals its remainder pot round-robin into the lowest pods, so a 5-seat Pod A
+    is produced and NO seed is dropped (the group winner is still the single top seat,
+    so exactly 4 advance — Final Four semantics preserved). Was hardcoded `range(4)`,
+    which silently dropped seed #17 (2026-06-29 audit)."""
     groups = [[], [], [], []]
-    for p in range(4):
-        pot = seeds[4 * p:4 * p + 4]
+    for start in range(0, len(seeds), 4):
+        pot = seeds[start:start + 4]
         rng.shuffle(pot)
         for pod_i, slug in enumerate(pot):
             groups[pod_i].append(slug)
@@ -190,7 +195,7 @@ def main():
     # ---- regular season ----------------------------------------------------
     tag = "  [ALL PROPOSED SWAPS APPLIED]" if args.swapped else ""
     print(f"\n{'='*78}")
-    print(f"🏆  THE POD CHAMPIONSHIP  —  16 decks, one crown{tag}")
+    print(f"🏆  THE POD CHAMPIONSHIP  —  {len(slugs)} decks, one crown{tag}")
     print(f"{'='*78}")
     print(f"  engine: self_meta_lab table-clock race + durability  ·  T_grind={args.t_grind}")
     print(f"  seeding={args.season_trials} random pods  ·  playoff pods={args.trials} games each")

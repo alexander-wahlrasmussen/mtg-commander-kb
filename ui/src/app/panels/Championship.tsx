@@ -92,7 +92,7 @@ export function Championship() {
 
       {!data || !cur ? (
         <EmptyState glyph="🏆" title="No tournament run yet">
-          Set the trials and T_grind, then press <strong>Run the tournament</strong> to seed 16 decks,
+          Set the trials and T_grind, then press <strong>Run the tournament</strong> to seed the roster,
           draw 4 group pods at random, and crown a champion.
         </EmptyState>
       ) : (
