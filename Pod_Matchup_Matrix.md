@@ -78,7 +78,8 @@ Rows ordered by blended **P(win)**. Each deck raced separately vs Acererak / H&K
 > fast decks read optimistically; (2) weights / answer / `prot` values are
 > **priors** — tune as you log real games; (3) the blend is a **decap race**, so it
 > under-rates control decks that LOCK rather than race (Grand Design reads 30% here
-> but **45% blend / 59% vs Acererak** with its Elesh Norn lock, `--vs-lock`). Read
+> but **45% blend / 59% vs Acererak** with its Elesh Norn lock, `--vs-lock` — the lock
+> model was corrected 2026-06-29 to a persistent hold; these figures hold within MC noise). Read
 > the per-opponent spread + verdict, not the blend alone. Roster-wide: **everyone
 > is strongest vs Acererak** (mono-B, no counters) **and weakest vs H&K** (the UB
 > counter wall) — H&K is the table's real problem deck.

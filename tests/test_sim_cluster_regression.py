@@ -25,3 +25,22 @@ def test_er_zuko_mv_is_three():
     assert er.ZUKO_MV == 3, (
         "Fire Lord Zuko is {R}{W}{B} = MV3 (card_lookup); MV4 made the commander "
         "(the deck's only +1/+1 source) come online a turn late -> clock too slow")
+
+
+# --- pod_gauntlet.simulate_vs_lock: a PERSISTENT lock was re-rolled every turn ---
+def test_simulate_vs_lock_is_persistent():
+    """A live, effective hard-lock holds EVERY turn until removed; the bug re-rolled
+    Bernoulli(e) per turn so P(hold n turns) ~= e^n (geometric leak), understating locks.
+    Isolate persistence: we never kill (F=0), the lock is online from t1 with prob 1,
+    e=0.5, r=0 (never removed). Persistent -> grind ~= P(lock effective) = e = 0.5; the
+    e^n bug would collapse grind to ~0 (the lock leaks over the ~12 combo turns)."""
+    pg = _load("pod_gauntlet")
+    import random
+    F_never = [0.0] * (pg.HORIZON + 1)
+    lock_cdf = pg.build_cdf([1], [100])          # online turn 1, prob 1
+    opp = {"disruption_a": 0.0, "answer": 0.0}
+    _win, grind = pg.simulate_vs_lock("__synthetic_persistence_probe__", F_never, opp,
+                                      {5: 1.0}, lock_cdf, e=0.5, r=0.0,
+                                      trials=20000, rng=random.Random(0))
+    assert 0.45 <= grind <= 0.55, (
+        f"grind={grind:.3f}; a persistent lock should hold ~e=0.5 of the time, not e^n→0")

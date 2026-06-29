@@ -539,6 +539,11 @@ def simulate_vs_lock(slug, F, opp, kdist, lock_cdf, e, r, trials, rng):
         answer = opp["answer"] * (1 - PROTECT.get(slug, 0.0))
         t_lock = sample_kill(lock_cdf, rng) if use_lock else HORIZON + 1
         lock_alive = t_lock <= HORIZON
+        # Sample effectiveness ONCE per trial (mirrors the verified-correct lock_race): a
+        # persistent hard-lock that works against this loop holds EVERY turn until removed.
+        # Re-rolling rng.random()<e each turn decayed P(hold n turns) ~= e^n, understating
+        # locks (2026-06-29 audit). e=0 -> eff=False -> reduces exactly to simulate_vs.
+        eff = (rng.random() < e) if use_lock else False
         ready = tkill
         decided = False
         for t in range(1, HORIZON + 1):
@@ -547,7 +552,7 @@ def simulate_vs_lock(slug, F, opp, kdist, lock_cdf, e, r, trials, rng):
                     win += 1; decided = True; break
                 ready = t + 1; answer *= ANSWER_DECAY
             if t >= K:                                # their combo attempt
-                if lock_alive and t >= t_lock and rng.random() < e:
+                if lock_alive and eff and t >= t_lock:
                     if rng.random() < r:
                         lock_alive = False            # pod cleared it -> free next turn
                     continue                          # lock held this turn

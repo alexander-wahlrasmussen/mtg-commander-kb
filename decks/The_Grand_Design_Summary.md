@@ -35,6 +35,9 @@
 > moves it. Caveats: the 45–59% uses **tutored** availability and is a **floor** (reanimation uncounted →
 > true number higher); it's **removal-sensitive** (mono-B Acererak can kill Elesh Norn → the lift decays at
 > high `r` toward the no-lock 42%); `e=0.95` vs ETB is a prior, but the *structure* (inert vs death) is certain.
+> *(Lock model corrected 2026-06-29: `simulate_vs_lock` now samples effectiveness once and holds the lock until
+> removed, instead of re-rolling each turn — the prior code understated locks. Re-run confirms these figures
+> within MC noise, because `e=0.95` made the per-turn leak small here.)*
 
 ## What the Deck Does
 
