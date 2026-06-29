@@ -223,20 +223,20 @@
     "decap": [
       0,
       1,
-      9,
-      39,
-      70,
-      94,
+      11,
+      48,
+      76,
+      96,
       99
     ],
     "table": [
       0,
       0,
-      1,
+      2,
       6,
-      15,
-      54,
-      83
+      16,
+      58,
+      85
     ],
     "med": [
       "T8",
@@ -246,7 +246,7 @@
       1,
       12
     ],
-    "src": "lab er_speed_lab @8k"
+    "src": "lab er_speed_lab @8k (Zuko MV3 fix 2026-06-29)"
   },
   "zero_sum_game": {
     "name": "Zero-Sum Game",

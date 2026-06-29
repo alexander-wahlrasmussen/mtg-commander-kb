@@ -112,7 +112,7 @@ SCOURGE = "Scourge of the Throne"
 CRUSADE = "Cathars' Crusade"        # owned, in the deck's own sideboard ($0)
 FLEX_CUT = "Imp's Mischief"          # goldfish-dead interaction: lever flex slot
 
-ZUKO_MV = 4                          # Fire Lord Zuko, base power 2
+ZUKO_MV = 3                          # Fire Lord Zuko {R}{W}{B} = MV3 (card_lookup), base power 2
 ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1), "Boros Signet": (2, 1),
          "Rakdos Signet": (2, 1), "Fellwar Stone": (2, 1),
          "Talisman of Conviction": (2, 1), "Talisman of Indulgence": (2, 1)}

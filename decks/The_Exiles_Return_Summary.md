@@ -72,7 +72,7 @@ Sun Titan attacks → return a CMC≤3 permanent from graveyard. The deck has ma
 
 ## Kill Window
 
-- **Goldfish (lab-verified 2026-06-09):** T7–8 to kill one focused player (median T8; 70% by T8, T6 ≈ 9% even with every attacker unblocked) · T10 to kill the table
+- **Goldfish (lab-verified 2026-06-09; re-run 2026-06-29 after the Zuko MV3 fix):** T7–8 to kill one focused player (median T8; 76% by T8, T6 ≈ 11% even with every attacker unblocked) · T10 to kill the table
 - **Through Interaction:** T8–11 (one player)
 
 The deck is mid-speed and its clock is the *broad* counter-stack, not the marquee combo: Hellkite Charger + Sozin's Comet is reachable only ~3% by T6 even with tutors (Diabolic Intent is the only tutor that finds either piece). `scripts/er_speed_lab.py` also tested ten single-card speed levers (extra-combat enablers, Sarkhan's Triumph, fast mana, impulse velocity, Cathars' Crusade) — none moved the median; the front edge is gated by engine assembly + mana before T5, which no 1-of fixes. Full numbers: `analysis/Exiles_Return_Speed_Curve_Analysis.md`.

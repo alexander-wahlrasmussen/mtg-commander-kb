@@ -246,8 +246,8 @@ CLOCKS = {
         lab=("er_speed_lab", "clock"),
         sel=("combo player dead (decap)", "table dead"),
         grid=[4, 5, 6, 7, 8, 10, 12],
-        decap=[0, 1, 9, 39, 70, 94, 99], table=[0, 0, 1, 5, 15, 55, 83],
-        med=("T8", "T10"), never=(1, 12), src="lab er_speed_lab @8k"),
+        decap=[0, 1, 11, 48, 76, 96, 99], table=[0, 0, 2, 6, 16, 58, 85],
+        med=("T8", "T10"), never=(1, 12), src="lab er_speed_lab @8k (Zuko MV3 fix 2026-06-29)"),
     "zero_sum_game": dict(
         name="Zero-Sum Game", score="—", disrupt_class="none",
         lab=("wb_clock_lab", "clock"), sel=("combo kill decap", "combo kill table"),
