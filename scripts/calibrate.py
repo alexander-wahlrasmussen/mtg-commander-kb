@@ -173,7 +173,7 @@ def power_curve(truth_pct, n_grid, trials, seed, spearman, detect=0.5):
             r, _n = spearman(obs, truth)
             rhos.append(r if r is not None else 0.0)
         rhos.sort()
-        med = rhos[len(rhos) // 2]
+        med = rhos[(len(rhos) - 1) // 2]    # lower-middle median (audit 2026-06-29)
         p10 = rhos[max(0, len(rhos) // 10 - 1)]
         pdet = sum(r >= detect for r in rhos) / len(rhos)
         out.append((N, med, p10, pdet))

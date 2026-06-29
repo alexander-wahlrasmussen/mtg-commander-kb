@@ -636,7 +636,7 @@ def _cum(results, idx):
 
 def _median(results, idx):
     vals = sorted((r[idx] if r[idx] is not None else 99) for r in results)
-    m = vals[len(vals) // 2]
+    m = vals[(len(vals) - 1) // 2]      # lower-middle (see speed_lab_core.median)
     return f"T{m}" if m < 99 else ">T12"
 
 

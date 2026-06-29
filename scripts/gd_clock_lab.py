@@ -498,7 +498,7 @@ def mode_video(index, aliases, trials):
         by_decap = 100.0 * sum(1 for d, pt in decapped if pt is not None and pt <= d) / max(1, len(decapped))
         by12 = 100.0 * sum(1 for pt in prot if pt is not None) / trials
         avail = sorted(pt for pt in prot if pt is not None)
-        med = f"T{avail[len(avail) // 2]}" if avail else "-"
+        med = f"T{avail[(len(avail) - 1) // 2]}" if avail else "-"   # lower-middle (see speed_lab_core.median)
         print("  " + tag.ljust(42) + f"{by_decap:6.0f}% {by12:6.0f}%   {med:>6}")
     print("    SWAP is ~1-for-1 -> availability ~FLAT (it's a QUALITY change, not quantity).")
     print("    ADD raises a lock to hand by the kill turn (GD only has it ~half the time at 2 locks)")

@@ -250,7 +250,7 @@ def total_tau(pkg):
 
 def med_online(online, trials):
     vals = sorted((o if o is not None else 99) for o in online)
-    m = vals[len(vals) // 2]
+    m = vals[(len(vals) - 1) // 2]      # lower-middle (see speed_lab_core.median)
     return f"T{m}" if m < 99 else "never"
 
 

@@ -379,7 +379,11 @@ def cum(results, idx, show):
 
 def median(results, idx, cap=99):
     vals = sorted((r[idx] if r[idx] is not None else cap) for r in results)
-    m = vals[len(vals) // 2]
+    # lower-middle = the lowest turn whose cumulative P(kill) >= 50% — the SAME
+    # definition the golden test's curve_median uses, so the printed median agrees
+    # with the harvested clock. vals[len//2] (upper-middle) read ~1 turn slow at
+    # even-N boundaries (2026-06-29 audit). Identical to the old index for odd N.
+    m = vals[(len(vals) - 1) // 2]
     return f"T{m}" if m < cap else f">T (never in horizon)"
 
 

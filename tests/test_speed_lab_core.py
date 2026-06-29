@@ -70,6 +70,28 @@ def test_median_never_in_horizon():
     assert "never" in slc.median([(None, None)] * 3, 0)
 
 
+def test_median_even_length_is_lower_middle():
+    # REGRESSION (2026-06-29 audit): even-N median read the UPPER-middle element
+    # (vals[n//2]) -> ~1 turn slow at boundaries. The median is the lowest turn
+    # with cumulative >= 50% = the lower-middle.
+    results = [(3, 9), (4, 9), (5, 9), (6, 9)]   # decap [3,4,5,6]
+    assert slc.median(results, 0) == "T4"        # lower-middle (was wrongly T5)
+    results = [(7, 0), (8, 0)]                    # decap [7,8]
+    assert slc.median(results, 0) == "T7"        # was wrongly T8
+
+
+@given(st.lists(st.integers(min_value=1, max_value=12), min_size=1, max_size=40))
+def test_median_agrees_with_curve_median(decaps):
+    # The printed median() must use the SAME definition as the golden test's
+    # curve_median (lowest turn whose cumulative P(kill) >= 50%), so the printed
+    # line can't drift from the harvested clock. Pins both parities.
+    results = [(d, d) for d in decaps]
+    grid = list(range(1, 13))
+    curve = [100.0 * sum(1 for d in decaps if d <= t) / len(decaps) for t in grid]
+    cm = next((t for t, c in zip(grid, curve) if c >= 50), grid[-1] + 1)
+    assert slc.median(results, 0) == f"T{cm}"
+
+
 def test_cum_is_monotone_and_caps_at_100():
     results = [(2, 9), (4, 9), (6, 9)]
     show = [2, 3, 4, 5, 6, 7]

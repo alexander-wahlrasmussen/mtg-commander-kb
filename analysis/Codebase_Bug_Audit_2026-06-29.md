@@ -118,10 +118,10 @@ Tests added: `test_stale_slug_regression.py`, `test_card_lookup.py`, `test_updat
 | File | Fix | Clock impact |
 |---|---|---|
 | 🔴 `winota_clock_lab.py` | deploy the commander from the command zone (`g.pay(4)`); removed the dead `nm == WINOTA` in-hand branch; do NOT decrement `humans_left` for her (not in the library flood pool) | engine now fires (was 0/3000): decap **T8–9 → T6–7**, table **T13–14 → T9–10**, never-table **26–43% → ~1%**. `PROP_Winota_Joiner_of_Forces.md` verdict **reversed** (mid-speed/can't-close → genuine racer), `project_dismantle3_build1` memory corrected. Not in the golden snapshot (considering/ deck), so no `--update`. Regression: `test_winota_regression.py` (3 tests, hermetic). |
+| 🟡 **even-median ×5** (`speed_lab_core.py`, `calibrate.py`, `er_speed_lab._median`, `gd_clock_lab.py`, `lock_lab.med_online`) | `vals[len//2]` (upper-middle) → `vals[(len-1)//2]` (lower-middle = lowest turn with cum ≥ 50%, matching `curve_median`). Identical for odd N (existing test stays green). | **Scope was narrower than the audit implied: print-only.** The harvested clocks come from the cum *curves* (`parse_row`/`curve_median`), NOT the `median()` line — so NO Summary moved and the **golden suite passes bit-for-bit** (38 green, proving no curve changed). The fix just makes each lab's printed "median Tx" line agree with the harvested clock. Regression: `test_median_even_length_is_lower_middle` + a `curve_median`-agreement property test. |
 
 ### ⏳ Still open — cascading tier (changes a published clock → needs lab re-run + Summary re-derivation)
 
-- 🟡 **even-median ×5** — `speed_lab_core.py:382`, `calibrate.py:176`, `er_speed_lab.py:639`, `gd_clock_lab.py:501`, `lock_lab.py:253`
 - 🟡 `ct_speed_lab.py` dig, `er_speed_lab.py` Zuko MV, `lw_speed_lab.py` Crackle floor, `pod_gauntlet.py` lock re-roll, `urza_clock_lab.py` per-spend mana, `pod_championship.py` 16-deck cap, `kb_content.py` dropped notes
 - 🟡 `framework_bakeoff.py` / `clock_check.py` / `self_meta_lab.py`+`interaction_meta_lab.py` — stale roster (same class as the fixed ones, but needs real oracle numbers re-run for the 2 new decks, so deferred)
 - 🟢 gd-family ramp-refund trio + the low-impact rules nits above
