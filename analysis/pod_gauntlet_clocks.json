@@ -54,23 +54,23 @@
       14
     ],
     "decap": [
-      6,
-      34,
-      76,
-      91,
-      95,
-      98,
+      3,
+      19,
+      63,
+      87,
+      94,
+      97,
       99,
       100
     ],
     "table": [
       0,
-      1,
-      5,
-      22,
-      50,
-      75,
-      96,
+      0,
+      2,
+      14,
+      39,
+      65,
+      94,
       99
     ],
     "med": [
@@ -81,7 +81,7 @@
       0,
       1
     ],
-    "src": "lab rs_clock_lab @8k"
+    "src": "lab rs_clock_lab @8k · Mothman summoning-sickness fix 2026-06-29 (front edge slower; med T7/T10 holds)"
   },
   "replication_crisis": {
     "name": "The Replication Crisis",
@@ -304,22 +304,22 @@
     ],
     "decap": [
       3,
-      13,
-      32,
-      56,
-      75,
+      12,
+      29,
+      54,
+      74,
       86,
       96,
       99
     ],
     "table": [
       0,
-      1,
-      4,
-      12,
-      28,
-      46,
-      76,
+      0,
+      3,
+      11,
+      26,
+      44,
+      75,
       91
     ],
     "med": [
@@ -330,7 +330,7 @@
       1,
       9
     ],
-    "src": "lab cos_clock_lab @8k"
+    "src": "lab cos_clock_lab @8k · Diregraf no-self-token fix 2026-06-29 (~1pp; med T8/T11 holds)"
   },
   "bumbleflower": {
     "name": "Ms. Bumbleflower",
@@ -456,7 +456,7 @@
       3,
       10
     ],
-    "src": "lab dla_clock_lab @8k (MID pod tempo \u2014 engine is opponent-driven)"
+    "src": "lab dla_clock_lab @8k (MID pod tempo — engine is opponent-driven)"
   },
   "diminishing_returns": {
     "name": "Diminishing Returns",
@@ -519,7 +519,7 @@
       55,
       70,
       83,
-      96,
+      95,
       99
     ],
     "table": [
@@ -540,7 +540,7 @@
       1,
       17
     ],
-    "src": "lab lw_clock_lab @8k bestline (Backlog #11: burn race + Reiterate/Seething Song combo raced on ONE game; was race-only decap T10/table >T14, combo invisible)"
+    "src": "lab lw_clock_lab @8k bestline (Backlog #11: burn race + Reiterate/Seething Song combo raced on ONE game; was race-only decap T10/table >T14, combo invisible) · tutor-mana fix 2026-06-29 (T12 tail −1; med T8/T9 holds)"
   },
   "grand_design": {
     "name": "The Grand Design",
@@ -666,7 +666,7 @@
       40,
       60
     ],
-    "src": "lab ct_speed_lab kill_turns on croak-and-dagger-20260623.txt @12k dig=0 (honest Glarb selection \u2014 surveil/top-cast modelled, NO fictional raw draw; corrected 2026-06-29, was dig=2 -> T10/T10)"
+    "src": "lab ct_speed_lab kill_turns on croak-and-dagger-20260623.txt @12k dig=0 (honest Glarb selection — surveil/top-cast modelled, NO fictional raw draw; corrected 2026-06-29, was dig=2 -> T10/T10)"
   },
   "forced_liquidation": {
     "name": "Forced Liquidation",

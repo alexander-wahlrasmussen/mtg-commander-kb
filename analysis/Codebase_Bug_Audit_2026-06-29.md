@@ -10,12 +10,13 @@ Baseline: 0 syntax errors, 119/119 fast tests green.
 Two themes dominate: a **critical sim that models a deck without its commander**, and a
 **stale-identifier sweep** from the Calamity→Croak rename and the Hashaton-Thoracle drop.
 
-**Status (2026-06-29):** the **safe-cluster** tier (crashes + stale-config + tooling
-correctness — no published-clock change) is ✅ **DONE**: implemented, regression-tested
-(full suite 171 green), and committed this session. Items marked ⏳ below remain, deferred
-to a deliberate pass because each changes a published clock and needs a lab re-run +
-Summary clock-line re-derivation. The authoritative checklist is **"Fix status"** at the
-bottom.
+**Status (2026-06-29):** ✅ **COMPLETE.** All 38 confirmed bugs are resolved or consciously
+deferred (2 escalated rules-nits documented-accepted in-code; 1 flagged item resolved as
+intended; 1 maintainer-call left as-is). Worked in four tiers across the session — safe cluster
+(crashes/stale-config/tooling), cascading clock fixes (each re-labbed + Summary/JSON re-derived),
+the stale-roster oracle cluster (re-harvested + roster guards), and the 🟢 latent tier (a
+7-cluster parallel sweep). Every fix earned a `*_REGRESSION` test; fast gate green (200), golden
+tier green (38). The authoritative per-item checklist is **"Fix status"** at the bottom.
 
 ---
 
@@ -127,16 +128,46 @@ Tests added: `test_stale_slug_regression.py`, `test_card_lookup.py`, `test_updat
 | 🟡 `lw_speed_lab.py` Crackle floor | Pre-chip lethal-mana ignored Crackle's X≥3 targeting floor (a 3-opponent wipe is ≥11 mana at any life ≤45); the sensitivity offered 5/8-mana "wipes". Replaced the literals with `crackle_lethal_mana(life, copies)` enforcing the floor. | **NOT golden** (analysis lab; LW's published clock is `lw_clock_lab`, correctly floored — Summary T11 unaffected). Magnitude only: 40→30 +4pts at T10 (was +12), 40→20 T10 ~4%→25% / never 86%→51% — chip still the dominant lever (conclusion stands). Corrected the `project_lightning_war_speed_analysis` memory + a note in the archived Speed-Curve analysis. Comet Storm's separate @20 rounding slip flagged, not bundled. Regression: `test_crackle_lethal_mana_respects_targeting_floor`. |
 | 🔴 **`ct_speed_lab.py` dig** | The `dig` knob modelled Glarb's SELECTION (surveil-2 / play-from-top, net-zero on card count — already in the baseline) as fictional RAW DRAW (`g.draw(dig)`). The "realistic" modes passed dig=2/3; corrected to dig=0 (honest), relabeled dig>0 as a raw-draw upper bound, fixed the false "dig-flat ⇒ mana-gated" conclusion + docstring. | **Biggest live-clock change.** Croak decap **~T10 → ~T13**, table **~T10/T11 → never-in-horizon** (~40% killed by T14). Re-baked the croak harvest (`pod_gauntlet_clocks.json`, also fixed stale name "The Calamity Tax"→"Croak and Dagger"); now matches the in-source fallback. Re-derived the Croak Summary (Kill Window + weakness + flagged the dig=2 A/B sub-notes), the `feedback_selection_vs_mana_gated` methodology memory ("model selection AS selection, not raw draw"), `project_calamity_lands_graveyard_swap`, and the MEMORY.md hook. Regression: `test_croak_published_clock_is_the_honest_grind`. Gauntlet P(beat pod) + tier-list + dashboard re-bake in the final batch. |
 
-### ✅ All cascading-tier code fixes done (2026-06-29). Remaining:
+### ✅ Resolved 2026-06-29 (cont.) — final batch re-bake + stale-roster oracle cluster
 
-- **Final batch re-bake** (deferred): dashboard grids (gauntlet/championship) + tier-list + deck pages + clocks.json, re-run ONCE to propagate the er (exiles faster), ct (croak slower), and championship (17-seat) source changes.
-- **Deferred batch re-bake:** the dashboard grids (gauntlet/championship) + tier list, re-run ONCE after the er + ct-croak clock-source changes both land (cheaper than per-fix)
-- 🟡 `framework_bakeoff.py` / `clock_check.py` / `self_meta_lab.py`+`interaction_meta_lab.py` — stale roster (same class as the fixed ones, but needs real oracle numbers re-run for the 2 new decks, so deferred)
-- 🟢 gd-family ramp-refund trio + the low-impact rules nits above
-- **Left as-is:** `delay_lab.py` Hashaton load — inside a historical bake-off function, `try/except`-guarded, non-crashing; maintainer call
-- **Flagged for review:** `pod_gauntlet.py` `simulate()`/`simulate_vs()` per-turn re-roll
+| Item | Fix | Commit |
+|---|---|---|
+| **Final batch re-bake** | One `dashboard_export.py` run propagated the er (exiles decap T8 / table T10), ct (croak decap T13 / table >T14), and championship (17-seat) source changes into every baked view: clocks.json, gauntlet, championship, tier-list, locks, home, roster, manifest + the croak/exiles deck pages. Only the two re-clocked deck pages move; the rest is aggregate re-derivation. Mirrored to `ui/public/data`. | `5a4afbd` |
+| 🟡 `framework_bakeoff.py` | `RICHER_ORACLE` + `INTERACTION_ORACLE` **re-harvested for all 17** (pod_gauntlet @20k a=0.3, self_meta @20k, interaction @120k tax=0.6) — the 06-16 snapshot was stale beyond the rename (Lightning War's chip-model table collapse T14→T9 lifted its self_meta **5→49** / interaction **7→52**; Exiles' Zuko fix; Replication's 06-22 opt). Dropped dead `calamity_tax`, added croak/forced_liquidation, + a `set(RICHER)==set(DECKS)==set(INTERACTION)` guard. Bakeoff now correlates over 17 (was silently 15). | `b236f70` |
+| 🟡 `clock_check.py` | `SUMMARY` → `croak_and_dagger` + `forced_liquidation` (was `calamity_tax`→deleted file), `set(SUMMARY)==fb_decks()` guard. Also fixed the parser blind spot it surfaced: a header-format clock line (`Score … · Clock: T8 decap / T9 table`) was cut at the leading `·` → UNPARSED on FL's correct cite; `cited_turns` now re-cuts at the lab marker when the `·` cut left no clock keyword. **Roster 17/17 [OK], 0 DRIFT, 0 UNPARS.** | `b236f70` |
+| 🟡 `self_meta_lab.py` + `interaction_meta_lab.py` | `JUDGMENT` Δrank anchor → `croak_and_dagger:7` (inherits the renamed deck's tier; model now ranks it #15, Δ−8). `forced_liquidation` left unranked (doc predates it → honest "—", not a fabricated judgment). `set(JUDGMENT)<=ROSTER` guard. interaction_meta_lab fixed transitively (imports `sm.JUDGMENT`). Synced `campaigns/Self_Meta_Ranking.md` with a dated note. | `b236f70` |
 
-Per repo convention, each cascading fix should earn a `*_REGRESSION` test.
+Regression: 4 new hermetic guards (`test_stale_slug_regression.py` clock_check/framework_bakeoff/self_meta + `test_sim_cluster_regression.py` header-format parse). Full fast gate green (155).
+
+### ✅ Resolved 2026-06-29 (cont.) — 🟢 lower-impact / latent tier (7-cluster parallel sweep)
+
+Fanned out one agent per disjoint file-cluster, each held to **clock-neutral-or-escalate**
+(re-run the lab; keep only if the published median holds, else revert + flag). Per-cluster
+hermetic regression test in `tests/test_green_*.py`. Commit `e1a394c`.
+
+| Cluster | Fix | Outcome |
+|---|---|---|
+| gd-ramp-refund | `gd_ramp_lab`/`gd_combo_lab`: drop the `g.avail = g.lands + g.rock_out` reset (cast() already pays; it refunded the spell + counted the tapped land same-turn). `gd_speed_lab` had no such loop (audit line ref inaccurate). | Clock-neutral; ramp-saturation conclusion holds (deltas flatter). |
+| reproducibility | `deck_sim` per-deck str-seeded RNG (single-run == batch row); `esc_clock_lab` granter set→ordered tuple (PYTHONHASHSEED-independent); `deck_registry` version-key tie-break (same-day timestamped re-cut wins). | Clock-neutral (esc golden bit-identical under both hash orders). |
+| latent-traps | `er`/`rc_speed_lab` `build_lib` raises on a missing remove-target; `lw_speed_lab` stale date label; `test_bakeoff_real_oracle` calls prod `framework_values`. | Clock-neutral (guards/labels/test-wiring). |
+| rules-dr-cos | Zulaport-class gain credited per-death not per-opponent; Living Death returns only the pre-existing yard; Diregraf Colossus no self-token. | DR bit-identical; CoS median T8/T11 holds (~1pp curve). |
+| rules-rs-berta | The Wise Mothman (commander, no haste) can't attack/feed combat its entry turn; Berta combo gated on an unsick board. | Median holds (RS T7/T10), but RS front edge slows — see cascade below. |
+| rules-seph-ebm | **ESCALATED** (comment-only): the correct Mikaeus non-Human-fodder gate moved Sephiroth's median **T12→T13**, so reverted + documented for a coordinated proposal-clock pass; EBM Scute Swarm exponential left intentionally unmodeled (wiring it flips EBM's table median). | Clocks preserved; 2 fixes deferred as documented-accepted. |
+| rules-tutor-mana | `lw_clock_lab` reserves the tutor's mana before the fetched finisher; `urza` already correct post per-spend fix (comment only). | LW median T8/T9 holds. |
+
+**Curve cascade (medians held, front edges moved):** the rs/cos/lw fixes shifted bit-exact
+@800 curves → regenerated the golden snapshot under py3.14 (`1c6ee0d`). The **Radiation front-edge
+correction is material**: removing Mothman's illegal entry-turn swing dropped its goldfish
+decap-by-T7 ~76→63%, so its **pod P(win) 69→60 — Genome (66) is now the roster's top racer.**
+Re-harvested the 3 affected curves into `pod_gauntlet_clocks.json`, re-baked the dashboard, and
+re-harvested the `framework_bakeoff` oracles (RS pod 69→60 / self_meta 35→31 / interaction 39→33;
+the rest ≤±1 shared-pool noise). Published Summary clocks all unchanged (medians held).
+
+- **Left as-is:** `delay_lab.py` Hashaton load — inside a historical bake-off function, `try/except`-guarded, non-crashing; maintainer call.
+- **Flagged → RESOLVED (intended):** `pod_gauntlet.py` `simulate()`/`simulate_vs()` per-turn re-roll is correct — reactive disruption/combo IS a fresh per-turn attempt; persistent locks use the separate `simulate_vs_lock`/`lock_race` path (the one that *was* buggy). Not a bug.
+- **Deferred (escalated):** the Sephiroth non-Human-fodder gate (median T12→T13) and EBM Scute Swarm exponential wiring (flips table median) — both need a coordinated proposal/clock re-derivation; currently documented-accepted in-code with change-detector tests.
+
+**All 38 confirmed bugs resolved or consciously deferred.** Per repo convention, each fix earned a `*_REGRESSION` test; full fast gate green (200), golden tier green (38).
 
 > Two items (`clock_check.py`, `wb_rebuild_vs_dragon.py`) were surfaced by the completeness
 > critic rather than the per-cluster pass, but both were independently grep-confirmed.

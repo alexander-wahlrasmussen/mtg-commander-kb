@@ -78,28 +78,31 @@ WIN_LINE = deck_registry.win_lines()
 # (random 4-seat roster pod, T_grind=10). The 2026-06-16 snapshot was stale beyond just the
 # Calamity->Croak rename: several clocks moved since (Lightning War's chip-model table collapse
 # T14->T9 lifted its self_meta 5->49; Exiles' Zuko MV3 fix; Replication's 06-22 optimization),
-# so the whole table was re-harvested at once for internal consistency.
+# so the whole table was re-harvested at once for internal consistency. RE-HARVESTED AGAIN later
+# 2026-06-29 after the 🟢 rules-nit sweep: The Wise Mothman can't attack the turn it's cast, which
+# slowed Radiation's race front edge (pod_gauntlet P(win) 69->60), CEDING the top-racer slot to
+# Genome (66); Curse -2 from the Diregraf self-token fix; the rest moved <=1 (shared-pool noise).
 # CAVEAT: pod_gauntlet P(win) is partly DERIVED from the decap clock (+ disruption) and
 # self_meta from the TABLE clock (+ durability), so pure_clock correlates with them partly by
 # construction — flagged in --bakeoff. CC/Disciple/BDD are independent of both.
 RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta P(win))
-    "genome_project":      (66, 71),
-    "radiation_sickness":  (69, 35),
+    "genome_project":      (66, 72),
+    "radiation_sickness":  (60, 31),
     "replication_crisis":  (61, 23),
-    "lorehold_spirits":    (42, 28),
+    "lorehold_spirits":    (42, 29),
     "earthbend_the_meta":  (42, 13),
     "exiles_return":       (49, 31),
     "zero_sum_game":       (35, 48),
-    "curse_of_the_scarab": (38, 19),
-    "bumbleflower":        (48, 9),
-    "eldrazi_stampede":    (28, 8),
+    "curse_of_the_scarab": (36, 18),
+    "bumbleflower":        (48, 10),
+    "eldrazi_stampede":    (28, 9),
     "dark_lords_army":     (24, 19),
     "diminishing_returns": (18, 3),
-    "lightning_war":       (51, 49),
+    "lightning_war":       (51, 50),
     "grand_design":        (31, 4),
-    "crystal_sickness":    (9, 10),
-    "forced_liquidation":  (49, 45),
-    "croak_and_dagger":    (7, 7),
+    "crystal_sickness":    (9, 11),
+    "forced_liquidation":  (49, 46),
+    "croak_and_dagger":    (7, 8),
 }
 
 # Backlog #6 — the INTERACTION/durability overlay oracle (interaction_meta_lab.py): self_meta's
@@ -110,21 +113,21 @@ RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta 
 # (Lightning War 7->52). Higher = better. TAX=0 reduces this column EXACTLY to oracle_selfmeta.
 INTERACTION_ORACLE = {                  # slug: interaction_meta_lab INTERACTIVE P(win)
     "genome_project":      65,
-    "radiation_sickness":  39,
+    "radiation_sickness":  33,
     "replication_crisis":  23,
-    "lorehold_spirits":    22,
+    "lorehold_spirits":    23,
     "earthbend_the_meta":  14,
-    "exiles_return":       33,
-    "zero_sum_game":       45,
-    "curse_of_the_scarab": 20,
+    "exiles_return":       34,
+    "zero_sum_game":       46,
+    "curse_of_the_scarab": 19,
     "bumbleflower":        11,
     "eldrazi_stampede":     7,
-    "dark_lords_army":     25,
+    "dark_lords_army":     26,
     "diminishing_returns":  3,
     "lightning_war":       52,
     "grand_design":         5,
-    "crystal_sickness":     9,
-    "forced_liquidation":  45,
+    "crystal_sickness":    10,
+    "forced_liquidation":  46,
     "croak_and_dagger":     8,
 }
 
