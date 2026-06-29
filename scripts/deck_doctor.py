@@ -37,12 +37,17 @@ tooling rather than re-deriving anything:
              engine (the win_line build-around) — ramp/draw/tutor/removal/standalone
              body = a floor; the rest are low-floor synergy slots. Heuristic, INFO-
              only  [NEW — Cubrious "two rules for a hidden-commander deck"]
+  --fragility  permanent-type removal/wipe exposure: %% of nonland permanents on the
+             most-removable types (planeswalker/creature) + which win_line engine
+             pieces sit on a fragile type, on the 7-tier durability ladder. Heuristic,
+             INFO-only  [NEW — REF_Multiplayer_Card_Eval.md, "500 decks" lesson 2b]
   clock      cached lab decap/table medians (analysis/pod_gauntlet_clocks.json)
              + does the Summary's Clock: line still match it?   [clock_check.py]
   framework  the deck's Conversion Check score (a datum from deck_registry — the CC
              is judged by hand, not computed; deck_doctor reports it, doesn't grade)
   --run-lab  ALSO run the deck's *_clock_lab.py live and echo the fresh clock grid
-  --deep     run everything, including --vitals, --combos, --interaction, --footprint
+  --deep     run everything, including --vitals, --combos, --interaction, --footprint,
+             --fragility
   --all      batch dashboard: one PASS/WARN/FAIL row per deck for the whole roster
              (+ --candidates for decks/considering/), same checks, table-rendered
   --diff     swap inspector: cards in/out between two versions + whether the swap
@@ -227,7 +232,12 @@ def lookup(full, aliases, nm):
 # ---------------------------------------------------------------------------
 
 def _all_text(rec):
-    """oracle_text for the card AND every face (DFC/split), lower-cased."""
+    """oracle_text for the card AND every face (DFC/split), lower-cased. None-safe:
+    parse_deck KEEPS unresolved cards in the library (typo / missing oracle data /
+    broken reskin alias), so the footprint/interaction scans can hand this an
+    unresolved card; treat it as no text rather than crashing the whole report."""
+    if rec is None:
+        return ""
     parts = [rec.get("oracle_text", "") or ""]
     for f in rec.get("card_faces", []) or []:
         parts.append(f.get("oracle_text", "") or "")
@@ -325,6 +335,44 @@ def _power_at_least(rec, n):
         except (TypeError, ValueError):
             continue
     return False
+
+
+# --- fragility (permanent-type removal/wipe exposure) ------------------------
+# The "500 decks" video's resilience ladder (REF_Multiplayer_Card_Eval.md): the
+# permanent types, ordered easiest -> hardest to remove. A deck whose ENGINE sits
+# on the easy tiers (planeswalkers, creatures) gets dismantled by a board wipe; an
+# engine on artifacts/enchantments/lands keeps rolling. As Commander speeds up,
+# board wipes are more common, so this exposure matters more (video lesson 2b).
+FRAG_TIERS = ["planeswalker", "creature", "artifact", "enchantment", "battle",
+              "nonbasic land", "basic land"]
+
+
+def _all_types(rec):
+    """type_line for the card AND every face (DFC/split/MDFC), lower-cased — so a
+    'Creature // Land' MDFC is judged on both halves."""
+    parts = [rec.get("type_line", "") or ""]
+    for f in rec.get("card_faces", []) or []:
+        parts.append(f.get("type_line", "") or "")
+    return " ".join(parts).lower()
+
+
+def fragility_rank(rec):
+    """Removal exposure by permanent type: 0 = easiest to remove (planeswalker) …
+    6 = hardest (basic land), per FRAG_TIERS. A card is as fragile as its MOST
+    removable type — an artifact creature dies to creature removal AND board wipes
+    AND artifact removal — so we take the MIN rank across all its types (a Vehicle
+    that isn't a creature stays an artifact, dodging creature wipes: the Ratchet
+    point). Non-permanents (instant/sorcery) return None: never on the battlefield
+    to be removed. HEURISTIC — type-only; it can't see OUR pod's actual answer
+    availability (that's delay_lab / interaction_meta)."""
+    if rec is None:
+        return None
+    t = _all_types(rec)
+    ranks = [i for i, kw in enumerate(
+        ("planeswalker", "creature", "artifact", "enchantment", "battle")) if kw in t]
+    if "land" in t:
+        ranks.append(6 if "basic" in t else 5)
+    return min(ranks) if ranks else None
 
 
 # --- interaction coverage (Trinket Mage "decks that can always win", pillar 1) -
@@ -476,7 +524,7 @@ class Report:
 def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
            quiet=False, check_build=True, csv_path=None,
            vitals=False, combos=False, trials_sim=SIM_TRIALS, interaction=False,
-           footprint=False):
+           footprint=False, fragility=False):
     path, slug = resolve_target(arg)
     if path is None or not path.exists():
         if not quiet:
@@ -883,6 +931,58 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
                      "a tight combo deck may accept high footprint on purpose "
                      "(memory: reference_hidden_commander_footprint)")
 
+    # --- 9d. fragility (opt-in: permanent-type removal/wipe exposure) ----
+    # The "500 decks" video's resilience lesson 2b: rank your permanents on the
+    # durability ladder (FRAG_TIERS). An engine on planeswalkers/creatures folds
+    # to a board wipe; one on artifacts/enchantments/lands keeps rolling. Like 9b
+    # and 9c this is HEURISTIC and INFO-only — type-only exposure, blind to OUR
+    # pod's real answer availability (delay_lab / interaction_meta), so it flags a
+    # build-shape signal and must NEVER flip the PASS/WARN/FAIL verdict. A pure
+    # go-wide/aggro deck accepts a fragile base on purpose (it wins before the wipe).
+    if fragility:
+        rpt.section("fragility (permanent-type removal/wipe exposure)")
+        if not oracle:
+            rpt.line(WARN, "skipped (no oracle data)")
+        else:
+            tally = Counter()
+            vulnerable, nonland_perm = [], 0
+            for nm, _ in library:
+                rec = lookup(full, aliases, nm)
+                rk = fragility_rank(rec)
+                if rk is None:                       # instant/sorcery — not a permanent
+                    continue
+                tally[rk] += 1
+                if rk <= 4:                          # a nonland permanent
+                    nonland_perm += 1
+                    if rk <= 1:                      # planeswalker / creature = fragile
+                        vulnerable.append(rec.get("name", nm) if rec else nm)
+            pct = 100 * len(vulnerable) / max(nonland_perm, 1)
+            rpt.facts["fragility_pct"] = round(pct)
+            rpt.line(INFO, f"{len(vulnerable)}/{nonland_perm} nonland permanents "
+                           f"({pct:.0f}%) sit on the most-removable types "
+                           f"(planeswalker/creature)")
+            rpt.note("ladder easiest→hardest: "
+                     + " · ".join(f"{FRAG_TIERS[i]} {tally.get(i, 0)}"
+                                  for i in range(len(FRAG_TIERS))))
+            # the load-bearing line: is your WIN ENGINE on a fragile type?
+            wl = reg_row.get("win_line") if reg_row else None
+            frag_engine = []
+            for p in ((wl.get("pieces") or []) if wl else []):
+                rk = fragility_rank(lookup(full, aliases, p))
+                if rk is not None and rk <= 1:
+                    frag_engine.append(p)
+            if frag_engine:
+                rpt.note(f"engine pieces on fragile types: "
+                         f"{', '.join(sorted(set(frag_engine)))} — protect them or "
+                         f"lean on recursion/rebuild (lesson 2c)")
+            crk = fragility_rank(lookup(full, aliases, commander)) if commander else None
+            if crk is not None and crk <= 1:
+                rpt.note(f"commander {commander} is a {FRAG_TIERS[crk]} (fragile type) "
+                         f"but recurs from the command zone")
+            rpt.note("type-only exposure (board wipes are creature-centric; lands are "
+                     "~never removed in our pod); OUR actual answer availability lives "
+                     "in delay_lab / interaction_meta")
+
     # --- 10. bracket estimate + house-rule gate -------------------------
     rpt.section("bracket / house rules")
     if not oracle:
@@ -1051,7 +1151,7 @@ def batch(include_candidates=False, csv_path=None):
           f"{', incl. candidates' if include_candidates else ''}) ===\n")
     hdr = (f"{'verdict':7} {'deck':28} {'size':>4} {'sing':>4} {'ill':>3} "
            f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'gap':>3} {'fp%':>4} "
-           f"{'owned':>7} {'buy €':>8}")
+           f"{'frg%':>4} {'owned':>7} {'buy €':>8}")
     print(hdr)
     print("-" * len(hdr))
 
@@ -1059,7 +1159,7 @@ def batch(include_candidates=False, csv_path=None):
     rows = []
     for slug, path in targets:
         res = doctor(path if path else slug, quiet=True, csv_path=csv_path,
-                     interaction=True, footprint=True)
+                     interaction=True, footprint=True, fragility=True)
         f = res["facts"]
         own = (f"{f['owned']}/{f['need']}" if "owned" in f else "—")
         if f.get("buy_n"):
@@ -1077,11 +1177,12 @@ def batch(include_candidates=False, csv_path=None):
         size = f.get("size", "?")
         size_cell = str(size) if size == DECK_SIZE else f"!{size}"
         fp = (f"{f['footprint_pct']}%" if "footprint_pct" in f else "·")
+        frg = (f"{f['fragility_pct']}%" if "fragility_pct" in f else "·")
         print(f"{res['tag']:7} {res['title'][:28]:28} {size_cell:>4} "
               f"{_flag(f,'singleton'):>4} {_flag(f,'illegal'):>3} "
               f"{_flag(f,'offcolor'):>3} {_flag(f,'mld'):>3} "
               f"{str(f.get('gc','?')):>3} {str(f.get('bracket','?')):>3} "
-              f"{_flag(f,'intxn_gaps'):>3} {fp:>4} {own:>7} {buy:>8}")
+              f"{_flag(f,'intxn_gaps'):>3} {fp:>4} {frg:>4} {own:>7} {buy:>8}")
 
     n_fail = sum(1 for r in rows if r[0]["tag"] == "FAIL")
     n_warn = sum(1 for r in rows if r[0]["tag"] == "WARN")
@@ -1089,7 +1190,9 @@ def batch(include_candidates=False, csv_path=None):
           f"{len(rows) - n_fail - n_warn} PASS ===")
     print("  columns: size(!=100 prefixed !) · sing(leton) · ill(egal) · off(-colour) "
           "· MLD(house-banned) · GC · brk(et est) · gap(interaction-coverage holes, 0-6) "
-          "· fp%(nonland cards dead without the engine) · owned/100 · buy € (indicative; + unpriced)")
+          "· fp%(nonland cards dead without the engine) "
+          "· frg%(nonland permanents on wipe-vulnerable planeswalker/creature types) "
+          "· owned/100 · buy € (indicative; + unpriced)")
     print("  drill into any deck: python scripts/deck_doctor.py <slug>")
     return 1 if worst else 0
 
@@ -1237,9 +1340,13 @@ def main():
     ap.add_argument("--footprint", action="store_true",
                     help="hidden-commander rule 2: %% of nonland cards that do little "
                          "without the engine (win_line); flags low-floor synergy slots")
+    ap.add_argument("--fragility", action="store_true",
+                    help="permanent-type removal/wipe exposure: %% of nonland permanents "
+                         "on the most-removable types (planeswalker/creature) + which "
+                         "engine pieces sit on a fragile type")
     ap.add_argument("--deep", action="store_true",
                     help="run every check including --vitals, --combos, "
-                         "--interaction and --footprint")
+                         "--interaction, --footprint and --fragility")
     ap.add_argument("--run-lab", action="store_true",
                     help="also run the deck's *_clock_lab.py live and echo the grid")
     ap.add_argument("--lab", metavar="MODULE:MODE",
@@ -1259,7 +1366,8 @@ def main():
                   csv_path=args.csv, vitals=args.vitals or args.deep,
                   combos=args.combos or args.deep,
                   interaction=args.interaction or args.deep,
-                  footprint=args.footprint or args.deep)["code"]
+                  footprint=args.footprint or args.deep,
+                  fragility=args.fragility or args.deep)["code"]
 
 
 if __name__ == "__main__":
