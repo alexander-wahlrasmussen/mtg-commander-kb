@@ -146,13 +146,21 @@ def test_kill_tree_none_for_unencoded_slug():
     assert kb._kill_tree("") is None
 
 
+_MODES = {"ladder", "vectors", "beatdown"}
+
+
 def test_kill_tree_shape_for_an_encoded_deck():
     kt = kb._kill_tree("radiation_sickness")
     assert kt is not None
-    assert set(kt) >= {"title", "root", "stall", "src", "background", "lines"}
+    # the redesigned deck page adds mode/caption/stallLabel + per-line tag/primary
+    assert set(kt) >= {"title", "root", "stall", "src", "background", "lines",
+                       "mode", "caption", "stallLabel"}
+    assert kt["mode"] in _MODES and kt["caption"] and kt["stallLabel"]
     assert kt["lines"] and all(
-        set(l) == {"id", "need", "kill", "clock", "kind"} and l["kind"] in _KIND
+        set(l) >= {"id", "need", "kill", "clock", "kind", "tag", "primary"}
+        and l["kind"] in _KIND and isinstance(l["primary"], bool)
         for l in kt["lines"])
+    assert kt["lines"][0]["primary"] is True   # the first line is the headline line
     # Radiation has an always-on background drain; its kind is valid too.
     assert kt["background"] is not None and kt["background"]["kind"] in _KIND
 

@@ -23,6 +23,8 @@
   --hair:   rgba(22, 19, 15, 0.20);
   --hair2:  rgba(22, 19, 15, 0.07);
   --acc:    #c63a1b;   /* the one vermillion accent */
+  --spot:   #0b6478;   /* teal spot colour — section ticks, kill-line chips, rulings */
+  --spot2:  #08505f;   /* darker teal — band-chart decap row / curve stroke */
   --gold:   #946112;
   --good:   #4f6b1e;
   --warn:   #a3331a;

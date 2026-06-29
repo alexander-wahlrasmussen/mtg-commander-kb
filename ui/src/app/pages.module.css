@@ -1416,3 +1416,190 @@
   text-transform: uppercase;
   color: var(--ink3);
 }
+
+/* ============================================================================
+   DeckPage v2 — the Pod Gauntlet "Deck Page" scouting report (Brief/Full).
+   A framed newsprint broadsheet on one inverted-pyramid spine. The article
+   carries no horizontal padding; each band/section pads itself 26px, so the
+   ink / paper2 bands full-bleed to the sheet edge while text stays aligned.
+   ========================================================================== */
+.scout {
+  width: 860px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  background:
+    repeating-linear-gradient(0deg, var(--hair2) 0, var(--hair2) 1px, transparent 1px, transparent 4px),
+    var(--paper);
+  border: 1.5px solid var(--ink);
+  box-shadow: 0 28px 70px -38px rgba(0, 0, 0, 0.6);
+  color: var(--ink);
+  font-family: var(--serif);
+}
+.scout a { color: inherit; text-decoration: none; }
+.nv { padding: 4px 10px; color: var(--ink2); }
+.nv:hover { color: var(--spot); }
+
+.scoutTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 26px;
+  border-bottom: 1.5px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+.scoutBack {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+.scoutBack:hover { color: var(--spot); }
+
+.scoutNav {
+  position: sticky;
+  top: 74px;       /* sits under the app's sticky topbar (~73px tall) */
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 8px 22px;
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scoutHero {
+  display: grid;
+  grid-template-columns: 1fr 270px;
+  gap: 28px;
+  align-items: start;
+  padding: 28px 26px 22px;
+  scroll-margin-top: 120px;
+}
+.scoutTitle {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 58px;
+  line-height: 0.9;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+  margin: 0 0 13px;
+}
+.scoutIdea {
+  border: 1.5px solid var(--ink);
+  border-top: 4px solid var(--acc);
+  align-self: start;
+}
+.scoutIdeaHead {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--acc);
+  padding: 9px 14px 7px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.scoutClockBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 26px;
+  background: var(--ink);
+  color: var(--paper);
+  scroll-margin-top: 120px;
+}
+
+.scoutBand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 26px;
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1px solid var(--hair);
+  scroll-margin-top: 120px;
+}
+.scoutTick { width: 9px; height: 9px; background: var(--spot); flex: none; }
+.scoutBandTitle {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.scoutBandHint {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+.scoutKicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--acc);
+}
+
+.scoutVitals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hair);
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+}
+.scoutVital { background: var(--paper); padding: 15px 18px; }
+
+.scoutHandCard {
+  border: 1.25px solid var(--ink);
+  background: var(--paper);
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 7px 6px 8px;
+}
+
+.scoutDlControls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.scoutFoot {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 26px;
+  border-top: 1.5px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+@media (max-width: 720px) {
+  .scoutHero { grid-template-columns: 1fr; }
+  .scoutTitle { font-size: 44px; }
+  .scoutVitals { grid-template-columns: 1fr; }
+}

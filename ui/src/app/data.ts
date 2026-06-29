@@ -156,15 +156,30 @@ export interface CollectionData {
   facets: { color: Record<string, number>; role: Record<string, number>; rarity: Record<string, number> };
 }
 
+export interface ClockBand { label: string; from: number; to: number; kind: "decap" | "table"; typical?: number; }
+export interface ClockHeadline { label: string; value: string; sub: string; kind: "decap" | "table"; }
+export interface Vital { label: string; value: string; sub: string; accent?: boolean; }
+export interface BriefKill { idx: string; tag: string; primary: boolean; clock: string; line: string; }
+
 export interface DeckPage {
   slug: string; name: string; commander: string; colors: string; pips: string[];
   archetype: string; status: string; bracket: number; score: number | null;
-  axes: { label: string; score: number }[]; gc: string[];
-  clock: { decap: string | null; table: string | null; grid: number[]; decapCurve: number[]; tableCurve: number[]; never: number[]; src: string };
+  axes: { label: string; score: number }[]; axesTotal: string; gc: string[];
+  // redesigned scouting report — hero / brief identity (derived in the pipeline; OVERRIDES refine)
+  kicker: string; corner: string; tagline: string; colorLine: string; idea: string;
+  vitals: Vital[];
+  briefKillsCaption: string; briefKills: BriefKill[];
+  openings: string[];
+  mull: { strategy: string };
+  clock: {
+    decap: string | null; table: string | null; grid: number[]; decapCurve: number[]; tableCurve: number[]; never: number[]; src: string;
+    sub: string; headline: ClockHeadline[]; bands: ClockBand[]; ticks: number[]; axisFrom: number; axisTo: number;
+    note: string; noteLabel: string; caption: string;
+  };
   gamePlan: string; winLine: string;
   finishers: { name: string; tag: string; note: string }[];
   rulings: { name: string; note: string }[];
-  composition: { name: string; count: number }[];
+  composition: { name: string; count: number; win?: boolean }[];
   decklist: {
     total: number; grouped: boolean;
     commander: { n: string; gc: boolean };
@@ -179,11 +194,15 @@ export interface DeckPage {
 }
 
 export type KillKind = "combo" | "table" | "combat" | "enabler";
-export interface KillLine { id: string; need: string; kill: string; clock: string; kind: KillKind; }
+export type KillMode = "ladder" | "vectors" | "beatdown";
+export interface KillLine { id: string; need: string; kill: string; clock: string; kind: KillKind; tag: string; primary: boolean; }
 export interface KillTree {
   title: string; root: string; stall: string; src: string;
-  background: { need: string; kill: string; clock: string; kind: KillKind } | null;
+  mode: KillMode; caption: string; stallLabel: string;
+  background: { need: string; kill: string; clock: string; kind: KillKind; tag: string } | null;
   lines: KillLine[];
+  // beatdown board-power → alpha curve (Eldrazi only); absent on combo/grind decks
+  curve?: { t: number; p: number }[]; lethalAt?: number; lethalLabel?: string;
 }
 
 export interface MullCard { n: string; cmc: number | null; land: boolean; tags: string[]; }

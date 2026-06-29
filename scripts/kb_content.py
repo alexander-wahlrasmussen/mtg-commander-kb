@@ -706,20 +706,273 @@ def _game_plan(secs, fallback):
     return fallback
 
 
+# How-it-kills framing (the redesigned page flips the kill module by `mode`): a
+# cheapest-first LADDER for combo decks, parallel VECTORS for grind/drain decks, a
+# board-power BEATDOWN curve for ramp-aggro. Default ladder; this map names the
+# non-ladder decks. `kind` (the registry's 5th line field) → a short chip tag.
+_KILL_MODE = {
+    "eldrazi_stampede": "beatdown",
+    "dark_lords_army": "vectors",
+    "diminishing_returns": "vectors",
+    "radiation_sickness": "vectors",
+    "curse_of_the_scarab": "vectors",
+}
+_KILL_TAG = {"combo": "combo", "table": "table", "combat": "decap", "enabler": "enabler"}
+_KILL_MODE_CAPTION = {
+    "ladder": "cheapest line first · fall to the next",
+    "vectors": "parallel vectors — they stack, not rank",
+    "beatdown": "a curve, not a tree — ramp the board, then alpha",
+}
+
+
 def _kill_tree(slug):
-    """Structured kill-LADDER for the deck page (4 encoded decks; None otherwise). The same
-    cheapest-first specs kill_tree.py renders to Mermaid (deck_registry.KILL_TREES), served
-    here to a hand-rolled React ladder. Pure registry data — no Scryfall, no sim. Text fields
-    keep their `<br/>` line breaks; the front-end splits on them."""
+    """Structured kill module for the deck page (one per roster deck). The same cheapest-first
+    specs kill_tree.py renders to Mermaid (deck_registry.KILL_TREES), served here to a hand-rolled
+    React module that flips between ladder / vectors / beatdown by `mode`. Pure registry data — no
+    Scryfall, no sim. Text fields keep their `<br/>` line breaks; the front-end splits on them.
+    Each line carries a short `tag` (from its kind) and a `primary` flag (the headline line)."""
     sp = _KILL_TREES_BY_REG.get(slug)
     if not sp:
         return None
     bg = sp.get("background")
+    mode = _KILL_MODE.get(slug, "ladder")
     return dict(
         title=sp["title"], root=sp["root"], stall=sp["stall"], src=sp["src"],
-        background=(dict(need=bg[0], kill=bg[1], clock=bg[2], kind=bg[3]) if bg else None),
-        lines=[dict(id=l[0], need=l[1], kill=l[2], clock=l[3], kind=l[4]) for l in sp["lines"]],
+        mode=mode, caption=_KILL_MODE_CAPTION.get(mode, _KILL_MODE_CAPTION["ladder"]),
+        stallLabel="When nothing’s up",
+        background=(dict(need=bg[0], kill=bg[1], clock=bg[2], kind=bg[3],
+                         tag=_KILL_TAG.get(bg[3], bg[3])) if bg else None),
+        lines=[dict(id=l[0], need=l[1], kill=l[2], clock=l[3], kind=l[4],
+                    tag=_KILL_TAG.get(l[4], l[4]), primary=(i == 0))
+               for i, l in enumerate(sp["lines"])],
     )
+
+
+# ---------------------------------------------------------- Brief/Full extras
+# The redesigned scouting report (DeckPage.dc.html) adds a BRIEF returning-player
+# mode on top of the existing FULL report. Most of its slots derive from data that
+# is ALREADY card-checked and baked (kill lines, clock medians, keep model, Summary
+# prose); only a few are editorial. We DERIVE every slot for all 17 decks from that
+# ground truth, then let OVERRIDES (below) refine the worked-example decks with the
+# design's authored copy. Nothing here invents a card interaction or a clock number.
+_BOTTLENECK_KEEP = {
+    "FINDING": "a route to a combo piece (you tutor or dig for the rest)",
+    "MANA": "your mana coming online roughly on curve",
+    "BOARD": "an early play that builds toward the commander",
+}
+_WIN_RX = re.compile(r"combo|finisher|payoff|drain|win\s?con|wincon|burn|"
+                     r"infinite|closer|alpha|kill", re.I)
+
+
+def _tnum(s):
+    m = re.search(r"\d+", s or "")
+    return int(m.group()) if m else None
+
+
+def _strip_links(s):
+    """Drop [[memory-link]] wiki markers, keeping the readable phrase."""
+    return re.sub(r"\[\[([^\]]+)\]\]", lambda m: m.group(1).replace("_", " "), s or "")
+
+
+def _flatbr(s):
+    return re.sub(r"\s*<br\s*/?>\s*", " ", s or "").strip()
+
+
+def _idea(game_plan):
+    """One-line hero 'idea' — the game plan's first sentence, markdown/link-stripped."""
+    return _demph(_strip_links(_first_sentence(game_plan) or game_plan or ""))
+
+
+def _vitals(clock, gc):
+    """Three derived vital signs (measured, not editorial): clock, decap, GC count."""
+    decap, table = clock.get("decap"), clock.get("table")
+    return [
+        dict(label="Clock", value=(table or decap or "—"), accent=True,
+             sub=(f"decap {decap}" if decap else "measured table kill")),
+        dict(label="Decap", value=(decap or "—"), sub="one opponent"),
+        dict(label="Game Changers", value=f"{len(gc)}/3", sub="bracket-3 cap"),
+    ]
+
+
+def _openings(axes, keep, clock):
+    """'How it loses' bullets, derived from the same structured fields the FULL page used."""
+    out = []
+    if axes:
+        low = min(axes, key=lambda a: a["score"])
+        out.append(f"Weakest axis — {low['label']} ({low['score']}/5): the judges' soft spot.")
+    mixed = (keep or {}).get("mixed")
+    if mixed:
+        out.append(mixed[0].upper() + mixed[1:].rstrip(".") + ".")
+    never = clock.get("never") or []
+    if never and never[0]:
+        out.append(f"Decap never-closes in {never[0]}% of goldfish games — a grind risk.")
+    if len(never) > 1 and never[1]:
+        out.append(f"Tables (all three) never-close {never[1]}% of the time.")
+    return out[:4]
+
+
+def _clock_extras(clock):
+    """Headline VS card + band-chart geometry, derived from the harvested medians/grid."""
+    decap, table = clock.get("decap"), clock.get("table")
+    grid = clock.get("grid") or []
+    af = grid[0] if grid else 5
+    at = grid[-1] if grid else 14
+    bands = []
+    for lab, val, kind in (("decap", _tnum(decap), "decap"), ("table", _tnum(table), "table")):
+        if val is not None:
+            bands.append({"label": lab, "from": val, "to": val, "kind": kind})
+    ticks = [t for t in grid if (t - af) % 2 == 0] or list(range(af, at + 1, 2))
+    return dict(
+        sub="measured kill-clock",
+        headline=[dict(label="Decap · one opp", value=(decap or "—"), sub="median kill", kind="decap"),
+                  dict(label="Table · all three", value=(table or "—"), sub="median kill", kind="table")],
+        bands=bands, ticks=ticks, axisFrom=af, axisTo=at,
+        note="", noteLabel="",
+        caption=(f"Decap (one opponent) lands around {decap}; the full table around {table}."
+                 if decap and table else "Measured kill-clock from the deck's clock lab."),
+    )
+
+
+def _brief_kills(kill_tree, finishers):
+    """The two kill lines that win, for BRIEF mode — the top kill-tree lines (or finishers)."""
+    out = []
+    if kill_tree and kill_tree.get("lines"):
+        for i, l in enumerate(kill_tree["lines"][:2]):
+            out.append(dict(idx=f"{i + 1:02d}", tag=l.get("tag", ""),
+                            primary=l.get("primary", i == 0), clock=l.get("clock", ""),
+                            line=f"{_flatbr(l['need'])} → {_flatbr(l['kill'])}"))
+    else:
+        for i, f in enumerate(finishers[:2]):
+            line = f"{f['name']} — {f['note']}" if f.get("note") else f["name"]
+            out.append(dict(idx=f"{i + 1:02d}", tag=f.get("tag", ""),
+                            primary=(i == 0), clock="", line=line))
+    return out
+
+
+def _mark_win(composition):
+    """Flag the single wincon bucket (first name matching the win lexicon) for the comp bar."""
+    out, flagged = [], False
+    for b in composition:
+        win = (not flagged) and bool(_WIN_RX.search(b["name"]))
+        flagged = flagged or win
+        out.append(dict(name=b["name"], count=b["count"], win=win))
+    return out
+
+
+def _mull_strategy(keep):
+    """The BRIEF keep heuristic, from the deck's keep model (bottleneck axis + land band)."""
+    bn = (keep or {}).get("bottleneck")
+    lo, hi = (keep or {}).get("minLands"), (keep or {}).get("maxLands")
+    band = f"{lo}–{hi}" if lo is not None and hi is not None else "2–4"
+    s = f"Keep {band} lands with {_BOTTLENECK_KEEP.get(bn, 'a workable opener toward the game plan')}."
+    mixed = (keep or {}).get("mixed")
+    if mixed:
+        s += f" {mixed[0].upper()}{mixed[1:].rstrip('.')}."
+    return s
+
+
+def _apply_override(payload, ov):
+    """Field-by-field override merge; clock/killTree/mull merge into the derived dicts."""
+    for k, v in ov.items():
+        if k in ("clock", "killTree", "mull") and isinstance(payload.get(k), dict) and isinstance(v, dict):
+            payload[k].update(v)
+        else:
+            payload[k] = v
+
+
+# Authored copy for the design's three worked examples (verbatim from the Pod Gauntlet
+# design system's DeckPage template). Every other deck renders the derived copy above.
+# These refine editorial slots only — kill-tree lines, clock medians, decklist and
+# rulings stay sourced from the registry / Summary / clock labs (the ground truth).
+OVERRIDES = {
+    "lightning_war": {
+        "kicker": "In the Grixis corner", "corner": "Bracket 3 · Grixis",
+        "tagline": "You set the clock — close on your turn, where Abolisher can’t act",
+        "colorLine": "Grixis · UBR",
+        "idea": "When Fire Lord Azula attacks, every spell you cast that combat happens three "
+                "times. The whole deck bends toward the one swing where that multiplier turns "
+                "lethal — and races to get there first.",
+        "vitals": [
+            {"label": "Clock", "value": "~T9", "accent": True, "sub": "combo is the clock · decap T8"},
+            {"label": "Win on", "value": "Your turn", "sub": "Abolisher can’t act"},
+            {"label": "Plan B", "value": "Burn race", "sub": "copy-X · 45 each"},
+        ],
+        "briefKillsCaption": "the two that win",
+        "openings": [
+            "Weakest axis — Durability (4/5): graveyard-hate exposure on the recursion / storm backup.",
+            "Tables never-close in 17% of goldfish games — a grindy, disrupted pod stretches the clock.",
+            "Tutor-gated combo: stack interaction at the 8 tutors and the kill slips a turn.",
+            "Creature-light — go-wide aggro can pressure or race you; you answer, you don’t block.",
+        ],
+        "mull": {"strategy": "Keep 2–4 lands with a route to Azula by T4 and an early play. You tutor "
+                             "the rest — 8 tutors plus Gifts Ungiven find whatever the hand is missing."},
+        "clock": {"sub": "measured kill-clock", "note": "", "noteLabel": "",
+                  "caption": "The combo (~T9) is the fastest table kill — infinite mana into Torment "
+                             "ends the table in one cast; the race alone tables much later."},
+        "killTree": {"stallLabel": "When nothing’s up"},
+    },
+    "dark_lords_army": {
+        "kicker": "In the Grixis corner", "corner": "Bracket 3 · Grixis",
+        "tagline": "Durability is the point — recover from wipes trivially and let the drain do the work",
+        "colorLine": "Grixis · UBR",
+        "idea": "Sauron punishes opponents for playing the game: every spell they cast amasses your "
+                "Army, every card they draw bleeds them. There is no explosive turn — you assemble a "
+                "tax-and-drain web and grind the table out over several cycles.",
+        "vitals": [
+            {"label": "Clock", "value": "T9–12", "accent": True, "sub": "opponent-driven · faster vs active pods"},
+            {"label": "Win by", "value": "Attrition", "sub": "drain on their draws"},
+            {"label": "Watch", "value": "Ganged up", "sub": "slowest clock · yard hate"},
+        ],
+        "briefKillsCaption": "two ways life totals hit zero",
+        "openings": [
+            "Weakest axis — Kill Reliability (4/5): no single-turn finish; you win on accumulated advantage over 2–4 turns.",
+            "Fast combo can race the grind — the counter suite is the answer, not the clock.",
+            "Graveyard hate clamps the reset backup; the primary drain survives it.",
+            "Threat perception: the slowest clock in the sweep invites being ganged up before drain matters.",
+        ],
+        "mull": {"strategy": "Keep lands + ramp toward a turn 5–6 Sauron, plus an early drain piece "
+                             "(Underworld Dreams, Sheoldred) or interaction to survive into the grind. "
+                             "You do NOT need a kill piece in your opener — the engine grinds and the deck draws deep."},
+        "clock": {"sub": "opponent-driven clock", "noteLabel": "opp-driven",
+                  "note": "The engine is opponent-driven — it kills FASTER against active pods, because "
+                          "amass and drain feed on opponents’ spells and draws.",
+                  "caption": "No single explosive finish — drain accumulates over 2–4 turns, the slowest "
+                             "clock in the sweep. Manage threat perception so you aren’t ganged up before it matters."},
+        "killTree": {"stallLabel": "The long game"},
+    },
+    "eldrazi_stampede": {
+        "kicker": "In the Temur corner", "corner": "Bracket 3 · Temur",
+        "tagline": "Build the curve, then swing — Craterhoof turns a wide board into a one-turn table kill",
+        "colorLine": "Temur · GUR",
+        "idea": "Ramp hard, cheat huge creatures into play with haste, and turn the board sideways. "
+                "There is no combo to assemble — you build a damage curve and, once the board is wide "
+                "enough, one alpha strike ends the table.",
+        "vitals": [
+            {"label": "Clock", "value": "T8–12", "accent": True, "sub": "decap T8 · table T12"},
+            {"label": "Win by", "value": "Alpha strike", "sub": "Craterhoof / wide swing"},
+            {"label": "Watch", "value": "Wraths & combo", "sub": "no counters · Rift resets you"},
+        ],
+        "briefKillsCaption": "ramp, then one big swing",
+        "openings": [
+            "No hard counterspells despite blue — combo decks that go off T4–6 pre-empt your T6–8 window.",
+            "Cyclonic Rift / Farewell are devastating — thin recursion, a 3–4 turn rebuild.",
+            "Politically loud — Annihilator and 12/12 Eldrazi draw the table’s fire; expect to be the early target.",
+            "Weakest axes — Durability & Interaction (3/3): the deck dominates the board but answers little.",
+        ],
+        "mull": {"strategy": "Keep ramp that reaches 6+ mana by T4–5 plus a payoff or a cascade engine "
+                             "(Wanderer, Conduit of Ruin, Sunbird’s). You do NOT need the finisher in hand — "
+                             "the deck digs into it. Toss no-land hands and all-bombs with no ramp."},
+        "clock": {"sub": "measured kill-clock", "noteLabel": "slow build",
+                  "note": "Does not race the pod — a T≤7 decap lands only ~26% of games; the table kill "
+                          "needs Craterhoof, 8 mana, and a wide board at once.",
+                  "caption": "The Craterhoof alpha is the real table kill — trample + X/X across a wide "
+                             "board ends three opponents at once. The Wanderer cascades are the fast decap."},
+        "killTree": {"stallLabel": "When you stall",
+                     "curve": [{"t": 3, "p": 5}, {"t": 4, "p": 11}, {"t": 5, "p": 19},
+                               {"t": 6, "p": 30}, {"t": 7, "p": 44}, {"t": 8, "p": 60}],
+                     "lethalAt": 40, "lethalLabel": "wide alpha = lethal"},
+    },
+}
 
 
 def deck(slug):
@@ -747,31 +1000,56 @@ def deck(slug):
 
     game_plan = _game_plan(secs, (d.get("win_line") or {}).get("line", ""))
 
-    return dict(
+    colors = ix.get("colors", "")
+    pips = _commander_pips(d["commander"], colors)
+    score = d["cc"]
+    clock = dict(
+        decap=(ck.get("med") or [None, None])[0],
+        table=(ck.get("med") or [None, None])[1],
+        grid=ck.get("grid", []), decapCurve=ck.get("decap", []),
+        tableCurve=ck.get("table", []), never=ck.get("never", []),
+        src=ck.get("src", ""),
+    )
+    clock.update(_clock_extras(clock))
+    kill_tree = _kill_tree(slug)
+    finishers = _kill_lines(secs)
+    composition = _mark_win(_composition(sp))
+    keep = dict(
+        bottleneck=d.get("bottleneck"), minLands=d.get("min_lands"),
+        maxLands=d.get("max_lands"), mixed=d.get("mixed"),
+    )
+
+    payload = dict(
         slug=slug, name=d["name"], commander=d["commander"],
-        colors=ix.get("colors", ""),
-        pips=_commander_pips(d["commander"], ix.get("colors", "")),
+        colors=colors, pips=pips,
         archetype=ix.get("archetype", ""), status=ix.get("status", ""),
-        bracket=3, score=d["cc"], axes=axes, gc=gc_used,
-        clock=dict(
-            decap=(ck.get("med") or [None, None])[0],
-            table=(ck.get("med") or [None, None])[1],
-            grid=ck.get("grid", []), decapCurve=ck.get("decap", []),
-            tableCurve=ck.get("table", []), never=ck.get("never", []),
-            src=ck.get("src", ""),
-        ),
+        bracket=3, score=score, axes=axes, axesTotal=(f"{score}/20" if score is not None else "—/20"),
+        gc=gc_used,
+        # ---- redesigned scouting report: hero / brief identity (derived, OVERRIDES refine) ----
+        kicker=(f"In the {colors} corner" if colors else (ix.get("archetype", "") or "")),
+        corner=(f"Bracket 3 · {colors}" if colors else "Bracket 3"),
+        tagline=(d.get("win_line") or {}).get("line", ""),
+        colorLine=(f"{colors} · {''.join(pips)}" if colors else "".join(pips)),
+        idea=_idea(game_plan),
+        vitals=_vitals(clock, gc_used),
+        briefKillsCaption="the lines that win",
+        briefKills=_brief_kills(kill_tree, finishers),
+        openings=_openings(axes, keep, clock),
+        clock=clock,
         gamePlan=game_plan,
         winLine=(d.get("win_line") or {}).get("line", ""),
-        finishers=_kill_lines(secs),
+        finishers=finishers,
         rulings=_rulings(secs),
-        composition=_composition(sp),
+        composition=composition,
         decklist=_decklist(txt, sp, d["commander"], gc_names, aliases),
-        keep=dict(
-            bottleneck=d.get("bottleneck"), minLands=d.get("min_lands"),
-            maxLands=d.get("max_lands"), mixed=d.get("mixed"),
-        ),
-        killTree=_kill_tree(slug),
+        keep=keep,
+        mull=dict(strategy=_mull_strategy(keep)),
+        killTree=kill_tree,
     )
+    ov = OVERRIDES.get(slug)
+    if ov:
+        _apply_override(payload, ov)
+    return payload
 
 
 # ====================================================================== WISHLIST
