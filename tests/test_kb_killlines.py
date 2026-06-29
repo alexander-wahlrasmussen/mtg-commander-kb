@@ -35,11 +35,43 @@ def test_canonical_kill_lines_still_parse():
 
 
 def test_closing_lines_heading_with_line_labels():
-    """Exile's Return / Eldrazi: content under '## Closing Lines' (not 'Kill Lines')."""
+    """Exile's Return / Eldrazi: content under '## Closing Lines' (not 'Kill Lines').
+    REGRESSION (2026-06-29 audit): the note lives on the line AFTER the '**Line N —**'
+    label (group(2) empty), and was being SILENTLY DROPPED — this test only checked names
+    before, which is exactly how it slipped through."""
     body = ("**Line 1 — Hellkite Charger + Firebending**\nWith Sozin's Comet up, swing for 20.\n"
             "**Line 2 — Commander Damage**\nPile counters on Zuko.")
     out = kb._kill_lines(_sections("Closing Lines", body))
     assert [f["name"] for f in out] == ["Hellkite Charger + Firebending", "Commander Damage"]
+    assert out[0]["note"] == "With Sozin's Comet up, swing for 20."
+    assert out[1]["note"] == "Pile counters on Zuko."
+
+
+def test_next_line_note_with_blank_separators_and_tag():
+    """The exact shape of all 5 affected Summaries (radiation/replication/earthbend/exiles/
+    diminishing): '**Line N — Title (tag)**' then the description paragraph on the next line,
+    blank line, next label. The tag still parses off the title; the note comes from the
+    following line; only the FIRST sentence is kept."""
+    body = ("**Line 1 — Counter Overload (primary, combat)**\n"
+            "Grow creatures through proliferate until lethal. Champion makes them unblockable.\n"
+            "\n"
+            "**Line 2 — Simic Ascendancy (alternate win)**\n"
+            "Reach 20 growth counters and win at upkeep. Telegraphed but fast.\n")
+    out = kb._kill_lines(_sections("Kill Lines", body))
+    assert [f["name"] for f in out] == ["Counter Overload", "Simic Ascendancy"]
+    assert out[0]["tag"] == "primary, combat"
+    assert out[0]["note"] == "Grow creatures through proliferate until lethal."
+    assert out[1]["note"] == "Reach 20 growth counters and win at upkeep."
+
+
+def test_label_with_no_following_note_stays_empty():
+    """A '**Line N —**' label whose next non-empty line is the next label must NOT borrow it
+    as a note (guards the lookahead's stop condition)."""
+    body = "**Line 1 — First:**\n**Line 2 — Second:** has an inline note."
+    out = kb._kill_lines(_sections("Kill Lines", body))
+    assert [f["name"] for f in out] == ["First", "Second"]
+    assert out[0]["note"] == ""
+    assert out[1]["note"] == "has an inline note."
 
 
 def test_letter_indexed_lines():

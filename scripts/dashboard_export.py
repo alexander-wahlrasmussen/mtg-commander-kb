@@ -21,6 +21,7 @@ per deck×lock) — tune LOCKS_* below if the bake is too slow.
 Usage:
     python scripts/dashboard_export.py
 """
+import argparse
 import importlib.util
 import json
 import shutil
@@ -78,104 +79,133 @@ def k_strict(b):
 
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--content", action="store_true",
+                    help="bake ONLY the content + deck pages (skip the sim grids); merges into the "
+                         "existing manifest. Use after a KB-content change (e.g. a Summary edit) "
+                         "to refresh deck pages without re-running gauntlet/championship/locks.")
+    ap.add_argument("--grids", action="store_true",
+                    help="bake ONLY the sim grids (clocks/gauntlet/championship/locks); skip content.")
+    args = ap.parse_args()
+    # default (neither flag) = both, matching the original behaviour.
+    do_grids = not (args.content and not args.grids)
+    do_content = not (args.grids and not args.content)
+
     OUT.mkdir(parents=True, exist_ok=True)
+    decks_dir = OUT / "decks"
     t0 = time.time()
+    slugs = []
 
-    # clocks — already static
-    print("clocks ...", end="", flush=True)
-    (OUT / "clocks.json").write_text(json.dumps(ds.compute_clocks()), encoding="utf-8")
-    print(" done")
-
-    # gauntlet
-    g = {}
-    total = len(GAUNTLET_POD) * len(GAUNTLET_STRICT) * len(GAUNTLET_A)
-    n = 0
-    for pod in GAUNTLET_POD:
-        for strict in GAUNTLET_STRICT:
-            for a in GAUNTLET_A:
-                g[f"{pod}|{k_strict(strict)}|{a:.2f}"] = ds.compute_gauntlet(
-                    a=a, pod=pod, strict=strict, trials=GAUNTLET_TRIALS, seed=GSEED)
-                n += 1
-                print(f"\rgauntlet {n}/{total} ...", end="", flush=True)
-    (OUT / "gauntlet.json").write_text(json.dumps(g), encoding="utf-8")
-    print(" done")
-
-    # championship
-    c = {}
-    total = len(CHAMP_TGRIND) * len(CHAMP_SWAPPED)
-    n = 0
-    for tg in CHAMP_TGRIND:
-        for sw in CHAMP_SWAPPED:
-            c[f"{tg}|{k_strict(sw)}"] = ds.compute_championship(
-                trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, t_grind=tg, swapped=sw,
-                seed=CSEED, draw_seed=CSEED, n_draws=CHAMP_DRAWS)
-            n += 1
-            print(f"\rchampionship {n}/{total} ...", end="", flush=True)
-    (OUT / "championship.json").write_text(json.dumps(c), encoding="utf-8")
-    print(" done")
-
-    # locks (the expensive one — measures availability per deck×lock). Needs the heavy
-    # Scryfall oracle dump; if it's absent, skip and keep the existing locks.json rather
-    # than aborting the whole bake (everything else above doesn't need the oracle data).
-    if not ORACLE_CARDS.is_file():
-        print(f"locks ... SKIPPED — {ORACLE_CARDS.relative_to(ROOT)} missing "
-              f"(run scripts/update_scryfall_data.py to refresh locks); keeping existing locks.json")
-    else:
-        lk = {}
-        total = len(LOCKS_POD) * len(LOCKS_STRICT) * len(LOCKS_A) * len(LOCKS_R)
-        n = 0
-        for pod in LOCKS_POD:
-            for strict in LOCKS_STRICT:
-                for a in LOCKS_A:
-                    for r in LOCKS_R:
-                        lk[f"{pod}|{k_strict(strict)}|{a:.2f}|{r:.2f}"] = ds.compute_lock_sweep(
-                            a=a, r=r, strict=strict, trials=LOCKS_TRIALS, pod=pod, seed=LSEED)
-                        n += 1
-                        print(f"\rlocks {n}/{total} (slow) ...", end="", flush=True)
-        (OUT / "locks.json").write_text(json.dumps(lk), encoding="utf-8")
+    if do_grids:
+        # clocks — already static
+        print("clocks ...", end="", flush=True)
+        (OUT / "clocks.json").write_text(json.dumps(ds.compute_clocks()), encoding="utf-8")
         print(" done")
 
-    # content pages (KB markdown / CSV / Scryfall — single payloads, no scenario grid)
-    print("content ...", end="", flush=True)
-    roster = ds.compute_roster()
-    (OUT / "roster.json").write_text(json.dumps(roster), encoding="utf-8")
-    (OUT / "wishlist.json").write_text(json.dumps(ds.compute_wishlist()), encoding="utf-8")
-    (OUT / "collection.json").write_text(json.dumps(ds.compute_collection()), encoding="utf-8")
-    (OUT / "home.json").write_text(json.dumps(ds.compute_home(GSEED)), encoding="utf-8")
-    (OUT / "tierlist.json").write_text(json.dumps(ds.compute_tierlist(
-        trials=40000, t_grind=ds.sm.T_GRIND, tax=ds.tl.im.TAX, seed=ds.sm.SEED, legacy=False)),
-        encoding="utf-8")
-    decks_dir = OUT / "decks"
-    decks_dir.mkdir(exist_ok=True)
-    slugs = [d["slug"] for d in roster["decks"]]
-    for slug in slugs:
-        page = ds.compute_deck(slug)
-        # Bake the mulligan drill here (not in the live compute_deck path): it loads the
-        # Scryfall bulk + sims hands, too heavy for a per-request server hit. Verdicts are
-        # the authoritative keep_hand, computed once and baked (no client-side re-impl).
-        page["mulligan"] = mt.bake_hands(slug, n=MULLIGAN_HANDS, seed=0)
-        (decks_dir / f"{slug}.json").write_text(json.dumps(page), encoding="utf-8")
-    print(f" done ({len(slugs)} deck pages)")
+        # gauntlet
+        g = {}
+        total = len(GAUNTLET_POD) * len(GAUNTLET_STRICT) * len(GAUNTLET_A)
+        n = 0
+        for pod in GAUNTLET_POD:
+            for strict in GAUNTLET_STRICT:
+                for a in GAUNTLET_A:
+                    g[f"{pod}|{k_strict(strict)}|{a:.2f}"] = ds.compute_gauntlet(
+                        a=a, pod=pod, strict=strict, trials=GAUNTLET_TRIALS, seed=GSEED)
+                    n += 1
+                    print(f"\rgauntlet {n}/{total} ...", end="", flush=True)
+        (OUT / "gauntlet.json").write_text(json.dumps(g), encoding="utf-8")
+        print(" done")
 
-    manifest = dict(
-        generated=time.strftime("%Y-%m-%d %H:%M"),
-        clocks=True,
-        gauntlet=dict(pod=GAUNTLET_POD, strict=[0, 1], a=GAUNTLET_A, trials=GAUNTLET_TRIALS),
-        locks=dict(pod=LOCKS_POD, strict=[k_strict(s) for s in LOCKS_STRICT],
-                   a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
-        championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
-                          trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
-        content=dict(roster=True, home=True, wishlist=True, collection=True, tierlist=True, decks=slugs),
-    )
-    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        # championship
+        c = {}
+        total = len(CHAMP_TGRIND) * len(CHAMP_SWAPPED)
+        n = 0
+        for tg in CHAMP_TGRIND:
+            for sw in CHAMP_SWAPPED:
+                c[f"{tg}|{k_strict(sw)}"] = ds.compute_championship(
+                    trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, t_grind=tg, swapped=sw,
+                    seed=CSEED, draw_seed=CSEED, n_draws=CHAMP_DRAWS)
+                n += 1
+                print(f"\rchampionship {n}/{total} ...", end="", flush=True)
+        (OUT / "championship.json").write_text(json.dumps(c), encoding="utf-8")
+        print(" done")
+
+        # locks (the expensive one — measures availability per deck×lock). Needs the heavy
+        # Scryfall oracle dump; if it's absent, skip and keep the existing locks.json rather
+        # than aborting the whole bake (everything else above doesn't need the oracle data).
+        if not ORACLE_CARDS.is_file():
+            print(f"locks ... SKIPPED — {ORACLE_CARDS.relative_to(ROOT)} missing "
+                  f"(run scripts/update_scryfall_data.py to refresh locks); keeping existing locks.json")
+        else:
+            lk = {}
+            total = len(LOCKS_POD) * len(LOCKS_STRICT) * len(LOCKS_A) * len(LOCKS_R)
+            n = 0
+            for pod in LOCKS_POD:
+                for strict in LOCKS_STRICT:
+                    for a in LOCKS_A:
+                        for r in LOCKS_R:
+                            lk[f"{pod}|{k_strict(strict)}|{a:.2f}|{r:.2f}"] = ds.compute_lock_sweep(
+                                a=a, r=r, strict=strict, trials=LOCKS_TRIALS, pod=pod, seed=LSEED)
+                            n += 1
+                            print(f"\rlocks {n}/{total} (slow) ...", end="", flush=True)
+            (OUT / "locks.json").write_text(json.dumps(lk), encoding="utf-8")
+            print(" done")
+
+    if do_content:
+        # content pages (KB markdown / CSV / Scryfall — single payloads, no scenario grid)
+        print("content ...", end="", flush=True)
+        roster = ds.compute_roster()
+        (OUT / "roster.json").write_text(json.dumps(roster), encoding="utf-8")
+        (OUT / "wishlist.json").write_text(json.dumps(ds.compute_wishlist()), encoding="utf-8")
+        (OUT / "collection.json").write_text(json.dumps(ds.compute_collection()), encoding="utf-8")
+        (OUT / "home.json").write_text(json.dumps(ds.compute_home(GSEED)), encoding="utf-8")
+        (OUT / "tierlist.json").write_text(json.dumps(ds.compute_tierlist(
+            trials=40000, t_grind=ds.sm.T_GRIND, tax=ds.tl.im.TAX, seed=ds.sm.SEED, legacy=False)),
+            encoding="utf-8")
+        decks_dir.mkdir(exist_ok=True)
+        slugs = [d["slug"] for d in roster["decks"]]
+        for slug in slugs:
+            page = ds.compute_deck(slug)
+            # Bake the mulligan drill here (not in the live compute_deck path): it loads the
+            # Scryfall bulk + sims hands, too heavy for a per-request server hit. Verdicts are
+            # the authoritative keep_hand, computed once and baked (no client-side re-impl).
+            page["mulligan"] = mt.bake_hands(slug, n=MULLIGAN_HANDS, seed=0)
+            (decks_dir / f"{slug}.json").write_text(json.dumps(page), encoding="utf-8")
+        print(f" done ({len(slugs)} deck pages)")
+
+    # manifest — MERGE so a partial bake (--content / --grids) doesn't clobber the other
+    # half's axes. A full run rewrites every field as before.
+    manifest_path = OUT / "manifest.json"
+    manifest = {}
+    if manifest_path.is_file():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            manifest = {}
+    manifest["generated"] = time.strftime("%Y-%m-%d %H:%M")
+    if do_grids:
+        manifest.update(dict(
+            clocks=True,
+            gauntlet=dict(pod=GAUNTLET_POD, strict=[0, 1], a=GAUNTLET_A, trials=GAUNTLET_TRIALS),
+            locks=dict(pod=LOCKS_POD, strict=[k_strict(s) for s in LOCKS_STRICT],
+                       a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
+            championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
+                              trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
+        ))
+    if do_content:
+        manifest["content"] = dict(roster=True, home=True, wishlist=True,
+                                   collection=True, tierlist=True, decks=slugs)
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
     # mirror the whole bake into the React app's public/data (its static fallback)
     UI_OUT.mkdir(parents=True, exist_ok=True)
     (UI_OUT / "decks").mkdir(exist_ok=True)
     for p in OUT.glob("*.json"):
         shutil.copy2(p, UI_OUT / p.name)
-    for p in decks_dir.glob("*.json"):
-        shutil.copy2(p, UI_OUT / "decks" / p.name)
+    if decks_dir.is_dir():
+        for p in decks_dir.glob("*.json"):
+            shutil.copy2(p, UI_OUT / "decks" / p.name)
 
     sizes = {p.name: p.stat().st_size for p in sorted(OUT.glob("*.json"))}
     print(f"\nwrote {len(sizes)} files (+{len(slugs)} deck pages) to "

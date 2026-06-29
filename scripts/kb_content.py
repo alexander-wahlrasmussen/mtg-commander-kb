@@ -631,10 +631,21 @@ def _kill_lines(sections):
                                   "how you win", "how we win")):
             body = sec
             break
-    for ln in body.splitlines():
+    lines = body.splitlines()
+    for i, ln in enumerate(lines):
         m = _LINE_BOLD.match(ln.strip())
         if m:
-            out.append(_split_finisher(m.group(1), m.group(2)))
+            note = m.group(2).strip()
+            if not note:                      # '**Line N — Title**' with the description on
+                for nxt in lines[i + 1:]:     # the FOLLOWING line (5 Summaries' real shape —
+                    s = nxt.strip()           # radiation/replication/earthbend/exiles/diminishing)
+                    if not s:                 # blank line ends the one-paragraph note
+                        break
+                    if _LINE_BOLD.match(s) or _LINE_SUB.match(s) or s.startswith("#"):
+                        break                 # next label/heading -> this line truly had no note
+                    note = s                  # first continuation line (first sentence taken below)
+                    break
+            out.append(_split_finisher(m.group(1), note))
     if out:
         return out[:8]
     for ln in body.splitlines():                       # B2 — numbered bold-lead (FL style)
