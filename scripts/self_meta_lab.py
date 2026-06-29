@@ -65,14 +65,24 @@ W_INEV, W_DEF, W_FED = 0.50, 0.35, 0.15
 DEF_NORM = 8.0                       # ~8 R/P answers = saturated defense
 OPP_FED = {"dark_lords_army": 1.0}   # Sauron shell; others minor, omitted (documented)
 
-# judgment tiers from Self_Meta_Ranking.md, for the comparison column
+# judgment tiers from Self_Meta_Ranking.md, for the Δrank comparison column. This is the doc's
+# REASONED ranking (an independent baseline), so it's deliberately a SUBSET of the sim roster:
+# croak_and_dagger inherits #7 from the renamed Calamity Tax (same deck, the lands/graveyard
+# re-role only deepened its Tier-3 "durable but can't close" profile), and forced_liquidation
+# (the new Kefka build) is intentionally ABSENT — the doc predates it, so its Δrank shows "—"
+# rather than a fabricated judgment (the model measures it ~#4, suggesting Tier 2 when judged).
 JUDGMENT = {
     "dark_lords_army": 1, "radiation_sickness": 2, "genome_project": 3, "lightning_war": 4,
-    "zero_sum_game": 5, "grand_design": 6, "calamity_tax": 7, "lorehold_spirits": 8,
+    "zero_sum_game": 5, "grand_design": 6, "croak_and_dagger": 7, "lorehold_spirits": 8,
     "diminishing_returns": 9, "curse_of_the_scarab": 10, "exiles_return": 11,
     "earthbend_the_meta": 12, "replication_crisis": 13, "eldrazi_stampede": 14,
     "bumbleflower": 15, "crystal_sickness": 16,
 }
+# Guard (2026-06-29 audit): a JUDGMENT key that isn't in the live roster is a dead anchor — the
+# Calamity->Croak rename left "calamity_tax" pointing Δrank at a deck no longer simmed. The dict
+# may be a subset (new decks unranked) but must never name a slug outside delay_lab.ROSTER.
+assert set(JUDGMENT) <= set(dl.ROSTER), (
+    f"self_meta JUDGMENT names retired slug(s): {set(JUDGMENT) - set(dl.ROSTER)}")
 
 
 def defense_counts():

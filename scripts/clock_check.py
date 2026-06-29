@@ -65,8 +65,21 @@ SUMMARY = {
     "lightning_war": "Lightning_War_Summary.md",
     "grand_design": "The_Grand_Design_Summary.md",
     "crystal_sickness": "Crystal_Sickness_Summary.md",
-    "calamity_tax": "The_Calamity_Tax_Summary.md",
+    "croak_and_dagger": "Croak_And_Dagger_Summary.md",      # was calamity_tax (renamed)
+    "forced_liquidation": "Forced_Liquidation_Summary.md",  # 17th deck, was missing
 }
+
+# Guard against the stale-slug drift the 2026-06-29 audit found (calamity_tax pointed at a
+# deleted Summary; croak/forced_liquidation were silently [SKIP]ped). The mapping must cover
+# exactly the active roster (deck_registry is the single source of truth).
+_REG = ROOT / "scripts" / "deck_registry.py"
+if _REG.exists():
+    import importlib.util as _ilu
+    _spec = _ilu.spec_from_file_location("deck_registry", _REG)
+    _dr = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_dr)
+    assert set(SUMMARY) == set(_dr.fb_decks()), (
+        f"clock_check.SUMMARY drifted from the active roster: "
+        f"missing={set(_dr.fb_decks()) - set(SUMMARY)}, stale={set(SUMMARY) - set(_dr.fb_decks())}")
 
 
 def parse_med(s):
@@ -116,6 +129,13 @@ def cited_turns(line):
     """
     cut = HEAD_CUT.search(line)
     head = line[:cut.start()] if cut else line
+    # Header-format lines put the clock AFTER a '·' (e.g. "Score: … · Clock: T8 decap …"),
+    # so cutting at the first '·' can discard the whole clock clause. If the head lost every
+    # clock keyword, the '·' was a leading separator, not the trailing interaction marker —
+    # fall back to cutting only at the lab citation (keeps the clock, drops the prose tail).
+    if not re.search(r"decap|table", head, re.I):
+        cut2 = re.search(r"\(lab |lab 20|`scripts|`\w+_(?:clock|speed)_lab", line, re.I)
+        head = line[:cut2.start()] if cut2 else line
     out = {"decap": None, "table": None}
     for seg in re.split(r"[/;]", head):
         low = seg.lower()

@@ -29,6 +29,20 @@ tier is soft.
 > doc's #1. **The tiers below are kept as the judgment baseline — read them against that
 > decomposition.**
 
+> **Updated 2026-06-29** (codebase audit re-harvest, `self_meta_lab.py --trials 20000`). Two
+> roster changes and one clock correction since the tiers below were written:
+> - **The Calamity Tax → Croak and Dagger** (#7). Same deck slot, rebuilt into a lands/graveyard
+>   grind fortress; the re-role only *deepened* its Tier-3 "durable but can't close" profile (table
+>   `>T14`, never-closes 60%), so it keeps #7 as the judgment baseline — and the model now ranks it
+>   **#15** (Δrank −8), the sharpest "over-rated by inevitability" gap in the roster.
+> - **Forced Liquidation** (new, Kefka Grixis forced-draw burn) is unranked here (the doc predates
+>   it). Its Psychosis Crawler / Notion Thief drain is a **converge hit-all** engine fed by the
+>   forced draws, table T9, 0.79 durability — the model places it **#4** (Tier 2). Treat that as
+>   provisional until this doc is re-judged.
+> - **Lightning War** is no longer a "can't-close fortress": its chip-model table clock collapsed
+>   T14→T9 (cross-table pinger fix), lifting it to a measured **#2**. The "(a) over-rated fortresses"
+>   list in the 2026-06-15 note above is now Grand Design / Croak / Diminishing Returns only.
+
 ---
 
 ## Why this ranking differs from the anti-pod matrix

@@ -4,7 +4,7 @@ lab-measured outcome oracle.
 
 The question (2026-06-16, see memory project_framework_bakeoff): does The Conversion
 Check actually predict RESULTS, and would a different framework rank our decks better?
-We score all 16 active decks under several frameworks, then rank-correlate (Spearman)
+We score all 17 active decks under several frameworks, then rank-correlate (Spearman)
 each framework against the outcome oracle. The Conversion Check is one contestant.
 
 Contestants (locked 2026-06-16):
@@ -31,7 +31,7 @@ Usage (Phase 1)
     python scripts/framework_bakeoff.py --decks            # registry + decklist resolution
     python scripts/framework_bakeoff.py --gc               # parsed Game-Changer set + per-deck counts
     python scripts/framework_bakeoff.py --tags genome_project   # tagged breakdown for one deck
-    python scripts/framework_bakeoff.py --tags all              # one-line tag summary for all 16
+    python scripts/framework_bakeoff.py --tags all              # one-line tag summary for all 17
 """
 import argparse
 import importlib.util
@@ -71,55 +71,71 @@ DECKS = deck_registry.fb_decks()
 # combat/attrition line with no discrete piece set (an estimate).
 WIN_LINE = deck_registry.win_lines()
 
-# Richer outcome oracles = the project's results MODELS (P(win), higher=better). Harvested
-# 2026-06-16: pod_gauntlet = `pod_gauntlet.py --trials 20000` P(WIN) col (a=0.3, vs the
-# archenemy combo pod); self_meta = `self_meta_lab.py --trials 20000` WIN% col (random 4-seat
-# roster pod, T_grind=10). Snapshot, like the CC scores — regenerate by rerunning those labs.
+# Richer outcome oracles = the project's results MODELS (P(win), higher=better). Snapshot,
+# like the CC scores — regenerate by rerunning those labs. Re-harvested 2026-06-29 (codebase
+# audit) for ALL 17 active decks: pod_gauntlet = `pod_gauntlet.py --trials 20000` P(WIN) col
+# (a=0.3, vs the archenemy combo pod); self_meta = `self_meta_lab.py --trials 20000` WIN% col
+# (random 4-seat roster pod, T_grind=10). The 2026-06-16 snapshot was stale beyond just the
+# Calamity->Croak rename: several clocks moved since (Lightning War's chip-model table collapse
+# T14->T9 lifted its self_meta 5->49; Exiles' Zuko MV3 fix; Replication's 06-22 optimization),
+# so the whole table was re-harvested at once for internal consistency.
 # CAVEAT: pod_gauntlet P(win) is partly DERIVED from the decap clock (+ disruption) and
 # self_meta from the TABLE clock (+ durability), so pure_clock correlates with them partly by
 # construction — flagged in --bakeoff. CC/Disciple/BDD are independent of both.
 RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta P(win))
-    "genome_project":      (66, 79),
-    "radiation_sickness":  (69, 42),
-    "replication_crisis":  (60, 18),
-    "lorehold_spirits":    (42, 31),
-    "earthbend_the_meta":  (42, 17),
-    "exiles_return":       (44, 36),
-    "zero_sum_game":       (36, 51),
-    "curse_of_the_scarab": (38, 24),
-    "bumbleflower":        (48, 12),
-    "eldrazi_stampede":    (28, 11),
-    "dark_lords_army":     (24, 24),
+    "genome_project":      (66, 71),
+    "radiation_sickness":  (69, 35),
+    "replication_crisis":  (61, 23),
+    "lorehold_spirits":    (42, 28),
+    "earthbend_the_meta":  (42, 13),
+    "exiles_return":       (49, 31),
+    "zero_sum_game":       (35, 48),
+    "curse_of_the_scarab": (38, 19),
+    "bumbleflower":        (48, 9),
+    "eldrazi_stampede":    (28, 8),
+    "dark_lords_army":     (24, 19),
     "diminishing_returns": (18, 3),
-    "lightning_war":       (38, 5),
-    "grand_design":        (24, 1),
-    "crystal_sickness":    (9, 12),
-    "calamity_tax":        (20, 35),
+    "lightning_war":       (51, 49),
+    "grand_design":        (31, 4),
+    "crystal_sickness":    (9, 10),
+    "forced_liquidation":  (49, 45),
+    "croak_and_dagger":    (7, 7),
 }
 
 # Backlog #6 — the INTERACTION/durability overlay oracle (interaction_meta_lab.py): self_meta's
 # roster-pod P(win) but a closing seat must push through the table's available answers, so the
 # Conversion Check's Interaction + Durability axes (worth 0 in the goldfish oracles) finally move
-# the number. Snapshot @ TAX=0.6, 120k trials (regenerate: interaction_meta_lab.py --tax 0.6).
-# Higher = better. TAX=0 reduces this column EXACTLY to oracle_selfmeta (the null check).
+# the number. Re-harvested 2026-06-29 @ TAX=0.6, 120k trials (regenerate: interaction_meta_lab.py
+# --tax 0.6 --trials 120000) for all 17 decks alongside RICHER_ORACLE — same stale-clock reasons
+# (Lightning War 7->52). Higher = better. TAX=0 reduces this column EXACTLY to oracle_selfmeta.
 INTERACTION_ORACLE = {                  # slug: interaction_meta_lab INTERACTIVE P(win)
-    "genome_project":      71,
-    "radiation_sickness":  45,
-    "replication_crisis":  19,
-    "lorehold_spirits":    25,
-    "earthbend_the_meta":  17,
-    "exiles_return":       38,
-    "zero_sum_game":       49,
-    "curse_of_the_scarab": 24,
-    "bumbleflower":        14,
-    "eldrazi_stampede":     8,
-    "dark_lords_army":     30,
+    "genome_project":      65,
+    "radiation_sickness":  39,
+    "replication_crisis":  23,
+    "lorehold_spirits":    22,
+    "earthbend_the_meta":  14,
+    "exiles_return":       33,
+    "zero_sum_game":       45,
+    "curse_of_the_scarab": 20,
+    "bumbleflower":        11,
+    "eldrazi_stampede":     7,
+    "dark_lords_army":     25,
     "diminishing_returns":  3,
-    "lightning_war":        7,
-    "grand_design":         1,
-    "crystal_sickness":    11,
-    "calamity_tax":        38,
+    "lightning_war":       52,
+    "grand_design":         5,
+    "crystal_sickness":     9,
+    "forced_liquidation":  45,
+    "croak_and_dagger":     8,
 }
+
+# Recurrence guard (2026-06-29 audit): the SIM oracles are computable for EVERY active deck, so
+# a missing slug means a silent drop (the deck falls out of every Spearman as None), and a stale
+# slug (calamity_tax post-rename) is dead weight that's never looked up. Both dicts must cover the
+# registry roster exactly — re-harvest the two labs above when the roster changes.
+assert set(RICHER_ORACLE) == set(DECKS) == set(INTERACTION_ORACLE), (
+    "framework_bakeoff oracle rosters drifted from deck_registry.fb_decks(); re-harvest "
+    "pod_gauntlet / self_meta / interaction_meta_lab for: "
+    f"{(set(DECKS) ^ set(RICHER_ORACLE)) | (set(DECKS) ^ set(INTERACTION_ORACLE))}")
 
 TAGS = ("ramp", "draw", "tutor", "interaction", "protection")
 
@@ -688,7 +704,7 @@ def cmd_bakeoff(a, idx, gc, aliases):
     print("          must push through the table's answers, so Interaction+Durability finally count.")
     print("          TABLE/decap: lab kill clocks (faster=better). front7: P(decap<=T7) off the curve")
     print("          (the real pod's bar; sensitive to the mulligan). +1 agree · 0 unrelated · -1 backwards.")
-    print("CC N=15 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")
+    print("CC N=16 (Zero-Sum unaudited). bdd_mana rests on fuzzy win-lines. pure_clock vs the P(win)")
     print("SIM oracles is semi-circular (they're built partly FROM the clock) — CC/Disciple/BDD are not,")
     print("and NONE of them is circular vs REAL: that column is the real test when the log fills.")
 

@@ -102,6 +102,21 @@ def test_crackle_lethal_mana_respects_targeting_floor():
     assert all(f(life, c) >= 11 for life in range(1, 46) for c in (2, 3))  # never below floor
 
 
+# --- clock_check: a header-format clock line ("Score … · Clock: …") parsed as UNPARSED ---
+def test_clock_check_parses_header_format_clock_line():
+    """Forced Liquidation cites its clock on the header row: "Score: 16/20 (5 / 4 / 3 / 4) ·
+    Clock: T8 decap / T9 table (lab …)". HEAD_CUT cut at the FIRST '·' (the Score|Clock
+    separator), discarding the whole clock clause -> UNPARSED on a correct citation. The
+    fallback re-cuts at the lab marker when the head lost every clock keyword. Pins decap/table
+    AND that the "16/20" / "5 / 4 / 3 / 4" score numbers don't leak a false turn."""
+    cc = _load("clock_check")
+    line = ("**Score:** 16/20 (5 / 4 / 3 / 4) · Clock: T8 decap / T9 table (spell, sorcery) "
+            "(lab `kfk_clock_lab.py` 2026-06-25). Audited 2026-06-27.")
+    out = cc.cited_turns(line)
+    assert out["decap"] == (8, False), out
+    assert out["table"] == (9, False), out
+
+
 # --- ct_speed_lab: the dig knob modelled Glarb's SELECTION as raw DRAW, inflating Croak ---
 def test_croak_published_clock_is_the_honest_grind():
     """The live Croak clock (merged_clocks -> analysis/pod_gauntlet_clocks.json) must be the
