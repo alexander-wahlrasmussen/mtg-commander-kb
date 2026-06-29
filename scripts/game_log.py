@@ -73,15 +73,15 @@ for _s in (sys.stdout, sys.stderr):               # safe echo of arbitrary notes
         except (ValueError, OSError):
             pass
 
-# Canonical active-roster slugs — kept identical to clock_check.py / pod_gauntlet
-# so `mine`/`winner`/seat decks map straight onto the labs for back-testing.
+# Canonical active-roster slugs — DERIVED from deck_registry (the single source of
+# truth, shared with framework_bakeoff/clock_check) so `mine`/`winner`/seat decks
+# map straight onto the labs for back-testing and can never drift behind a deck
+# rename (the old hand-maintained literal silently went stale on Calamity->Croak).
 # Opponents' decks may use any slug (they have no lab); only `mine` is checked.
-DECKS = {
-    "genome_project", "radiation_sickness", "replication_crisis", "lorehold_spirits",
-    "earthbend_the_meta", "exiles_return", "zero_sum_game", "curse_of_the_scarab",
-    "bumbleflower", "eldrazi_stampede", "dark_lords_army", "diminishing_returns",
-    "lightning_war", "grand_design", "crystal_sickness", "calamity_tax",
-}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import deck_registry  # noqa: E402
+
+DECKS = set(deck_registry.fb_decks())
 WIN_TYPES = {"combo", "combat-decap", "table-drain", "concede", "other"}
 
 

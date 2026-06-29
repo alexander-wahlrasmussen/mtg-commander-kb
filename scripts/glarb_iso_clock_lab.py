@@ -53,7 +53,8 @@ ct = _load("ct_speed_lab")
 ds = core.ds
 
 NEW = ROOT / "decks" / "considering" / "glarb-grind-iso-20260614.txt"
-V1 = ROOT / "decks" / "calamity-tax-20260405-061741.txt"
+# V1 = the historical committed baseline; archived during the Calamity->Croak rebuild.
+V1 = ROOT / "archive" / "old_decklists" / "calamity-tax-20260405-061741.txt"
 SEED = 20260614
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12, 14]

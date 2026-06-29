@@ -118,13 +118,12 @@ def main() -> int:
     args = parser.parse_args()
 
     files = collect_candidate_files()
-    if args.since:
-        files = filter_by_git_changes(files, args.since)
 
-    if not files:
-        print("No files to sync.")
-        return 0
-
+    # Collision detection is a GLOBAL property of the flattened namespace (the sync
+    # drops every file into one folder), so it MUST run over the FULL candidate set —
+    # before the --since filter. Otherwise an incremental sync whose changed file
+    # shares a basename with an UNCHANGED doc would slip past the guard and overwrite
+    # it in the Claude Project.
     collisions = detect_collisions(files)
     if collisions:
         print("ERROR: filename collisions detected:", file=sys.stderr)
@@ -134,6 +133,13 @@ def main() -> int:
                 print(f"    - {p.relative_to(REPO_ROOT)}", file=sys.stderr)
         print("\nFix naming before syncing. See README.md > Filename integrity.", file=sys.stderr)
         return 2
+
+    if args.since:
+        files = filter_by_git_changes(files, args.since)
+
+    if not files:
+        print("No files to sync.")
+        return 0
 
     if args.dry_run:
         print(f"Would copy {len(files)} files to {OUTPUT_DIR.relative_to(REPO_ROOT)}/:")

@@ -45,23 +45,37 @@ def find_uris(bulk_data):
 
 
 def download_with_progress(url, dest):
+    """Stream the download to a sibling .part file and return its path. The caller
+    verifies it and atomically replaces `dest` only on success, so an interrupted or
+    truncated download can never clobber the existing good copy — these bulk files are
+    gitignored, so a corrupt overwrite has no checkout to recover from."""
+    tmp = dest.with_name(dest.name + ".part")
     req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req) as resp:
-        total = int(resp.headers.get("Content-Length", 0))
-        downloaded = 0
-        chunk = 1024 * 1024
-        with dest.open("wb") as f:
-            while True:
-                data = resp.read(chunk)
-                if not data:
-                    break
-                f.write(data)
-                downloaded += len(data)
-                if total:
-                    pct = downloaded / total * 100
-                    mb = downloaded / 1024 / 1024
-                    print(f"\r  {mb:.1f} MB / {total/1024/1024:.1f} MB ({pct:.0f}%)", end="", flush=True)
+    try:
+        with urllib.request.urlopen(req) as resp:
+            total = int(resp.headers.get("Content-Length", 0))
+            downloaded = 0
+            chunk = 1024 * 1024
+            with tmp.open("wb") as f:
+                while True:
+                    data = resp.read(chunk)
+                    if not data:
+                        break
+                    f.write(data)
+                    downloaded += len(data)
+                    if total:
+                        pct = downloaded / total * 100
+                        mb = downloaded / 1024 / 1024
+                        print(f"\r  {mb:.1f} MB / {total/1024/1024:.1f} MB ({pct:.0f}%)", end="", flush=True)
+    except BaseException:
+        tmp.unlink(missing_ok=True)           # don't leave a partial behind
+        raise
     print()
+    if total and downloaded != total:         # silent truncation (EOF before Content-Length)
+        tmp.unlink(missing_ok=True)
+        sys.exit(f"ERROR: truncated download ({downloaded:,} of {total:,} bytes) for {dest.name}; "
+                 f"kept the existing file.")
+    return tmp
 
 
 def main():
@@ -75,11 +89,16 @@ def main():
         uri, size_bytes = uris[bulk_type]
         size_mb = size_bytes / 1024 / 1024
         print(f"Downloading {bulk_type} ({size_mb:.0f} MB) → {dest.name}")
-        download_with_progress(uri, dest)
+        tmp = download_with_progress(uri, dest)
 
         print("Verifying...")
-        with dest.open(encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with tmp.open(encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, ValueError) as e:        # ValueError covers json.JSONDecodeError
+            tmp.unlink(missing_ok=True)
+            sys.exit(f"ERROR: downloaded {dest.name} is not valid JSON ({e}); kept the existing file.")
+        tmp.replace(dest)                          # atomic swap only after verification
         print(f"OK — {len(data):,} entries in {dest.name}\n")
 
 

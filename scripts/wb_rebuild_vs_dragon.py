@@ -11,7 +11,7 @@ sweep), reusing zero_sum's over/decap clock for the token over-kill (~T9 per wb_
   base zero_sum       — current list (the 70% reference)
   zero_sum + fogs     — base + Spore Frog/Constant Mists/Darkness (ISOLATES the fog lever)
   tokens-rebuild      — decks/considering/witherbloom-tokens-rebuild-20260616.txt
-  Glarb (calamity)    — the deployed anti-fair specialist (94% reference)
+  Glarb (croak)       — the deployed anti-fair specialist (94% reference; Calamity->Croak)
 
 over-axis + race=False are correct for all (drain/lifeloop = board-independent). Clock is
 reused (the token over-kill is ~T9, same as the lifeloop); toolkit is oracle-classified
@@ -53,7 +53,7 @@ def record(names, clock_slug="zero_sum_game", axis="over", race=False,
 
 
 ZS = names_of(V.DECKS["zero_sum_game"])
-GLARB = names_of(V.DECKS["calamity_tax"])
+GLARB = names_of(V.DECKS["croak_and_dagger"])  # deployed anti-fair specialist (Calamity->Croak)
 REBUILD = names_of("decks/considering/witherbloom-tokens-rebuild-20260616.txt")
 
 DECKS = {
@@ -61,8 +61,8 @@ DECKS = {
     "zero_sum + 3 fogs": record(ZS + ["Spore Frog", "Constant Mists", "Darkness"]),
     "tokens-rebuild": record(REBUILD),
     # Glarb: its own grind clock + axis=over (Torment), protect from its slug
-    "Glarb / Calamity (ref 94%)": record(GLARB, clock_slug="calamity_tax",
-                                         protect_slug="calamity_tax"),
+    "Glarb / Croak (ref 94%)": record(GLARB, clock_slug="croak_and_dagger",
+                                      protect_slug="croak_and_dagger"),
 }
 
 SCEN = [("baseline", {}), ("go-live FAST", dict(_kd="fast")),

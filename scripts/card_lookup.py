@@ -100,7 +100,9 @@ def format_card(card, rulings_index, tags_index=None):
     lines = []
     name = card.get("name", "?")
     layout = card.get("layout", "normal")
-    is_multi_face = layout in MULTI_FACE_LAYOUTS or not card.get("oracle_text")
+    # Key on the presence of card_faces, NOT on empty oracle_text: a vanilla creature
+    # (no rules text) is single-faced and must still show its mana cost / type / P/T.
+    is_multi_face = layout in MULTI_FACE_LAYOUTS or bool(card.get("card_faces"))
 
     # Header
     if is_multi_face:

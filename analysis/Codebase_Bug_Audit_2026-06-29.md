@@ -1,0 +1,129 @@
+
+# Codebase Bug Audit — MTG Commander KB
+
+**Date:** 2026-06-29
+**Method:** 23 reviewer agents (one per file cluster, all ~80 scripts + tests). Each
+finding independently reproduced by a verifier running the actual code (refute-by-default),
+then a completeness critic. **38 bugs confirmed, 17 rejected as false positives.**
+Baseline: 0 syntax errors, 119/119 fast tests green.
+
+Two themes dominate: a **critical sim that models a deck without its commander**, and a
+**stale-identifier sweep** from the Calamity→Croak rename and the Hashaton-Thoracle drop.
+
+**Status (2026-06-29):** the **safe-cluster** tier (crashes + stale-config + tooling
+correctness — no published-clock change) is ✅ **DONE**: implemented, regression-tested
+(full suite 171 green), and committed this session. Items marked ⏳ below remain, deferred
+to a deliberate pass because each changes a published clock and needs a lab re-run +
+Summary clock-line re-derivation. The authoritative checklist is **"Fix status"** at the
+bottom.
+
+---
+
+## 🔴 Critical
+
+| File | Bug | Impact |
+|---|---|---|
+| `winota_clock_lab.py:108-150` | Clone of its sibling labs that **lost the command-zone deploy step**. Winota is the commander, so `deck_sim` pulls her from the library; the only code setting `self.winota=True` checks `nm == WINOTA` in hand — dead code. Verified True in **0/3000 trials**. | The entire Winota flood/Erkenbrand snowball never fires — it clocks a Winota deck *without Winota*. Headline clock wrong (too slow); ranking decisions off it are invalid. Fix: add `if not self.winota and g.avail>=4` deploy block. |
+
+## 🟠 Stale-identifier cluster (Calamity→Croak rename + Hashaton drop)
+
+Three labs crash on launch; several tools silently produce wrong/missing results.
+
+| File | Symptom | Class |
+|---|---|---|
+| `vs_dragon_roster_lab.py:83` | Crashes `KeyError: 'calamity_tax'` at import | crash |
+| `ext_glarb_vs_calamity_lab.py:43,255` | Crashes `FileNotFoundError` (+ stale keep-spec key) | crash |
+| `glarb_iso_clock_lab.py:56` | Crashes `FileNotFoundError` on V1 baseline | crash |
+| `wb_rebuild_vs_dragon.py:56,64-65` | Crashes on load; `PROTECT.get('calamity_tax')` silently → 0.0 | crash / silent-wrong |
+| `game_log.py:79-84` | Can't log 2 active decks (croak, forced_liquidation); accepts retired calamity_tax | data-capture dead |
+| `framework_bakeoff.py:81-122` | Oracles silently drop 2 current decks; `--power` uses stale roster | silent wrong-coverage |
+| `clock_check.py:52-69` | Maps slug to a deleted Summary file → silently `[SKIP]`s drift for 3 decks | silent skip |
+| `self_meta_lab.py:71` → `interaction_meta_lab.py:176` | Δrank broken for 2 newest decks; anchored to a dead one | silent wrong |
+| `unlock_optimizer.py:50` | "What to buy" recommends cards for the dropped Hashaton build | wrong output |
+| `delay_lab.py:640` | Still loads the dropped Hashaton considering-list as live config | stale config |
+
+> **Recurrence fix:** derive these rosters from `deck_registry.fb_decks()` (single source of
+> truth) instead of hand-maintained literals; a one-line invariant test would have caught all.
+> Fixing `framework_bakeoff`/`clock_check`/`self_meta` properly also requires re-running
+> pod_gauntlet/self_meta/interaction to get real oracle numbers for the 2 new decks.
+
+## 🟡 Simulation-correctness bugs that bias published clocks
+
+| File | Bug | Direction |
+|---|---|---|
+| `ct_speed_lab.py:279` | `dig` knob is raw card DRAW, not Glarb's selection; lab's own "flat ⇒ mana-gated" conclusion is false (T13→T8 swing); realistic modes hardcode fictional +2 cards/turn | clock too fast |
+| `er_speed_lab.py:115` | Fire Lord Zuko hardcoded `MV=4`; actual cost is `{R}{W}{B}` = 3 | clock too slow |
+| `lw_speed_lab.py:273-277` | Pre-chip lethal-mana ignores Crackle's X≥3 targeting floor (offers 5-mana wipe that costs 11) | clock too fast |
+| `pod_gauntlet.py:550` | `simulate_vs_lock` re-rolls lock effectiveness `e` every turn → P(hold n turns) ≈ eⁿ (sibling `lock_race` is correct) | understates locks |
+| `urza_clock_lab.py:107-117` | Urza's +2 artifact mana regranted on every `spend()`, not once/turn | mana overstated |
+| `pod_championship.py:102-113` | Hardcoded 16-deck bracket drops the 17th seed (or malformed 5-seat pod with `--snake`) | corrupted field |
+| **Systemic — even-median** | `vals[len(vals)//2]` (upper middle) in `speed_lab_core.py:382`, `calibrate.py:176`, `er_speed_lab.py:639`, `gd_clock_lab.py:501`, `lock_lab.py:253` | clocks ~1 turn slow at boundaries |
+
+## 🟡 Tooling correctness (non-clock)
+
+| File | Bug |
+|---|---|
+| `card_lookup.py:103` | Vanilla creatures (~345 cards) lose type line, mana cost, P/T — `is_multi_face` fires on any empty `oracle_text`. This is the tool CLAUDE.md mandates before recommending a card. Fix: gate on `card.get("card_faces")`. |
+| `deck_doctor.py:904-911` | `--footprint` (and `--all`) crashes `AttributeError` on any deck with an unresolved card — the WIP decks the doctor exists to diagnose. Make `_all_text` None-safe. |
+| `kb_content.py:592,634` | Kill-line notes silently dropped for 5/17 decks whose Summaries put the description on the line after `**Line N…**` (radiation, replication, earthbend, exiles, diminishing) |
+| `update_scryfall_data.py:47-83` | Non-atomic overwrite — interrupted download corrupts the only copy of the 168 MB bulk before verification. Stream to `.part`, verify, then `replace`. |
+| `sync_to_project.py:120-136` | `--since` runs the collision guard only over changed files — clash with an unchanged file isn't caught; guard only protects `--all` |
+
+## 🟢 Lower-impact / latent
+
+- **Reproducibility:** `deck_sim.py:642` threads one RNG across all decks (`--deck X` ≠ batch row);
+  `esc_clock_lab.py:210` iterates a `set` (PYTHONHASHSEED-dependent); `deck_registry.py:606`
+  same-date tie-break inverted (dormant).
+- **gd-family copy-paste:** `gd_ramp_lab.py:79`, `gd_combo_lab.py:120`, `gd_speed_lab.py:204` all
+  refund the spell's mana cost in the land-ramp loop (A/B deltas preserved, so conclusions hold).
+- **Rules nits (secondary lines):** `dr_clock_lab.py` Living Death over-returns board + Zulaport
+  over-credits life; `cos_clock_lab.py` Diregraf Colossus self-triggers; `rs_clock_lab.py` Mothman
+  attacks while summoning-sick; `berta_clock_lab.py` combo fires turn the dork enters;
+  `sephiroth_clock_lab.py` Mikaeus counts Humans (dead `is_human()`); `ebm_clock_lab.py` Scute
+  Swarm exponential engine is inert (never seeded); `urza_clock_lab.py:185` & `lw_clock_lab.py:203`
+  don't reserve tutor mana.
+- **Latent traps:** `er_speed_lab.py`/`rc_speed_lab.py` `build_lib` silently ignores a missing
+  remove-target (shared core guards this; copies don't); `lw_speed_lab.py:97` stale date label;
+  `test_bakeoff_real_oracle.py:48` reimplements prod logic instead of calling it.
+
+## Flagged for review (not confirmed)
+
+- `pod_gauntlet.py` `simulate()`/`simulate_vs()` re-roll disruption/answer every turn — same
+  shape as the confirmed lock bug, but per-turn combo re-attempts may be intended. Check vs intent.
+
+---
+
+## Fix status (2026-06-29)
+
+### ✅ Resolved this session — safe cluster (implemented + regression-tested + committed)
+
+| File | Fix |
+|---|---|
+| `vs_dragon_roster_lab.py` | dropped stale `calamity_tax`, renamed `KILL` key → `croak_and_dagger`, added load-time `assert set(DECKS)==set(KILL)` guard |
+| `wb_rebuild_vs_dragon.py` | → `croak_and_dagger` (now runs; Glarb/Croak scores 93% ≈ the 94% reference) |
+| `ext_glarb_vs_calamity_lab.py` | resolve current deck via `deck_registry.resolve_deck`, fixed keep-spec key, updated stale display labels |
+| `glarb_iso_clock_lab.py` | V1 baseline → `archive/old_decklists/…` |
+| `game_log.py` | `DECKS` derived from `deck_registry.fb_decks()` (single source of truth) |
+| `unlock_optimizer.py` | `DEFAULT_BUILDS = []` (Hashaton dropped, Forced Liquidation graduated) |
+| `card_lookup.py` | `is_multi_face` keys on `card_faces`, not empty `oracle_text` (vanilla creatures render) |
+| `deck_doctor.py` | `_all_text` None-safe (footprint / `--all` no longer crash on unresolved cards) |
+| `update_scryfall_data.py` | atomic `.part` write → verify → `replace` |
+| `sync_to_project.py` | collision guard runs over the full namespace before the `--since` filter |
+
+Tests added: `test_stale_slug_regression.py`, `test_card_lookup.py`, `test_update_scryfall.py`,
+`test_sync_to_project.py`, + an `_all_text` None case in `test_deck_doctor.py`.
+
+### ⏳ Still open — cascading tier (changes a published clock → needs lab re-run + Summary re-derivation)
+
+- 🔴 `winota_clock_lab.py` — add the command-zone deploy
+- 🟡 **even-median ×5** — `speed_lab_core.py:382`, `calibrate.py:176`, `er_speed_lab.py:639`, `gd_clock_lab.py:501`, `lock_lab.py:253`
+- 🟡 `ct_speed_lab.py` dig, `er_speed_lab.py` Zuko MV, `lw_speed_lab.py` Crackle floor, `pod_gauntlet.py` lock re-roll, `urza_clock_lab.py` per-spend mana, `pod_championship.py` 16-deck cap, `kb_content.py` dropped notes
+- 🟡 `framework_bakeoff.py` / `clock_check.py` / `self_meta_lab.py`+`interaction_meta_lab.py` — stale roster (same class as the fixed ones, but needs real oracle numbers re-run for the 2 new decks, so deferred)
+- 🟢 gd-family ramp-refund trio + the low-impact rules nits above
+- **Left as-is:** `delay_lab.py` Hashaton load — inside a historical bake-off function, `try/except`-guarded, non-crashing; maintainer call
+- **Flagged for review:** `pod_gauntlet.py` `simulate()`/`simulate_vs()` per-turn re-roll
+
+Per repo convention, each cascading fix should earn a `*_REGRESSION` test.
+
+> Two items (`clock_check.py`, `wb_rebuild_vs_dragon.py`) were surfaced by the completeness
+> critic rather than the per-cluster pass, but both were independently grep-confirmed.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ext_glarb_vs_calamity_lab.py — rank the external "Yd Freehold" Glarb list
-(proposals/External Glarb.md) against our own Glarb deck, The Calamity Tax.
+(proposals/External Glarb.md) against our own Glarb deck, The Croak and Dagger.
 
 Both decks share the SAME commander (Glarb, Calamity's Augur) and the SAME
 archetype (Sultai grind/value, mana-gated drain/aristocrat finish), so this is a
@@ -35,12 +35,16 @@ ROOT = Path(__file__).parent.parent
 _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).parent / "speed_lab_core.py")
 core = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(core)
 ds = core.ds
+_drspec = importlib.util.spec_from_file_location("deck_registry", Path(__file__).parent / "deck_registry.py")
+deck_registry = importlib.util.module_from_spec(_drspec); _drspec.loader.exec_module(deck_registry)
 
 SEED = 20260616
 TURNS = 11
 SHOW = [3, 4, 5, 6, 7, 8, 10]
 
-CAL = ROOT / "decks" / "calamity-tax-20260615.txt"
+# "CAL" = our own Glarb deck (same commander as the external list). The Croak and Dagger was
+# rebuilt into Croak and Dagger; resolve the current dated list so this can't go stale.
+CAL = deck_registry.resolve_deck("croak-and-dagger")
 EXT = ROOT / "decks" / "considering" / "glarb-external-ext-20260616.txt"
 
 # Land names missing from our oracle snapshot -> the real cards they stand for
@@ -80,7 +84,7 @@ EXT_FINISH = {"payoff in hand (MANA-GATED ceiling)": [
      ["Chord of Calling", "Nature's Rhythm", "Archdruid's Charm"])]}
 
 DECKS = [
-    ("The Calamity Tax (ours)", CAL, CAL_FREE, CAL_ALL, CAL_FINISH),
+    ("The Croak and Dagger (ours)", CAL, CAL_FREE, CAL_ALL, CAL_FINISH),
     ("External Glarb (Yd Freehold)", EXT, EXT_FREE, EXT_ALL, EXT_FINISH),
 ]
 
@@ -96,7 +100,7 @@ COMBO_LINE = {"Cistern + Doom + Conqueror (3-card)": [
 
 
 def run(index, aliases, trials):
-    print(f"\n### EXTERNAL GLARB vs THE CALAMITY TAX   trials={trials} seed={SEED}")
+    print(f"\n### EXTERNAL GLARB vs CROAK AND DAGGER   trials={trials} seed={SEED}")
     print("    Same commander (Glarb), same archetype. SMOOTH/ANSWER are honest &")
     print("    comparable; FINISH is a MANA-GATED ceiling (trust the delta).\n")
     rows = []
@@ -140,7 +144,7 @@ def run(index, aliases, trials):
 
 # ===========================================================================
 # CLOSING mode — does Maldhound's concise-kill subset move the closing number
-# toward our Calamity Tax, and does plan-aware mulliganing surface it?
+# toward our Croak and Dagger, and does plan-aware mulliganing surface it?
 # ===========================================================================
 KEEP_SPECS = ROOT / "analysis" / "keep_specs.json"
 
@@ -243,7 +247,7 @@ def _block(title, lib, ident, spec, trials, finish=None, concise=None):
 def mode_closing(index, aliases, trials):
     print(f"\n### CLOSING — Maldhound's concise-kill subset, under PLAN-AWARE mulligan   "
           f"trials={trials} seed={SEED}")
-    print("    Reference bar = our Calamity Tax (its real keep-spec, MANA).")
+    print("    Reference bar = our Croak and Dagger (its real keep-spec, MANA).")
     print("    CONCISE = P(any board-independent 2-card kill assembled/in hand by T, +tutors).")
     print("    All curves are availability CEILINGS (ignore mana/life) — trust the DELTAS.\n")
     cal, _ = core.load_parsed(CAL, index, aliases, warn=False); cal = patched(cal, index)
@@ -252,14 +256,14 @@ def mode_closing(index, aliases, trials):
     cal_id = sorted({c for _, r in cal for c in r["color_identity"]})
     ext_id = sorted({c for _, r in ext for c in r["color_identity"]})
 
-    cal_spec = json.loads(KEEP_SPECS.read_text(encoding="utf-8"))["calamity-tax"]
+    cal_spec = json.loads(KEEP_SPECS.read_text(encoding="utf-8"))["croak-and-dagger"]
     ext_spec = mk_spec("MANA", [], [], EXT_RAMP, [])
     var_find = mk_spec("FINDING", VAR_KEY, VAR_TUT, EXT_RAMP, VAR_SEL)
 
     rows = []
     print("=" * 84)
-    rows.append(("Calamity Tax (MANA keep) [BAR]",
-                 _block("Calamity Tax  · MANA keep (reference bar)", cal, cal_id, cal_spec, trials,
+    rows.append(("Croak and Dagger (MANA keep) [BAR]",
+                 _block("Croak and Dagger  · MANA keep (reference bar)", cal, cal_id, cal_spec, trials,
                         finish={CAL_FINISH_LBL: list(CAL_FINISH.values())[0]})))
     print("=" * 84)
     rows.append(("External as-is (MANA keep)",
@@ -280,7 +284,7 @@ def mode_closing(index, aliases, trials):
 
 
 # ===========================================================================
-# UPGRADE mode — steal the external's best ideas INTO our Calamity Tax.
+# UPGRADE mode — steal the external's best ideas INTO our Croak and Dagger.
 # +Counterbalance (buy; soft-counter, exceptional w/ Glarb's known top card)
 # +Wan Shi Tong (OWNED $0; draw engine)  +Abhorrent Oculus (buy; dig/board engine)
 # for -Submerge (narrowest answer) -Open the Way (redundant ramp) -Spore Frog (one-shot fog).
@@ -291,15 +295,15 @@ UP_IN = ["Counterbalance", "Wan Shi Tong, Librarian", "Abhorrent Oculus"]
 
 
 def mode_upgrade(index, aliases, trials):
-    print(f"\n### UPGRADE PASS — Calamity Tax + external's best ideas   trials={trials} seed={SEED}")
+    print(f"\n### UPGRADE PASS — Croak and Dagger + external's best ideas   trials={trials} seed={SEED}")
     print("    -Submerge/-Open the Way/-Spore Frog  +Counterbalance/+Wan Shi Tong/+Abhorrent Oculus.")
     print("    Counterbalance counts in TOTAL interaction (deploy-2 then free); the rest are")
     print("    card-advantage/board engines whose value is in axes this lab does NOT score.\n")
     cal, _ = core.load_parsed(CAL, index, aliases, warn=False); cal = patched(cal, index)
     up = core.build_lib(cal, index, UP_OUT, UP_IN)
     rows = []
-    for name, lib, allint in [("Calamity Tax — current", cal, CAL_ALL),
-                              ("Calamity Tax — UPGRADED", up, CAL_ALL + ["Counterbalance"])]:
+    for name, lib, allint in [("Croak and Dagger — current", cal, CAL_ALL),
+                              ("Croak and Dagger — UPGRADED", up, CAL_ALL + ["Counterbalance"])]:
         ident = sorted({c for _, r in lib for c in r["color_identity"]})
         stats = ds.simulate(lib, ident, TURNS, trials, random.Random(SEED))
         fdraw, _ = core.simulate_groups(lib, [CAL_FREE], [], trials, random.Random(SEED + 1), TURNS)

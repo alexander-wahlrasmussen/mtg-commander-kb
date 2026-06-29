@@ -77,15 +77,15 @@ OUT_JSON = ROOT / "analysis" / "vs_dragon_roster.json"
 # were tuned in). All swept below.
 G_DIST = {6: 0.20, 7: 0.35, 8: 0.30, 9: 0.15}
 
-# current decklists (lock_lab's map, but calamity_tax -> the DEPLOYED grind-fortress list,
-# not lock_lab's stale 0405 path; kefka dropped — off-roster).
+# current decklists = lock_lab's map (croak_and_dagger already points at the deployed
+# grind/lands list since the Calamity->Croak rebuild); kefka dropped — off-roster.
 DECKS = dict(LL.DECKS)
-DECKS["calamity_tax"] = "decks/calamity-tax-20260615.txt"
 DECKS.pop("kefka", None)
 NAMES = {s: LL.NAMES[s] for s in DECKS}
 
-# Calamity uses the grind-fortress decap curve (the deployed anti-fair list; same curve
-# vs_dragon_lab.py races), not the clocks-JSON base. (grid, decap).
+# Croak (the grind-fortress rebuild of Calamity) uses the grind-fortress decap curve
+# (the deployed anti-fair list; same curve vs_dragon_lab.py races), not the clocks-JSON
+# base. (grid, decap).
 GRIND_FORTRESS_CDF = ([6, 7, 8, 9, 10, 12, 14], [3, 16, 38, 63, 80, 96, 99])
 
 # --- KILL AXIS + which clock, verified per deck from the kill lines (Summaries, this
@@ -95,8 +95,8 @@ GRIND_FORTRESS_CDF = ([6, 7, 8, 9, 10, 12, 14], [3, 16, 38, 63, 80, 96, 99])
 KILL = {
     "radiation_sickness": dict(axis="over", cdf="decap", race=False,
         note="Exsanguinate / Jarad+Lord drain / Mindcrank mill / Toxrill / Simic Asc — multiple board-independent lines"),
-    "calamity_tax":       dict(axis="over", cdf="grind", race=False,
-        note="Torment of Hailfire (1-card, no board) primary; Gray Merchant/Kokusho back it — deployed grind-fortress curve"),
+    "croak_and_dagger":   dict(axis="over", cdf="grind", race=False,
+        note="grind/lands rebuild of Calamity; X-drain (Torment of Hailfire, 1-card, no board) + Gray Merchant/Kokusho — deployed grind-fortress curve"),
     "genome_project":     dict(axis="over", cdf="decap", race=True,
         note="Wizard-token PINGS = direct damage to a player; Exsanguinate table line — board-independent but a RACE on one total"),
     "lightning_war":      dict(axis="over", cdf="decap", race=True,
@@ -126,6 +126,12 @@ KILL = {
     "bumbleflower":       dict(axis="combat", cdf="decap", race=False,
         note="Willbreaker theft + combat steal"),
 }
+
+# load-time invariant: every modelled deck needs a KILL axis/clock and vice versa.
+# This is the guard that would have caught the Calamity->Croak slug drift that crashed
+# this lab (a deck in DECKS with no KILL entry KeyErrors in build_decks/kill_cdf).
+assert set(DECKS) == set(KILL), \
+    f"DECKS/KILL slug mismatch (update both together): {set(DECKS) ^ set(KILL)}"
 
 # === toolkit classification (ORACLE TEXT, collection/oracle-cards.json) ===================
 # A card counts in a category if its oracle text matches the regex AND it isn't in that

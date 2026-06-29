@@ -10,10 +10,10 @@ to be in all N at once; owning M < N is an OVER-COMMITMENT (deficit = N − M). 
 count two demand sources:
   * ACTIVE decks (decks/*.txt) — deployed demand (the card is in the list now).
   * BUILD targets (decks/considering/<name>.txt) — planned demand (a pending
-    build wants it). Default builds = the two the user committed to (Hashaton +
-    Kefka); override with --build, or fold in everything with --all-considering
-    (noisy — the considering/ folder holds mutually-exclusive candidates, e.g. 8
-    Glarb variants, so their shared cards over-count).
+    build wants it). Default builds = none right now (no live considering/ build);
+    name one with --build, or fold in everything with --all-considering (noisy —
+    the considering/ folder holds mutually-exclusive candidates, e.g. 8 Glarb
+    variants, so their shared cards over-count).
 
 TWO ANSWERS:
   OVER-COMMITTED  owned cards with demand > owned, ranked by deficit — the
@@ -30,7 +30,7 @@ Heuristic, like everything here: it counts list membership, not whether a copy i
 this complements). Proxies are reported separately and never counted as owned.
 
 Usage
-    python scripts/unlock_optimizer.py                       # active + the 2 live builds
+    python scripts/unlock_optimizer.py                       # active decks only (no default build)
     python scripts/unlock_optimizer.py --build hashaton-thoracle insider-trading
     python scripts/unlock_optimizer.py --all-considering     # every candidate (noisy)
     python scripts/unlock_optimizer.py --csv collection/moxfield_haves_....csv
@@ -47,7 +47,11 @@ from deck_sim import load_reskin_aliases                      # noqa: E402
 from validate import load_game_changers                       # noqa: E402
 from availability_check import read_decklist, norm            # noqa: E402
 
-DEFAULT_BUILDS = ["hashaton-thoracle", "forced-liquidation"]  # Hashaton + Kefka (the live builds)
+# No live considering/ build right now: Hashaton-Thoracle was dropped, and Forced
+# Liquidation graduated to an active decks/*.txt (so it's already counted as active
+# demand). With an empty default, ONE-PURCHASE UNLOCK prints its "(no live build)"
+# message instead of ranking buys for a dead deck. Pass --build <name> to target one.
+DEFAULT_BUILDS = []
 
 
 def latest_csv():
