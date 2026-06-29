@@ -87,3 +87,16 @@ def test_urza_artifact_mana_is_once_per_turn():
     assert tr.mana() == 0                  # NOT regranted from the urza boolean
     tr.spend(2)                            # a second spend can't draw a fresh +2 bonus
     assert tr.mana() == -2                 # it underflows (the buggy code would stay 0)
+
+
+# --- lw_speed_lab: Crackle's X>=3 targeting floor (a 3-wipe never costs < 11 mana) ---
+def test_crackle_lethal_mana_respects_targeting_floor():
+    """Crackle with Power {X}{X}{X}{R}{R} hits up to X targets for 5X each; a 3-opponent
+    wipe forces X>=3 => >=11 mana at ANY life. The sensitivity block offered 8/5-mana
+    'wipes' (X=2/X=1, only 1-2 targets) -> @20/@30 kill odds inflated (clock too fast)."""
+    lw = _load("lw_speed_lab")
+    f = lw.crackle_lethal_mana
+    assert (f(40, 2), f(40, 3)) == (14, 11)        # @40: no-amp X=4, amp X=3
+    assert (f(30, 2), f(30, 3)) == (11, 11)        # floor kicks in
+    assert (f(20, 2), f(20, 3)) == (11, 11)
+    assert all(f(life, c) >= 11 for life in range(1, 46) for c in (2, 3))  # never below floor

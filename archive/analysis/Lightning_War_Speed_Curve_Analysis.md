@@ -162,6 +162,8 @@ The model above only scores a **simultaneous one-cast wipe of a full-health tabl
 
 **Pre-chipping 40→30 roughly *doubles* the kill odds (+12 points at T10); 40→20 *quadruples* them — 4–10× the impact of any single card lever above.** The conclusion: the highest-leverage way to pull the kill earlier is **not** more mana, draw, or finishers — it is **more incremental damage that softens the table before the finisher**, so Crackle only has to find ~30 instead of ~120.
 
+> **CORRECTED 2026-06-29 (magnitude only; conclusion stands).** The 40/30/20 sensitivity above was inflated by a Crackle-with-Power targeting-floor bug in `lw_speed_lab`: a 3-opponent wipe forces X≥3 = **11 mana at any life ≤ 45**, but the pre-chip rows offered sub-floor 5/8-mana "wipes" (X=1/X=2, only 1–2 targets). Re-run with the floor enforced, the lift shrinks — 40→30 is **~+4 pts at T10** (not +12) and 40→20 lifts T10 ~4%→25% and never-in-14 86%→51%. Incremental chip is **still the dominant lever** (bigger than any single-card add) and Comet Storm's X genuinely scales down with life, but "Crackle only has to find ~30 not ~120" is wrong — a 3-wipe floors at 11 mana regardless. See `project_lightning_war_speed_analysis` memory for the corrected figures.
+
 ### 5c. Concrete recommendation (≤3 GC, all non-GC, Grixis-legal — *card text verified*)
 
 1. **Lean into the incremental clock (highest leverage).** The deck already runs Guttersnipe + Emeritus of Conflict's repeatable Bolt. The cheapest force-multipliers, all `{1}{R}` 2-drops, all non-GC:

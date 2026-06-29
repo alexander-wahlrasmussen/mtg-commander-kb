@@ -138,7 +138,18 @@ BASE_ROCKS = {"Arcane Signet": (2, 1), "Fellwar Stone": (2, 1),
               "Talisman of Dominance": (2, 1), "Talisman of Indulgence": (2, 1)}
 BASE_DIG = {"Faithless Looting": (1, 2), "Frantic Search": (3, 2), "Consider": (1, 2),
             "Valakut Awakening": (5, 2), "Sink into Stupor": (2, 1), "Dirgur Focusmage": (5, 3)}
-BASE_FIN = {"Crackle with Power": (14, 11), "Comet Storm": (24, 18)}   # (no-amp, amp) lethal mana @40
+def crackle_lethal_mana(life, copies, targets=3):
+    """Crackle with Power {X}{X}{X}{R}{R}: 5X damage to EACH OF UP TO X targets -> cost 3X+2,
+    and wiping all `targets` opponents forces X >= targets (the targeting floor the lab
+    missed — a 3-opponent wipe never costs < 11). `copies` = Fire Lord Azula attack-copy
+    instances (2 no-amp / 3 with one amplifier)."""
+    x = max(targets, -(-life // (5 * copies)))    # ceil(life / 5*copies), floored at `targets`
+    return 3 * x + 2
+
+
+# (no-amp, amp) lethal mana @40. Crackle respects the X>=3 targeting floor (2026-06-29 audit).
+BASE_FIN = {"Crackle with Power": (crackle_lethal_mana(40, 2), crackle_lethal_mana(40, 3)),
+            "Comet Storm": (24, 18)}
 BASE_SORC_FIN = {"Crackle with Power"}            # sorcery finisher -> needs a flash enabler in combat
 ENGINE = {"Storm-Kiln Artist": (4, 4), "Goldspan Dragon": (5, 2)}     # (cast cost, kill-turn mana add)
 ENABLERS = {"Leyline of Anticipation", "Vedalken Orrery", "Borne Upon a Wind", "High Fae Trickster"}
@@ -271,9 +282,16 @@ def mode_levers(index, aliases, trials=60000):
                 {"name": "Extra Draw", "kind": "dig", "params": (2, 3)}], trials)
     print("  --- sensitivity: opponents pre-chipped by the incremental clock ---")
     saved = dict(BASE_FIN)
-    BASE_FIN.clear(); BASE_FIN.update({"Crackle with Power": (11, 8), "Comet Storm": (19, 14)})
+    # Crackle floors at X>=3 (11 mana) for a 3-opponent wipe at ANY life <= 45 — pre-chipping
+    # gives NO Crackle discount below that, so @30 and @20 are both (11, 11). (Comet Storm's
+    # X scales freely with life, so its discount is real — left untouched here, see audit note.)
+    BASE_FIN.clear(); BASE_FIN.update(
+        {"Crackle with Power": (crackle_lethal_mana(30, 2), crackle_lethal_mana(30, 3)),
+         "Comet Storm": (19, 14)})
     _lever_run("BASELINE, opp @30 life", index, aliases, [], trials)
-    BASE_FIN.clear(); BASE_FIN.update({"Crackle with Power": (8, 5), "Comet Storm": (14, 9)})
+    BASE_FIN.clear(); BASE_FIN.update(
+        {"Crackle with Power": (crackle_lethal_mana(20, 2), crackle_lethal_mana(20, 3)),
+         "Comet Storm": (14, 9)})
     _lever_run("BASELINE, opp @20 life", index, aliases, [], trials)
     BASE_FIN.clear(); BASE_FIN.update(saved)
 
