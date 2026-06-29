@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers; no infinite combos; no MLD; no extra turns) |
 | **Game Changers** | Seedborn Muse, Fierce Guardianship, Demonic Tutor (3 of 3 slots used) |
 | **Conversion Check** | **18/20** (5/4/4/5) |
-| **Kill Window** | **Clock (lab, realistic Glarb dig=2): ~T10 decap / ~T11 table** **(spell; instant if Seedborn + flash enabler)**. Mana-gated — fast once Seedborn is online but **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20% via `pod_gauntlet`). The old Summary "T7–9" was falsified; this deck wins by **grinding + disrupting**, not racing. Re-roled 2026-06-15 → the pod's **anti-Ur-Dragon specialist** (Thoracle line dropped — Hashaton owns it): `scripts/vs_dragon_lab.py` puts it ~**87% heads-up vs Ur-Dragon by archetype** (flying-agnostic wraths + Maze + recursion + board-independent drain), the fog/removal package being +2–3pp insurance, not the win. Caveat: 87% is a heads-up goldfish ceiling, and Glarb is the *worst* deck vs his **combo** decks (~5% in the gauntlet). 3/3 GCs. Labs: `ct_speed_lab.py --mode clock/croak/gary`, `vs_dragon_lab.py`, `pod_gauntlet.py`. |
+| **Kill Window** | **Clock (lab, realistic Glarb dig=0): ~T13 decap / table never-in-horizon (~40% killed by T14)** **(spell; instant if Seedborn + flash enabler)**. Deeply mana+find-gated — a **slow grind fortress** that **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20% via `pod_gauntlet`, sourced from disruption not clock). The old Summary "T7–9" was falsified, and the interim "~T10" was itself a **lab bug**: the `dig=2` knob modelled Glarb's SELECTION (surveil / play-from-top, net-zero on card count) as fictional raw DRAW — corrected 2026-06-29, honest dig=0 → ~T13. This deck wins by **grinding + disrupting**, not racing. Re-roled 2026-06-15 → the pod's **anti-Ur-Dragon specialist** (Thoracle line dropped — Hashaton owns it): `scripts/vs_dragon_lab.py` puts it ~**87% heads-up vs Ur-Dragon by archetype** (flying-agnostic wraths + Maze + recursion + board-independent drain), the fog/removal package being +2–3pp insurance, not the win. Caveat: 87% is a heads-up goldfish ceiling, and Glarb is the *worst* deck vs his **combo** decks (~5% in the gauntlet). 3/3 GCs. Labs: `ct_speed_lab.py --mode clock/croak/gary`, `vs_dragon_lab.py`, `pod_gauntlet.py`. |
 
 -----
 
@@ -75,7 +75,8 @@ The five token copies are all on the battlefield *before* any ETB resolves, so e
 
 Cleanest line: Glarb's surveil bins Gary, **Reanimate** (1) returns him, **kicked Rite** (9) one-shots the table — ~10 mana, two cards. Demonic Tutor / GSZ / Chord / Finale all assemble the missing half.
 
-> **Lab note (2026-06-23, `ct_speed_lab --mode gary`):** the Gray + Rite line is the **closer in ~45% of modelled kills**; removing Gray drops the kill rate 86% → 78% and pushes both clocks out a turn (decap T10→T11, table T11→T12). So Gary *is* pulling real weight — but **only through Rite**: it's a 2-card, ~10-mana combo, and a bare Gray Merchant is a 5-mana 2/4 draining ~3–6 (Sultai devotion is low — Glarb is a single black pip). The 45% is a goldfish ceiling; real removal/counters make the 2-card line meaningfully more fragile, and a replacement 2nd X-drain (Exsanguinate) does **not** recover the lost rate because it's redundant with Torment rather than a separate axis.
+> **Lab note (2026-06-23, `ct_speed_lab --mode gary`):** the Gray + Rite line is the **closer in ~45% of modelled kills**; removing Gray drops the kill rate and pushes both clocks out a turn. So Gary *is* pulling real weight
+> *(the absolute rates/turns here were measured at the `dig=2` raw-draw upper bound — see Kill Window; the honest dig=0 clock is ~3 turns slower, but this A/B DELTA holds regardless)* — but **only through Rite**: it's a 2-card, ~10-mana combo, and a bare Gray Merchant is a 5-mana 2/4 draining ~3–6 (Sultai devotion is low — Glarb is a single black pip). The 45% is a goldfish ceiling; real removal/counters make the 2-card line meaningfully more fragile, and a replacement 2nd X-drain (Exsanguinate) does **not** recover the lost rate because it's redundant with Torment rather than a separate axis.
 
 ### Kill Line 3 — Value grind (the Seedborn engine)
 
@@ -96,7 +97,7 @@ The deck closes on **two independent axes**, which is its real strength — kill
 
 **The weak points, plainly:**
 
-- **It's a slow clock.** Lab decap median ~T10 (table ~T11) — the deck **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20%). It wins by *grinding and disrupting*, not racing. This is by design (the anti-Ur-Dragon re-role), but it means against a fast combo deck you are leaning on the counter suite, not your own clock.
+- **It's a slow clock.** Lab decap median ~T13, table never-in-horizon (~40% killed by T14; corrected 2026-06-29 from a `dig=2` raw-draw bug that read ~T10) — the deck **cannot out-race the T6–7 combo pod** (pure-race ~11%, P(beat pod) ~20%). It wins by *grinding and disrupting*, not racing. This is by design (the anti-Ur-Dragon re-role), but it means against a fast combo deck you are leaning on the counter suite, not your own clock.
 - **The finisher creature pool is thin** — Gray, Kokusho, Archon, Massacre Wurm (4 cards). Exile effects (Swords, Path, Farewell) that hit two of them gut Axis B; Torment is the resilience answer because it needs no creatures.
 - **Axis B is a 2-card combo.** Gary/Kokusho do ~nothing alone (a bare Gary drains ~3–6 in this low-devotion Sultai shell). Both halves are tutorable and Glarb digs hard, so it shows up often — but it is interactable on the kill turn in a way Torment isn't.
 - **Graveyard hate is the single worst card against us** (Rest in Peace, Dauthi Voidwalker) — it shuts off Reanimate, Noxious Revival, Lumra's land return, and Icetill Explorer at once. Answers: Force of Vigor, Boseiju, Beast Within.
@@ -220,8 +221,9 @@ The real Reliability lever is **a second distinct burst axis or better protectio
 > **2026-06-23 swap: −Lier, Disciple of the Drowned (loaned out) +Aesi, Tyrant of
 > Gyre Strait.** Aesi adds an extra land drop each turn + a landfall draw, deepening
 > the lands engine. Lab-tested clock-neutral on the kill (`ct_speed_lab --mode croak`,
-> 20k @ realistic dig=2): decap median **T10 unchanged**, table tail +4pp (86→90%
-> killed by T14) — the gain sits in the T9+ tail, behind the pod's T6–7 kill, so
+> 20k, at the `dig=2` raw-draw upper bound): decap median **unchanged**, table tail +4pp —
+> the gain sits in the tail, behind the pod's T6–7 kill (honest dig=0 ≈ T13, also unchanged by
+> the swap), so
 > `pod_gauntlet` P(WIN) is unchanged. The swap is a lands-engine/refuel upgrade, **not**
 > a speed gain. Note: the model can't credit what Lier did (spells-can't-be-countered
 > + the only instant/sorcery recursion, i.e. a 2nd Torment from the yard) — that

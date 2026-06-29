@@ -211,10 +211,12 @@ def kill_turns(library, rng, v4=False, wither=False, dig=0, combo=False, cand=No
     'mirror' = a 6-mana Kokusho copy-death kill line (5 * (nonland perms - 1));
     'wan' = a 4-mana ETB that draws 1 (the opponent-search draw is goldfish-dead).
 
-    `dig` adds extra card selection per turn once Glarb is out — a sensitivity knob to
-    test whether modelling MORE of Glarb's filtering (beyond the baseline surveil/top-cast/
-    Sylvan already here) speeds the kill. It does not (the kill is mana-gated): see
-    mode_digtest. This is the honest answer to 'did we under-model Glarb's dig for V1/V4?'"""
+    `dig` adds N RAW DRAWS per turn once Glarb is out — a FICTIONAL upper-bound knob, NOT a
+    model of Glarb. His look-at-top / play-from-top / surveil-2 are SELECTION (net-zero on
+    card count) and are ALREADY modelled in the baseline (dig=0). Raw draw IS card advantage,
+    so it DOES speed a mana+find-gated kill (~T13->T8) — but Glarb doesn't draw, so the honest
+    clock is dig=0 (~T12-13). dig>0 measures what fictional draw would buy. (Corrected 2026-06-29:
+    the old code passed dig=2/3 as 'realistic Glarb', overstating the Croak clock ~T13 -> ~T10.)"""
     g = core.Goldfish(library, rng, rocks=rocks or ROCKS)
     tb = core.Table()
     glarb = False
@@ -647,10 +649,10 @@ def mode_clock(index, aliases, trials):
 
 def mode_digtest(index, aliases, trials):
     print(f"\n### DIGTEST — does MORE Glarb dig speed V1/V4?   trials={trials} seed={SEED}")
-    print("    Baseline already models surveil-bin-fats + MV4+ top-cast + Sylvan draw.")
-    print("    dig=N adds N extra card-selections/turn once Glarb is out. If the median is")
-    print("    FLAT, the kill is MANA-gated, not finding-gated (so V1/V4 were NOT under-")
-    print("    modelled the way the combo-availability lab was).\n")
+    print("    Baseline (dig=0) ALREADY models Glarb's real card flow: surveil-2 bin-fats +")
+    print("    MV4+/land top-cast + Sylvan's +1. dig=N adds N RAW DRAWS/turn on top — which")
+    print("    Glarb does NOT do (look-at-top / play-from-top / surveil are SELECTION, net-zero")
+    print("    on card count). So dig>0 is a FICTIONAL upper bound, not 'more Glarb'.\n")
     base, _ = core.load_parsed(DECK, index, aliases)
     builds = [("V1 committed", base, False),
               ("V4 reanimator", core.build_lib(base, index, V4_OUT, V4_IN), True)]
@@ -661,14 +663,17 @@ def mode_digtest(index, aliases, trials):
             res = [kill_turns(lib, rng, v4, dig=d) for _ in range(trials)]
             print(core.row(f"{tag}  dig={d}", core.cum(res, 0, SHOW), SHOW)
                   + f"   {core.median(res, 0)}")
-    print("\n  (flat medians across dig => mana-gated; cf. hybrid combo ~T7 is finding-gated)")
+    print("\n  Medians are NOT flat (raw draw is card ADVANTAGE -> speeds a mana+find-gated")
+    print("  kill, ~T13->T8). But Glarb SELECTS, not draws, so the HONEST clock is the dig=0")
+    print("  row (~T12-13); the swing only shows what fictional raw draw would buy. (2026-06-29)")
 
 
 def mode_unified(index, aliases, trials):
     print(f"\n### UNIFIED — V1 / V4 / Hybrid through ONE engine + same dig   trials={trials} seed={SEED}")
     print("    Same mana model (Coffers/ramp/dorks), same Glarb dig knob, applied to all three.")
     print("    V1/V4 kill = mana-gated X-drain/copy/reanim; Hybrid = Thoracle combo (+grind backup).")
-    print("    decap = table for the drains/combo (converge / kill_all). dig=3 = realistic Glarb.\n")
+    print("    decap = table for the drains/combo (converge / kill_all). dig=0 = realistic Glarb")
+    print("    (selection already modelled); dig>0 is a FICTIONAL raw-draw upper bound.\n")
     base, _ = core.load_parsed(DECK, index, aliases)
     v4lib = core.build_lib(base, index, V4_OUT, V4_IN)
     hybrid, _ = core.load_parsed(HYBRID_DECK, index, aliases)
@@ -677,23 +682,24 @@ def mode_unified(index, aliases, trials):
               ("Reanimator (V4)", v4lib, dict(v4=True, combo=False)),
               ("Hybrid (6-GC, brkt4)", hybrid, dict(v4=False, combo=True)),
               ("Hybrid (3-GC, brkt3)", hybrid_b3, dict(v4=False, combo=True))]
-    print("  -- kill curve at realistic dig=3 --")
+    print("  -- kill curve at realistic dig=0 (Glarb selection modelled, NO fictional draw) --")
     print("  build".ljust(34) + "".join(f"{t:>6}" for t in SHOW) + "   median")
     for tag, lib, kw in builds:
         rng = random.Random(SEED)
-        res = [kill_turns(lib, rng, dig=3, **kw) for _ in range(trials)]
+        res = [kill_turns(lib, rng, dig=0, **kw) for _ in range(trials)]
         print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW) + f"   {core.median(res, 0)}")
-    print("\n  -- median decap by dig level (sensitivity) --")
-    print("  build".ljust(28) + "dig=2   dig=3   dig=4")
+    print("\n  -- median decap by RAW-DRAW dig level (fictional sensitivity / upper bound) --")
+    print("  build".ljust(28) + "dig=0   dig=2   dig=4")
     for tag, lib, kw in builds:
         ms = []
-        for d in (2, 3, 4):
+        for d in (0, 2, 4):
             rng = random.Random(SEED)
             res = [kill_turns(lib, rng, dig=d, **kw) for _ in range(trials)]
             ms.append(core.median(res, 0))
         print(f"  {tag:<26}" + "".join(f"{m:>7}" for m in ms))
-    print("\n  GAP: Hybrid combo lands ~T6-7; dig-fair V1/V4 ~T8-9. Same-engine edge ~1-2 turns.")
-    print("  The hybrid's case is RESILIENCE (board-independent ~3-mana kill), not a speed blowout.")
+    print("\n  GAP: the Hybrid Thoracle combo lands ~T6-7 (finding-gated, REAL); the realistic")
+    print("  dig=0 V1/V4 X-drain grind is ~T12-13 (mana+find gated). The combo's case is a")
+    print("  board-independent ~3-mana kill (resilience + speed), not a marginal edge.")
 
 
 def mode_croak(index, aliases, trials):
@@ -713,7 +719,8 @@ def mode_croak(index, aliases, trials):
         ("-Lier +Wan Shi Tong", core.build_lib(base, index, [LIER], [WAN]), "wan"),
     ]
     for dig in (0, 2):
-        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        label = ("realistic Glarb (selection modelled, dig=0)" if dig == 0
+                 else "raw-draw UPPER BOUND (dig=2 — FICTIONAL: Glarb SELECTS, doesn't draw)")
         print(f"  -- {label} --")
         print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
         for tag, lib, cand in variants:
@@ -734,8 +741,10 @@ def mode_croak(index, aliases, trials):
                 print(f"    table kills by line: {parts}   (killed {100.0 * kills / len(res):.0f}% in {TURNS}T)")
         print()
     print("  Read the DELTA vs baseline. Aesi is the only candidate whose extra LAND DROP")
-    print("  feeds the mana gate (vs pure draw = the flat-dig result); the rest are expected")
-    print("  flat on TURN -> their case is resilience/lifegain/anti-tutor the goldfish can't see.")
+    print("  feeds the mana gate (real ramp, not raw draw); the rest are expected flat on")
+    print("  TURN -> their case is resilience/lifegain/anti-tutor the goldfish can't see.")
+    print("  Headline clock = the dig=0 (realistic Glarb) baseline: decap ~T13 / table never-")
+    print("  in-horizon. The dig=2 row is a FICTIONAL raw-draw upper bound (corrected 2026-06-29).")
 
 
 def mode_gary(index, aliases, trials):
@@ -743,8 +752,8 @@ def mode_gary(index, aliases, trials):
     print("    Sultai devotion is LOW (Glarb 1B, Gray 2B, Kokusho/Archon 2B, M.Wurm 3B, Meathook 2B):")
     print("    standalone Gray ETB drains only ~devotion (3-5 typical). Its real value is as the")
     print("    kicked-Rite target — 5 copies count each other's pips => ~60/opp (vs Kokusho-Rite 25).")
-    print("    A/B the committed list (with Aesi) at realistic dig=2. copy-gray vs copy-kok in the")
-    print("    kill mix = how often Gray specifically is the closer.\n")
+    print("    A/B the committed list (with Aesi) at realistic dig=0 (Glarb selection modelled;")
+    print("    dig is fictional raw draw). copy-gray vs copy-kok = how often Gray is the closer.\n")
     base, _ = core.load_parsed(CROAK_DECK, index, aliases)
     variants = [
         ("committed (Rite only)", base),
@@ -756,7 +765,7 @@ def mode_gary(index, aliases, trials):
     print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
     for tag, lib in variants:
         rng = random.Random(SEED)
-        res = [kill_turns(lib, rng, dig=2) for _ in range(trials)]
+        res = [kill_turns(lib, rng, dig=0) for _ in range(trials)]
         print(core.row(f"{tag}  decap", core.cum(res, 0, SHOW), SHOW)
               + f"   {core.median(res, 0)}")
         print(core.row(" " * len(tag) + "  table", core.cum(res, 1, SHOW), SHOW)
@@ -800,7 +809,8 @@ def mode_frontload(index, aliases, trials):
          core.build_lib(base, index, FRONT_OUT, add4), rocks4),
     ]
     for dig in (0, 2):
-        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        label = ("realistic Glarb (selection modelled, dig=0)" if dig == 0
+                 else "raw-draw UPPER BOUND (dig=2 — FICTIONAL: Glarb SELECTS, doesn't draw)")
         print(f"  -- {label} --")
         print("  metric".ljust(42) + "".join(f"{t:>6}" for t in SHOW) + "   median")
         for tag, lib, rocks in variants:
@@ -840,7 +850,8 @@ def mode_landramp(index, aliases, trials):
         ("+Cultivate+Kodama  CEILING (ignore basics)", base_plus, LR, None),
     ]
     for dig in (0, 2):
-        label = "strict mana-floor (dig=0)" if dig == 0 else "realistic Glarb dig (dig=2)"
+        label = ("realistic Glarb (selection modelled, dig=0)" if dig == 0
+                 else "raw-draw UPPER BOUND (dig=2 — FICTIONAL: Glarb SELECTS, doesn't draw)")
         print(f"  -- {label} --")
         print("  metric".ljust(46) + "".join(f"{t:>6}" for t in SHOW) + "   median")
         for tag, lib, lr, basics in variants:

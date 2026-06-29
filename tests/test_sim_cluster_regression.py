@@ -100,3 +100,17 @@ def test_crackle_lethal_mana_respects_targeting_floor():
     assert (f(30, 2), f(30, 3)) == (11, 11)        # floor kicks in
     assert (f(20, 2), f(20, 3)) == (11, 11)
     assert all(f(life, c) >= 11 for life in range(1, 46) for c in (2, 3))  # never below floor
+
+
+# --- ct_speed_lab: the dig knob modelled Glarb's SELECTION as raw DRAW, inflating Croak ---
+def test_croak_published_clock_is_the_honest_grind():
+    """The live Croak clock (merged_clocks -> analysis/pod_gauntlet_clocks.json) must be the
+    honest dig=0 grind (~T13 decap, table never-in-horizon), NOT the dig=2 raw-draw "~T10"
+    that the bug produced. Pins the published harvest against a regression to fictional draw."""
+    import json
+    c = json.loads((ROOT / "analysis" / "pod_gauntlet_clocks.json").read_text(encoding="utf-8"))["croak_and_dagger"]
+    grid, decap = c["grid"], c["decap"]
+    decap_median = next((t for t, v in zip(grid, decap) if v >= 50), grid[-1] + 1)
+    assert decap_median >= 12, f"croak decap median T{decap_median} — the dig=2 raw-draw bug back?"
+    assert c["med"][0] in ("T12", "T13", "T14", ">T14")
+    assert c["name"] == "Croak and Dagger"          # not the stale "The Calamity Tax"
