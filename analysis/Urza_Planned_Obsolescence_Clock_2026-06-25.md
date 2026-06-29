@@ -36,12 +36,17 @@ Bracketed by the Urza-`{5}`-dig proxy (`DIG_DRAW` = cards seen per activation):
 
 ```
                  T4   T5   T6   T7   T8   T10  T12   median  never
-DIG_DRAW=1 (cons) 16   28   45   59   72   90   97    T7     3%
-DIG_DRAW=2 (gen)  11   32   54   71   85   97  100    T6     0%
+DIG_DRAW=1 (cons)  6   20   37   49   60   79   92    T8     8%
+DIG_DRAW=2 (gen)   6   21   41   57   71   91   98    T7     2%
 ```
 
-**≈ T6–7 decap = table, ~60–71% by T7, ≤3% never.** Pod-competitive (decap T≤7) and
-reliable — squarely in the Hashaton (Esper Thoracle, T6 / 71% by T7) neighborhood, and a
+> **CORRECTED 2026-06-29.** The original table above (T6–7 / 60–71% by T7) was inflated by
+> a lab bug: Urza's "+2 artifact mana" was regranted on *every* `spend()` call rather than
+> once per turn, so a single turn's many spends each drew a fresh +2 — overstating mana by
+> ~1 turn. With the artifact-tap modelled as a per-turn pool, the curves drop ~1 turn.
+
+**≈ T7–8 decap = table, ~49–57% by T7, 2–8% never.** Pod-competitive (decap T≤8) and
+reliable — a touch behind the Hashaton (Esper Thoracle, T6 / 71% by T7) benchmark, on a
 different axis from it (artifact infinite-mana → damage/mill, not a {U}{U}+{B} deckout).
 Contrast Raffine: ~16% by T12, median never.
 
@@ -72,6 +77,6 @@ Raffine's single 4-piece line, and the backups raise the floor.
   ([[infinites-ok-in-pod]]). No MLD, no repeatable extra-turns (Time Sieve deliberately
   excluded).
 
-**Verdict: a genuine upper-tier pod racer.** Descriptor:
-`Clock: T6–7 decap = table (spell, ~60–71% by T7, lab 2026-06-25); mono-U counters + stax as protection`.
+**Verdict: a solid pod-competitive combo-control deck, a touch behind the racer ceiling.** Descriptor:
+`Clock: T7–8 decap = table (spell, ~49–57% by T7, lab 2026-06-25; corrected 2026-06-29 per-turn artifact mana); mono-U counters + stax as protection`.
 Next: `availability_check.py` sourcing, then a Summary if the user commits to building it.

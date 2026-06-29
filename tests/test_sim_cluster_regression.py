@@ -64,3 +64,26 @@ def test_championship_brackets_place_every_seed(n):
         assert sorted(placed) == sorted(seeds)              # no seed dropped or duplicated
         assert len(groups) == 4                             # still 4 pods -> Final Four = 4
         assert max(map(len, groups)) - min(map(len, groups)) <= 1   # balanced
+
+
+# --- urza_clock_lab: Urza's +2 artifact mana was regranted on every spend() ---
+def test_urza_artifact_mana_is_once_per_turn():
+    """Urza's "Tap an untapped artifact: Add {U}" is once-per-artifact-per-turn, modelled
+    as a +2 per-turn pool. The bug recomputed the +2 from the `self.urza` boolean on every
+    spend(), so it refreshed per-spend (unbounded mana/turn) -> clock too fast. The pool
+    must DEPLETE and not regrant within a turn."""
+    u = _load("urza_clock_lab")
+    from helpers import land, rec
+    import random
+    lib = [("Island", land()) for _ in range(20)] + [(f"S{i}", rec(cmc=2)) for i in range(10)]
+    tr = u.Trial(lib, random.Random(0))
+    tr.g.avail = 0
+    tr.petal = 0
+    tr.urza = True
+    tr.urza_pool = 2
+    assert tr.mana() == 2                  # the per-turn pool is available
+    tr.spend(2)
+    assert tr.urza_pool == 0               # ... and depletes
+    assert tr.mana() == 0                  # NOT regranted from the urza boolean
+    tr.spend(2)                            # a second spend can't draw a fresh +2 bonus
+    assert tr.mana() == -2                 # it underflows (the buggy code would stay 0)

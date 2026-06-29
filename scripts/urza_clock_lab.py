@@ -35,10 +35,12 @@ Winter Orb / Back to Basics / Static Orb stax soft-locks (pure upside vs a real 
 Trust shapes and deltas, not second decimals.
 
 RESULT (8000 trials, seed 20260612): bracketed by the Urza-{5}-dig proxy strength
-(DIG_DRAW) — conservative draw-1 = median T7 / 59% by T7 / 3% never; generous draw-2 =
-median T6 / 71% by T7 / 0% never. So **T6-7 decap=table, ~60-71% by T7** — pod-competitive
-(decap T<=7) and reliable, ~the Hashaton benchmark. Ceiling: opponent interaction unmodeled;
-the deck's heavy mono-U counter suite + stax soft-locks are protection upside not scored here.
+(DIG_DRAW) — conservative draw-1 = median T8 / 49% by T7 / 8% never; generous draw-2 =
+median T7 / 57% by T7 / 2% never. So **T7-8 decap=table, ~49-57% by T7** — pod-competitive
+(decap T<=8) and reliable, a touch behind the Hashaton T6 benchmark. (Corrected 2026-06-29:
+the Urza artifact-tap +2 was regranted on every spend() — overstating mana, ~1 turn too
+fast; it's now a per-turn pool. Old read: T6-7 / 60-71% by T7.) Ceiling: opponent interaction
+unmodeled; the deck's heavy mono-U counter suite + stax soft-locks are protection upside here.
 
 Data: collection/oracle-cards.json  ·  Deck: decks/considering/planned-obsolescence-20260625.txt
 """
@@ -103,14 +105,17 @@ class Trial:
         self.urza = False
         self.petal = 0
         self.used = set()
+        self.urza_pool = 0                 # Urza's artifact-tap mana, refreshed once/turn
 
     def mana(self):
-        bonus = 2 if self.urza else 0      # Urza taps non-rock artifacts for U
-        return self.g.avail + self.petal + bonus
+        # +2 abstracts tapping a couple of non-rock artifacts for {U} (rocks are in avail).
+        # It's a per-TURN pool that depletes as you spend — "tap an untapped artifact" is
+        # once per artifact per turn, NOT regranted on every spend() (2026-06-29 audit).
+        return self.g.avail + self.petal + self.urza_pool
 
     def spend(self, n):
-        bonus = 2 if self.urza else 0
-        take_bonus = min(bonus, n)         # spend the abstract Urza bonus first (free-ish)
+        take_bonus = min(self.urza_pool, n)   # draw down the Urza pool first
+        self.urza_pool -= take_bonus
         n -= take_bonus
         use_p = max(0, n - self.g.avail)
         self.petal -= use_p
@@ -168,18 +173,19 @@ class Trial:
         g = self.g
         g.begin_turn(T)
         g.deploy_rocks()
+        self.urza_pool = 2 if self.urza else 0        # refresh once/turn (artifacts untap)
         while g.has("Lotus Petal"):
             g.hand.pop(g.in_hand("Lotus Petal")); self.petal += 1
         self.used = set()
         if not self.urza and self.mana() >= 4:        # deploy the commander
-            self.spend(4); self.urza = True
+            self.spend(4); self.urza = True; self.urza_pool = 2   # tap her artifacts this turn
         if self.combo_check(T):
             return
         progress = True
         while progress:
             progress = False
             if not self.urza and self.mana() >= 4:
-                self.spend(4); self.urza = True; progress = True
+                self.spend(4); self.urza = True; self.urza_pool = 2; progress = True
             for nm, c in DRAW.items():
                 if nm not in self.bf and g.has(nm) and self.mana() >= c:
                     g.cast(nm, c); self.bf.add(nm)
