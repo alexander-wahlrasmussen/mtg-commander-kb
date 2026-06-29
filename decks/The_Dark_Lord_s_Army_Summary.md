@@ -98,111 +98,129 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 
 1 Sauron, the Dark Lord
 
-### Creatures (18)
+### Amass & Ring Engine (13)
 
-1 Sheoldred, the Apocalypse  
-1 Orcish Bowmasters  
-1 Sauron, Lord of the Rings  
-1 Witch-king of Angmar  
-1 Saruman, the White Hand  
-1 Mauhúr, Uruk-hai Captain  
-4 Nazgûl  
-1 Baleful Strix  
-1 Ledger Shredder  
-1 Snapcaster Mage  
-1 Corsairs of Umbar  
-1 Yawgmoth, Thran Physician  
-1 Gray Merchant of Asphodel  
-1 Pitiless Plunderer  
-1 Braids, Arisen Nightmare
-
-### Enchantments (11)
-
-1 Call of the Ring  
-1 Underworld Dreams  
-1 Black Market Connections  
-1 Goblin Bombardment  
-1 Ellie’s Rage *(Dictate of Erebos)*  
-1 Animate Dead  
-1 Necromancy  
-1 Cover of Darkness  
-1 Wound Reflection  
-1 Propaganda  
+1 Sauron, Lord of the Rings
+1 Witch-king of Angmar
+1 Saruman, the White Hand
+1 Mauhúr, Uruk-hai Captain
+4 Nazgûl
+1 Corsairs of Umbar
+1 Call of the Ring
+1 Cover of Darkness
 1 March from the Black Gate
+1 Strionic Resonator
 
-### Artifacts (11)
+### Drain Payoffs (5)
 
-1 Sol Ring  
-1 Arcane Signet  
-1 Talisman of Dominance  
-1 Talisman of Creativity  
-1 Fellwar Stone  
-1 Lightning Greaves  
-1 Skullclamp  
-1 Lotus Petal  
-1 Strionic Resonator  
-1 Sensei’s Divining Top  
+1 Sheoldred, the Apocalypse
+1 Orcish Bowmasters
+1 Underworld Dreams
+1 Wound Reflection
+1 Gray Merchant of Asphodel
+
+### Sacrifice & Aristocrats (7)
+
+1 Goblin Bombardment
+1 Ellie's Rage
+1 Braids, Arisen Nightmare
+1 Yawgmoth, Thran Physician
+1 Pitiless Plunderer
+1 Skullclamp
+1 Deadly Dispute
+
+### Reanimation (4)
+
+1 Animate Dead
+1 Necromancy
+1 Reanimate
+1 Living Death
+
+### Oppression / Tax (2)
+
+1 Propaganda
+1 Black Market Connections
+
+### Utility Creatures (3)
+
+1 Baleful Strix
+1 Ledger Shredder
+1 Snapcaster Mage
+
+### Counterspells (6)
+
+1 Counterspell
+1 It'll Quench Ya!
+1 Swan Song
+1 Mana Drain
+1 Force of Negation
+1 Deflecting Swat
+
+### Removal & Wipes (9)
+
+1 Cyclonic Rift
+1 Deadly Rollick
+1 Chaos Warp
+1 Go for the Throat
+1 Claim the Precious
+1 Feed the Swarm
+1 Blasphemous Act
+1 Toxic Deluge
 1 Nihil Spellbomb
 
-### Instants (13)
+### Ramp & Rocks (8)
 
-1 Counterspell  
-1 It’ll Quench Ya!  
-1 Swan Song  
-1 Cyclonic Rift  
-1 Mana Drain  
-1 Force of Negation  
-1 Deadly Dispute  
-1 Deadly Rollick  
-1 Chaos Warp  
-1 Go for the Throat  
-1 Claim the Precious  
-1 Deflecting Swat  
+1 Sol Ring
+1 Arcane Signet
+1 Talisman of Dominance
+1 Talisman of Creativity
+1 Fellwar Stone
+1 Lightning Greaves
+1 Lotus Petal
 1 Dark Ritual
 
-### Sorceries (10)
+### Tutors (3)
 
-1 Demonic Tutor  
-1 Diabolic Intent  
-1 Reanimate  
-1 Living Death  
-1 Blasphemous Act  
-1 Toxic Deluge  
-1 Feed the Swarm  
-1 Ringsight  
-1 Night’s Whisper  
+1 Demonic Tutor
+1 Diabolic Intent
+1 Ringsight
+
+### Draw & Selection (3)
+
+1 Sensei's Divining Top
+1 Night's Whisper
 1 Faithless Looting
 
 ### Lands (36)
 
-1 Command Tower  
-1 Exotic Orchard  
-1 Barad-dûr  
-1 The Black Gate  
-1 Rogue’s Passage  
-1 Shizo, Death’s Storehouse  
-1 Otawara, Soaring City  
-1 Polluted Delta  
-1 Bloodstained Mire  
-1 Scalding Tarn  
-1 Fabled Passage  
-1 Blood Crypt  
-1 Watery Grave  
-1 Steam Vents  
-1 Morphic Pool  
-1 Luxury Suite  
-1 Training Center  
-1 Drowned Catacomb  
-1 Dragonskull Summit  
-1 Sulfur Falls  
-1 Shipwreck Marsh  
-1 Haunted Ridge  
-1 Undercity Sewers  
-1 Crumbling Necropolis  
-1 Agadeem’s Awakening  
-6 Swamp  
-3 Island  
+1 Agadeem's Awakening
+1 Barad-dûr
+1 Blood Crypt
+1 Bloodstained Mire
+1 Command Tower
+1 Crumbling Necropolis
+1 Dragonskull Summit
+1 Drowned Catacomb
+1 Exotic Orchard
+1 Fabled Passage
+1 Haunted Ridge
+3 Island
+1 Luxury Suite
+1 Morphic Pool
 2 Mountain
+1 Otawara, Soaring City
+1 Polluted Delta
+1 Rogue's Passage
+1 Scalding Tarn
+1 Shipwreck Marsh
+1 Shizo, Death's Storehouse
+1 Steam Vents
+1 Sulfur Falls
+6 Swamp
+1 The Black Gate
+1 Training Center
+1 Undercity Sewers
+1 Watery Grave
 
 ### Sideboard (not counted in 99)
 
