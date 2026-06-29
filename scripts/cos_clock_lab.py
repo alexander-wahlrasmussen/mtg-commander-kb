@@ -137,10 +137,15 @@ class Trial:
         if self.kindred:
             self.gdraw(total)                # draw per Zombie ETB (tokens included)
 
-    def cast_zombie_spell(self, rec, base=2):
-        """Casting a Zombie creature spell: its ETB + Colossus's cast-trigger token."""
+    def cast_zombie_spell(self, rec, base=2, colossus_active=None):
+        """Casting a Zombie creature spell: its ETB + Colossus's cast-trigger
+        token. Colossus's "whenever you cast a Zombie spell" only triggers when
+        Colossus is ALREADY on the battlefield — it does NOT trigger off its own
+        casting (card_lookup ruling 2026-06-29), so pass the colossus flag as it
+        stood BEFORE this card resolved."""
         self.zombie_etb(1, nontoken=True, base=base)
-        if self.colossus:
+        active = self.colossus if colossus_active is None else colossus_active
+        if active:
             self.zombie_etb(1, nontoken=False)   # tapped 2/2, a token
 
 
@@ -231,6 +236,10 @@ def goldfish_kill(library, index, pips, rng):
             cost, i, nm, rec, zcre, tl = best
             g.hand.pop(i); g.avail -= cost
             progress = True
+            # Colossus's cast-trigger only sees Zombie spells cast while it is
+            # ALREADY in play; capture its state BEFORE this card sets the flag
+            # so it never tokens off its own casting.
+            colossus_active = t.colossus
             t.devotion += pip(nm)
             if nm in LORDS:
                 t.lord_pow += LORDS[nm]
@@ -257,7 +266,7 @@ def goldfish_kill(library, index, pips, rng):
             elif nm in ("Living Death", "Agadeem's Awakening"):
                 t.zombie_etb(t.yard_z); t.yard_z = 0  # mass reanimation dump
             elif zcre:
-                t.cast_zombie_spell(rec)
+                t.cast_zombie_spell(rec, colossus_active=colossus_active)
 
         # steady token engines (count next upkeep / attack next turn)
         if t.titan_bf:

@@ -163,6 +163,16 @@ class Trial:
     def landfall(self, T):
         entered = 0
         if "Scute Swarm" in self.bf:
+            # Scute Swarm (card_lookup 2026-06-29): "Landfall — create a 1/1 Insect, or at
+            # 6+ lands a COPY of this creature instead" -> exponential. MODELED vs NOT:
+            # the LINEAR +1 Insect/landfall IS modeled (else-branch below, seed>=1). The
+            # EXPONENTIAL self-copy (the `>= 6 and self.scutes` branch) is INTENTIONALLY
+            # left inert: self.scutes is never seeded (stays 0), so this branch is dead.
+            # Seeding it (scutes += 1 on deploy) was MEASURED to flip EBM's borderline
+            # PUBLISHED table median (T11<->T12 across trial counts; clock-sensitive), so
+            # wiring the exponential is ESCALATED to a coordinated clock re-derivation
+            # (proposals/Earthbend_the_Meta_Clock_Lab + pod_gauntlet_clocks.json) rather
+            # than silently shifting the published decap T8 / table T11. Audit rules-seph-ebm.
             if self.g.lands >= 6 and self.scutes:
                 new = self.tok_mult(self.scutes)        # one copy per Scute (DS doubles)
                 self.scutes = min(self.scutes + new, 10000)

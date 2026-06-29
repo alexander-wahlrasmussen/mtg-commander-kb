@@ -154,6 +154,11 @@ class Trial:
                 for tut, (tc, reach) in TUTORS.items():
                     if tut in self.used:
                         continue
+                    # Reserve the tutor's own mana BEFORE the fetched piece is later
+                    # deployed by combo_check: gate on mana()>=tc, then spend(tc). With
+                    # spend() draining the finite per-turn urza_pool (2026-06-29 per-spend
+                    # fix), the tutor and the combo cost can't both re-claim Urza's tap
+                    # bonus — so there is no tutor-into-cast double-spend here.
                     if piece in reach and g.has(tut) and self.mana() >= tc:
                         if g.fetch(piece):
                             self.spend(tc); self.used.add(tut); return True

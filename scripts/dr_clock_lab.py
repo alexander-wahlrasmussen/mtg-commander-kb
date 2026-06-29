@@ -152,6 +152,14 @@ FREE_OUTLETS = {"Viscera Seer", "Carrion Feeder", "Yahenni, Undying Partisan",
 PAYOFFS = {"Zulaport Cutthroat", "Elas il-Kor, Sadistic Pilgrim",
            "The Meathook Massacre", "Syr Konrad, the Grim",
            "Bastion of Remembrance", "Cruel Celebrant"}
+# subset of PAYOFFS that ALSO gain YOU life on your own creature's death — the
+# only cards that feed the Vito/Sanguine-Bond/Exquisite-Blood lifegain loop.
+# Verified vs card_lookup 2026-06-29: Zulaport / Cruel Celebrant / Bastion read
+# "each opponent loses 1 AND you gain 1" (gain 1 TOTAL, not per opponent). Elas's
+# lifegain is on ETB not death, Meathook gains only when an OPPONENT's creature
+# dies, and Syr Konrad / Agent deal loss/damage with no lifegain — so the per-
+# death drain (`d`) must NOT be re-credited wholesale as life (it over-credited).
+GAIN_PAYOFFS = {"Zulaport Cutthroat", "Cruel Celebrant", "Bastion of Remembrance"}
 EXPENDABLE = {"Stitcher's Supplier", "Plaguecrafter", "Merciless Executioner",
               "Gravecrawler"}          # nontokens we sac freely once spent
 REANIMATE_ORDER = ["Kokusho, the Evening Star", "Gray Merchant of Asphodel",
@@ -244,6 +252,16 @@ class Trial:
             d += (1 if "Mirkwood Bats" in self.bf else 0)   # sac trig, undoubled
         return d
 
+    def per_death_gain(self, token):
+        """Life YOU gain per creature death — Zulaport-class lifegain ONLY,
+        Teysa-doubled. NOT the per-opponent drain: "each opponent loses 1 and
+        you gain 1" gains 1 TOTAL, not 1 per opponent, so the gain tallies the
+        GAIN_PAYOFFS count, not the (larger) drain count `d`."""
+        g = sum(1 for p in GAIN_PAYOFFS if p in self.bf) * self.mult
+        if token and "Nadier's Nightblade" in self.bf:
+            g += self.mult       # "a token you control leaves" -> you gain 1
+        return g
+
     def gain(self, x, T):
         """Lifegain event: Vito / Sanguine Bond convert it to single-target
         drain; Exquisite Blood + either closes the loop = table kill."""
@@ -291,7 +309,9 @@ class Trial:
         d = self.per_death(token) * k
         if d:
             self.tbl.hit_all(d, T)
-            self.gain(d, T)                                 # Zulaport-class gain
+        gained = self.per_death_gain(token) * k             # Zulaport-class gain only
+        if gained:
+            self.gain(gained, T)
         # Sephiroth: front face single-target, doubled; 4 resolutions = flip
         if "Sephiroth, Fabled SOLDIER" in self.bf:
             if not self.sephi_back:
@@ -326,6 +346,30 @@ class Trial:
             elif nm == "Kokusho, the Evening Star":
                 self.tbl.hit_all(5 * self.mult, T)
                 self.gain(15 * self.mult, T)
+
+    def resolve_living_death(self, T):
+        """Resolve a cast Living Death: sacrifice all YOUR creatures (the death
+        burst drains), then return ONLY the creature cards that were already in
+        YOUR graveyard when it resolved. Per the oracle + ruling (card_lookup
+        2026-06-29), Living Death exiles graveyard creatures FIRST, THEN
+        sacrifices the board, so the board sacrificed here does NOT come back —
+        the returnable set is snapshotted BEFORE die(creatures_bf) dumps the
+        board into self.dead, else it over-returns the whole board. Returns the
+        names put back onto the battlefield. (Goldfish models only your side.)"""
+        creatures_bf = [n for n in self.bf if n not in NONCREATURE_BF]
+        returnable = list(self.dead)                 # snapshot: yard at resolution
+        ntok = self.tok_ready + self.tok_new
+        self.die(ntok, True, T)
+        self.tok_ready = self.tok_new = 0
+        self.die(len(creatures_bf), False, T, names=creatures_bf)
+        for nm in returnable:
+            self.dead.remove(nm); self.bf.add(nm); self.entered[nm] = T
+            if nm == "Grave Titan":
+                self.make_tokens(2)
+            if nm == "Gray Merchant of Asphodel":
+                x = self.devotion()
+                self.tbl.hit_all(x, T); self.gain(3 * x, T)
+        return returnable
 
     # -- helpers ----------------------------------------------------------------
     def devotion(self):
@@ -609,19 +653,7 @@ def goldfish_kill(library, rng, index):
                 c, lf = t.kcost("Living Death", 5)
                 if g.avail >= c:
                     g.cast("Living Death", c); t.life -= lf
-                    creatures_bf = [n for n in t.bf if n not in NONCREATURE_BF]
-                    ntok = t.tok_ready + t.tok_new
-                    t.die(ntok, True, T)
-                    t.tok_ready = t.tok_new = 0
-                    t.die(len(creatures_bf), False, T, names=creatures_bf)
-                    back = [n for n in t.dead]
-                    for nm in back:
-                        t.dead.remove(nm); t.bf.add(nm); t.entered[nm] = T
-                        if nm == "Grave Titan":
-                            t.make_tokens(2)
-                        if nm == "Gray Merchant of Asphodel":
-                            x = t.devotion()
-                            tbl.hit_all(x, T); t.gain(3 * x, T)
+                    t.resolve_living_death(T)
                     acted = True; continue
             # Vindictive Lich as a body late (death value not modelled)
             if t.per_death(False) >= 2 and g.in_hand("Vindictive Lich") is not None:

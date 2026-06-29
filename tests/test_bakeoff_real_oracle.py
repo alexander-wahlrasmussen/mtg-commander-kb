@@ -45,14 +45,16 @@ def test_real_oracle_empty_when_no_log():
 
 
 # --------------------------------------------------------------- column wiring
+# These call the PRODUCTION column builder (framework_bakeoff.framework_values) rather than
+# re-deriving the realgame column inline — otherwise the test could stay green while prod's
+# wiring rots. The oracle_realgame column is built purely from `real` + the DECKS slug order,
+# so empty stubs for idx/gc/aliases/clocks are enough to exercise it (deck_cards reads the
+# decklists from disk but resolves every card to None under the empty index — no 168 MB bulk).
 def test_realgame_column_is_aligned_and_padded():
     real = fb.real_win_oracle(min_games=3, log_path=FIXTURE)
-    # framework_values needs the oracle index; pass minimal stubs and only inspect the
-    # oracle_realgame column, which is built purely from `real` + the DECKS slug order.
-    col = []
-    for slug in fb.DECKS:
-        rw = real.get(slug)
-        col.append(float(rw) if rw is not None else None)
+    cols = fb.framework_values({}, set(), {}, {}, real)
+    col = cols["oracle_realgame"]
+    assert len(col) == len(fb.DECKS)
     # exactly the 3 fixture decks are non-None; everyone else is None (skipped pairwise)
     nonnull = [s for s, v in zip(fb.DECKS, col) if v is not None]
     assert set(nonnull) == {"genome_project", "radiation_sickness", "grand_design"}
@@ -61,5 +63,5 @@ def test_realgame_column_is_aligned_and_padded():
 
 def test_realgame_column_empty_log_is_all_none():
     empty = fb.real_win_oracle(log_path=ROOT / "tests" / "fixtures" / "nope.jsonl")
-    col = [empty.get(slug) for slug in fb.DECKS]
-    assert all(v is None for v in col)
+    cols = fb.framework_values({}, set(), {}, {}, empty)
+    assert all(v is None for v in cols["oracle_realgame"])

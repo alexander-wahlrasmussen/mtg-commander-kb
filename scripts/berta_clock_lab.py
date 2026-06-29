@@ -105,6 +105,8 @@ class Trial:
         self.tbl = slc.Table()
         self.powmap = powmap
         self.bf = set()
+        self.unsick = set()     # permanents on board since before this turn (no summoning
+        #                         sickness): the only ones that may TAP for a combo this turn
         self.berta = False
         self.dork_out = 0
         self.dork_new = 0
@@ -127,16 +129,24 @@ class Trial:
         g = self.g
         got = False
         line = None
-        if "Bloom Tender" in self.bf:
+        # Every line below taps a creature ({T}/{Q} mana ability) — Bloom Tender's
+        # Vivid, Selvala's {G}{T}, Berta's {X}{T}. None has haste, so the creature
+        # must have entered on a PRIOR turn (be in self.unsick). The aura/untapper
+        # half CAN be cast this turn (enchantments/equipment have no sickness). Gating
+        # on self.bf let a dork combo the turn it entered (2026-06-29 audit).
+        if "Bloom Tender" in self.unsick:
             for a, c in AURAS.items():
                 if a in self.bf or (g.has(a) and g.avail >= c and g.cast(a, c)):
                     self.bf.add(a); got = True; line = "Tender+aura"; break
-        if not got and "Selvala, Heart of the Wilds" in self.bf and self.maxpow >= 4:
+        if not got and "Selvala, Heart of the Wilds" in self.unsick and self.maxpow >= 4:
             for u, c in UNTAPPERS.items():
                 if u in self.bf or (g.has(u) and g.avail >= c and g.cast(u, c)):
                     self.bf.add(u); got = True; line = "Selvala+untap"; break
-        # Berta + Intruder Alarm + any unsick dork = infinite mana (commander-central)
-        if not got and self.berta and "Intruder Alarm" in self.bf and self.dork_out >= 1:
+        # Berta + Intruder Alarm + any unsick dork = infinite mana (commander-central).
+        # Berta herself taps to make the Fractal, so she must be unsick too; the dork is
+        # gated by dork_out (this-turn dorks live in dork_new, not dork_out).
+        if not got and COMMANDER in self.unsick and "Intruder Alarm" in self.bf \
+                and self.dork_out >= 1:
             got = True; line = "Berta+Alarm"
         if got and self.outlet():
             self.line = line
@@ -181,6 +191,10 @@ class Trial:
 
     def turn(self, T):
         g = self.g
+        # Snapshot the board BEFORE anything is cast this turn: these permanents have
+        # been under control since before the turn began, so they alone may tap for a
+        # combo (no summoning sickness). Anything deployed below is sick until next turn.
+        self.unsick = set(self.bf)
         self.dork_out += self.dork_new
         self.dork_new = 0
         g.begin_turn(T)

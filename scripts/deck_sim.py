@@ -626,6 +626,19 @@ def print_deck_report(name, diag, stats, combo_res, turns):
             print("    +tutors:      " + "".join(fmt_pct(r['with_tutor_by_turn'][t]) for t in show))
 
 
+def deck_rng(base_seed, key):
+    """Per-deck RNG seeded from the base seed + the deck's stable key.
+
+    Each deck draws from its OWN stream, so a single-deck run (`--deck X`)
+    consumes exactly the draws of X's row in a full batch. Previously one RNG was
+    threaded across every deck in the sorted batch, so X's stream depended on
+    which/how many sibling decks ran before it — `--deck X` did not match that
+    deck's batch row. The string seed is PYTHONHASHSEED-independent: random.seed
+    derives the Mersenne state from str/bytes via SHA-512, not the randomized
+    builtin hash()."""
+    return random.Random(f"{base_seed}:{key}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--deck", help="Fuzzy filename filter (e.g. 'calamity')")
@@ -639,7 +652,6 @@ def main():
     ap.add_argument("--json", metavar="PATH", help="Write machine-readable results")
     args = ap.parse_args()
 
-    rng = random.Random(args.seed)
     index = load_oracle_index()
     aliases = load_reskin_aliases()
 
@@ -659,6 +671,10 @@ def main():
     out = {}
     for path in txts:
         library, commander, diag = parse_deck(path, index, aliases)
+        # Per-deck RNG so `--deck X` reproduces X's full-batch row: seed each deck's
+        # stream from (base seed, stable key) instead of sharing one batch RNG whose
+        # state at deck X depends on the sibling decks drawn before it.
+        rng = deck_rng(args.seed, diag["deck_key"] or path.stem)
         identity = set()
         for _, r in library:
             identity.update(r["color_identity"])

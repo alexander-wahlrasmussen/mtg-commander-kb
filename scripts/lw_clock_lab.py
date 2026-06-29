@@ -200,9 +200,15 @@ def goldfish_kill(library, commander, index, powmap, rng, g=None,
             n_amp = (sum(1 for a in AMPS if g.has(a))
                      + sum(1 for nm, _ in g.hand if nm.startswith("Extra Amp")))
             inst = 2 + n_amp                                 # Azula copy + amps
-            have_tutor = fin_always or (
-                (any(g.has(t) for t in TUTORS)
-                 or any(nm.startswith("Extra Tutor") for nm, _ in g.hand)) and cm >= 2)
+            # A held tutor (Mystical Teachings {3}{U}=4, Emeritus of Woe {3}{B}=4,
+            # Sanar/Wild Idea {U}{R}=2; card_lookup 2026-06-29) lets us FIND a
+            # finisher, but casting it the SAME turn must also pay the tutor's own
+            # mana — no tutor-into-cast for just the finisher's cost (double-spend,
+            # 2026-06-29 audit). tutor_cost = the cheapest held finder; reserve it.
+            tutor_costs = [r["cmc"] for nm, r in g.hand
+                           if nm in TUTORS or nm.startswith("Extra Tutor")]
+            tutor_cost = min(tutor_costs) if tutor_costs else 0
+            have_tutor = fin_always or (bool(tutor_costs) and cm >= tutor_cost)
             has_xfin = any(nm.startswith("Extra Finisher") for nm, _ in g.hand)
             living = [i for i in range(3) if tbl.dmg[i] < tbl.life]
             if not living:
@@ -213,25 +219,31 @@ def goldfish_kill(library, commander, index, powmap, rng, g=None,
             def castable(fin):
                 return (g.has(fin) or have_tutor) and not (fin in SORCERY_FIN and not enabler)
 
+            def fin_cm(in_hand):
+                """Mana left to CAST the finisher this turn. Full cm if it's already
+                in hand (or the fin_always free-find ceiling); otherwise we had to
+                TUTOR it this turn, so reserve the finder's own cost first."""
+                return cm if (in_hand or fin_always) else cm - tutor_cost
+
             killed_table = killed_one = False
             if castable("Crackle with Power"):               # (5X+amp) per instance, x inst
                 X = len(living)
                 while (5 * X + amp) * inst < need_each:
                     X += 1
-                if cm >= 3 * X + 2:
+                if fin_cm(g.has("Crackle with Power")) >= 3 * X + 2:
                     killed_table = True
             if not killed_table and (castable("Comet Storm") or has_xfin):  # Comet-class
                 X = 1
                 while (X + amp) * inst < need_each:
                     X += 1
-                if cm >= X + 2 + (len(living) - 1):
+                if fin_cm(g.has("Comet Storm") or has_xfin) >= X + 2 + (len(living) - 1):
                     killed_table = True
             for fin, base in (("Electrodominance", 2), ("Banefire", 1)):
                 if castable(fin):
                     X = 1
                     while (X + amp) * inst < need_one:
                         X += 1
-                    if cm >= X + base:
+                    if fin_cm(g.has(fin)) >= X + base:
                         killed_one = True
             if killed_table:
                 tbl.kill_all(T)

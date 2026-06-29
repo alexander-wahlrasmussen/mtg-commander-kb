@@ -116,8 +116,11 @@ def assemble_turn(library, rng, use_engine=True):
             moved = False
             for nm, cost in sorted(LAND_RAMP.items(), key=lambda x: x[1]):
                 if g.has(nm) and g.avail >= cost:
+                    # cast() already pays the cost; the fetched land enters TAPPED
+                    # (untaps next turn). Do NOT reset avail to lands+rock_out — that
+                    # refunded the spell's cost and counted the tapped land this turn.
                     g.cast(nm, cost); g.lands += 1
-                    g.avail = g.lands + g.rock_out; moved = True; break
+                    moved = True; break
         g.deploy_rocks()
 
         if use_engine:

@@ -93,6 +93,8 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
     g = slc.Goldfish(library, rng, rocks=ROCKS)
     tbl = slc.Table()
     mothman = tekuthal = doubling = seedborn = False
+    mothman_turn = None              # turn Mothman entered; no haste, so it can't attack
+    #                                  on its entry turn (gates the attack rad + combat power)
     simic = bloodchief = mindcrank = False
     ruin_crab = hedron_crab = altar = sidisi = False   # discrete mill producers (mills=True only)
     n_mult = 0                       # multiplicative creature-counter doublers (Branching/Corpsejack/DS)
@@ -148,10 +150,13 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
             while g.has(rs) and g.avail >= cost:
                 g.cast(rs, cost); g.lands += n; g.avail += n
 
-        # commander: Mothman for 4 (ETB rad)
+        # commander: Mothman for 4 (ETB rad). No haste — it joins the board through
+        # new_board/new_cre (online next turn) like every other creature here, so it
+        # can't swing the turn it enters. The ETB rad still fires this turn.
         vorx = 1   # Vorinclex (rad/counter doubler) cut 2026-06-22 — no doubler left in deck
         if not mothman and g.avail >= 4:
-            g.avail -= 4; mothman = True; board += 3; ncre += 1
+            g.avail -= 4; mothman = True; mothman_turn = T
+            new_board += 3; new_cre += 1
             rad += 1 * vorx
         # Vampiric Tutor: complete the combo or fetch Mothman-enabler
         if g.has("Vampiric Tutor") and g.avail >= 1:
@@ -188,8 +193,10 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
         m_perm = (2 if doubling else 1) * vorx
         m_cre = vorx * (2 ** min(3, n_mult)) if n_mult else vorx
 
-        # Mothman attack rad (if it survived to attack = cast a prior turn; approx each turn)
-        if mothman and T > 1:
+        # Mothman attack rad — only once it can actually attack, i.e. it entered on a
+        # PRIOR turn (no haste). The ETB rad already fired the turn it entered; the old
+        # `T > 1` proxy let a freshly-cast Mothman swing the same turn (2026-06-29 audit).
+        if mothman and mothman_turn is not None and T > mothman_turn:
             rad += 1 * vorx
 
         # proliferate step

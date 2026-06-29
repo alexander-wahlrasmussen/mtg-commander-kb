@@ -32,6 +32,7 @@ Consumers and the accessor they use:
   kill_tree          kill_trees()
   report.py          the whole row
 """
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -603,9 +604,26 @@ KILL_TREES = {
 
 
 # --------------------------------------------------------------------------- helpers
+def _version_key(path, stem):
+    """Chronological sort key for a dated decklist filename so the NEWEST sorts last.
+
+    The trailing `YYYYMMDD[-HHMMSS]` is parsed as a tuple of ints. A same-date file
+    WITH a time suffix (e.g. ...-20260623-215731.txt) is later in the day than the
+    bare date (...-20260623.txt): the longer int-tuple sorts after the shorter, so
+    the timestamped re-cut wins the tie — matching the real croak-and-dagger
+    history (the bare-date file was archived, the 21:57:31 cut went live the same
+    day). Plain string sort got this backwards because '.' (0x2E) > '-' (0x2D),
+    ranking the bare-date file last. The filename is the final, fully-deterministic
+    tiebreaker for identical timestamps."""
+    nums = tuple(int(g) for g in re.findall(r"\d+", path.name[len(stem):]))
+    return (nums, path.name)
+
+
 def resolve_deck(stem):
-    """Newest decks/{stem}-*.txt (the dated filename is the version history), or None."""
-    hits = sorted(DECK_DIR.glob(f"{stem}-*.txt"))
+    """Newest decks/{stem}-*.txt (the dated filename is the version history), or None.
+
+    Same-date ties are won by the more specific (timestamped) file."""
+    hits = sorted(DECK_DIR.glob(f"{stem}-*.txt"), key=lambda p: _version_key(p, stem))
     return hits[-1] if hits else None
 
 

@@ -94,7 +94,7 @@ def _row(label, d):
 
 def mode_compare(index, aliases, trials=40000, turns=10):
     print(f"\n### COMPARE (before/after)   trials={trials} seed={SEED}\n")
-    for tag, path in [("PRE-PIVOT (20260413)", OLD), ("CURRENT (20260607)", NEW)]:
+    for tag, path in [("PRE-PIVOT (20260413)", OLD), ("CURRENT (20260621)", NEW)]:
         rng = random.Random(SEED)
         library, commander, diag = ds.parse_deck(path, index, aliases)
         identity = set()

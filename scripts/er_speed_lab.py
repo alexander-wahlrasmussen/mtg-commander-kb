@@ -216,6 +216,8 @@ def build_lib(base, index, removes, adds):
         if t[0] in rm:
             rm.remove(t[0]); continue
         lib.append(t)
+    if rm:                                  # mirror speed_lab_core: a typo'd cut is a loud error,
+        raise SystemExit(f"remove not in library: {rm}")   # never a silent no-op
     for nm in adds:
         rec = index.get(nm.lower())
         if rec is None:

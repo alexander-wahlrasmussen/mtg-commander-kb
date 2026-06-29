@@ -72,7 +72,14 @@ RAMP = {
 SPECIAL = set(ROCKS) | {"Selvala, Heart of the Wilds", "Avenger of Zendikar",
                         "Rampaging Baloths", "Tendershoot Dryad", "Craterhoof Behemoth",
                         "Ghalta, Primal Hunger", "Solemn Simulacrum"}
-TRAMPLE_GRANTERS = {"Garruk's Uprising", "Goreclaw, Terror of Qal Sisma"}
+# Deterministic iteration order. This was a `set`, so `for tg in TRAMPLE_GRANTERS`
+# walked it in PYTHONHASHSEED-dependent order — non-reproducible. The order is
+# load-bearing: this deck holds BOTH, and the loop casts the FIRST it can afford
+# then stops (sets `trample`), so which one fires (Garruk's Uprising = {2}{G}
+# enchantment, no body, vs Goreclaw = {3}{G} 4/3 creature) differs by order. A
+# fixed tuple makes the goldfish reproducible. Clock-neutral: both orders give the
+# identical decap/table grid at 800/8k/40k trials (decap median T8 / table T12).
+TRAMPLE_GRANTERS = ("Garruk's Uprising", "Goreclaw, Terror of Qal Sisma")
 
 
 def _powmap(library, commander):

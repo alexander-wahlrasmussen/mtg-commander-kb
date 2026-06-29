@@ -62,6 +62,11 @@ KEY_B = {"Gravecrawler", "Phyrexian Altar"}
 
 def is_creature(rec): return "Creature" in rec.get("type_line", "")
 def is_human(rec):
+    # Classifies the creatures Mikaeus, the Unhallowed does NOT grant undying to (its
+    # buff is "Other non-Human creatures"). Currently consulted only by the regression
+    # test + the _line_a comment: the precise non-Human gate for line A is ESCALATED
+    # because applying it moves the published clock (see _line_a). Kept correct so the
+    # deferred clock re-derivation has a verified classifier to wire in.
     tl = rec.get("type_line", "")
     return "—" in tl and "Human" in tl.split("—")[1]
 
@@ -83,6 +88,16 @@ class Trial:
         return self.seph or any(n in self.inplay for n in DRAIN)
 
     def _line_a(self):
+        # KNOWN over-count, ESCALATED (audit rules-seph-ebm 2026-06-29). Mikaeus, the
+        # Unhallowed (card_lookup 2026-06-29) reads "Other non-Human creatures you control
+        # get +1/+1 and have undying" — Humans are explicitly EXCLUDED. The Mikaeus path
+        # below uses the coarse `self.bodies >= 2` proxy, which over-counts the deck's
+        # Human creatures (Yawgmoth itself, Zulaport Cutthroat, Syr Konrad, Ghoulcaller
+        # Gisa) as undying fodder; the precise gate is "two non-Human bodies" (see is_human
+        # below and the docstring). Tightening it to a non-Human count was MEASURED to move
+        # the PUBLISHED house-legal median T12 -> T13 (40k goldfish), so it is NOT a
+        # clock-neutral edit: deferred to a coordinated PROP_Sephiroth_Liquidation +
+        # proposal-clock re-derivation rather than silently shifting the published clock.
         return ("Yawgmoth, Thran Physician" in self.inplay and self._drain()
                 and (self.undying >= 2
                      or ("Mikaeus, the Unhallowed" in self.inplay and self.bodies >= 2)))

@@ -74,9 +74,11 @@ def reach_turns(library, rng, rocks):
             moved = False
             for nm, cost in sorted(LAND_RAMP.items(), key=lambda x: x[1]):
                 if g.has(nm) and g.avail >= cost:
-                    g.cast(nm, cost)
-                    g.lands += 1            # enters tapped: no same-turn mana
-                    g.avail = g.lands + g.rock_out
+                    g.cast(nm, cost)        # cast() already pays the cost (avail -= cost)
+                    g.lands += 1            # fetched land enters TAPPED: no same-turn
+                    # mana, untaps next turn via begin_turn's lands+rocks floor. Do NOT
+                    # reset avail to lands+rock_out here — that refunded the spell's cost
+                    # AND counted the tapped land this turn (land-ramp chained for free).
                     moved = True
                     break
         g.deploy_rocks()
