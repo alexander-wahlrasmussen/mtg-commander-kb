@@ -113,9 +113,14 @@ Three labs crash on launch; several tools silently produce wrong/missing results
 Tests added: `test_stale_slug_regression.py`, `test_card_lookup.py`, `test_update_scryfall.py`,
 `test_sync_to_project.py`, + an `_all_text` None case in `test_deck_doctor.py`.
 
+### ✅ Resolved 2026-06-29 (cont.) — cascading tier (implemented + regression-tested + re-derived)
+
+| File | Fix | Clock impact |
+|---|---|---|
+| 🔴 `winota_clock_lab.py` | deploy the commander from the command zone (`g.pay(4)`); removed the dead `nm == WINOTA` in-hand branch; do NOT decrement `humans_left` for her (not in the library flood pool) | engine now fires (was 0/3000): decap **T8–9 → T6–7**, table **T13–14 → T9–10**, never-table **26–43% → ~1%**. `PROP_Winota_Joiner_of_Forces.md` verdict **reversed** (mid-speed/can't-close → genuine racer), `project_dismantle3_build1` memory corrected. Not in the golden snapshot (considering/ deck), so no `--update`. Regression: `test_winota_regression.py` (3 tests, hermetic). |
+
 ### ⏳ Still open — cascading tier (changes a published clock → needs lab re-run + Summary re-derivation)
 
-- 🔴 `winota_clock_lab.py` — add the command-zone deploy
 - 🟡 **even-median ×5** — `speed_lab_core.py:382`, `calibrate.py:176`, `er_speed_lab.py:639`, `gd_clock_lab.py:501`, `lock_lab.py:253`
 - 🟡 `ct_speed_lab.py` dig, `er_speed_lab.py` Zuko MV, `lw_speed_lab.py` Crackle floor, `pod_gauntlet.py` lock re-roll, `urza_clock_lab.py` per-spend mana, `pod_championship.py` 16-deck cap, `kb_content.py` dropped notes
 - 🟡 `framework_bakeoff.py` / `clock_check.py` / `self_meta_lab.py`+`interaction_meta_lab.py` — stale roster (same class as the fixed ones, but needs real oracle numbers re-run for the 2 new decks, so deferred)

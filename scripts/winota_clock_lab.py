@@ -114,40 +114,48 @@ class Trial:
         g.deploy_rocks()
         g.add_mana(self.dork_out)          # persistent dork mana floor
 
+        # --- deploy the commander from the command zone, with priority ---------
+        #   Winota is the COMMANDER (deck_sim loads only the 99-card library, so
+        #   she is NEVER in g.hand — the old `nm == WINOTA` in-hand branch was dead
+        #   code and self.winota stayed False, clocking the deck WITHOUT its engine).
+        #   {2}{R}{W} = MV4, 4/4 Human Warrior (card_lookup verified 2026-06-18).
+        #   No haste: she's summoning-sick the turn she lands (added to pending),
+        #   but her trigger is a static "whenever a non-Human attacks" — so it works
+        #   the turn she enters as long as other non-Humans are already attacking.
+        if not self.winota and g.pay(4):
+            self.winota = True
+            self.pending.append((4, True))   # 4/4 Human body, sick this turn
+            # NB: do NOT decrement humans_left — she's the commander, never in the
+            # library, so she's not part of the flood pool _p_hit() draws from.
+
         # --- deploy creatures, cheapest first (maximise body/trigger count) ---
         while True:
             cands = sorted(
                 ((i, nm, r) for i, (nm, r) in enumerate(g.hand)
-                 if (is_creature(r) or nm == WINOTA) and (r.get("cmc", 0) or 0) <= g.avail),
+                 if is_creature(r) and (r.get("cmc", 0) or 0) <= g.avail),
                 key=lambda x: x[2].get("cmc", 0) or 0)
             if not cands:
                 break
             i, nm, r = cands[0]
             g.cast(nm)                      # pays cmc from avail
-            humans_in = 0
-            if nm == WINOTA:
-                self.winota = True
-                self.pending.append((power_of(r), True))
-            else:
-                if nm in DORKS:
-                    self.dork_out += DORKS[nm]
-                    g.add_mana(DORKS[nm])   # taps same turn
-                hp = is_human(r)
-                self.pending.append((power_of(r), hp))
-                if hp:
-                    humans_in += 1
-                    self.humans_left = max(0, self.humans_left - 1)
-                if nm in TOKEN_ETB:
-                    cnt, pw = TOKEN_ETB[nm]
-                    self.pending += [(pw, False)] * cnt
-                if self.oketra:
-                    self.pending.append((4, False))   # 4/4 zombie per creature cast
-                if nm == OKETRA:
-                    self.oketra = True
-                if nm == ERKENBRAND:
-                    self.erkenbrand = True
-                if nm == ADELINE:
-                    self.adeline = True
+            if nm in DORKS:
+                self.dork_out += DORKS[nm]
+                g.add_mana(DORKS[nm])       # taps same turn
+            hp = is_human(r)
+            self.pending.append((power_of(r), hp))
+            if hp:
+                self.humans_left = max(0, self.humans_left - 1)
+            if nm in TOKEN_ETB:
+                cnt, pw = TOKEN_ETB[nm]
+                self.pending += [(pw, False)] * cnt
+            if self.oketra:
+                self.pending.append((4, False))   # 4/4 zombie per creature cast
+            if nm == OKETRA:
+                self.oketra = True
+            if nm == ERKENBRAND:
+                self.erkenbrand = True
+            if nm == ADELINE:
+                self.adeline = True
 
         # --- combat ----------------------------------------------------------
         if self.haste:                      # upper bound: everything swings turn-of

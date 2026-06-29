@@ -1,12 +1,20 @@
 # Proposal: Winota, Joiner of Forces — "dismantle 3, build 1"
 
-*Status: PIPELINE (un-built candidate). Raised 2026-06-18, lab-verified 2026-06-19.*
+*Status: PIPELINE (un-built candidate). Raised 2026-06-18; clock RE-VERIFIED 2026-06-29
+after a lab-bug fix (see the correction note below) — the original 2026-06-19 verdict was wrong.*
 *Decklist: `decks/considering/winota-joiner-of-forces-20260618.txt` (100, parses clean, 3/3 GC).*
 *Lab: `scripts/winota_clock_lab.py`.*
 
-This is the answer to "dismantle 3 decks to build 1 strong deck (not a proposal)." The
-build is honest-first: the clock lab **does not confirm** the fast-racer framing it was
-pitched on. Read the verdict before committing.
+This is the answer to "dismantle 3 decks to build 1 strong deck (not a proposal)."
+
+> **2026-06-29 CORRECTION.** The original verdict below — mid-speed, "structurally can't
+> close the table" — was an artifact of a lab bug. `winota_clock_lab` set `self.winota=True`
+> only when it found her *in hand*, but she is the commander and never appears there, so it
+> clocked a Winota deck **without Winota's flood engine** (the engine fired in 0/3000 trials).
+> With the command-zone deploy fixed, she is a **genuine racer**: decap **T6–7**, table
+> **T9–10**, ~1% never-table. The "fast racer" pitch is now *supported*, not falsified.
+> The corrected lab verdict and bottom line are below; the teardown/funding/engine sections
+> were never affected by the bug and stand as written.
 
 ---
 
@@ -56,51 +64,61 @@ Selfless Spirit, Guardian of Faith, Clever Concealment, Boros Charm.
 
 ---
 
-## Clock lab — the verdict (this is the important part)
+## Clock lab — the verdict (corrected 2026-06-29)
 
 `scripts/winota_clock_lab.py`, 40k goldfish, decap (one opp @40) vs table (all three),
-bracketed by the deck's haste package (no-haste floor ↔ all-haste ceiling):
+bracketed by the deck's haste package (no-haste floor ↔ all-haste ceiling). **The flood
+engine is now live** — the lab deploys Winota from the command zone (the fix; see the
+correction note up top):
 
 | | decap median | table median | never-table in 14 |
 |---|--:|--:|--:|
-| **floor** (no haste) | **T9** | T14 | 43% |
-| **ceiling** (all haste) | **T8** | T13 | 26% |
+| **floor** (no haste) | **T7** | T10 | 1% |
+| **ceiling** (all haste) | **T6** | T9 | 1% |
 
-**Clock: T8–9 decap / T13–14 table (lab 2026-06-19).**
+**Clock: T6–7 decap / T9–10 table (lab 2026-06-29).**
 
-**This falsifies the "fast racer / pre-empt the combo" pitch.** Two findings:
+**This SUPPORTS the "fast racer / pre-empt the combo" pitch** — both original findings
+reverse once the engine fires:
 
-1. **Decap is mid-pack, not fast.** T8–9 sits with Earthbend/Lorehold/Scarab (T8), *behind*
-   the real racers (Genome/Radiation/Replication decap T7). The pod's combos assemble ~T6–7
-   behind Abolisher — Winota is a turn or two too slow to pre-empt them.
-2. **The table clock is the real, structural weakness.** Focus-fire combat through 120 life
-   across three seats is slow, and going wider doesn't fix it (you can't split enough power).
-   26–43% of games never table inside 14 turns. **It decaps one player but doesn't reliably
-   close the game** — the same "can't close" bucket much of the roster already lives in.
+1. **Decap is at the racer tier.** T6–7 sits with Genome/Radiation/Replication (decap T7),
+   not "mid-pack behind the racers" as the engine-less lab reported. That is fast enough to
+   pre-empt the pod's ~T6–7 combos, and because it closes through **combat on your own turn,
+   Grand Abolisher does nothing to it** — the original reason it was floated against the
+   Abolisher-combo archenemy.
+2. **The table does close.** Once the triggers snowball the board (Erkenbrand pumps +
+   flooded Humans + Adeline bodies), the excess power spills across seats: table **T9–10**,
+   and only **~1% of games never table** in 14 turns — not the 26–43% the broken lab showed.
+   The "structurally can't close" claim was an artifact of clocking a small, non-snowballing
+   board; the real engine goes wide enough to spill.
 
-**Model honesty (cuts both ways):** OPTIMISTIC — unblocked, no removal/wraths (a real cost
-for a go-wide deck that walks into blockers + sweepers; this is a ceiling). CONSERVATIVE —
-flooded-Human power fixed at 2, and the combat amplifiers (Théoden double strike, Iroas,
-Odric keyword-share, Adriana melee, hardcast-Human Erkenbrand pumps) are **omitted**, so the
-true decap is plausibly ~1 turn faster (≈T7–8). Even crediting that, the table clock stays
-slow — that's structural, not a modelling artifact.
+**Model honesty (caveats unchanged):** OPTIMISTIC — unblocked, no removal/wraths. For a
+go-wide deck that walks into blockers + sweepers this is a real ceiling — but it is **the
+same ceiling every racer's goldfish clock is measured at**, so the racer-tier comparison is
+apples-to-apples. CONSERVATIVE — flooded-Human power fixed at 2, and the combat amplifiers
+(Théoden double strike, Iroas, Odric keyword-share, Adriana melee, hardcast-Human Erkenbrand
+pumps) are **omitted**, so the true clock is, if anything, a touch faster than stated.
 
 ---
 
 ## Honest bottom line
 
-As built, Winota is a **solid mid-speed go-wide deck, not a pod-solving racer.** It is
-Abolisher-proof and offensive (fits the B4-in-spirit taste), but it neither out-races the
-combo pod nor closes the table — so it would not clearly beat the Radiation/Genome/Replication
-decks already on the roster. The "race the Abolisher pod" thesis is **not supported** by the lab.
+As built, Winota is a **genuine pod-racer**: decap T6–7 (racer tier) and a table that
+reliably closes T9–10 (~1% never), all on your own turn through combat — so **Grand
+Abolisher and the counterspell-combo archenemy do nothing to it**. The "race the Abolisher
+pod" thesis the deck was pitched on is **supported** by the lab (once the engine-deploy bug
+was fixed). It fits the B4-in-spirit / offensive taste and is Abolisher-proof by construction.
 
-**Open directions (user's call):**
-- **(A) Iterate toward a real alpha-strike** — the current list is top-heavy (five 5-drops,
-  midrange value Humans). A leaner curve + more haste/evasion (Rogue's Passage already in) +
-  an actual overrun finisher could pull both clocks in; re-lab to test. *Most promising.*
-- **(B) Accept it as a mid-speed deck** and rank it honestly (likely B-tier), not as a racer.
-- **(C) Reconsider the commander** — if the goal is a *racer*, a tighter combo/aggro shell
-  may serve better than go-wide combat.
+The standard go-wide caveat holds: it walks into blockers and sweepers, so the wrath
+insurance (Flawless Maneuver, Selfless Spirit, Guardian of Faith, Clever Concealment, Boros
+Charm) is load-bearing, not flex. But the speed is real and at the front of the roster.
 
-The Human (366) / Wizard (136) collection depth that motivated this still stands; the
-question is whether Winota's go-wide combat is the right way to spend it.
+**The open question is now a roster decision, not a build-quality one.** Winota's decap
+*matches* the existing T6–7 racers (Genome/Radiation/Replication) with a table a turn or two
+behind a drain-combo racer's — a peer of them, not a clear upgrade. So "dismantle 3 to build
+Winota" trades three D-tier decks for a *fourth* top-tier racer plus an Abolisher-proof angle:
+strong if you want redundancy in the race plan, less compelling if the goal is to diversify
+*away* from racing. User's call — but the deck is no longer the disappointment the old verdict made it.
+
+The Human (366) / Wizard (136) collection depth that motivated this stands, and the go-wide
+combat plan now looks like the right way to spend it.
