@@ -49,8 +49,8 @@ Titania's Command, Spore Frog, Blossoming Tortoise.
 
 **In (13):** Bolas's Citadel, Sensei's Divining Top, Aetherflux Reservoir, Ancient
 Cellarspawn, One with the Multiverse, Fortune Teller's Talent, The Reality Chip, Savvy
-Trader, Emergent Ultimatum, Insidious Dreams, Tidal Barracuda, Sheoldred (the Apocalypse),
-Scheming Symmetry.
+Trader, Emergent Ultimatum, Insidious Dreams, Tidal Barracuda, **Tatyova, Benthic Druid**,
+Scheming Symmetry. *(Sheoldred → Tatyova, 2026-06-30 — contention fix, see Acquisition.)*
 
 Kept on-theme from the old shell: Seedborn Muse, Valley Floodcaller, Coffers+Urborg+Yavimaya,
 Sylvan Library, Shifting Woodland, Exploration/Oracle/Azusa/Aesi, GSZ/Chord/Finale, Noxious
@@ -94,19 +94,26 @@ The **78% under-credits the retained Torment** grind-out (kept for exactly those
 games), so the true number is likely **~83–85%**. Net: a sliver of the *best* matchup
 spent to fix the *worst* one.
 
-## Acquisition
+## Acquisition (contention resolved 2026-06-30)
 
-`deck_doctor` buy list: **8 unowned cards ≈ €32** (Insidious Dreams, Tidal Barracuda,
-Scheming Symmetry, Ancient Cellarspawn, The Reality Chip, One with the Multiverse, Fortune
-Teller's Talent, Emergent Ultimatum).
+`deck_doctor` buy list — **8 cards ≈ €32** (indicative, Scryfall): Insidious Dreams (€7.34),
+Tidal Barracuda (€7.20), Scheming Symmetry (€5.86), Ancient Cellarspawn (€5.40), The Reality
+Chip (€2.48), One with the Multiverse (€2.00), Fortune Teller's Talent (€0.68), Emergent
+Ultimatum (€0.55).
 
-**Plus contention** — three *owned* pieces are locked in other decks (pull or buy a 2nd):
-- **Sensei's Divining Top** → The Dark Lord's Army
-- **Aetherflux Reservoir** → The Genome Project
-- **Sheoldred, the Apocalypse** → Forced Liquidation + The Dark Lord's Army
+**Contention resolution** (the three owned-but-locked cards, after reading the donor decks):
+- **Sheoldred** (a *redundant* punisher in FL, a drain/cushion piece in DLA; ~€80 card) →
+  **substituted OUT** of this build for **Tatyova, Benthic Druid** (owned, free, on-theme
+  landfall lifegain + draw). **Clock-neutral** (median T9, never 9%), arguably better in
+  reality (Tatyova's draw digs toward pieces). Leaves FL **and** DLA untouched.
+- **Aetherflux Reservoir** (a *backup* line in S-tier Genome) → **buy a 2nd copy (~€2–5)**;
+  not worth disturbing Genome.
+- **Sensei's Divining Top** → **pulled from The Dark Lord's Army** (one of ~7 redundant draw
+  pieces there; negligible loss). DLA needs a 1-card backfill — **TBD** (deferred per user
+  2026-06-30; DLA `.txt` left at 100 until the replacement is chosen).
 
-Top + Aetherflux are core (not optional). *Open question: find substitutes in those decks
-so the copies free up cleanly.*
+**Total to build ≈ €34–37** (the 8 buys + a 2nd Aetherflux) plus the free Sensei's Top pull —
+vs ~€80 had we bought a 3rd Sheoldred.
 
 ## Bracket / Rule-0
 
