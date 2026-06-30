@@ -50,7 +50,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "the-dark-lords-army-20260417-211206.txt"
+DECK = ROOT / "decks" / "the-dark-lords-army-20260630.txt"   # repointed 2026-06-30 (was -20260417, deleted; deck updated through −Sensei's Divining Top +Dauthi Voidwalker)
 SEED = 20260613
 TURNS = 16
 SHOW = [6, 7, 8, 9, 10, 12, 14, 16]
