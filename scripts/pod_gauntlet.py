@@ -156,6 +156,7 @@ PROTECT = {
     # --- pending build candidates (priors; --pending) ---
     "kefka":               0.45,  # triggered-damage wheel kill (counter-immune, anti-Abolisher) + Grixis counters
     "hashaton":            0.40,  # instant Thoracle combo protected by counters, but glass (one fragile line)
+    "glarb_inevitable":    0.50,  # 5 counters + Tidal Barracuda + Aetherflux kill is an ABILITY (counter-immune)
 }
 
 # Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
@@ -592,6 +593,16 @@ BUILD_CLOCKS = {
         decap=[5, 21, 44, 61, 72, 77, 82, 86, 91],
         table=[5, 21, 44, 61, 72, 77, 82, 86, 91],   # Thoracle: decap = table by construction
         med=("T6", "T6"), never=(9, 9), src="lab hsh_clock_lab @8k 2026-06-18"),
+    # Glarb "inevitable" topdeck-combo rebuild (Croak/Glarb -> GLARB4EVA redundant
+    # Sensei's Top + any Citadel-like + any Aetherflux-like). disrupt_class "warn" = it
+    # keeps Croak's counter suite, so its disruption ~= croak's MEASURED row (a=0.5 ~0.32).
+    "glarb_inevitable": dict(
+        name="Glarb Inevitable (combo, build)", score="~17", disrupt_class="warn",
+        grid=[4, 5, 6, 7, 8, 9, 10, 12, 14],
+        decap=[0, 2, 9, 24, 41, 55, 66, 82, 90],
+        table=[0, 2, 9, 24, 41, 55, 66, 82, 90],     # combo: decap = table by construction
+        med=("T9", "T9"), never=(10, 10),
+        src="lab glarb_inevitable_lab FULL @20k 2026-06-30 (honest dig=selection)"),
 }
 
 
