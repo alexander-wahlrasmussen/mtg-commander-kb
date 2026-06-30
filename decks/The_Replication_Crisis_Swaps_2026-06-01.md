@@ -5,9 +5,26 @@ to commander removal / a blocked combat step. Pushes Replication Crisis from a
 17/20 (5/4/4/4) combat-grind deck toward bracket-4-in-spirit
 ([[bracket-4-in-spirit]]) within the 3-GC cap.
 
-**Status:** proposed. **Not yet applied to the `.txt`** — Kiki-Jiki is an
-unowned buy and the line needs pod approval (see below). Decklist updates to a
-new dated `.txt` once the card is acquired and approved.
+**Status: DECLINED 2026-06-30 — not building.** Never applied to the `.txt`;
+Kiki-Jiki was not bought. Lab-falsified as a worthwhile add by `rc_speed_lab.py`
+(40k, 2026-06-30): Kiki + Conscripts/Resto is a no-tutor 2-card line that
+assembles only **~6% by T12 (mana-online ~4%)** — ~3× *rarer* than the Satya +
+Lightning Runner infinite already in the deck (18% T12), because LR is a
+commander+1 line and Kiki is not. The proposed −Aggravated Assault donor makes
+this ~availability-neutral (Sword+AA is itself only a 1%/3% line), and it does
+**not** move the decap or table clock. Kiki's sole distinguishing merit —
+Satya-removal insurance — is exactly what a goldfish lab can't score, so the buy
+can't be justified on these numbers. The 17 → 18–19/20 projection below is
+**retracted**: it predates the 2026-06-22 Lightning Runner infinite, which
+already supplies the reliable Satya-light closer this swap was reaching for.
+
+> **Two staleness notes for anyone reading the proposal below:** (1) the
+> proposed donor **Bident of Thassa was already cut on 2026-06-22** (→ Winds of
+> Abandon), so the 1-for-1 framing no longer holds — a fresh donor (Aggravated
+> Assault / Strionic Resonator) would be needed. (2) The score math predates the
+> Lightning Runner infinite. The proposal text is preserved for the
+> still-relevant **standing 2-card-infinite house-rule** discussion that other
+> docs link here for; the Kiki *swap* itself is closed.
 
 Card text verified against local Scryfall data 2026-06-01 ([[feedback_read_card_first]]).
 

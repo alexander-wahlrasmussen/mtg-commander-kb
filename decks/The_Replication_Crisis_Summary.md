@@ -446,6 +446,36 @@ so it's a clean-but-not-overwhelming 5.
 Narset's Reversal + E // E "infinite magecraft" near-combo (no magecraft payoff
 here, so no loss).
 
+### 2026-06-30 — Kiki-Jiki add evaluated and DECLINED (no card change)
+
+Re-ran `rc_speed_lab.py` (40k) on current vs **+Kiki-Jiki / −Aggravated Assault**
+(the −Bident donor from `…_Swaps_2026-06-01.md` was already spent on Winds of
+Abandon). Result: **Kiki + Conscripts/Resto assembles ~6% by T12 (mana-online
+~4%)** — ~3× *rarer* than the Satya + Lightning Runner infinite already in the
+deck (18% T12), because LR is a commander+1 line and Kiki is a no-tutor 2-card
+combo. The swap is ~availability-neutral (the Sword+AA line it would replace is
+itself only 1%/3%) and moves **neither** the decap nor table clock. Kiki's lone
+distinguishing merit — Satya-removal insurance — is unscoreable by a goldfish
+lab. **Not bought, no `.txt` change.** The 2026-06-01 swap doc is annotated
+DECLINED in place; its 17→18–19/20 projection is retracted (it predates the LR
+infinite). The Kill Reliability 4/5 cap therefore stands — the lever that
+targets the deck's *primary* line rather than a rare 3rd infinite is a tutor for
+Lightning Runner, and that one labbed well (next note).
+
+### 2026-06-30 — Imperial Recruiter APPROVED (tutor the primary line; 2nd copy on order)
+
+Instead of a third infinite, add a second *find* for the existing one. **−Strionic
+Resonator (in no kill package) +Imperial Recruiter** ({2}{R}, ETB tutors a creature
+power ≤ 2 → hand; fetches the 2/2 Lightning Runner). `rc_speed_lab.py --mode avail`
+(40k, 2026-06-30): the Satya + LR line goes **11→22% (T6) / 18→32% (T12)** — drawing
+LR *or* the tutor — and ANY-kill-line availability rises **24→33% (T6) / 36→48%
+(T12)**, with Sword+AA kept live. Roughly **doubles** how often the primary infinite
+is online vs the ~6%/T12 Kiki backup that was declined; on-axis and commander-
+independent. **Reliability, not speed** — decap/table clocks don't move, deck still
+can't out-race a T6–7 pod. The single owned Recruiter is deployed in Exile's Return,
+so this is a **2nd-copy buy**; `.txt` bumps on arrival. Full writeup +
+caveats: `The_Replication_Crisis_Swaps_2026-06-30.md`.
+
 ## Don't-Miss Rulings
 
 - **Tokens entering "tapped and attacking" do NOT trigger "whenever ~ attacks" abilities** *the combat they're made* — but they **CAN attack normally in a later combat** (once untapped + declared), and *then* they trigger. Satya copies of Adeline, Phelia, Bident-bearers, etc. don't fire attack triggers on entry, but their **ETB triggers DO**. This is the whole engine of the Lightning Runner combo: the token Runner makes no energy the combat Satya creates it, but it untaps with the others and **does** make energy when it attacks in the next combat. (It's also why the old Combat Celebrant "infinite" was fake — exert is a one-time, can't-untap thing.)

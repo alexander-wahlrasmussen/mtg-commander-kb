@@ -83,6 +83,7 @@ BRUDICLAD = "Brudiclad, Telchor Engineer"
 TITAN = "Inferno Titan"
 KIKI = "Kiki-Jiki, Mirror Breaker"
 KIKI_PARTNERS = ["Zealous Conscripts", "Restoration Angel"]
+RECRUITER = "Imperial Recruiter"   # {2}{R} 1/1, ETB tutor a creature power<=2 to hand
 SATYA_MV = 4
 
 PACKAGES = {                       # slot-sets; a package is live when every slot is seen
@@ -124,11 +125,19 @@ WILL = "Akroma's Will"
 # ==========================================================================
 # avail — union package availability (no tutors apply)
 # ==========================================================================
-def simulate_packages(library, packages, trials, rng):
-    """{package: curve} + 'ANY' curve: P(all slots of the package seen <= T)."""
+def simulate_packages(library, packages, trials, rng, tutors=None):
+    """{package: curve} + 'ANY' curve: P(all slots of the package seen <= T).
+
+    tutors: optional {tutor_name: {findable_piece_name, ...}}. When the tutor is
+    among the seen cards, its findable pieces count as seen too — the drawn-only
+    abstraction of "a tutor fetches its target to hand." Mana and the one-fetch-
+    per-cast limit are NOT modelled here (that realism is the clock mode's job);
+    for a tutor whose only combo-relevant target is a single piece (Imperial
+    Recruiter -> Lightning Runner), the one-fetch limit doesn't distort the line."""
     n = len(library)
     pk = {name: [{s.lower() for s in slot} for slot in slots]
           for name, slots in packages.items()}
+    tut = {k.lower(): {v.lower() for v in vs} for k, vs in (tutors or {}).items()}
     hits = {name: [0] * (TURNS + 1) for name in pk}
     any_hits = [0] * (TURNS + 1)
     for _ in range(trials):
@@ -139,9 +148,15 @@ def simulate_packages(library, packages, trials, rng):
         for t in range(1, TURNS + 1):
             if t > 1 and ptr < n:
                 seen.add(deck[ptr][0].lower()); ptr += 1
+            eff = seen
+            if tut and any(tn in seen for tn in tut):
+                eff = set(seen)
+                for tname, targets in tut.items():
+                    if tname in seen:
+                        eff |= targets
             got_any = False
             for name, slots in pk.items():
-                if all(slot & seen for slot in slots):
+                if all(slot & eff for slot in slots):
                     hits[name][t] += 1; got_any = True
             if got_any:
                 any_hits[t] += 1
@@ -193,6 +208,17 @@ def mode_avail(index, aliases, trials):
     rng = random.Random(SEED)
     per, any_c = simulate_packages(kiki_lib, {**PACKAGES, **LR_PACKAGE, **KIKI_PACKAGE}, trials, rng)
     print(_row(next(iter(KIKI_PACKAGE)), per[next(iter(KIKI_PACKAGE))]))
+    print("  --- IMPERIAL RECRUITER variant (+Imperial Recruiter, -Strionic Resonator donor) ---")
+    print("      Recruiter ETB tutors a creature power<=2 -> fetches Lightning Runner (2/2).")
+    print("      Modelled as: Recruiter seen => LR accessible (same drawn-only abstraction).")
+    print("      Donor is Strionic Resonator (in no kill package), so ALL four lines stay live")
+    print("      -- including Sword+AA. The LR-line lift is donor-independent.")
+    rec_lib = build_lib(library, index, ["Strionic Resonator"], [RECRUITER])
+    rng = random.Random(SEED)
+    per, any_c = simulate_packages(rec_lib, {**PACKAGES, **LR_PACKAGE}, trials, rng,
+                                   tutors={RECRUITER: {LRUNNER}})
+    print(_row("INF   Satya + LR (draw LR or Recruiter)", per["INF   Satya + Lightning Runner"]))
+    print(_row("ANY of the four (Sword+AA kept; -Strionic donor)", any_c))
 
 
 # ==========================================================================
