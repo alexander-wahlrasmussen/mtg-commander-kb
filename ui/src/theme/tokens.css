@@ -12,8 +12,8 @@
    ========================================================================== */
 :root {
   /* ---- primitives: newsprint light ---- */
-  --disp:  "Oswald", ui-sans-serif, system-ui, sans-serif;   /* condensed display */
-  --serif: Georgia, "Times New Roman", serif;                /* running body */
+  --disp:  "Oswald", ui-sans-serif, system-ui, sans-serif;   /* @kind font — condensed display */
+  --serif: Georgia, "Times New Roman", serif;                /* @kind font — running body */
   --mono:  "IBM Plex Mono", ui-monospace, "Consolas", monospace; /* @kind font — every figure */
   --paper:  #e9e3d4;
   --paper2: #f1ecdf;
@@ -66,7 +66,7 @@
   --radius-sm: 0px;
   --shadow:    none;
   --shadow-lg: none;
-  --ease:      cubic-bezier(.2, .7, .2, 1);   /* @kind other */
+  --ease:      cubic-bezier(.2, .7, .2, 1)   /* @kind other */;
 }
 
 * { box-sizing: border-box; }

@@ -7,7 +7,8 @@ type Story = StoryObj<typeof Heatmap>;
 
 const cell = (v: number, owned = false) => ({
   value: v,
-  text: (v >= 0.5 ? `+${v.toFixed(0)}` : v > -0.5 ? "·" : v.toFixed(0)) + (owned ? "*" : ""),
+  text: v >= 0.5 ? `+${v.toFixed(0)}` : v > -0.5 ? "·" : v.toFixed(0),
+  owned,
 });
 
 export const LockLift: Story = {
