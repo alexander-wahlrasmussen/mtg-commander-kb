@@ -63,7 +63,7 @@ Four distinct closing lines (drain, voltron Army, aristocrats grind, graveyard r
 
 ### Durability — 5/5
 
-The Army token reforms for free whenever any opponent casts a spell — this is zero-cost recovery baked into the commander’s text. A board wipe kills the Army, but the next spell anyone casts brings it back. Sauron himself has ward (sacrifice a legendary artifact or legendary creature), making targeted removal extremely costly. The reanimation package (Reanimate, Animate Dead, Necromancy, Living Death, Agadeem’s Awakening) recovers key creatures. Card draw is redundant across Call of the Ring, Black Market Connections, Ring temptation itself, Yawgmoth, Ledger Shredder, Skullclamp, Sensei’s Divining Top, and cantrips. Tutors: Demonic Tutor, Diabolic Intent, Ringsight (color-of-legendary tutor — Sauron is BUR, so it hits anything).
+The Army token reforms for free whenever any opponent casts a spell — this is zero-cost recovery baked into the commander’s text. A board wipe kills the Army, but the next spell anyone casts brings it back. Sauron himself has ward (sacrifice a legendary artifact or legendary creature), making targeted removal extremely costly. The reanimation package (Reanimate, Animate Dead, Necromancy, Living Death, Agadeem’s Awakening) recovers key creatures. Card draw is redundant across Call of the Ring, Black Market Connections, Ring temptation itself, Yawgmoth, Ledger Shredder, Skullclamp, Dauthi Voidwalker (evasive drainer that also exiles opponents’ graveyards), and cantrips. Tutors: Demonic Tutor, Diabolic Intent, Ringsight (color-of-legendary tutor — Sauron is BUR, so it hits anything).
 
 ### Interaction — 5/5
 
@@ -141,9 +141,10 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Propaganda
 1 Black Market Connections
 
-### Utility Creatures (3)
+### Utility Creatures (4)
 
 1 Baleful Strix
+1 Dauthi Voidwalker
 1 Ledger Shredder
 1 Snapcaster Mage
 
@@ -185,9 +186,8 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 1 Diabolic Intent
 1 Ringsight
 
-### Draw & Selection (3)
+### Draw & Selection (2)
 
-1 Sensei's Divining Top
 1 Night's Whisper
 1 Faithless Looting
 
@@ -225,7 +225,6 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 ### Sideboard (not counted in 99)
 
 1 Phyrexian Tower  
-1 Dauthi Voidwalker  
 1 An Offer You Can’t Refuse  
 1 Arcane Denial  
 1 Ponder  
