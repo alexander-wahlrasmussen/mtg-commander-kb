@@ -5,6 +5,14 @@ Cross-deck collection rollup — what's owned, deployed, and shared across decks
 Last updated: 2026-04-29 (data as-built) — **STALE: dashboard rebuild pending.**
 Source: `collection/moxfield_haves_2026-06-25-0748Z.csv` (current export; the 2026-04-29 build CSV has rotated out) — DeckSafe run against 16 digitized decks.
 
+> **2026-06-30 manual note (NOT a DeckSafe re-run):** per user direction, **Zero-Sum Game** and
+> **Forced Liquidation** are now treated as **built** (their on-order cards marked as acquired —
+> consolidated buy list fulfilled-as-if-bought), and **Replication Crisis** swapped −Strionic
+> Resonator +Imperial Recruiter (→ `the-replication-crisis-20260630.txt`). The per-deck table below
+> still reflects the last real DeckSafe run; the two added rows and the as-if-bought ownership are a
+> **planning marker**. Physical settlement is owed on contention buys + the 2nd Imperial Recruiter.
+> **Re-run DeckSafe against a fresh Moxfield export once the paper copies land** to make this real.
+
 ---
 
 ## Collection snapshot
@@ -32,6 +40,7 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 | Diminishing Returns       | Teysa Karlov                | 100%       | —                                  |
 | Earthbend the Meta        | Toph, the First Metalbender | 100%       | —                                  |
 | Eldrazi Stampede Chaos    | Maelstrom Wanderer          | 100%       | Not in Deck_Index.md — needs entry |
+| Forced Liquidation        | Kefka, Court Mage           | Built\*    | New build, treated as bought 2026-06-30; DeckSafe re-run pending |
 | Lightning War             | Fire Lord Azula             | 100%       | —                                  |
 | Peace Offering            | Ms. Bumbleflower            | —          | **Dismantled 2026-06-13** — redundant 2nd Bumbleflower (This Bunny is active); cards returned to pool, pending DeckSafe re-run |
 | Radiation Sickness        | The Wise Mothman            | 100%       | —                                  |
@@ -40,8 +49,11 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 | The Genome Project        | Kuja, Genome Sorcerer       | 100%       | —                                  |
 | The Grand Design          | Atraxa, Grand Unifier       | 100%       | —                                  |
 | The Loam Cycle            | Teval, the Balanced Scale   | —          | **Dismantled 2026-06-08** — decklist archived 2026-06-11; cards returned to pool |
-| The Replication Crisis    | Satya, Aetherflux Genius    | 100%       | —                                  |
+| The Replication Crisis    | Satya, Aetherflux Genius    | 100%\*     | −Strionic +Imperial Recruiter 2026-06-30 (`-20260630.txt`); 2nd Recruiter copy owed |
 | This Bunny Goes To Market | Ms. Bumbleflower            | 100%       | Not in Deck_Index.md — needs entry |
+| Zero-Sum Game             | Witherbloom, the Balancer   | Built\*    | New build, treated as bought 2026-06-30; DeckSafe re-run pending |
+
+\* *Built/as-if-bought, not a DeckSafe-verified 100% — see the 2026-06-30 note above.*
 
 ---
 

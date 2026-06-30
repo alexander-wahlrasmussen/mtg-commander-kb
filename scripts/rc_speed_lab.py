@@ -69,7 +69,14 @@ ROOT = Path(__file__).parent.parent
 _spec = importlib.util.spec_from_file_location("deck_sim", Path(__file__).parent / "deck_sim.py")
 ds = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ds)
 
-DECK = ROOT / "decks" / "the-replication-crisis-20260622.txt"
+# Frozen pre-swap baseline for the 2026-06-30 Imperial Recruiter decision: this
+# lab is the before/after that justified -Strionic Resonator +Imperial Recruiter,
+# now APPLIED in decks/the-replication-crisis-20260630.txt. The "CURRENT deck"
+# rows below are the pre-swap 99 (Strionic in, no Recruiter); the IMPERIAL
+# RECRUITER variant rows are the now-live deck. Kept pinned to the archived list
+# so the comparison stays reproducible (re-point to the live .txt only if you
+# rebuild the variant logic to model the reverse swap).
+DECK = ROOT / "archive" / "old_decklists" / "the-replication-crisis-20260622.txt"
 SEED = 12345
 TURNS = 12
 SHOW = [3, 4, 5, 6, 7, 8, 10, 12]

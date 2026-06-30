@@ -472,9 +472,11 @@ LR *or* the tutor — and ANY-kill-line availability rises **24→33% (T6) / 36�
 (T12)**, with Sword+AA kept live. Roughly **doubles** how often the primary infinite
 is online vs the ~6%/T12 Kiki backup that was declined; on-axis and commander-
 independent. **Reliability, not speed** — decap/table clocks don't move, deck still
-can't out-race a T6–7 pod. The single owned Recruiter is deployed in Exile's Return,
-so this is a **2nd-copy buy**; `.txt` bumps on arrival. Full writeup +
-caveats: `The_Replication_Crisis_Swaps_2026-06-30.md`.
+can't out-race a T6–7 pod. **APPLIED 2026-06-30** (as-if-bought per user direction)
+→ `the-replication-crisis-20260630.txt`; old list archived. The single owned
+Recruiter is still in Exile's Return, so a **2nd physical copy is owed** before
+both decks sleeve at once. Full writeup + caveats:
+`The_Replication_Crisis_Swaps_2026-06-30.md`.
 
 ## Don't-Miss Rulings
 

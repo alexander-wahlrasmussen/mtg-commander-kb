@@ -1,5 +1,14 @@
 # Buy List — Assemble Zero-Sum Game + Lightning War + Forced Liquidation
 
+> **✅ Treated as bought 2026-06-30**, per user direction. **Zero-Sum Game** and **Forced
+> Liquidation** are now marked **built** (`Deck_Index.md` / `Build_And_Swap_Tracker.md`); their
+> `.txt` lists already carried these cards. The **Lightning War** 8-card upgrade is part of the
+> same order (cards treated as acquired) but applying them to the LW `.txt` was **not** in this
+> request — left as-is, still flagged on-order in `Deck_Index.md`. Physical settlement is still
+> owed where a copy was a **contention buy** (owned-but-locked-in-another-deck) — see the
+> contention table below — and on the separate Replication Crisis 2nd Imperial Recruiter. Re-run
+> DeckSafe once the paper copies actually land.
+
 **Date:** 2026-06-25
 **Scenario:** Keep all three target decks built at once; **dismantle Diminishing Returns** (cards return to pool); the other 13 active decks stay built and hold their physical copies.
 **Mode:** **Worst case** = true buys (owned 0) **+** contention buys (owned but locked in a deck that stays built).

@@ -8,12 +8,16 @@ Kiki-Jiki *third infinite* was declined the same day: a goldfish lab can't
 score Satya-removal insurance, but it *can* score how often the kill is online,
 and a tutor for the existing line beats a rare extra combo.
 
-**Status: APPROVED 2026-06-30 — buying a 2nd copy. `.txt` NOT yet bumped.**
-The single owned Imperial Recruiter is physically deployed in **Exile's Return**
-(`the-exiles-return-20260417-194010.txt`), so this requires a second copy rather
-than a free reallocation. Apply the swap to a new dated `.txt`
-(`the-replication-crisis-<arrival-date>.txt`, old version → `archive/old_decklists/`)
-once the card is in hand. Tracked as on-order in [[project_build_swap_tracker]].
+**Status: APPLIED 2026-06-30 (as-if-bought, per user direction).** Swap written
+to **`decks/the-replication-crisis-20260630.txt`** (−Strionic Resonator
++Imperial Recruiter; old list → `archive/old_decklists/the-replication-crisis-20260622.txt`).
+deck_doctor-verified: 100 cards, 3/3 GC, all Commander-legal, diff is a clean
+1-for-1. **Physical caveat:** the single owned Imperial Recruiter is still
+deployed in **Exile's Return** (`the-exiles-return-20260417-194010.txt`), so a
+**2nd physical copy is owed** before both decks can be sleeved simultaneously —
+price unverified, budget-reprinted ([[feedback_verify_prices]]). The decklist is
+treated as built per the user's "bump as if bought" instruction; settle the buy
+on the next order. Tracked in [[project_build_swap_tracker]].
 
 Card text verified against local Scryfall data 2026-06-30
 ([[feedback_read_card_first]], [[feedback_check_card_legality]]).

@@ -23,8 +23,8 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30; Clock T8 decap ceiling / T11 table, lab 2026-06-13) |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
-| Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Cards on order** (built 2026-06-11; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |
-| Forced Liquidation     | Kefka, Court Mage           | Grixis  |     16/20 | Wheel-burn / punisher static | **Cards on order** (audited 2026-06-27 = 5/4/3/4, Durability-capped; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
+| Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Built** (cards treated acquired 2026-06-30; built 2026-06-11; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |
+| Forced Liquidation     | Kefka, Court Mage           | Grixis  |     16/20 | Wheel-burn / punisher static | **Built** (cards treated acquired 2026-06-30; audited 2026-06-27 = 5/4/3/4, Durability-capped; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
 
 ### Retired
 
@@ -38,7 +38,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 ## Tier summary
 
 - **Elite (17+):** 13 decks.
-- **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both cards-on-order, re-audit after first pod games).
+- **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both **built** as of 2026-06-30 (cards treated acquired); re-audit after first pod games).
 - **Developing (9–12):** 0.
 - **Unscored:** 0.
 
