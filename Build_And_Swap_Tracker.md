@@ -13,7 +13,10 @@ standing upgrade swap, with sourcing for each card.*
 > physical settlement still owed where copies were contention buys). Their `.txt` builds already
 > carried the cards. **Replication Crisis −Strionic +Imperial Recruiter also applied 2026-06-30**
 > (`the-replication-crisis-20260630.txt`; 2nd Recruiter copy still owed).
-> Croak and Dagger (ex-Calamity Tax) is **done** — grind/lands build applied, `decks/croak-and-dagger-20260623-215731.txt`.
+> Croak and Dagger (ex-Calamity Tax) **REBUILT again 2026-07-01** — the grind/lands fortress was
+> replaced by the **"Glarb Inevitable" topdeck-combo** (Sensei's Top → Aetherflux, T9, counter-immune):
+> `decks/croak-and-dagger-20260701.txt`. Clock T13→T9, P(beat pod) ~7–8%→~30%. 8 buys ≈ €32 (+ a 2nd
+> Aetherflux; Sensei's Top was owned/free). See `proposals/Glarb_Inevitable_Topdeck_Combo_2026-06-30.md`.
 > Everything below tagged "Hashaton" / "Thassa's Oracle" / "Thoracle decision" is **superseded** — kept for record only.
 
 This is a **working dashboard**, not a reference doc — it will go stale as cards are bought and
@@ -95,7 +98,7 @@ out of the roster**; Croak and Dagger went grind (§5), Hashaton was dropped.
 | **Diminishing Returns** | Staged toward B4. **Stage 1:** +Nim Deathmantle +Grave Titan +Grim Tutor (+Jet Medallion) −Mother of Runes −Skrelv −Giver of Runes | All Stage-1 adds owned + undeployed (Deathmantle ×1, Grave Titan ×3, Grim Tutor ×1, Jet Medallion ×1) | 🟢 **$0** (Stage 1) | 🔒 yes | Proposal only. Later stages cost money (see below). |
 | **The Exile's Return** | +Kiki-Jiki +Drannith Magistrate −Night's Whisper −Light Up the Stage | Drannith (own 1, undeployed) free; **Kiki-Jiki = buy** | 🟡 **~€10–15** | 🔒 yes | Proposal only. (Avatar's Wrath is NOT a cut — re-verified.) |
 | **Replication Crisis** ✅ | ~~+Kiki-Jiki −Bident~~ **DECLINED.** Applied: **+Imperial Recruiter −Strionic Resonator** | **Imperial Recruiter = owe a 2nd copy** (owned one is in Exile's Return); price unverified, budget-reprinted | 🟢 **APPLIED 2026-06-30** (as-if-bought) | none (tutor, not a new combo) | **✅ → `the-replication-crisis-20260630.txt`** (old archived; deck_doctor 100/3-GC). Lab `rc_speed_lab.py`: tutors the *existing* Satya+LR infinite → 11→22% T6 / 18→32% T12; ANY line 24→33% / 36→48%. Doc: `decks/The_Replication_Crisis_Swaps_2026-06-30.md`. |
-| **Croak and Dagger** ✅ | **Grind-fortress upgrade**: −6 weak +Bloom Tender +Birds +Delighted Halfling +Crucible +Life from the Loam (final build −Lier +Aesi) | **All owned ($0)** — Loam pile + spares | 🟢 **done** | none | **✅ APPLIED 2026-06-25** → `croak-and-dagger-20260623-215731.txt`. Thoracle/Isochron dropped (combo unreliable — lab 2026-06-14). Grind T9. Aspirational = Strong Glarb (`analysis/Calamity_Grind_Fortress_2026-06-14.md`). |
+| **Croak and Dagger** ✅ | **"Inevitable" topdeck-combo rebuild** (2026-07-01, supersedes the grind fortress): −13 (Demonic Tutor, Gray Merchant, Kokusho, Rite, Submerge, V.A.T.S., Crucible, Loam, Splendid, Ramunap, Titania's Command, Spore Frog, Blossoming Tortoise) +13 (Bolas's Citadel, Sensei's Top, Aetherflux, Ancient Cellarspawn, One with the Multiverse, Fortune Teller's Talent, Reality Chip, Savvy Trader, Emergent Ultimatum, Insidious Dreams, Tidal Barracuda, Tatyova, Scheming Symmetry) | **8 buys ≈ €32** + a 2nd Aetherflux; Sensei's Top owned/free | 🟢 **PROMOTED** | none (B4-in-spirit combo; pod OK'd combos 06-19) | **✅ APPLIED 2026-07-01** → `croak-and-dagger-20260701.txt`. Only GC change Demonic Tutor→Bolas's Citadel (3/3). Clock T13→**T9** (lab `glarb_inevitable_lab.py`); P(beat pod) ~7–8%→~30%. |
 
 **Diminishing Returns later stages** (all need the same pod approval as Stage 1):
 - Stage 2 — 🟡 +Leonin Relic-Warder (buy ~€1–5, the most efficient combo card) +Wishclaw Talisman (optional, buy).

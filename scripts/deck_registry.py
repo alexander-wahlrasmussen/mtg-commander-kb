@@ -191,11 +191,20 @@ DECKS = {
     },
     "croak_and_dagger": {
         "name": "Croak and Dagger", "stem": "croak-and-dagger",
-        "commander": "Glarb, Calamity's Augur", "lab": None,   # multi-variant lab; base not printed
-        "cc": 18, "cc_axes": (5, 4, 4, 5),
-        "win_line": {"pieces": ["Torment of Hailfire"], "override": 14, "fuzzy": True,
-                     "line": "Torment of Hailfire X=12+ (requires ~14 total mana)"},
-        "bottleneck": "MANA", "min_lands": 2, "max_lands": 4, "hi_curve": False, "mixed": None,
+        "commander": "Glarb, Calamity's Augur", "lab": None,   # assembly-clock lab (glarb_inevitable_lab); not a decap/table row
+        # 2026-07-01: PROMOTED to the "inevitable" topdeck-combo rebuild (Aetherflux/Bolas's
+        # Citadel/Sensei's Top). CC re-scored 18 (5/5/4/4) — kill +1 (redundant counter-immune
+        # combo, median T9 vs the old single mana-gated Torment) / interaction -1 (dropped
+        # Submerge + V.A.T.S. + Spore Frog for combo pieces; 5 counters + Tidal Barracuda remain).
+        "cc": 18, "cc_axes": (5, 5, 4, 4),
+        "win_line": {"pieces": ["Sensei's Divining Top", "Bolas's Citadel", "Aetherflux Reservoir"],
+                     "fuzzy": True,
+                     "line": "Sensei's Top + any top-caster (Bolas's Citadel / One with the Multiverse / "
+                             "Fortune Teller's Talent / The Reality Chip) + Aetherflux Reservoir -> loop the "
+                             "library -> Pay 50: deal 50 (counter-immune); Torment of Hailfire grind backup"},
+        "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False,
+        "mixed": "redundant 3-category combo (4 enablers x 2 payoffs); ramp -> Torment is the MANA-gated backup",
+        "also": ["MANA"],
     },
     "forced_liquidation": {
         "name": "Forced Liquidation", "stem": "forced-liquidation",
@@ -565,22 +574,22 @@ KILL_TREES = {
     "croak-and-dagger": {
         "reg_slug": "croak_and_dagger",
         "title": "Croak and Dagger — Glarb, Calamity's Augur",
-        "root": "Glarb online (cast MV4+ spells & play lands off the top, tap to surveil 2)<br/>+ a massive land count; Seedborn Muse untaps him + lands on EVERY opponent's turn",
+        "root": "Glarb + Sensei's Divining Top online ({T}: draw a card, put Top back on top)<br/>a no-MV-restriction top-caster lets you RECAST Top off the library each loop → chain the deck",
         "background": None,
         "lines": [
-            ("torment", "Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>just the spell + a big Coffers tap",
-             "each opponent: 12× lose-3 / sac / discard → lethal table drain (board-independent)", "table T10", "table"),
-            ("rite", "kicked Rite of Replication (9 mana) on a drainer<br/>— Gray Merchant (~60/opp) or Kokusho (25/opp)",
-             "5 token copies' ETBs / legend-rule deaths drain the whole table at once", "table T10", "combo"),
-            ("reanimate", "Glarb surveil bins Gray Merchant → Reanimate (1 mana) returns him<br/>→ kicked Rite (9)",
-             "feeds the Rite copy kill from the graveyard (~10 mana, 2 cards)", "enabler → table T10", "enabler"),
-            ("grind", "Seedborn engine — Glarb untapped every opponent's turn<br/>+ flash enabler → Archon of Cruelty / Massacre Wurm value",
-             "grind the table out through accumulated drain / removal (no single combo)", "table (grind)", "table"),
-            ("combat", "drainers + creatures attack (Archon attack trigger)<br/>(fallback)",
-             "focus one opponent", "decap T10", "combat"),
+            ("aetherflux", "Sensei's Top + a top-caster (Bolas's Citadel / One with the Multiverse /<br/>Fortune Teller's L2 / Reality Chip) + Aetherflux Reservoir",
+             "loop Top casts → bank 50+ life → Pay 50: deal 50 to each opponent (a counter-immune ability)", "table T9", "combo"),
+            ("cellarspawn", "same loop, Ancient Cellarspawn as the payoff<br/>(drain on each under-costed cast)",
+             "every free / discounted Top recast drains an opponent → table (redundant 2nd payoff)", "table T9", "combo"),
+            ("tutor", "topdeck tutors (Insidious Dreams / Emergent Ultimatum / Scheming Symmetry)<br/>stack the missing category on top for Glarb / Citadel",
+             "assemble the 3-category loop a turn or two sooner (GSZ / Chord / Finale fetch the creature pieces)", "enabler → table T9", "enabler"),
+            ("torment", "Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>— the board-independent grind backup when the combo bricks (~10%)",
+             "each opponent: 12× lose-3 / sac / discard → lethal table drain", "table (backup)", "table"),
+            ("combat", "Archon of Cruelty / Massacre Wurm value + Glarb beats<br/>(fallback)",
+             "focus one opponent", "decap (grind)", "combat"),
         ],
-        "stall": "ramp toward 10+ lands + Coffers/Urborg and surveil for Torment —<br/>can't out-race the T6–7 pod, so grind + hold the counter suite; don't announce the kill",
-        "src": "ct_speed_lab.py + Croak_And_Dagger_Summary.md",
+        "stall": "dig with Glarb surveil 2 + Top + Sylvan toward Top + any enabler + any payoff;<br/>combo on YOUR turn behind the counter suite + Tidal Barracuda (opponents can't cast on your turn)",
+        "src": "glarb_inevitable_lab.py + Croak_And_Dagger_Summary.md",
     },
     "forced-liquidation": {
         "reg_slug": "forced_liquidation",
