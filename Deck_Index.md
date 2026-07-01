@@ -9,7 +9,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Deck                   | Commander                   | Colors |     Score | Archetype                   | Status                                                            |
 | ---------------------- | --------------------------- | ------ | --------: | --------------------------- | ----------------------------------------------------------------- |
 | The Grand Design       | Atraxa, Grand Unifier       | WUBG   |     19/20 | Midrange / superfriends     | Elite (audited 2026-05-02)                                        |
-| Croak and Dagger       | Glarb, Calamity's Augur     | Sultai |     18/20 | Grind / drain               | Elite (Clock T13 decap / table rarely in 14 — mana-gated strict goldfish, "T7–9" falsified; lab 2026-06-13) |
+| Croak and Dagger       | Glarb, Calamity's Augur     | Sultai |     18/20 | Topdeck combo-control       | Elite (Clock T9 decap / T9 table — Sensei's Top → Aetherflux inevitability combo, counter-immune kill; promoted 2026-07-01, lab `glarb_inevitable_lab.py`) |
 | Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock T9 decap / ~T13 table strict goldfish — tempo+disruption race, lab 2026-06-13; **finisher/consistency upgrade cards on order** — 8 cards, see Buy List 2026-06-25) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |

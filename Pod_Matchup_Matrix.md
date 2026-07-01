@@ -86,22 +86,23 @@ Rows ordered by blended **P(win)**. Each deck raced separately vs Acererak / H&K
 
 | # | Deck | Sc | Clock decap/table | prot | Acrk | H&K | tail | BLEND | Verdict vs pod |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Radiation Sickness | 18 | T7 / T10 | 55% | 73% | 68% | 67% | **70%** | **Bring — top + robust.** Counter-immune board kills (Simic Asc / Toxrill / rad) give H&K's wall nothing to target (Δ Acrk−H&K just +5). The default pick. |
-| 2 | The Replication Crisis | 17 | T7 / T10 | 55% | 67% | 62% | 59% | **64%** | **Bring — #2.** 7 counters + combat/Kiki board kill, badly under-rated until protect-credited. Kiki swap adds an Abolisher-proof line. |
+| 1 | The Replication Crisis | 17 | T7 / T10 | 55% | 67% | 62% | 60% | **64%** | **Bring — #2.** 7 counters + combat/Kiki board kill, badly under-rated until protect-credited. Kiki swap adds an Abolisher-proof line. |
+| 2 | Radiation Sickness | 18 | T7 / T10 | 55% | 66% | 61% | 60% | **63%** | **Bring — top + robust.** Counter-immune board kills (Simic Asc / Toxrill / rad) give H&K's wall nothing to target (Δ Acrk−H&K just +5). The default pick. |
 | 3 | The Genome Project | 15 | T7 / T8 | 5% | 65% | 58% | 57% | **61%** | **Race ceiling, not a lock.** 15/20 glass, combo-reliant, ~no protect — discount for the fragility the goldfish can't see. |
 | 4 | Lightning War | 19 | T8 / T9 | 65% | 60% | 55% | 54% | **57%** | **Bring — combo now counted (Backlog #11).** Best-line clock folds the Reiterate/Seething Song combo (~T9) into the race, so the gauntlet stops scoring LW on the burn axis it's worst at. Tempo + counter-war + uncounterable Banefire; strongest vs Acererak (60%). |
-| 5 | Ms. Bumbleflower | 15 | T8 / T11 | 15% | 53% | 43% | 40% | **47%** | **Soft.** decap T8 but the combat-only kill is goldfish-optimistic; thin protect. |
-| 6 | The Exile's Return | 18 | T8 / T10 | 30% | 48% | 41% | 39% | **44%** | **Even–favoured.** Own Abolisher protects its turn; Drannith swap adds static; Kiki/combat kill. |
-| 7 | Earthbend the Meta | 17 | T8 / T11 | 30% | 46% | 39% | 37% | **42%** | **Even.** REB/Pyroblast bite H&K's blue specifically; mid clock. |
-| 8 | Lorehold Spirits | 18 | T8 / T10 | 0% | 42% | 36% | 35% | **39%** | **Even.** decap T8, combat; no counters or protect. |
-| 9 | Curse of the Scarab | 17 | T8 / T11 | 40% | 41% | 37% | 36% | **39%** | **Even.** 5 counters + zombie-army board kill; mid clock. |
-| 10 | Zero-Sum Game | — | T9 / T9 | 30% | 36% | 34% | 33% | **34%** | **Even (unaudited).** Board-independent, Abolisher-proof lifeloop kill. |
-| 11 | The Grand Design | 19 | T10 / >T14 | 45% | 35% | 27% | 24% | **30%** | **Anti-Acererak CONTROLLER — the race number under-rates it.** →**45% blend / 59% vs Acererak** with its Elesh Norn ETB-lock (`--vs-lock`); best vs Acererak + the 5C tail (own Abolisher); weakest vs H&K (lock inert vs death). |
-| 12 | The Dark Lord's Army | 19 | T9 / T12 | 45% | 28% | 24% | 23% | **26%** | **Underdog vs combo.** 7 counters but clock-bound T9; self-meta #1 (opponent-fed). |
-| 13 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% | 28% | 24% | 23% | **26%** | **Underdog.** combat kill, ~no protect. |
-| 14 | Diminishing Returns | 17 | T9 / >T14 | 10% | 19% | 15% | 14% | **17%** | **Underdog.** slow death-combo, no counters; self-meta strong. |
-| 15 | Crystal Sickness | 17 | T11 / T13 | 30% | 9% | 8% | 8% | **9%** | **Underdog.** slow clock (T11). |
-| 16 | Croak and Dagger | 18 | T13 / >T14 | 35% | 6% | 5% | 3% | **5%** | **Don't bring as built;** the grind-fortress rebuild → 27% (`--swapped`). |
+| 5 | The Exile's Return | 18 | T8 / T10 | 30% | 52% | 46% | 44% | **49%** | **Even–favoured.** Own Abolisher protects its turn; Drannith swap adds static; Kiki/combat kill. |
+| 6 | Forced Liquidation | 16 | T8 / T9 | 0% | 55% | 44% | 39% | **48%** | **Bring — combo burn.** Notion Thief + Psychosis one-wheel kill fires through Grand Abolisher (statics); fast (T8) but no protect. |
+| 7 | Ms. Bumbleflower | 15 | T8 / T11 | 15% | 53% | 44% | 40% | **47%** | **Soft.** decap T8 but the combat-only kill is goldfish-optimistic; thin protect. |
+| 8 | Earthbend the Meta | 17 | T8 / T11 | 30% | 46% | 39% | 37% | **42%** | **Even.** REB/Pyroblast bite H&K's blue specifically; mid clock. |
+| 9 | Lorehold Spirits | 18 | T8 / T10 | 0% | 43% | 36% | 35% | **39%** | **Even.** decap T8, combat; no counters or protect. |
+| 10 | Curse of the Scarab | 17 | T8 / T11 | 40% | 40% | 35% | 34% | **37%** | **Even.** 5 counters + zombie-army board kill; mid clock. |
+| 11 | The Grand Design | 18 | T9 / >T12 | 40% | 41% | 33% | 30% | **36%** | **Anti-Acererak CONTROLLER — the race number under-rates it.** →**45% blend / 59% vs Acererak** with its Elesh Norn ETB-lock (`--vs-lock`); best vs Acererak + the 5C tail (own Abolisher); weakest vs H&K (lock inert vs death). |
+| 12 | Zero-Sum Game | — | T9 / T9 | 30% | 35% | 33% | 32% | **33%** | **Even (unaudited).** Board-independent, Abolisher-proof lifeloop kill. |
+| 13 | Croak and Dagger | 18 | T9 / T9 | 50% | 35% | 31% | 29% | **33%** | **Even — mid-pack combo-control.** Promoted 2026-07-01 to the Sensei's Top → Aetherflux inevitability combo (T9, counter-immune kill). Was 5% as the grind fortress; now a fair table share. Protect-heavy for the Abolisher meta, not a top-tier crusher. |
+| 14 | Eldrazi Stampede Chaos | 14 | T8 / T12 | 10% | 28% | 24% | 24% | **26%** | **Underdog.** combat kill, ~no protect. |
+| 15 | The Dark Lord's Army | 19 | T9 / T12 | 45% | 28% | 24% | 23% | **26%** | **Underdog vs combo.** 7 counters but clock-bound T9; self-meta #1 (opponent-fed). |
+| 16 | Diminishing Returns | 17 | T9 / >T14 | 10% | 19% | 16% | 14% | **17%** | **Underdog.** slow death-combo, no counters; self-meta strong. |
+| 17 | Crystal Sickness | 17 | T11 / T13 | 30% | 9% | 8% | 8% | **9%** | **Underdog.** slow clock (T11). |
 
 *(Peace Offering is off the active roster and excluded. Scores are the current
 Conversion-Check audit. BLEND weights and the `prot` / opponent `answer` /

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """glarb_inevitable_lab.py — assembly clock for the "inevitable" topdeck-combo
-Glarb build (decks/considering/glarb-inevitable-20260630.txt).
+Glarb build. PROMOTED to the active roster 2026-07-01 as Croak and Dagger
+(decks/croak-and-dagger-20260701.txt) — DECK repointed off the retired candidate
+per the lab-staleness rule (a lab that pins a superseded .txt rots).
 
 WHY: the deployed grind deck wins with a single mana-gated Torment (~T13 decap,
 table never-in-horizon — the honest dig=0 clock). This build replaces that fragile
@@ -44,7 +46,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 core = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(core)
 ds = core.ds
 
-DECK = ROOT / "decks" / "considering" / "glarb-inevitable-20260630.txt"
+DECK = ROOT / "decks" / "croak-and-dagger-20260701.txt"
 SEED = 20260630
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]

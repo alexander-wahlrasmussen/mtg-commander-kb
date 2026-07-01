@@ -1,7 +1,16 @@
 # Glarb "Inevitable" — Topdeck-Combo Rebuild (2026-06-30)
 
-Candidate: `decks/considering/glarb-inevitable-20260630.txt`
-Lab: `scripts/glarb_inevitable_lab.py` · Harvest: `scripts/pod_gauntlet.py --matrix --pending`
+> **✅ PROMOTED to the roster 2026-07-01** as **Croak and Dagger** →
+> `decks/croak-and-dagger-20260701.txt` (the candidate was reconciled to a legal 100 by restoring
+> Tempt with Discovery — the Out list below is 13, but the candidate had over-cut it to 99). The old
+> grind list and the candidate file are archived under `archive/old_decklists/`. The T9 clock now
+> lives in `CLOCKS["croak_and_dagger"]`; the lab was repointed to the roster `.txt`. Summary,
+> Deck_Index, Pod_Matchup_Matrix, tier-list + dashboard all re-baked. **Outstanding:** refresh the
+> Moxfield ownership CSV (it predates the 8 buys + 2nd Aetherflux) and pick the DLA 1-card backfill
+> (deferred) if Sensei's Top physically comes out of that deck.
+
+Candidate (promoted): `archive/old_decklists/glarb-inevitable-20260630.txt` → `decks/croak-and-dagger-20260701.txt`
+Lab: `scripts/glarb_inevitable_lab.py` · Harvest: `scripts/pod_gauntlet.py --matrix`
 
 ## The problem this fixes
 
@@ -136,6 +145,6 @@ Stays **Bracket-3 by GC count** (3/3).
    + acquire the 8 buys.
 3. On build: promote to a dated roster `.txt`, write the Summary, refresh tier-list/memory.
 
-Files: candidate `decks/considering/glarb-inevitable-20260630.txt` · lab
+Files: candidate (promoted → archived) `archive/old_decklists/glarb-inevitable-20260630.txt` · lab
 `scripts/glarb_inevitable_lab.py` · wiring `pod_gauntlet.py BUILD_CLOCKS/PROTECT["glarb_inevitable"]`
 · guard `tests/test_glarb_inevitable_regression.py`.

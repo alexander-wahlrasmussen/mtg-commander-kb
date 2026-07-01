@@ -143,7 +143,7 @@ PROTECT = {
     "grand_design":        0.40,  # 5 counters (FoW free) + Glen Elendra recursion; Grand Abolisher CUT 2026-06-23; Finale/Craterhoof IS counterable
     "dark_lords_army":     0.45,  # 7 counters (reactive grind shell)
     "curse_of_the_scarab": 0.40,  # 5 counters + zombie-army board kill
-    "croak_and_dagger":        0.35,  # 5 counters + Veil; X-drain kill is a counterable spell
+    "croak_and_dagger":        0.50,  # 5 counters + Tidal Barracuda; Aetherflux kill is an ABILITY (counter-immune). 2026-07-01: was 0.35 for the counterable-Torment grind
     "crystal_sickness":    0.30,  # 4 counters
     "earthbend_the_meta":  0.30,  # 3 counters incl. REB/Pyroblast (anti-blue: extra bite vs H&K)
     "exiles_return":       0.30,  # 1 counter + its OWN Grand Abolisher (protect-own) + Kiki/combat kill
@@ -156,7 +156,6 @@ PROTECT = {
     # --- pending build candidates (priors; --pending) ---
     "kefka":               0.45,  # triggered-damage wheel kill (counter-immune, anti-Abolisher) + Grixis counters
     "hashaton":            0.40,  # instant Thoracle combo protected by counters, but glass (one fragile line)
-    "glarb_inevitable":    0.50,  # 5 counters + Tidal Barracuda + Aetherflux kill is an ABILITY (counter-immune)
 }
 
 # Which static actually stops which loop. STRUCTURE (which loop a piece hits) is VERIFIED from
@@ -310,11 +309,14 @@ CLOCKS = {
         med=("T11", "T13"), never=(20, 34), src="lab cs_clock_lab @8k"),
     "croak_and_dagger": dict(
         name="Croak and Dagger", score="18", disrupt_class="warn",
-        lab=None, sel=None,                       # multi-variant lab; base not printed
-        grid=[5, 6, 7, 8, 9, 11, 13, 14],
-        decap=[0, 0, 1, 3, 8, 30, 50, 58], table=[0, 0, 0, 1, 2, 12, 25, 33],
-        med=("T13", ">T14"), never=(40, 60),
-        src="matrix 06-13 sweep median (slow; curve reconstructed, race-irrelevant)"),
+        lab=None, sel=None,                       # assembly-clock lab (glarb_inevitable_lab); not a decap/table row
+        # 2026-07-01: PROMOTED to the "inevitable" topdeck combo. decap == table (loop kills the
+        # table by construction, like a Thoracle line). Was the T13/>T14 grind-fortress curve.
+        grid=[4, 5, 6, 7, 8, 9, 10, 12, 14],
+        decap=[0, 2, 9, 24, 41, 55, 66, 82, 90],
+        table=[0, 2, 9, 24, 41, 55, 66, 82, 90],
+        med=("T9", "T9"), never=(10, 10),
+        src="lab glarb_inevitable_lab FULL @20k on croak-and-dagger-20260701.txt (honest dig=selection; 2026-07-01 promotion)"),
     "forced_liquidation": dict(
         name="Forced Liquidation", score="16", disrupt_class="warn",
         lab=("kfk_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
@@ -343,11 +345,9 @@ for _slug, _e in CLOCKS.items():
 SWAP_BUCKET = {"static": (0.55, 0.30)}      # Exile's +Drannith: Abolisher-proof static floor
 
 SWAPS = {
-    "croak_and_dagger": dict(
-        grid=[6, 7, 8, 9, 10, 12, 14], decap=[3, 16, 38, 63, 80, 96, 99],
-        table=[3, 14, 32, 51, 67, 87, 96], gate=None,
-        src="lab: ct_speed_lab.kill_turns on glarb-grind-fortress-20260614.txt (12k, 2026-06-14)",
-        note="grind-fortress rebuild: decap T13→T9, table >T14→T9 (ungated, mostly owned)"),
+    # croak_and_dagger "inevitable" combo rebuild APPLIED 2026-07-01 (now the committed list,
+    # decks/croak-and-dagger-20260701.txt) — entry removed. Its T9 clock now comes straight
+    # from CLOCKS["croak_and_dagger"] (the promotion folded the old pending swap in).
     # grand_design ramp+Craterhoof swap APPLIED 2026-06-23 (now the committed list,
     # decks/the-grand-design-20260623.txt) — entry removed. Its baseline clock now comes
     # straight from --refresh (gd_clock_lab --mode clock points at the new list). The swap
@@ -593,16 +593,10 @@ BUILD_CLOCKS = {
         decap=[5, 21, 44, 61, 72, 77, 82, 86, 91],
         table=[5, 21, 44, 61, 72, 77, 82, 86, 91],   # Thoracle: decap = table by construction
         med=("T6", "T6"), never=(9, 9), src="lab hsh_clock_lab @8k 2026-06-18"),
-    # Glarb "inevitable" topdeck-combo rebuild (Croak/Glarb -> GLARB4EVA redundant
-    # Sensei's Top + any Citadel-like + any Aetherflux-like). disrupt_class "warn" = it
-    # keeps Croak's counter suite, so its disruption ~= croak's MEASURED row (a=0.5 ~0.32).
-    "glarb_inevitable": dict(
-        name="Glarb Inevitable (combo, build)", score="~17", disrupt_class="warn",
-        grid=[4, 5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[0, 2, 9, 24, 41, 55, 66, 82, 90],
-        table=[0, 2, 9, 24, 41, 55, 66, 82, 90],     # combo: decap = table by construction
-        med=("T9", "T9"), never=(10, 10),
-        src="lab glarb_inevitable_lab FULL @20k 2026-06-30 (honest dig=selection)"),
+    # Glarb "inevitable" topdeck-combo rebuild PROMOTED to the roster 2026-07-01 as
+    # Croak and Dagger — its T9 combo curve now lives in CLOCKS["croak_and_dagger"] (a
+    # candidate becoming the deck, like the grand_design/radiation swaps that were applied
+    # and had their pending entries removed). No longer a pending BUILD_CLOCKS candidate.
 }
 
 

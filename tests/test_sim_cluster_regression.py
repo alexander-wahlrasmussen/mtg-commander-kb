@@ -117,15 +117,17 @@ def test_clock_check_parses_header_format_clock_line():
     assert out["table"] == (9, False), out
 
 
-# --- ct_speed_lab: the dig knob modelled Glarb's SELECTION as raw DRAW, inflating Croak ---
-def test_croak_published_clock_is_the_honest_grind():
-    """The live Croak clock (merged_clocks -> analysis/pod_gauntlet_clocks.json) must be the
-    honest dig=0 grind (~T13 decap, table never-in-horizon), NOT the dig=2 raw-draw "~T10"
-    that the bug produced. Pins the published harvest against a regression to fictional draw."""
+# --- Croak PROMOTED 2026-07-01 to the "inevitable" topdeck combo (T9 assembly clock) ---
+def test_croak_published_clock_is_the_promoted_combo():
+    """The live Croak clock (merged_clocks -> analysis/pod_gauntlet_clocks.json) is the promoted
+    "inevitable" topdeck-combo assembly clock: median T9, decap == table (the loop kills the table
+    by construction, like a Thoracle line). This T9 is a LEGITIMATE combo clock from
+    glarb_inevitable_lab (dig=SELECTION), NOT the historical dig=2 raw-draw bug that once inflated
+    the GRIND shell to a fictional ~T10 — so the src must name glarb_inevitable_lab / dig=selection,
+    never a raw-draw model."""
     import json
     c = json.loads((ROOT / "analysis" / "pod_gauntlet_clocks.json").read_text(encoding="utf-8"))["croak_and_dagger"]
-    grid, decap = c["grid"], c["decap"]
-    decap_median = next((t for t, v in zip(grid, decap) if v >= 50), grid[-1] + 1)
-    assert decap_median >= 12, f"croak decap median T{decap_median} — the dig=2 raw-draw bug back?"
-    assert c["med"][0] in ("T12", "T13", "T14", ">T14")
+    assert c["decap"] == c["table"], "combo: decap == table by construction"
+    assert c["med"] == ["T9", "T9"], c["med"]
+    assert "glarb_inevitable_lab" in c["src"] and "selection" in c["src"], c["src"]
     assert c["name"] == "Croak and Dagger"          # not the stale "The Calamity Tax"
