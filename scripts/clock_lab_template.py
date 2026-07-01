@@ -12,14 +12,22 @@ those here; that duplication is exactly what this template removes. Only the
 `Trial` class should differ lab-to-lab.
 
 HOW TO USE
-  1. Copy to scripts/<xx>_clock_lab.py and rewrite this docstring: name each kill
+  1. FIRST confirm the deck's KILL SHAPE before you model it: run
+     `python scripts/find_combos.py <deck>` (+ read the commander's ability) and decide
+     combo vs voltron vs drain vs go-wide from THAT, not from the card mix. A voltron-
+     looking aura deck can be an infinite-combo deck — verified card text does NOT save
+     you from modelling the wrong archetype (see feedback: verify the kill shape before
+     labbing; Cass 2026-07-01). Model the kill you actually find.
+  2. Copy to scripts/<xx>_clock_lab.py and rewrite this docstring: name each kill
      line and cite card_lookup.py for every card text you encode (CLAUDE.md hard
      rule — read the card before modelling it; proposals/labs are not exempt).
      State what is OPTIMISTIC and what is OMITTED, like the existing labs do.
-  2. Point DECK at the .txt; set SEED / TURNS / SHOW; list the deck's mana ROCKS.
-  3. Put this deck's real kill model in Trial.turn(). That is the only part that
+  3. Point DECK at the .txt; set SEED / TURNS / SHOW; list the deck's mana ROCKS.
+  4. Put this deck's real kill model in Trial.turn(). That is the only part that
      should vary between labs.
-  4. Run:  python scripts/<xx>_clock_lab.py --trials 40000
+  5. Run:  python scripts/<xx>_clock_lab.py --trials 40000
+     (add --deck PATH|stem to run the same model against a variant list — see
+     run_cli; a mode gets the override by declaring a `deck=None` parameter.)
 
 Mana is a lands+rocks floor, damage is unblocked, and the output is an
 availability / ceiling curve — not a rules engine. Trust shapes and deltas, not

@@ -37,6 +37,7 @@ decimals. Per-deck kill logic does NOT belong in this file.
 """
 import argparse
 import importlib.util
+import inspect
 import json
 import random
 from pathlib import Path
@@ -387,18 +388,52 @@ def median(results, idx, cap=99):
     return f"T{m}" if m < cap else f">T (never in horizon)"
 
 
+def resolve_deck_arg(s):
+    """--deck value -> Path. Accepts a path (absolute or repo-relative) or a fuzzy
+    stem matched (newest) against decks/**/*<stem>*.txt — so a lab can be pointed at a
+    variant list (owned/nonew/external) without editing its pinned DECK."""
+    p = Path(s)
+    if p.is_file():
+        return p
+    p = ROOT / s
+    if p.is_file():
+        return p
+    hits = sorted((ROOT / "decks").glob(f"**/*{s}*.txt"))
+    if not hits:
+        raise SystemExit(f"--deck: no decklist matches {s!r}")
+    return hits[-1]
+
+
 def run_cli(doc, modes, default_trials=40000):
-    """Standard lab CLI: --mode {<modes>,all} --trials N. Loads the oracle index
-    and aliases once and calls each selected mode(index, aliases, trials)."""
+    """Standard lab CLI: --mode {<modes>,all} --trials N [--deck PATH|stem]. Loads the
+    oracle index + aliases once and calls each selected mode(index, aliases, trials).
+
+    A mode that declares a `deck=` parameter also receives the resolved --deck override
+    (None when absent), so it can run its model against a variant list instead of the
+    lab's pinned DECK (use `deck or DECK` inside the mode). Modes without that parameter
+    are called as before; passing --deck to one errors loudly rather than silently
+    ignoring it. This makes variant comparison (owned vs nonew vs baseline) first-class
+    instead of a monkeypatch driver."""
     ap = argparse.ArgumentParser(description=doc,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=list(modes) + ["all"], default="all")
     ap.add_argument("--trials", type=int, default=default_trials)
+    ap.add_argument("--deck", default=None,
+                    help="override the lab's pinned decklist (path or fuzzy stem under decks/)")
     args = ap.parse_args()
     index = ds.load_oracle_index()
     aliases = ds.load_reskin_aliases()
+    deck = resolve_deck_arg(args.deck) if args.deck else None
     for name, fn in modes.items():
-        if args.mode in (name, "all"):
+        if args.mode not in (name, "all"):
+            continue
+        if "deck" in inspect.signature(fn).parameters:
+            fn(index, aliases, args.trials, deck=deck)
+        elif deck is not None:
+            raise SystemExit(
+                f"--deck given but mode '{name}' has no deck override; add a "
+                f"`deck=None` parameter to its signature to support it.")
+        else:
             fn(index, aliases, args.trials)
 
 

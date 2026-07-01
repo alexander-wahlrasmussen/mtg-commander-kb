@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """cass_clock_lab.py — COMBO-ASSEMBLY kill-turn goldfish for the external budget
-"Cass, Hand of Vengeance" deck (decks/considering/cass-budget-voltron-20260701.txt).
+"Cass, Hand of Vengeance" deck (decks/considering/cass-budget-combo-20260701.txt).
 
   >>> This REPLACES the original voltron model (2026-07-01, same day). That model
   >>> clocked the deck as a fair aura-beatdown (swing one carrier for 40, decap
@@ -88,7 +88,7 @@ slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
 # --- spec ------------------------------------------------------------------
-DECK = ROOT / "decks" / "considering" / "cass-budget-voltron-20260701.txt"
+DECK = ROOT / "decks" / "considering" / "cass-budget-combo-20260701.txt"
 SEED = 20260701
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]
@@ -254,13 +254,14 @@ class Trial:
                 self.tbl.kill_all(T); return
 
 
-def mode_clock(index, aliases, trials):
+def mode_clock(index, aliases, trials, deck=None):
+    deck = deck or DECK
     print("=" * 72)
     print(f"CLOCK — Cass combo-assembly kill-turn goldfish ({trials} trials, seed {SEED})")
     print("=" * 72)
     rng = random.Random(SEED)
-    library, commander = slc.load_parsed(DECK, index, aliases)
-    print(f"  library {len(library)} + commander {commander}")
+    library, commander = slc.load_parsed(deck, index, aliases)
+    print(f"  library {len(library)} + commander {commander}   [{deck.name}]")
     res = slc.run_goldfish(lambda: Trial(library, rng), trials, TURNS)
     slc.report_clock(res, SHOW, TURNS, trials, single=True)   # infinite -> decap == table
     print("\n  kill = infinite-damage combo -> whole table at once (decap == table).")
@@ -269,15 +270,16 @@ def mode_clock(index, aliases, trials):
     print("  kill, not a decap — compare to the roster racers' decap clock accordingly.")
 
 
-def mode_levers(index, aliases, trials):
+def mode_levers(index, aliases, trials, deck=None):
     """Does adding a dedicated free sac outlet (the video's 'you could also run Goblin
     Bombardment / Blasting Station') move the assembly clock? Both are ~$1 and Boros-legal.
     The base list has only 2 outlets (Mask/Mortarpod) and just ONE tutor (Open the Armory)
     that finds one — so the sac-ping is the scarce slot."""
+    deck = deck or DECK
     print("=" * 72)
     print(f"LEVERS — extra free sac outlet on the Cass shell ({trials} trials, seed {SEED})")
     print("=" * 72)
-    base, _ = slc.load_parsed(DECK, index, aliases)
+    base, _ = slc.load_parsed(deck, index, aliases)
     VARIANTS = {
         "base (Mask + Mortarpod)":  ([], []),
         "+ Goblin Bombardment":     (["Ornithopter"], ["Goblin Bombardment"]),

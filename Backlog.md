@@ -517,3 +517,23 @@ baked into tier list / gauntlet** — a separate consumer, exactly as the MVP le
 untouched. Only LW is `split`; every other deck is a single pass-through line. UNCALIBRATED: the
 disabler tags are oracle-grounded but not back-tested on win-rate. **Roster-wide split + calibration
 remain gated on #10** (priority gy-dependent decks to split next: Genome / Diminishing / Radiation).
+
+---
+
+## ~~12. Lab `--deck` override — variant comparison as first-class~~ ✅ DONE 2026-07-01
+
+**The gap (surfaced closing Winota 2026-07-01).** Each `*_clock_lab.py` hard-pins one dated
+decklist in its `DECK` constant (correct — the pin is the version record, see
+[[project_lab_decklist_staleness_audit]]), but there was **no way to run the same kill model against a
+variant** (owned vs no-new-purchase vs external baseline) without monkeypatching `mod.DECK` in a
+throwaway `python -c` driver — which is exactly what the 3-way Winota comparison needed.
+
+**Shipped:** `speed_lab_core.run_cli` now takes `--deck PATH|stem` (resolved by
+`resolve_deck_arg` — a path, or a fuzzy stem matched newest under `decks/**`, so
+`decks/considering/` variants resolve). A mode **opts in** by declaring a `deck=None` parameter and
+using `deck or DECK`; run_cli passes the override only to such modes (signature introspection) and
+**errors loudly** if `--deck` is handed to a mode without it — no silent no-op. Backward compatible:
+every existing lab's modes lack the param, so the old call path is untouched and golden snapshots are
+byte-identical. Wired into `cass_clock_lab` (both modes) as the worked example;
+`clock_lab_template.py` documents the pattern (step 5). Other labs opt in trivially when a variant
+comparison comes up. Fast + golden gates green.
