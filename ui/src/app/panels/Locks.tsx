@@ -17,9 +17,8 @@ const podOpts = [
   { value: "slow", label: "slow" },
 ];
 
-function cellText(lift: number, owned: boolean) {
-  const s = lift >= 0.5 ? `+${lift.toFixed(0)}` : lift > -0.5 ? "·" : lift.toFixed(0);
-  return s + (owned ? "*" : "");
+function cellText(lift: number) {
+  return lift >= 0.5 ? `+${lift.toFixed(0)}` : lift > -0.5 ? "·" : lift.toFixed(0);
 }
 
 export function Locks() {
@@ -45,7 +44,7 @@ export function Locks() {
   const rows = data
     ? [...data.rows].reverse().map((row) => ({
         label: `${row.name}  ·  ${(row.cur * 100).toFixed(0)}%`,
-        cells: row.cells.map((c) => ({ value: c.lift, text: cellText(c.lift, c.owned) })),
+        cells: row.cells.map((c) => ({ value: c.lift, text: cellText(c.lift), owned: c.owned })),
       }))
     : [];
   const cols = data ? data.locks.map((l) => data.abbr[l] || l) : [];
@@ -70,7 +69,7 @@ export function Locks() {
           the pod (tutored-availability ceiling). Heavy compute in live mode — give it a few seconds.
         </EmptyState>
       ) : (
-        <Card title="Lock-lift heatmap" hint="P(win) points added vs the no-lock baseline · * = deck already runs it">
+        <Card title="Lock-lift heatmap" hint="P(win) points added vs the no-lock baseline · ringed cell = deck already runs it">
           <Heatmap rows={rows} cols={cols} />
         </Card>
       )}

@@ -3,7 +3,9 @@ import styles from "./Chart.module.css";
 
 export interface HeatCell {
   value: number;
-  text: string;
+  text?: string;
+  /** The deck already runs this piece — drawn as an additive inset ring, no layout shift. */
+  owned?: boolean;
 }
 export interface HeatRow {
   label: string;
@@ -60,6 +62,18 @@ export function Heatmap({ rows, cols, rowHeight = 30 }: HeatmapProps) {
                     rx={4}
                     fill={diverging(cell.value, maxabs)}
                   />
+                  {cell.owned && (
+                    // Additive "owned" marker: an inset ring drawn on top of the cell.
+                    // Sits inside the painted area so cell size + text baseline are untouched.
+                    <rect
+                      x={m.left + ci * cw + 1.5 + 2}
+                      y={y + 1.5 + 2}
+                      width={cw - 3 - 4}
+                      height={rowHeight - 3 - 4}
+                      rx={3}
+                      className={styles.heatOwned}
+                    />
+                  )}
                   <text
                     x={m.left + ci * cw + cw / 2}
                     y={y + rowHeight / 2}

@@ -54,6 +54,12 @@
   font-family: var(--mono);
   fill: var(--text);
 }
+/* "owned" cell marker — inset ring, additive (no layout border) */
+.heatOwned {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+}
 /* legend */
 .legend {
   display: flex;
