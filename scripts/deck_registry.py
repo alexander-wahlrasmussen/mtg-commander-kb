@@ -265,6 +265,8 @@ EXTRA_COMMANDERS = {
     # 2026-06-18 external BDD Azula combo lists (decks/considering/) — benchmark vs Lightning War
     "bdd-azula-expensive": "Fire Lord Azula",
     "bdd-azula-budget": "Fire Lord Azula",
+    # 2026-07-01 external budget YouTube deck under evaluation (decks/considering/) — Boros aura voltron
+    "cass-budget-voltron": "Cass, Hand of Vengeance",
 }
 
 # Display names for non-roster decks that deck_sim labels (the rest fall back to the stem).
