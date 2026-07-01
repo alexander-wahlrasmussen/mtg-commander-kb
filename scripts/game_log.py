@@ -39,6 +39,12 @@ Record schema (one line of game_results.jsonl):
     }
 
 Usage
+    # fastest path — one line, typed straight from a scorecard (non-interactive)
+    python scripts/game_log.py quick "genome W T9 d8 combo | ur_dragon L | kinnan L"
+    python scripts/game_log.py quick "grand_design L T11 d9 | ur_dragon W"   # I lost
+    #   <mydeck> W|L T<end> [d<decap>] [wintype]  |  <opp> [W|L]  ...  # notes
+    #   W/L = did you win · T<n> = turn the game ENDED · d<n> = first decap turn
+
     # frictionless path — answer prompts, nothing to remember (recommended after a game)
     python scripts/game_log.py log
     python scripts/game_log.py log --dry-run        # walk the prompts, write nothing
@@ -59,12 +65,14 @@ Usage
 """
 import argparse
 import json
+import re
 import sys
 from datetime import date as _date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "analysis" / "game_results.jsonl"
+CLOCKS = ROOT / "analysis" / "pod_gauntlet_clocks.json"  # harvested lab medians (grade card)
 
 for _s in (sys.stdout, sys.stderr):               # safe echo of arbitrary notes
     if hasattr(_s, "reconfigure"):
@@ -186,12 +194,15 @@ def cmd_add(a):
         sys.exit(1)
 
     print(json.dumps(rec, ensure_ascii=False, indent=2))
+    already = sum(1 for _, r in read_log() if r.get("mine") == rec.get("mine"))
     if a.dry_run:
         print("\n(dry run — not written)")
+        print_grade_card(rec, already + 1)
         return
     append(rec)
     print(f"\nAppended to {LOG.relative_to(ROOT)} "
           f"({sum(1 for _ in read_log())} games on record).")
+    print_grade_card(rec, already + 1)
 
 
 def cmd_list(_a):
@@ -325,15 +336,23 @@ def _norm_slug(raw):
     return raw.strip().lower().replace(" ", "_").replace("-", "_")
 
 
+def resolve_slug(raw, decks):
+    """(slug|None, hits): exact match wins; else a UNIQUE prefix/substring match resolves,
+    an ambiguous or empty match returns (None, hits) so callers can guide. Shared by the
+    interactive prompt and the `quick` parser so both accept 'genome' for genome_project."""
+    key = _norm_slug(raw)
+    if key in decks:
+        return key, [key]
+    hits = sorted(d for d in decks if key and (d.startswith(key) or key in d))
+    return (hits[0] if len(hits) == 1 else None), hits
+
+
 def ask_my_deck():
     print("  your active decks: " + ", ".join(sorted(DECKS)))
     while True:
-        key = _norm_slug(ask("Your deck this game"))
-        if key in DECKS:
-            return key
-        hits = sorted(d for d in DECKS if key and (d.startswith(key) or key in d))
-        if len(hits) == 1:
-            return hits[0]
+        slug, hits = resolve_slug(ask("Your deck this game"), DECKS)
+        if slug:
+            return slug
         if hits:
             print(f"  ambiguous — matches: {', '.join(hits)}")
         else:
@@ -415,9 +434,214 @@ def cmd_log(a):
     if not ask_yesno(prompt, default=not issues):
         print("Not written.")
         return
+    already = sum(1 for _, r in read_log() if r.get("mine") == rec.get("mine"))
     append(rec)
     print(f"\nAppended to {LOG.relative_to(ROOT)} ({sum(1 for _ in read_log())} games on record).")
-    print("Next: `python scripts/game_log.py summary` — your real results vs the lab clocks.")
+    print_grade_card(rec, already + 1)
+    print("\nNext: `python scripts/game_log.py summary` — your real results vs the lab clocks.")
+
+
+# -------------------------------------------------------- instant grade card
+# The payoff that turns "armed but ungraded" into a habit: after a game lands, grade it
+# against the lab clock it exists to validate — from game ONE, not after calibrate.py's
+# n>=3 floor. Reads only the small committed medians JSON (no card bulk), so it's cheap.
+def _parse_med(s):
+    """'T7'->(7.0,False); '>T14'->(14.0,True); None->(None,False). Mirrors calibrate.parse_med
+    (a parity test pins them equal) so the grade card doesn't hard-import the Layer-C grader
+    just to read two medians — degrade-gracefully over DRY for a 4-line parse."""
+    if s is None:
+        return None, False
+    s = str(s).strip()
+    opened = s.startswith((">", "<", "≥", "≤"))
+    digits = "".join(ch for ch in s if ch.isdigit())
+    return (float(digits) if digits else None), opened
+
+
+def load_clock_medians(path=CLOCKS):
+    """slug -> {'name', 'decap': (turn, open), 'table': (turn, open)} from the committed
+    harvested clocks JSON. Returns {} if the file is missing so the grade card degrades to a
+    soft note instead of erroring."""
+    p = Path(path)
+    if not p.exists():
+        return {}
+    raw = json.loads(p.read_text(encoding="utf-8"))
+    out = {}
+    for slug, rec in raw.items():
+        if not isinstance(rec, dict):
+            continue
+        med = rec.get("med") or [None, None]
+        out[slug] = {
+            "name": rec.get("name", slug),
+            "decap": _parse_med(med[0] if len(med) > 0 else None),
+            "table": _parse_med(med[1] if len(med) > 1 else None),
+        }
+    return out
+
+
+def grade_game(rec, medians):
+    """Grade ONE record's observed clocks against the lab medians for rec['mine'] (pure).
+    Returns None if the deck has no lab clock, else {'deck','name','table','decap'} where each
+    clock is {'obs','lab','open','delta'} | None. delta = observed - lab (calibrate's sign:
+    +ve = I was SLOWER than the lab predicted; -ve = I closed FASTER than the lab said).
+    table is graded only when MY deck actually closed the game; decap whenever it's recorded."""
+    lab = medians.get(rec.get("mine"))
+    if not lab:
+        return None
+    out = {"deck": rec.get("mine"), "name": lab["name"], "table": None, "decap": None}
+    if rec.get("winner") == rec.get("mine") and isinstance(rec.get("win_turn"), (int, float)):
+        lt, lo = lab["table"]
+        out["table"] = {"obs": rec["win_turn"], "lab": lt, "open": lo,
+                        "delta": (rec["win_turn"] - lt) if lt is not None else None}
+    dec = rec.get("first_decap_turn")
+    if isinstance(dec, (int, float)):
+        ld, lo = lab["decap"]
+        out["decap"] = {"obs": dec, "lab": ld, "open": lo,
+                        "delta": (dec - ld) if ld is not None else None}
+    return out
+
+
+def _delta_phrase(delta, open_med=False):
+    """Plain-English read of one signed clock error (obs - lab)."""
+    if delta is None:
+        return "no lab median to compare"
+    tag = " (lab median is open, so this is a bound)" if open_med else ""
+    if delta == 0:
+        return "matched the lab exactly" + tag
+    n = int(delta) if float(delta).is_integer() else round(delta, 1)
+    n = abs(n)
+    turns = "turn" if n == 1 else "turns"
+    # smaller observed turn = happened sooner = the lab was pessimistic (ran slow)
+    return f"lab ran {n} {turns} {'SLOW' if delta < 0 else 'FAST'} this game" + tag
+
+
+def print_grade_card(rec, n_deck):
+    """After a game lands, show how it graded against the lab it validates. `n_deck` = games
+    now on record for this deck (the caller knows whether it just appended). Silently soft-skips
+    when the medians are unavailable or the deck has no harvested lab clock."""
+    print("\n── this game vs the lab " + "─" * 38)
+    g = grade_game(rec, load_clock_medians())
+    if not g:
+        print(f"  ({rec.get('mine','?')} has no harvested lab clock — nothing to grade.)")
+        return
+    print(f"  {g['name']} — {n_deck} game(s) logged for this deck.")
+    for kind, label in (("table", "table close"), ("decap", "first decap")):
+        cell = g[kind]
+        if not cell:
+            continue
+        lab = f"T{int(cell['lab'])}" if cell["lab"] is not None else "—"
+        if cell.get("open"):
+            lab = "≥" + lab
+        print(f"  {label:12} T{int(cell['obs'])}  vs lab median {lab:>5}  → "
+              f"{_delta_phrase(cell['delta'], cell.get('open'))}")
+    if g["table"] is None:
+        print("  (you didn't close the game — table clock not graded; decap still counts.)")
+    need = max(0, 3 - n_deck)
+    if need:
+        print(f"  one game is an anecdote — calibrate.py needs n≥3 for this deck "
+              f"({need} to go; ~5 for a stable rank).")
+    else:
+        print("  n≥3 for this deck — `python scripts/calibrate.py` now grades its "
+              "clock + win-rate.")
+
+
+# ---------------------------------------------------------- one-line quick entry
+_T_RE = re.compile(r"^t(\d+)$")
+_D_RE = re.compile(r"^(?:d|decap)(\d+)$")
+
+
+def parse_quick(spec):
+    """One-line shorthand -> a full record (pure; raises ValueError with guidance on any snag).
+
+        <mydeck> W|L T<end> [d<decap>] [wintype]  |  <opp> [W|L]  |  <opp> [W|L]  # notes
+
+    e.g.  genome W T9 d8 combo | ur_dragon L | kinnan L
+          grand_design L T11 d9 | ur_dragon W          (I lost; ur_dragon closed)
+
+    W/L on your line = did you win; T<n> = the turn the game ENDED (table clock, win or lose);
+    d<n> = first decap turn; wintype in WIN_TYPES. Per-seat ko turns / disruption go through
+    `log` or `add --from-json` — quick is the fast 90% path."""
+    notes = ""
+    if "#" in spec:
+        spec, notes = spec.split("#", 1)
+        notes = notes.strip()
+    segs = [s.strip() for s in spec.split("|") if s.strip()]
+    if not segs:
+        raise ValueError("empty spec — e.g. 'genome W T9 d8 combo | ur_dragon L'")
+
+    mine_toks = segs[0].split()
+    mine, hits = resolve_slug(mine_toks[0], DECKS)
+    if not mine:
+        hint = f" did you mean {', '.join(hits)}?" if hits else ""
+        raise ValueError(f"'{mine_toks[0]}' isn't one of your active decks.{hint}")
+
+    i_won = win_turn = decap = win_type = None
+    for tok in mine_toks[1:]:
+        t = tok.lower()
+        if t in ("w", "win"):
+            i_won = True
+        elif t in ("l", "loss", "lose"):
+            i_won = False
+        elif t in WIN_TYPES:
+            win_type = t
+        elif _T_RE.match(t):
+            win_turn = int(_T_RE.match(t).group(1))
+        elif _D_RE.match(t):
+            decap = int(_D_RE.match(t).group(1))
+        else:
+            raise ValueError(f"didn't understand {tok!r} on your line (expected W/L, T<n>, "
+                             f"d<n>, or a win-type {sorted(WIN_TYPES)})")
+    if i_won is None:
+        raise ValueError("mark your result with W or L on your line (e.g. 'genome W T9').")
+    if win_turn is None:
+        raise ValueError("add the end turn with T<n> (the turn the game ended — the table clock).")
+
+    pod = [{"deck": mine, "pilot": "me", "result": "win" if i_won else "loss"}]
+    winner = mine if i_won else None
+    for seg in segs[1:]:
+        toks = seg.split()
+        oslug = _norm_slug(toks[0])
+        seat = {"deck": oslug}
+        for tok in toks[1:]:
+            t = tok.lower()
+            if t in ("w", "win"):
+                seat["result"] = "win"
+                winner = oslug
+            elif t in ("l", "loss", "lose"):
+                seat["result"] = "loss"
+            else:
+                raise ValueError(f"didn't understand {tok!r} for opponent {oslug!r} "
+                                 f"(quick takes only W/L per opponent; use `log` for ko turns).")
+        pod.append(seat)
+    if winner is None:
+        raise ValueError("you lost — mark who won with W on an opponent (e.g. 'ur_dragon W').")
+
+    rec = {
+        "date": _date.today().isoformat(), "mine": mine, "pod": pod, "winner": winner,
+        "win_turn": win_turn, "win_type": win_type, "first_decap_turn": decap, "notes": notes,
+    }
+    return {k: v for k, v in rec.items() if v not in (None, [], "")}
+
+
+def cmd_quick(a):
+    try:
+        rec = parse_quick(a.spec)
+    except ValueError as e:
+        sys.exit(f"quick: {e}")
+    issues = problems(rec)
+    print(json.dumps(rec, ensure_ascii=False, indent=2))
+    if issues:
+        print("\nRefusing to add — record has problems:", file=sys.stderr)
+        for p in issues:
+            print(f"  - {p}", file=sys.stderr)
+        sys.exit(1)
+    already = sum(1 for _, r in read_log() if r.get("mine") == rec["mine"])
+    if a.dry_run:
+        print("\n(dry run — not written)")
+        print_grade_card(rec, already + 1)
+        return
+    append(rec)
+    print(f"\nAppended to {LOG.relative_to(ROOT)} ({sum(1 for _ in read_log())} games on record).")
+    print_grade_card(rec, already + 1)
 
 
 # ------------------------------------------------------------------------- main
@@ -446,6 +670,11 @@ def main():
     lg = sub.add_parser("log", help="guided interactive entry (no flags to remember)")
     lg.add_argument("--dry-run", action="store_true", help="walk the prompts, write nothing")
     lg.set_defaults(func=cmd_log)
+
+    qk = sub.add_parser("quick", help="one-line shorthand entry (fast desk capture)")
+    qk.add_argument("spec", help="e.g. 'genome W T9 d8 combo | ur_dragon L | kinnan L'")
+    qk.add_argument("--dry-run", action="store_true", help="parse + grade, write nothing")
+    qk.set_defaults(func=cmd_quick)
 
     sub.add_parser("list", help="compact list of logged games").set_defaults(func=cmd_list)
     sub.add_parser("summary", help="per-deck W/L + avg clocks (proto-oracle)").set_defaults(func=cmd_summary)

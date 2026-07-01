@@ -393,6 +393,17 @@ are what finally grade the [v2 tier list](analysis/Definitive_Tier_List_2026-06-
 framework, and the whole tower. This is the one open frontier the test-discipline anti-goals (#9)
 explicitly fenced off as Layer C.
 
+**Capture friction removed (2026-07-01).** The reason an armed loop sat at 0 games was *capture
+friction* (details fade before you're at the desk) + *no payoff on game #1* (`calibrate` needs
+n≥3/deck). Both closed, so the only thing left really is playing: (1) `game_log.py quick` — a
+one-line, non-interactive shorthand (`quick "genome W T9 d8 combo | ur_dragon L | kinnan L"`,
+prefix-matched decks) typeable straight from a scorecard; (2) an **instant grade card** printed
+after *every* append (`log`/`add`/`quick`) — grades this one game's table/decap clock against the
+harvested lab median for the deck, from game one, with the FAST/SLOW sign read; (3)
+`workflows/WF_Game_Logging.md` — the pocket scorecard + grammar + the `--power` target (~5
+games/deck ≈ 80). Side-win: `tests/test_game_log.py` (25 hermetic tests) closes the gap where the
+Layer-C *capture* end had no tests despite being the source of every number `calibrate` grades.
+
 ---
 
 ## 11. All-finishers clock — race every kill line, not just the goldfish (raised 2026-06-28)
