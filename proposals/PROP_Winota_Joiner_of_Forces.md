@@ -1,8 +1,11 @@
 # Proposal: Winota, Joiner of Forces — "dismantle 3, build 1"
 
-*Status: PIPELINE (un-built candidate). Raised 2026-06-18; clock RE-VERIFIED 2026-06-29
-after a lab-bug fix (see the correction note below) — the original 2026-06-19 verdict was wrong.*
-*Decklist: `decks/considering/winota-joiner-of-forces-20260618.txt` (100, parses clean, 3/3 GC).*
+*Status: **CLOSED — not building (2026-07-01).** Raised 2026-06-18; clock RE-VERIFIED 2026-06-29
+after a lab-bug fix (see the correction note below); an owned-buildability check on 2026-07-01
+confirmed the deck is buildable from the collection but does not change the roster verdict —
+closed. See "## Closure (2026-07-01)" at the bottom.*
+*Decklist: `decks/considering/winota-joiner-of-forces-20260618.txt` (100, parses clean, 3/3 GC).
+Owned-only + no-new-purchase variants: `…-owned-20260701.txt`, `…-nonew-20260701.txt`.*
 *Lab: `scripts/winota_clock_lab.py`.*
 
 This is the answer to "dismantle 3 decks to build 1 strong deck (not a proposal)."
@@ -122,3 +125,31 @@ strong if you want redundancy in the race plan, less compelling if the goal is t
 
 The Human (366) / Wizard (136) collection depth that motivated this stands, and the go-wide
 combat plan now looks like the right way to spend it.
+
+---
+
+## Closure (2026-07-01)
+
+The last open question was the **owned-buildability** one: could this racer be built without
+new purchases, and does a collection-constrained build still hold the clock? Two variants were
+cut and clock-labbed against the June-18 baseline (`winota_clock_lab.mode_clock`, 40k goldfish
+each, same decap/table model):
+
+| Variant | decap median (floor/ceil) | table median (floor/ceil) | T6 decap (floor/ceil) |
+|---|--:|--:|--:|
+| baseline `-20260618` (incl. new cards) | **T7 / T6** | T10 / T9 | 35% / 65% |
+| `-owned-20260701` (collection only) | T7 / T6 | T10 / T10 | 32% / 57% |
+| `-nonew-20260701` (no new purchases) | T7 / T6 | **T11** / T10 | 25% / 53% |
+
+**Reading:** the deck *is* buildable from the collection — the owned build holds decap T6-7 and
+only slips table to ~T10. Constraining harder (`nonew`) costs ~10pp of T6 decap and pushes the
+table clock to ~T11. So the constraint is real but not fatal to the clock.
+
+**Why closed anyway.** This never turned on buildability — the 2026-06-29 verdict already put
+Winota as a **peer** of the roster's T6-7 racers (Genome / Radiation / Replication), not an
+upgrade, and the owned check doesn't move that: the constrained builds are, if anything, a hair
+slower. Adding Winota means dismantling three D-tier decks to field a *fourth* racer that
+duplicates a plan the roster already covers, when the standing goal is to **diversify away from
+racing**, not deepen it. The go-wide caveats (folds to a single wrath, no combo backup, blockers)
+are the same ones that keep it a peer rather than a leader. **Decision: don't build.** Kept for
+record; the lab (`winota_clock_lab.py`) + its regression test stay as a tool.
