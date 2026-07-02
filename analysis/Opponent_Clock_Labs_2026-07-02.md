@@ -96,9 +96,63 @@ death trigger; the real leverage is killing H&K BEFORE a clone turn (he pays 5+t
 return) and holding up graveyard-irrelevant, top-of-library-irrelevant interaction. His
 whole engine is UB: no Grand Abolisher possible; a counter-war on the CLONE (2-4 mana
 spells) is far cheaper than on the bombs.
-## 3. The Ur-Dragon — PENDING (72/100 real + lands PROXY fill)
-## 4. Henzie — PENDING (67/100 real + lands PROXY fill)
+## 3. The Ur-Dragon (seen every meetup) — LAB DONE 2026-07-02
 
-Then: harvest the measured per-opponent curves → rebuild `K_DIST` + the `OPPONENTS` blend
-weights from the observed rotation (Ur-Dragon + Acererak every meetup ≫ H&K occasional ≫
-Henzie rare) → re-run `pod_clock_sensitivity.py` with measured profiles.
+**Lab:** `opp_urdragon_lab.py` @40k, seed 20260702. **List:**
+`dragon-dragon-dragon-PROXY-20260702.txt` (his real 72 spells, 2025-06 + our 28-land fill).
+**Kill shape:** go-tall dragon combat + a real ETB-burn sub-axis (Tempest/Scourge/Terror,
+multiplied by Miirym/Lathliss tokens, DOUBLED by Twinflame Tyrant and Neriv — stack ×4) +
+Dracogenesis free-casts + **Call the Spirit Dragons as a literal alternate wincon** (five
+colours countered at upkeep = win; modelled as 5+ dragons surviving an upkeep).
+
+| clock @40k | T5 | T6 | T7 | T8 | T9 | T10 | T12 | med | never-14 |
+|---|---|---|---|---|---|---|---|---|---|
+| **decap** | 1 | 9 | 28 | 53 | 73 | 85 | 96 | **T8** | 1% |
+| table | 0 | 0 | 2 | 8 | 22 | 42 | 77 | T11 | 6% |
+
+**Finding:** decap median T8 UNBLOCKED — same median as H&K but with a slower front edge
+(T6 9% vs 27%) and far higher reliability (never 1% vs 8%). CAVEAT (biggest of the four):
+this is the *unblocked* ceiling — the pod actually blocks dragons; `vs_dragon_lab` owns the
+defended matchup. Read this curve as his pressure schedule, not P(win). The burn sub-axis
+(Tempest/Scourge/Terror ×doublers) ignores blockers for real, though — with Twinflame or
+Neriv out, dragon ETBs alone are lethal-adjacent. OMITTED (conservative): treasures, extra
+combats, Dragonhawk, Betor, riot counters, Imoti cascade.
+
+## 4. Henzie "Major tool" (seen once) — LAB DONE 2026-07-02
+
+**Lab:** `opp_henzie_lab.py` @40k, seed 20260702. **List:**
+`major-tool-PROXY-20260702.txt` (his complete 66-spell suite, 2023-02 + our 33-land fill).
+**Kill shape:** blitz value — MV4+ fatties at mana cost with haste-die-draw, Warstorm/
+Stalking Vengeance burn riders, Kokusho/Junji drains, Chainer/Victimize/Living Death
+recursion. Lean model (lightest rotation weight); Etali/Ilharg/Pod/Skullclamp omitted.
+
+| clock @40k | T7 | T8 | T9 | T10 | T12 | med | never-14 |
+|---|---|---|---|---|---|---|---|
+| **decap** | 3 | 13 | 25 | 38 | 61 | **T11** | 22% |
+| table | 0 | 0 | 0 | 1 | 10 | >T14 | 71% |
+
+**Finding:** a grinder, not a racer — decap T11 median even unblocked. The observed loss to
+it was attrition, not a clock. Lowest-priority threat in K terms.
+
+---
+
+## The measured picture (all four labs, PROXY)
+
+| Opponent | observed freq | assumed | measured decap (med · T6 · T7) | shape |
+|---|---|---|---|---|
+| Acererak | every meetup | "wins T6-7" | infinite **>T14** · ~0 · 1% (band nv 94-47%) | combo-assembly, SLOW |
+| Ur-Dragon | every meetup | (fair deck) | **T8** · 9 · 28 (unblocked ceiling) | combat+burn, reliable |
+| H&K | occasional, stomps | "wins T6-7" | **T8** · 27 · 46 | clone-drain racer, real T5-6 edge |
+| Henzie | once | — | T11 · 0 · 3 | value grinder |
+
+**The assumed K_DIST ({T5:10 T6:35 T7:35 T8:15 T9:5}, mean T6.70) is ~1-1.5 turns too
+fast** as a description of his stable, and its Abolisher framing is wrong for BOTH current
+combo decks (Acererak mono-B, H&K UB — neither can cast the white Grand Abolisher; only
+the 5C shells could, and the Ur-Dragon list has none). The felt "wins T6-7 behind
+Abolisher" appears to be an H&K-at-its-best memory generalized to the whole stable.
+
+**Next (own session): the K_DIST rebuild** — per-opponent measured curves + observed-
+rotation weights into `pod_gauntlet` (as a measured-profile option, null-reduction guarded),
+then re-run `pod_clock_sensitivity.py` at the measured profile and see what the tier list's
+middle band really looks like. Refinement standing ask: log his actual kill/attempt turns
+at the next meetup (pocket scorecard) — real observations grade all four PROXY clocks.
