@@ -17,7 +17,7 @@ had LW in D on a **race-only** clock that the combo's table kill was invisible t
 > audit (Kefka summoning-sickness + lethal-or-bust gate) slowed its clock. This list is the
 > ASSUMED-K_DIST ranking (the anchor). Backlog #13 also MEASURED the real pod (Acererak v2 /
 > Ur-Dragon / H&K / Henzie) and folded it into `pod_gauntlet` as an opt-in profile: under it the
-> ranking holds (ρ=0.961) but the middle band lifts (7/17 tiers move) — see
+> ranking holds (ρ=0.973) but the middle band lifts (7/17 tiers move) — see
 > `analysis/Pod_Measured_Profile_2026-07-02.md`. Per-deck prose below predates these two moves;
 > trust the table + the linked docs.
 

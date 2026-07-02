@@ -579,14 +579,17 @@ decap medians: Acererak infinite >T14 (nv70%, LEAN 94..FAT 47 band) · Ur-Dragon
 (mean T6.70) is ~1-1.5 turns too fast for the stable, and the Abolisher framing is wrong
 for BOTH current combo decks (mono-B + UB can't cast it).**
 
-**Phase 2.5 — ✅ DONE 2026-07-02: Acererak lab v2, all-lines best-line.** `opp_acererak_lab.py
---mode bestline/lines` races infinite + Bontu's Monument per-cast drain + Shepherd + Gray
-Merchant + Torment(big-mana) + venture on ONE correlated game (Gravecrawler as an opt-in lever;
-every card `card_lookup`-verified). Result: the "his version is stronger" challenge is upheld in
-DIRECTION (never-in-14 70%→59%, +lever 56%; real T10-12 mass) but the felt "wins T6-7" is STILL
-falsified as a kill clock (front edge ~0-1% at T6-7 with every axis on) — a slow combo-drain;
-residual gap = memory bias / reconstruction underpower. Shepherd is the strongest single axis.
-Writeup: `analysis/Opponent_Clock_Labs_2026-07-02.md` §1 v2 RESULT. Original spec (provenance):
+**Phase 2.5 — ✅ DONE 2026-07-02: Acererak lab (v2 → v3 correction).** v2 all-lines on the
+mid-power reconstruction measured Acererak as slow (nv59%) — but the USER PUSHED BACK ("his
+Acererak is NOT slow") and was RIGHT. `find_combos` on that list showed it one card short of ~a
+dozen aristocrats infinites (it already ran the sac+drain shell). **v3 CORRECTION**: re-tuned the
+reconstruction to a real combo deck (REV3: +Gravecrawler/Reassembling Skeleton/Mikaeus/Nim
+Deathmantle, +Heartless Summoning→Acererak={B}, +tutors; 18 CSB complete infinites) + added a
+first-class ARISTOCRATS sac-loop kill line to `opp_acererak_lab` → **decap median T12, nv28%, real
+T6-8 front edge** (was >T14). NOT slow — a combo deck; T12 is a FLOOR (goldfish keeps on lands).
+LESSON: a "mid-power to match the felt clock" reconstruction is CIRCULAR — always `find_combos` an
+opponent reconstruction before trusting its clock. Writeup: `Opponent_Clock_Labs_2026-07-02.md` §1
+v3 CORRECTION. Original spec (provenance):
 
 **Phase 2.5 spec: Acererak lab v2, all-lines best-line (the user's challenge: "his
 version is stronger" — and our own #11 discipline agrees).** The v1 lab measures ONLY the
@@ -613,7 +616,7 @@ Ur-Dragon / H&K / Henzie), each with its own lab-derived kdist (`opp_kdist`, nev
 `NEVER_K` sentinel), user-confirmed rotation weights (.40/.30/.20/.10), and no-Abolisher
 disruption; 5C-tail retired. Default byte-identical (null-reduction: `tests/test_pod_measured_
 profile.py`); goldens untouched. `pod_clock_sensitivity.py` prints "AT THE MEASURED PROFILE":
-**ρ=0.961, 7/17 tiers move** (middle band lifts: FL B→A, Bumbleflower/CoS/EBM C→B, GD/Eldrazi
+**ρ=0.973, 7/17 tiers move** (middle band lifts: FL B→A, Bumbleflower/CoS/EBM C→B, GD/Eldrazi
 D→C; Zero-Sum A→B). Ur-Dragon uses unblocked decap T8 directly (user's call). Housekeeping: the
 committed tier-list doc refreshed to live (Croak D→A, FL A→B); dashboard tierlist.json verified
 already-current. **The blend HIDES H&K** — play to beat H&K, not the Acererak mirage. Writeup:

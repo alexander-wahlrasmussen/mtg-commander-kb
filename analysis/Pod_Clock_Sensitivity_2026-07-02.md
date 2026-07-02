@@ -150,7 +150,7 @@ This sweep rated the assumption load-bearing in the middle band + absolute level
 the fix. Done: the four pod decks reconstructed + clock-labbed (`Opponent_Clock_Labs_2026-07-02.md`),
 the Acererak v2 all-lines lab (Phase 2.5), and the **measured profile** folded into `pod_gauntlet`
 as an OPT-IN (Phase 3). `pod_clock_sensitivity.py` now also prints an **"AT THE MEASURED PROFILE"**
-block: **ρ=0.961, 7 of 17 tiers move** — the middle band this sweep flagged lifts exactly as the
+block: **ρ=0.973, 7 of 17 tiers move** — the middle band this sweep flagged lifts exactly as the
 `+1`/`slow` columns predicted (a slower measured pod). Full writeup:
 `analysis/Pod_Measured_Profile_2026-07-02.md`.
 

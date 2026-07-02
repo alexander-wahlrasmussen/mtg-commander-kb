@@ -146,8 +146,10 @@ OPPONENTS_LEGACY = {
 # all-lines (memory-bias-flagged); the Ur-Dragon curve is the UNBLOCKED goldfish ceiling (the
 # pod blocks dragons, so his real K is SLOWER — using it directly is conservative-for-us).
 OPP_CLOCKS_MEASURED = {
-    "acererak": dict(grid=[6, 7, 8, 9, 10, 12, 14], decap=[0, 0, 1, 4, 9, 25, 41],
-                     src="opp_acererak_lab --mode bestline v2 @40k (all-lines; nv59%)"),
+    "acererak": dict(grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[2, 4, 7, 12, 20, 29, 52, 72],
+                     src="opp_acererak_lab --mode bestline @40k on the COMBO-TUNED REV3 list "
+                         "(aristocrats sac-loop + recast; median T12, nv28%; a FLOOR — goldfish "
+                         "keeps on lands not combo pieces, so a real pilot's mulligan is faster)"),
     "ur_dragon": dict(grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[1, 9, 28, 53, 73, 85, 96, 99],
                       src="opp_urdragon_lab @40k (UNBLOCKED ceiling; vs_dragon owns defended)"),
     "hidetsugu_kairi": dict(grid=[4, 5, 6, 7, 8, 9, 10, 12, 14],
@@ -158,9 +160,10 @@ OPP_CLOCKS_MEASURED = {
 }
 OPPONENTS_MEASURED = {
     "acererak": dict(
-        name="Acererak (mono-B combo-drain)", ci="B", loop="etb", weight=0.40,
+        name="Acererak (mono-B combo)", ci="B", loop="etb", weight=0.40,
         disruption_a=0.05, answer=0.10, kdist=None,
-        note="favorite, every meetup; v2 all-lines SLOW (nv59%, felt T6-7 falsified); no Abolisher"),
+        note="favorite, every meetup; COMBO deck (aristocrats sac-loop, CSB 18 infinites), decap "
+             "median T12 w/ real T6-8 front edge — a FLOOR; no Abolisher/counters"),
     "ur_dragon": dict(
         name="The Ur-Dragon (combat+burn)", ci="WUBRG", loop="mixed", weight=0.30,
         disruption_a=0.08, answer=0.12, kdist=None,

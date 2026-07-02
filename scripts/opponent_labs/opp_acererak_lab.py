@@ -66,14 +66,16 @@ ROCKS = {"Sol Ring": (1, 2), "Arcane Signet": (2, 1),
 # Acererak builds use to hit net-0 without blue — absent from the committed PROXY,
 # reachable via the FAT lever (Anvil imprint simplification: exiles-a-card cost ignored).
 REDUCERS = {"Undead Warchief": (4, 1), "Jet Medallion": (2, 1), "Bontu's Monument": (3, 1),
-            "Semblance Anvil": (3, 2), "Cloud Key": (3, 1)}
+            "Semblance Anvil": (3, 2), "Cloud Key": (3, 1),
+            "Heartless Summoning": (2, 2), "Herald's Horn": (3, 1)}   # REV3: hard reducers
 COLOSSUS, PLUNDERER = "Diregraf Colossus", "Pitiless Plunderer"
 # Altar-class = sac-for-mana; Ashnod's {C}{C}-only pip caveat simplified to 1 generic
 # income (documented optimism, only reachable via the FAT lever variant).
 ALTARS = {"Phyrexian Altar": 3, "Ashnod's Altar": 3}
 PIECES = {COLOSSUS: 3, PLUNDERER: 4, **ALTARS}
 FREE_OUTLETS = {"Carrion Feeder": 1, "Viscera Seer": 1}
-TUTORS = {"Vampiric Tutor": (1, False), "Demonic Tutor": (2, True)}   # (cost, to_hand)
+TUTORS = {"Vampiric Tutor": (1, False), "Demonic Tutor": (2, True),
+          "Diabolic Intent": (2, True), "Grim Tutor": (3, True)}   # (cost, to_hand); REV3 +2 tutors
 DRAW2 = {"Night's Whisper": 2, "Read the Bones": 3}
 SAC_DRAW = {"Village Rites": 1, "Deadly Dispute": 2}                  # need spare fodder
 ARENA = "Phyrexian Arena"
@@ -252,12 +254,20 @@ PIP = {"Gray Merchant of Asphodel": 2, "Endless Ranks of the Dead": 2, "Black Ma
 # Monument trigger (only CREATURE spells trigger it — verified).
 ATTRITION_NONCRE = {"Army of the Damned": ("zombies", 13), "Liliana's Mastery": ("zombies", 2),
                     "Endless Ranks of the Dead": ("board", 0), "Bastion of Remembrance": ("board", 0),
-                    "Black Market": ("board", 0)}
+                    "Black Market": ("board", 0),
+                    "Nim Deathmantle": ("board", 0), "Altar of Dementia": ("board", 0)}   # REV3 combo pieces
 DEATH_DRAINS = {"Zulaport Cutthroat", "Blood Artist", "Bastion of Remembrance", "Vengeful Dead"}
-REDUCE_CRE = ("Undead Warchief", "Jet Medallion", "Bontu's Monument")   # black-creature cost -{1} each
 TORMENT_BUFFER = 8      # nonland perms / cards an opponent sacs-or-discards before Torment bites
 TORMENT_MIN_X = 6       # smallest X worth firing Torment at
-DEFAULT_LINES = ("infinite", "monument", "shepherd", "gary", "torment", "venture")
+
+# --- ARISTOCRATS sac-loop infinite (REV3, the redundant FAST kill) — the axis v2 first missed.
+# CSB Find-My-Combos: the tuned list has 18 COMPLETE infinites of this shape. All card_lookup-verified.
+# Loop engines (a mana-neutral / free sacrifice→return that repeats): a recursion creature or Mikaeus-
+# undying + a sac outlet; the drain payoff turns the infinite deaths into a table kill.
+ARISTO_RECUR = {"Gravecrawler", "Reassembling Skeleton", "Oathsworn Vampire"}   # cheap self-recursion
+ARISTO_FREE_SAC = {"Carrion Feeder", "Viscera Seer", "Altar of Dementia"}       # free/no-mana outlets
+ARISTO_PAYOFF = {"Blood Artist", "Zulaport Cutthroat", "Bastion of Remembrance", "Vengeful Dead"}
+DEFAULT_LINES = ("infinite", "aristocrats", "monument", "shepherd", "gary", "torment", "venture")
 
 
 class AllLines(Trial):
@@ -326,7 +336,7 @@ class AllLines(Trial):
         cmc = int(rec["cmc"])
         tl = rec["type_line"].lower()
         if "creature" in tl and "B" in rec["color_identity"]:
-            red = sum(1 for r in REDUCE_CRE if r in self.board)
+            red = sum(REDUCERS[r][1] for r in REDUCERS if r in self.board)   # incl. Heartless -2
             return max(1, cmc - red)
         return cmc
 
@@ -373,21 +383,57 @@ class AllLines(Trial):
             g.add_mana(1)                          # Treasure token
 
     # -- kill checks -----------------------------------------------------------
-    def _grave_ready(self):
-        g = self.g
-        have_gc = (g.has("Gravecrawler") or "Gravecrawler" in self.board
-                   or g.in_yard("Gravecrawler"))
-        return (have_gc and "Phyrexian Altar" in self.board
-                and any(p in self.board for p in DEATH_DRAINS) and self.zombies >= 1)
+    def _has_anywhere(self, nm):
+        """A recursion creature loops from the graveyard, so it counts once it's anywhere but
+        the library (in play, in hand, or already binned)."""
+        return nm in self.board or self.g.has(nm) or self.g.in_yard(nm)
+
+    def _aristocrats_ready(self):
+        """The redundant sac-loop infinite (REV3, the FAST kill CSB flags 18 ways): a
+        mana-neutral / free sacrifice→return engine + a per-death drain payoff (or Altar of
+        Dementia mill). Each loop = a death → the payoff drains → table dead. All loops below
+        are card_lookup + CSB verified 2-3 card infinites; overclaiming ones (e.g. the
+        Nim+Ashnod's line that needs a 3rd piece for mana) are deliberately NOT counted."""
+        b = self.board
+        payoff = any(p in b for p in ARISTO_PAYOFF) or "Altar of Dementia" in b
+        if not payoff:
+            return False
+        free = any(o in b for o in ARISTO_FREE_SAC)
+        # L1 — Mikaeus undying + a FREE outlet + a creature body: sac→undying returns→sac→∞ deaths
+        if "Mikaeus, the Unhallowed" in b and free and self.zombies >= 1:
+            return True
+        # L2/3/4 — net-0 loop: Phyrexian Altar + Pitiless Plunderer + a cheap recursion creature
+        if ("Phyrexian Altar" in b and PLUNDERER in b
+                and any(self._has_anywhere(r) for r in ARISTO_RECUR)):
+            return True
+        # L2b — Gravecrawler + Phyrexian Altar + a Zombie in play (sac Gravecrawler for mana, recast)
+        if "Phyrexian Altar" in b and self._has_anywhere("Gravecrawler") and self.zombies >= 1:
+            return True
+        return False
 
     def _ready_any(self, T):
         if "infinite" in self.enabled and self.ready():
             self.tbl.kill_all(T)
             return True
-        if "gravecrawler" in self.enabled and self._grave_ready():
+        if "aristocrats" in self.enabled and self._aristocrats_ready():
             self.tbl.kill_all(T)
             return True
         return False
+
+    def _next_tutor_target(self):
+        """What a real pilot fetches: the cheapest card that completes the NEAREST infinite.
+        Aristocrats first (fewer, cheaper pieces), then fall back to the recast-loop gap."""
+        b = self.board
+        if "aristocrats" in self.enabled:
+            if not (any(p in b for p in ARISTO_PAYOFF) or "Altar of Dementia" in b):
+                return "Blood Artist"
+            if "Phyrexian Altar" not in b:
+                return "Phyrexian Altar"
+            if not any(self._has_anywhere(r) for r in ARISTO_RECUR):
+                return "Gravecrawler"
+            if PLUNDERER not in b:
+                return PLUNDERER
+        return self.missing()
 
     # -- turn ------------------------------------------------------------------
     def turn(self, T):
@@ -426,10 +472,12 @@ class AllLines(Trial):
                     if self._try_cast(nm):
                         progress = True
                         break
-            # 3. tutors -> the scarcest missing piece
-            want = self.missing()
+            # 3. tutors -> the piece that completes the NEAREST infinite (aristocrats first)
+            want = self._next_tutor_target()
             if want:
                 for nm, (c, to_hand) in TUTORS.items():
+                    if nm == "Diabolic Intent" and self.zombies < 1:
+                        continue                     # additional cost: sacrifice a creature
                     if g.has(nm) and g.avail >= c and self.lib_has(want):
                         if g.cast(nm, c):
                             if to_hand:
@@ -438,10 +486,13 @@ class AllLines(Trial):
                                 self.top = want
                             progress = True
                             break
-            # 4. ramp / draw (Dark Ritual first — it boosts a same-turn finisher)
-            if g.has("Dark Ritual") and g.avail >= 1 and g.cast("Dark Ritual", 1):
-                g.add_mana(3)
-                progress = True
+            # 4. ramp / draw (rituals first — they boost a same-turn finisher)
+            for rit in ("Dark Ritual", "Cabal Ritual"):
+                c = 1 if rit == "Dark Ritual" else 2
+                if g.has(rit) and g.avail >= c and g.cast(rit, c):
+                    g.add_mana(3)                    # Cabal Ritual threshold ignored (conservative)
+                    progress = True
+                    break
             if not self.arena and g.has(ARENA) and g.avail >= 3 and g.cast(ARENA, 3):
                 self.arena = True
                 progress = True
@@ -505,7 +556,8 @@ class AllLines(Trial):
 
 
 def run_alllines(make_trial, trials, turns):
-    """run_goldfish + a bottleneck census over the trials the infinite never assembled in."""
+    """run_goldfish + a bottleneck census over the trials NO line closed the table in (the true
+    failures — the recast-loop gap is the reported bottleneck, still the kill-on-sight list)."""
     out, misses = [], {}
     for _ in range(trials):
         tr = make_trial()
@@ -514,7 +566,7 @@ def run_alllines(make_trial, trials, turns):
             if tr.tbl.done:
                 break
         out.append((tr.tbl.decap, tr.tbl.table))
-        if not tr.ready():
+        if not tr.tbl.done:
             m = tr.missing() or "mana (pieces down, income short)"
             misses[m] = misses.get(m, 0) + 1
     return out, misses
@@ -527,8 +579,8 @@ def mode_bestline(index, aliases, trials, deck=None):
     print("=" * 74)
     print(f"OPP CLOCK v2 — Acererak ALL-LINES best-line ({trials} trials, seed {SEED})")
     print("=" * 74)
-    print("  lines: infinite + Monument drain + Shepherd + Gray Merchant + Torment(big-mana)")
-    print("  + venture; Gravecrawler lever OFF. min over lines on ONE game (#11 MVP rule).")
+    print("  lines: ARISTOCRATS sac-loop + recast infinite + Monument + Shepherd + Gray Merchant")
+    print("  + Torment(big-mana) + venture. min over lines on ONE game (#11 MVP rule).")
     rng = random.Random(SEED)
     library, _ = slc.load_parsed(deck, index, aliases)
     library = pull_commander(library, COMMANDER)
@@ -537,17 +589,18 @@ def mode_bestline(index, aliases, trials, deck=None):
     slc.report_clock(res, SHOW, TURNS, trials, single=True)
     if misses:
         tot = sum(misses.values())
-        print(f"\n  infinite-bottleneck census over the {tot} trials it never assembled in "
-              f"(kill-on-sight; the OTHER lines may still have closed):")
+        print(f"\n  recast-loop bottleneck census over the {tot} trials NO line closed the table "
+              f"(kill-on-sight for the recast line; the aristocrats loop needs no Colossus):")
         for nm, n in sorted(misses.items(), key=lambda kv: -kv[1])[:6]:
             print(f"    {nm:38} {100.0 * n / tot:5.1f}%")
-    print("\n  Read: this is his earliest KILL turn by ANY line (K in pod_gauntlet terms), an")
-    print("  unblocked ceiling. Front edge vs the felt T6-7 is the whole question of Phase 2.5.")
+    print("\n  Read: his earliest KILL turn by ANY line (K in pod_gauntlet terms), unblocked ceiling.")
+    print("  FLOOR: the goldfish keeps on land count, not combo pieces — a real pilot mulligans for")
+    print("  the 2-3 card aristocrats combo, lifting the front edge toward the felt T5-7.")
 
 
 def mode_lines(index, aliases, trials, deck=None):
-    """Per-line decomposition + the Gravecrawler lever. Same play pattern, one axis's damage on
-    at a time (disabler-vector: each single-line curve is bounded ABOVE by all-lines)."""
+    """Per-line decomposition. Same play pattern, one axis's damage on at a time (disabler-vector:
+    each single-line curve is bounded ABOVE by all-lines). REV3 headlines the aristocrats combo."""
     deck = deck or DECK
     print("=" * 74)
     print(f"LINES — per-axis kill clock on ONE game ({trials} trials, seed {SEED})")
@@ -555,28 +608,25 @@ def mode_lines(index, aliases, trials, deck=None):
     library, _ = slc.load_parsed(deck, index, aliases)
     library = pull_commander(library, COMMANDER)
     print(f"  library {len(library)} + commander {COMMANDER}   [{deck.name}]")
-    variants = [("infinite only", ("infinite",), False),
-                ("monument only", ("monument",), False),
-                ("shepherd only", ("shepherd",), False),
-                ("gary only", ("gary",), False),
-                ("torment only", ("torment",), False),
-                ("attrition (mon+shep+gary+vent)", ("monument", "shepherd", "gary", "venture"), False),
-                ("ALL (best-line)", DEFAULT_LINES, False),
-                ("ALL + Gravecrawler lever", DEFAULT_LINES, True)]
+    variants = [("aristocrats only (sac-loop combo)", ("aristocrats",)),
+                ("recast infinite only", ("infinite",)),
+                ("monument only", ("monument",)),
+                ("shepherd only", ("shepherd",)),
+                ("gary only", ("gary",)),
+                ("torment only", ("torment",)),
+                ("attrition (mon+shep+gary+vent)", ("monument", "shepherd", "gary", "venture")),
+                ("both combos (aristo+recast)", ("aristocrats", "infinite")),
+                ("ALL (best-line)", DEFAULT_LINES)]
     print("  kill (decap = table, cum %)")
     print("  " + "line".ljust(34) + "".join(f"{t:6d}" for t in SHOW))
-    for name, en, gc in variants:
+    for name, en in variants:
         rng = random.Random(SEED)
-        lib = library
-        if gc:                                     # add the Gravecrawler the reconstruction excludes
-            rec = index.get("gravecrawler")
-            lib = library + [("Gravecrawler", rec)] if rec else library
-        res = slc.run_goldfish(lambda: AllLines(lib, rng, enabled=en, gravecrawler=gc), trials, TURNS)
+        res = slc.run_goldfish(lambda: AllLines(library, rng, enabled=en), trials, TURNS)
         nv = 100.0 * sum(1 for _, t in res if t is None) / trials
         print(slc.row(name, slc.cum(res, 1, SHOW), SHOW)
               + f"  med {slc.median(res, 1)} nv{nv:.0f}%")
-    print("\n  Read: which axis drives the front edge. The Gravecrawler lever is the user's")
-    print("  'his version is stronger' hypothesis — a zero-reducer infinite; ask/watch next meetup.")
+    print("\n  Read: which axis drives the front edge. REV3 adds the ARISTOCRATS sac-loop infinite —")
+    print("  the redundant 2-3 card kill (CSB flags 18) the mid-power REV2 list omitted.")
 
 
 def census(make_trial, trials, turns):

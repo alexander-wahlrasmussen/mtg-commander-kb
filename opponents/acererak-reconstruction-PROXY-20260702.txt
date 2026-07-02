@@ -1,47 +1,56 @@
 # Acererak the Archlich (mono-B) — FULL RECONSTRUCTION PROXY (Backlog #13 Phase 1), built 2026-07-02
-# REV 2 (same day): infinite combo promoted to OBSERVED tier on user testimony ("most
-#   certainly runs" an infinite; ventures another dungeon for the damage); +Pitiless
-#   Plunderer +Bontu's Monument (redundant enablers), -Vorpal Sword -Open the Graves.
-# NO source list exists (his favorite deck, absent from Archidekt). Three evidence tiers:
-# OBSERVED (user testimony 2026-07-02): Acererak IS the commander; repeat-cast bounce loop
-#   ("in and out of the dungeon", return-to-hand called more likely than sac); Tomb of
-#   Annihilation ventures draining the table; sacs enabling extra ventures; AN INFINITE
-#   RECAST COMBO whose damage comes from venturing; felt T6-7.
-# VERIFIED MECHANICS (card_lookup, this session): Acererak {2}{B} bounces to HAND while ToA
-#   incomplete -> tax-free recasts; completing ToA ONCE ends the bounce for the game -> the
-#   infinite's damage dungeon is LOST MINE (Dark Pool: each opp -1 / him +1 per lap), which
-#   explains "he ventures into ANOTHER dungeon to deal the damage". Rooftop Storm is BLUE —
-#   impossible here — so the enabler must be the cast-cost <= sac-income assembly. THE LOOP
-#   (traced per-iteration, all texts verified): reducers (Warchief {1} + Jet Medallion {1}
-#   and/or Bontu's Monument {1}) drop Acererak to ~{B}; Diregraf Colossus makes a 2/2 per
-#   Zombie cast; Phyrexian Altar (+ Pitiless Plunderer Treasure) converts the token back to
-#   >= cast cost -> net 0 mana / 0 cards / +1 venture per iteration. With Bontu's Monument
-#   the loop ALSO drains 1/cast directly, dungeon-free. Verified EXCLUSIONS: Rooftop Storm
-#   (BLUE), Triumphant Adventurer (WB).
-# FILL (everything below): archetype-typical mono-B dungeon/zombie aristocrats, mid-power to
-#   match the felt clock. Gravecrawler-class infinites still EXCLUDED (a different,
-#   unobserved line). Staples possibly contended with his H&K 2023 list (Demonic/Vampiric/
-#   Coffers/Urborg/Phyrexian Altar/Command Beacon) — the engine is robust to substitutes.
-#   NEVER citation-grade; a lab on this is a PROXY clock. Lab note: kill shape = COMBO
-#   ASSEMBLY (commander + Colossus + Altar-class + ~2 reducers, tutors count), NOT attrition.
+# REV 3 (2026-07-02, post user-pushback): POWER-LEVEL CORRECTION. REV 1-2 were deliberately built
+#   "mid-power to match the felt clock" — a CIRCULAR premise the user rightly rejected ("his Acererak
+#   deck is NOT slow"). The v2 all-lines lab then FALSIFIED the felt T6-7 on that weak list, but the
+#   fault was the list: CSB Find-My-Combos on the REV-2 list flagged it ONE CARD AWAY from ~a dozen
+#   infinites using pieces it ALREADY ran (both Altars + Plunderer + Carrion Feeder/Viscera Seer +
+#   Blood Artist/Zulaport/Bastion/Vengeful Dead) — a full aristocrats sac+drain shell missing only the
+#   cheap RECURSION creatures + tutors that make it live. EDHREC lists 494 Acererak combos; this is a
+#   COMBO deck, not a mid-power drain pile. REV 3 tunes toward a real high-power list: +recursion
+#   package (Gravecrawler / Reassembling Skeleton / Oathsworn Vampire / Mikaeus / Nim Deathmantle),
+#   +hard cost-reducers (Heartless Summoning -> Acererak = {B}; Herald's Horn), +tutors (Diabolic
+#   Intent / Grim Tutor), +fast mana (Cabal Ritual), +Altar of Dementia (free outlet + mill wincon),
+#   +Victimize. CUT 12 mid-power fillers (dungeon-flavor Dungeon Crawler/Precipitous Drop/Fates'
+#   Reversal/Zombie Ogre/Death-Priest/Grim Bounty; tribal-anthem Noxious Ghoul/Champion of the
+#   Perished/Cemetery Reaper/Ebondeath; slow tokens Endless Ranks/Army of the Damned). Every added
+#   card card_lookup-verified this session (mono-B, singleton, Commander-legal).
+# NO source list exists (his favorite deck, absent from Archidekt) — STILL A PROXY, never citation-
+#   grade; a lab on this is a PROXY clock. Three evidence tiers (unchanged from REV 2):
+# OBSERVED (user testimony 2026-07-02): Acererak IS the commander; repeat-cast bounce loop ("in and
+#   out of the dungeon"); ventures draining the table; sacs enabling extra ventures; AN INFINITE
+#   whose damage comes from venturing; felt T5-7; user 2026-07-XX: "NOT slow — something's missing."
+# VERIFIED MECHANICS (card_lookup, this session): Acererak {2}{B} ETB bounces to HAND + ventures while
+#   ToA incomplete (tax-free recasts); his OTHER ability is an ATTACK trigger (make zombies unless the
+#   opp sacs) — he has NO built-in drain, so the kill is a PAYOFF loop. TWO combo axes:
+#   (1) RECAST loop: reducers (Heartless Summoning {2}, Warchief/Jet Medallion/Bontu's {1}) -> Acererak
+#       ~{B}; Diregraf Colossus makes a token per Zombie cast; Phyrexian Altar (+Plunderer treasure)
+#       converts token -> >= recast cost -> net-0 infinite ventures -> Lost Mine Dark Pool laps drain.
+#   (2) ARISTOCRATS sac-loop infinite (the redundant, FAST axis): a recursion creature (Gravecrawler
+#       +zombie / Reassembling Skeleton / Oathsworn Vampire off Blood-Artist lifegain) OR Mikaeus-undying
+#       + a free/net-0 sac outlet (Carrion Feeder / Viscera Seer / Altar of Dementia / Phyrexian Altar+
+#       Plunderer) -> infinite deaths -> Blood Artist/Zulaport/Bastion/Vengeful Dead drain (or Altar of
+#       Dementia mill) -> table dead. 2-3 pieces, MANY interchangeable -> findable + tutorable T5-7.
+#   Verified EXCLUSIONS (still): Rooftop Storm (BLUE), Triumphant Adventurer (WB).
 1 Acererak the Archlich
-# --- venture engine ---
-1 Dungeon Crawler
-1 Precipitous Drop
-1 Fates' Reversal
-1 Zombie Ogre
-1 Death-Priest of Myrkul
-1 Pitiless Plunderer
-1 Grim Bounty
 # --- recast cost engine ---
+1 Heartless Summoning
 1 Undead Warchief
 1 Jet Medallion
+1 Herald's Horn
 1 Diregraf Colossus
+# --- recursion creatures (feed the sac-loop infinite) ---
+1 Gravecrawler
+1 Reassembling Skeleton
+1 Oathsworn Vampire
+1 Mikaeus, the Unhallowed
+1 Nim Deathmantle
 # --- sac outlets ---
 1 Carrion Feeder
 1 Viscera Seer
 1 Phyrexian Altar
 1 Ashnod's Altar
+1 Altar of Dementia
+1 Pitiless Plunderer
 1 Skullport Merchant
 1 Ghoulcaller Gisa
 # --- death drains / payoffs ---
@@ -51,20 +60,14 @@
 1 Blood Artist
 1 Bastion of Remembrance
 1 Death Tyrant
-# --- zombie tribal value ---
+# --- zombie value ---
 1 Shepherd of Rot
-1 Noxious Ghoul
 1 Lord of the Accursed
 1 Death Baron
-1 Champion of the Perished
-1 Cemetery Reaper
 1 Midnight Reaper
-1 Ebondeath, Dracolich
-# --- token engines ---
-1 Endless Ranks of the Dead
+# --- token / drain payoffs ---
 1 Bontu's Monument
 1 Liliana's Mastery
-1 Army of the Damned
 # --- edicts ---
 1 Fleshbag Marauder
 1 Plaguecrafter
@@ -74,6 +77,8 @@
 # --- tutors ---
 1 Demonic Tutor
 1 Vampiric Tutor
+1 Diabolic Intent
+1 Grim Tutor
 # --- draw ---
 1 Night's Whisper
 1 Read the Bones
@@ -91,12 +96,14 @@
 # --- recursion ---
 1 Phyrexian Reclamation
 1 Whip of Erebos
+1 Victimize
 # --- ramp ---
 1 Sol Ring
 1 Arcane Signet
 1 Mind Stone
 1 Fellwar Stone
 1 Dark Ritual
+1 Cabal Ritual
 1 Crypt Ghast
 1 Black Market
 # --- utility ---
