@@ -1,0 +1,75 @@
+# Dragon dragon dragon — nedor, archidekt.com/decks/13758988 (updated 2025-06-12, fetched 2026-07-02)
+# Commander: The Ur-Dragon
+# 72 cards as listed — his REAL list as-of updatedAt, NOT a proxy
+1 The Ur-Dragon
+1 Arcane Signet
+1 Arena of Glory
+1 Betor, Kin to All
+1 Birds of Paradise
+1 Bloom Tender
+1 Call the Spirit Dragons
+1 Chromatic Lantern
+1 Concordant Crossroads
+1 Crux of Fate
+1 Cultivate
+1 Dawn's Truce
+1 Delighted Halfling
+1 Dracogenesis
+1 Dragon Tempest
+1 Dragonborn Champion
+1 Dragonhawk, Fate's Tempest
+1 Dragonlord Dromoka
+1 Elemental Bond
+1 Exploration
+1 Frostcliff Siege
+1 Galadriel's Dismissal
+1 Garruk's Uprising
+1 Goldspan Dragon
+1 Guardian Project
+1 Haven of the Spirit Dragon
+1 Helga, Skittish Seer
+1 Hellkite Charger
+1 Hellkite Courser
+1 Heroic Intervention
+1 Ignoble Hierarch
+1 Imoti, Celebrant of Bounty
+1 Jeska's Will
+1 Kodama's Reach
+1 Kolaghan, the Storm's Fury
+1 Last March of the Ents
+1 Lathliss, Dragon Queen
+1 Maelstrom of the Spirit Dragon
+1 Majestic Genesis
+1 Miirym, Sentinel Wyrm
+1 Mistrise Village
+1 Mox Jasper
+1 Nature's Lore
+1 Neriv, Heart of the Storm
+1 Noble Hierarch
+1 Old Gnawbone
+1 Return the Favor
+1 Rhythm of the Wild
+1 Rivaz of the Claw
+1 Roaming Throne
+1 Scaled Nurturer
+1 Scavenger Regent // Exude Toxin
+1 Scion of Draco
+1 Scourge of Valkas
+1 Skyshroud Claim
+1 Smuggler's Surprise
+1 Sneak Attack
+1 Sol Ring
+1 Temur Ascendancy
+1 Temur Battlecrier
+1 Terror of the Peaks
+1 The Fire Crystal
+1 The Great Henge
+1 The World Tree
+1 Three Visits
+1 Tiamat
+1 Tooth and Nail
+1 Twinflame Tyrant
+1 Ureni of the Unwritten
+1 Urza's Incubator
+1 Wild Growth
+1 Zurgo and Ojutai

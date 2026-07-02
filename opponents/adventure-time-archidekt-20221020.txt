@@ -1,0 +1,93 @@
+# Adventure time — nedor, archidekt.com/decks/3396104 (updated 2022-10-20, fetched 2026-07-02)
+# Commander: Hama Pashar, Ruin Seeker
+# 101 cards as listed — his REAL list as-of updatedAt, NOT a proxy
+1 Hama Pashar, Ruin Seeker
+1 Aarakocra Sneak
+1 Access Tunnel
+1 Amphin Mutineer
+1 Arcane Signet
+1 Ascend from Avernus
+1 Authority of the Consuls
+1 Azorius Signet
+1 Blade of Selves
+1 Blind Obedience
+1 Cloister Gargoyle
+1 Command Tower
+1 Conjurer's Closet
+1 Council's Judgment
+1 Darksteel Mutation
+1 Deadeye Navigator
+1 Delver's Torch
+1 Deserted Beach
+1 Detention Sphere
+1 Disorder in the Court
+1 Displacer Beast
+1 Displacer Kitten
+1 Dungeon Delver
+1 Dungeon Descent
+1 Dungeon Map
+1 Eccentric Apprentice
+1 Eerie Interlude
+1 Eiganjo, Seat of the Empire
+1 Fabled Passage
+1 Fellwar Stone
+1 Feywild Caretaker
+1 Fifty Feet of Rope
+1 Flooded Strand
+1 Ghostway
+1 Glacial Fortress
+1 Goliath Paladin
+1 Grasp of Fate
+1 Hallowed Fountain
+1 Heliod's Intervention
+1 Idyllic Beachfront
+1 Imoen, Mystic Trickster
+1 Imprisoned in the Moon
+1 Irrigated Farmland
+5 Island
+1 Karmic Guide
+1 Knight of the White Orchid
+1 Lae'zel's Acrobatics
+1 Mana Crypt
+1 Marsh Flats
+1 Midnight Pathlighter
+1 Mind Stone
+1 Misty Rainforest
+1 Mox Amber
+1 Mystic Gate
+1 Nadaar, Selfless Paladin
+1 Nimbus Maze
+1 Otawara, Soaring City
+1 Path to Exile
+8 Plains
+1 Planar Ally
+1 Polluted Delta
+1 Prismatic Vista
+1 Radiant Solar
+1 Rogue's Passage
+1 Sapphire Medallion
+1 Sarevok's Tome
+1 Sea of Clouds
+1 Seasoned Dungeoneer
+1 Secret Door
+1 Semester's End
+1 Sevinne's Reclamation
+1 Solemn Simulacrum
+1 Spark Double
+1 Strionic Resonator
+1 Swords to Plowshares
+1 Teleportation Circle
+1 Temple of Enlightenment
+1 Thassa, Deep-Dwelling
+1 Thorough Investigation
+1 Thought Vessel
+1 Time Wipe
+1 Tomb of Horrors Adventurer
+1 Tundra
+1 Undercellar Sweep
+1 Venser, the Sojourner
+1 Veteran Dungeoneer
+1 White Plume Adventurer
+1 Windswept Heath
+1 Yorion, Sky Nomad
+1 Yuan-Ti Malison
