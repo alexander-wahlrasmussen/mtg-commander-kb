@@ -537,3 +537,34 @@ every existing lab's modes lack the param, so the old call path is untouched and
 byte-identical. Wired into `cass_clock_lab` (both modes) as the worked example;
 `clock_lab_template.py` documents the pattern (step 5). Other labs opt in trivially when a variant
 comparison comes up. Fast + golden gates green.
+
+---
+
+## 13. Measure the pod — the last hand-estimated clock (Phase 0 SHIPPED 2026-07-02)
+
+Every ANTI-POD number races `pod_gauntlet.K_DIST` ("wins T6-7", mean T6.70) — a
+**hand-assumed** distribution, in a repo whose deepest learning is that hand-estimated kill
+windows were falsified 7-of-8 times when labbed. We applied read-the-card/lab-the-clock
+discipline to all 17 of our decks and never to the four decks everything races against.
+Phased, lab-before-building style: **(0)** sensitivity sweep — does the assumption even
+matter? **(1)** reconstruct the pod's decks from observed cards (hard constraints) +
+archetype-typical fill, every card verified, flagged PROXY — never citation-grade. **(2)**
+clock-lab the reconstructions on the same harness → replace the point assumption with a
+measured distribution (median, variance, god-draw tail) + honest uncertainty bands.
+
+**Phase 0 — ✅ SHIPPED 2026-07-02** (`scripts/pod_clock_sensitivity.py` +
+`analysis/Pod_Clock_Sensitivity_2026-07-02.md` + hermetic tests). Sweeps K_DIST δ∈{−2…+2}
+(mean T4.7→T8.7) + the two preset shapes; ONLY the anti-pod axis moves (INTER/SELF are
+pod-profile-independent, held at baseline → attribution by construction); min-max norm
+cancels uniform shifts so tier flips are real differential sensitivity. Noise yardstick
+0.4pp. **Finding: 11 ROBUST · 2 EDGE · 4 SENSITIVE of 17.** The S-tier picks and D floor
+survive any plausible pod clock; the load-bearing region is the middle band (Exile's A needs
+the pod NOT faster than assumed; Lorehold's B flips on the fast *shape* alone; Bumbleflower
+underrated if slower; DLA drops to D if faster) — and ALL absolute P(beat pod) levels
+(Genome 15→94% across the sweep; ranking ρ≥0.975 but the *levels* inherit the full
+uncertainty). **Verdict: Phases 1–2 justified, targeted at the middle band + absolute
+levels.** Caveat carried: disruption rows clamp outside K∈{6,7} → measured sensitivity is a
+mild floor.
+
+**Phase 1 — OPEN.** Needs the user's observed-cards elicitation per pod deck (Acererak /
+Hidetsugu&Kairi / Ur-Dragon / Kenrith / Kinnan). Partial knowledge is the expected input.
