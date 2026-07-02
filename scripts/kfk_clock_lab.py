@@ -96,6 +96,7 @@ class Trial:
         self.deployed = set()      # rock names in play (by name)
         self.rock_count = 0
         self.kefka = False
+        self.kefka_turn = None     # turn Kefka landed (summoning-sickness gate)
         self.bolas = False
         self.opp_hand = 7
         self.echo_yard = False
@@ -111,6 +112,14 @@ class Trial:
 
     def opp_discard_rate(self):
         return 2 * sum(1 for p in OPP_DISCARD if p in self.bf)
+
+    def n_punishers(self):
+        """Draw/discard punishers in play. Lethal-or-bust: never spin a wheel on
+        <2 (a half-loaded wheel just refuels the pod). Notion Thief counts — it
+        denies opp draws AND (with Psychosis/Niv) is the 2-card kill."""
+        P = (set(OPP_DRAW_1) | {SHEOLDRED} | set(OPP_DISCARD) | set(YOUR_DRAW_ALL)
+             | set(YOUR_DRAW_FOCUS) | {GLINT, "Notion Thief"})
+        return len(self.bf & P)
 
     def mult(self):
         return 2 if "Bloodletter of Aclazotz" in self.bf else 1
@@ -197,6 +206,7 @@ class Trial:
             if not self.kefka and g.avail >= 5:
                 g.avail -= 5
                 self.kefka = True
+                self.kefka_turn = T
                 self.bf.add("Kefka, Court Mage")
                 progress = True
                 if self.opp_hand >= 1:
@@ -237,9 +247,11 @@ class Trial:
                     g.cast("Peer into the Abyss", 7)
                     self.tbl.hit_focus(40, T)
                     progress = True
-            # wheels — when they hurt, or when the hand is spent
+            # wheels — when they hurt, or when the hand is spent. Lethal-or-bust:
+            # never spin on <2 punishers (a half-loaded wheel refuels the pod)
+            # (2026-07-02 audit).
             worth = self.wheel_worth()
-            if worth >= 4 or len(g.hand) <= 2:
+            if (worth >= 4 or len(g.hand) <= 2) and self.n_punishers() >= 2:
                 cheapest = None
                 for nm, c in sorted(WHEELS.items(), key=lambda x: x[1]):
                     if g.has(nm) and g.avail >= c:
@@ -294,8 +306,10 @@ class Trial:
             if self.tbl.done:
                 return
 
-        # Kefka attacks: trigger + 4 combat
-        if self.kefka:
+        # Kefka attacks: trigger + 4 combat. Kefka (4/5) has no native haste, so
+        # he cannot attack the turn he lands — gate on T > cast turn (2026-07-02
+        # audit; Greaves/Boots haste line is unmodelled, i.e. conservative).
+        if self.kefka and T > self.kefka_turn:
             if self.opp_hand >= 1:
                 per = self.opp_discard_rate() * self.mult()
                 if per:

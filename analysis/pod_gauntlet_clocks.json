@@ -67,9 +67,9 @@
       0,
       0,
       2,
-      14,
-      39,
-      65,
+      13,
+      38,
+      63,
       94,
       99
     ],
@@ -81,7 +81,7 @@
       0,
       1
     ],
-    "src": "lab rs_clock_lab @8k \u00b7 Mothman summoning-sickness fix 2026-06-29 (front edge slower; med T7/T10 holds)"
+    "src": "lab rs_clock_lab @8k \u00b7 Mothman summoning-sickness fix 2026-06-29 \u00b7 Mindcrank-amp gated on Bloodchief 2026-07-02 (table -2pp; med T7/T10 holds)"
   },
   "replication_crisis": {
     "name": "The Replication Crisis",
@@ -684,33 +684,33 @@
       12
     ],
     "decap": [
-      1,
-      5,
-      15,
-      34,
-      56,
-      74,
-      86,
-      96
+      0,
+      2,
+      8,
+      21,
+      42,
+      60,
+      75,
+      92
     ],
     "table": [
       0,
-      3,
-      9,
-      21,
-      40,
-      59,
-      73,
-      89
+      1,
+      4,
+      13,
+      27,
+      45,
+      61,
+      82
     ],
     "med": [
-      "T8",
-      "T9"
+      "T9",
+      "T10"
     ],
     "never": [
-      4,
-      11
+      8,
+      18
     ],
-    "src": "lab kfk_clock_lab @40k 2026-06-28"
+    "src": "lab kfk_clock_lab @40k \u00b7 lethal-or-bust >=2-punisher gate + Kefka summoning-sickness fix 2026-07-02 (was T8/T9; +1 turn)"
   }
 }

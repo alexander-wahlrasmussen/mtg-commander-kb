@@ -217,7 +217,11 @@ def goldfish_kill(library, commander, index, powmap, rng, mills=False):
 
         # Mothman mill->counter from opponents milling nonland this turn cycle
         life_each = rad * NONLAND
-        if mindcrank:
+        if mindcrank and bloodchief:
+            # MINDCRANK_AMP models the Mindcrank+Bloodchief Ascension feedback
+            # (life loss -> mill -> yard -> Bloodchief drain -> more life loss).
+            # Mindcrank ALONE only converts life loss to mill; it does not amplify
+            # the life loss, so the amp requires both halves (2026-07-02 audit).
             life_each *= MINDCRANK_AMP
         nonland_milled = 3 * life_each
         if mothman and ncre:
