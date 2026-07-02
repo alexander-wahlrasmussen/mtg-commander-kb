@@ -1,18 +1,29 @@
 # Acererak the Archlich (mono-B) — FULL RECONSTRUCTION PROXY (Backlog #13 Phase 1), built 2026-07-02
+# REV 2 (same day): infinite combo promoted to OBSERVED tier on user testimony ("most
+#   certainly runs" an infinite; ventures another dungeon for the damage); +Pitiless
+#   Plunderer +Bontu's Monument (redundant enablers), -Vorpal Sword -Open the Graves.
 # NO source list exists (his favorite deck, absent from Archidekt). Three evidence tiers:
 # OBSERVED (user testimony 2026-07-02): Acererak IS the commander; repeat-cast bounce loop
 #   ("in and out of the dungeon", return-to-hand called more likely than sac); Tomb of
-#   Annihilation ventures draining the table; sacs enabling extra ventures; felt T6-7.
+#   Annihilation ventures draining the table; sacs enabling extra ventures; AN INFINITE
+#   RECAST COMBO whose damage comes from venturing; felt T6-7.
 # VERIFIED MECHANICS (card_lookup, this session): Acererak {2}{B} bounces to HAND while ToA
-#   incomplete -> tax-free 3-mana recasts; completing ToA ONCE ends the bounce for the game;
-#   Lost Mine is loopable forever (Dark Pool: opp -1 / him +1); Zombie Ogre-class effects
-#   convert sacrifices into extra ventures (matches the observed sac-venture memory).
-#   Verified EXCLUSIONS: Rooftop Storm (BLUE — cannot be here), Triumphant Adventurer (WB).
+#   incomplete -> tax-free recasts; completing ToA ONCE ends the bounce for the game -> the
+#   infinite's damage dungeon is LOST MINE (Dark Pool: each opp -1 / him +1 per lap), which
+#   explains "he ventures into ANOTHER dungeon to deal the damage". Rooftop Storm is BLUE —
+#   impossible here — so the enabler must be the cast-cost <= sac-income assembly. THE LOOP
+#   (traced per-iteration, all texts verified): reducers (Warchief {1} + Jet Medallion {1}
+#   and/or Bontu's Monument {1}) drop Acererak to ~{B}; Diregraf Colossus makes a 2/2 per
+#   Zombie cast; Phyrexian Altar (+ Pitiless Plunderer Treasure) converts the token back to
+#   >= cast cost -> net 0 mana / 0 cards / +1 venture per iteration. With Bontu's Monument
+#   the loop ALSO drains 1/cast directly, dungeon-free. Verified EXCLUSIONS: Rooftop Storm
+#   (BLUE), Triumphant Adventurer (WB).
 # FILL (everything below): archetype-typical mono-B dungeon/zombie aristocrats, mid-power to
-#   match the felt clock. Gravecrawler-class infinites DELIBERATELY EXCLUDED — never observed,
-#   would inflate the lab clock (optimistic-clock discipline). Staples possibly contended with
-#   his H&K 2023 list (Demonic/Vampiric/Coffers/Urborg/Phyrexian Altar/Command Beacon) — the
-#   engine is robust to substitutes. NEVER citation-grade; a lab on this is a PROXY clock.
+#   match the felt clock. Gravecrawler-class infinites still EXCLUDED (a different,
+#   unobserved line). Staples possibly contended with his H&K 2023 list (Demonic/Vampiric/
+#   Coffers/Urborg/Phyrexian Altar/Command Beacon) — the engine is robust to substitutes.
+#   NEVER citation-grade; a lab on this is a PROXY clock. Lab note: kill shape = COMBO
+#   ASSEMBLY (commander + Colossus + Altar-class + ~2 reducers, tutors count), NOT attrition.
 1 Acererak the Archlich
 # --- venture engine ---
 1 Dungeon Crawler
@@ -20,7 +31,7 @@
 1 Fates' Reversal
 1 Zombie Ogre
 1 Death-Priest of Myrkul
-1 Vorpal Sword
+1 Pitiless Plunderer
 1 Grim Bounty
 # --- recast cost engine ---
 1 Undead Warchief
@@ -51,7 +62,7 @@
 1 Ebondeath, Dracolich
 # --- token engines ---
 1 Endless Ranks of the Dead
-1 Open the Graves
+1 Bontu's Monument
 1 Liliana's Mastery
 1 Army of the Damned
 # --- edicts ---
