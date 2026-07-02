@@ -133,6 +133,26 @@ def pure_race_for(kdist, slugs, C):
             for s in slugs}
 
 
+def antipod_measured(slugs, C, trials, seed):
+    """The FULL measured model (Backlog #13 Phase 3): pg.set_profile(True) swaps in the four
+    real opponents (Acererak v2 / Ur-Dragon / H&K / Henzie), each with its own MEASURED K curve,
+    the observed-rotation weights, and the no-Abolisher disruption. Unlike a δ-shift this is not
+    a single global kdist — it changes K per opponent AND weights AND disruption together — so
+    it's reported as its own column, not a sweep point. Restores the default profile after."""
+    pg.set_profile(True)
+    try:
+        rng = random.Random(seed)
+        out = {}
+        for s in slugs:
+            F = pg.build_cdf(C[s]["grid"], C[s]["decap"])
+            per = {k: pg.simulate_vs(s, F, pg.OPPONENTS[k], None, trials, rng)[0]
+                   for k in pg.OPPONENTS}     # kdist=None -> each opp uses its own measured curve
+            out[s] = 100.0 * sum(pg.OPPONENTS[k]["weight"] * per[k] for k in pg.OPPONENTS)
+    finally:
+        pg.set_profile(False)
+    return out
+
+
 def profiles(deltas):
     """(key, kdist, |δ| or None) — δ-shifts of K_DIST + pod_gauntlet's two preset shapes,
     ordered by profile mean so the table reads fast -> slow."""
@@ -219,6 +239,33 @@ def run(trials, seed, deltas):
     print(f"\n  Read: SENSITIVE inside ±1 turn = the hand-assumed pod clock is load-bearing "
           f"there -> Phase 1/2\n  (reconstruct + lab the pod decks) is justified. "
           f"All-ROBUST = the tier list survives the assumption.\n")
+
+    # --- Phase 3: the tier list AT the MEASURED profile (not a sweep point) -----------------
+    print(f"{'='*100}\nAT THE MEASURED PROFILE — the full Phase-3 model vs the hand-assumed baseline"
+          f"\n{'='*100}")
+    print(f"  pg.set_profile(True): four real opponents (Acererak v2 / Ur-Dragon / H&K / Henzie),")
+    print(f"  per-opponent MEASURED K + observed-rotation weights + no-Abolisher disruption. INTER/")
+    print(f"  SELF held at baseline (pod-independent). This is the whole point of Backlog #13.\n")
+    m_anti = antipod_measured(slugs, C, trials, seed)
+    m_comp = composite({"antipod": m_anti, **fixed})
+    print(f"  {'deck':26}{'base tier':>10}{'meas tier':>10}{'base anti%':>12}{'meas anti%':>12}   move")
+    moved = []
+    for s in order:
+        bt, mt = rows[s]["tier"], m_comp[s][1]
+        arrow = "" if bt == mt else f"  {bt}->{mt}"
+        if bt != mt:
+            moved.append((s, bt, mt))
+        print(f"  {rows[s]['name']:26}{bt:>10}{mt:>10}{rows[s]['anti']:>11.0f}%"
+              f"{m_anti[s]:>11.0f}%{arrow}")
+    rho, n = fb.spearman([rows[s]["comp"] for s in order], [m_comp[s][0] for s in order])
+    print(f"\n  RANK STABILITY vs baseline: Spearman rho={rho} (n={n}).")
+    print(f"  TIER MOVES under the measured profile: {len(moved)} of {len(order)}"
+          + ("" if not moved else " — " + ", ".join(f"{rows[s]['name']} {b}->{m}"
+                                                     for s, b, m in moved)))
+    print(f"\n  CAVEATS (load-bearing): both sides are UNBLOCKED goldfish ceilings (our decap curves")
+    print(f"  race his kill ceilings); Acererak's slow K is memory-bias-flagged (his real deck may")
+    print(f"  be faster); the BLEND hides H&K, the real stomp threat (see --vs --measured Δ column).")
+    print(f"  The RANKING is the robust read (rho above); absolute levels inherit the PROXY band.\n")
     return res
 
 

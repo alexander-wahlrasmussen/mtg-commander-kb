@@ -224,8 +224,14 @@ challenge is upheld in direction (nv 70%→59%) but the felt T6-7 is still falsi
 clock; the residual gap is memory bias / reconstruction underpower. The v2 curve is Acererak's
 per-opponent kdist for Phase 3.
 
-**Next: the K_DIST rebuild (Phase 3)** — per-opponent measured curves + observed-rotation
-weights into `pod_gauntlet` (as a measured-profile OPT-IN, null-reduction guarded), then
-re-run `pod_clock_sensitivity.py` at the measured profile and see what the tier list's middle
-band really looks like. Refinement standing ask: log his actual kill/attempt turns at the next
-meetup (pocket scorecard) — real observations grade all four PROXY clocks.
+**Phase 3 DONE 2026-07-02** — the K_DIST rebuild shipped: all four measured curves + observed-
+rotation weights (Acererak .40 / Ur-Dragon .30 / H&K .20 / Henzie .10, user-confirmed) + the
+no-Abolisher disruption are folded into `pod_gauntlet` as the OPT-IN `set_profile(True)` /
+`--measured` / `POD_MEASURED_PROFILE=1` profile (default byte-identical, null-reduction guarded by
+`tests/test_pod_measured_profile.py`). Re-run at the measured profile: **ρ=0.961 vs the assumed
+baseline, 7 of 17 tiers move** — the middle band lifts (FL B→A, Bumbleflower/CoS/Earthbend C→B,
+Grand Design/Eldrazi D→C), Zero-Sum A→B, apex + D-floor unchanged. Writeup:
+`analysis/Pod_Measured_Profile_2026-07-02.md`. **The blend hides H&K** — the real stomp threat sits
+20–45pp below the Acererak column; play to beat H&K. Refinement standing ask: log his actual
+kill/attempt turns at the next meetup (pocket scorecard) — real observations grade all four PROXY
+clocks, especially Acererak (felt T6-7 vs the lab's slow K) and Ur-Dragon (closes through the pod?).
