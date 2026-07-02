@@ -47,3 +47,6 @@ collection/oracle-cards.json
 collection/rulings.json
 # Scryfall Tagger index — refresh with scripts/update_tag_index.py
 collection/oracle-tags.json
+
+# Archidekt raw fetches — regenerate with scripts/fetch_archidekt.py --save
+opponents/raw/

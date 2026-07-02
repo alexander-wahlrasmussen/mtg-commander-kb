@@ -1,0 +1,70 @@
+# Major tool — nedor, archidekt.com/decks/3929816 (updated 2023-02-20, fetched 2026-07-02)
+# Commander: Henzie "Toolbox" Torre / Lurking Predators
+# 67 cards as listed — his REAL list as-of updatedAt, NOT a proxy
+1 Henzie "Toolbox" Torre
+1 Lurking Predators
+1 Ancient Brass Dragon
+1 Ancient Copper Dragon
+1 Animate Dead
+1 Arcane Signet
+1 Archon of Cruelty
+1 Artisan of Kozilek
+1 Assassin's Trophy
+1 Balefire Dragon
+1 Beast Within
+1 Birds of Paradise
+1 Birthing Pod
+1 Cauldron of Souls
+1 Chainer, Nightmare Adept
+1 Champion of Rhonas
+1 Cultivate
+1 Deadly Rollick
+1 Demonic Tutor
+1 Dictate of Erebos
+1 Elder Brain
+1 Etali, Primal Storm
+1 Farseek
+1 Fellwar Stone
+1 Garruk's Uprising
+1 Goreclaw, Terror of Qal Sisma
+1 Greenwarden of Murasa
+1 Gwenna, Eyes of Gaea
+1 Ignoble Hierarch
+1 Ilharg, the Raze-Boar
+1 Industrial Advancement
+1 Jaxis, the Troublemaker
+1 Jeska's Will
+1 Junji, the Midnight Sky
+1 Kethek, Crucible Goliath
+1 Kodama's Reach
+1 Kokusho, the Evening Star
+1 Life's Legacy
+1 Living Death
+1 Malakir Rebirth // Malakir Mire
+1 Nature's Lore
+1 Noxious Gearhulk
+1 Old Gnawbone
+1 Painful Truths
+1 Protean Hulk
+1 Rampant Rejuvenator
+1 Riveteers Ascendancy
+1 Ruin Grinder
+1 Seedguide Ash
+1 Shadow in the Warp
+1 Skullclamp
+1 Stalking Vengeance
+1 Terastodon
+1 Terminate
+1 Terror of the Peaks
+1 The Great Henge
+1 Thragtusk
+1 Three Visits
+1 Timeless Witness
+1 Treeshaker Chimera
+1 Vaevictis Asmadi, the Dire
+1 Vampiric Tutor
+1 Victimize
+1 Warstorm Surge
+1 Woodfall Primus
+1 Worldly Tutor
+1 Ziatora, the Incinerator
