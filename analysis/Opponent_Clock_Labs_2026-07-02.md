@@ -81,6 +81,51 @@ bursts + infinite on ONE correlated game, the #11 MVP rule). Expected: the front
 in toward the felt T6-7. The bottleneck census (Colossus > Altar > Plunderer) stays valid
 as the kill-on-sight list for the infinite line specifically.
 
+### v2 RESULT — all-lines best-line lab BUILT + RUN 2026-07-02 (challenge answered)
+
+**Lab:** `opp_acererak_lab.py --mode bestline` (and `--mode lines` for the per-axis
+decomposition) @40k, seed 20260702. `AllLines` inherits v1's infinite detection and adds the
+four challenged axes, all raced on ONE correlated game (min over lines on the same draws —
+the #11 MVP rule, never independent CDFs). Every card `card_lookup`-verified this session:
+Bontu's Monument drains 1 per **creature** cast (Acererak recasts qualify; black creatures
+−{1}); Cabal Coffers `{2}: +B/Swamp` × Urborg (all lands are Swamps) × Crypt Ghast (+B/Swamp
+tapped) is the modelled big-mana engine (Dark Ritual burst; Black Market + combat token-makers
+omitted conservative); Torment forces 3/iteration UNLESS the opponent sacs/discards (a
+resource BUFFER they exhaust first); Shepherd of Rot taps for −(zombies) to each; Gray Merchant
+ETB = devotion (tokens add 0 devotion — verified). Army of the Damned (+13 zombies) / Endless
+Ranks / Bastion are now cast (v1's creature-only loop skipped them, understating Shepherd).
+
+| line (kill = decap = table, cum %) | T7 | T8 | T9 | T10 | T12 | med | never-14 |
+|---|---|---|---|---|---|---|---|
+| infinite only (≈ v1) | 0 | 1 | 2 | 3 | 8 | >T14 | 84% |
+| Shepherd only (strongest single axis) | 0 | 0 | 1 | 4 | 13 | >T14 | 77% |
+| Monument only | 0 | 0 | 0 | 1 | 4 | >T14 | 89% |
+| Gray Merchant only / Torment only | 0 | 0 | 0 | 0 | 0 | >T14 | 100 / 99% |
+| attrition (Monument+Shepherd+Gary+venture) | 0 | 1 | 3 | 7 | 21 | >T14 | 65% |
+| **ALL (best-line)** @40k | **0** | **1** | **4** | **9** | **25** | **>T14** | **59%** |
+| ALL + Gravecrawler lever | 1 | 2 | 6 | 11 | 27 | >T14 | 56% |
+
+**Finding — the challenge is UPHELD in DIRECTION but the felt T6-7 is STILL falsified as a
+kill clock.** v2 confirms his deck is stronger than the tight infinite alone (never-in-14
+70% → **59%**, +Gravecrawler lever → 56%; a real T10-12 mass appears, 9→25%). But the front
+edge at T6-7 stays **~0-1%** even with every axis + the lever on — Acererak is a genuinely
+SLOW combo-drain, not a T6-7 kill. Diagnostic (3k): by T12 the single-copy big-mana engines
+are each ~25% present and zombies avg ~23, yet symmetric drains reach an opponent for only
+~12.5 of the 40 needed — the deck needs the *infinite* (T12+/never) or a Shepherd/Army god-draw
+to actually close. So the earlier §1 interpretations resolve: the felt "wins T6-7" is **memory
+bias** (the H&K stomp bleeding into the Acererak memory) and/or the reconstruction underpowers
+his real (tighter, more-redundant) list — **not** a live T6-7 kill. Shepherd of Rot is the
+strongest single line (kill-on-sight #4 after the census trio); Gary/Torment are pure
+chip/burst that only bite combined. **One real observation settles the residual gap** — log
+his actual combo/kill turn next meetup.
+
+**Consequence for K_DIST (Phase 3):** Acererak (weight 0.45, the largest) has a measured K far
+SLOWER than the assumed T6-7. Per the sensitivity sweep's +1/+2 columns, a slower measured pod
+LIFTS the roster's middle band. This v2 curve is the Acererak per-opponent kdist that feeds the
+Phase-3 rebuild. Bottleneck census unchanged (Colossus 46% · Phyrexian Altar 29% · Plunderer
+20% over the trials the infinite never assembled — the OTHER lines may still have closed).
+Cite as `~ slow / infinite T12+/never (v2 all-lines PROXY lab 2026-07-02)`, memory-bias-flagged.
+
 ---
 
 ## 2. Hidetsugu & Kairi ("stomped us" last meetup) — LAB DONE 2026-07-02
@@ -163,7 +208,7 @@ it was attrition, not a clock. Lowest-priority threat in K terms.
 
 | Opponent | observed freq | assumed | measured decap (med · T6 · T7) | shape |
 |---|---|---|---|---|
-| Acererak | every meetup | "wins T6-7" | infinite **>T14** · ~0 · 1% (band nv 94-47%) | combo-assembly, SLOW |
+| Acererak | every meetup | "wins T6-7" | **all-lines >T14** · T7 ~0 · T10 9% (nv 59%; v1 infinite-only 70%) | combo-drain, SLOW |
 | Ur-Dragon | every meetup | (fair deck) | **T8** · 9 · 28 (unblocked ceiling) | combat+burn, reliable |
 | H&K | occasional, stomps | "wins T6-7" | **T8** · 27 · 46 | clone-drain racer, real T5-6 edge |
 | Henzie | once | — | T11 · 0 · 3 | value grinder |
@@ -174,8 +219,13 @@ combo decks (Acererak mono-B, H&K UB — neither can cast the white Grand Abolis
 the 5C shells could, and the Ur-Dragon list has none). The felt "wins T6-7 behind
 Abolisher" appears to be an H&K-at-its-best memory generalized to the whole stable.
 
-**Next (own session): the K_DIST rebuild** — per-opponent measured curves + observed-
-rotation weights into `pod_gauntlet` (as a measured-profile option, null-reduction guarded),
-then re-run `pod_clock_sensitivity.py` at the measured profile and see what the tier list's
-middle band really looks like. Refinement standing ask: log his actual kill/attempt turns
-at the next meetup (pocket scorecard) — real observations grade all four PROXY clocks.
+**Phase 2.5 DONE 2026-07-02** — Acererak v2 all-lines lab built + run (§1 v2 RESULT): the
+challenge is upheld in direction (nv 70%→59%) but the felt T6-7 is still falsified as a kill
+clock; the residual gap is memory bias / reconstruction underpower. The v2 curve is Acererak's
+per-opponent kdist for Phase 3.
+
+**Next: the K_DIST rebuild (Phase 3)** — per-opponent measured curves + observed-rotation
+weights into `pod_gauntlet` (as a measured-profile OPT-IN, null-reduction guarded), then
+re-run `pod_clock_sensitivity.py` at the measured profile and see what the tier list's middle
+band really looks like. Refinement standing ask: log his actual kill/attempt turns at the next
+meetup (pocket scorecard) — real observations grade all four PROXY clocks.
