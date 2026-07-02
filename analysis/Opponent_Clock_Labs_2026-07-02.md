@@ -58,6 +58,29 @@ off bounce + venture entirely.
 **Next refinement:** observe his actual combo turn at the next meetup (pocket-scorecard
 note alongside `game_log.py quick`) — one real observation grades the PROXY directly.
 
+### ⚠️ CHALLENGE (2026-07-02, user: "his version is stronger" — upheld; v1 is a FLOOR)
+
+The v1 lab measures ONLY the tight net-0 infinite. That is the same single-line distortion
+that mis-tiered Lightning War (Backlog #11: race-only clock, combo invisible) — mirrored.
+Four kill axes are invisible in v1, and the "conservative" mana omissions are NOT
+second-order for this deck:
+
+1. **Big-mana drain turns** — Coffers/Urborg/Crypt Ghast/Dark Ritual were omitted; with
+   Bontu's Monument (drains each opponent per cast), ~12 reduced casts off big mana is
+   table −12/turn with NO Colossus/Altar/net-0 required. The infinite is the limit case,
+   not the requirement.
+2. **X-bursts** — Torment of Hailfire / Gray Merchant off the same mana: real T8-9 decap.
+3. **Shepherd of Rot** — table −(zombie count) per tap once tokens accumulate.
+4. **Gravecrawler lever** — excluded as unobserved, but Gravecrawler+Colossus+Phyrexian
+   Altar is a 3-piece infinite needing zero reducers, and "repeat casting & saccing" is
+   what that loop looks like from across the table. Ask / watch next meetup.
+
+**Do not cite v1's nv70% as "Acererak is slow" — cite it as "the tight infinite alone is
+slow."** Backlog #13 Phase 2.5 specs the v2 all-lines best-line lab (race attrition +
+bursts + infinite on ONE correlated game, the #11 MVP rule). Expected: the front edge pulls
+in toward the felt T6-7. The bottleneck census (Colossus > Altar > Plunderer) stays valid
+as the kill-on-sight list for the infinite line specifically.
+
 ---
 
 ## 2. Hidetsugu & Kairi ("stomped us" last meetup) — LAB DONE 2026-07-02

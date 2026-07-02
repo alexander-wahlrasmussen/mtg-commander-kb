@@ -566,5 +566,54 @@ uncertainty). **Verdict: Phases 1–2 justified, targeted at the middle band + a
 levels.** Caveat carried: disruption rows clamp outside K∈{6,7} → measured sensitivity is a
 mild floor.
 
-**Phase 1 — OPEN.** Needs the user's observed-cards elicitation per pod deck (Acererak /
-Hidetsugu&Kairi / Ur-Dragon / Kenrith / Kinnan). Partial knowledge is the expected input.
+**Phase 1 — ✅ DONE 2026-07-02.** Recon (`scripts/fetch_archidekt.py` → `opponents/`, merge
+5d82dbd): H&K found ("You get a clone", real 2023 list), Ur-Dragon 72/100 + Henzie 67/100
+(lands-only PROXY fills, cbaff2a), Acererak fully reconstructed from user testimony +
+verified mechanics (1aa5755, rev 2 28ca343 promoted the infinite to OBSERVED). Observed
+rotation (user): Ur-Dragon + Acererak EVERY meetup, H&K occasional (stomps), Henzie once.
+
+**Phase 2 — ✅ LAB SWEEP DONE 2026-07-02 (4/4)** (`scripts/opponent_labs/`, running doc
+`analysis/Opponent_Clock_Labs_2026-07-02.md`; merges 3e3959d/62fb7d7/7b6d269). Measured
+decap medians: Acererak infinite >T14 (nv70%, LEAN 94..FAT 47 band) · Ur-Dragon T8
+(unblocked ceiling, never 1%) · H&K T8 (real T5-6 edge) · Henzie T11. **Assumed K_DIST
+(mean T6.70) is ~1-1.5 turns too fast for the stable, and the Abolisher framing is wrong
+for BOTH current combo decks (mono-B + UB can't cast it).**
+
+**Phase 2.5 — OPEN: Acererak lab v2, all-lines best-line (the user's challenge: "his
+version is stronger" — and our own #11 discipline agrees).** The v1 lab measures ONLY the
+tight net-0 infinite; that is the SAME single-line distortion that mis-tiered Lightning War
+(race-only clock, combo invisible — see #11). Four real kill axes are invisible in v1, and
+the "conservative" mana omissions are NOT second-order for this deck:
+  (a) BIG-MANA DRAIN TURNS — Cabal Coffers + Urborg + Crypt Ghast + Dark Ritual; with
+      Bontu's Monument out, casts/turn = floor(B-mana / reduced cost) drains EACH opponent
+      per cast: table −12ish per turn with NO Colossus/Altar/net-0 needed. Model Coffers/
+      Urborg/Ghast as swamp-scaling mana, count drains — the infinite becomes the limit case.
+  (b) X-BURSTS — Torment of Hailfire / Gray Merchant devotion off the same big mana.
+  (c) SHEPHERD OF ROT — table −(zombie count) per tap once Colossus tokens accumulate.
+  (d) GRAVECRAWLER LEVER — excluded as unobserved, but Gravecrawler+Colossus+Phyrexian
+      Altar is a famous 3-piece infinite needing ZERO reducers; "repeat casting & saccing"
+      eyewitness matches it. ASK the user / watch for it next meetup; run as a lever.
+  Build: race attrition + bursts + infinite on ONE correlated game (min over lines on the
+  same draws — the #11 MVP rule, never independent CDFs). Expect the front edge to pull in
+  toward the felt T6-7; if it still doesn't reach, the felt clock is memory-bias — one real
+  observation settles it. Keep v1's bottleneck census (kill-on-sight list stays valid).
+
+**Phase 3 — OPEN: the K_DIST rebuild (pick up here or after 2.5; 2.5 first is better —
+its curve feeds this).** Fold the measured curves into `pod_gauntlet` as an OPT-IN measured
+profile; default path byte-identical (null-reduction test, the finisher_mixture pattern):
+  1. PER-OPPONENT kdists — replace the single global K_DIST: each OPPONENTS entry carries
+     its own measured attempt curve (Acererak: v2 best-line; H&K: decap; Ur-Dragon: decap
+     with an explicit unblocked-ceiling caveat — decide whether to haircut via vs_dragon's
+     defended view, or model UD as pressure-not-K; Henzie: decap). Sample K per-opponent.
+  2. WEIGHTS from the observed rotation (UD + Acererak every meetup ≫ H&K ≫ Henzie);
+     retire/demote the 5C-tail entry (Kenrith/Kinnan unseen); user confirms splits.
+  3. disruption_a stays per-opponent and gets BETTER: no current deck can cast Abolisher —
+     the a≈0.15-0.30 sweep may be obsolete vs this stable; re-derive from the lists.
+  4. Guards: fast gate + a null-reduction test (measured-profile OFF ⇒ bit-identical);
+     goldens untouched (opponent labs are outside the harvest chain by design).
+  5. Re-run `pod_clock_sensitivity.py` AT the measured profile → which middle-band tiers
+     move (expect lifts per the +1/+2 sweep columns); write up + update the tier list.
+  6. Housekeeping folded in: the committed `Definitive_Tier_List_2026-06-28.md` + dashboard
+     are STALE vs HEAD (Croak promotion, FL A→B, RS fixes) — one rebake after (5).
+  Standing refinement: log his actual kill/attempt turns at the next meetup (pocket
+  scorecard next to `game_log.py quick`) — real observations grade all four PROXY clocks.
