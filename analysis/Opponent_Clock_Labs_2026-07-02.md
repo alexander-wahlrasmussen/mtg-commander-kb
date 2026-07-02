@@ -60,7 +60,42 @@ note alongside `game_log.py quick`) — one real observation grades the PROXY di
 
 ---
 
-## 2. Hidetsugu & Kairi — PENDING (real 2023 list + 2-slot ban-fix variant)
+## 2. Hidetsugu & Kairi ("stomped us" last meetup) — LAB DONE 2026-07-02
+
+**Lab:** `opp_hk_lab.py` @40k, seed 20260702. **List:**
+`you-get-a-clone-BANFIX-PROXY-20260702.txt` — his REAL 2023 list (103 cards verbatim) with
+the two banned cards substituted (Mana Crypt→Mana Vault, Jeweled Lotus→Coalition Relic, our
+guess). Lowest-uncertainty opponent clock (2 guessed slots vs Acererak's 100).
+
+**Kill shape:** CLONE LOOP — clone the commander → legend rule kills the copy → death
+trigger drains the FOCUS player for the MV of a self-stacked bomb (his ETB draws 3 and puts
+2 back on top; bombs MV 7-11) + free-casts it (Time Stretch/Trespass/Nexus/Beacon/
+Expropriate = extra turns *inside the same wall-clock turn*). Drivnod doubles every trigger;
+kicked Rite of Replication = five triggers at once; Saw in Half = two + commander survives.
+
+### P(kill ≤ T), cum % @40k
+
+| clock | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T12 | med | never-14 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **decap** (one player, 40) | 4 | 11 | 27 | 46 | 60 | 70 | 78 | 87 | **T8** | 8% |
+| table (all three) | 1 | 3 | 8 | 18 | 28 | 38 | 45 | 56 | T11 | 37% |
+
+### Finding — the real racer of his stable, ~1 turn slower than assumed, real god-draw edge
+
+The decap curve is the K that matters (his kill is target-one-player — exactly the user's
+"a lot of damage to a player"). Median T8 vs the assumed T6-7 mean of 6.70, but with a
+genuine T5-6 front edge (11→27%) — this deck CAN produce the assumed clock, it just isn't
+the median. Table kill trails 3 turns (drains are single-target) — after the decap he needs
+another ~2 stacked bombs per remaining player. OMITTED (conservative): Sensei's Top
+top-control (he owns it — would lift the curve), Strionic Resonator, the big draw spells,
+Reanimate rebuys. OPTIMISTIC: no interaction, Mana Vault untap tax ignored.
+
+**Kill-on-sight / play-around:** the loop needs the ORIGINAL H&K on board — removal in
+response to the clone's ETB (before the legend-rule death resolves the stack) still eats a
+death trigger; the real leverage is killing H&K BEFORE a clone turn (he pays 5+tax to
+return) and holding up graveyard-irrelevant, top-of-library-irrelevant interaction. His
+whole engine is UB: no Grand Abolisher possible; a counter-war on the CLONE (2-4 mana
+spells) is far cheaper than on the bombs.
 ## 3. The Ur-Dragon — PENDING (72/100 real + lands PROXY fill)
 ## 4. Henzie — PENDING (67/100 real + lands PROXY fill)
 
