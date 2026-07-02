@@ -1,0 +1,100 @@
+# Acererak the Archlich (mono-B) — FULL RECONSTRUCTION PROXY (Backlog #13 Phase 1), built 2026-07-02
+# NO source list exists (his favorite deck, absent from Archidekt). Three evidence tiers:
+# OBSERVED (user testimony 2026-07-02): Acererak IS the commander; repeat-cast bounce loop
+#   ("in and out of the dungeon", return-to-hand called more likely than sac); Tomb of
+#   Annihilation ventures draining the table; sacs enabling extra ventures; felt T6-7.
+# VERIFIED MECHANICS (card_lookup, this session): Acererak {2}{B} bounces to HAND while ToA
+#   incomplete -> tax-free 3-mana recasts; completing ToA ONCE ends the bounce for the game;
+#   Lost Mine is loopable forever (Dark Pool: opp -1 / him +1); Zombie Ogre-class effects
+#   convert sacrifices into extra ventures (matches the observed sac-venture memory).
+#   Verified EXCLUSIONS: Rooftop Storm (BLUE — cannot be here), Triumphant Adventurer (WB).
+# FILL (everything below): archetype-typical mono-B dungeon/zombie aristocrats, mid-power to
+#   match the felt clock. Gravecrawler-class infinites DELIBERATELY EXCLUDED — never observed,
+#   would inflate the lab clock (optimistic-clock discipline). Staples possibly contended with
+#   his H&K 2023 list (Demonic/Vampiric/Coffers/Urborg/Phyrexian Altar/Command Beacon) — the
+#   engine is robust to substitutes. NEVER citation-grade; a lab on this is a PROXY clock.
+1 Acererak the Archlich
+# --- venture engine ---
+1 Dungeon Crawler
+1 Precipitous Drop
+1 Fates' Reversal
+1 Zombie Ogre
+1 Death-Priest of Myrkul
+1 Vorpal Sword
+1 Grim Bounty
+# --- recast cost engine ---
+1 Undead Warchief
+1 Jet Medallion
+1 Diregraf Colossus
+# --- sac outlets ---
+1 Carrion Feeder
+1 Viscera Seer
+1 Phyrexian Altar
+1 Ashnod's Altar
+1 Skullport Merchant
+1 Ghoulcaller Gisa
+# --- death drains / payoffs ---
+1 Vengeful Dead
+1 Plague Belcher
+1 Zulaport Cutthroat
+1 Blood Artist
+1 Bastion of Remembrance
+1 Death Tyrant
+# --- zombie tribal value ---
+1 Shepherd of Rot
+1 Noxious Ghoul
+1 Lord of the Accursed
+1 Death Baron
+1 Champion of the Perished
+1 Cemetery Reaper
+1 Midnight Reaper
+1 Ebondeath, Dracolich
+# --- token engines ---
+1 Endless Ranks of the Dead
+1 Open the Graves
+1 Liliana's Mastery
+1 Army of the Damned
+# --- edicts ---
+1 Fleshbag Marauder
+1 Plaguecrafter
+# --- finishers ---
+1 Gray Merchant of Asphodel
+1 Torment of Hailfire
+# --- tutors ---
+1 Demonic Tutor
+1 Vampiric Tutor
+# --- draw ---
+1 Night's Whisper
+1 Read the Bones
+1 Village Rites
+1 Deadly Dispute
+1 Phyrexian Arena
+# --- removal ---
+1 Feed the Swarm
+1 Infernal Grasp
+1 Power Word Kill
+1 Murderous Rider
+1 Hero's Downfall
+1 Damnation
+1 Toxic Deluge
+# --- recursion ---
+1 Phyrexian Reclamation
+1 Whip of Erebos
+# --- ramp ---
+1 Sol Ring
+1 Arcane Signet
+1 Mind Stone
+1 Fellwar Stone
+1 Dark Ritual
+1 Crypt Ghast
+1 Black Market
+# --- utility ---
+1 Lightning Greaves
+# --- lands (37) ---
+1 Command Beacon
+1 Cabal Coffers
+1 Urborg, Tomb of Yawgmoth
+1 Castle Locthwain
+1 Rogue's Passage
+1 High Market
+31 Swamp
