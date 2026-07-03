@@ -13,6 +13,13 @@ Source: `collection/moxfield_haves_2026-06-25-0748Z.csv` (current export; the 20
 > **planning marker**. Physical settlement is owed on contention buys + the 2nd Imperial Recruiter.
 > **Re-run DeckSafe against a fresh Moxfield export once the paper copies land** to make this real.
 
+> **2026-07-03 DeckSafe re-run (xlsx only):** rebuilt `collection/deck_safe_collection.xlsx`
+> against the 2026-06-25 CSV after the Bumbleflower **quiet-exits swap**
+> (`this-bunny-goes-to-market-20260703.txt`: −Misleading Signpost −Sin −Rewind → +Intruder Alarm
+> +Approach of the Second Sun +Wizard Class). New unowned demand: **Intruder Alarm** (≈ €2.84) +
+> **Approach of the Second Sun** (≈ €2.79) — 2-card buy ≈ €6 *(indicative, Scryfall 2026-07-03)*;
+> Wizard Class owned. The prose tables below are otherwise unchanged from the last full pass.
+
 ---
 
 ## Collection snapshot
@@ -74,6 +81,8 @@ Cards short across the full demand pool. None are in Curse of the Scarab.
 
 | Card             | Need | Have | Decks                                                         |
 | ---------------- | ---- | ---- | ------------------------------------------------------------- |
+| Intruder Alarm   | 1    | 0    | This Bunny Goes To Market (quiet-exits swap 2026-07-03)       |
+| Approach of the Second Sun | 1 | 0 | This Bunny Goes To Market (quiet-exits swap 2026-07-03)     |
 | Willowrush Verge | 2    | 1    | Eldrazi Stampede Chaos, Radiation Sickness                    |
 | Yavimaya Coast   | 3    | 2    | Eldrazi Stampede Chaos, Peace Offering, This Bunny To Market  |
 | Sunpetal Grove   | 2    | 1    | Peace Offering, This Bunny Goes To Market                     |
