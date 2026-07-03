@@ -10,6 +10,17 @@ its harvested clock and **lifts Lightning War from D to S (#2 overall)**. The mo
 had LW in D on a **race-only** clock that the combo's table kill was invisible to; #11 fixed the
 **instrument**, not the deck — see "the one finding" below for why that matters.*
 
+> **Refreshed 2026-07-02 (Backlog #13 Phase 3).** Table re-run to live `tier_list.py`. Two deck
+> moves since the 2026-06-29 cut, both from committed changes (not sim fixes): **Croak and Dagger
+> D→A** — promoted 2026-07-01 to the inevitable Sensei's-Top→Aetherflux topdeck COMBO (decap=table
+> T9), reversing the 2026-06-29 grind read below; **Forced Liquidation A→B** — the 2026-07-02 lab
+> audit (Kefka summoning-sickness + lethal-or-bust gate) slowed its clock. This list is the
+> ASSUMED-K_DIST ranking (the anchor). Backlog #13 also MEASURED the real pod (Acererak v2 /
+> Ur-Dragon / H&K / Henzie) and folded it into `pod_gauntlet` as an opt-in profile: under it the
+> ranking holds (ρ=0.973) but the middle band lifts (7/17 tiers move) — see
+> `analysis/Pod_Measured_Profile_2026-07-02.md`. Per-deck prose below predates these two moves;
+> trust the table + the linked docs.
+
 > **Refreshed 2026-06-29 (post codebase-audit).** Re-run on the corrected clocks from the
 > 2026-06-29 bug audit. Four tier moves, all from sim fixes rather than deck changes:
 > **Radiation Sickness S→A** — The Wise Mothman (the commander) was attacking the turn it was cast
@@ -53,28 +64,32 @@ measurement; re-weight in `tier_list.py`.
 
 | Tier | Deck | Anti% | Inter% | Self% | (cc) | Clock | COMP |
 |:--:|---|:--:|:--:|:--:|:--:|:--:|:--:|
-| **S** | **The Genome Project** | 61 | 65 | 71 | 15 | T8 | **98** |
-| **S** | **Lightning War** | 57 | 52 | 48 | **19** | T9 | **80** |
-| **A** | **Forced Liquidation** | 49 | 46 | 47 | 16 | T9 | **69** |
-| **A** | **Radiation Sickness** | 63 | 33 | 31 | 18 | T10 | **69** |
-| **A** | The Replication Crisis | 64 | 24 | 22 | 17 | T10 | 63 |
-| **A** | The Exile's Return | 49 | 33 | 31 | 18 | T10 | 58 |
-| **A** | Zero-Sum Game | 33 | 45 | 48 | — | T9 | 57 |
-| **B** | Lorehold Spirits | 39 | 23 | 28 | 18 | T10 | 44 |
-| **C** | Ms. Bumbleflower | 48 | 11 | 10 | 15 | T11 | 39 |
-| **C** | Curse of the Scarab | 37 | 20 | 19 | 17 | T11 | 38 |
-| **C** | Earthbend the Meta | 42 | 14 | 14 | 17 | T11 | 37 |
-| **C** | The Dark Lord's Army | 26 | 26 | 20 | **19** | T12 | 32 |
-| **D** | The Grand Design | 36 | 5 | 5 | 18 | >T12 | 24 |
-| **D** | Eldrazi Stampede Chaos | 26 | 7 | 9 | 14 | T12 | 19 |
-| **D** | Diminishing Returns | 17 | 3 | 3 | 17 | >T14 | 7 |
-| **D** | Crystal Sickness | 9 | 9 | 11 | 17 | T13 | 7 |
-| **D** | Croak and Dagger | 8 | 8 | 8 | 18 | >T14 | 4 |
+| **S** | **The Genome Project** | 61 | 63 | 70 | 15 | T8 | **97** |
+| **S** | **Lightning War** | 57 | 50 | 47 | **19** | T9 | **80** |
+| **A** | **Radiation Sickness** | 63 | 30 | 27 | 18 | T10 | **67** |
+| **A** | The Replication Crisis | 64 | 22 | 21 | 17 | T10 | 61 |
+| **A** | Zero-Sum Game | 33 | 45 | 47 | — | T9 | 57 |
+| **A** | **Croak and Dagger** | 32 | 47 | 44 | 18 | T9 | 57 |
+| **A** | The Exile's Return | 49 | 32 | 29 | 18 | T10 | 57 |
+| **B** | **Forced Liquidation** | 38 | 32 | 34 | 16 | T10 | 50 |
+| **B** | Lorehold Spirits | 39 | 20 | 26 | 18 | T10 | 42 |
+| **C** | Ms. Bumbleflower | 48 | 9 | 7 | 15 | T11 | 36 |
+| **C** | Curse of the Scarab | 37 | 18 | 18 | 17 | T11 | 36 |
+| **C** | Earthbend the Meta | 42 | 12 | 12 | 17 | T11 | 35 |
+| **C** | The Dark Lord's Army | 26 | 23 | 18 | **19** | T12 | 30 |
+| **D** | The Grand Design | 36 | 4 | 4 | 18 | >T12 | 24 |
+| **D** | Eldrazi Stampede Chaos | 26 | 7 | 8 | 14 | T12 | 18 |
+| **D** | Diminishing Returns | 17 | 2 | 3 | 17 | >T14 | 7 |
+| **D** | Crystal Sickness | 9 | 9 | 10 | 17 | T13 | 6 |
 
 *(Trials 40k, T_grind 10, TAX 0.6, seed from `self_meta_lab`. COMP = weighted mean of the three
-min-max-normalised axes — re-normalised over 17 decks. Refreshed 2026-06-29 on the post-audit
-clocks: Radiation's Mothman fix slowed its race front edge (S→A), the ct-dig fix slowed Croak to a
-~T13 grind (C→D), and the Zuko fix sped Exile's Return (B→A); see the top-of-doc refresh note.)*
+min-max-normalised axes — re-normalised over 17 decks. **Refreshed 2026-07-02** to live
+`tier_list.py`: **Croak and Dagger D→A** on its 2026-07-01 promotion to the inevitable
+Sensei's-Top→Aetherflux topdeck COMBO (the ~T13 grind became a T9 assembly clock, decap=table);
+**Forced Liquidation A→B** on the 2026-07-02 lab audit (Kefka summoning-sickness + lethal-or-bust
+gate slowed its clock T8/T9→T9/T10); Radiation's clock reads T10. The 2026-06-29 note below is
+retained for provenance. This table is the ASSUMED-profile ranking (the anchor); for how it moves
+under the MEASURED pod stable see `analysis/Pod_Measured_Profile_2026-07-02.md`.)*
 
 ---
 
@@ -83,10 +98,11 @@ clocks: Radiation's Mothman fix slowed its race front edge (S→A), the ct-dig f
 v1 noted the three 19/20-equivalent decks scattered S→A→C. v2, ranking **purely on outcomes**,
 keeps it standing:
 
-> **The Dark Lord's Army (19/20) ranks 12th of 17 — tier C.** Grand Design (18/20) is **13th, tier
-> D.** Meanwhile the apex of the roster, The Genome Project, scores **15/20**, and the #3 deck
-> overall, Forced Liquidation, scores **16/20.** The Conversion Check and finishing position
-> disagree, mildly **negatively**, at the top.
+> **The Dark Lord's Army (19/20) ranks near the bottom of the middle — tier C.** Grand Design
+> (18/20) is **tier D.** Meanwhile the apex of the roster, The Genome Project, scores **15/20**, and
+> Lightning War (S, #2) and Forced Liquidation (B) score 19 and 16 respectively — high and low
+> outcomes at both CC extremes. The Conversion Check and finishing position disagree, mildly
+> **negatively**, at the top.
 
 The Conversion Check tells you a deck is *well-built for what it's trying to do.* It does **not**
 tell you the deck wins. Trust the tiers, not the sheet.
