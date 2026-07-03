@@ -12,7 +12,10 @@
     "key_cards": [
       "city on fire"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "bayo, irritable instructor",
@@ -64,9 +67,12 @@
       "bloodchief ascension",
       "mindcrank"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "vampiric tutor"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "basking broodscale",
@@ -104,10 +110,17 @@
     "cmdr_cmc": 4.0,
     "key_cards": [
       "aggravated assault",
+      "lightning runner",
       "sword of feast and famine"
     ],
+    "key_extra": [
+      "lightning runner"
+    ],
+    "n_key_needed": 1,
     "tutors": [
-      "imperial recruiter",
+      "imperial recruiter"
+    ],
+    "tutors_unbridged": [
       "ranger-captain of eos"
     ],
     "ramp": [
@@ -156,9 +169,12 @@
       "karmic guide",
       "reveillark"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "gamble"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "archaeomancer's map",
@@ -189,7 +205,9 @@
     "deck_key": "earthbend-the-meta",
     "name": "Earthbend the Meta",
     "bottleneck": "MANA",
-    "also": [],
+    "also": [
+      "BOARD"
+    ],
     "min_lands": 2,
     "max_lands": 4,
     "hi_curve": false,
@@ -198,7 +216,10 @@
     "key_cards": [
       "triumph of the hordes"
     ],
-    "tutors": [
+    "key_extra": [],
+    "n_key_needed": 1,
+    "tutors": [],
+    "tutors_unbridged": [
       "brightglass gearhulk"
     ],
     "ramp": [
@@ -225,7 +246,7 @@
       "the legend of kyoshi"
     ],
     "n_selection_needed": 2,
-    "mixed": "lands-matter board also a payoff axis",
+    "mixed": "lands-matter board also a payoff axis; BOARD union keeps on-curve no-ramp-spell hands",
     "key_missing": []
   },
   "the-exiles-return": {
@@ -241,8 +262,12 @@
     "key_cards": [
       "hellkite charger"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
-      "diabolic intent",
+      "diabolic intent"
+    ],
+    "tutors_unbridged": [
       "enlightened tutor",
       "imperial recruiter",
       "recruiter of the guard"
@@ -284,9 +309,20 @@
     "cmdr": "witherbloom, the balancer",
     "cmdr_cmc": 8.0,
     "key_cards": [
+      "bloodthirsty conqueror",
+      "defiant bloodlord",
+      "enduring tenacity",
       "exquisite blood",
-      "sanguine bond"
+      "sanguine bond",
+      "vito, thorn of the dusk rose"
     ],
+    "key_extra": [
+      "bloodthirsty conqueror",
+      "defiant bloodlord",
+      "enduring tenacity",
+      "vito, thorn of the dusk rose"
+    ],
+    "n_key_needed": 1,
     "tutors": [
       "chord of calling",
       "dark petition",
@@ -297,6 +333,7 @@
       "razaketh, the foulblooded",
       "vampiric tutor"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "ashnod's altar",
@@ -341,11 +378,14 @@
     "key_cards": [
       "gray merchant of asphodel"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "buried alive",
       "demonic tutor",
       "entomb"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "black market connections",
@@ -391,7 +431,10 @@
     "key_cards": [
       "jolrael, mwonvuli recluse"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "bender's waterskin",
@@ -442,7 +485,10 @@
     "key_cards": [
       "craterhoof behemoth"
     ],
-    "tutors": [
+    "key_extra": [],
+    "n_key_needed": 1,
+    "tutors": [],
+    "tutors_unbridged": [
       "conduit of ruin"
     ],
     "ramp": [
@@ -499,11 +545,14 @@
     "key_cards": [
       "gray merchant of asphodel"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "demonic tutor",
       "diabolic intent",
       "ringsight"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "black market connections",
@@ -549,10 +598,13 @@
       "gravecrawler",
       "phyrexian altar"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "razaketh, the foulblooded",
       "recruiter of the guard"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "ashnod's altar",
@@ -583,15 +635,26 @@
     "deck_key": "lightning-war",
     "name": "Lightning War",
     "bottleneck": "BOARD",
-    "also": [],
+    "also": [
+      "FINDING"
+    ],
     "min_lands": 2,
     "max_lands": 4,
     "hi_curve": false,
     "cmdr": "fire lord azula",
     "cmdr_cmc": 4.0,
     "key_cards": [
-      "banefire"
+      "banefire",
+      "narset's reversal",
+      "reiterate",
+      "seething song"
     ],
+    "key_extra": [
+      "narset's reversal",
+      "reiterate",
+      "seething song"
+    ],
+    "n_key_needed": 1,
     "tutors": [
       "emeritus of woe",
       "gifts ungiven",
@@ -601,6 +664,7 @@
       "sanar, unfinished genius",
       "solve the equation"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "blazing firesinger",
@@ -627,7 +691,7 @@
       "three steps ahead"
     ],
     "n_selection_needed": 2,
-    "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine",
+    "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine; tutors find the T9 combo",
     "key_missing": []
   },
   "the-grand-design": {
@@ -643,6 +707,8 @@
     "key_cards": [
       "craterhoof behemoth"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "birthing pod",
       "buried alive",
@@ -650,9 +716,11 @@
       "defense of the heart",
       "eladamri's call",
       "fauna shaman",
-      "ranger-captain of eos",
       "razaketh, the foulblooded",
       "sidisi, undead vizier"
+    ],
+    "tutors_unbridged": [
+      "ranger-captain of eos"
     ],
     "ramp": [
       "arcane signet",
@@ -692,9 +760,12 @@
     "key_cards": [
       "phyrexian dreadnought"
     ],
+    "key_extra": [],
+    "n_key_needed": 1,
     "tutors": [
       "tezzeret, cruel captain"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "chrome mox",
@@ -759,14 +830,27 @@
     "cmdr_cmc": 3.0,
     "key_cards": [
       "aetherflux reservoir",
+      "ancient cellarspawn",
       "bolas's citadel",
-      "sensei's divining top"
+      "fortune teller's talent",
+      "one with the multiverse",
+      "sensei's divining top",
+      "the reality chip"
     ],
+    "key_extra": [
+      "ancient cellarspawn",
+      "fortune teller's talent",
+      "one with the multiverse",
+      "the reality chip"
+    ],
+    "n_key_needed": 1,
     "tutors": [
       "chord of calling",
       "emergent ultimatum",
-      "green sun's zenith",
       "insidious dreams"
+    ],
+    "tutors_unbridged": [
+      "green sun's zenith"
     ],
     "ramp": [
       "birds of paradise",
@@ -798,7 +882,9 @@
     "deck_key": "forced-liquidation",
     "name": "Forced Liquidation",
     "bottleneck": "FINDING",
-    "also": [],
+    "also": [
+      "BOARD"
+    ],
     "min_lands": 2,
     "max_lands": 4,
     "hi_curve": false,
@@ -809,11 +895,14 @@
       "psychosis crawler",
       "windfall"
     ],
+    "key_extra": [],
+    "n_key_needed": 2,
     "tutors": [
       "demonic tutor",
       "final parting",
       "grim tutor"
     ],
+    "tutors_unbridged": [],
     "ramp": [
       "arcane signet",
       "commander's sphere",
@@ -845,7 +934,7 @@
       "waste not"
     ],
     "n_selection_needed": 2,
-    "mixed": "lethal-or-bust: never wheel on <2 punishers; Kitten+Channeler backup combo is resilience not speed",
+    "mixed": "lethal-or-bust: keep needs 2 key pieces / a tutor / board development \u2014 never a naked wheel",
     "key_missing": []
   }
 }

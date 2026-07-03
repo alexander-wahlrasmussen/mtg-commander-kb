@@ -72,6 +72,8 @@ def test_keep_specs_json_judgment_fields_current():
                 f"{slug}.{fld} stale in keep_specs.json — rerun keep_spec.py --write"
         assert s.get("also", []) == (row.get("also") or []), \
             f"{slug}.also stale in keep_specs.json — rerun keep_spec.py --write"
+        assert s.get("n_key_needed", 1) == row.get("n_key_needed", 1), \
+            f"{slug}.n_key_needed stale in keep_specs.json — rerun keep_spec.py --write"
     assert len(specs) == len(reg.DECKS), "deck count drifted — rerun keep_spec.py --write"
 
 

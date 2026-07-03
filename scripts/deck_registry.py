@@ -79,6 +79,10 @@ DECKS = {
         "bottleneck": "BOARD", "min_lands": 2, "max_lands": 4, "hi_curve": False,
         "mixed": "commander-gated; trigger on ATTACK (haste) — protect to swing",
         "also": ["FINDING"],   # BOARD primary (Satya attack) + Sword/Aggravated combo upside
+        # key_extra (2026-07-03 re-tune): Satya+Lightning Runner is the PRIMARY infinite since the
+        # 2026-06-22 swap (12% T6 vs the pair's 1-3%) but WIN_LINE still names the Sword/AA pair —
+        # without this the keep ignored the deck's best card and Imperial Recruiter bridged to nothing.
+        "key_extra": ["Lightning Runner"],
     },
     "lorehold_spirits": {
         "name": "Lorehold Spirits", "stem": "lorehold-spirit",
@@ -98,8 +102,12 @@ DECKS = {
         "cc": 17, "cc_axes": (5, 4, 4, 4),
         "win_line": {"pieces": ["Triumph of the Hordes"], "fuzzy": True,
                      "line": "Triumph of the Hordes one-card closer from an earthbent board"},
+        # also BOARD (2026-07-03 re-tune): the ramp-only MANA keep shipped on-curve Toph+payoff
+        # hands with no ramp spell (lands alone cast the CMC-4 commander) — 24% of games started
+        # "stuck". The union keeps those; ramp hands still keep via MANA.
         "bottleneck": "MANA", "min_lands": 2, "max_lands": 4, "hi_curve": False,
-        "mixed": "lands-matter board also a payoff axis",
+        "mixed": "lands-matter board also a payoff axis; BOARD union keeps on-curve no-ramp-spell hands",
+        "also": ["BOARD"],
     },
     "exiles_return": {
         "name": "The Exile's Return", "stem": "the-exiles-return",
@@ -116,6 +124,11 @@ DECKS = {
         "win_line": {"pieces": ["Exquisite Blood", "Sanguine Bond"], "needs_cmdr": False,
                      "line": "Exquisite Blood + Sanguine Bond loop + any life event (cmdr-indep.)"},
         "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False, "mixed": None,
+        # key_extra (2026-07-03 re-tune): the loop is 2 blood-halves x 4 payoff-halves; keying
+        # only the WIN_LINE pair made the keep SHIP a complete Conqueror+Bloodlord combo. WIN_LINE
+        # stays the cheapest documented line (bake-off cost basis); these widen the KEEP only.
+        "key_extra": ["Bloodthirsty Conqueror", "Vito, Thorn of the Dusk Rose",
+                      "Enduring Tenacity", "Defiant Bloodlord"],
     },
     "curse_of_the_scarab": {
         "name": "Curse of the Scarab", "stem": "curse-of-the-scarab",
@@ -166,7 +179,10 @@ DECKS = {
         "win_line": {"pieces": ["Banefire"], "override": 14, "fuzzy": True,
                      "line": "X-burn finisher (Banefire/Crackle); ~14 mana from-40 lethal"},
         "bottleneck": "BOARD", "min_lands": 2, "max_lands": 4, "hi_curve": False,
-        "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine",
+        "mixed": "flips at Azula: deploy CMC4 cmdr -> cheap-spell copy engine; tutors find the T9 combo",
+        "also": ["FINDING"],   # 2026-07-03 re-tune: the T9 Reiterate+Seething combo is the fast
+        # line and the deck runs 7 tutors — a tutor/key hand is a keep even without a cheap play.
+        "key_extra": ["Reiterate", "Seething Song", "Narset's Reversal"],   # combo pieces (WIN_LINE = the burn override)
         # lab=bestline (not clock): the all-finishers harvest (Backlog #11) races the burn
         # goldfish AND the Reiterate+Seething Song combo on one game so the gauntlet sees the
         # deck's fastest line (combo ~T9), not just the race goldfish (table >T14).
@@ -205,6 +221,10 @@ DECKS = {
         "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False,
         "mixed": "redundant 3-category combo (4 enablers x 2 payoffs); ramp -> Torment is the MANA-gated backup",
         "also": ["MANA"],
+        # key_extra (2026-07-03 re-tune): one-representative-per-category key_cards hid the combo's
+        # actual redundancy (4 enablers x 2 payoffs) from the keep and from the tutor-bridge check.
+        "key_extra": ["One with the Multiverse", "Fortune Teller's Talent",
+                      "The Reality Chip", "Ancient Cellarspawn"],
     },
     "forced_liquidation": {
         "name": "Forced Liquidation", "stem": "forced-liquidation",
@@ -216,8 +236,14 @@ DECKS = {
         # FINDING: lethal-or-bust assembly — needs 2+ punishers + a wheel before spinning, or it
         # refuels the pod. The Displacer Kitten + Aether Channeler combo is a $0 backup axis only
         # (~1% by T12; never beats the burn — resilience, not the plan).
+        # Re-tuned 2026-07-03 (mulligan audit / London experiment): the any-one-key FINDING keep
+        # kept lone-wheel refuel-trap hands and measured -5pp vs the land keep on the deck's own
+        # burn clock. n_key_needed=2 encodes "never keep a naked wheel/punisher"; the BOARD union
+        # (Kefka 5-drop -> reach genuinely bites) keeps the development hands the burn axis rides.
         "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False,
-        "mixed": "lethal-or-bust: never wheel on <2 punishers; Kitten+Channeler backup combo is resilience not speed",
+        "n_key_needed": 2,
+        "mixed": "lethal-or-bust: keep needs 2 key pieces / a tutor / board development — never a naked wheel",
+        "also": ["BOARD"],
     },
 }
 

@@ -50,7 +50,7 @@ def hand_features(hand, spec):
     sets = spec["_sets"]
     return {
         "lands": lands,
-        "key": bool(names & sets["key_cards"]),
+        "key": len(names & sets["key_cards"]) >= spec.get("n_key_needed", 1),
         "tutor": bool(names & sets["tutors"]),
         "sel2": len(names & sets["selection"]) >= spec["n_selection_needed"],
         "ramp": bool(names & sets["ramp"]),
