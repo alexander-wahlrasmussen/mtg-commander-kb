@@ -174,6 +174,79 @@ def test_simulate_lands_curve_is_nondecreasing():
 
 
 # --------------------------------------------------------------------------- #
+# simulate_flow — the smoothness / tempo pass (2026-07-03)
+# --------------------------------------------------------------------------- #
+def test_simulate_flow_is_deterministic_for_a_fixed_seed():
+    lib = toy_library()
+    a = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(7))
+    b = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(7))
+    assert a == b
+
+
+def test_simulate_flow_turn_partition_sums_to_100():
+    # Every turn is exactly one of live / dead-starved / dead-flooded, so the three
+    # rates must sum to 100% at each turn (the taxonomy has no gaps or overlaps).
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=800, rng=random.Random(3))
+    for t in range(1, 9):
+        total = (flow["live_by_turn"][t] + flow["starved_by_turn"][t]
+                 + flow["flooded_by_turn"][t])
+        assert total == pytest.approx(100.0)
+
+
+def test_simulate_flow_all_lands_is_never_live():
+    # A deck of pure lands can never cast a nonland: 0% live, and every dead turn is
+    # 'flooded' (no nonland to cast), never 'starved' (which needs a stuck spell).
+    lib = [("Island", land()) for _ in range(60)]
+    flow = deck_sim.simulate_flow(lib, turns=6, trials=200, rng=random.Random(9))
+    for t in range(1, 7):
+        assert flow["live_by_turn"][t] == 0.0
+        assert flow["plan_live_by_turn"][t] == 0.0
+        assert flow["starved_by_turn"][t] == 0.0
+        assert flow["flooded_by_turn"][t] == pytest.approx(100.0)
+
+
+def test_simulate_flow_expensive_spells_read_as_starved_not_flooded():
+    # Cheap lands but only 9-drops: early turns have a spell stuck in hand with too
+    # little mana -> classified 'starved' (mana screw), not 'flooded'.
+    lib = [("Island", land()) for _ in range(20)]
+    lib += [(f"Bomb{i}", rec(cmc=9, type_line="Creature")) for i in range(40)]
+    flow = deck_sim.simulate_flow(lib, turns=4, trials=300, rng=random.Random(11))
+    # By T4 (<=4 lands) a 9-drop is uncastable; whenever a bomb is in hand it's starved.
+    assert flow["starved_by_turn"][3] > flow["flooded_by_turn"][3]
+    assert flow["live_by_turn"][3] == 0.0
+
+
+def test_simulate_flow_plan_live_never_exceeds_any_live():
+    # plan-live is a subset of live (a plan play is a play), so it can't be higher.
+    lib = toy_library()
+    plan = {"spell0", "spell1", "spell2"}   # only a few nonlands are plan-tagged
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(5), plan_set=plan)
+    assert flow["has_plan_spec"] is True
+    for t in range(1, 9):
+        assert flow["plan_live_by_turn"][t] <= flow["live_by_turn"][t] + 1e-9
+
+
+def test_simulate_flow_no_plan_set_makes_plan_equal_any():
+    # Without a keep-spec, every nonland counts as plan-relevant -> the two curves match.
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(5), plan_set=None)
+    assert flow["has_plan_spec"] is False
+    for t in range(1, 9):
+        assert flow["plan_live_by_turn"][t] == flow["live_by_turn"][t]
+
+
+def test_simulate_flow_spending_empties_hand_faster_than_consistency_pass():
+    # The tempo pass REMOVES cast cards; a hand of castable 1-drops should shrink,
+    # unlike simulate() which never spends. Hand size must fall below the raw
+    # draw-only ceiling (7 opening - 1 land drop + draws), proving cards left hand.
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"One{i}", rec(cmc=1, type_line="Creature")) for i in range(36)]
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(2))
+    assert flow["hand_size_by_turn"][8] < 8.0   # would be ~13 if nothing were cast
+
+
+# --------------------------------------------------------------------------- #
 # load_reskin_aliases — table parsing
 # --------------------------------------------------------------------------- #
 def test_load_reskin_aliases_parses_table(tmp_path, monkeypatch):
