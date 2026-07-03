@@ -570,6 +570,40 @@ def _decklist(txt_path, summary_path, commander, gc_names, aliases):
     )
 
 
+def _image_url(rec):
+    """Scryfall 'normal' JPEG for a card record; multi-face layouts (transform /
+    modal_dfc) carry image_uris per face, so fall back to the front face."""
+    if not rec:
+        return None
+    uris = rec.get("image_uris") or (rec.get("card_faces") or [{}])[0].get("image_uris") or {}
+    return uris.get("normal")
+
+
+def card_images(names):
+    """name -> Scryfall CDN image URL for hover previews, keyed on the CALLER's
+    spelling (.txt decklist / baked-hand names), alias- and split-card-resolved
+    like everything else. {} when the oracle bulk is absent — the front-end then
+    simply shows no previews (hotlinking scryfall.io images is permitted)."""
+    if not _cards_index():
+        return {}
+    out = {}
+    for n in names:
+        url = _image_url(_resolve(n))
+        if url:
+            out[n] = url
+    return out
+
+
+def _deck_images(decklist):
+    """The hover-preview map for one deck page: every decklist card + the
+    commander. None (payload-omitted semantics) when there's nothing to map."""
+    if not decklist:
+        return None
+    names = {c["n"] for g in decklist["groups"] for c in g["cards"]}
+    names.add(decklist["commander"]["n"])
+    return card_images(sorted(names)) or None
+
+
 def _first_sentence(text):
     p = _first_para(text)
     return re.split(r"(?<=[.!])\s", p)[0] if p else ""
@@ -1030,6 +1064,7 @@ def deck(slug):
     kill_tree = _kill_tree(slug)
     finishers = _kill_lines(secs)
     composition = _mark_win(_composition(sp))
+    dl = _decklist(txt, sp, d["commander"], gc_names, aliases)
     keep = dict(
         bottleneck=d.get("bottleneck"), minLands=d.get("min_lands"),
         maxLands=d.get("max_lands"), mixed=d.get("mixed"),
@@ -1057,7 +1092,8 @@ def deck(slug):
         finishers=finishers,
         rulings=_rulings(secs),
         composition=composition,
-        decklist=_decklist(txt, sp, d["commander"], gc_names, aliases),
+        decklist=dl,
+        images=_deck_images(dl),
         keep=keep,
         mull=dict(strategy=_mull_from_summary(secs) or _mull_strategy(keep)),
         killTree=kill_tree,

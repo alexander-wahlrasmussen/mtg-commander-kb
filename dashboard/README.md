@@ -60,8 +60,10 @@ instead with `?live=1`; force static with `?static=1`.
 **GitHub Pages (this repo):** `.github/workflows/dashboard-pages.yml` builds `ui/` and deploys
 `ui/dist` on push to `master`. Re-bake (`dashboard_export.py`) and commit the refreshed
 `ui/public/data/*.json` to update the data. **A Pages site is public** even from a private repo —
-the baked JSON holds deck names, win-probabilities, and the per-deck decklists (an external pilot
-reference), but **not** the collection / ownership data.
+the baked JSON holds deck names, win-probabilities, the per-deck decklists (an external pilot
+reference) and per-card Scryfall image URLs (the deck-page hover previews hotlink scryfall.io),
+but **not** the collection / ownership data — the Doctor board bakes with buildability off for
+the same reason.
 
 ## Tabs
 
@@ -70,7 +72,9 @@ reference), but **not** the collection / ownership data.
 | **Gauntlet** | `pod_gauntlet.run_default` | Abolisher P(out) `--a`, pod speed `--pod-fast/slow`, decap↔table `--strict`, trials |
 | **Clocks** | harvested CDFs (`pod_gauntlet.merged_clocks`) | curve decap↔table, deck overlay |
 | **Locks** | `pod_gauntlet.lock_sweep_rows` | Abolisher `--a`, lock-removal `--r`, decap↔table, pod speed, trials |
+| **Matchups** | `pod_gauntlet.simulate_vs` × the MEASURED stable (per-opponent kdists) | decap↔table, trials. Read the per-opponent spread — the blend hides H&K |
 | **Championship** | `pod_championship` | playoff trials, season trials, `--t-grind`, `--swapped`, **🎲 Re-draw** |
+| **Doctor** | `deck_doctor.doctor(quiet=True)` — the `--all` triage board | live `?vitals=1`; the bake always includes vitals. No buildability columns: the payload is public, so ownership data stays out |
 | Decks / Collection / Wishlist | `kb_content` (KB markdown / CSV / Scryfall) | — |
 
 ### The championship draw

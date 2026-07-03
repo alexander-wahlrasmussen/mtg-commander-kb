@@ -28,6 +28,45 @@ function brk(text: string) {
   ));
 }
 
+/** Card hover preview — the baked name → Scryfall-image map (d.images) rendered as
+ *  a floating card next to the cursor. bind(name) returns the pointer handlers for
+ *  any element showing a card name; it returns {} when no image exists (bulk absent
+ *  at bake time, or an unresolved spelling), so previews degrade silently. Mouse =
+ *  hover; touch = tap to toggle. */
+type PreviewState = { src: string; x: number; y: number } | null;
+type Bind = (name: string) => React.HTMLAttributes<HTMLElement>;
+
+function useCardPreview(images: Record<string, string> | null | undefined): { bind: Bind; preview: PreviewState } {
+  const [preview, setPreview] = useState<PreviewState>(null);
+  const bind: Bind = (name) => {
+    const src = images?.[name];
+    if (!src) return {};
+    return {
+      style: { cursor: "zoom-in" },
+      onPointerEnter: (e) => { if (e.pointerType === "mouse") setPreview({ src, x: e.clientX, y: e.clientY }); },
+      onPointerMove: (e) => { if (e.pointerType === "mouse") setPreview({ src, x: e.clientX, y: e.clientY }); },
+      onPointerLeave: () => setPreview(null),
+      onPointerDown: (e) => {
+        if (e.pointerType !== "mouse") setPreview((p) => (p?.src === src ? null : { src, x: e.clientX, y: e.clientY }));
+      },
+    };
+  };
+  return { bind, preview };
+}
+
+function CardPreview({ p }: { p: PreviewState }) {
+  if (!p) return null;
+  const W = 250, H = Math.round(W * 1.395), pad = 10, off = 18;   // Scryfall 'normal' is 488×680
+  const right = p.x + off + W <= window.innerWidth - pad;
+  const x = right ? p.x + off : Math.max(pad, p.x - off - W);
+  const y = Math.min(Math.max(pad, p.y - H / 2), Math.max(pad, window.innerHeight - H - pad));
+  return (
+    <img src={p.src} alt="" width={W} height={H}
+      style={{ position: "fixed", left: x, top: y, width: W, height: H, zIndex: 60, pointerEvents: "none",
+               borderRadius: 12, background: "var(--ink)", boxShadow: "0 10px 28px rgba(22,19,15,.45)" }} />
+  );
+}
+
 function Pips({ letters, size = 15 }: { letters: string[]; size?: number }) {
   return (
     <span style={{ display: "flex", gap: 5 }}>
@@ -168,7 +207,7 @@ const KickerBand = ({ id, kicker, hint, paper2 }: { id?: string; kicker: string;
 
 /** Keep-or-mull drill on baked hands. The verdict is the AUTHORITATIVE deck_sim
  *  keep_hand, computed in Python and baked — the client only reveals + scores it. */
-function MulliganTrainer({ d }: { d: DeckPageData }) {
+function MulliganTrainer({ d, bind }: { d: DeckPageData; bind: Bind }) {
   const m = d.mulligan;
   const order = useMemo(() => {
     const n = m?.hands.length ?? 0;
@@ -200,7 +239,7 @@ function MulliganTrainer({ d }: { d: DeckPageData }) {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6, marginBottom: 14 }}>
           {hand.cards.map((c, i) => (
-            <div key={i} className={s.scoutHandCard}>
+            <div key={i} className={s.scoutHandCard} {...bind(c.n)}>
               <span style={{ fontFamily: "var(--mono)", fontSize: 11, fontWeight: 600, color: "var(--spot)" }}>{c.land ? "▦" : c.cmc ?? "—"}</span>
               <span style={{ fontFamily: "var(--disp)", fontWeight: 500, fontSize: 10.5, lineHeight: 1.08, textTransform: "uppercase", flex: 1 }}>{c.n}</span>
               <span style={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
@@ -245,11 +284,12 @@ function MulliganTrainer({ d }: { d: DeckPageData }) {
 
 /** The full 100-card list grouped by the Summary's functional buckets, with a
  *  role/type toggle, copy button, and the mana curve — the pick-up-and-play reference. */
-function Decklist({ d }: { d: DeckPageData }) {
+function Decklist({ d, bind }: { d: DeckPageData; bind: Bind }) {
   const dl = d.decklist;
   const [copied, setCopied] = useState(false);
   const [view, setView] = useState<"role" | "type">("role");
   if (!dl) return null;
+  const cb = bind(dl.commander.n);
   const buckets = view === "type" && dl.groupsByType ? dl.groupsByType : dl.groups;
   const gcSet = new Set(d.gc);
   const curveMax = Math.max(1, ...(dl.curve ?? []).map((c) => c.n));
@@ -259,7 +299,7 @@ function Decklist({ d }: { d: DeckPageData }) {
   );
   return (
     <>
-      <SectionBand id="decklist" title="The Decklist" hint={`${dl.total} cards · pick up & play`} />
+      <SectionBand id="decklist" title="The Decklist" hint={`${dl.total} cards · ${d.images ? "hover a name to preview" : "pick up & play"}`} />
       <div style={{ padding: "18px 26px 8px" }}>
         <div className={s.scoutDlControls}>
           {dl.groupsByType && (
@@ -287,7 +327,7 @@ function Decklist({ d }: { d: DeckPageData }) {
           </div>
         )}
         <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--ink)", borderBottom: "1.5px solid var(--ink)", paddingBottom: 7, marginBottom: 12 }}>
-          Commander · <span style={{ fontWeight: 600 }}>{dl.commander.n}</span>{dl.commander.gc && <span className={s.dlGc}>GC</span>}
+          Commander · <span {...cb} style={{ fontWeight: 600, ...cb.style }}>{dl.commander.n}</span>{dl.commander.gc && <span className={s.dlGc}>GC</span>}
         </div>
         <div style={{ columnCount: 2, columnGap: 26 }}>
           {buckets.map((g, i) => (
@@ -298,7 +338,7 @@ function Decklist({ d }: { d: DeckPageData }) {
               </div>
               {g.cards.map((c, j) => (
                 <div key={j} style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12.5, lineHeight: 1.5, color: "var(--ink)" }}>
-                  <span>{c.n}</span>{(c.gc || gcSet.has(c.n)) && <span className={s.dlGc}>GC</span>}
+                  <span {...bind(c.n)}>{c.n}</span>{(c.gc || gcSet.has(c.n)) && <span className={s.dlGc}>GC</span>}
                 </div>
               ))}
             </div>
@@ -383,6 +423,7 @@ const NAV = [
 
 export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void }) {
   const { data: d, error } = usePageData<DeckPageData>(() => getDeck(slug), [slug]);
+  const { bind, preview } = useCardPreview(d?.images);
   const [mode, setModeState] = useState<"brief" | "full">(() => {
     try { return localStorage.getItem(MODE_KEY) === "full" ? "full" : "brief"; } catch { return "brief"; }
   });
@@ -406,6 +447,7 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
 
   return (
     <article className={s.scout} style={{ ["--spot" as string]: "#0b6478", ["--spot2" as string]: "#08505f" } as React.CSSProperties}>
+      <CardPreview p={preview} />
       {/* top strip */}
       <div className={s.scoutTop}>
         <button className={s.scoutBack} onClick={onBack}>← Roster · Scouting Report</button>
@@ -513,8 +555,8 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
             </div>
           </div>
 
-          <Decklist d={d} />
-          <MulliganTrainer d={d} />
+          <Decklist d={d} bind={bind} />
+          <MulliganTrainer d={d} bind={bind} />
 
           {/* rulings */}
           {d.rulings.length > 0 && (
@@ -576,8 +618,10 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
                   <span style={{ fontFamily: "var(--mono)", fontSize: 9, color: "var(--ink3)" }}>{sample.lands} lands</span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 6, marginBottom: 11 }}>
-                  {sample.cards.map((c, i) => (
-                    <div key={i} className={s.scoutHandCard} style={{ background: "var(--paper)" }}>
+                  {sample.cards.map((c, i) => {
+                    const cb = bind(c.n);
+                    return (
+                    <div key={i} className={s.scoutHandCard} {...cb} style={{ background: "var(--paper)", ...cb.style }}>
                       <span style={{ fontFamily: "var(--mono)", fontSize: 11, fontWeight: 600, color: "var(--spot)" }}>{c.land ? "▦" : c.cmc ?? "—"}</span>
                       <span style={{ fontFamily: "var(--disp)", fontWeight: 500, fontSize: 10.5, lineHeight: 1.08, textTransform: "uppercase", flex: 1 }}>{c.n}</span>
                       <span style={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
@@ -586,7 +630,8 @@ export function DeckPage({ slug, onBack }: { slug: string; onBack: () => void })
                         ))}
                       </span>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div style={{ display: "flex", gap: 10, alignItems: "baseline", fontFamily: "var(--serif)", fontSize: 13, lineHeight: 1.45, color: "var(--ink2)" }}>
                   <span style={{ fontFamily: "var(--mono)", fontSize: 9, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink)", flex: "none" }}>Why keep</span>

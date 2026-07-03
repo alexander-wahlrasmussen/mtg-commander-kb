@@ -144,9 +144,18 @@ robust and stay citable under any plausible pod clock.
   boundaries are cuts on a continuous composite; read neighbouring letters as "same band"
   when the COMP gap is small.
 
-## Side-observation (housekeeping, separate from this sweep)
+## Follow-through — Phases 1–3 shipped (2026-07-02)
 
-The committed `analysis/Definitive_Tier_List_2026-06-28.md` table is **stale vs HEAD**: it
-predates the Croak and Dagger promotion (2026-07-01: live A, doc still D/>T14) and the
-2026-07-02 lab-audit fixes (live FL B, doc A). The live `tier_list.py` was used as this
-sweep's baseline anchor. A doc + dashboard rebake is pending.
+This sweep rated the assumption load-bearing in the middle band + absolute levels, justifying
+the fix. Done: the four pod decks reconstructed + clock-labbed (`Opponent_Clock_Labs_2026-07-02.md`),
+the Acererak v2 all-lines lab (Phase 2.5), and the **measured profile** folded into `pod_gauntlet`
+as an OPT-IN (Phase 3). `pod_clock_sensitivity.py` now also prints an **"AT THE MEASURED PROFILE"**
+block: **ρ=0.973, 7 of 17 tiers move** — the middle band this sweep flagged lifts exactly as the
+`+1`/`slow` columns predicted (a slower measured pod). Full writeup:
+`analysis/Pod_Measured_Profile_2026-07-02.md`.
+
+## Side-observation (housekeeping)
+
+The committed `analysis/Definitive_Tier_List_2026-06-28.md` table was **stale vs HEAD** (predated
+the Croak and Dagger promotion + the 2026-07-02 lab-audit FL B fix); refreshed to the live
+`tier_list.py` numbers 2026-07-02 alongside this Phase-3 work.

@@ -60,6 +60,7 @@ Writeup: campaigns/Pod_Gauntlet_2026-06-14.md
 """
 import argparse
 import json
+import os
 import random
 import re
 import subprocess
@@ -113,7 +114,10 @@ A_SWEEP = [0.0, 0.15, 0.30, 0.50, 0.75]        # realistic band ~0.15-0.30 (dela
 # answer = P(THEY stop OUR kill on the stack) = their reactive instant interaction, color-keyed
 # (Abolisher acts only on THEIR turn, so it does NOT answer our kill — counters/removal do).
 # weight = how often he brings the deck (PRIOR: favorite + recent flood; --vs prints them; tune).
-OPPONENTS = {
+# LEGACY (default, pre-Backlog-#13-Phase-3): the hand-assumed generic model. Kept verbatim as
+# the DEFAULT so every downstream number (tier_list anti-pod axis, the sweep, --vs/--matrix) is
+# byte-identical until the measured profile is explicitly turned on (null-reduction discipline).
+OPPONENTS_LEGACY = {
     "acererak": dict(
         name="Acererak (mono-B ETB)", ci="B", loop="etb", weight=0.45,
         disruption_a=0.05, answer=0.10,
@@ -127,6 +131,55 @@ OPPONENTS = {
         disruption_a=0.45, answer=0.30,
         note="legacy profile; the ONLY shells that can run the white Grand Abolisher"),
 }
+
+# --- MEASURED profile (Backlog #13 Phase 3, OPT-IN) ------------------------
+# The four decks his rotation actually fields (opponent-labs 2026-07-02), each carrying its
+# own MEASURED attempt/kill curve (opp_*_lab decap) instead of the shared hand-assumed K_DIST.
+# Turned on via POD_MEASURED_PROFILE=1 / --measured / set_profile(True); default OFF.
+#   * The legacy 5C-tail (Kenrith/Kinnan) is RETIRED — unseen in the observed rotation.
+#   * NO deck in the current stable can cast the WHITE Grand Abolisher (Acererak mono-B, H&K UB,
+#     Henzie Rakdos, and his Ur-Dragon list has none) -> disruption_a re-derived DOWN from the
+#     legacy Abolisher-era priors (only H&K's UB counter wall keeps a real reactive tax).
+#   * Weights = the user-confirmed observed rotation (2026-07-02): Ur-Dragon + Acererak every
+#     meetup, H&K occasional-but-stomps, Henzie once.
+# PROXY clocks (reconstructions/exports) — never citation-grade. The Acererak curve is v2
+# all-lines (memory-bias-flagged); the Ur-Dragon curve is the UNBLOCKED goldfish ceiling (the
+# pod blocks dragons, so his real K is SLOWER — using it directly is conservative-for-us).
+OPP_CLOCKS_MEASURED = {
+    "acererak": dict(grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[2, 4, 7, 12, 20, 29, 52, 72],
+                     src="opp_acererak_lab --mode bestline @40k on the COMBO-TUNED REV3 list "
+                         "(aristocrats sac-loop + recast; median T12, nv28%; a FLOOR — goldfish "
+                         "keeps on lands not combo pieces, so a real pilot's mulligan is faster)"),
+    "ur_dragon": dict(grid=[5, 6, 7, 8, 9, 10, 12, 14], decap=[1, 9, 28, 53, 73, 85, 96, 99],
+                      src="opp_urdragon_lab @40k (UNBLOCKED ceiling; vs_dragon owns defended)"),
+    "hidetsugu_kairi": dict(grid=[4, 5, 6, 7, 8, 9, 10, 12, 14],
+                            decap=[4, 11, 27, 46, 60, 70, 78, 87, 92],
+                            src="opp_hk_lab @40k (real 2023 list + 2-slot banfix)"),
+    "henzie": dict(grid=[7, 8, 9, 10, 12, 14], decap=[3, 13, 25, 38, 61, 78],
+                   src="opp_henzie_lab @40k (grinder; decap T11 even unblocked)"),
+}
+OPPONENTS_MEASURED = {
+    "acererak": dict(
+        name="Acererak (mono-B combo)", ci="B", loop="etb", weight=0.40,
+        disruption_a=0.05, answer=0.10, kdist=None,
+        note="favorite, every meetup; COMBO deck (aristocrats sac-loop, CSB 18 infinites), decap "
+             "median T12 w/ real T6-8 front edge — a FLOOR; no Abolisher/counters"),
+    "ur_dragon": dict(
+        name="The Ur-Dragon (combat+burn)", ci="WUBRG", loop="mixed", weight=0.30,
+        disruption_a=0.08, answer=0.12, kdist=None,
+        note="every meetup; decap T8 UNBLOCKED ceiling (pod blocks dragons -> real slower); no Abolisher in-list"),
+    "hidetsugu_kairi": dict(
+        name="Hidetsugu&Kairi (UB clone-drain)", ci="UB", loop="death", weight=0.20,
+        disruption_a=0.30, answer=0.30, kdist=None,
+        note="occasional, stomps; UB counter wall (no white Abolisher); median T8, real T5-6 edge"),
+    "henzie": dict(
+        name="Henzie (Rakdos blitz)", ci="BR", loop="death", weight=0.10,
+        disruption_a=0.05, answer=0.08, kdist=None,
+        note="seen once; grinder, decap T11 even unblocked; lowest-priority K"),
+}
+MEASURED_PROFILE = os.environ.get("POD_MEASURED_PROFILE") == "1"
+OPPONENTS = OPPONENTS_LEGACY      # rebound by set_profile() once the measured kdists are built
+
 ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves the next P(answer)
 
 # P(this deck FORCES ITS KILL THROUGH the opponent's reactive answer) on its kill turn — its own
@@ -393,6 +446,43 @@ def build_cdf(grid, cum):
     return F
 
 
+# --- measured per-opponent K distribution (Backlog #13 Phase 3) ------------
+NEVER_K = HORIZON + 1                          # sentinel "combos beyond the horizon" (we win)
+
+
+def opp_kdist(slug):
+    """Turn a measured OPPONENT decap curve into a K pmf over turns 1..HORIZON + a NEVER bucket.
+    K = the turn that opponent can WIN (kill/decap); the never-in-horizon mass lands on NEVER_K
+    (simulate_vs never fires their combo branch for K>HORIZON -> we win by default). Derived from
+    the lab curve so it stays lab-sourced + re-derivable (opponent labs sit OUTSIDE the harvest
+    chain by design, so these live here, not in pod_gauntlet_clocks.json)."""
+    c = OPP_CLOCKS_MEASURED[slug]
+    F = build_cdf(c["grid"], c["decap"])
+    pmf = {t: F[t] - F[t - 1] for t in range(1, HORIZON + 1) if F[t] - F[t - 1] > 1e-9}
+    never = max(0.0, 1.0 - F[HORIZON])
+    if never > 1e-9:
+        pmf[NEVER_K] = never
+    return pmf
+
+
+for _s, _o in OPPONENTS_MEASURED.items():      # fill the per-opponent kdists now build_cdf exists
+    _o["kdist"] = opp_kdist(_s)
+
+
+def set_profile(measured):
+    """Swap the active OPPONENTS between the LEGACY hand-assumed model and the MEASURED stable
+    (Backlog #13 Phase 3). Consumers read pg.OPPONENTS by attribute so rebinding here is visible
+    to tier_list / pod_clock_sensitivity. set_profile(False) restores the byte-identical default."""
+    global OPPONENTS, MEASURED_PROFILE
+    MEASURED_PROFILE = bool(measured)
+    OPPONENTS = OPPONENTS_MEASURED if MEASURED_PROFILE else OPPONENTS_LEGACY
+    return OPPONENTS
+
+
+if MEASURED_PROFILE:                            # honour POD_MEASURED_PROFILE=1 from the environment
+    set_profile(True)
+
+
 CLOCKS_JSON = ROOT / "analysis" / "pod_gauntlet_clocks.json"
 
 
@@ -499,6 +589,7 @@ def simulate_vs(slug, F, opp, kdist, trials, rng):
         costs us a turn (reload) rather than ending the game — and Abolisher does NOT figure
         here, since it acts only on their turn while our kill is on ours. PROTECT[slug] (our own
         counter package / uncounterable finisher) reduces that answer: answer * (1 - protect)."""
+    kdist = opp.get("kdist") or kdist          # measured profile: per-opponent K; else the global
     ks, kp = zip(*kdist.items())
     # PROTECT = our counter-war capability; it eases the SAME counter wall on both fronts —
     # our disruption of their combo (a) and our kill landing (answer). For Acererak (no counters)
@@ -532,6 +623,7 @@ def simulate_vs_lock(slug, F, opp, kdist, lock_cdf, e, r, trials, rng):
     (LOCK_VS_LOOP[piece][opp.loop]); r = pod's per-turn removal rate. Once live & effective the
     lock holds the pod's combo EVERY turn until removed. With e=0 (e.g. an ETB-lock vs H&K's
     death trigger) this reduces EXACTLY to simulate_vs — so those columns are provably unchanged."""
+    kdist = opp.get("kdist") or kdist          # measured profile: per-opponent K; else the global
     ks, kp = zip(*kdist.items())
     a = opp["disruption_a"] * (1 - PROTECT.get(slug, 0.0))
     use_lock = lock_cdf is not None and e > 0
@@ -795,6 +887,14 @@ def run_swapped(args):
           "(Drannith); the three 🔒 swaps need pod approval.")
 
 
+OPP_LABEL = {"acererak": "Acererak", "ur_dragon": "UrDragon", "hidetsugu_kairi": "H&K",
+             "five_color_tail": "5C-tail", "henzie": "Henzie"}
+
+
+def opp_label(k):
+    return OPP_LABEL.get(k, k.replace("_", " ").title())
+
+
 def run_matrix(args):
     """Emit the --vs two-deck rows for Pod_Matchup_Matrix.md, sorted by BLENDED P(win).
     Lab-sourced (clock JSON) + gauntlet-computed — no narrated numbers. The matrix pastes
@@ -814,19 +914,20 @@ def run_matrix(args):
         rows.append((blend, c, slug, per))
     rows.sort(key=lambda r: -r[0])
     w = OPPONENTS
-    print(f"\n# Pod_Matchup_Matrix --vs rows (two-deck model, trials={args.trials})\n")
-    print("| # | Deck | Sc | Clock decap / table | prot | vs Acererak | vs H&K | vs 5C-tail | BLEND |")
-    print("|---|---|---|---|---|---|---|---|---|")
+    prof = "MEASURED profile" if MEASURED_PROFILE else "legacy profile"
+    print(f"\n# Pod_Matchup_Matrix --vs rows ({prof}, trials={args.trials})\n")
+    print("| # | Deck | Sc | Clock decap / table | prot | "
+          + " | ".join(f"vs {opp_label(k)}" for k in okeys) + " | BLEND |")
+    print("|---|---|---|---|---|" + "---|" * (len(okeys) + 1))
     for i, (blend, c, slug, per) in enumerate(rows, 1):
+        cells = " | ".join(f"{per[k]*100:.0f}%" for k in okeys)
         print(f"| {i} | {c['name']} | {c['score']} | {c['med'][0]} / {c['med'][1]} | "
-              f"{PROTECT.get(slug,0)*100:.0f}% | {per['acererak']*100:.0f}% | "
-              f"{per['hidetsugu_kairi']*100:.0f}% | {per['five_color_tail']*100:.0f}% | "
-              f"**{blend*100:.0f}%** |")
-    print(f"\nBLEND = weight-avg over his decks (Acererak {w['acererak']['weight']} / H&K "
-          f"{w['hidetsugu_kairi']['weight']} / 5C-tail {w['five_color_tail']['weight']}, PRIORS). "
+              f"{PROTECT.get(slug,0)*100:.0f}% | {cells} | **{blend*100:.0f}%** |")
+    wstr = " / ".join(f"{opp_label(k)} {w[k]['weight']}" for k in okeys)
+    print(f"\nBLEND = weight-avg over his decks ({wstr}, PRIORS). "
           f"prot = protect-own (counter-war + counter-immune kill). Clock = lab decap/table median. "
           f"GD also has a persistent-lock line (--vs-lock): 45% blend / 59% vs Acererak. "
-          f"Regenerate: pod_gauntlet.py --matrix")
+          f"Regenerate: pod_gauntlet.py --matrix" + ("  --measured" if MEASURED_PROFILE else ""))
 
 
 def print_hatebear_table():
@@ -862,28 +963,39 @@ def run_vs(args):
         rows.append((slug, c, per, blend))
     rows.sort(key=lambda r: -r[3])
 
+    prof = "MEASURED stable" if MEASURED_PROFILE else "TWO REAL DECKS"
     clk = "TABLE clock (win the game)" if args.strict else "DECAP clock (neutralise the deck)"
-    print(f"\n{'='*94}\nTHE POD GAUNTLET — vs HIS TWO REAL DECKS   [{clk}]")
-    kds = " ".join(f"T{k}:{int(p*100)}%" for k, p in sorted(kd.items()))
-    print(f"  combo turn K = {{{kds}}}   ·   trials={args.trials}, seed={args.seed}")
-    print(f"  OUR disruption uses each deck's reactive-answer tax (a), NOT a global Abolisher — "
-          f"Acererak & H&K\n  are color-locked out of the white Grand Abolisher; only the 5C tail "
-          f"can field it. 'ans' = P(they\n  answer OUR kill on the stack).")
+    print(f"\n{'='*94}\nTHE POD GAUNTLET — vs HIS {prof}   [{clk}]")
+    if MEASURED_PROFILE:
+        print("  K = per-opponent MEASURED attempt curve (opp_*_lab), NOT the shared hand-assumed "
+              "K_DIST.\n  Weights = user-confirmed observed rotation. 'ans' = P(they answer OUR "
+              "kill on the stack).")
+    else:
+        kds = " ".join(f"T{k}:{int(p*100)}%" for k, p in sorted(kd.items()))
+        print(f"  combo turn K = {{{kds}}}   ·   trials={args.trials}, seed={args.seed}")
+        print(f"  OUR disruption uses each deck's reactive-answer tax (a), NOT a global Abolisher — "
+              f"Acererak & H&K\n  are color-locked out of the white Grand Abolisher; only the 5C tail "
+              f"can field it. 'ans' = P(they\n  answer OUR kill on the stack).")
     for k in okeys:
         o = OPPONENTS[k]
-        print(f"    {o['name']:26} w={o['weight']:.2f}  a={o['disruption_a']:.2f}  "
+        print(f"    {o['name']:30} w={o['weight']:.2f}  a={o['disruption_a']:.2f}  "
               f"ans={o['answer']:.2f}  [{o['loop']}]  — {o['note']}")
     print()
-    print(f"  {'deck':24}{'sc':>3}{'clk':>6}{'prot':>6}{'Acrk':>7}{'H&K':>7}{'tail':>7}{'BLEND':>8}   Δ(Acrk−H&K)")
+    # Δ = the swing between his two combo decks (Acererak no-counters vs H&K counter wall) — the
+    # payoff axis; pinned to those keys so the legacy column is unchanged and it's stable under measured.
+    lead, tail = (("acererak", "hidetsugu_kairi") if {"acererak", "hidetsugu_kairi"} <= set(okeys)
+                  else (okeys[0], okeys[-1]))
+    hdr = "".join(f"{opp_label(k)[:6]:>7}" for k in okeys)
+    print(f"  {'deck':24}{'sc':>3}{'clk':>6}{'prot':>6}{hdr}{'BLEND':>8}   Δ({opp_label(lead)[:4]}−{opp_label(tail)[:4]})")
     for slug, c, per, blend in rows:
-        d = (per['acererak'] - per['hidetsugu_kairi']) * 100
+        d = (per[lead] - per[tail]) * 100
+        cells = "".join(f"{per[k]*100:>7.0f}" for k in okeys)
         print(f"  {c['name']:24}{c['score']:>3}{c['med'][0]:>6}{PROTECT.get(slug,0)*100:>5.0f}%"
-              f"{per['acererak']*100:>6.0f}%{per['hidetsugu_kairi']*100:>6.0f}%"
-              f"{per['five_color_tail']*100:>6.0f}%{blend*100:>7.0f}%   {d:>+6.0f}")
+              f"{cells}{blend*100:>7.0f}%   {d:>+6.0f}")
     print(f"\n  prot = P(this deck forces its kill THROUGH their answer) — own counters + uncounterable")
-    print(f"  finisher (PROTECT, a verified-where-set prior). Δ(Acrk−H&K) = swing by which deck he brings.")
+    print(f"  finisher (PROTECT, a verified-where-set prior). Δ = swing by which deck he brings.")
     print_hatebear_table()
-    print(f"\n  Weights/answers are PRIORS (favorite + recent flood), not measured — tune in OPPONENTS.")
+    print(f"\n  Weights/answers are PRIORS (observed rotation), not fully measured — tune in OPPONENTS.")
     print(f"  Clocks are unblocked goldfish ceilings; read the ranking and the per-opponent spread.")
 
 
@@ -1183,7 +1295,13 @@ def main():
                     help="pod mana/turn for the mana-tax tau->Delta conversion")
     ap.add_argument("--use-lock-tutors", action="store_true",
                     help="use the with-tutors lock-availability ceiling instead of drawn-only")
+    ap.add_argument("--measured", action="store_true",
+                    help="Backlog #13 Phase 3: use the MEASURED per-opponent stable (Acererak v2 / "
+                         "Ur-Dragon / H&K / Henzie, observed-rotation weights) instead of the "
+                         "hand-assumed generic model. Affects --vs / --matrix / --vs-lock.")
     args = ap.parse_args()
+    if args.measured:
+        set_profile(True)
     if args.refresh:
         refresh(args.trials, args.out)   # default 40k -> canonical; --out for scratch harvests
         return

@@ -499,12 +499,15 @@ class Report:
         self.errors = self.warns = 0
         self.quiet = quiet
         self.facts = {}             # compact per-check data for the --all table
+        self.log = []               # (severity, message) — kept even in quiet mode
+        self._section = ""          # current section title, tags the log entries
 
     def line(self, sev, msg):
         if sev == ERROR:
             self.errors += 1
         elif sev == WARN:
             self.warns += 1
+        self.log.append((sev, self._section, msg))
         if not self.quiet:
             print(f"  [{sev:5}] {msg}")
 
@@ -513,6 +516,7 @@ class Report:
             print(f"          {msg}")
 
     def section(self, title):
+        self._section = title
         if not self.quiet:
             print(f"\n-- {title} --")
 
@@ -532,7 +536,7 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
             print("  Try a registry slug (radiation_sickness), a stem (the-grand-design),")
             print("  a candidate name (planned-obsolescence), or a path to a .txt.")
         return {"code": 2, "tag": "ERR", "errors": 1, "warns": 0, "facts": {},
-                "title": arg, "slug": None, "candidate": True}
+                "log": [], "title": arg, "slug": None, "candidate": True}
 
     rpt = Report(quiet=quiet)
     candidate = "considering" in path.parts or slug is None
@@ -1075,6 +1079,7 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
                 cites = cc.cited_turns(line)
                 vd, nd = cc.classify(cites["decap"], cc.parse_med(rec["med"][0]))
                 vt, nt = cc.classify(cites["table"], cc.parse_med(rec["med"][1]))
+                rpt.facts["drift"] = sum(v == "DRIFT" for v in (vd, vt))
                 sev = ERROR if "DRIFT" in (vd, vt) else (
                     WARN if "UNPARSED" in (vd, vt) else OK)
                 # DRIFT is a real correctness problem for a deck under audit -> ERROR
@@ -1145,8 +1150,8 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
     tag = "FAIL" if rpt.errors else ("WARN" if rpt.warns else "PASS")
     rpt.say(f"\n=== {tag}: {rpt.errors} error(s), {rpt.warns} warning(s) ===")
     return {"code": 1 if rpt.errors else 0, "tag": tag, "errors": rpt.errors,
-            "warns": rpt.warns, "facts": rpt.facts, "title": title, "slug": slug,
-            "candidate": candidate}
+            "warns": rpt.warns, "facts": rpt.facts, "log": rpt.log,
+            "title": title, "slug": slug, "candidate": candidate}
 
 
 # ---------------------------------------------------------------------------

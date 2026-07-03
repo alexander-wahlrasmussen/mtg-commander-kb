@@ -51,6 +51,22 @@ export interface Manifest {
   gauntlet: { pod: string[]; strict: number[]; a: number[]; trials: number };
   locks: { pod: string[]; strict: number[]; a: number[]; r: number[]; trials: number };
   championship: { t_grind: number[]; swapped: number[]; trials: number; season_trials: number; draws?: number };
+  matchup?: { strict: number[]; trials: number };
+}
+
+/* Matchup matrix — deck × measured pod opponent (simulate_vs, per-opponent kdists). */
+export interface MatchupOpponent {
+  key: string; label: string; name: string; weight: number; med: string; note: string; src: string;
+}
+export interface MatchupRow {
+  slug: string; name: string; score: number | null; med: string;
+  per: Record<string, number>;   // opponent key -> P(win) %
+  blend: number;                 // rotation-weighted blend %
+}
+export interface MatchupData {
+  params: { which: string; trials: number; profile: string };
+  opponents: MatchupOpponent[];
+  rows: MatchupRow[];
 }
 
 async function getJSON<T>(url: string): Promise<T> {
@@ -117,6 +133,15 @@ export async function getChampionship(p: { trials: number; season_trials: number
   const key = `${nearest(p.t_grind, m.t_grind)}|${p.swapped ? 1 : 0}`;
   const hit = (await bundle<Record<string, ChampData>>("championship"))[key];
   if (!hit) throw new Error(`no baked scenario (championship ${key})`);
+  return hit;
+}
+
+export async function getMatchup(p: { strict: boolean; trials: number }): Promise<MatchupData> {
+  if (!mode.static) {
+    return getJSON(`/api/matchup?strict=${p.strict ? 1 : 0}&trials=${p.trials}`);
+  }
+  const hit = (await bundle<Record<string, MatchupData>>("matchup"))[`${p.strict ? 1 : 0}`];
+  if (!hit) throw new Error(`no baked scenario (matchup strict=${p.strict ? 1 : 0})`);
   return hit;
 }
 
@@ -189,6 +214,9 @@ export interface DeckPage {
     text: string;
   } | null;
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
+  // name -> Scryfall 'normal' image URL for hover previews (decklist + mulligan hands);
+  // null when the oracle bulk was absent at bake time (previews just don't render).
+  images?: Record<string, string> | null;
   killTree?: KillTree | null;
   mulligan?: Mulligan | null;
 }
@@ -224,6 +252,29 @@ export interface TierListData {
   tiers: string[];
   tax: number; t_grind: number; trials: number;
   rows: TierRow[];
+}
+
+/* Deck Doctor triage board — one row per roster deck from the quiet doctor
+ * (same checks as `deck_doctor.py --all`); notes carry the non-OK messages. */
+export interface DoctorNote { sev: "ERROR" | "WARN" | "INFO"; sec: string; msg: string; }
+export interface DoctorFacts {
+  size?: number; singleton?: number; illegal?: number; missing?: number; offcolor?: number;
+  mld?: number; extra_turns?: number; gc?: number; bracket?: number; drift?: number;
+  intxn_gaps?: number; footprint_pct?: number; fragility_pct?: number;
+  keepable?: number; mean_dead?: number; hellbent8?: number;
+}
+export interface DoctorRow {
+  slug: string; name: string; tag: "PASS" | "WARN" | "FAIL" | "ERR";
+  errors: number; warns: number; facts: DoctorFacts; notes: DoctorNote[];
+}
+export interface DoctorData {
+  vitals: boolean;
+  counts: { fail: number; warn: number; ok: number };
+  rows: DoctorRow[];
+}
+
+export async function getDoctor(): Promise<DoctorData> {
+  return mode.static ? bundle<DoctorData>("doctor") : getJSON<DoctorData>("/api/doctor");
 }
 
 export async function getTierList(): Promise<TierListData> {

@@ -71,6 +71,9 @@ CHAMP_TRIALS = 20000
 CHAMP_SEASON = 40000
 CHAMP_DRAWS = 8                                  # sample random draws baked per key (Re-draw cycles them)
 
+MATCHUP_STRICT = [False, True]                  # decap / table
+MATCHUP_TRIALS = 20000
+
 GSEED, LSEED, CSEED = 20260614, 20260614, ds.sm.SEED
 
 
@@ -131,6 +134,12 @@ def main():
         (OUT / "championship.json").write_text(json.dumps(c), encoding="utf-8")
         print(" done")
 
+        # matchup matrix — deck × measured opponent (cheap: 2 scenarios)
+        mu = {f"{k_strict(s)}": ds.compute_matchup(strict=s, trials=MATCHUP_TRIALS, seed=GSEED)
+              for s in MATCHUP_STRICT}
+        (OUT / "matchup.json").write_text(json.dumps(mu), encoding="utf-8")
+        print("matchup ... done")
+
         # locks (the expensive one — measures availability per deck×lock). Needs the heavy
         # Scryfall oracle dump; if it's absent, skip and keep the existing locks.json rather
         # than aborting the whole bake (everything else above doesn't need the oracle data).
@@ -163,6 +172,11 @@ def main():
         (OUT / "tierlist.json").write_text(json.dumps(ds.compute_tierlist(
             trials=40000, t_grind=ds.sm.T_GRIND, tax=ds.tl.im.TAX, seed=ds.sm.SEED, legacy=False)),
             encoding="utf-8")
+        # Doctor board — vitals ON at bake time (the MC smoothness facts are too slow
+        # for the live default). check_build stays off inside compute_doctor: the baked
+        # payload is public, no ownership data.
+        (OUT / "doctor.json").write_text(json.dumps(ds.compute_doctor(vitals=True)),
+                                         encoding="utf-8")
         decks_dir.mkdir(exist_ok=True)
         slugs = [d["slug"] for d in roster["decks"]]
         for slug in slugs:
@@ -171,6 +185,12 @@ def main():
             # Scryfall bulk + sims hands, too heavy for a per-request server hit. Verdicts are
             # the authoritative keep_hand, computed once and baked (no client-side re-impl).
             page["mulligan"] = mt.bake_hands(slug, n=MULLIGAN_HANDS, seed=0)
+            # Hover previews for the drill too: hand names come from the sim's own parse
+            # and can differ in spelling from the .txt keys already in page["images"].
+            if page.get("mulligan") and page.get("images"):
+                hand_names = {c["n"] for h in page["mulligan"]["hands"] for c in h["cards"]}
+                page["images"].update(
+                    ds.kb.card_images(sorted(hand_names - set(page["images"]))))
             (decks_dir / f"{slug}.json").write_text(json.dumps(page), encoding="utf-8")
         print(f" done ({len(slugs)} deck pages)")
 
@@ -192,10 +212,12 @@ def main():
                        a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
             championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
                               trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
+            matchup=dict(strict=[k_strict(s) for s in MATCHUP_STRICT], trials=MATCHUP_TRIALS),
         ))
     if do_content:
         manifest["content"] = dict(roster=True, home=True, wishlist=True,
-                                   collection=True, tierlist=True, decks=slugs)
+                                   collection=True, tierlist=True, doctor=True,
+                                   decks=slugs)
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
     # mirror the whole bake into the React app's public/data (its static fallback)

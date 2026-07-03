@@ -81,6 +81,90 @@ bursts + infinite on ONE correlated game, the #11 MVP rule). Expected: the front
 in toward the felt T6-7. The bottleneck census (Colossus > Altar > Plunderer) stays valid
 as the kill-on-sight list for the infinite line specifically.
 
+### v2 RESULT — all-lines best-line lab (⚠️ SUPERSEDED by v3 below — the "slow" conclusion was a WEAK-LIST ARTIFACT)
+
+> **Do not cite the v2 "slow / felt T6-7 falsified" finding.** It was measured on the REV-2
+> reconstruction, which was deliberately built "mid-power to match the felt clock" — a circular
+> premise the user rejected ("his Acererak is NOT slow"). CSB Find-My-Combos then showed that
+> REV-2 list was **one card away from ~a dozen infinites using pieces it already ran** — the fault
+> was the list, not his deck. See **v3 CORRECTION** below. The v2 table is retained only to show
+> what a mid-power drain pile measures at.
+
+**Lab:** `opp_acererak_lab.py --mode bestline` (and `--mode lines` for the per-axis
+decomposition) @40k, seed 20260702. `AllLines` inherits v1's infinite detection and adds the
+four challenged axes, all raced on ONE correlated game (min over lines on the same draws —
+the #11 MVP rule, never independent CDFs). Every card `card_lookup`-verified this session:
+Bontu's Monument drains 1 per **creature** cast (Acererak recasts qualify; black creatures
+−{1}); Cabal Coffers `{2}: +B/Swamp` × Urborg (all lands are Swamps) × Crypt Ghast (+B/Swamp
+tapped) is the modelled big-mana engine (Dark Ritual burst; Black Market + combat token-makers
+omitted conservative); Torment forces 3/iteration UNLESS the opponent sacs/discards (a
+resource BUFFER they exhaust first); Shepherd of Rot taps for −(zombies) to each; Gray Merchant
+ETB = devotion (tokens add 0 devotion — verified). Army of the Damned (+13 zombies) / Endless
+Ranks / Bastion are now cast (v1's creature-only loop skipped them, understating Shepherd).
+
+| line (kill = decap = table, cum %) | T7 | T8 | T9 | T10 | T12 | med | never-14 |
+|---|---|---|---|---|---|---|---|
+| infinite only (≈ v1) | 0 | 1 | 2 | 3 | 8 | >T14 | 84% |
+| Shepherd only (strongest single axis) | 0 | 0 | 1 | 4 | 13 | >T14 | 77% |
+| Monument only | 0 | 0 | 0 | 1 | 4 | >T14 | 89% |
+| Gray Merchant only / Torment only | 0 | 0 | 0 | 0 | 0 | >T14 | 100 / 99% |
+| attrition (Monument+Shepherd+Gary+venture) | 0 | 1 | 3 | 7 | 21 | >T14 | 65% |
+| **ALL (best-line)** @40k | **0** | **1** | **4** | **9** | **25** | **>T14** | **59%** |
+| ALL + Gravecrawler lever | 1 | 2 | 6 | 11 | 27 | >T14 | 56% |
+
+**Finding — the challenge is UPHELD in DIRECTION but the felt T6-7 is STILL falsified as a
+kill clock.** v2 confirms his deck is stronger than the tight infinite alone (never-in-14
+70% → **59%**, +Gravecrawler lever → 56%; a real T10-12 mass appears, 9→25%). But the front
+edge at T6-7 stays **~0-1%** even with every axis + the lever on — Acererak is a genuinely
+SLOW combo-drain, not a T6-7 kill. Diagnostic (3k): by T12 the single-copy big-mana engines
+are each ~25% present and zombies avg ~23, yet symmetric drains reach an opponent for only
+~12.5 of the 40 needed — the deck needs the *infinite* (T12+/never) or a Shepherd/Army god-draw
+to actually close. So the earlier §1 interpretations resolve: the felt "wins T6-7" is **memory
+bias** (the H&K stomp bleeding into the Acererak memory) and/or the reconstruction underpowers
+his real (tighter, more-redundant) list — **not** a live T6-7 kill. Shepherd of Rot is the
+strongest single line (kill-on-sight #4 after the census trio); Gary/Torment are pure
+chip/burst that only bite combined.
+
+### v3 CORRECTION — the user was right: it's a COMBO deck, not a slow drain (2026-07-02)
+
+The user rejected the "slow" verdict. Running `find_combos.py` on the REV-2 list was the tell:
+**0 complete combos but 68 one-away**, and the near-misses used pieces the deck ALREADY ran — a
+full aristocrats sac+drain shell (both Altars + Pitiless Plunderer + Carrion Feeder/Viscera Seer +
+Blood Artist/Zulaport/Bastion/Vengeful Dead) that was **one cheap recursion creature short** of a
+live infinite. The reconstruction, not his deck, was slow. EDHREC lists **494 Acererak combos**;
+this is a combo archetype. **REV 3** tunes the reconstruction toward a real high-power list:
++recursion package (Gravecrawler / Reassembling Skeleton / Oathsworn Vampire / Mikaeus / Nim
+Deathmantle), +hard cost-reducers (**Heartless Summoning** → Acererak = {B}; Herald's Horn),
++tutors (Diabolic Intent / Grim Tutor), +Cabal Ritual, +Altar of Dementia — for 12 mid-power
+fillers. CSB now finds **18 COMPLETE infinites**. The lab gains a first-class **aristocrats
+sac-loop** kill line (`--mode lines`/`bestline`): a mana-neutral/free sacrifice→return engine
+(recursion creature + sac outlet, or Mikaeus-undying) + a per-death drain — a 2-3 card combo with
+huge redundancy, needing NO Colossus (the recast loop's bottleneck).
+
+| line (kill, cum %) @40k | T5 | T6 | T7 | T8 | T9 | T10 | T12 | med | nv-14 |
+|---|---|---|---|---|---|---|---|---|---|
+| aristocrats sac-loop only | 0 | 1 | 6 | 9 | 15 | 21 | 36 | T14 | 48% |
+| recast infinite only (REV3) | 0 | 1 | 3 | 6 | 10 | 16 | 32 | >T14 | 51% |
+| both combos | 1 | 4 | 7 | 11 | 17 | 24 | 41 | T13 | 41% |
+| **ALL (best-line) REV3** | **2** | **4** | **7** | **12** | **20** | **29** | **52** | **T12** | **28%** |
+
+**Corrected finding: Acererak is a real COMBO deck — decap median T12, never-in-14 28% (was
+>T14 / 59% on the mid-power list), with a genuine T5-8 front edge (2/4/7/12%).** He is NOT slow;
+the felt T5-7 is the front edge (his god-draws, the memorable games). **This is still a FLOOR**:
+the opponent goldfish keeps on land count, not combo pieces, so a real pilot's aggressive
+mulligan for the 2-3 card combo pulls the front edge earlier — the residual gap to the felt clock
+is that plus his real list likely running more fast mana than we dare proxy. **One real
+observation (his actual combo turn) settles it — the standing ask.** Kill-on-sight now: the sac
+OUTLET (Phyrexian Altar) and the DRAIN payoff (Blood Artist) as much as Diregraf Colossus, since
+the aristocrats loop routes around Colossus entirely.
+
+**Consequence for K_DIST (Phase 3):** Acererak (weight 0.40, the largest) is now a real T12-median
+combo threat with a T6-8 tail — still SLOWER than the assumed T6-7, so a slower measured pod
+LIFTS the roster's middle band. This v2 curve is the Acererak per-opponent kdist that feeds the
+Phase-3 rebuild. Bottleneck census unchanged (Colossus 46% · Phyrexian Altar 29% · Plunderer
+20% over the trials the infinite never assembled — the OTHER lines may still have closed).
+Cite as `~ slow / infinite T12+/never (v2 all-lines PROXY lab 2026-07-02)`, memory-bias-flagged.
+
 ---
 
 ## 2. Hidetsugu & Kairi ("stomped us" last meetup) — LAB DONE 2026-07-02
@@ -163,19 +247,35 @@ it was attrition, not a clock. Lowest-priority threat in K terms.
 
 | Opponent | observed freq | assumed | measured decap (med · T6 · T7) | shape |
 |---|---|---|---|---|
-| Acererak | every meetup | "wins T6-7" | infinite **>T14** · ~0 · 1% (band nv 94-47%) | combo-assembly, SLOW |
+| Acererak | every meetup | "wins T6-7" | **REV3 combo T12** · T6 4 · T7 7 · T10 29 (nv 28%; a FLOOR) | aristocrats sac-loop COMBO |
 | Ur-Dragon | every meetup | (fair deck) | **T8** · 9 · 28 (unblocked ceiling) | combat+burn, reliable |
 | H&K | occasional, stomps | "wins T6-7" | **T8** · 27 · 46 | clone-drain racer, real T5-6 edge |
 | Henzie | once | — | T11 · 0 · 3 | value grinder |
 
 **The assumed K_DIST ({T5:10 T6:35 T7:35 T8:15 T9:5}, mean T6.70) is ~1-1.5 turns too
-fast** as a description of his stable, and its Abolisher framing is wrong for BOTH current
-combo decks (Acererak mono-B, H&K UB — neither can cast the white Grand Abolisher; only
-the 5C shells could, and the Ur-Dragon list has none). The felt "wins T6-7 behind
-Abolisher" appears to be an H&K-at-its-best memory generalized to the whole stable.
+fast at the MEDIAN** for his stable (Acererak T12-floor, Ur-Dragon/H&K T8, Henzie T11), and its
+Abolisher framing is wrong for BOTH combo decks (Acererak mono-B, H&K UB — neither casts the
+white Grand Abolisher; the Ur-Dragon list has none). BUT the assumption isn't merely "too slow":
+Acererak (a real combo deck, corrected below) and H&K both carry genuine **T5-8 front edges**, so
+the felt "wins T6-7" is the front-edge tail of a T8-12-median stable — his god-draws, not his
+median. The "behind Abolisher" part is an H&K-at-its-best memory generalized to the whole stable.
 
-**Next (own session): the K_DIST rebuild** — per-opponent measured curves + observed-
-rotation weights into `pod_gauntlet` (as a measured-profile option, null-reduction guarded),
-then re-run `pod_clock_sensitivity.py` at the measured profile and see what the tier list's
-middle band really looks like. Refinement standing ask: log his actual kill/attempt turns
-at the next meetup (pocket scorecard) — real observations grade all four PROXY clocks.
+**Phase 2.5 DONE 2026-07-02** — Acererak v2 all-lines lab, then **v3 CORRECTION** on user pushback
+(§1). The first cut (mid-power reconstruction) measured Acererak as slow; `find_combos` exposed
+that as a WEAK-LIST artifact (one card from ~a dozen aristocrats infinites). Re-tuned to a real
+combo deck (REV3, 18 CSB infinites) + a first-class aristocrats sac-loop kill line: **decap median
+T12, nv 28%, real T6-8 front edge** — NOT slow, and a FLOOR. This is Acererak's per-opponent kdist.
+
+**Phase 3 DONE 2026-07-02** — the K_DIST rebuild shipped: all four measured curves + observed-
+rotation weights (Acererak .40 / Ur-Dragon .30 / H&K .20 / Henzie .10, user-confirmed) + the
+no-Abolisher disruption are folded into `pod_gauntlet` as the OPT-IN `set_profile(True)` /
+`--measured` / `POD_MEASURED_PROFILE=1` profile (default byte-identical, null-reduction guarded by
+`tests/test_pod_measured_profile.py`). Re-run at the measured profile: **ρ=0.973 vs the assumed
+baseline, 7 of 17 tiers move** — the middle band lifts (FL B→A, Bumbleflower/CoS/Earthbend C→B,
+Grand Design/Eldrazi D→C), Zero-Sum A→B, apex + D-floor unchanged (the Acererak correction moved
+ρ 0.961→0.973 but left every tier move identical). Writeup:
+`analysis/Pod_Measured_Profile_2026-07-02.md`. **The blend hides H&K** — the real stomp threat sits
+20–33pp below the Acererak column; play to beat H&K. Refinement standing ask: log his actual
+kill/attempt turns at the next meetup (pocket scorecard) — real observations grade all four PROXY
+clocks, especially Acererak (is his real combo turn the ~T6-8 front edge or the T12 floor?) and
+Ur-Dragon (closes through the pod?).
