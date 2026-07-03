@@ -490,11 +490,19 @@ def plan_card_set(deck_key):
     return names
 
 
-def simulate_flow(library, turns, trials, rng, plan_set=None):
-    """Tempo/smoothness pass: greedy cheapest-first spend of the lands-only mana
-    floor, tracking per turn whether a (plan-)play happened, why a turn went dead,
-    and the hand-size / hellbent trajectory. Consumes rng identically to simulate()
-    (opening_hand only), so it is deterministic at a fixed seed."""
+def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy"):
+    """Tempo/smoothness pass over the lands-only mana floor, tracking per turn
+    whether a (plan-)play happened, why a turn went dead, and the hand-size /
+    hellbent trajectory. Consumes rng identically to simulate() (opening_hand
+    only), so it is deterministic at a fixed seed.
+
+    spend policy brackets the truth for hand-emptying:
+      "greedy" — cast EVERY affordable nonland cheapest-first (max deployment).
+                 An UPPER bound on emptying; hellbent% saturates the mid-pack.
+      "one"    — cast a single marquee play/turn (the most expensive affordable
+                 nonland), holding the rest. A LOWER bound on emptying; spreads
+                 hellbent, so it discriminates paced decks. Real play sits between.
+    """
     n = len(library)
     live = [0] * (turns + 1)        # cast >=1 nonland this turn
     plan_live = [0] * (turns + 1)   # cast >=1 plan-tagged nonland
@@ -521,14 +529,17 @@ def simulate_flow(library, turns, trials, rng, plan_set=None):
                 in_play.append(hand.pop(li))
             budget = len(in_play)   # lands-only mana floor
 
-            # Greedy: repeatedly cast the cheapest castable nonland, spend its cmc.
+            # Spend the mana. "greedy" dumps every affordable nonland cheapest-first;
+            # "one" makes a single marquee play (most expensive affordable) and holds
+            # the rest. cheaper=greedy picks smallest cmc, else "one" picks largest.
             cast_any = cast_plan = False
             while True:
                 best = None
                 for i, (_, r) in enumerate(hand):
                     if is_land(r) or r["cmc"] > budget:
                         continue
-                    if best is None or r["cmc"] < hand[best][1]["cmc"]:
+                    if best is None or (r["cmc"] < hand[best][1]["cmc"] if spend == "greedy"
+                                        else r["cmc"] > hand[best][1]["cmc"]):
                         best = i
                 if best is None:
                     break
@@ -537,6 +548,8 @@ def simulate_flow(library, turns, trials, rng, plan_set=None):
                 cast_any = True
                 if plan_set is None or nm.lower() in plan_set:
                     cast_plan = True
+                if spend == "one":      # one marquee play per turn, hold the rest
+                    break
 
             if cast_any:
                 live[t] += 1
@@ -751,9 +764,10 @@ def print_deck_report(name, diag, stats, combo_res, turns):
             print("    +tutors:      " + "".join(fmt_pct(r['with_tutor_by_turn'][t]) for t in show))
 
 
-def print_flow_report(name, flow, turns):
+def print_flow_report(name, flow, turns, spend="greedy"):
     show = [t for t in (2, 3, 4, 5, 6, 8, 10) if t <= turns]
-    print("\n  flow / smoothness  (tempo model: greedy cheapest-first spend, LANDS-only mana)")
+    policy = "deploy-all (upper bound on emptying)" if spend == "greedy" else "one play/turn (lower bound)"
+    print(f"\n  flow / smoothness  (tempo model: {policy}, LANDS-only mana)")
     print("  turn:           " + "".join(f"{t:>6}" for t in show))
     print("  live (any play):" + "".join(fmt_pct(flow['live_by_turn'][t]) for t in show))
     lbl = "  live (plan):    " if flow["has_plan_spec"] else "  live (plan=any):"
@@ -789,6 +803,9 @@ def main():
                     help="P(>=1 source of this tagged class in hand by turn T) — the BDD count heuristic, measured")
     ap.add_argument("--flow", action="store_true",
                     help="Smoothness/tempo pass: live vs dead turns (starved/flooded), hand-size + hellbent trajectory")
+    ap.add_argument("--flow-spend", choices=["greedy", "one"], default="greedy",
+                    help="With --flow: 'greedy' deploys every affordable spell (upper bound on emptying); "
+                         "'one' makes a single marquee play/turn (lower bound). Truth sits between.")
     ap.add_argument("--by", type=int, metavar="T", help="With --need: headline a target turn against BDD's count anchor")
     ap.add_argument("--trials", type=int, default=20000)
     ap.add_argument("--turns", type=int, default=10)
@@ -846,8 +863,9 @@ def main():
             # (same per-deck-stream rationale as deck_rng).
             flow_rng = deck_rng(args.seed, (diag["deck_key"] or path.stem) + ":flow")
             plan_set = plan_card_set(diag["deck_key"])
-            flow_res = simulate_flow(library, args.turns, args.trials, flow_rng, plan_set)
-            print_flow_report(name, flow_res, args.turns)
+            flow_res = simulate_flow(library, args.turns, args.trials, flow_rng, plan_set,
+                                     spend=args.flow_spend)
+            print_flow_report(name, flow_res, args.turns, args.flow_spend)
 
         out[name] = {
             "diag": {k: v for k, v in diag.items() if k != "deck_key"},

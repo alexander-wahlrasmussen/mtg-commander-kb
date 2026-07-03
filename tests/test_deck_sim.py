@@ -236,6 +236,27 @@ def test_simulate_flow_no_plan_set_makes_plan_equal_any():
         assert flow["plan_live_by_turn"][t] == flow["live_by_turn"][t]
 
 
+def test_simulate_flow_one_spend_empties_slower_than_greedy():
+    # 'one' casts a single spell/turn; 'greedy' dumps everything affordable. With a
+    # cheap castable curve, greedy must leave a SMALLER hand (it deploys more).
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"One{i}", rec(cmc=1, type_line="Creature")) for i in range(36)]
+    greedy = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(4), spend="greedy")
+    one = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(4), spend="one")
+    assert one["hand_size_by_turn"][8] > greedy["hand_size_by_turn"][8]
+    assert one["hellbent_by_turn"][8] <= greedy["hellbent_by_turn"][8]
+
+
+def test_simulate_flow_one_spend_still_partitions_to_100():
+    # The live/starved/flooded taxonomy must hold under the 'one' policy too.
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(6), spend="one")
+    for t in range(1, 9):
+        total = (flow["live_by_turn"][t] + flow["starved_by_turn"][t]
+                 + flow["flooded_by_turn"][t])
+        assert total == pytest.approx(100.0)
+
+
 def test_simulate_flow_spending_empties_hand_faster_than_consistency_pass():
     # The tempo pass REMOVES cast cards; a hand of castable 1-drops should shrink,
     # unlike simulate() which never spends. Hand size must fall below the raw
