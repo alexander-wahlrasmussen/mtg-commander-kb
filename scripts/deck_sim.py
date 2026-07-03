@@ -550,9 +550,8 @@ def draw_map(library):
     hand, so momentum decks aren't punished for casting their card advantage — the
     fix for the v1 flow model reading Ms. Bumbleflower (drawiest deck) as least
     smooth. Reskins resolve via the bake-off alias table."""
+    idx, aliases = _fb_data()
     fb = _load_fb()
-    idx = fb.load_oracle()
-    aliases = fb.load_aliases()
     out = {}
     for nm in {n.lower() for n, _ in library}:
         card = idx.get(nm) or idx.get(aliases.get(nm, nm))
@@ -747,13 +746,28 @@ def _load_fb():
     return _FB
 
 
+_FB_IDX = None
+_FB_ALIASES = None
+
+
+def _fb_data():
+    """Memoised (fb oracle index, alias map). fb.load_oracle re-parses the 176 MB
+    bulk on every call — caching it here lets draw_map() run per-deck across a whole
+    batch (deck_doctor --all) without re-reading the file 17 times."""
+    global _FB_IDX, _FB_ALIASES
+    if _FB_IDX is None:
+        fb = _load_fb()
+        _FB_IDX = fb.load_oracle()
+        _FB_ALIASES = fb.load_aliases()
+    return _FB_IDX, _FB_ALIASES
+
+
 def need_source_set(library, klass):
     """Set of printed-name(lower) in this library that the tagger marks as `klass`
     (ramp|draw|tutor|interaction|protection). Resolves reskins via the bake-off's
     alias table before tagging, so UB prints are not silently missed."""
     fb = _load_fb()
-    fb_idx = fb.load_oracle()
-    fb_aliases = fb.load_aliases()
+    fb_idx, fb_aliases = _fb_data()     # cached: no per-deck 176 MB re-read in a batch
     sources = set()
     for nm in {n.lower() for n, _ in library}:
         card = fb_idx.get(nm) or fb_idx.get(fb_aliases.get(nm, nm).lower())

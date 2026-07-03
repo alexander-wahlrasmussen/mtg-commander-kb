@@ -776,6 +776,28 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
             except Exception as e:                  # tagger is best-effort
                 rpt.line(WARN, f"ramp/draw tagging unavailable: "
                                f"{type(e).__name__}: {str(e)[:80]}")
+            # smoothness / flow: unlike keepable% (which never spends a card), this
+            # SPENDS mana + draws, so it sees the gas problem the consistency pass
+            # hides — dead turns + hellbent (paced 'one' spend, draw-aware).
+            try:
+                plan = ds.plan_card_set(slug)
+                flow = ds.simulate_flow(library, 10, trials_sim, _random.Random(999),
+                                        plan_set=plan, spend="one",
+                                        draw_profiles=ds.draw_map(library))
+                md = flow["mean_dead_turns"]
+                hb = flow["hellbent_by_turn"][8]
+                lead = "starved" if flow["starved_by_turn"][4] >= flow["flooded_by_turn"][8] else "flooded"
+                # INFO-only (like fp%/frg%): a goldfish can't tell a race deck that
+                # empties BECAUSE it's winning from a grind deck that runs out of gas,
+                # so this surfaces the number without flipping the verdict.
+                rpt.line(INFO, f"smoothness: {md:.2f} mean dead turns, {hb:.0f}% hellbent by T8 "
+                               f"(paced, draw-aware; lead dead-cause: {lead})")
+                rpt.note("lower=smoother; a proactive/grind deck wants low hellbent, "
+                         "but a RACE deck emptying by T8 is fine (goldfish can't see the win)")
+                rpt.facts["mean_dead"] = round(md, 2)
+                rpt.facts["hellbent8"] = round(hb)
+            except Exception as e:                  # flow/tagger is best-effort
+                rpt.line(WARN, f"smoothness unavailable: {type(e).__name__}: {str(e)[:80]}")
             rpt.note("consistency, not power: keepable% informs HOW to build "
                      "(redundancy/bottleneck), it doesn't grade the deck")
 
@@ -1138,20 +1160,23 @@ def _flag(facts, key):
     return "·" if v in (None, 0) else str(v)
 
 
-def batch(include_candidates=False, csv_path=None):
+def batch(include_candidates=False, csv_path=None, vitals=False):
     """Run the quiet doctor over the whole active roster (+ optionally the
     considering/ candidates) and print one PASS/WARN/FAIL row per deck. Same
-    checks as the single-deck report — just rendered as a table."""
+    checks as the single-deck report — just rendered as a table. With vitals=True
+    (`--all --vitals`) the MC sim runs per deck, adding the smoothness columns."""
     targets = [(slug, None) for slug in reg.DECKS]
     if include_candidates:
         for p in sorted((ROOT / "decks" / "considering").glob("*.txt")):
             targets.append((None, p))
 
     print(f"=== Deck Doctor — batch ({len(targets)} decks"
-          f"{', incl. candidates' if include_candidates else ''}) ===\n")
+          f"{', incl. candidates' if include_candidates else ''}"
+          f"{', +vitals' if vitals else ''}) ===\n")
+    vcols = f"{'dead':>5} {'hlb%':>5} " if vitals else ""
     hdr = (f"{'verdict':7} {'deck':28} {'size':>4} {'sing':>4} {'ill':>3} "
            f"{'off':>3} {'MLD':>3} {'GC':>3} {'brk':>3} {'gap':>3} {'fp%':>4} "
-           f"{'frg%':>4} {'owned':>7} {'buy €':>8}")
+           f"{'frg%':>4} {vcols}{'owned':>7} {'buy €':>8}")
     print(hdr)
     print("-" * len(hdr))
 
@@ -1159,7 +1184,7 @@ def batch(include_candidates=False, csv_path=None):
     rows = []
     for slug, path in targets:
         res = doctor(path if path else slug, quiet=True, csv_path=csv_path,
-                     interaction=True, footprint=True, fragility=True)
+                     interaction=True, footprint=True, fragility=True, vitals=vitals)
         f = res["facts"]
         own = (f"{f['owned']}/{f['need']}" if "owned" in f else "—")
         if f.get("buy_n"):
@@ -1178,11 +1203,16 @@ def batch(include_candidates=False, csv_path=None):
         size_cell = str(size) if size == DECK_SIZE else f"!{size}"
         fp = (f"{f['footprint_pct']}%" if "footprint_pct" in f else "·")
         frg = (f"{f['fragility_pct']}%" if "fragility_pct" in f else "·")
+        vcells = ""
+        if vitals:
+            dead = (f"{f['mean_dead']:.1f}" if "mean_dead" in f else "·")
+            hlb = (f"{f['hellbent8']}%" if "hellbent8" in f else "·")
+            vcells = f"{dead:>5} {hlb:>5} "
         print(f"{res['tag']:7} {res['title'][:28]:28} {size_cell:>4} "
               f"{_flag(f,'singleton'):>4} {_flag(f,'illegal'):>3} "
               f"{_flag(f,'offcolor'):>3} {_flag(f,'mld'):>3} "
               f"{str(f.get('gc','?')):>3} {str(f.get('bracket','?')):>3} "
-              f"{_flag(f,'intxn_gaps'):>3} {fp:>4} {frg:>4} {own:>7} {buy:>8}")
+              f"{_flag(f,'intxn_gaps'):>3} {fp:>4} {frg:>4} {vcells}{own:>7} {buy:>8}")
 
     n_fail = sum(1 for r in rows if r[0]["tag"] == "FAIL")
     n_warn = sum(1 for r in rows if r[0]["tag"] == "WARN")
@@ -1192,7 +1222,9 @@ def batch(include_candidates=False, csv_path=None):
           "· MLD(house-banned) · GC · brk(et est) · gap(interaction-coverage holes, 0-6) "
           "· fp%(nonland cards dead without the engine) "
           "· frg%(nonland permanents on wipe-vulnerable planeswalker/creature types) "
-          "· owned/100 · buy € (indicative; + unpriced)")
+          + ("· dead(mean dead turns T1-10) · hlb%(hellbent by T8; lower=smoother) "
+             if vitals else "· (--all --vitals adds dead/hlb% smoothness columns) ")
+          + "· owned/100 · buy € (indicative; + unpriced)")
     print("  drill into any deck: python scripts/deck_doctor.py <slug>")
     return 1 if worst else 0
 
@@ -1358,7 +1390,8 @@ def main():
     if args.diff:
         return diff(args.diff[0], args.diff[1], csv_path=args.csv)
     if args.all:
-        return batch(include_candidates=args.candidates, csv_path=args.csv)
+        return batch(include_candidates=args.candidates, csv_path=args.csv,
+                     vitals=args.vitals or args.deep)
     if not args.deck:
         ap.error("a deck is required (or pass --all / --diff)")
     return doctor(args.deck, run_lab=args.run_lab, lab_override=args.lab,
