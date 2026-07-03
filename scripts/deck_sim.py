@@ -41,6 +41,7 @@ import argparse
 import json
 import os
 import random
+import re
 import sys
 from functools import lru_cache
 from pathlib import Path
@@ -490,7 +491,79 @@ def plan_card_set(deck_key):
     return names
 
 
-def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy"):
+_DRAW_WORDS = {"a": 1, "an": 1, "one": 1, "two": 2, "three": 3, "four": 4,
+               "five": 5, "six": 6, "seven": 7}
+
+# A draw PAYOFF ("whenever you draw a card, <do something>") has "draw" in the
+# TRIGGER CONDITION and yields no cards — Sheoldred, Psychosis Crawler. Strip these
+# condition clauses before hunting for a real draw EFFECT so payoffs aren't miscounted
+# as sources. Replacement effects ("if you would draw ...") go too. The subject must
+# be a player and be followed by "draw(s)" — "whenever a player CASTS ... you draw a
+# card" (Niv-Mizzet) is NOT matched, so its genuine draw effect survives.
+_DRAW_PAYOFF_RE = re.compile(
+    r"(whenever|if|when|each time) "
+    r"(you|an opponent|a player|another player|that player|players)"
+    r"( would)? draws?\b[^.,]*")
+_RECURRING = ("at the beginning", "whenever", "each turn", "end step", "upkeep", "draw step")
+
+
+def _draw_profile(text, type_line):
+    """(gross_oneshot_draw, repeatable_engine) for a draw-tagged card. text and
+    type_line lowercased. Floor heuristics (card advantage a proxy can defend):
+      - (0, False) — the card has NO real draw effect (its only "draw" was a payoff
+        trigger condition, stripped above). Contributes nothing.
+      - (0, True) — repeatable permanent draw ENGINE: a genuine draw effect under a
+        recurring trigger (upkeep / whenever / end step). Worth +1 card per later
+        turn in play, not a burst on cast.
+      - (gross, False) — one-shot. A cantrip (1, False) NETS zero (drew 1, spent the
+        card) instead of the -1 the naive spend charged; 'draw two cards' is (2,
+        False) = net +1. Look-then-put selection (Brainstorm/Ponder, "... on top")
+        caps to (1, False) so card *selection* isn't miscredited as card *advantage*.
+
+    Known residual over-credit (documented floor): a mana/discard LOOT engine
+    (Glint-Horn, connive) reads as a repeatable engine though it only filters."""
+    is_perm = any(k in type_line for k in
+                  ("creature", "artifact", "enchantment", "planeswalker", "battle"))
+    effect = _DRAW_PAYOFF_RE.sub(" ", text)   # keep only genuine draw EFFECTS
+    if not re.search(r"\bdraw \w[^.,]*cards?", effect) and "that many cards" not in effect:
+        return (0, False)
+    if is_perm and any(k in effect for k in _RECURRING):
+        return (0, True)
+    m = re.search(r"draw (a|an|one|two|three|four|five|six|seven|\d+) cards?", effect)
+    k = 1
+    if m:
+        w = m.group(1)
+        k = _DRAW_WORDS.get(w, int(w) if w.isdigit() else 1)
+    # Selection/rummage nets ~0 card advantage, not k: 'put ... on top' (Brainstorm)
+    # or a paired discard (Faithless Looting, Frantic Search). Night's Whisper (draw
+    # two, lose life — no discard) correctly stays +1.
+    if k > 1 and ("on top" in text or "on the bottom" in text or "discard" in text):
+        k = 1
+    return (k, False)
+
+
+def draw_map(library):
+    """name(lower) -> (gross_oneshot_draw, repeatable_engine) for every draw-tagged
+    card in the library. Detection uses the VERIFIED framework_bakeoff 'draw' tagger
+    (so opponent/symmetric 'draws' and non-draw cards are excluded); only the AMOUNT
+    and engine flag come from oracle text. simulate_flow uses this to REFILL the
+    hand, so momentum decks aren't punished for casting their card advantage — the
+    fix for the v1 flow model reading Ms. Bumbleflower (drawiest deck) as least
+    smooth. Reskins resolve via the bake-off alias table."""
+    fb = _load_fb()
+    idx = fb.load_oracle()
+    aliases = fb.load_aliases()
+    out = {}
+    for nm in {n.lower() for n, _ in library}:
+        card = idx.get(nm) or idx.get(aliases.get(nm, nm))
+        if not card or fb.is_land(card) or "draw" not in fb.tag_card(card):
+            continue
+        out[nm] = _draw_profile(fb.card_text(card), (card.get("type_line") or "").lower())
+    return out
+
+
+def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy",
+                  draw_profiles=None):
     """Tempo/smoothness pass over the lands-only mana floor, tracking per turn
     whether a (plan-)play happened, why a turn went dead, and the hand-size /
     hellbent trajectory. Consumes rng identically to simulate() (opening_hand
@@ -502,8 +575,15 @@ def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy"):
       "one"    — cast a single marquee play/turn (the most expensive affordable
                  nonland), holding the rest. A LOWER bound on emptying; spreads
                  hellbent, so it discriminates paced decks. Real play sits between.
+
+    draw_profiles (name.lower() -> (gross_oneshot_draw, repeatable_engine), from
+    draw_map()) makes card draw REAL: casting a one-shot draw refills the hand by
+    its gross count (a cantrip nets 0 instead of -1); a repeatable engine adds +1
+    card per later turn while in play. None/{} = no draw execution (the pre-draw
+    behaviour), so callers/tests without profiles are unchanged.
     """
     n = len(library)
+    draws = draw_profiles or {}
     live = [0] * (turns + 1)        # cast >=1 nonland this turn
     plan_live = [0] * (turns + 1)   # cast >=1 plan-tagged nonland
     starved = [0] * (turns + 1)     # dead turn: a nonland stuck in hand, mana too low
@@ -517,10 +597,13 @@ def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy"):
         hand, _ = opening_hand(deck, rng)
         ptr = 7
         in_play = []
+        engines = 0             # repeatable draw engines in play (each = +1 card/turn)
         for t in range(1, turns + 1):
-            if t > 1 and ptr < n:
-                hand.append(deck[ptr])
-                ptr += 1
+            # Draw step: natural draw (not on T1, on the play) + one per engine online.
+            for _ in range((1 if t > 1 else 0) + engines):
+                if ptr < n:
+                    hand.append(deck[ptr])
+                    ptr += 1
             # Land drop, preferring pure lands so flex lands stay spendable.
             li = next((i for i, (_, r) in enumerate(hand) if is_pure_land(r)), None)
             if li is None:
@@ -548,6 +631,16 @@ def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy"):
                 cast_any = True
                 if plan_set is None or nm.lower() in plan_set:
                     cast_plan = True
+                prof = draws.get(nm.lower())
+                if prof:
+                    gross, repeatable = prof
+                    if repeatable:
+                        engines += 1        # refuels on future turns, not now
+                    else:
+                        for _ in range(gross):   # refill hand — cantrip nets 0, not -1
+                            if ptr < n:
+                                hand.append(deck[ptr])
+                                ptr += 1
                 if spend == "one":      # one marquee play per turn, hold the rest
                     break
 
@@ -863,8 +956,9 @@ def main():
             # (same per-deck-stream rationale as deck_rng).
             flow_rng = deck_rng(args.seed, (diag["deck_key"] or path.stem) + ":flow")
             plan_set = plan_card_set(diag["deck_key"])
+            draw_profiles = draw_map(library)
             flow_res = simulate_flow(library, args.turns, args.trials, flow_rng, plan_set,
-                                     spend=args.flow_spend)
+                                     spend=args.flow_spend, draw_profiles=draw_profiles)
             print_flow_report(name, flow_res, args.turns, args.flow_spend)
 
         out[name] = {

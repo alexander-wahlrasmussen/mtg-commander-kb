@@ -268,6 +268,105 @@ def test_simulate_flow_spending_empties_hand_faster_than_consistency_pass():
 
 
 # --------------------------------------------------------------------------- #
+# _draw_profile — reading card-draw amount/repeatability from oracle text
+# --------------------------------------------------------------------------- #
+@pytest.mark.parametrize("text,type_line,expected", [
+    ("draw a card.", "instant", (1, False)),                    # cantrip nets 0
+    ("draw two cards.", "sorcery", (2, False)),                 # real advantage
+    ("draw three cards, then put two cards from your hand on top of your library.",
+     "instant", (1, False)),                                    # Brainstorm: selection, capped
+    ("at the beginning of your upkeep, draw a card.", "enchantment", (0, True)),  # engine
+    ("whenever a creature dies, you may draw a card.", "creature", (0, True)),    # engine
+    ("draw x cards.", "sorcery", (1, False)),                   # X = floor 1
+    ("draw two cards, then discard two cards.", "sorcery", (1, False)),   # rummage = net 0
+    ("you draw two cards and you lose 2 life.", "sorcery", (2, False)),   # Night's Whisper = +1
+])
+def test_draw_profile_reads_text(text, type_line, expected):
+    assert deck_sim._draw_profile(text, type_line) == expected
+
+
+def test_draw_profile_engine_needs_a_permanent():
+    # A triggered "draw" on an INSTANT is still a one-shot, not a repeatable engine.
+    assert deck_sim._draw_profile("whenever a creature dies, draw a card.", "instant") == (1, False)
+
+
+@pytest.mark.parametrize("text,type_line", [
+    # REGRESSION: draw PAYOFFS have "draw" only in the trigger condition and yield no
+    # cards — crediting them as +1/turn engines over-stated Forced Liquidation's
+    # smoothness. They must read as (0, False), contributing nothing.
+    ("whenever you draw a card, each opponent loses 1 life.", "creature"),   # Psychosis Crawler
+    ("whenever you draw a card, you gain 2 life. whenever an opponent draws a card, they lose 2 life.",
+     "creature"),                                                            # Sheoldred
+    ("if you would draw a card, instead do something else.", "artifact"),    # replacement, not a source
+])
+def test_draw_profile_payoffs_yield_nothing_REGRESSION(text, type_line):
+    assert deck_sim._draw_profile(text, type_line) == (0, False)
+
+
+def test_draw_profile_real_effect_after_payoff_clause_survives_REGRESSION():
+    # REGRESSION: Niv-Mizzet has a payoff clause AND a real draw effect ("whenever a
+    # player casts an instant or sorcery spell, you draw a card"). Stripping the
+    # payoff must not eat the genuine engine.
+    niv = ("whenever you draw a card, niv-mizzet deals 1 damage to any target. "
+           "whenever a player casts an instant or sorcery spell, you draw a card.")
+    assert deck_sim._draw_profile(niv, "creature") == (0, True)
+
+
+def test_draw_profile_etb_cantrip_is_oneshot_not_engine():
+    # "When ~ enters, you draw two cards" (Cloudblazer) is a one-shot ETB, not a
+    # recurring engine — the subject after 'when' is the card, not a player.
+    assert deck_sim._draw_profile(
+        "when this creature enters, you draw two cards and you gain 2 life.", "creature") == (2, False)
+
+
+# --------------------------------------------------------------------------- #
+# simulate_flow draw execution — the momentum fix (drawy decks stop being punished)
+# --------------------------------------------------------------------------- #
+def test_simulate_flow_oneshot_draw_refills_hand():
+    # Same deck, with vs without a 'draw two' profile on the spells: executing the
+    # draw must leave a LARGER hand and a LOWER hellbent rate (net card advantage).
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"Whisper{i}", rec(cmc=2, type_line="Sorcery")) for i in range(36)]
+    profiles = {f"whisper{i}": (2, False) for i in range(36)}
+    base = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(8))
+    drawy = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(8),
+                                   draw_profiles=profiles)
+    assert drawy["hand_size_by_turn"][8] > base["hand_size_by_turn"][8]
+    assert drawy["hellbent_by_turn"][8] < base["hellbent_by_turn"][8]
+
+
+def test_simulate_flow_repeatable_engine_compounds_over_turns():
+    # A cheap repeatable draw engine keeps the hand stocked: hellbent by T10 must be
+    # far lower than the same deck with no engines.
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [("Rhystic Study", rec(cmc=1, type_line="Enchantment"))] * 12
+    lib += [(f"Filler{i}", rec(cmc=3, type_line="Creature")) for i in range(24)]
+    profiles = {"rhystic study": (0, True)}
+    base = deck_sim.simulate_flow(lib, turns=10, trials=500, rng=random.Random(1))
+    engine = deck_sim.simulate_flow(lib, turns=10, trials=500, rng=random.Random(1),
+                                    draw_profiles=profiles)
+    assert engine["hellbent_by_turn"][10] < base["hellbent_by_turn"][10]
+    assert engine["hand_size_by_turn"][10] > base["hand_size_by_turn"][10]
+
+
+def test_simulate_flow_draw_execution_still_deterministic():
+    lib = toy_library()
+    profiles = {"spell0": (2, False), "spell1": (0, True)}
+    a = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(2), draw_profiles=profiles)
+    b = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(2), draw_profiles=profiles)
+    assert a == b
+
+
+def test_simulate_flow_empty_profiles_match_no_profiles_REGRESSION():
+    # REGRESSION: adding the draw model must not change behaviour when no profiles
+    # are supplied — the draw-step refactor stays byte-identical to the pre-draw sim.
+    lib = toy_library()
+    none = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(3))
+    empty = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(3), draw_profiles={})
+    assert none == empty
+
+
+# --------------------------------------------------------------------------- #
 # load_reskin_aliases — table parsing
 # --------------------------------------------------------------------------- #
 def test_load_reskin_aliases_parses_table(tmp_path, monkeypatch):
