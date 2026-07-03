@@ -383,3 +383,64 @@ def test_load_reskin_aliases_parses_table(tmp_path, monkeypatch):
     assert aliases["morgul-knife"] == "Shadowspear"
     assert aliases["wise mothman"] == "The Wise Mothman"
     assert "reskin name" not in aliases   # header row skipped
+
+
+# --------------------------------------------------------------------------- #
+# London mulligan (DECK_SIM_LONDON_MULLS) — Mulligan_Strategy_Audit 2026-07-03 §8
+# --------------------------------------------------------------------------- #
+class _NoShuffle:
+    """rng stand-in whose shuffle is a no-op — makes the first 7 deterministic."""
+    def shuffle(self, x):
+        pass
+
+
+def test_default_mulligan_returns_seven_cards_free():
+    # Env unset (LONDON_MULLS=0): the documented free mulligan — always 7 back.
+    hand, _ = deck_sim.opening_hand(toy_library(), random.Random(7))
+    assert len(hand) == 7
+
+
+def test_london_bottoms_one_card_per_mulligan(monkeypatch):
+    monkeypatch.setattr(deck_sim, "LONDON_MULLS", 3)
+    # All-spell deck: the land-count keep can never pass -> 3 mulls, hand of 4,
+    # and the final hand is still reported unkeepable (the sim keeps it anyway).
+    lib = [(f"S{i}", rec(cmc=2)) for i in range(40)]
+    hand, kept = deck_sim.opening_hand(lib, _NoShuffle())
+    assert kept is False
+    assert len(hand) == 4
+
+
+def test_london_keep_on_first_seven_bottoms_nothing(monkeypatch):
+    monkeypatch.setattr(deck_sim, "LONDON_MULLS", 3)
+    lib = ([("Island", land()) for _ in range(3)]
+           + [(f"S{i}", rec(cmc=2)) for i in range(37)])
+    hand, kept = deck_sim.opening_hand(lib, _NoShuffle())
+    assert kept is True
+    assert len(hand) == 7
+
+
+def test_bottom_hand_drops_excess_lands_before_spells():
+    hand = ([("Island", land()) for _ in range(5)]
+            + [("Bomb", rec(cmc=7)), ("Bear", rec(cmc=2))])
+    out = deck_sim._bottom_hand(hand, 2)
+    assert len(out) == 5
+    assert sum(1 for _, r in out if deck_sim.is_land(r)) == 3   # 4th+5th land bottomed
+    assert {"Bomb", "Bear"} <= {n for n, _ in out}
+
+
+def test_bottom_hand_protects_plan_cards_over_cheaper_filler():
+    # With a keep-spec installed, a non-plan card bottoms before a MORE expensive
+    # plan card — the policy digs toward the plan, not toward curve.
+    deck_sim.set_keep_spec({"key_cards": ["combo piece"], "tutors": [],
+                            "ramp": [], "selection": [],
+                            "bottleneck": "FINDING", "also": [],
+                            "min_lands": 2, "max_lands": 4, "hi_curve": False,
+                            "cmdr_cmc": 4.0, "n_selection_needed": 2})
+    try:
+        hand = ([("Island", land()) for _ in range(3)]
+                + [("Combo Piece", rec(cmc=6)), ("Filler", rec(cmc=3))])
+        out = deck_sim._bottom_hand(hand, 1)
+        assert {"Combo Piece"} <= {n for n, _ in out}
+        assert "Filler" not in {n for n, _ in out}
+    finally:
+        deck_sim.set_keep_spec(None)

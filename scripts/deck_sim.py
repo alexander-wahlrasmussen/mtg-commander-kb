@@ -316,16 +316,64 @@ def keep_hand(hand):
     return True
 
 
+# London mulligan experiment (2026-07-03, Mulligan_Strategy_Audit §8.1). The default
+# mulligan is FREE (fresh 7, max 2, keeps a failing 3rd hand) — it can neither price
+# digging nor express real aggression (mull-to-5). DECK_SIM_LONDON_MULLS=N (>0) switches
+# opening_hand to London rules: up to N mulligans, each a fresh 7; the final keep BOTTOMS
+# one card per mulligan taken, so digging costs real cards. Bottomed cards stay in
+# deck[0:7], which every consumer skips (ptr starts at 7) — bottomed == never drawn,
+# exact for our <=14-turn goldfish horizons (the true bottom of a 92-card library is out
+# of reach anyway). Env read at import so lab subprocesses inherit it (PLAN_KEEP pattern);
+# with the env unset the default path is byte-identical, golden untouched.
+LONDON_MULLS = int(os.environ.get("DECK_SIM_LONDON_MULLS", "0") or 0)
+LONDON_LAND_KEEP = 3        # bottoming never touches the first 3 lands
+
+
+def _bottom_hand(hand, n):
+    """Drop n cards from a kept London hand. Bottoming priority: excess lands (4th+),
+    then the most expensive NON-plan nonland, then the most expensive plan card. Plan
+    cards = the installed keep-spec's buckets; with no spec every nonland ranks equally
+    (most expensive goes first). The first LONDON_LAND_KEEP lands are protected so a
+    kept hand can still operate."""
+    if n <= 0:
+        return hand
+    spec = _KEEP_SPEC
+    plan = set()
+    if spec is not None:
+        for b in ("key_cards", "tutors", "ramp", "selection"):
+            plan |= spec["_sets"][b]
+    scored = []
+    lands_seen = 0
+    for i, (nm, rec) in enumerate(hand):
+        if is_land(rec):
+            lands_seen += 1
+            score = -1.0 if lands_seen <= LONDON_LAND_KEEP else 50.0 + lands_seen
+        else:
+            in_plan = (nm.lower() in plan) if spec is not None else True
+            score = rec["cmc"] + (0.0 if in_plan else 20.0)
+        scored.append((score, i))
+    drop = {i for _, i in sorted(scored, key=lambda s: (-s[0], s[1]))[:n]}
+    return [c for i, c in enumerate(hand) if i not in drop]
+
+
 def opening_hand(deck, rng):
-    """Shuffle, draw 7, mulligan up to twice on an unkeepable hand."""
+    """Shuffle, draw 7, mulligan up to twice on an unkeepable hand — FREE (fresh 7, no
+    card penalty; the documented default). With DECK_SIM_LONDON_MULLS=N: London variant —
+    up to N mulligans, and the final keep bottoms one card per mulligan taken
+    (_bottom_hand), so the hand is 7−m cards. Both paths consume one rng.shuffle per
+    mulligan, so a fixed seed pairs the arms."""
     rng.shuffle(deck)
     hand = deck[:7]
     mulls = 0
-    while not keep_hand(hand) and mulls < 2:
+    max_mulls = LONDON_MULLS or 2
+    while not keep_hand(hand) and mulls < max_mulls:
         rng.shuffle(deck)
         hand = deck[:7]
         mulls += 1
-    return list(hand), keep_hand(hand)
+    kept = keep_hand(hand)
+    if LONDON_MULLS:
+        return _bottom_hand(list(hand), mulls), kept
+    return list(hand), kept
 
 
 # ---------------------------------------------------------------------------
