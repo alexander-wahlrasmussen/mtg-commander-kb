@@ -74,6 +74,43 @@ REANIMATE_TARGETS = {GARY, GRAVE_TITAN}        # what we cheat in early
 REANIMATORS = {"Reanimate": 1, "Necromancy": 3, "Dread Return": 4, "Victimize": 3}
 LOOP_PIECES = {"Warren Soultrader", "Gravecrawler", "Plague Belcher"}
 
+# --- extended combo model (mode 'combo') ------------------------------------
+# The default 'clock' mode's kill check is the ONE documented Warren line
+# (LOOP_PIECES). But find_combos shows the deck actually holds redundant infinite
+# assemblies routing through Carrion Feeder (a free, no-mana sac outlet) + a
+# death-drain payoff. The 'combo' mode models that as ENGINE + PAYOFF, read from
+# the library so a variant .txt with a 2nd payoff (via --deck) auto-enables it:
+#   ENGINE : Warren Soultrader + Gravecrawler   (mana-neutral, life-capped ~39)
+#          | Rooftop Storm + Carrion Feeder + Gravecrawler   (free, truly infinite)
+#   PAYOFF : Plague Belcher   (the deck's only maindeck each-opp death drain)
+#          | a 2nd payoff — Zulaport Cutthroat / Bastion of Remembrance / Blood Artist
+# Traced against oracle text 2026-07-03; all card-grounded, none assumed.
+#
+# FINDING (2026-07-03, --mode combo @8k): the combo is a ~2-3% FRINGE line — it
+# assembles by T14 in only ~2% of goldfish games (no tutoring modeled = a floor).
+# The deck's real clock (decap T8 / table T11) is entirely drain+combat; the combo
+# is a rare backup, NOT the kill. A 2nd payoff (Gempalm->Zulaport variant) moved the
+# table clock by NOTHING (T11->T11) and combo assembly by ~+1pp (2%->3%) — a FLAT
+# lever, not a speed upgrade (feedback_lab_before_proposing). It also confirmed the
+# 'clock' mode was NOT under-modeling the combo (the Carrion engine doesn't fire
+# earlier). The only unmodeled merit of a 2nd payoff is incidental aristocrats drain
+# on every creature death in normal play (goldfish-blind); if ever added, prefer the
+# wipe-proof enchantment Bastion of Remembrance over the 1/1 Zulaport in this
+# wipe-inviting deck. Committed deck left as-is.
+CARRION = "Carrion Feeder"
+PAYOFF2 = {"Zulaport Cutthroat", "Bastion of Remembrance", "Blood Artist"}
+COMBO_TRACK = LOOP_PIECES | {CARRION, ROOFTOP} | PAYOFF2
+
+
+def combo_ready(t):
+    """Extended predicate: an ENGINE (mana-neutral sac loop) + a PAYOFF
+    (each-opponent death drain) + a Zombie on board => table kill this turn."""
+    have = t.have
+    g = "Gravecrawler" in have
+    engine = (("Warren Soultrader" in have) and g) or (t.rooftop and (CARRION in have) and g)
+    payoff = ("Plague Belcher" in have) or any(p in have for p in PAYOFF2)
+    return engine and payoff and t.z >= 1
+
 
 def load_black_pips(names):
     """name(lower) -> count of black pips in mana_cost (incl hybrid/Phyrexian)."""
@@ -98,7 +135,10 @@ def is_zombie(rec):
 
 
 class Trial:
-    def __init__(self, library, rng, index, pips):
+    def __init__(self, library, rng, index, pips, combo_extended=False):
+        self.combo_extended = combo_extended
+        self.have = set()           # COMBO_TRACK pieces deployed (extended model)
+        self.combo_turn = None      # first turn the combo assembles (either model)
         self.g = slc.Goldfish(library, rng, rocks={})
         self.tbl = slc.Table()
         self.index = index
@@ -149,8 +189,8 @@ class Trial:
             self.zombie_etb(1, nontoken=False)   # tapped 2/2, a token
 
 
-def goldfish_kill(library, index, pips, rng):
-    t = Trial(library, rng, index, pips)
+def goldfish_kill(library, index, pips, rng, combo_extended=False):
+    t = Trial(library, rng, index, pips, combo_extended=combo_extended)
     g, tbl = t.g, t.tbl
     gary_casts = 0
 
@@ -165,7 +205,7 @@ def goldfish_kill(library, index, pips, rng):
         if t.graveborn and t.z:
             t.gdraw(t.z)
         if tbl.done:
-            return tbl.decap, tbl.table
+            return tbl.decap, tbl.table, t.combo_turn
 
         g.begin_turn(T)
         # mana rocks (devotion via pip map; records carry no mana_cost field)
@@ -253,6 +293,7 @@ def goldfish_kill(library, index, pips, rng):
             if nm == "Cryptbreaker": t.cryptbreaker = True
             if nm == "Stitcher's Supplier": t.yard_z += 1   # mill 3 ~ 1 zombie
             if nm in LOOP_PIECES: t.loop.add(nm)
+            if nm in COMBO_TRACK: t.have.add(nm)
             if nm == GARY:
                 gary_casts += 1
                 tbl.hit_all(t.devotion, T)            # ETB drain (devotion incl Gary's 2)
@@ -280,19 +321,24 @@ def goldfish_kill(library, index, pips, rng):
         if t.shepherd and t.z:
             tbl.hit_all(t.z, T)
 
-        # Rule-0 loop assembled -> table kill
-        if LOOP_PIECES <= t.loop and t.z >= 1:
+        # combo assembled -> table kill. Default 'clock' mode: the one documented
+        # Warren line (LOOP_PIECES), golden-stable. 'combo' mode: the extended
+        # data-driven engine+payoff predicate.
+        assembled = combo_ready(t) if t.combo_extended else (LOOP_PIECES <= t.loop and t.z >= 1)
+        if assembled:
+            if t.combo_turn is None:
+                t.combo_turn = T
             tbl.kill_all(T)
         if tbl.done:
-            return tbl.decap, tbl.table
+            return tbl.decap, tbl.table, t.combo_turn
 
         # ---- COMBAT (focus-fire) ----
         if t.z >= 1:
             tbl.hit_focus(t.z * (2 + t.lord_pow), T)
         if tbl.done:
-            return tbl.decap, tbl.table
+            return tbl.decap, tbl.table, t.combo_turn
 
-    return tbl.decap, tbl.table
+    return tbl.decap, tbl.table, t.combo_turn
 
 
 def mode_clock(index, aliases, trials):
@@ -308,5 +354,29 @@ def mode_clock(index, aliases, trials):
     print("\n  Claimed in Summary: Goldfish T7-9. Front-edge T7 odds above are the test.")
 
 
+def mode_combo(index, aliases, trials, deck=None):
+    """Extended combo model: race the deck's redundant infinite assemblies
+    (engine + payoff, data-driven from the library) instead of only the one
+    documented Warren line. Reports the same decap/table clock PLUS a combo-
+    assembly curve. Point at a variant with --deck to measure a 2nd-payoff add.
+    The 'clock' mode is untouched (golden-stable); this is a separate consumer."""
+    path = deck or DECK
+    library, commander = slc.load_parsed(path, index, aliases)
+    pips = load_black_pips([nm for nm, _ in library] + [commander])
+    p2 = sorted(PAYOFF2 & {nm for nm, _ in library})
+    print(f"\n### COMBO MODEL — Curse of the Scarab   trials={trials} seed={SEED}")
+    print(f"    deck: {Path(path).name}")
+    print("    engine = Warren+Gravecrawler | Rooftop+CarrionFeeder+Gravecrawler")
+    print("    payoff = Plague Belcher" +
+          ("".join(" | " + p for p in p2) if p2 else "  (ONLY — single payoff, bottleneck)"))
+    print()
+    rng = random.Random(SEED)
+    res = [goldfish_kill(library, index, pips, rng, combo_extended=True) for _ in range(trials)]
+    slc.report_clock(res, SHOW, TURNS, trials)
+    print(slc.row("combo assembled (cum %)", slc.cum(res, 2, SHOW), SHOW))
+    print(f"  median combo assembly {slc.median(res, 2)}"
+          f"   ·   never-in-{TURNS}: {slc.never_pct(res, 2, trials):.0f}%")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock}, default_trials=40000)
+    slc.run_cli(__doc__, {"clock": mode_clock, "combo": mode_combo}, default_trials=40000)
