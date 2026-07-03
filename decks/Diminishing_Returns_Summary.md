@@ -393,6 +393,9 @@ Follow-up lab (`dr_clock_lab.py --mode b4`, 12k trials) answered "more drain inf
 ## Piloting Notes (for borrowers)
 
 **Mulligan.** Looking for: **a sac outlet + a drain payoff + lands**, ideally with Teysa or a reanimation spell behind it.
+The Gravecrawler + Phyrexian Altar infinite is upside, not the requirement — it fires in ~3% of
+goldfish games, and death volume (outlet + payoff + bodies) is the real clock. Never mulligan
+toward the combo; keep the sac-outlet-plus-drain shape even when no combo piece is in sight.
 
 - **Keep:** sac outlet + drain piece; or ramp + Teysa + something to sacrifice; or a fast K'rrik/Dark Ritual start.
 - **Toss:** no-creature hands; all-payoff with nothing to sacrifice; no-land hands.

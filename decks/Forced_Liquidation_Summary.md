@@ -216,6 +216,12 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 
 ---
 
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Lethal-or-bust discipline starts in the opener: **never keep a hand whose only action is a wheel** — a wheel without punishers refuels the whole pod. Keep 2–4 lands (rocks count double — Kefka is a 5-drop) with **two punishers**, or **a punisher plus a tutor**, or **a tutor plus mana development**. A lone Notion Thief also waits — it does nothing without a wheel and switches off your opponent-draw punishers. Note the sim's keep model for this deck is known to be mis-tuned (it keeps lone-wheel hands and measured −5pp on the deck's own clock — mulligan audit 2026-07-03); trust this stricter rule, not the drill's verdicts, until the spec is re-tuned.
+
+---
+
 ## Changelog
 
 - **2026-06-12:** Built as bake-off candidate (`forced-liquidation-20260612.txt`).

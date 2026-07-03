@@ -384,7 +384,7 @@ Doesn't reach 4 because: (1) no hard counterspells despite blue access; (2) most
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **ramp that reaches 6+ mana by T4–5**, plus a payoff or an engine piece (Wanderer, Conduit of Ruin, Sunbird's).
+**Mulligan.** Looking for: **ramp that reaches 6+ mana by T4–5**, plus a payoff or an engine piece (Wanderer, Conduit of Ruin, Sunbird's). Two ramp pieces beat one. The classic trap keep is 4–5 lands plus only 8-drops — no ramp, no early engine; ship it even though the land count looks safe.
 
 - **Keep:** 2+ ramp pieces + a threat or a cascade engine.
 - **Toss:** no-land hands; all-bombs with no ramp to cast them.

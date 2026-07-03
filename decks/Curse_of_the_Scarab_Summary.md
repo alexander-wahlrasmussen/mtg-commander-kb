@@ -491,7 +491,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **lands + an early 1-drop zombie or rock + a path to Scarab God by T5**, with a payoff or token generator behind it.
+**Mulligan.** Looking for: **lands + an early 1-drop zombie or rock + a path to Scarab God by T5**, with a payoff or token generator behind it. A reactive pile (counterspells + removal) on good lands is still a toss — the keep needs a zombie, a token generator, or a drain payoff to give the engine a body to work with. On 2-land hands, only a genuine rock bridges to Scarab God on time (Bone Miser does not count as mana).
 
 - **Keep:** a 1-drop (Gravecrawler, Carrion Feeder, Champion, Stitcher's Supplier, Cryptbreaker) or mana rock + lands + a payoff.
 - **Toss:** no-land hands; all-payoff with no mana.

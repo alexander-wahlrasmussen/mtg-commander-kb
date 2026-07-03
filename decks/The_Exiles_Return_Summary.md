@@ -380,7 +380,7 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **ramp + at least one engine piece by T3–4** — an impulse-draw source *or* a blinker plus something to blink — and a route to casting Zuko.
+**Mulligan.** Looking for: **ramp + at least one engine piece by T3–4** — an impulse-draw source *or* a blinker plus something to blink — and a route to casting Zuko. Ship pure interaction piles even on perfect lands — with no cast-from-exile or blink piece the counter-stack never starts, and removal alone doesn't win the grind this deck plays.
 
 - **Keep:** ramp + a blinker + Zuko; or an impulse-draw source with mana behind it. A doubler (Panharmonicon) or recurring blink is a bonus.
 - **Toss:** no-land hands; all-finisher (Hellkite/Sozin) with no engine; no way to cast Zuko.

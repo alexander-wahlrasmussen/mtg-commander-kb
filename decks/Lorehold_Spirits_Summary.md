@@ -456,6 +456,8 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 ## Piloting Notes (for borrowers)
 
 **Mulligan.** Looking for: **ramp + a discard/recursion piece + a route to Quintorius by T4.**
+A lone Reveillark-loop piece (Reveillark / Karmic Guide / Goblin Bombardment) is NOT a keep on
+its own — the loop is a late side line. The spirits/Quintorius engine shape is the keep.
 
 - **Keep:** ramp + Quintorius + a recursion piece (or Hofri). A doubler (Anointed Procession) or Purphoros is a bonus.
 - **Toss:** no-land hands; all-finisher hands with no engine to feed the yard.

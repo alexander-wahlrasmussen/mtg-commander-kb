@@ -262,3 +262,9 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 - Card text: all combo pieces, igniters, and tutors verified via `card_lookup.py` (2026-06-01 / 06-07 / 06-11 logs in the proposal and readiness docs)
 
 **Roster notes:** building this standalone consumed the deferred "Witherbloom into Calamity Tax as a 99" option (`decks/The_Calamity_Tax_Swaps_2026-06-01.md` §Witherbloom — now closed). Pest Control proposal is the natural roster casualty (same BG substrate, unbuilt). The Loam Cycle is dismantled and archived.
+
+-----
+
+## Piloting Notes (for borrowers)
+
+**Mulligan.** Finding-gated: keep 2–4 lands plus at least one of, in descending strength — **any tutor** (Demonic/Vampiric/Diabolic Intent/Dark Petition/Increasing Ambition find either combo half; Chord/Nature's Rhythm find the creature halves), **any loop half** (not just Exquisite Blood / Sanguine Bond — Bloodthirsty Conqueror, Vito, Enduring Tenacity and Defiant Bloodlord all count; a Conqueror + Bloodlord hand is a complete combo), or **two or more draw/dig cards** (Night's Whisper, Skullclamp, Black Market Connections). Never mulligan for an igniter, ramp, or Witherbloom — the deck is saturated with life events and the combo is commander-independent. Ship removal-plus-value piles with no finder. A tutor in the opener is worth ~a turn (P(combo ≤ T7) 37→43%, median T9→T8 — wb_clock_lab keep A/B, 2026-07-03), but don't dig below six for one: priced-mulligan testing measured aggressive digging as a net loss (London experiment 2026-07-03).

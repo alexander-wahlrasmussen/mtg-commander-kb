@@ -356,7 +356,7 @@ User-applied reskins map to canonical MTG cards; FF set originals listed for pil
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **3–4 lands + early mana (rock or ritual) so Kuja lands on turn 4**, plus at least one **card-draw** or **Wizard-maker**.
+**Mulligan.** Looking for: **3–4 lands + early mana (rock or ritual) so Kuja lands on turn 4**, plus at least one **card-draw** or **Wizard-maker**. "Has a cheap play" is not a keep: ship hands whose only early action is equipment or utility with no route to Kuja and no draw — the engine starts at the commander, and nothing in the deck replaces him.
 
 - **Keep:** lands + ramp + a draw spell (Night's Whisper, Sign in Blood, Necropotence) or an extra Wizard producer. The deck assembles the rest by drawing.
 - **Toss:** all-gas/no-mana hands; piles of multipliers with no way to cast Kuja; Kuja with zero follow-up and no protection.

@@ -332,7 +332,7 @@ Bumbleflower is the roster's only Bant deck and its only "spells-cast → forced
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **lands + ramp + a couple of cheap spells, with Bumbleflower reachable by T3–4.**
+**Mulligan.** Looking for: **lands + ramp + a couple of cheap spells, with Bumbleflower reachable by T3–4.** An all-interaction hand with no payoff and no route to the commander is a toss, however pretty the curve — the engine only pays once Bumbleflower plus a payoff are converting the cheap spells into cards and bodies.
 
 - **Keep:** ramp + cantrips + a payoff (Willbreaker, Faerie Mastermind, Esper Sentinel) or the commander.
 - **Toss:** no-land hands; all-payoff with no cantrips to fuel the triggers; all-interaction with no engine.

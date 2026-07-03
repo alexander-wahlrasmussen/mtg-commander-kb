@@ -874,6 +874,24 @@ def _mull_strategy(keep):
     return s
 
 
+_MULL_LABEL_RE = re.compile(r"\*\*Mulligan[.:]?\*\*[.:]?\s*", re.I)
+
+
+def _mull_from_summary(sections):
+    """The Summary's own mulligan paragraph — Piloting Notes' '**Mulligan.**' lead — so
+    the deck page shows the audited per-deck keep guidance (mulligan audit 2026-07-03)
+    instead of the derived band heuristic. The Summary is the single source of truth;
+    None (no section / no paragraph) falls back to _mull_strategy."""
+    for low, (_head, body) in sections.items():
+        if not low.startswith("piloting notes"):
+            continue
+        for para in re.split(r"\n\s*\n", body):
+            p = para.strip()
+            if _MULL_LABEL_RE.match(p):
+                return _strip_md(_MULL_LABEL_RE.sub("", p, count=1))
+    return None
+
+
 def _apply_override(payload, ov):
     """Field-by-field override merge; clock/killTree/mull merge into the derived dicts."""
     for k, v in ov.items():
@@ -907,8 +925,7 @@ OVERRIDES = {
             "Tutor-gated combo: stack interaction at the 8 tutors and the kill slips a turn.",
             "Creature-light — go-wide aggro can pressure or race you; you answer, you don’t block.",
         ],
-        "mull": {"strategy": "Keep 2–4 lands with a route to Azula by T4 and an early play. You tutor "
-                             "the rest — 8 tutors plus Gifts Ungiven find whatever the hand is missing."},
+        # mull: sourced from the Summary's Piloting Notes (mulligan audit 2026-07-03)
         "clock": {"sub": "measured kill-clock", "note": "", "noteLabel": "",
                   "caption": "The combo (~T9) is the fastest table kill — infinite mana into Torment "
                              "ends the table in one cast; the race alone tables much later."},
@@ -933,9 +950,7 @@ OVERRIDES = {
             "Graveyard hate clamps the reset backup; the primary drain survives it.",
             "Threat perception: the slowest clock in the sweep invites being ganged up before drain matters.",
         ],
-        "mull": {"strategy": "Keep lands + ramp toward a turn 5–6 Sauron, plus an early drain piece "
-                             "(Underworld Dreams, Sheoldred) or interaction to survive into the grind. "
-                             "You do NOT need a kill piece in your opener — the engine grinds and the deck draws deep."},
+        # mull: sourced from the Summary's Piloting Notes (mulligan audit 2026-07-03)
         "clock": {"sub": "opponent-driven clock", "noteLabel": "opp-driven",
                   "note": "The engine is opponent-driven — it kills FASTER against active pods, because "
                           "amass and drain feed on opponents’ spells and draws.",
@@ -962,9 +977,7 @@ OVERRIDES = {
             "Politically loud — Annihilator and 12/12 Eldrazi draw the table’s fire; expect to be the early target.",
             "Weakest axes — Durability & Interaction (3/3): the deck dominates the board but answers little.",
         ],
-        "mull": {"strategy": "Keep ramp that reaches 6+ mana by T4–5 plus a payoff or a cascade engine "
-                             "(Wanderer, Conduit of Ruin, Sunbird’s). You do NOT need the finisher in hand — "
-                             "the deck digs into it. Toss no-land hands and all-bombs with no ramp."},
+        # mull: sourced from the Summary's Piloting Notes (mulligan audit 2026-07-03)
         "clock": {"sub": "measured kill-clock", "noteLabel": "slow build",
                   "note": "Does not race the pod — a T≤7 decap lands only ~26% of games; the table kill "
                           "needs Craterhoof, 8 mana, and a wide board at once.",
@@ -1046,7 +1059,7 @@ def deck(slug):
         composition=composition,
         decklist=_decklist(txt, sp, d["commander"], gc_names, aliases),
         keep=keep,
-        mull=dict(strategy=_mull_strategy(keep)),
+        mull=dict(strategy=_mull_from_summary(secs) or _mull_strategy(keep)),
         killTree=kill_tree,
     )
     ov = OVERRIDES.get(slug)

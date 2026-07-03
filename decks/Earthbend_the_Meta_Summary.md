@@ -563,7 +563,7 @@ Both are lands-matter decks but use completely different resources. Teval recurs
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **ramp + Toph castable by T3–4**, plus at least one engine piece (a landfall payoff, an amplifier, or an early earthbend source).
+**Mulligan.** Looking for: **ramp + Toph castable by T3–4**, plus at least one engine piece (a landfall payoff, an amplifier, or an early earthbend source). An on-curve Toph hand with an engine piece but no explicit ramp spell is still a keep — lands alone cast Toph on time, and shipping those hands measured as a loss (the sim's ramp-only keep model over-mulls exactly this shape). Conversely, don't dig deep: priced-mulligan testing measured aggressive digging at −4pp on the T7 front edge (London experiment 2026-07-03).
 
 - **Keep:** ramp + Toph; or ramp + Hardened Scales / Lotus Cobra / Scute Swarm with a path to Toph.
 - **Toss:** no-land hands; all-finisher hands (Triumph/Purphoros) with no engine to build a board.

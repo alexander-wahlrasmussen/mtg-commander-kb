@@ -242,7 +242,7 @@ Notably, Mana Drain, Force of Negation, and Deflecting Swat are all free or mana
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **lands + ramp toward a turn-5–6 Sauron**, plus an early drain piece (Underworld Dreams, Sheoldred) or interaction to survive into the grind.
+**Mulligan.** Looking for: **lands + ramp toward a turn-5–6 Sauron**, plus an early drain piece (Underworld Dreams, Sheoldred) or interaction to survive into the grind. Land-heavy keeps (up to 5) are genuinely fine here — the deck grinds out of them by design, and its keep shape (reach the 6-mana Sauron on curve) is the best-aligned mulligan model on the roster (mulligan audit 2026-07-03).
 
 - **Keep:** ramp into Sauron with a drain enabler or counters to back it up.
 - **Toss:** no-land hands; payoff cards with no mana behind them.

@@ -180,3 +180,21 @@ def test_kill_tree_every_encoded_deck_resolves():
         assert all(l["kind"] in _KIND for l in kt["lines"]), slug
         if kt["background"]:
             assert kt["background"]["kind"] in _KIND, slug
+
+
+# ------------------------------------------------------------------ mull-from-summary
+def test_mull_from_summary_extracts_and_strips():
+    """Deck pages source mull.strategy from the Summary's Piloting Notes '**Mulligan.**'
+    paragraph (mulligan audit 2026-07-03) — markdown stripped, later paragraphs ignored."""
+    body = ("**Mulligan.** Keep 2-4 lands with **any tutor** or a loop half.\n"
+            "Don't dig below six.\n"
+            "\n"
+            "**Threat assessment.** Kill Abolisher on sight.")
+    out = kb._mull_from_summary(_sections("Piloting Notes (for borrowers)", body))
+    assert out == ("Keep 2-4 lands with any tutor or a loop half. Don't dig below six.")
+
+
+def test_mull_from_summary_absent_returns_none():
+    assert kb._mull_from_summary(_sections("Piloting Notes (for borrowers)",
+                                           "**Threat assessment.** stuff")) is None
+    assert kb._mull_from_summary(_sections("Kill Lines", "**Line 1 — X:** y")) is None

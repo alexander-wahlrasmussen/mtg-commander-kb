@@ -245,7 +245,7 @@ Board wipe on turn 7? The 38-land base and Cabal Coffers survive it, Glarb recas
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Finding-gated: keep 2–4 lands with a way toward the pieces — Glarb castable on curve, Sensei's Top, an enabler, or a topdeck tutor. Ramp-heavy hands are also keepable (they power the Torment/Coffers backup). Toss no-land spell hands and hands with a payoff but no engine behind it.
+**Mulligan.** Finding-gated: keep 2–4 lands with a way toward the pieces — Glarb castable on curve, Sensei's Top, an enabler, or a topdeck tutor. Ramp-heavy hands are also keepable (they power the Torment/Coffers backup). Toss no-land spell hands and hands with a payoff but no engine behind it. The deck's redundancy does the finding — keep A/B testing (glarb_inevitable_lab, 2026-07-03) showed plan-mulliganing buys only ~+1pp on the assembly clock, and digging with real card costs bleeds held protection (66→60% by T4). Mulligan clearly dead hands once; keep serviceable sixes.
 
 - **Keep:** Glarb + fixing; Top + an enabler; ramp toward Coffers.
 - **Toss:** spell-heavy no-land hands; a lone payoff with no dig.

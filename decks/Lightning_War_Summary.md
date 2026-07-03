@@ -243,7 +243,7 @@ Verified via `card_lookup.py` (read the card + rulings).
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Keep lands + early ramp + a route to Azula on T4, ideally with a piece of interaction. A flash enabler or finisher is gravy — you tutor for whatever's missing. Toss no-land hands and all-air hands with no early plays.
+**Mulligan.** Keep lands + early ramp + a route to Azula on T4, ideally with a piece of interaction. A flash enabler or finisher is gravy — you tutor for whatever's missing. Toss no-land hands and all-air hands with no early plays. A tutor (Mystical Tutor, Merchant Scroll, Gifts Ungiven, Solve the Equation) is the best card in an opener — the Reiterate + Seething Song combo (~T9) is the deck's real table clock, and finders outrank raw burn in the keep decision.
 
 **Threat assessment & lines:**
 

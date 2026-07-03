@@ -468,7 +468,7 @@ Exactly 3 Game Changers:
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **mana toward a reanimation or Atraxa line** — a dork/rock plus either a graveyard-filler (Buried Alive, Grisly Salvage) and a cheap reanimate, or a Birthing Pod start.
+**Mulligan.** Looking for: **mana toward a reanimation or Atraxa line** — a dork/rock plus either a graveyard-filler (Buried Alive, Grisly Salvage) and a cheap reanimate, or a Birthing Pod start. Mulligan HARD for acceleration: a dork/rock/land-ramp start is worth +5–6pp on the decap curve (gd_clock_lab keep A/B, 2026-07-03). Four-to-five-land hands full of uncastable bombs with no ramp are the trap keep — ship them every time.
 
 - **Keep:** hands that reanimate a bomb by T3–4, cast Atraxa T6–7, or start a Pod chain with a creature.
 - **Toss:** no-mana hands; reanimation spells with nothing to fill the yard; all-payoff/no-setup.

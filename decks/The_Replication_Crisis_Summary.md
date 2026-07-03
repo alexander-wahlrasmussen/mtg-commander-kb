@@ -490,6 +490,10 @@ both decks sleeve at once. Full writeup + caveats:
 ## Piloting Notes (for borrowers)
 
 **Mulligan.** Looking for: **lands + ramp + a path to Satya on T4**, plus at least one ETB creature to start copying.
+The primary infinite is Satya + Lightning Runner, so a hand holding Lightning Runner or Imperial
+Recruiter (which fetches it) is a stronger keep than the Sword of Feast and Famine + Aggravated
+Assault pair (~1–3% assembly, no tutors). Ranger-Captain of Eos fetches nothing in the combo
+package — don't keep it as a "tutor."
 
 - **Keep:** ramp + Satya + an ETB creature; or ramp + interaction with Satya findable.
 - **Toss:** no-land hands; hands with Satya but zero ETB creatures to copy; all-payoff/no-mana.

@@ -448,6 +448,10 @@ These cards are allocated to other active decks. Options: buy duplicates or swap
 ## Piloting Notes (for borrowers)
 
 **Mulligan.** Looking for: **lands + ramp + Mothman or a proliferate engine.**
+A Mindcrank/Bloodchief piece in the opener is upside, not a requirement — the fast clock is the
+counter-grown board (~76% of table closes are combat), and mulliganing toward the combo measured
+−9pp on the front edge when the sim's keep model tried it (plan-aware mulligan A/B, 2026-06-16).
+Keep the board/proliferate shape; treat combo pieces as gravy.
 
 - **Keep:** ramp + Mothman + a proliferate source or a counter doubler.
 - **Toss:** no-land hands; all-payoff with no engine to grow counters.

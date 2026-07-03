@@ -458,7 +458,7 @@ The following cards are tracked as potential swaps or meta-dependent includes:
 
 ## Piloting Notes (for borrowers)
 
-**Mulligan.** Looking for: **lands + 2–3 cheap artifacts + a token generator or cost reducer.** Golbez costs only {U}{B}, so he lands T2 routinely.
+**Mulligan.** Looking for: **lands + 2–3 cheap artifacts + a token generator or cost reducer.** Golbez costs only {U}{B}, so he lands T2 routinely. Cheap payoffs without fuel are the trap keep: Dreadnought or Tezzeret on curve-perfect lands does nothing without 2–3 cheap artifacts behind it — artifact DENSITY is the real gate, and no single "early play" substitutes for it.
 
 - **Keep:** Golbez castable + artifact density to reach the thresholds.
 - **Toss:** no-land hands; all-payoff (Dreadnought / Tezzeret) with no artifacts to fuel them.
