@@ -13,6 +13,9 @@ narrow, statistical questions that depend only on *decklist composition*:
   - Combo-assembly: probability all pieces of a named combo are together in hand
     by turn T (optional generic-tutor substitution), IGNORING mana cost — a
     card-availability ceiling, not a kill-turn guarantee.
+  - Flow/smoothness (--flow): a light tempo pass that SPENDS mana and empties the
+    hand, so it can see dead turns (starved vs flooded), hand-size depletion and
+    hellbent — the things the availability pass above structurally cannot.
 
 Everything is derived from the .txt decklist + collection/oracle-cards.json
 (cmc, type_line, color_identity). No card *text* is interpreted, so output is
@@ -25,6 +28,8 @@ Usage:
     python scripts/deck_sim.py --combos             # also run combo assembly (sim_profiles.json)
     python scripts/deck_sim.py --deck rad --need ramp --by 3   # BDD count heuristic, measured:
                                                     #   P(>=1 ramp in hand/castable by T3) vs the ~12-source anchor
+    python scripts/deck_sim.py --deck rad --flow    # smoothness: live vs dead (starved/flooded) turns,
+                                                    #   hand-size + hellbent trajectory (tempo model)
     python scripts/deck_sim.py --trials 50000       # trial count (default 20000)
     python scripts/deck_sim.py --json out.json      # machine-readable dump (feeds the matrix)
 
@@ -36,6 +41,7 @@ import argparse
 import json
 import os
 import random
+import re
 import sys
 from functools import lru_cache
 from pathlib import Path
@@ -440,6 +446,230 @@ def simulate(library, identity, turns, trials, rng):
     }
 
 
+# ---------------------------------------------------------------------------
+# Flow / "smoothness" model (2026-07-03)
+#
+# simulate() asks only "does a castable card EXIST" — it never spends mana or
+# removes a card from hand, so it cannot see a hand empty out or a turn pass with
+# nothing to do. simulate_flow() adds a light TEMPO layer on the SAME draw + land
+# model (it does not touch simulate(), so every golden consistency figure is
+# unchanged): each turn, after the land drop, it greedily casts castable nonlands
+# cheapest-first, spends the lands-only mana floor, and REMOVES them from hand.
+# That makes three things observable the consistency pass can't:
+#   - hand-size trajectory + hellbent rate — running out of gas / forced topdeck.
+#   - dead turns split by CAUSE (the two feel-bads the user named):
+#       * starved — a nonland is stuck in hand, no mana to cast it (mana screw).
+#       * flooded — no nonland to cast at all (drew lands / ran dry).
+#   - "live" turns split naive (cast ANY nonland) vs plan (cast a card the deck's
+#     keep-spec tags as part of its win line). naive-high + plan-low = a deck that
+#     always has *a* card to play but rarely advances its actual plan (durdle).
+#
+# CAVEATS — the same land-only floor as simulate(), plus two more; read the output
+# as a RELATIVE smoothness rank across decks, never an absolute play pattern:
+#   - mana = LANDS ONLY (rocks/dorks/rituals excluded) -> `starved` is an UPPER
+#     bound and `live` a LOWER bound for ramp decks. A ramp-aware version belongs
+#     on the Goldfish harness (speed_lab_core), which deploys rocks per deck.
+#   - "deploy everything" greedy spend is a WORST CASE for hand-emptying: it never
+#     holds a card for value or instant speed, so hellbent% is an upper bound.
+#     Decks with real draw refill even under max deployment; decks without don't --
+#     which is exactly the discriminator we want.
+#   - GOLDFISH: no opponents, so it cannot credit reactive turns (holding up a
+#     counter reads as dead). Trustworthy for PROACTIVE / development smoothness.
+# ---------------------------------------------------------------------------
+
+def plan_card_set(deck_key):
+    """Union (lowercased) of the deck's keep-spec plan tags — key_cards | tutors |
+    ramp | selection, i.e. the cards that ADVANCE this deck's win line. None when
+    the deck has no keep-spec, in which case simulate_flow treats every nonland as
+    plan-relevant (plan-live == naive-live)."""
+    spec = _load_keep_specs().get(deck_key) if deck_key else None
+    if not spec:
+        return None
+    names = set()
+    for bucket in ("key_cards", "tutors", "ramp", "selection"):
+        names.update(x.lower() for x in spec.get(bucket, []))
+    return names
+
+
+_DRAW_WORDS = {"a": 1, "an": 1, "one": 1, "two": 2, "three": 3, "four": 4,
+               "five": 5, "six": 6, "seven": 7}
+
+# A draw PAYOFF ("whenever you draw a card, <do something>") has "draw" in the
+# TRIGGER CONDITION and yields no cards — Sheoldred, Psychosis Crawler. Strip these
+# condition clauses before hunting for a real draw EFFECT so payoffs aren't miscounted
+# as sources. Replacement effects ("if you would draw ...") go too. The subject must
+# be a player and be followed by "draw(s)" — "whenever a player CASTS ... you draw a
+# card" (Niv-Mizzet) is NOT matched, so its genuine draw effect survives.
+_DRAW_PAYOFF_RE = re.compile(
+    r"(whenever|if|when|each time) "
+    r"(you|an opponent|a player|another player|that player|players)"
+    r"( would)? draws?\b[^.,]*")
+_RECURRING = ("at the beginning", "whenever", "each turn", "end step", "upkeep", "draw step")
+
+
+def _draw_profile(text, type_line):
+    """(gross_oneshot_draw, repeatable_engine) for a draw-tagged card. text and
+    type_line lowercased. Floor heuristics (card advantage a proxy can defend):
+      - (0, False) — the card has NO real draw effect (its only "draw" was a payoff
+        trigger condition, stripped above). Contributes nothing.
+      - (0, True) — repeatable permanent draw ENGINE: a genuine draw effect under a
+        recurring trigger (upkeep / whenever / end step). Worth +1 card per later
+        turn in play, not a burst on cast.
+      - (gross, False) — one-shot. A cantrip (1, False) NETS zero (drew 1, spent the
+        card) instead of the -1 the naive spend charged; 'draw two cards' is (2,
+        False) = net +1. Look-then-put selection (Brainstorm/Ponder, "... on top")
+        caps to (1, False) so card *selection* isn't miscredited as card *advantage*.
+
+    Known residual over-credit (documented floor): a mana/discard LOOT engine
+    (Glint-Horn, connive) reads as a repeatable engine though it only filters."""
+    is_perm = any(k in type_line for k in
+                  ("creature", "artifact", "enchantment", "planeswalker", "battle"))
+    effect = _DRAW_PAYOFF_RE.sub(" ", text)   # keep only genuine draw EFFECTS
+    if not re.search(r"\bdraw \w[^.,]*cards?", effect) and "that many cards" not in effect:
+        return (0, False)
+    if is_perm and any(k in effect for k in _RECURRING):
+        return (0, True)
+    m = re.search(r"draw (a|an|one|two|three|four|five|six|seven|\d+) cards?", effect)
+    k = 1
+    if m:
+        w = m.group(1)
+        k = _DRAW_WORDS.get(w, int(w) if w.isdigit() else 1)
+    # Selection/rummage nets ~0 card advantage, not k: 'put ... on top' (Brainstorm)
+    # or a paired discard (Faithless Looting, Frantic Search). Night's Whisper (draw
+    # two, lose life — no discard) correctly stays +1.
+    if k > 1 and ("on top" in text or "on the bottom" in text or "discard" in text):
+        k = 1
+    return (k, False)
+
+
+def draw_map(library):
+    """name(lower) -> (gross_oneshot_draw, repeatable_engine) for every draw-tagged
+    card in the library. Detection uses the VERIFIED framework_bakeoff 'draw' tagger
+    (so opponent/symmetric 'draws' and non-draw cards are excluded); only the AMOUNT
+    and engine flag come from oracle text. simulate_flow uses this to REFILL the
+    hand, so momentum decks aren't punished for casting their card advantage — the
+    fix for the v1 flow model reading Ms. Bumbleflower (drawiest deck) as least
+    smooth. Reskins resolve via the bake-off alias table."""
+    idx, aliases = _fb_data()
+    fb = _load_fb()
+    out = {}
+    for nm in {n.lower() for n, _ in library}:
+        card = idx.get(nm) or idx.get(aliases.get(nm, nm))
+        if not card or fb.is_land(card) or "draw" not in fb.tag_card(card):
+            continue
+        out[nm] = _draw_profile(fb.card_text(card), (card.get("type_line") or "").lower())
+    return out
+
+
+def simulate_flow(library, turns, trials, rng, plan_set=None, spend="greedy",
+                  draw_profiles=None):
+    """Tempo/smoothness pass over the lands-only mana floor, tracking per turn
+    whether a (plan-)play happened, why a turn went dead, and the hand-size /
+    hellbent trajectory. Consumes rng identically to simulate() (opening_hand
+    only), so it is deterministic at a fixed seed.
+
+    spend policy brackets the truth for hand-emptying:
+      "greedy" — cast EVERY affordable nonland cheapest-first (max deployment).
+                 An UPPER bound on emptying; hellbent% saturates the mid-pack.
+      "one"    — cast a single marquee play/turn (the most expensive affordable
+                 nonland), holding the rest. A LOWER bound on emptying; spreads
+                 hellbent, so it discriminates paced decks. Real play sits between.
+
+    draw_profiles (name.lower() -> (gross_oneshot_draw, repeatable_engine), from
+    draw_map()) makes card draw REAL: casting a one-shot draw refills the hand by
+    its gross count (a cantrip nets 0 instead of -1); a repeatable engine adds +1
+    card per later turn while in play. None/{} = no draw execution (the pre-draw
+    behaviour), so callers/tests without profiles are unchanged.
+    """
+    n = len(library)
+    draws = draw_profiles or {}
+    live = [0] * (turns + 1)        # cast >=1 nonland this turn
+    plan_live = [0] * (turns + 1)   # cast >=1 plan-tagged nonland
+    starved = [0] * (turns + 1)     # dead turn: a nonland stuck in hand, mana too low
+    flooded = [0] * (turns + 1)     # dead turn: no nonland to cast (lands / empty)
+    hand_sz = [0.0] * (turns + 1)
+    hellbent = [0] * (turns + 1)    # hand <= 1 card at end of turn
+    dead_total = 0                  # sum of dead turns (T1..turns) across all trials
+
+    for _ in range(trials):
+        deck = library[:]
+        hand, _ = opening_hand(deck, rng)
+        ptr = 7
+        in_play = []
+        engines = 0             # repeatable draw engines in play (each = +1 card/turn)
+        for t in range(1, turns + 1):
+            # Draw step: natural draw (not on T1, on the play) + one per engine online.
+            for _ in range((1 if t > 1 else 0) + engines):
+                if ptr < n:
+                    hand.append(deck[ptr])
+                    ptr += 1
+            # Land drop, preferring pure lands so flex lands stay spendable.
+            li = next((i for i, (_, r) in enumerate(hand) if is_pure_land(r)), None)
+            if li is None:
+                li = next((i for i, (_, r) in enumerate(hand) if is_land(r)), None)
+            if li is not None:
+                in_play.append(hand.pop(li))
+            budget = len(in_play)   # lands-only mana floor
+
+            # Spend the mana. "greedy" dumps every affordable nonland cheapest-first;
+            # "one" makes a single marquee play (most expensive affordable) and holds
+            # the rest. cheaper=greedy picks smallest cmc, else "one" picks largest.
+            cast_any = cast_plan = False
+            while True:
+                best = None
+                for i, (_, r) in enumerate(hand):
+                    if is_land(r) or r["cmc"] > budget:
+                        continue
+                    if best is None or (r["cmc"] < hand[best][1]["cmc"] if spend == "greedy"
+                                        else r["cmc"] > hand[best][1]["cmc"]):
+                        best = i
+                if best is None:
+                    break
+                nm, r = hand.pop(best)
+                budget -= r["cmc"]
+                cast_any = True
+                if plan_set is None or nm.lower() in plan_set:
+                    cast_plan = True
+                prof = draws.get(nm.lower())
+                if prof:
+                    gross, repeatable = prof
+                    if repeatable:
+                        engines += 1        # refuels on future turns, not now
+                    else:
+                        for _ in range(gross):   # refill hand — cantrip nets 0, not -1
+                            if ptr < n:
+                                hand.append(deck[ptr])
+                                ptr += 1
+                if spend == "one":      # one marquee play per turn, hold the rest
+                    break
+
+            if cast_any:
+                live[t] += 1
+                if cast_plan:
+                    plan_live[t] += 1
+            else:
+                dead_total += 1
+                if any(not is_land(r) for _, r in hand):
+                    starved[t] += 1     # a spell is stuck — mana too low
+                else:
+                    flooded[t] += 1     # nothing to cast — lands or empty hand
+            hand_sz[t] += len(hand)
+            if len(hand) <= 1:
+                hellbent[t] += 1
+
+    pct = lambda arr: {t: 100.0 * arr[t] / trials for t in range(1, turns + 1)}
+    return {
+        "live_by_turn": pct(live),
+        "plan_live_by_turn": pct(plan_live),
+        "starved_by_turn": pct(starved),
+        "flooded_by_turn": pct(flooded),
+        "hand_size_by_turn": {t: hand_sz[t] / trials for t in range(1, turns + 1)},
+        "hellbent_by_turn": pct(hellbent),
+        "mean_dead_turns": dead_total / trials,
+        "has_plan_spec": plan_set is not None,
+    }
+
+
 def simulate_combos(library, profile, turns, trials, rng):
     """P(all pieces of a combo together in hand by turn T), ignoring mana.
 
@@ -516,13 +746,28 @@ def _load_fb():
     return _FB
 
 
+_FB_IDX = None
+_FB_ALIASES = None
+
+
+def _fb_data():
+    """Memoised (fb oracle index, alias map). fb.load_oracle re-parses the 176 MB
+    bulk on every call — caching it here lets draw_map() run per-deck across a whole
+    batch (deck_doctor --all) without re-reading the file 17 times."""
+    global _FB_IDX, _FB_ALIASES
+    if _FB_IDX is None:
+        fb = _load_fb()
+        _FB_IDX = fb.load_oracle()
+        _FB_ALIASES = fb.load_aliases()
+    return _FB_IDX, _FB_ALIASES
+
+
 def need_source_set(library, klass):
     """Set of printed-name(lower) in this library that the tagger marks as `klass`
     (ramp|draw|tutor|interaction|protection). Resolves reskins via the bake-off's
     alias table before tagging, so UB prints are not silently missed."""
     fb = _load_fb()
-    fb_idx = fb.load_oracle()
-    fb_aliases = fb.load_aliases()
+    fb_idx, fb_aliases = _fb_data()     # cached: no per-deck 176 MB re-read in a batch
     sources = set()
     for nm in {n.lower() for n, _ in library}:
         card = fb_idx.get(nm) or fb_idx.get(fb_aliases.get(nm, nm).lower())
@@ -626,6 +871,24 @@ def print_deck_report(name, diag, stats, combo_res, turns):
             print("    +tutors:      " + "".join(fmt_pct(r['with_tutor_by_turn'][t]) for t in show))
 
 
+def print_flow_report(name, flow, turns, spend="greedy"):
+    show = [t for t in (2, 3, 4, 5, 6, 8, 10) if t <= turns]
+    policy = "deploy-all (upper bound on emptying)" if spend == "greedy" else "one play/turn (lower bound)"
+    print(f"\n  flow / smoothness  (tempo model: {policy}, LANDS-only mana)")
+    print("  turn:           " + "".join(f"{t:>6}" for t in show))
+    print("  live (any play):" + "".join(fmt_pct(flow['live_by_turn'][t]) for t in show))
+    lbl = "  live (plan):    " if flow["has_plan_spec"] else "  live (plan=any):"
+    print(lbl + "".join(fmt_pct(flow['plan_live_by_turn'][t]) for t in show))
+    print("  dead-starved:   " + "".join(fmt_pct(flow['starved_by_turn'][t]) for t in show))
+    print("  dead-flooded:   " + "".join(fmt_pct(flow['flooded_by_turn'][t]) for t in show))
+    print("  avg hand size:  " + "".join(f"{flow['hand_size_by_turn'][t]:6.1f}" for t in show))
+    print("  hellbent(<=1):  " + "".join(fmt_pct(flow['hellbent_by_turn'][t]) for t in show))
+    print(f"  mean dead turns (T1-{turns}): {flow['mean_dead_turns']:.2f}"
+          + ("" if flow["has_plan_spec"] else "   (no keep-spec: plan-live = any-live)"))
+    print("  starved=spell stuck, no mana | flooded=no nonland to cast (lands/empty)."
+          " Land-only floor: starved is an upper bound. Goldfish: no reactive turns.")
+
+
 def deck_rng(base_seed, key):
     """Per-deck RNG seeded from the base seed + the deck's stable key.
 
@@ -645,6 +908,11 @@ def main():
     ap.add_argument("--combos", action="store_true", help="Run combo assembly from sim_profiles.json")
     ap.add_argument("--need", choices=["ramp", "draw", "tutor", "interaction", "protection"],
                     help="P(>=1 source of this tagged class in hand by turn T) — the BDD count heuristic, measured")
+    ap.add_argument("--flow", action="store_true",
+                    help="Smoothness/tempo pass: live vs dead turns (starved/flooded), hand-size + hellbent trajectory")
+    ap.add_argument("--flow-spend", choices=["greedy", "one"], default="greedy",
+                    help="With --flow: 'greedy' deploys every affordable spell (upper bound on emptying); "
+                         "'one' makes a single marquee play/turn (lower bound). Truth sits between.")
     ap.add_argument("--by", type=int, metavar="T", help="With --need: headline a target turn against BDD's count anchor")
     ap.add_argument("--trials", type=int, default=20000)
     ap.add_argument("--turns", type=int, default=10)
@@ -696,12 +964,24 @@ def main():
             need_res = simulate_need(library, sources, args.turns, args.trials, rng)
             print_need_report(name, args.need, need_res, args.turns, args.by)
 
+        flow_res = None
+        if args.flow:
+            # Own rng stream so `--flow` reproduces regardless of --combos/--need
+            # (same per-deck-stream rationale as deck_rng).
+            flow_rng = deck_rng(args.seed, (diag["deck_key"] or path.stem) + ":flow")
+            plan_set = plan_card_set(diag["deck_key"])
+            draw_profiles = draw_map(library)
+            flow_res = simulate_flow(library, args.turns, args.trials, flow_rng, plan_set,
+                                     spend=args.flow_spend, draw_profiles=draw_profiles)
+            print_flow_report(name, flow_res, args.turns, args.flow_spend)
+
         out[name] = {
             "diag": {k: v for k, v in diag.items() if k != "deck_key"},
             "identity": sorted(identity),
             "stats": stats,
             "combos": combo_res,
             "need": {"class": args.need, **need_res} if need_res else None,
+            "flow": flow_res,
         }
 
     if args.json:

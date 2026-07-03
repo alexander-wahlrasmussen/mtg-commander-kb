@@ -174,6 +174,199 @@ def test_simulate_lands_curve_is_nondecreasing():
 
 
 # --------------------------------------------------------------------------- #
+# simulate_flow — the smoothness / tempo pass (2026-07-03)
+# --------------------------------------------------------------------------- #
+def test_simulate_flow_is_deterministic_for_a_fixed_seed():
+    lib = toy_library()
+    a = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(7))
+    b = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(7))
+    assert a == b
+
+
+def test_simulate_flow_turn_partition_sums_to_100():
+    # Every turn is exactly one of live / dead-starved / dead-flooded, so the three
+    # rates must sum to 100% at each turn (the taxonomy has no gaps or overlaps).
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=800, rng=random.Random(3))
+    for t in range(1, 9):
+        total = (flow["live_by_turn"][t] + flow["starved_by_turn"][t]
+                 + flow["flooded_by_turn"][t])
+        assert total == pytest.approx(100.0)
+
+
+def test_simulate_flow_all_lands_is_never_live():
+    # A deck of pure lands can never cast a nonland: 0% live, and every dead turn is
+    # 'flooded' (no nonland to cast), never 'starved' (which needs a stuck spell).
+    lib = [("Island", land()) for _ in range(60)]
+    flow = deck_sim.simulate_flow(lib, turns=6, trials=200, rng=random.Random(9))
+    for t in range(1, 7):
+        assert flow["live_by_turn"][t] == 0.0
+        assert flow["plan_live_by_turn"][t] == 0.0
+        assert flow["starved_by_turn"][t] == 0.0
+        assert flow["flooded_by_turn"][t] == pytest.approx(100.0)
+
+
+def test_simulate_flow_expensive_spells_read_as_starved_not_flooded():
+    # Cheap lands but only 9-drops: early turns have a spell stuck in hand with too
+    # little mana -> classified 'starved' (mana screw), not 'flooded'.
+    lib = [("Island", land()) for _ in range(20)]
+    lib += [(f"Bomb{i}", rec(cmc=9, type_line="Creature")) for i in range(40)]
+    flow = deck_sim.simulate_flow(lib, turns=4, trials=300, rng=random.Random(11))
+    # By T4 (<=4 lands) a 9-drop is uncastable; whenever a bomb is in hand it's starved.
+    assert flow["starved_by_turn"][3] > flow["flooded_by_turn"][3]
+    assert flow["live_by_turn"][3] == 0.0
+
+
+def test_simulate_flow_plan_live_never_exceeds_any_live():
+    # plan-live is a subset of live (a plan play is a play), so it can't be higher.
+    lib = toy_library()
+    plan = {"spell0", "spell1", "spell2"}   # only a few nonlands are plan-tagged
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(5), plan_set=plan)
+    assert flow["has_plan_spec"] is True
+    for t in range(1, 9):
+        assert flow["plan_live_by_turn"][t] <= flow["live_by_turn"][t] + 1e-9
+
+
+def test_simulate_flow_no_plan_set_makes_plan_equal_any():
+    # Without a keep-spec, every nonland counts as plan-relevant -> the two curves match.
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(5), plan_set=None)
+    assert flow["has_plan_spec"] is False
+    for t in range(1, 9):
+        assert flow["plan_live_by_turn"][t] == flow["live_by_turn"][t]
+
+
+def test_simulate_flow_one_spend_empties_slower_than_greedy():
+    # 'one' casts a single spell/turn; 'greedy' dumps everything affordable. With a
+    # cheap castable curve, greedy must leave a SMALLER hand (it deploys more).
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"One{i}", rec(cmc=1, type_line="Creature")) for i in range(36)]
+    greedy = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(4), spend="greedy")
+    one = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(4), spend="one")
+    assert one["hand_size_by_turn"][8] > greedy["hand_size_by_turn"][8]
+    assert one["hellbent_by_turn"][8] <= greedy["hellbent_by_turn"][8]
+
+
+def test_simulate_flow_one_spend_still_partitions_to_100():
+    # The live/starved/flooded taxonomy must hold under the 'one' policy too.
+    lib = toy_library()
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=600, rng=random.Random(6), spend="one")
+    for t in range(1, 9):
+        total = (flow["live_by_turn"][t] + flow["starved_by_turn"][t]
+                 + flow["flooded_by_turn"][t])
+        assert total == pytest.approx(100.0)
+
+
+def test_simulate_flow_spending_empties_hand_faster_than_consistency_pass():
+    # The tempo pass REMOVES cast cards; a hand of castable 1-drops should shrink,
+    # unlike simulate() which never spends. Hand size must fall below the raw
+    # draw-only ceiling (7 opening - 1 land drop + draws), proving cards left hand.
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"One{i}", rec(cmc=1, type_line="Creature")) for i in range(36)]
+    flow = deck_sim.simulate_flow(lib, turns=8, trials=400, rng=random.Random(2))
+    assert flow["hand_size_by_turn"][8] < 8.0   # would be ~13 if nothing were cast
+
+
+# --------------------------------------------------------------------------- #
+# _draw_profile — reading card-draw amount/repeatability from oracle text
+# --------------------------------------------------------------------------- #
+@pytest.mark.parametrize("text,type_line,expected", [
+    ("draw a card.", "instant", (1, False)),                    # cantrip nets 0
+    ("draw two cards.", "sorcery", (2, False)),                 # real advantage
+    ("draw three cards, then put two cards from your hand on top of your library.",
+     "instant", (1, False)),                                    # Brainstorm: selection, capped
+    ("at the beginning of your upkeep, draw a card.", "enchantment", (0, True)),  # engine
+    ("whenever a creature dies, you may draw a card.", "creature", (0, True)),    # engine
+    ("draw x cards.", "sorcery", (1, False)),                   # X = floor 1
+    ("draw two cards, then discard two cards.", "sorcery", (1, False)),   # rummage = net 0
+    ("you draw two cards and you lose 2 life.", "sorcery", (2, False)),   # Night's Whisper = +1
+])
+def test_draw_profile_reads_text(text, type_line, expected):
+    assert deck_sim._draw_profile(text, type_line) == expected
+
+
+def test_draw_profile_engine_needs_a_permanent():
+    # A triggered "draw" on an INSTANT is still a one-shot, not a repeatable engine.
+    assert deck_sim._draw_profile("whenever a creature dies, draw a card.", "instant") == (1, False)
+
+
+@pytest.mark.parametrize("text,type_line", [
+    # REGRESSION: draw PAYOFFS have "draw" only in the trigger condition and yield no
+    # cards — crediting them as +1/turn engines over-stated Forced Liquidation's
+    # smoothness. They must read as (0, False), contributing nothing.
+    ("whenever you draw a card, each opponent loses 1 life.", "creature"),   # Psychosis Crawler
+    ("whenever you draw a card, you gain 2 life. whenever an opponent draws a card, they lose 2 life.",
+     "creature"),                                                            # Sheoldred
+    ("if you would draw a card, instead do something else.", "artifact"),    # replacement, not a source
+])
+def test_draw_profile_payoffs_yield_nothing_REGRESSION(text, type_line):
+    assert deck_sim._draw_profile(text, type_line) == (0, False)
+
+
+def test_draw_profile_real_effect_after_payoff_clause_survives_REGRESSION():
+    # REGRESSION: Niv-Mizzet has a payoff clause AND a real draw effect ("whenever a
+    # player casts an instant or sorcery spell, you draw a card"). Stripping the
+    # payoff must not eat the genuine engine.
+    niv = ("whenever you draw a card, niv-mizzet deals 1 damage to any target. "
+           "whenever a player casts an instant or sorcery spell, you draw a card.")
+    assert deck_sim._draw_profile(niv, "creature") == (0, True)
+
+
+def test_draw_profile_etb_cantrip_is_oneshot_not_engine():
+    # "When ~ enters, you draw two cards" (Cloudblazer) is a one-shot ETB, not a
+    # recurring engine — the subject after 'when' is the card, not a player.
+    assert deck_sim._draw_profile(
+        "when this creature enters, you draw two cards and you gain 2 life.", "creature") == (2, False)
+
+
+# --------------------------------------------------------------------------- #
+# simulate_flow draw execution — the momentum fix (drawy decks stop being punished)
+# --------------------------------------------------------------------------- #
+def test_simulate_flow_oneshot_draw_refills_hand():
+    # Same deck, with vs without a 'draw two' profile on the spells: executing the
+    # draw must leave a LARGER hand and a LOWER hellbent rate (net card advantage).
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [(f"Whisper{i}", rec(cmc=2, type_line="Sorcery")) for i in range(36)]
+    profiles = {f"whisper{i}": (2, False) for i in range(36)}
+    base = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(8))
+    drawy = deck_sim.simulate_flow(lib, turns=8, trials=500, rng=random.Random(8),
+                                   draw_profiles=profiles)
+    assert drawy["hand_size_by_turn"][8] > base["hand_size_by_turn"][8]
+    assert drawy["hellbent_by_turn"][8] < base["hellbent_by_turn"][8]
+
+
+def test_simulate_flow_repeatable_engine_compounds_over_turns():
+    # A cheap repeatable draw engine keeps the hand stocked: hellbent by T10 must be
+    # far lower than the same deck with no engines.
+    lib = [("Island", land()) for _ in range(24)]
+    lib += [("Rhystic Study", rec(cmc=1, type_line="Enchantment"))] * 12
+    lib += [(f"Filler{i}", rec(cmc=3, type_line="Creature")) for i in range(24)]
+    profiles = {"rhystic study": (0, True)}
+    base = deck_sim.simulate_flow(lib, turns=10, trials=500, rng=random.Random(1))
+    engine = deck_sim.simulate_flow(lib, turns=10, trials=500, rng=random.Random(1),
+                                    draw_profiles=profiles)
+    assert engine["hellbent_by_turn"][10] < base["hellbent_by_turn"][10]
+    assert engine["hand_size_by_turn"][10] > base["hand_size_by_turn"][10]
+
+
+def test_simulate_flow_draw_execution_still_deterministic():
+    lib = toy_library()
+    profiles = {"spell0": (2, False), "spell1": (0, True)}
+    a = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(2), draw_profiles=profiles)
+    b = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(2), draw_profiles=profiles)
+    assert a == b
+
+
+def test_simulate_flow_empty_profiles_match_no_profiles_REGRESSION():
+    # REGRESSION: adding the draw model must not change behaviour when no profiles
+    # are supplied — the draw-step refactor stays byte-identical to the pre-draw sim.
+    lib = toy_library()
+    none = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(3))
+    empty = deck_sim.simulate_flow(lib, turns=8, trials=300, rng=random.Random(3), draw_profiles={})
+    assert none == empty
+
+
+# --------------------------------------------------------------------------- #
 # load_reskin_aliases — table parsing
 # --------------------------------------------------------------------------- #
 def test_load_reskin_aliases_parses_table(tmp_path, monkeypatch):
