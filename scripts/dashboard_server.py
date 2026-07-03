@@ -14,6 +14,7 @@ their numbers as JSON, so the browser charts the same curves the writeups cite.
   GET /api/tierlist?...      -> the Definitive Tier List v2 composite (tier_list, parameterised)
 
 Content endpoints (kb_content — KB markdown / CSV / Scryfall, not the sim):
+  GET /api/doctor           -> Deck Doctor triage board (per-deck pre-flight checks)
   GET /api/roster           -> active roster (Deck_Index ⋈ registry ⋈ clocks ⋈ GC)
   GET /api/home             -> dashboard hub (roster KPIs + a default gauntlet/championship)
   GET /api/wishlist         -> Build & Swap Tracker (builds / swaps / cheap unlocks)
@@ -69,6 +70,7 @@ sm = pc.sm                                   # self_meta_lab
 pg = pc.pg                                   # pod_gauntlet  (clocks, build_cdf, simulate, ...)
 kb = _load("kb_content")                     # KB content (roster / decks / collection / wishlist)
 tl = _load("tier_list")                       # the v2 tier-list composite (reuses pg/sm/im)
+dd = _load("deck_doctor")                    # the per-deck pre-flight (Doctor board)
 
 CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -240,6 +242,32 @@ def compute_tierlist(trials, t_grind, tax, seed, legacy):
                 tax=p["tax"], t_grind=p["t_grind"], trials=p["trials"], rows=rows)
 
 
+def compute_doctor(vitals=False):
+    """Deck Doctor triage board — the --all batch as JSON. One row per roster deck
+    from the SAME quiet doctor the CLI table uses (no second code path), plus the
+    non-OK check messages so the board can explain a red cell. check_build stays
+    OFF: the payload must carry NO ownership/collection data (the static bake is
+    publicly hosted). vitals adds the MC smoothness facts (keepable/dead/hellbent)
+    — bake-time or ?vitals=1 only; too slow for the live default."""
+    rows = []
+    for slug in kb.DECKS:
+        res = dd.doctor(slug, quiet=True, check_build=False, interaction=True,
+                        footprint=True, fragility=True, vitals=vitals)
+        rows.append(dict(
+            slug=slug, name=res["title"], tag=res["tag"],
+            errors=res["errors"], warns=res["warns"], facts=res["facts"],
+            notes=[dict(sev=sev, sec=sec, msg=msg)
+                   for sev, sec, msg in res["log"] if sev != dd.OK]))
+    order = {"FAIL": 0, "WARN": 1}
+    rows.sort(key=lambda r: order.get(r["tag"], 2))   # stable: registry order within
+    return dict(
+        vitals=vitals,
+        counts=dict(fail=sum(r["tag"] == "FAIL" for r in rows),
+                    warn=sum(r["tag"] == "WARN" for r in rows),
+                    ok=sum(r["tag"] == "PASS" for r in rows)),
+        rows=rows)
+
+
 def compute_home(seed):
     """Dashboard hub — roster KPIs + a default gauntlet & championship result."""
     g = compute_gauntlet(a=pg.A_BASE, pod="base", strict=False, trials=8000, seed=seed)
@@ -328,6 +356,8 @@ class Handler(BaseHTTPRequestHandler):
                     tax=_qfloat(qs, "tax", tl.im.TAX),
                     seed=_qint(qs, "seed", sm.SEED),
                     legacy=_qbool(qs, "legacy")))
+            if path == "/api/doctor":
+                return self._json(compute_doctor(vitals=_qbool(qs, "vitals")))
             if path == "/api/roster":
                 return self._json(compute_roster())
             if path == "/api/home":

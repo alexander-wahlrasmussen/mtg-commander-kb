@@ -189,6 +189,9 @@ export interface DeckPage {
     text: string;
   } | null;
   keep: { bottleneck: string | null; minLands: number | null; maxLands: number | null; mixed: string | null };
+  // name -> Scryfall 'normal' image URL for hover previews (decklist + mulligan hands);
+  // null when the oracle bulk was absent at bake time (previews just don't render).
+  images?: Record<string, string> | null;
   killTree?: KillTree | null;
   mulligan?: Mulligan | null;
 }
@@ -224,6 +227,29 @@ export interface TierListData {
   tiers: string[];
   tax: number; t_grind: number; trials: number;
   rows: TierRow[];
+}
+
+/* Deck Doctor triage board — one row per roster deck from the quiet doctor
+ * (same checks as `deck_doctor.py --all`); notes carry the non-OK messages. */
+export interface DoctorNote { sev: "ERROR" | "WARN" | "INFO"; sec: string; msg: string; }
+export interface DoctorFacts {
+  size?: number; singleton?: number; illegal?: number; missing?: number; offcolor?: number;
+  mld?: number; extra_turns?: number; gc?: number; bracket?: number; drift?: number;
+  intxn_gaps?: number; footprint_pct?: number; fragility_pct?: number;
+  keepable?: number; mean_dead?: number; hellbent8?: number;
+}
+export interface DoctorRow {
+  slug: string; name: string; tag: "PASS" | "WARN" | "FAIL" | "ERR";
+  errors: number; warns: number; facts: DoctorFacts; notes: DoctorNote[];
+}
+export interface DoctorData {
+  vitals: boolean;
+  counts: { fail: number; warn: number; ok: number };
+  rows: DoctorRow[];
+}
+
+export async function getDoctor(): Promise<DoctorData> {
+  return mode.static ? bundle<DoctorData>("doctor") : getJSON<DoctorData>("/api/doctor");
 }
 
 export async function getTierList(): Promise<TierListData> {

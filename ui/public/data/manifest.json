@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-03 17:35",
+  "generated": "2026-07-03 18:21",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -85,6 +85,7 @@
     "wishlist": true,
     "collection": true,
     "tierlist": true,
+    "doctor": true,
     "decks": [
       "dark_lords_army",
       "lightning_war",

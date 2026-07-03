@@ -163,6 +163,11 @@ def main():
         (OUT / "tierlist.json").write_text(json.dumps(ds.compute_tierlist(
             trials=40000, t_grind=ds.sm.T_GRIND, tax=ds.tl.im.TAX, seed=ds.sm.SEED, legacy=False)),
             encoding="utf-8")
+        # Doctor board — vitals ON at bake time (the MC smoothness facts are too slow
+        # for the live default). check_build stays off inside compute_doctor: the baked
+        # payload is public, no ownership data.
+        (OUT / "doctor.json").write_text(json.dumps(ds.compute_doctor(vitals=True)),
+                                         encoding="utf-8")
         decks_dir.mkdir(exist_ok=True)
         slugs = [d["slug"] for d in roster["decks"]]
         for slug in slugs:
@@ -171,6 +176,12 @@ def main():
             # Scryfall bulk + sims hands, too heavy for a per-request server hit. Verdicts are
             # the authoritative keep_hand, computed once and baked (no client-side re-impl).
             page["mulligan"] = mt.bake_hands(slug, n=MULLIGAN_HANDS, seed=0)
+            # Hover previews for the drill too: hand names come from the sim's own parse
+            # and can differ in spelling from the .txt keys already in page["images"].
+            if page.get("mulligan") and page.get("images"):
+                hand_names = {c["n"] for h in page["mulligan"]["hands"] for c in h["cards"]}
+                page["images"].update(
+                    ds.kb.card_images(sorted(hand_names - set(page["images"]))))
             (decks_dir / f"{slug}.json").write_text(json.dumps(page), encoding="utf-8")
         print(f" done ({len(slugs)} deck pages)")
 
@@ -195,7 +206,8 @@ def main():
         ))
     if do_content:
         manifest["content"] = dict(roster=True, home=True, wishlist=True,
-                                   collection=True, tierlist=True, decks=slugs)
+                                   collection=True, tierlist=True, doctor=True,
+                                   decks=slugs)
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
     # mirror the whole bake into the React app's public/data (its static fallback)
