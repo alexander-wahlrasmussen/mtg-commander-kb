@@ -224,6 +224,14 @@ free redraws, keep-when-stuck). To bound the ceiling of *real* mulligan play:
 Priority: (2) then (1). (3)/(4) only pay off if (1) shows the front edge responds to keep
 sharpness at all once mulligans have real costs.
 
+**STATUS (same day):** (2) done — tag_card fixed + regression tests (d10f950); GD's plan
+keep went +1pp → **+5–6pp** front edge purely from the bucket fix. (1) done — London
+variant built (3012b9c) and the 6-deck × 3-arm experiment run: **priced mulligans never
+beat the plain land keep** (london3 is −3…−7pp on ZS/EBM/FL), so (3)/(4) are demoted to
+spec-fidelity hygiene, with one exception: **FL's plan keep measurably fights its own
+clock** (−5pp @T8 even free) and needs re-tuning before any diagnostic use. Full
+results: `analysis/London_Mulligan_Experiment_2026-07-03.md`.
+
 ---
 
 *Files: `scripts/mulligan_audit.py` (new), `analysis/keep_specs.json` (regenerated),
