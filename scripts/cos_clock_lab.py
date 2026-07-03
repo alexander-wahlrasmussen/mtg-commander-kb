@@ -139,6 +139,11 @@ class Trial:
         self.combo_extended = combo_extended
         self.have = set()           # COMBO_TRACK pieces deployed (extended model)
         self.combo_turn = None      # first turn the combo assembles (either model)
+        self.nontoken_bf = 0        # matured NONTOKEN zombie bodies (yard fuel / undying survivors on a wipe)
+        self.new_nontoken = 0       # nontoken zombies entered this turn (mature next upkeep)
+        self.mikaeus = False        # Mikaeus on battlefield -> undying saves the nontoken board through 1 wipe
+        self.wiped_at = None        # turn a modelled board wipe hit ('recover' mode)
+        self.recover_delay = None   # turns after the wipe to rebuild a threatening board
         self.g = slc.Goldfish(library, rng, rocks={})
         self.tbl = slc.Table()
         self.index = index
@@ -172,8 +177,10 @@ class Trial:
         """A Zombie (or n tokens) enters: count, Kindred draw, token multipliers."""
         total = n
         if nontoken and self.necro:
-            total += 1                       # Necroduality token copy
+            total += 1                       # Necroduality token copy (a TOKEN — no yard/undying)
         self.new_z += total
+        if nontoken:
+            self.new_nontoken += n           # only the real card stocks the yard / gets undying
         if self.kindred:
             self.gdraw(total)                # draw per Zombie ETB (tokens included)
 
@@ -189,7 +196,40 @@ class Trial:
             self.zombie_etb(1, nontoken=False)   # tapped 2/2, a token
 
 
-def goldfish_kill(library, index, pips, rng, combo_extended=False):
+RECOVER_THREAT = 6      # zombies that will drain next upkeep = a real Scarab clock again
+
+
+def apply_wipe(t, T):
+    """One-shot creature board wipe (Wrath / Toxic Deluge / Blasphemous Act class)
+    hitting the deck's board as it stands at the start of turn T. Modelled effects,
+    all card-grounded:
+      * tokens vanish (the bulk of a go-wide zombie board);
+      * NONTOKEN zombies stock the graveyard (reanimation fuel) — UNLESS Mikaeus,
+        the Unhallowed is out, in which case undying returns them and the nontoken
+        board SURVIVES the first wipe (Mikaeus himself has no self-undying -> yard);
+      * enchantment / planeswalker engines persist (Kindred Discovery, Necroduality,
+        Rooftop Storm, Liliana); creature-based engines (Colossus / Cryptbreaker /
+        Graveborn / Shepherd) die unless Mikaeus's undying saved their bodies;
+      * Grave Titan (nontoken, non-Human) survives via Mikaeus, else -> yard;
+      * The Scarab God returns to HAND on death (no tax) -> recast next turn.
+    Coarse — a heuristic on a heuristic. Trust the shape, not the decimal."""
+    mik = t.mikaeus
+    t.wiped_at = T
+    t.scarab = False                        # Scarab dies -> hand -> recast for 5
+    t.new_z = 0; t.new_nontoken = 0
+    if mik:
+        t.z = t.nontoken_bf                 # undying returns the nontoken zombies (board survives)
+        t.yard_z += 1                       # Mikaeus himself -> yard (a reanimatable zombie)
+        t.mikaeus = False                   # a 2nd wipe now finishes the (countered) board
+    else:
+        t.yard_z += t.nontoken_bf           # nontoken zombies -> reanimation fuel
+        t.z = 0; t.nontoken_bf = 0
+        t.colossus = t.cryptbreaker = t.graveborn = t.shepherd = False
+        if t.titan_bf:
+            t.titan_bf = False; t.titan_yard = True
+
+
+def goldfish_kill(library, index, pips, rng, combo_extended=False, wipe=None):
     t = Trial(library, rng, index, pips, combo_extended=combo_extended)
     g, tbl = t.g, t.tbl
     gary_casts = 0
@@ -199,13 +239,16 @@ def goldfish_kill(library, index, pips, rng, combo_extended=False):
 
     for T in range(1, TURNS + 1):
         t.z += t.new_z; t.new_z = 0; t.draws = 0
+        t.nontoken_bf += t.new_nontoken; t.new_nontoken = 0
+        if wipe and T == wipe:
+            apply_wipe(t, T)                # 'recover' mode: opponent wiped before your turn
         # ---- UPKEEP drains (converge) ----
         if t.scarab and t.z:
             tbl.hit_all(t.z, T)
         if t.graveborn and t.z:
             t.gdraw(t.z)
         if tbl.done:
-            return tbl.decap, tbl.table, t.combo_turn
+            return tbl.decap, tbl.table, t.combo_turn, t.recover_delay
 
         g.begin_turn(T)
         # mana rocks (devotion via pip map; records carry no mana_cost field)
@@ -290,6 +333,7 @@ def goldfish_kill(library, index, pips, rng, combo_extended=False):
             if nm == GRAVEBORN: t.graveborn = True
             if nm == SHEPHERD: t.shepherd = True
             if nm == "Liliana, Death's Majesty": t.lili = True
+            if nm == "Mikaeus, the Unhallowed": t.mikaeus = True   # undying blanket (wipe survival)
             if nm == "Cryptbreaker": t.cryptbreaker = True
             if nm == "Stitcher's Supplier": t.yard_z += 1   # mill 3 ~ 1 zombie
             if nm in LOOP_PIECES: t.loop.add(nm)
@@ -330,15 +374,20 @@ def goldfish_kill(library, index, pips, rng, combo_extended=False):
                 t.combo_turn = T
             tbl.kill_all(T)
         if tbl.done:
-            return tbl.decap, tbl.table, t.combo_turn
+            return tbl.decap, tbl.table, t.combo_turn, t.recover_delay
 
         # ---- COMBAT (focus-fire) ----
         if t.z >= 1:
             tbl.hit_focus(t.z * (2 + t.lord_pow), T)
         if tbl.done:
-            return tbl.decap, tbl.table, t.combo_turn
+            return tbl.decap, tbl.table, t.combo_turn, t.recover_delay
 
-    return tbl.decap, tbl.table, t.combo_turn
+        # post-wipe recovery: turns until the board that drains next upkeep
+        # (matured + entered-this-turn) is threatening again ('recover' mode)
+        if t.wiped_at is not None and t.recover_delay is None and (t.z + t.new_z) >= RECOVER_THREAT:
+            t.recover_delay = T - t.wiped_at
+
+    return tbl.decap, tbl.table, t.combo_turn, t.recover_delay
 
 
 def mode_clock(index, aliases, trials):
@@ -378,5 +427,54 @@ def mode_combo(index, aliases, trials, deck=None):
           f"   ·   never-in-{TURNS}: {slc.never_pct(res, 2, trials):.0f}%")
 
 
+def _mednum(res, idx, cap=99):
+    """Numeric lower-median of a turn-or-None field (same rule as slc.median)."""
+    vals = sorted((r[idx] if r[idx] is not None else cap) for r in res)
+    return vals[(len(vals) - 1) // 2]
+
+
+def mode_recover(index, aliases, trials):
+    """Post-wipe INEVITABILITY: how much does a creature board wipe actually set
+    this grinder back, and how fast does it rebuild? Injects a one-shot wipe at
+    turn W (see apply_wipe) on the SAME shuffles as the no-wipe baseline (paired),
+    and reports the wipe TAX (table-clock delta) + the recovery clock. This is the
+    grind/recursion resilience the goldfish 'clock' mode can't see — measured, not
+    narrated. Coarse heuristic; trust the shape."""
+    print(f"\n### RECOVER — Curse of the Scarab post-wipe inevitability   trials={trials} seed={SEED}")
+    print("    One-shot creature wipe at turn W: tokens vanish; nontoken zombies -> yard")
+    print("    (reanim fuel) OR survive via Mikaeus undying; enchantment/PW engines + mana")
+    print("    persist; Scarab -> hand. Same shuffles as baseline (paired). 'recovered' =")
+    print(f"    board draining >= {RECOVER_THREAT} next upkeep again.\n")
+    library, commander = slc.load_parsed(DECK, index, aliases)
+    pips = load_black_pips([nm for nm, _ in library] + [commander])
+
+    rng = random.Random(SEED)
+    base = [goldfish_kill(library, index, pips, rng) for _ in range(trials)]
+    bd, btb = _mednum(base, 0), _mednum(base, 1)
+    print(f"  baseline (no wipe):   median decap T{bd} / table T{btb}\n")
+    print("  wipe@W   decap  table   table-tax    survived   recover(med)  <=2t  <=3t  never")
+    print("  " + "-" * 74)
+    for W in (6, 8, 10):
+        rng = random.Random(SEED)               # identical games; only the wipe differs
+        res = [goldfish_kill(library, index, pips, rng, wipe=W) for _ in range(trials)]
+        d, tb = _mednum(res, 0), _mednum(res, 1)
+        tax = tb - btb
+        rec = [r[3] for r in res]               # recover_delay (turns after wipe), None = never
+        got = sorted(x for x in rec if x is not None)
+        survived = 100 * sum(1 for x in rec if x == 0) / trials     # board never dropped below threat
+        medrec = got[(len(got) - 1) // 2] if got else None
+        p2 = 100 * sum(1 for x in got if x <= 2) / trials
+        p3 = 100 * sum(1 for x in got if x <= 3) / trials
+        never = 100 * sum(1 for x in rec if x is None) / trials
+        mr = f"+{medrec}t" if medrec is not None else "  —"
+        print(f"    T{W:<4} T{d:<5} T{tb:<5}   {'+' if tax >= 0 else ''}{tax} turn{'s' if abs(tax)!=1 else ''}"
+              f"{'':4} {survived:4.0f}%{'':6} {mr:>5}{'':6} {p2:3.0f}% {p3:4.0f}% {never:4.0f}%")
+    print("\n  table-tax = wiped table median - baseline (turns the wipe costs).")
+    print("  survived  = board stayed >= threat through the wipe (mostly Mikaeus undying).")
+    print("  recover   = turns AFTER the wipe to a threatening board again; never = not within horizon.")
+
+
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "combo": mode_combo}, default_trials=40000)
+    slc.run_cli(__doc__,
+                {"clock": mode_clock, "combo": mode_combo, "recover": mode_recover},
+                default_trials=40000)
