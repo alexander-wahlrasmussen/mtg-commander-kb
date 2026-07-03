@@ -242,6 +242,29 @@ def _classify_search(t):
     return None
 
 
+# Braceless mana producers — "Add one mana of any color" (Birds of Paradise, Arcane
+# Signet, Bloom Tender, Coalition Relic) carries no {} symbol, so the `add \{` pattern
+# left every any-colour dork/rock out of the ramp tag. Found by the 2026-07-03 mulligan
+# audit (§7.1): the MANA keeps false-rejected hands whose only accel was Birds/a Signet.
+# Matched against reminder-stripped text: the Treasure reminder "(... Add one mana of
+# any color.)" otherwise ramp-tags cards whose Treasures go to an OPPONENT (An Offer
+# You Can't Refuse). The braced/treasure patterns keep matching the raw text, so
+# Powerstone/Treasure makers retain their historical tags.
+_ADD_MANA_WORDS = re.compile(r"\badds? (one|two|three|four|five|six|seven|x|that much) mana\b")
+_REMINDER_RE = re.compile(r"\([^)]*\)")
+
+# Draw PAYOFFS ("whenever you draw a card, <effect>" — Sheoldred, Psychosis Crawler) and
+# draw-replacements are not draw SOURCES. Strip the trigger-condition clause before
+# hunting for a draw effect — the same fix deck_sim._draw_profile applied to the flow
+# model (mulligan audit §7.2; it never propagated here, so keep_spec's selection bucket
+# counted punishers as dig). Niv-Mizzet ("whenever a player CASTS ... you draw") is not
+# matched, so a genuine engine on a payoff card keeps the tag.
+_DRAW_PAYOFF_RE = re.compile(
+    r"(whenever|if|when|each time) "
+    r"(you|an opponent|a player|another player|that player|players)"
+    r"( would)? draws?\b[^.,]*")
+
+
 def tag_card(card):
     """Return set of function tags for one card (a card may carry several)."""
     if is_land(card):
@@ -251,11 +274,13 @@ def tag_card(card):
     search = _classify_search(t)
 
     # ramp: mana production / treasure / land onto battlefield
-    if re.search(r"add \{", t) or re.search(r"create .*treasure", t) or search == "ramp":
+    if (re.search(r"add \{", t) or _ADD_MANA_WORDS.search(_REMINDER_RE.sub(" ", t))
+            or re.search(r"create .*treasure", t) or search == "ramp"):
         tags.add("ramp")
     if search == "tutor":
         tags.add("tutor")
-    if re.search(r"draw (a card|\w+ cards|that many cards|cards equal)", t):
+    if re.search(r"draw (a card|\w+ cards|that many cards|cards equal)",
+                 _DRAW_PAYOFF_RE.sub(" ", t)):
         tags.add("draw")
     if (re.search(r"(destroy|exile) (target|all|each|up to)", t)
             or "counter target" in t

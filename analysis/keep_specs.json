@@ -14,12 +14,14 @@
     ],
     "tutors": [],
     "ramp": [
+      "arcane signet",
       "bayo, irritable instructor",
       "big score",
       "birgi, god of storytelling",
       "black market connections",
       "dark ritual",
       "deadly dispute",
+      "fellwar stone",
       "jeska's will",
       "mana geyser",
       "neheb, the eternal",
@@ -66,8 +68,13 @@
       "vampiric tutor"
     ],
     "ramp": [
+      "arcane signet",
       "basking broodscale",
+      "birds of paradise",
+      "bloom tender",
       "farseek",
+      "incubation druid",
+      "kami of whispered hopes",
       "kodama of the west tree",
       "nature's lore",
       "rishkar, peema renegade",
@@ -104,8 +111,10 @@
       "ranger-captain of eos"
     ],
     "ramp": [
+      "arcane signet",
       "azorius signet",
       "boros signet",
+      "fellwar stone",
       "izzet signet",
       "knight of the white orchid",
       "mind stone",
@@ -151,10 +160,14 @@
       "gamble"
     ],
     "ramp": [
+      "arcane signet",
       "archaeomancer's map",
       "atsushi, the blazing sky",
       "bitterthorn, nissa's animus",
+      "fellwar stone",
       "mind stone",
+      "mox amber",
+      "patchwork banner",
       "relic retriever",
       "seize the spoils",
       "smothering tithe",
@@ -189,16 +202,20 @@
       "brightglass gearhulk"
     ],
     "ramp": [
+      "arcane signet",
       "bootleggers' stash",
       "crop rotation",
       "earthbender ascension",
       "entish restoration",
       "farseek",
       "liquimetal torque",
+      "lotus cobra",
       "nature's lore",
       "smothering tithe",
       "sol ring",
-      "tireless provisioner"
+      "the legend of kyoshi",
+      "tireless provisioner",
+      "wrenn and realmbreaker"
     ],
     "selection": [
       "bitter work",
@@ -231,9 +248,11 @@
       "recruiter of the guard"
     ],
     "ramp": [
+      "arcane signet",
       "black market connections",
       "boros signet",
       "dark ritual",
+      "fellwar stone",
       "jeska's will",
       "professional face-breaker",
       "prosper, tome-bound",
@@ -279,17 +298,22 @@
       "vampiric tutor"
     ],
     "ramp": [
+      "arcane signet",
       "ashnod's altar",
+      "birds of paradise",
       "black market connections",
       "boreal druid",
       "cabal ritual",
       "dark petition",
       "dark ritual",
+      "deathrite shaman",
       "delighted halfling",
       "elves of deep shadow",
       "elvish mystic",
       "fyndhorn elves",
+      "gilded goose",
       "llanowar elves",
+      "phyrexian altar",
       "sol ring",
       "warren soultrader"
     ],
@@ -323,10 +347,12 @@
       "entomb"
     ],
     "ramp": [
+      "arcane signet",
       "black market connections",
       "bone miser",
       "crowded crypt",
       "dimir signet",
+      "fellwar stone",
       "mind stone",
       "sol ring",
       "talisman of dominance",
@@ -367,9 +393,14 @@
     ],
     "tutors": [],
     "ramp": [
+      "arcane signet",
+      "bender's waterskin",
       "farseek",
+      "hardbristle bandit",
+      "incubation druid",
       "misleading signpost",
       "nature's lore",
+      "paradise chocobo",
       "smuggler's share",
       "sol ring",
       "tataru taru",
@@ -415,15 +446,20 @@
       "conduit of ruin"
     ],
     "ramp": [
+      "arcane signet",
+      "birds of paradise",
       "cultivate",
       "delighted halfling",
       "farseek",
       "kodama's reach",
       "kozilek's command",
+      "llanowar loamspeaker",
+      "lotus cobra",
       "mana vault",
       "nature's lore",
       "rampant growth",
       "sakura-tribe elder",
+      "selvala, heart of the wilds",
       "skyshroud claim",
       "sol ring",
       "solemn simulacrum",
@@ -469,9 +505,12 @@
       "ringsight"
     ],
     "ramp": [
+      "arcane signet",
       "black market connections",
       "dark ritual",
       "deadly dispute",
+      "fellwar stone",
+      "lotus petal",
       "pitiless plunderer",
       "sol ring",
       "talisman of creativity",
@@ -487,7 +526,6 @@
       "ledger shredder",
       "night's whisper",
       "nihil spellbomb",
-      "sheoldred, the apocalypse",
       "skullclamp",
       "yawgmoth, thran physician"
     ],
@@ -516,9 +554,12 @@
       "recruiter of the guard"
     ],
     "ramp": [
+      "arcane signet",
       "ashnod's altar",
       "dark ritual",
+      "fellwar stone",
       "mind stone",
+      "phyrexian altar",
       "priest of forgotten gods",
       "smothering tithe",
       "sol ring",
@@ -561,16 +602,19 @@
       "solve the equation"
     ],
     "ramp": [
+      "arcane signet",
       "blazing firesinger",
       "dark ritual",
       "desperate ritual",
+      "fellwar stone",
       "goldspan dragon",
       "sanar, unfinished genius",
       "seething song",
       "sol ring",
       "storm-kiln artist",
       "talisman of dominance",
-      "talisman of indulgence"
+      "talisman of indulgence",
+      "vivi ornitier"
     ],
     "selection": [
       "borne upon a wind",
@@ -611,6 +655,10 @@
       "sidisi, undead vizier"
     ],
     "ramp": [
+      "arcane signet",
+      "birds of paradise",
+      "bloom tender",
+      "coalition relic",
       "fanatic of rhonas",
       "farseek",
       "kodama's reach",
@@ -648,12 +696,19 @@
       "tezzeret, cruel captain"
     ],
     "ramp": [
+      "arcane signet",
+      "chrome mox",
       "crystal skull, isu spyglass",
       "dimir signet",
+      "fellwar stone",
       "krark-clan ironworks",
       "liquimetal torque",
+      "lotus petal",
+      "mox amber",
+      "mox opal",
       "prized statue",
       "sol ring",
+      "springleaf drum",
       "talisman of dominance",
       "the mightstone and weakstone",
       "urza, lord high artificer"
@@ -714,10 +769,13 @@
       "insidious dreams"
     ],
     "ramp": [
+      "birds of paradise",
       "culling ritual",
       "farseek",
       "hour of promise",
+      "lotus cobra",
       "nature's lore",
+      "nissa, resurgent animist",
       "omenpath journey",
       "skyshroud claim",
       "sol ring",
@@ -757,6 +815,8 @@
       "grim tutor"
     ],
     "ramp": [
+      "arcane signet",
+      "commander's sphere",
       "dimir signet",
       "izzet signet",
       "mana vault",
@@ -781,8 +841,6 @@
       "notion thief",
       "ponder",
       "preordain",
-      "psychosis crawler",
-      "sheoldred, the apocalypse",
       "thrill of possibility",
       "waste not"
     ],
