@@ -36,6 +36,7 @@ Usage:
 import argparse
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -68,35 +69,112 @@ ALSO = fb.deck_registry.also()
 N_SELECTION_NEEDED = 2
 TAG_TO_BUCKET = {"ramp": "ramp", "tutor": "tutors", "draw": "selection"}
 
+# --- tutor-bridge check (2026-07-03 re-tune, Mulligan_Strategy_Audit §7.3) -----
+# FINDING treats "holds a tutor" as "can find the win" — but Ranger-Captain of Eos
+# (creature MV<=1) can fetch nothing in Replication's combo package, so keeping on it
+# was a false keep. Parse the search clause's restrictions (card type / colour /
+# colourless / mana value / power / toughness) and drop a tutor from the bucket when
+# NO key card satisfies them. Conservative: anything unparsed fails OPEN (tutor kept)
+# — only a parsed, definite miss drops it.
+_SEARCH_CLAUSE = re.compile(r"search your library for ([^.]*)")
+_MV_RE = re.compile(r"mana value (\d+) or (less|greater)")
+_PW_RE = re.compile(r"power (\d+) or less")
+_TH_RE = re.compile(r"toughness (\d+) or less")
+_TYPE_WORDS = ("creature", "artifact", "enchantment", "instant", "sorcery",
+               "planeswalker", "battle")
+_COLOR_WORDS = {"white": "W", "blue": "U", "black": "B", "red": "R", "green": "G"}
+
+
+def _stat(card, field):
+    """Numeric power/toughness across faces; None when absent/unparsable ('*')."""
+    for src in (card, *(card.get("card_faces") or [])):
+        try:
+            return float(src.get(field))
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def tutor_bridges(tutor_card, key_records):
+    """Can this tutor's library search fetch at least one of the key cards?"""
+    m = _SEARCH_CLAUSE.search(fb.card_text(tutor_card))
+    if not m or not key_records:
+        return True
+    clause = m.group(1)
+    # word-boundary matches: "monocolored" contains "red", "noncreature" contains
+    # "creature" — plain substring tests read phantom constraints out of them.
+    types = [w for w in _TYPE_WORDS if re.search(rf"\b{w}\b", clause)]
+    need_colors = {c for w, c in _COLOR_WORDS.items() if re.search(rf"\b{w}\b", clause)}
+    colorless = re.search(r"\bcolorless\b", clause) is not None
+    mv, pw, th = _MV_RE.search(clause), _PW_RE.search(clause), _TH_RE.search(clause)
+
+    for card in key_records:
+        tl = fb.card_type(card)
+        if types and not any(t in tl for t in types):
+            continue
+        colors = set(card.get("colors") or ())
+        for f in card.get("card_faces") or []:
+            colors |= set(f.get("colors") or ())
+        if colorless and colors:
+            continue
+        if need_colors and not (need_colors & colors):
+            continue
+        if mv:
+            n, direction = float(mv.group(1)), mv.group(2)
+            cmc = fb.card_cmc(card)
+            if (direction == "less" and cmc > n) or (direction == "greater" and cmc < n):
+                continue
+        p = _stat(card, "power")
+        if pw and p is not None and p > float(pw.group(1)):
+            continue
+        t = _stat(card, "toughness")
+        if th and t is not None and t > float(th.group(1)):
+            continue
+        return True
+    return False
+
 
 def build_spec(slug, idx, gc, aliases):
     """One deck's spec: hand-curated JUDGMENT + generated card buckets."""
     bottleneck, lo, hi, hi_curve, mixed = JUDGMENT[slug]
     cmdr_cmc, cmdr_canon = fb.commander_mv(slug, idx, aliases)
+    row = fb.deck_registry.DECKS[slug]
 
     # printed-name buckets, generated from the tagger; canon->printed map to
     # resolve WIN_LINE pieces (canonical) to the deck's printed name.
     buckets = {"ramp": [], "tutors": [], "selection": []}
-    canon_to_printed = {}
+    canon_to_printed, canon_to_card = {}, {}
     deckset = set()
     for cnt, name, canon, card, is_cmd in fb.deck_cards(slug, idx, aliases):
         if is_cmd or card is None:
             continue
         canon_to_printed.setdefault(canon, name.lower())
+        canon_to_card.setdefault(canon, card)
         deckset.add(canon)
         for tg in fb.tag_card(card):
             b = TAG_TO_BUCKET.get(tg)
             if b and name.lower() not in buckets[b]:
                 buckets[b].append(name.lower())
 
-    # key cards = WIN_LINE pieces actually in this deck (printed name, lowercased)
-    key_cards, missing = [], []
-    for piece in fb.WIN_LINE[slug]["pieces"]:
+    # key cards = WIN_LINE pieces + registry key_extra actually in this deck (printed,
+    # lowercased). key_extra widens the KEEP to the plan's real redundancy without
+    # touching WIN_LINE (which stays the bake-off's cheapest-line cost basis).
+    key_cards, key_extra, missing, key_records = [], [], [], []
+    for piece, is_extra in ([(p, False) for p in fb.WIN_LINE[slug]["pieces"]]
+                            + [(p, True) for p in row.get("key_extra", [])]):
         canon = aliases.get(piece.lower(), piece.lower())
         if canon in deckset:
             key_cards.append(canon_to_printed[canon])
+            key_records.append(canon_to_card[canon])
+            if is_extra:
+                key_extra.append(canon_to_printed[canon])
         else:
-            missing.append(piece)        # finisher named in WIN_LINE but not in list
+            missing.append(piece)        # named in WIN_LINE/key_extra but not in list
+
+    # tutor bridge: a tutor that can fetch NO key card is not a finder for this plan.
+    bridged = [t for t in buckets["tutors"]
+               if tutor_bridges(canon_to_card[aliases.get(t, t)], key_records)]
+    unbridged = sorted(set(buckets["tutors"]) - set(bridged))
 
     return {
         "deck_key": fb.DECKS[slug][1],
@@ -106,7 +184,10 @@ def build_spec(slug, idx, gc, aliases):
         "min_lands": lo, "max_lands": hi, "hi_curve": hi_curve,
         "cmdr": cmdr_canon, "cmdr_cmc": cmdr_cmc,
         "key_cards": sorted(key_cards),
-        "tutors": sorted(buckets["tutors"]),
+        "key_extra": sorted(key_extra),
+        "n_key_needed": row.get("n_key_needed", 1),
+        "tutors": sorted(bridged),
+        "tutors_unbridged": unbridged,
         "ramp": sorted(buckets["ramp"]),
         "selection": sorted(buckets["selection"]),
         "n_selection_needed": N_SELECTION_NEEDED,
@@ -148,14 +229,17 @@ def cmd_show_one(specs, frag):
         axes = " + ".join([s["bottleneck"], *s.get("also", [])])
         print(f"\n=== {s['name']} ({s['deck_key']}) — {axes} ===")
         print(f"  band {s['min_lands']}-{s['max_lands']} lands · hi_curve {s['hi_curve']} "
-              f"· commander {s['cmdr']} (cmc {s['cmdr_cmc']:.0f})")
+              f"· commander {s['cmdr']} (cmc {s['cmdr_cmc']:.0f})"
+              + (f" · needs {s['n_key_needed']} key pieces" if s.get("n_key_needed", 1) > 1 else ""))
         if s["mixed"]:
             print(f"  mixed: {s['mixed']}")
         for b in ("key_cards", "tutors", "ramp", "selection"):
             cards = s[b]
             print(f"  {b:<11}({len(cards):>2}): {', '.join(cards) if cards else '—'}")
+        if s.get("tutors_unbridged"):
+            print(f"  tutors dropped (fetch no key card): {', '.join(s['tutors_unbridged'])}")
         if s["key_missing"]:
-            print(f"  WIN_LINE piece(s) not in decklist: {s['key_missing']}")
+            print(f"  WIN_LINE/key_extra piece(s) not in decklist: {s['key_missing']}")
 
 
 def main():

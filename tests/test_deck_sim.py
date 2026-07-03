@@ -444,3 +444,25 @@ def test_bottom_hand_protects_plan_cards_over_cheaper_filler():
         assert "Filler" not in {n for n, _ in out}
     finally:
         deck_sim.set_keep_spec(None)
+
+
+def test_finding_axis_n_key_needed_counts_pieces():
+    # FL_LETHAL_OR_BUST_REGRESSION (keep-spec re-tune 2026-07-03): with
+    # n_key_needed=2 a lone key card (the naked-wheel refuel trap) no longer
+    # counts as advancing; two pieces, or a tutor, still keep.
+    deck_sim.set_keep_spec({"key_cards": ["windfall", "notion thief"], "tutors": ["demonic tutor"],
+                            "ramp": [], "selection": [], "bottleneck": "FINDING", "also": [],
+                            "min_lands": 2, "max_lands": 4, "hi_curve": False,
+                            "cmdr_cmc": 5.0, "n_selection_needed": 2, "n_key_needed": 2})
+    try:
+        lands = [("Island", land()) for _ in range(3)]
+        filler = [(f"F{i}", rec(cmc=4)) for i in range(3)]
+        lone_wheel = lands + [("Windfall", rec(cmc=3, type_line="Sorcery"))] + filler
+        assert deck_sim.keep_hand(lone_wheel) is False
+        two_pieces = lands + [("Windfall", rec(cmc=3, type_line="Sorcery")),
+                              ("Notion Thief", rec(cmc=4))] + filler[:2]
+        assert deck_sim.keep_hand(two_pieces) is True
+        tutor_hand = lands + [("Demonic Tutor", rec(cmc=2, type_line="Sorcery"))] + filler
+        assert deck_sim.keep_hand(tutor_hand) is True
+    finally:
+        deck_sim.set_keep_spec(None)

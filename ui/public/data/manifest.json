@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-03 22:17",
+  "generated": "2026-07-03 22:28",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -105,12 +105,5 @@
       "eldrazi_stampede",
       "zero_sum_game"
     ]
-  },
-  "matchup": {
-    "strict": [
-      0,
-      1
-    ],
-    "trials": 20000
   }
 }

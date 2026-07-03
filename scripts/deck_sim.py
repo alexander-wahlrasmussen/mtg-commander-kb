@@ -277,7 +277,12 @@ def _axis_ok(axis, hand, lands, spec, names, has_ramp):
     """Does the hand satisfy ONE bottleneck axis (FINDING / MANA / BOARD)?"""
     sets = spec["_sets"]
     if axis == "FINDING":
-        if names & sets["key_cards"] or names & sets["tutors"]:
+        # n_key_needed (default 1) lets a deck demand MULTIPLE key pieces before a
+        # hand counts as advancing — Forced Liquidation's lethal-or-bust rule (a lone
+        # wheel/punisher is the refuel trap; keep-spec re-tune 2026-07-03). The tutor
+        # clause stays any-one: a finder substitutes for the missing piece(s).
+        if len(names & sets["key_cards"]) >= spec.get("n_key_needed", 1) \
+                or names & sets["tutors"]:
             return True
         return len(names & sets["selection"]) >= spec["n_selection_needed"]
     if axis == "MANA":                  # acceleration, not a land flood

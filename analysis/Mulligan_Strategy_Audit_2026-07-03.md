@@ -232,6 +232,29 @@ spec-fidelity hygiene, with one exception: **FL's plan keep measurably fights it
 clock** (−5pp @T8 even free) and needs re-tuning before any diagnostic use. Full
 results: `analysis/London_Mulligan_Experiment_2026-07-03.md`.
 
+**RE-TUNE APPLIED (same day, follow-up session):** (3)+(4) hygiene done where verdicts
+were wrong, all lab-verified (40k A/Bs, land vs plan keep):
+
+- **deck_sim `n_key_needed`** (counted-key primitive, default 1 — behaviour unchanged
+  elsewhere) + **FL → FINDING(n_key=2) + also:[BOARD]**: a naked wheel/punisher no
+  longer keeps; development hands keep via the (genuinely-biting, Kefka=5) BOARD reach.
+  FL plan keep −5pp → **+0–1pp**; stuck 23→3%; drill verdicts now match the Summary's
+  lethal-or-bust rule (warning removed from the Summary).
+- **`key_extra`** (registry, hand-curated, widens the KEEP without touching WIN_LINE's
+  bake-off cost basis): ZS + the 4 redundant loop halves (a complete Conqueror+Bloodlord
+  hand now keeps; T7 37→43, median T9→T8); RC + Lightning Runner (the primary line);
+  Croak + the 3 other enablers + Cellarspawn; LW + Reiterate/Seething/Narset's Reversal.
+- **Tutor-bridge filter** (`keep_spec.tutor_bridges`, conservative fail-open): a tutor
+  whose parsed search restrictions can fetch NO key card leaves the tutors bucket —
+  Ranger-Captain out of RC/GD, Conduit out of ESC, GSZ out of Croak, Enlightened/
+  Imperial/Recruiter out of ER. Substring pitfall pinned ("monocolored" ⊃ "red").
+- **EBM → also:[BOARD]** (on-curve Toph hands keep; stuck 24→2%, clock flat) and
+  **LW → also:[FINDING]** (tutor/key hands keep; drill WHY surfaces the finders).
+
+Remaining open thread: **mulligan value against interaction** (holding protection for
+the combo turn, pacing vs a known pod clock) — goldfish-blind by construction; belongs
+on the pod_gauntlet/delay_lab side and is deliberately NOT attempted here.
+
 ---
 
 *Files: `scripts/mulligan_audit.py` (new), `analysis/keep_specs.json` (regenerated),
