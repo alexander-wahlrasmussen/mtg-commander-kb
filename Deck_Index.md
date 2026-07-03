@@ -20,7 +20,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite (Clock T11 decap / T13 table, lab 2026-06-13)              |
 | Lorehold Spirits       | Quintorius, History Chaser  | Boros  |     18/20 | Spirits / graveyard cycling | Elite (Clock T8 decap / T10 table, lab 2026-06-13)              |
 | The Genome Project     | Kuja, Genome Sorcerer       | Rakdos |     15/20 | Reanimator / combo          | Solid                                                             |
-| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30; Clock T8 decap ceiling / T11 table, lab 2026-06-13) |
+| Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     16/20 | Spellslinger / tempo-control | Solid (Clock T8 decap ceiling / T11 table, front edge doubled — lab 2026-07-03; **"quiet exits" package applied 2026-07-03**: +Approach +Intruder Alarm +Wizard Class, close-mixture 60/32/8, 0 GCs, KR 3→4; buy 2 cards ≈ €6) |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
 | Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Built** (cards treated acquired 2026-06-30; built 2026-06-11; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |

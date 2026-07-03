@@ -316,11 +316,14 @@ CLOCKS = {
         decap=[3, 13, 31, 56, 74, 86, 96, 99], table=[0, 1, 4, 12, 27, 46, 76, 91],
         med=("T8", "T11"), never=(1, 9), src="lab cos_clock_lab @8k"),
     "bumbleflower": dict(
-        name="Ms. Bumbleflower", score="15", disrupt_class="warn",
+        name="Ms. Bumbleflower", score="16", disrupt_class="warn",
         lab=("bmf_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[1, 7, 39, 82, 96, 99, 100, 100], table=[0, 0, 0, 0, 3, 17, 83, 98],
-        med=("T8", "T11"), never=(0, 2), src="lab bmf_clock_lab @8k"),
+        decap=[1, 7, 36, 78, 95, 98, 100, 100], table=[0, 1, 2, 5, 15, 35, 86, 98],
+        med=("T8", "T11"), never=(0, 2),
+        src="lab bmf_clock_lab @40k (2026-07-03 quiet-exits package: +Approach/+Alarm/"
+            "+Wizard Class on this-bunny-goes-to-market-20260703.txt; close-mixture "
+            "60% combat / 32% Approach / 8% Alarm)"),
     "eldrazi_stampede": dict(
         name="Eldrazi Stampede Chaos", score="14", disrupt_class="none",
         lab=("esc_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),

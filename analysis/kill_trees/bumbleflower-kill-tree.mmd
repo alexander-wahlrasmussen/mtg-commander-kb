@@ -9,10 +9,16 @@ flowchart TD
     classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
 
     S(["Ms. Bumbleflower online (~T3–4)<br/>each spell you cast: an opp draws, +1/+1 counter (+flying) on a creature;<br/>the 2nd cast each turn → you draw two"]):::root
-    S --> A1{"Jolrael, Mwonvuli Recluse + a full hand + a board<br/>(Cats / payoff creatures / stolen bodies)"}:::ask
-    A1 -- assembled --> K1["<b>Jolrael's 4GG pump sets your team to X/X (X = cards in hand) → 8–12-power alpha</b><br/>⏱ decap T8"]:::combat
-    A1 --> A2{"Willbreaker + aim Bumbleflower's counter at an opp's creature each cast"}:::ask
-    A2 -- assembled --> K2["<b>steal a creature every spell (it flies in that turn) → swing with their own board</b><br/>⏱ decap (grindy)"]:::combat
-    A2 --> A3{"pile +1/+1 counters & flying on one carrier each cast<br/>(optionally vacuum them into Sin, Unending Cataclysm) (fallback)"}:::ask
-    A3 -- assembled --> K3["<b>a single evasive counter-grown threat flies over</b><br/>⏱ decap T8+ (slowest)"]:::combat
-    A3 -- not yet --> STALL["out-value the table — chain cantrips for the 2nd-cast draw-two, deploy draw payoffs,<br/>hold up the deep counter/removal suite; the kill is slow & combat-only, so close from dominance"]:::stall
+    S --> A1{"Intruder Alarm + Shrieking Drake / Whitemane Lion + any repeatable dork<br/>+ the commander"}:::ask
+    A1 -- assembled --> K1["<b>each self-bounce recast = a Bumbleflower trigger (mana-neutral) → "target opponent<br/>draws" iterated: the table draws out on the spot (Lion = instant speed)</b><br/>⏱ table on assembly (8% of closes)"]:::combo
+    A1 --> A2{"Approach of the Second Sun — 2nd cast from HAND = win<br/>(Reprieve bounces your own 1st cast back to hand: win checks CAST, not resolved)"}:::ask
+    A2 -- assembled --> K2["<b>cast #1 at 7 mana → redraw it (7th from top; the engine draws 2–4/turn)<br/>or Reprieve-split (9 mana, then 7) — protected by the counter suite</b><br/>⏱ table T9–10 (32% of closes)"]:::combo
+    A2 --> A3{"Jolrael, Mwonvuli Recluse + a full hand + a board<br/>(Cats / payoff creatures / stolen bodies)"}:::ask
+    A3 -- assembled --> K3["<b>Jolrael's 4GG pump sets your team to X/X (X = cards in hand) → 8–12-power alpha</b><br/>⏱ decap T8"]:::combat
+    A3 --> A4{"Willbreaker + aim Bumbleflower's counter at an opp's creature each cast"}:::ask
+    A4 -- assembled --> K4["<b>steal a creature every spell (it flies in that turn) → swing with their own board</b><br/>⏱ decap (grindy)"]:::combat
+    A4 --> A5{"Wizard Class lvl 3 + Fathom Mage"}:::ask
+    A5 -- assembled --> K5["<b>every draw → counter on Fathom → may draw → draw the library at will<br/>(find an exit; Jolrael X = huge)</b><br/>⏱ enabler"]:::enabler
+    A5 --> A6{"pile +1/+1 counters & flying on one carrier each cast (fallback)"}:::ask
+    A6 -- assembled --> K6["<b>a single evasive counter-grown threat flies over</b><br/>⏱ decap T8+ (slowest)"]:::combat
+    A6 -- not yet --> STALL["out-value the table — chain cantrips for the 2nd-cast draw-two, deploy draw payoffs,<br/>hold up the deep counter/removal suite; close from dominance via whichever quiet exit assembles<br/>(mixture 60% combat / 32% Approach / 8% Alarm — lab 2026-07-03)"]:::stall
