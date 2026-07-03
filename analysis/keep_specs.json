@@ -100,6 +100,7 @@
       "sword of feast and famine"
     ],
     "tutors": [
+      "imperial recruiter",
       "ranger-captain of eos"
     ],
     "ramp": [
@@ -486,7 +487,6 @@
       "ledger shredder",
       "night's whisper",
       "nihil spellbomb",
-      "sensei's divining top",
       "sheoldred, the apocalypse",
       "skullclamp",
       "yawgmoth, thran physician"
@@ -693,20 +693,25 @@
   "croak-and-dagger": {
     "deck_key": "croak-and-dagger",
     "name": "Croak and Dagger",
-    "bottleneck": "MANA",
-    "also": [],
+    "bottleneck": "FINDING",
+    "also": [
+      "MANA"
+    ],
     "min_lands": 2,
     "max_lands": 4,
     "hi_curve": false,
     "cmdr": "glarb, calamity's augur",
     "cmdr_cmc": 3.0,
     "key_cards": [
-      "torment of hailfire"
+      "aetherflux reservoir",
+      "bolas's citadel",
+      "sensei's divining top"
     ],
     "tutors": [
       "chord of calling",
-      "demonic tutor",
-      "green sun's zenith"
+      "emergent ultimatum",
+      "green sun's zenith",
+      "insidious dreams"
     ],
     "ramp": [
       "culling ritual",
@@ -718,17 +723,17 @@
       "sol ring",
       "sowing mycospawn",
       "tempt with discovery",
-      "three visits",
-      "titania's command"
+      "three visits"
     ],
     "selection": [
       "aesi, tyrant of gyre strait",
       "archon of cruelty",
-      "life from the loam",
+      "sensei's divining top",
+      "tatyova, benthic druid",
       "veil of summer"
     ],
     "n_selection_needed": 2,
-    "mixed": null,
+    "mixed": "redundant 3-category combo (4 enablers x 2 payoffs); ramp -> Torment is the MANA-gated backup",
     "key_missing": []
   },
   "forced-liquidation": {

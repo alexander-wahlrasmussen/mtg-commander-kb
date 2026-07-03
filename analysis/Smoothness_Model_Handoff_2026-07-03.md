@@ -84,3 +84,10 @@ real games still blocked (0 logged).
 3. Dashboard: bake flow curves into the deck pages (same pattern as `bake_hands`).
 4. Tier-list interplay: does smoothness correlate with pod_gauntlet outcomes, or
    is it another orthogonal axis like CC score?
+
+**Follow-up 2026-07-03:** the H1 ("mulligan barely matters") reading was audited on user
+push-back — see `analysis/Mulligan_Strategy_Audit_2026-07-03.md`. Short version: the H2
+smoothness result stands, but the H1 test had ~no contrast on 9/17 decks (degenerate BOARD
+keeps), Croak's spec was stale (fixed + regression test), and dead-turns is the wrong
+outcome for the mulligan's real job (plan assembly — where measured effects are ±1pp,
+best +6pp, −9pp under a mis-specified plan).

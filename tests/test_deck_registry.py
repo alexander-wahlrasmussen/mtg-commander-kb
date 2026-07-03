@@ -2,6 +2,8 @@
 static metadata. Every consumer (deck_sim, framework_bakeoff, pod_gauntlet,
 kill_tree, keep_spec, report) reads these rows, so a malformed row or a
 prefix-collision in the stems mis-routes a whole batch run silently."""
+import json
+
 import deck_registry as reg
 
 REQUIRED = {"name", "stem", "commander", "lab", "cc", "cc_axes", "win_line",
@@ -49,6 +51,28 @@ def test_no_active_stem_is_a_prefix_of_another_active_stem():
         for b in stems:
             if a != b:
                 assert not b.startswith(a), f"{a!r} is a prefix of {b!r}"
+
+
+def test_keep_specs_json_judgment_fields_current():
+    """KEEP_SPECS_STALENESS_REGRESSION: analysis/keep_specs.json is a generated
+    artifact (keep_spec.py --write) whose judgment fields copy the registry
+    verbatim. It went stale 2026-07-01..03 — the Croak combo promotion changed
+    the registry row (MANA/Torment -> FINDING+MANA/Top-combo) but the JSON was
+    not regenerated, so the 2026-07-03 smoothness sweep mulled Croak toward the
+    superseded plan. The card buckets need oracle data to regenerate, but the
+    judgment fields don't — so this check stays tier-1: editing a registry row
+    without rerunning `keep_spec.py --write` fails here."""
+    path = reg.ROOT / "analysis" / "keep_specs.json"
+    specs = json.loads(path.read_text(encoding="utf-8"))
+    for slug, row in reg.DECKS.items():
+        s = specs.get(row["stem"])
+        assert s, f"{row['stem']} missing from keep_specs.json — rerun keep_spec.py --write"
+        for fld in ("bottleneck", "min_lands", "max_lands", "hi_curve", "mixed"):
+            assert s[fld] == row[fld], \
+                f"{slug}.{fld} stale in keep_specs.json — rerun keep_spec.py --write"
+        assert s.get("also", []) == (row.get("also") or []), \
+            f"{slug}.also stale in keep_specs.json — rerun keep_spec.py --write"
+    assert len(specs) == len(reg.DECKS), "deck count drifted — rerun keep_spec.py --write"
 
 
 def test_no_active_stem_prefixes_an_extra_stem():
