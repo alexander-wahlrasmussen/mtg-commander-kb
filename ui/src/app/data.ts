@@ -51,6 +51,22 @@ export interface Manifest {
   gauntlet: { pod: string[]; strict: number[]; a: number[]; trials: number };
   locks: { pod: string[]; strict: number[]; a: number[]; r: number[]; trials: number };
   championship: { t_grind: number[]; swapped: number[]; trials: number; season_trials: number; draws?: number };
+  matchup?: { strict: number[]; trials: number };
+}
+
+/* Matchup matrix — deck × measured pod opponent (simulate_vs, per-opponent kdists). */
+export interface MatchupOpponent {
+  key: string; label: string; name: string; weight: number; med: string; note: string; src: string;
+}
+export interface MatchupRow {
+  slug: string; name: string; score: number | null; med: string;
+  per: Record<string, number>;   // opponent key -> P(win) %
+  blend: number;                 // rotation-weighted blend %
+}
+export interface MatchupData {
+  params: { which: string; trials: number; profile: string };
+  opponents: MatchupOpponent[];
+  rows: MatchupRow[];
 }
 
 async function getJSON<T>(url: string): Promise<T> {
@@ -117,6 +133,15 @@ export async function getChampionship(p: { trials: number; season_trials: number
   const key = `${nearest(p.t_grind, m.t_grind)}|${p.swapped ? 1 : 0}`;
   const hit = (await bundle<Record<string, ChampData>>("championship"))[key];
   if (!hit) throw new Error(`no baked scenario (championship ${key})`);
+  return hit;
+}
+
+export async function getMatchup(p: { strict: boolean; trials: number }): Promise<MatchupData> {
+  if (!mode.static) {
+    return getJSON(`/api/matchup?strict=${p.strict ? 1 : 0}&trials=${p.trials}`);
+  }
+  const hit = (await bundle<Record<string, MatchupData>>("matchup"))[`${p.strict ? 1 : 0}`];
+  if (!hit) throw new Error(`no baked scenario (matchup strict=${p.strict ? 1 : 0})`);
   return hit;
 }
 

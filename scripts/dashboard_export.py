@@ -71,6 +71,9 @@ CHAMP_TRIALS = 20000
 CHAMP_SEASON = 40000
 CHAMP_DRAWS = 8                                  # sample random draws baked per key (Re-draw cycles them)
 
+MATCHUP_STRICT = [False, True]                  # decap / table
+MATCHUP_TRIALS = 20000
+
 GSEED, LSEED, CSEED = 20260614, 20260614, ds.sm.SEED
 
 
@@ -130,6 +133,12 @@ def main():
                 print(f"\rchampionship {n}/{total} ...", end="", flush=True)
         (OUT / "championship.json").write_text(json.dumps(c), encoding="utf-8")
         print(" done")
+
+        # matchup matrix — deck × measured opponent (cheap: 2 scenarios)
+        mu = {f"{k_strict(s)}": ds.compute_matchup(strict=s, trials=MATCHUP_TRIALS, seed=GSEED)
+              for s in MATCHUP_STRICT}
+        (OUT / "matchup.json").write_text(json.dumps(mu), encoding="utf-8")
+        print("matchup ... done")
 
         # locks (the expensive one — measures availability per deck×lock). Needs the heavy
         # Scryfall oracle dump; if it's absent, skip and keep the existing locks.json rather
@@ -203,6 +212,7 @@ def main():
                        a=LOCKS_A, r=LOCKS_R, trials=LOCKS_TRIALS),
             championship=dict(t_grind=CHAMP_TGRIND, swapped=[0, 1],
                               trials=CHAMP_TRIALS, season_trials=CHAMP_SEASON, draws=CHAMP_DRAWS),
+            matchup=dict(strict=[k_strict(s) for s in MATCHUP_STRICT], trials=MATCHUP_TRIALS),
         ))
     if do_content:
         manifest["content"] = dict(roster=True, home=True, wishlist=True,

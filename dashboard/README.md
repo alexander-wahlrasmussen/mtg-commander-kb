@@ -72,6 +72,7 @@ the same reason.
 | **Gauntlet** | `pod_gauntlet.run_default` | Abolisher P(out) `--a`, pod speed `--pod-fast/slow`, decap↔table `--strict`, trials |
 | **Clocks** | harvested CDFs (`pod_gauntlet.merged_clocks`) | curve decap↔table, deck overlay |
 | **Locks** | `pod_gauntlet.lock_sweep_rows` | Abolisher `--a`, lock-removal `--r`, decap↔table, pod speed, trials |
+| **Matchups** | `pod_gauntlet.simulate_vs` × the MEASURED stable (per-opponent kdists) | decap↔table, trials. Read the per-opponent spread — the blend hides H&K |
 | **Championship** | `pod_championship` | playoff trials, season trials, `--t-grind`, `--swapped`, **🎲 Re-draw** |
 | **Doctor** | `deck_doctor.doctor(quiet=True)` — the `--all` triage board | live `?vitals=1`; the bake always includes vitals. No buildability columns: the payload is public, so ownership data stays out |
 | Decks / Collection / Wishlist | `kb_content` (KB markdown / CSV / Scryfall) | — |
