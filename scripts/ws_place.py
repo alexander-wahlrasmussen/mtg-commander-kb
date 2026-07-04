@@ -101,8 +101,20 @@ def gauntlet(trials, seed):
           f"\n  front edge; P(WIN) folds in the (conservative 'warn') disruption bucket.")
 
 
-def tiers(trials, seed, keep_earthbend):
+def tiers(trials, seed, keep_earthbend, inter=None):
+    """inter: if set, inject a manual interaction-axis value for the merged deck (the axis
+    is otherwise `—` for a non-delay_lab-measured candidate). Answers 'how much does the
+    unmeasured interaction axis cost it, and would investing there move the tier?'"""
+    if inter is not None:
+        _orig = tl.interaction
+        def _patched(slugs, C, t, rng, tg, tax):
+            d = _orig(slugs, C, t, rng, tg, tax)
+            d[SLUG] = inter
+            return d
+        tl.interaction = _patched
     rows = tl.compute_rows(trials=trials, seed=seed)["rows"]
+    if inter is not None:
+        tl.interaction = _orig
     print("\n" + "=" * 78)
     lbl = "merged INSERTED (17-deck field)" if keep_earthbend else \
           "merged REPLACES Earthbend (real post-retirement roster)"
@@ -128,10 +140,13 @@ def main():
     ap.add_argument("--trials", type=int, default=20000)
     ap.add_argument("--seed", type=int, default=12345)
     ap.add_argument("--keep-earthbend", action="store_true")
+    ap.add_argument("--inter", type=float, default=None,
+                    help="inject a manual interaction-axis %% for the merged deck "
+                         "(sensitivity on the unmeasured 0.35 axis)")
     args = ap.parse_args()
     inject(args.keep_earthbend)
     gauntlet(args.trials, args.seed)
-    tiers(args.trials, args.seed, args.keep_earthbend)
+    tiers(args.trials, args.seed, args.keep_earthbend, inter=args.inter)
 
 
 if __name__ == "__main__":

@@ -456,6 +456,59 @@ is to climb the roster's tier list, this swap does not do it; if the goal is a d
 resilient, fun-to-pilot grind seat that beats the fair-Dragon matchup, it delivers that
 at 350 DKK.
 
+## Moving it up without tutors (2026-07-04)
+
+The tier composite is 0.45 anti-pod (decap race) · 0.35 interaction · 0.20 self-meta.
+Two levers were tested; one is flat, one works.
+
+**Lever 1 — lean into the counters → All Will Be One → single-target-decap axis
+(FLAT, dropped).** AWBO deals its counter-count to *one* opponent, so feeding it
+counter-generators from the retirement pool (Bristly Bill landfall counters, Doubling
+Season / The Earth Crystal doubling, Impact Tremors) is the on-theme, Abolisher-proof,
+tutor-free way to try to speed the decap. `ws_clock_lab --mode mergedlevers` (40k):
+
+| variant | decap med | T7 | T8 |
+|---|---|---|---|
+| merged base | T9 | 6% | 23% |
+| + Bristly Bill | T9 | 6% | 23% |
+| + counter pkg (3) | T9 | 6% | 23% |
+| + counter pkg (4, −Roiling) | **T10** | 5% | 22% |
+
+Flat on the front edge, and the 4-card version is *slower* (cut too much mana). AWBO's
+counter-damage only comes online once you're already stationed or in the Mazirek loop —
+same T8+ timing as the drain it supplements. It thickens the mid-game grind but **does
+not race**, so it does not move the tier. (Per the lab-first rule: measured, flat,
+dropped — keep these only if wanted as grind/redundancy, not for placement.)
+
+**Lever 2 — the interaction axis (0.35), which is *unmeasured*, not weak (THE lever).**
+`ws_place.py --inter` sensitivity (injecting a manual interaction score for the merged
+deck):
+
+| injected interaction | composite | tier |
+|---|---|---|
+| — (unmeasured, today) | 20 | D (#14) |
+| 15 | 20 | D (#14) |
+| 25 | 26 | D (#13) |
+| **35** | **31** | **C (#12)** |
+
+At an interaction score ~35 it crosses into **Tier C — level with the Earthbend seat it
+replaces.** The deck already has a real 7-piece instant suite; the free/retirement pool
+holds plenty of premium Jund interaction to push it there without a single tutor or buy:
+**Toxic Deluge, Deadly Rollick, Assassin's Trophy, Chaos Warp, Go for the Throat,
+Vandalblast, Force of Vigor, Heroic Intervention** (all Jund-legal, all free or
+Earthbend-proxy, **none a Game Changer** — 3/3 holds). Concrete on-brand swap: cut
+low-decap value slots (Escape to the Wilds, Augur of Autumn, Tireless Tracker,
+Springbloom Druid) for ~4 of those. This is exactly what a *grind* deck wants — great
+answers, not a faster combo — so it fits the identity instead of fighting it.
+
+**The ceiling, stated honestly:** the anti-pod (race) axis stays weak (~18, near the
+floor) no matter what — it's a grind deck and can't race the T6-7 combo without the
+fast-mana/tutor package the whole build rejects. So interaction moves it **D → low-C**,
+not into A/B. That is the "a little further up" that's actually available; anything more
+would require becoming a different (racing) deck. **Next step to bank it:** build the
+interaction-leaned variant and get it delay_lab-measured (so the 0.35 axis is real, not
+injected) — offer standing.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
