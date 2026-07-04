@@ -306,11 +306,89 @@ fog-locks (social-flag cards anyway), Lumra/Traveling Chocobo/Horn of Greed valu
 What it costs the roster: the Earthbend seat (17/20, decap T8) retires — accepted
 by design since the two decks are the same archetype seat; the merged deck is
 faster to table (T11 vs T12), spell-led rather than combat-led, and runs three
-kill axes instead of one. **Retirement dividend:** Earthbend's off-Jund staples
-return to the free pool — Smothering Tithe (GC), Esper Sentinel, Doubling Season,
-Path to Exile, Swords to Plowshares, Cathars' Crusade, The Ozolith, Triumph of the
-Hordes, Lightning Greaves, Swiftfoot Boots, Bootleggers' Stash — available to the
-rest of the roster or a future white deck.
+kill axes instead of one. **Retirement dividend:** Earthbend's *off-Jund* staples
+return to the free pool — Smothering Tithe (GC), Esper Sentinel, Path to Exile,
+Swords to Plowshares, Cathars' Crusade, Lightning Greaves, Swiftfoot Boots,
+Terra Eternal-class white cards — available to the rest of the roster or a future
+white deck. (Correction 2026-07-04: **Doubling Season, The Ozolith, Triumph of the
+Hordes, Bootleggers' Stash, Hardened Scales are all Jund-legal green** and were
+mis-listed as off-Jund — they're *candidates for the merged deck*, not dividend.
+Doubling Season in particular doubles Scute/Titania tokens, the Mazirek counters,
+and Hearthhull's **charge** counters (faster station-8) — a real flex slot to test.)
+
+## Merged build — combo power & playability study (`ws_combo_lab.py`, 40k, 2026-07-04)
+
+Every combo piece card_lookup-verified; loops cross-checked against CSB via
+find_combos. `scripts/ws_combo_lab.py` reuses the canonical deck_sim engine
+(simulate / simulate_flow / draw_map) — deck_sim's own `--combos`/`--flow` can't
+see `decks/considering/`, which is the only reason the driver exists.
+
+### The combos — what actually wins, and how redundant it is
+
+find_combos reports **9 CSB-complete lines**, which collapse into **three engines +
+one non-win engine**:
+
+| Engine | Pieces (verified) | Per-iteration output | In-deck win payoff |
+|---|---|---|---|
+| **A. Mazirek loop** | Mazirek + Basking Broodscale | infinite {C} + infinite +1/+1 counters + infinite sac/death | All Will Be One (counter→dmg), Mayhem Devil (sac→ping), Exsanguinate, Jarad — **table** |
+| **B. Springheart landfall** | Springheart + {Lotus Cobra \| Tireless Provisioner \| Nissa Resurgent} + {Ashaya \| Badgermole} | infinite landfall + tapped land tokens | Tannuk / Sabotender / Ob Nixilis (drain per landfall), Scute (bodies), Cobra mana→Exsanguinate |
+| **C. Ashaya + Badgermole + outlet** | Ashaya + Badgermole + {Sylvan Safekeeper \| Zuran Orb \| Woe Strider} | infinite landfall / sac / death | same drain payoffs as B |
+| D. Gitrog + Dakmor Salvage | Gitrog + Dakmor | infinite self-mill + draw + yard-fill | **none — not a standalone win** (no Thassa's Oracle); feeds Splendid Reclamation |
+
+**The structural read:** the win engines are A, B, C. **B and C share Ashaya**, and
+Badgermole enables B and is a piece of C — so *Ashaya is the linchpin*: it arms two
+of the three engines at once, and removing it (or a well-timed answer on it) drops
+the deck back to Mazirek + the fair Plan-A drain. The free sac outlets that engine C
+uses (Zuran / Safekeeper / Woe Strider) are the **same cards the non-combo Plan-A
+mass-sac drain uses** — the "every combo piece is also a good fair card" property the
+primer sells is real and measurable here.
+
+**Assembly probability** (P engine online ≤ T; drawn-only, and +tutors = Natural
+Order / Green Sun's Zenith / Gamble as a *free* ceiling):
+
+| | T6 | T8 | T10 | T12 |
+|---|---|---|---|---|
+| ≥1 WIN engine — drawn only | 2% | 3% | 4% | 6% |
+| ≥1 WIN engine — +tutors (ceiling) | 8% | 12% | 16% | **20%** |
+
+So even at the optimistic tutor ceiling the deck has a combo *assembled* in only
+~1-in-5 games by T12 — which **confirms the primer's central claim**: this is a fair
+grind/drain deck that *can* combo, not a combo deck. The combo is a reward for the
+games that go long, not the plan. (Caveats: Natural Order/GSZ fetch green creatures
+only — they can't get devoid Broodscale; the ceiling ignores their mana/sac cost and
+Gamble's random discard. Engine D assembles far more often, ~18% +tutors by T12, but
+doesn't win — it's the draw/yard-fill engine.)
+
+### Playability — is it smooth to pilot?
+
+The primer warns "you shuffle a lot / mana is a volatile number / needs acceleration
+in the opening hand." Measured (`simulate_flow`, greedy = emptying upper bound):
+
+| Metric | Merged | Earthbend (retiring) | Genome (smooth ref) | Croak (grind ref) |
+|---|---|---|---|---|
+| keepable hand | 99.4% | 98.6% | 99.2% | 99.5% |
+| mean dead turns (greedy / one) | **1.48 / 1.30** | 1.26 / 1.10 | 1.37 / 1.10 | 1.81 / 1.57 |
+
+- **It sits mid-pack — between Genome and Croak, ~0.2 dead-turns clunkier than the
+  Earthbend deck it replaces.** Not a smooth deck, not a slog; a grind deck that asks
+  for attention.
+- **The clunk is front-loaded and real:** dead-**starved** (a spell stuck under too
+  few lands — the "volatile mana" tax) is **22% on T2, 7% on T3**, then clears. Late
+  dead turns are the opposite — **flooded** (11% by T10) as the hand empties
+  (hellbent 51% by T8, greedy). It's a deck that can stumble early on a slow draw and
+  run out of gas late if it doesn't find its card-draw engines — exactly the two
+  feel-bads the primer names.
+- **Hearthhull on curve:** ≥4 mana by **T3 only 14%, T4 74%, T5 83%**. The primer's
+  "get the boss down T3" needs a real accelerant (Sol Ring / Orcish Lumberjack / a
+  2-mana rock) in hand — T4 is the honest median. This validates its mulligan advice:
+  **keep for acceleration, ship durdly land-heavy sevens.**
+
+**Verdict on feel:** engaging and decision-dense (lots of small meaningful actions,
+mana as a live resource), noticeably higher piloting load than Earthbend, and it
+punishes autopilot — you will occasionally lose a game to your own clumsy sequencing
+that Earthbend would have coasted through. If that trade (more skill expression, less
+"untap-swing-pass") is the appeal, it's a feature; if you want some easy games, it's
+the cost.
 
 ## Recommendation
 
