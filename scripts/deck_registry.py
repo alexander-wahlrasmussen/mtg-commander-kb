@@ -298,6 +298,7 @@ EXTRA_COMMANDERS = {
     "world-shapers-precon": "Hearthhull, the Worldseed",
     "world-shapers-upgraded": "Hearthhull, the Worldseed",
     "world-shapers-external": "Hearthhull, the Worldseed",
+    "world-shapers-merged": "Hearthhull, the Worldseed",
 }
 
 # Display names for non-roster decks that deck_sim labels (the rest fall back to the stem).

@@ -265,6 +265,53 @@ own words — worth a pod heads-up. The drain kill is Abolisher-immune (our turn
 triggers); the slug statics keep working through everything short of enchantment/
 creature removal.
 
+## The merged build — precon + Earthbend retirement, zero further buys (2026-07-04)
+
+User constraint: buy the precon (350 DKK), retire **Earthbend the Meta** into it,
+buy nothing else. Earthbend is Naya (Toph, the First Metalbender — 17/20, decap T8
+per `ebm_clock_lab` 2026-06-13), so only its Jund-identity slice carries over — but
+that slice is exactly the archetype core: Zuran Orb, Sylvan Safekeeper, Springheart
+Nantuko, Ashaya, Badgermole Cub, Ba Sing Se, Lotus Cobra, Tireless Provisioner,
+Tannuk, Scute Swarm, Evolution Sage, Crop Rotation, Purphoros, **All Will Be One**
+(CI red — verified), Deflecting Swat, Yavimaya, Boseiju, Lotus Field, Urza's Saga
+and three real fetches.
+
+List: `decks/considering/world-shapers-merged-20260704.txt` — every nonbasic
+verified sourceable from precon ∪ free pool ∪ Earthbend (script check 2026-07-04);
+`deck_doctor` all-OK; **GCs exactly 3/3: Crop Rotation, Gamble, Natural Order**
+(Field of the Dead and Mana Vault deliberately left out — the latter also dissolves
+the Urza-proposal contention). ~38 lands incl. free real Taiga/Badlands/Stomping
+Ground/Scalding Tarn.
+
+**Three stacked kill axes** (find_combos: 9 COMPLETE combos):
+1. *Mass-sac drain* — station 8+ (Evolution Sage proliferates charge: +1 per
+   landfall from 2+, reaching 8 without tapping a board) + Zuran/Safekeeper dumps,
+   Tannuk/Sabotender/Ob Nixilis slug, Titania tokens.
+2. *Mazirek + Basking Broodscale infinite* — converters now Mayhem Devil, Jarad,
+   Exsanguinate **and All Will Be One** (every loop counter = damage).
+3. *Springheart Nantuko + Lotus Cobra / Tireless Provisioner* infinites (CSB
+   -canonical) with Purphoros/Impact-class ETB conversion via token waves —
+   unmodelled in the lab, pure upside.
+
+**Measured (ws_clock_lab v2.1, 40k, 2026-07-04):**
+`Clock: T9 decap / T11 table (spell-led: drain 31% / combat 26% / Mazirek combo 25% / slug 7% / AWBO 6% / Purphoros 4%) — floor; Springheart lines unmodelled`
+— statistically **identical to the $1400 external list** (T9/T11) with a more
+diverse, less blockable kill mixture, and it keeps real interaction (Deflecting
+Swat, Veil of Summer, Pyroblast-class stays in Earthbend's ex-pool if wanted).
+
+**Cost accounting:** 350 DKK (the box) + zero card buys. What it gives up vs the
+external list: Scapeshift/Squandered burst redundancy (Zuran + Crop Rotation +
+Urza's Saga *fetching* Zuran cover the slot), Glacial Chasm / Constant Mists
+fog-locks (social-flag cards anyway), Lumra/Traveling Chocobo/Horn of Greed value.
+What it costs the roster: the Earthbend seat (17/20, decap T8) retires — accepted
+by design since the two decks are the same archetype seat; the merged deck is
+faster to table (T11 vs T12), spell-led rather than combat-led, and runs three
+kill axes instead of one. **Retirement dividend:** Earthbend's off-Jund staples
+return to the free pool — Smothering Tithe (GC), Esper Sentinel, Doubling Season,
+Path to Exile, Swords to Plowshares, Cathars' Crusade, The Ozolith, Triumph of the
+Hordes, Lightning Greaves, Swiftfoot Boots, Bootleggers' Stash — available to the
+rest of the roster or a future white deck.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real

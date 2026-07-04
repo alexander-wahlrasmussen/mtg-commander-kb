@@ -75,6 +75,7 @@ ds = slc.ds
 DECK_UP = ROOT / "decks" / "considering" / "world-shapers-upgraded-20260704.txt"
 DECK_ST = ROOT / "decks" / "considering" / "world-shapers-precon-20260704.txt"
 DECK_EX = ROOT / "decks" / "considering" / "world-shapers-external-20260704.txt"
+DECK_MG = ROOT / "decks" / "considering" / "world-shapers-merged-20260704.txt"
 SEED = 20260704
 TURNS = 16
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14, 16]
@@ -117,6 +118,7 @@ CAST_OTHER = {  # noncreature engine permanents worth deploying
     "Zuran Orb": 0, "Squandered Resources": 2, "Exploration": 1,
     "Horn of Greed": 3, "Retreat to Hagra": 3, "Crucible of Worlds": 3,
     "Conduit of Worlds": 4, "Walk-In Closet/Forgotten Cellar": 3,
+    "All Will Be One": 5, "Purphoros, God of the Forge": 4,
 }
 
 
@@ -140,6 +142,7 @@ class Trial:
         self.lands_in = 0
         self.tannuk_today = 0
         self.extra_drops_used = 0
+        self.sage_charge = 0
         self.pumped_at = None
         self.kill_src = None
         self.done_whisper = False
@@ -164,6 +167,13 @@ class Trial:
         if self.tbl.done and self.kill_src is None:
             self.kill_src = src
 
+    def make_body(self, name, power, ready=False):
+        """All token/creature arrivals route here so Purphoros sees them."""
+        self.board.append([name, power, ready])
+        if self.bd("Purphoros, God of the Forge"):
+            self.tbl.hit_all(2, self.T)
+            self.tag("Purphoros slug")
+
     # -- events ------------------------------------------------------------------
     def land_to_yard(self):
         self.g.yard.append(("Binned Land",
@@ -184,11 +194,14 @@ class Trial:
             self.tag("land-sac drain")
         if self.bd("Korvold, Fae-Cursed King"):
             self.g.draw(1)
+        if self.bd("All Will Be One") and self.bd("Mazirek, Kraul Death Priest"):
+            self.tbl.hit_focus(max(1, len(self.board)), self.T)   # a counter per creature
+            self.tag("AWBO counters")
         if is_land:
             if self.bd("Titania, Protector of Argoth"):
-                self.board.append(["Elemental", 5, False])
+                self.make_body("Elemental", 5)
             if self.baloth_stun is not None:
-                self.board.append(["Beast", 4, False])
+                self.make_body("Beast", 4)
                 self.baloth_stun -= 1
             if self.charge8 or (self.free_drain and self.hearthhull):
                 self.tbl.hit_all(2, self.T)
@@ -200,14 +213,19 @@ class Trial:
         g = self.g
         self.lands_in += n
         for _ in range(n):
+            if self.bd("Evolution Sage") and self.charge2 and not self.charge8:
+                self.sage_charge += 1                 # proliferate: +1 charge counter
+                if self.sage_charge >= 6:             # 2 -> 8 without tapping a board
+                    self.charge8 = True
+                    self.station8_turn = self.T
             if self.bd("Omnath, Locus of Rage"):
-                self.board.append(["Elemental", 5, False])
+                self.make_body("Elemental", 5)
             if self.bd("Rampaging Baloths"):
-                self.board.append(["Beast", 4, False])
+                self.make_body("Beast", 4)
             if self.bd("Scute Swarm"):
-                self.board.append(["Insect", 1, False])
+                self.make_body("Insect", 1)
             if self.bd("Field of the Dead") and g.lands >= 7:
-                self.board.append(["Zombie", 2, False])
+                self.make_body("Zombie", 2)
             if self.bd("Ob Nixilis, the Fallen"):
                 self.tbl.hit_focus(3, self.T)
                 self.tag("landfall slug")
@@ -263,7 +281,7 @@ class Trial:
             if not self.g.pay(2):
                 return
         if (self.bd("Mayhem Devil") or self.bd("Jarad, Golgari Lich Lord")
-                or self.g.has("Exsanguinate")):
+                or self.bd("All Will Be One") or self.g.has("Exsanguinate")):
             self.kill_src = "combo+converter"
             self.tbl.kill_all(self.T)
             return
@@ -288,9 +306,9 @@ class Trial:
         self.flags.add(nm)
         if nm == "Baloth Prime":
             self.baloth_stun = 6
-        self.board.append([nm, self.power_of(nm), False])
+        self.make_body(nm, self.power_of(nm))
         if nm == "The Earth King":
-            self.board.append(["Bear", 4, False])
+            self.make_body("Bear", 4)
         if nm == "Satyr Wayfinder":
             milled = self.g.mill(4)
             li = next((i for i, (n2, r2) in enumerate(self.g.yard)
@@ -380,7 +398,7 @@ class Trial:
                         self.sacrifice(is_land=False)
                         g.hand.pop(g.in_hand("Mazirek, Kraul Death Priest"))
                         self.flags.add("Mazirek, Kraul Death Priest")
-                        self.board.append(["Mazirek, Kraul Death Priest", 2, False])
+                        self.make_body("Mazirek, Kraul Death Priest", 2)
                         self.try_combo()
                         progress = True
             # 3. Gamble for the missing combo half
@@ -407,7 +425,7 @@ class Trial:
                     for nm in COMBO:
                         g.take_yard(nm)
                         self.flags.add(nm)
-                        self.board.append([nm, self.power_of(nm), False])
+                        self.make_body(nm, self.power_of(nm))
                     self.try_combo()
                     progress = True
             # 5. the commander, then the 2+ station
@@ -426,7 +444,8 @@ class Trial:
                         progress = True
             for nm in ("Lotus Cobra", "Tireless Provisioner", "Nissa, Resurgent Animist",
                        "Tannuk, Memorial Ensign", "Sabotender", "Iridescent Vinelasher",
-                       "Scute Swarm", "Traveling Chocobo", "The Earth King"):
+                       "Scute Swarm", "Traveling Chocobo", "The Earth King",
+                       "Evolution Sage", "Orcish Lumberjack"):
                 if not self.bd(nm) and g.has(nm):
                     rec = g.hand[g.in_hand(nm)][1]
                     if g.avail >= rec["cmc"] and self.cast_creature(nm, rec["cmc"]):
