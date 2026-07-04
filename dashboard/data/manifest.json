@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-03 22:28",
+  "generated": "2026-07-03 23:52",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -99,11 +99,18 @@
       "curse_of_the_scarab",
       "diminishing_returns",
       "crystal_sickness",
+      "bumbleflower",
       "forced_liquidation",
       "genome_project",
-      "bumbleflower",
       "eldrazi_stampede",
       "zero_sum_game"
     ]
+  },
+  "matchup": {
+    "strict": [
+      0,
+      1
+    ],
+    "trials": 20000
   }
 }
