@@ -111,13 +111,17 @@ DYN_POWER = {"Multani, Yavimaya's Avatar", "Uurg, Spawn of Turg"}
 
 
 class Trial:
-    def __init__(self, library, rng, powers, no_combat=False):
+    def __init__(self, library, rng, powers, no_combat=False, free_drain=False):
         self.g = slc.Goldfish(library, rng, rocks=ROCKS)
         self.rng = rng
         self.tbl = slc.Table()
         self.powers = powers
         self.no_combat = no_combat  # True = measure the spell kills only (combo /
                                     # Ob Nixilis / Devil pings / station-8 drain)
+        self.free_drain = free_drain  # COUNTERFACTUAL: drain live from the moment
+                                      # Hearthhull is cast (as if not 8+-gated)
+        self.station8_turn = None   # when the 8+ station actually happened
+        self.drain_events = 0       # land sacs that drained the table
         self.board = []            # [name, power, ready]
         self.flags = set()         # named permanents on board
         self.hearthhull = False
@@ -171,8 +175,9 @@ class Trial:
             if self.baloth_stun is not None:
                 self.board.append(["Beast", 4, False])
                 self.baloth_stun -= 1
-            if self.charge8:
+            if self.charge8 or (self.free_drain and self.hearthhull):
                 self.tbl.hit_all(2, self.T)
+                self.drain_events += 1
         self.try_combo(ignited=True)
 
     def landfall(self, n=1):
@@ -444,6 +449,7 @@ class Trial:
             ready += 6                          # Hearthhull 6/7, vigilance + haste
         if self.hearthhull and not self.charge8 and 8 <= ready < 25:
             self.charge8 = True                 # spend this combat step stationing
+            self.station8_turn = self.T
             return
         if ready and not self.no_combat:
             if self.bd("Korvold, Fae-Cursed King"):
@@ -509,6 +515,44 @@ def mode_stock(index, aliases, trials, deck=None):
     print("\n  Stock kill = landfall combat + late station-8 drain. No combo in the box.")
 
 
+def mode_drain(index, aliases, trials, deck=None):
+    """How much does the 8+ gate on the drain actually cost? Counterfactual A/B:
+    the real card (drain only once stationed to 8, one combat step spent stationing)
+    vs an imaginary always-on drain live from the turn Hearthhull is cast. Also
+    reports when station-8 actually happens in-sim and how much the drain chips."""
+    print("=" * 72)
+    print(f"DRAIN GATE — station-8 counterfactual   trials={trials} seed={SEED}")
+    print("=" * 72)
+    for label, dpath in (("stock", DECK_ST), ("upgraded", DECK_UP)):
+        library, _ = slc.load_parsed(deck or dpath, index, aliases)
+        powers = slc.load_powers([nm for nm, r in library
+                                  if "Creature" in r.get("type_line", "")])
+        for tag, free in ((f"{label}: real card (8+ gated)", False),
+                          (f"{label}: IF drain were always-on", True)):
+            rng = random.Random(SEED)
+            res, st8, drains = [], [], 0
+            for _ in range(trials):
+                tr = Trial(library, rng, powers, free_drain=free)
+                for T in range(1, TURNS + 1):
+                    tr.turn(T)
+                    if tr.tbl.done:
+                        break
+                res.append((tr.tbl.decap, tr.tbl.table))
+                if tr.station8_turn:
+                    st8.append(tr.station8_turn)
+                drains += tr.drain_events
+            extra = (f"  station-8 in {100.0 * len(st8) / trials:.0f}% of games"
+                     f" (median T{sorted(st8)[len(st8) // 2]})" if st8 and not free
+                     else "")
+            print(slc.row(tag + " — decap", slc.cum(res, 0, SHOW), SHOW, width=44)
+                  + f"  med {slc.median(res, 0)}")
+            print(slc.row("    ... table", slc.cum(res, 1, SHOW), SHOW, width=44)
+                  + f"  med {slc.median(res, 1)}"
+                  + f"   drain sacs/game {drains / trials:.1f}" + extra)
+    print("\n  Read: the always-on arm is the UPPER BOUND of what un-gating could buy.")
+    print("  The drain rate is 2 x (land sacs/turn) — the gate matters less than the rate.")
+
+
 def mode_levers(index, aliases, trials, deck=None):
     """Decomposition: which slice of the 19 swaps buys the speed? Variants built from
     the STOCK list via build_lib, so each package is measured against the same base."""
@@ -546,4 +590,5 @@ def mode_levers(index, aliases, trials, deck=None):
 
 if __name__ == "__main__":
     slc.run_cli(__doc__, {"clock": mode_clock, "comboclock": mode_comboclock,
-                          "stock": mode_stock, "levers": mode_levers})
+                          "stock": mode_stock, "levers": mode_levers,
+                          "drain": mode_drain})

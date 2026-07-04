@@ -33,8 +33,20 @@ sacrifice a land, each opponent loses 2 life."
 land-sac drain is always-on; the printed card (image pulled 2026-07-04) shows it
 **inside the 8+ box**, sharing the shaded block with the keywords and the 6/7 P/T
 plate. Until the ship is stationed to 8 charge (tap ≥8 power at sorcery speed), the
-commander is a draw engine only. Any build plan that treats Hearthhull as a T4 drain
-engine is misreading the card — the box's drain theme is far weaker than it looks.
+commander is a draw engine only.
+
+**How much the gate actually costs (measured — `--mode drain`, 15k, 2026-07-04):**
+in-goldfish the deck reaches station-8 in **86–96% of games, median T8** (charge
+persists across turns; pre-8 the ship is a *noncreature* artifact, so it dodges
+creature wipes while charging). A counterfactual always-on-from-cast drain moves the
+median clock by **at most one turn** (stock table T12→T11; upgraded decap T10→T9)
+and roughly doubles drain sacs/game (≈4→8). So the gate itself is cheap; the real
+limitation is the **rate**: at ~1 land sac per turn the drain totals ≈10 damage per
+opponent per game either way — an accelerant, not a wincon. It would only become a
+kill engine with a mass land-sac outlet (Zuran Orb-class — owned only as proxies,
+locked in Earthbend) feeding Splendid Reclamation rebuys. The practical takeaway is
+not "the drain is dead" but that Hearthhull must not be *evaluated* as a T4 drain
+commander, and the build wants spare bodies (vigilance welcome) to feed the station.
 
 ---
 
