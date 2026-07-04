@@ -134,11 +134,42 @@ TUNED_ANSWERS = {
     "tutors": {},
 }
 
+# --- the EXTERNAL primer build (--variant external, 2026-07-04): the ~$1400 community
+# list, placed for the tuned-vs-external comparison. Clock re-harvested @40k (true
+# external list, not the merged --deck run). Answer suite verified 2026-07-04: only FOUR
+# pod-relevant instants — Abrupt Decay (uncounterable, MV<=3: Abolisher/Kinnan/dorks),
+# Assassin's Trophy, Beast Within, Tear Asunder (kicked=4). Glacial Chasm / Constant
+# Mists / Sylvan Safekeeper are protect-own/defensive (excluded per delay_lab rules —
+# the Chasm damage-prevention lock is real but belongs to a --vs-lock overlay, not
+# disruption; conservative for this list). No CC judgment exists for it → score None
+# (tier_list redistributes weights, same as Zero-Sum).
+EXTERNAL = dict(
+    name="World Shapers (external)", score=None, disrupt_class="warn",
+    lab=None, sel=("decap", "table"),
+    grid=[5, 6, 7, 8, 9, 10, 12, 14],
+    decap=[0, 0, 4, 22, 50, 73, 92, 97],
+    table=[0, 0, 0, 4, 14, 35, 76, 92],
+    med=("T9", "T11"), never=(1, 3),
+    src="ws_clock_lab --mode external @40k 2026-07-04 (true external list)")
+
+EXTERNAL_LIST = ROOT / "decks" / "considering" / "world-shapers-external-20260704.txt"
+EXTERNAL_ANSWERS = {
+    "answers": {
+        "Abrupt Decay":      ({"R", "P"}, 2, {"ios"}),
+        "Assassin's Trophy": ({"R", "P"}, 2, {"ios"}),
+        "Beast Within":      ({"R", "P"}, 3, {"ios"}),
+        "Tear Asunder":      ({"R", "P"}, 4, {"ios"}),
+    },
+    "tutors": {},
+}
+
 VARIANTS = {
-    "merged": dict(slug="world_shapers_merged", entry=MERGED, deck=MERGED_LIST,
-                   spec=WS_ANSWERS),
-    "tuned":  dict(slug="world_shapers_tuned", entry=TUNED, deck=TUNED_LIST,
-                   spec=TUNED_ANSWERS),
+    "merged":   dict(slug="world_shapers_merged", entry=MERGED, deck=MERGED_LIST,
+                     spec=WS_ANSWERS),
+    "tuned":    dict(slug="world_shapers_tuned", entry=TUNED, deck=TUNED_LIST,
+                     spec=TUNED_ANSWERS),
+    "external": dict(slug="world_shapers_external", entry=EXTERNAL, deck=EXTERNAL_LIST,
+                     spec=EXTERNAL_ANSWERS),
 }
 
 
@@ -272,8 +303,11 @@ def main():
     ap.add_argument("--tuned", action="store_true",
                     help="place the interaction+manabase TUNED variant "
                          "(world-shapers-tuned-20260704) instead of the base merged list")
+    ap.add_argument("--variant", choices=list(VARIANTS), default=None,
+                    help="which World Shapers list to place (merged/tuned/external); "
+                         "--tuned is kept as an alias for --variant tuned")
     args = ap.parse_args()
-    select_variant("tuned" if args.tuned else "merged")
+    select_variant(args.variant or ("tuned" if args.tuned else "merged"))
     inject(args.keep_earthbend)
     if args.measure_inter:
         measure_inter(args.trials)

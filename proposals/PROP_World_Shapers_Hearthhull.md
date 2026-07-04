@@ -233,7 +233,9 @@ roughly a turn faster on paper and much better than a turn better in practice �
 kills are non-combat (wrath/fog/blocker-proof), its manabase is untapped duals +
 11 fetches, and it holds real defensive locks. Roster placement: the Croak /
 Zero-Sum band on the floor model, plausibly upper-middle piloted with the combo
-lines. Still not a Genome/Kefka-speed racer.
+lines. Still not a Genome/Kefka-speed racer. *(Measured 2026-07-04: on the synthesis
+oracles it actually places Tier D, composite 11.6 — the band call above was clock-only
+and ignored its thin interaction/durability. See § Tuned vs the external list.)*
 
 **Ownership reality (strict own−deployed, CSV 2026-06-25):** of 91 nonbasics —
 **24 free · 35 locked in active decks · 10 proxy-only · 22 unowned (≈ €182 + 3
@@ -637,6 +639,43 @@ and the table clock softened slightly). Right destination, different door. Net: 
 build lands **level with the Earthbend seat as a tier (C), ~5 composite points below it**,
 with the grind profile (self-meta 20-21 vs 12, Abolisher-immune close, 11-answer suite)
 the composite still undercounts.
+
+## Tuned vs the external list — placed head-to-head (2026-07-04)
+
+User asked how the tuned build stacks up against the $1400 primer list, so the external
+list got the same treatment (`ws_place --variant external --measure-inter`; clock
+re-harvested @40k from the true external list; answer suite verified — only **four**
+pod-relevant instants: Abrupt Decay, Assassin's Trophy, Beast Within, Tear Asunder;
+Chasm/Mists/Safekeeper are protect-own and excluded per lab rules; no CC judgment exists,
+weights redistribute as for Zero-Sum). Same replace-Earthbend 17-deck field:
+
+| | **Tuned (owned, 350 DKK)** | **External (~$1400 / €182+locked as written)** |
+|---|---|---|
+| Clock | decap T10 / table T11 | decap **T9** / table T11 |
+| Kill mixture | drain 31 / combat 28 / Mazirek ~22 / slug+AWBO+Purph 18 | drain **51** / combat 33 / slug 14 |
+| delay_lab live answer T6/T7 (a=0) | **59% / 62%** (9R+2P) | 35% / 38% (4R) |
+| Gauntlet P(win) | **20%** (#15) | 13% (#16) |
+| Tier axes (anti · inter · self) | **24 · 23 · 20** | 13 · 12 · 12 |
+| Composite → tier | **29.5 → C (#13)** | 11.6 → **D (#15)** |
+
+**On the roster's own oracles the owned tuned build beats the $1400 list by a full tier
+band.** The clocks are a wash (external is one turn faster to first decap; identical
+table); everything else separates on interaction and durability — the primer spent its
+budget on manabase, combo density and value, and runs almost no answers, which is exactly
+what the anti-pod, inter and self-meta axes all price.
+
+**Read this fairly — the external list is also the most UNDERCOUNTED list in the model:**
+its 32 CSB infinites are absent from the clock (a floor), and the Glacial Chasm / Constant
+Mists recursion locks are excluded from both disruption and protect even though Chasm
+genuinely blanks damage-based kills (Hidetsugu) and the Mists engine walls the fair
+Ur-Dragon seat — that equity belongs to a `--vs-lock`-style overlay nobody has built for
+it. A pilot playing its combo lines closes earlier than T9/T11. But the tuned build holds
+unmodelled equity too (Springheart lines, Meathook drain), and no plausible correction
+spans an 18-point composite gap driven by a 3× interaction deficit. Verdict: **buying the
+external list as written would be paying ~€182 + two decks' worth of locked staples for a
+build the roster's metrics rank below the free one** — its real lessons (mass-sac outlets,
+Scapeshift-class burst, fog-locks) are buy-path candidates for the tuned list, not a
+reason to build it as printed.
 
 ## Recommendation
 
