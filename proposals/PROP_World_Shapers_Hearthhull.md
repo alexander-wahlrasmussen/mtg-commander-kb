@@ -446,6 +446,8 @@ Three things keep that from being the whole story, and all three are real:
    onto its weak anti-pod and drags the composite down. Promoted + delay_lab-measured,
    its 7-piece instant-removal suite would post a real interaction score and likely lift
    it into **Tier C** — i.e. roughly where Earthbend sits, not below it.
+   *(Measured same-day — it doesn't: inter = 22 lifts the composite 20 → 24, still
+   Tier D. See § Interaction axis — MEASURED.)*
 
 **Net placement verdict:** by the roster's own synthesis metrics it is a lower-third,
 Tier-D deck today and does not out-rank the Earthbend seat it retires. It is a *grind
@@ -528,6 +530,42 @@ racer. So the two working levers — **interaction** (D→C, the big one) and **
 Earthbend seat**, and that is the honest ceiling without changing what the deck *is*.
 **Next step to bank it:** build the interaction-leaned, maxed-manabase variant and get it
 delay_lab-measured (so the 0.35 axis is real, not injected) — offer standing.
+
+## Interaction axis — MEASURED (2026-07-04 follow-up)
+
+User asked what the axis is *today*, so the current merged list was put through the
+canonical delay_lab engine via `ws_place.py --measure-inter` (answer spec oracle-verified
+in the script; Tear Asunder costed kicked at 4, Deflecting Swat / Veil / Pest Infestation
+excluded per lab rules; PROTECT prior 0.30, mirroring Zero-Sum's "Abolisher-proof kill +
+Veil, no counters" rationale). Injected as `pg.MEASURED` + `pg.PROTECT` — the promoted-deck
+harvest path — so both synthesis oracles read it. 20k trials, seed 20260612/12345.
+
+**Raw availability (delay_lab, drawn, a=0):** suite = 6 instant removal + 1 preempt-only,
+**0 counters, 0 statics**. Live answer on their T6 **44%** / T7 **48%** — ~4pp *below*
+the Earthbend deck's measured 48/52. Under Abolisher it collapses to 2% at a=1 (the
+preempt→reactive chain is thin: 3-6%), same cliff as every counters-light roster deck.
+
+**Tier axis (interaction-overlay mirror):** **inter = 22** (post-retirement roster) /
+**24** (17-deck head-to-head field) — **~2× Earthbend's 11-12** despite the slightly
+lower raw availability, because the overlay rewards what the suite protects: the T11
+table clock, the counter-immune close (PROTECT 0.30) and 7-answer durability lose less
+to the tax than Earthbend's board kill. Composite moves **20 → 24.0 (#13 of 17)** —
+**still Tier D**, ~4 points short of the C cut (28). Earthbend head-to-head: 35.1 (C).
+The earlier sensitivity ladder holds up (measured 22 sits between the injected-15 and
+-25 rows): reaching C needs inter ≈ 35, i.e. the **Lever-2 interaction-leaned swap**,
+not just measuring the current suite.
+
+**Anti-pod correction (caveat inverted):** with measured disruption + PROTECT replacing
+the "warn" bucket, gauntlet P(win) reads **16% (#16 of 17, below Diminishing Returns
+18%)**, not 19%. The § placement caveat that the bucket was "conservative" was wrong in
+direction — the bucket was slightly generous (measured D at a=0.30 ≈ 0.35 vs bucket
+0.39, and PROTECT doesn't offset it). Another datapoint for the framework-clock-gap
+lesson: measure, don't extrapolate caveats.
+
+**Net today:** anti-pod 18 · inter 22 (measured) · self-meta 20 → composite 24, Tier D,
+one tier below the Earthbend seat it would replace. The D→C path is unchanged but now
+quantified: ~4 composite points must come from the interaction-leaned build (+ fetch
+manabase), and the measured baseline to beat is inter 22.
 
 ## Recommendation
 

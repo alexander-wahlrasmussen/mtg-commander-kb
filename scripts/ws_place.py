@@ -30,8 +30,16 @@ The tier run REPLACES earthbend_the_meta with the merged deck (the real post-ret
 roster: same seat, one deck in the field, not both). Pass --keep-earthbend to instead
 INSERT merged alongside (17-deck field) for a head-to-head read.
 
+--measure-inter (2026-07-04, user follow-up "what's the interaction axis today?"):
+run the canonical delay_lab engine on the merged list (answer spec below, oracle-verified)
+and inject the result into pg.MEASURED + pg.PROTECT — the same harvest a promoted deck
+gets from delay_lab --emit-json. This turns the tier's interaction axis from `—` into a
+MEASURED value, and upgrades the gauntlet for merged too (measured disruption replaces
+the conservative "warn" bucket; PROTECT replaces the 0.0 default).
+
 Run:  python scripts/ws_place.py            # gauntlet + tier (merged replaces Earthbend)
       python scripts/ws_place.py --keep-earthbend
+      python scripts/ws_place.py --measure-inter
 """
 import argparse
 import importlib.util
@@ -63,6 +71,60 @@ MERGED = dict(
     decap=[0, 1, 6, 23, 51, 74, 93, 98],
     table=[0, 1, 3, 8, 18, 37, 78, 94],
     med=("T9", "T11"), never=(1, 2), src="ws_clock_lab --mode external @40k 2026-07-04")
+
+# --- delay_lab answer spec for the merged list (--measure-inter) ---------------------
+# Classification per delay_lab's rules, oracle text card_lookup-verified 2026-07-04.
+# Exclusions per the canonical lab: Deflecting Swat (redirect), Veil of Summer
+# (protect-own), Pest Infestation + Boseiju channel (artifact/enchantment/land removal —
+# the pod's combo pieces are creatures). Tear Asunder costed KICKED (4): unkicked it
+# cannot touch a creature. Blasphemous Act at the roster's cost-reduction override (5).
+# Tutors left empty — gauntlet/tier read the DRAWN composed value (roster convention;
+# Gamble/Natural Order are combo tutors here, not answer tutors).
+WS_ANSWERS = {
+    "answers": {
+        "Infernal Grasp":       ({"R", "P"}, 2, {"ios"}),
+        "Rakdos Charm":         ({"R", "P"}, 2, {"ios"}),
+        "Putrefy":              ({"R", "P"}, 3, {"ios"}),
+        "Beast Within":         ({"R", "P"}, 3, {"ios"}),
+        "Tear Asunder":         ({"R", "P"}, 4, {"ios"}),
+        "Windgrace's Judgment": ({"R", "P"}, 5, {"ios"}),
+        "Blasphemous Act":      ({"P"}, 5, {"ios"}),
+    },
+    "tutors": {},
+}
+# protect-own prior, same 2026-06-15 rubric as pg.PROTECT: zero counters, but the close
+# is counter/Abolisher-immune (drain + Mazirek loop are triggers/mana abilities; only the
+# creature casts are counter-exposed) and Veil of Summer + Deflecting Swat cover exactly
+# that window. Mirrors zero_sum_game 0.30 ("board-independent Abolisher-proof kill + Veil,
+# no counters").
+WS_PROTECT = 0.30
+
+MERGED_LIST = ROOT / "decks" / "considering" / "world-shapers-merged-20260704.txt"
+
+
+def measure_inter(trials):
+    """Run the canonical delay_lab engine on the merged list and inject the measurement
+    into pg.MEASURED + pg.PROTECT (the promoted-deck harvest path). Must run BEFORE
+    gauntlet()/tiers() so both synthesis oracles read it."""
+    dlab = _load("delay_lab")
+    index = dlab.ds.load_oracle_index()
+    aliases = dlab.ds.load_reskin_aliases()
+    lib, _ = dlab.slc.load_parsed(MERGED_LIST, index, aliases, warn=False)
+    dlab.check_names(SLUG, lib, WS_ANSWERS)
+    comp = dlab.simulate(SLUG, lib, WS_ANSWERS, trials, random.Random(dlab.SEED), 0.5)
+    rows = {k: [round(100.0 * comp[k][a][0] / trials, 1) for a in dlab.A_SWEEP]
+            for k in (6, 7)}
+    pg.MEASURED[SLUG] = rows
+    pg.PROTECT[SLUG] = WS_PROTECT
+    # tier_list's interaction oracle reads a SECOND pod_gauntlet instance (im loads its
+    # own copy) — inject there too, or im.interact_at KeyErrors on the merged slug.
+    tl.im.pg.MEASURED[SLUG] = rows
+    tl.im.pg.PROTECT[SLUG] = WS_PROTECT
+    print(f"\n  injected pg.MEASURED[{SLUG}]: T6 {rows[6]} / T7 {rows[7]}"
+          f"\n  (drawn, a-grid {dlab.A_SWEEP}) + pg.PROTECT {WS_PROTECT} — gauntlet now"
+          f"\n  uses MEASURED disruption (not the 'warn' bucket) and the tier's"
+          f"\n  interaction axis is real (not '—'/injected).")
+    return rows
 
 
 def inject(keep_earthbend):
@@ -97,8 +159,10 @@ def gauntlet(trials, seed):
         star = "  <<< MERGED" if slug == SLUG else ""
         print(f"  {i:>2} {name:26}{med:>6}{pr*100:>6.0f}%{win*100:>7.0f}%{star}")
     r = next(i for i, x in enumerate(rows, 1) if x[0] == SLUG)
+    src = ("MEASURED delay_lab disruption + PROTECT" if SLUG in pg.MEASURED
+           else "the (conservative 'warn') disruption bucket")
     print(f"\n  merged places #{r} of {len(rows)} on P(WIN). PURE RACE is the data-backed"
-          f"\n  front edge; P(WIN) folds in the (conservative 'warn') disruption bucket.")
+          f"\n  front edge; P(WIN) folds in {src}.")
 
 
 def tiers(trials, seed, keep_earthbend, inter=None):
@@ -143,8 +207,13 @@ def main():
     ap.add_argument("--inter", type=float, default=None,
                     help="inject a manual interaction-axis %% for the merged deck "
                          "(sensitivity on the unmeasured 0.35 axis)")
+    ap.add_argument("--measure-inter", action="store_true",
+                    help="MEASURE the merged deck's interaction via the delay_lab engine "
+                         "(injects pg.MEASURED + pg.PROTECT; supersedes --inter)")
     args = ap.parse_args()
     inject(args.keep_earthbend)
+    if args.measure_inter:
+        measure_inter(args.trials)
     gauntlet(args.trials, args.seed)
     tiers(args.trials, args.seed, args.keep_earthbend, inter=args.inter)
 
