@@ -658,24 +658,52 @@ weights redistribute as for Zero-Sum). Same replace-Earthbend 17-deck field:
 | Tier axes (anti · inter · self) | **24 · 23 · 20** | 13 · 12 · 12 |
 | Composite → tier | **29.5 → C (#13)** | 11.6 → **D (#15)** |
 
-**On the roster's own oracles the owned tuned build beats the $1400 list by a full tier
-band.** The clocks are a wash (external is one turn faster to first decap; identical
-table); everything else separates on interaction and durability — the primer spent its
-budget on manabase, combo density and value, and runs almost no answers, which is exactly
-what the anti-pod, inter and self-meta axes all price.
+**At the modelled floor, the owned tuned build beats the $1400 list by a full tier band**
+— but see the asymmetry audit below before quoting that: the floor is NOT equally tight
+for the two lists, and the honest verdict is a bracket, not a band. What separates them at
+the floor is interaction and durability — the primer spent its budget on manabase, combo
+density and value, and runs almost no answers, which is exactly what the anti-pod, inter
+and self-meta axes all price. That part is not model bias: the deck really runs 4 answers.
 
-**Read this fairly — the external list is also the most UNDERCOUNTED list in the model:**
-its 32 CSB infinites are absent from the clock (a floor), and the Glacial Chasm / Constant
-Mists recursion locks are excluded from both disruption and protect even though Chasm
-genuinely blanks damage-based kills (Hidetsugu) and the Mists engine walls the fair
-Ur-Dragon seat — that equity belongs to a `--vs-lock`-style overlay nobody has built for
-it. A pilot playing its combo lines closes earlier than T9/T11. But the tuned build holds
-unmodelled equity too (Springheart lines, Meathook drain), and no plausible correction
-spans an 18-point composite gap driven by a 3× interaction deficit. Verdict: **buying the
-external list as written would be paying ~€182 + two decks' worth of locked staples for a
-build the roster's metrics rank below the free one** — its real lessons (mass-sac outlets,
-Scapeshift-class burst, fog-locks) are buy-path candidates for the tuned list, not a
-reason to build it as printed.
+### Asymmetry audit (2026-07-04 — user challenge: "is it apples to apples?")
+
+It wasn't, fully. Inventory of what each clock models: the tuned clock **includes its
+primary combo** (Mazirek loop + tutors ≈ 22% of kills) and omits the Springheart/Ashaya
+engines, Meathook-as-converter and Takenuma/Beacon utility; the external clock omits
+**all** of its combo lines. The Springheart/Ashaya engines are in *both* lists and
+omitted from *both* clocks (symmetric); the net bias favours the tuned number.
+
+**Quantified with the same instrument** (`ws_combo_lab --mode assembly`, external
+taxonomy added — B/C/Quirion+Ashaya/Shifting Woodland lines, its own tutors GSZ/Nature's
+Rhythm/Formidable Speaker/Crop Rotation, 40k):
+
+| P(≥1 win engine online ≤T) | T6 | T8 | T10 | T12 |
+|---|---|---|---|---|
+| Tuned — drawn / +tutor ceiling | 2 / 8 | 3 / 12 | 4 / 15 | 5 / 20 |
+| External — drawn / +tutor ceiling | 1 / 9 | 2 / 14 | 3 / 20 | 5 / **26** |
+
+Drawn-only the lists are **identical**; external's free-tutor ceiling runs ~6pp ahead by
+T12. So the unmodelled mass is an *option in at most a quarter of long games* (ceiling —
+free tutors, no mana/discard/fodder costs), heavily overlapping games the fair plan was
+already winning by T9–T11.
+
+**Bracketing run** (`--variant externalfast`): shifting external's ENTIRE clock one turn
+earlier — deliberately over-generous, it credits 100% of games with what the ceiling says
+is a ≤26% option — lands it at **composite 32.0, Tier C, #12 — two points ABOVE the tuned
+build (29.5, #13)**. The gauntlet is that clock-sensitive at the T8/T9 margin.
+
+**Revised verdict, honestly stated:** external-as-modelled **11.6 (D)** · external at the
+over-generous +1-turn bound **32.0 (C)** · tuned as measured **29.5 (C)**. The
+proportionate combo credit sits well below the bound, so the tuned build likely still
+edges it — but "beats it by a full tier band" was too strong; the defensible claim is
+**rough parity at best for the external list, at ~€182 + two decks' worth of locked
+staples vs zero additional spend**. Unpriced on each side after this audit: external's
+Chasm/Mists locks and untapped-dual consistency (needs a `--vs-lock` overlay / colour-aware
+sim); tuned's Springheart lines (≤8pp ceiling), Meathook converter, and 11-vs-4 answer
+suite in real games where the pod *answers back* — none of the goldfish oracles model
+opposing interaction against a 4-answer deck. The cost-adjusted recommendation is
+unchanged: build the tuned list; treat the primer's mass-sac burst and fog-locks as
+buy-path candidates.
 
 ## Recommendation
 

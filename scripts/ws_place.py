@@ -163,6 +163,22 @@ EXTERNAL_ANSWERS = {
     "tutors": {},
 }
 
+# --- SENSITIVITY BOUND, not a measurement (--variant externalfast, 2026-07-04): the
+# external clock shifted one FULL turn earlier on both curves (non-uniform grid tail
+# interpolated), as a deliberately generous stand-in for its unmodelled combo lines.
+# Generosity check: ws_combo_lab assembly (same instrument, external taxonomy) puts a
+# win engine online in 1-3% of games drawn / <=26% at the free-tutor CEILING by T12 —
+# a full turn on 100% of games credits far more than that option is worth. If this
+# still places deep Tier D, the tuned-vs-external verdict is clock-robust.
+EXTERNAL_FAST = dict(
+    name="World Shapers (ext +1T)", score=None, disrupt_class="warn",
+    lab=None, sel=("decap", "table"),
+    grid=[5, 6, 7, 8, 9, 10, 12, 14],
+    decap=[0, 4, 22, 50, 73, 82, 95, 98],
+    table=[0, 0, 4, 14, 35, 55, 84, 94],
+    med=("T8", "T10"), never=(1, 3),
+    src="SENSITIVITY: external @40k curves shifted -1 turn (combo-credit bound)")
+
 VARIANTS = {
     "merged":   dict(slug="world_shapers_merged", entry=MERGED, deck=MERGED_LIST,
                      spec=WS_ANSWERS),
@@ -170,6 +186,8 @@ VARIANTS = {
                      spec=TUNED_ANSWERS),
     "external": dict(slug="world_shapers_external", entry=EXTERNAL, deck=EXTERNAL_LIST,
                      spec=EXTERNAL_ANSWERS),
+    "externalfast": dict(slug="world_shapers_ext_fast", entry=EXTERNAL_FAST,
+                         deck=EXTERNAL_LIST, spec=EXTERNAL_ANSWERS),
 }
 
 
