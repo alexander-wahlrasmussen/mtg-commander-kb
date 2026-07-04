@@ -501,13 +501,33 @@ low-decap value slots (Escape to the Wilds, Augur of Autumn, Tireless Tracker,
 Springbloom Druid) for ~4 of those. This is exactly what a *grind* deck wants — great
 answers, not a faster combo — so it fits the identity instead of fighting it.
 
-**The ceiling, stated honestly:** the anti-pod (race) axis stays weak (~18, near the
-floor) no matter what — it's a grind deck and can't race the T6-7 combo without the
-fast-mana/tutor package the whole build rejects. So interaction moves it **D → low-C**,
-not into A/B. That is the "a little further up" that's actually available; anything more
-would require becoming a different (racing) deck. **Next step to bank it:** build the
-interaction-leaned variant and get it delay_lab-measured (so the 0.35 axis is real, not
-injected) — offer standing.
+**Lever 3 — a maxed premium manabase (a REAL, on-theme lever — corrected 2026-07-04).**
+An earlier draft lumped "premium lands" in with rejected fast mana; that was wrong. For a
+landfall aristocrat deck a fetch is *not* ramp — it's two landfall triggers + a sacrifice
+trigger + deck-thinning + colour-fixing, and it's recurring fuel under Crucible / Ramunap /
+Life from the Loam / Hearthhull. The user rejects **artifact fast mana** (Sol Ring / Mana
+Vault / Ancient Tomb) and **tutors** and **racing** — not good lands. Tested (+6 real
+fetches replacing basics, `ws_clock_lab`, 30k):
+
+| | T7 | T8 | T9 | table T10 |
+|---|---|---|---|---|
+| merged base | 6% | 23% | 51% | 37% |
+| + 6 fetches | 7% | 25% | 54% | 41% |
+
+A couple of front-edge points, and — unlike the flat counters package — it lands on the
+**anti-pod axis**: gauntlet pure race 8%→10%, P(win) 19%→20%. Modest, because the list is
+*already* fetch-dense (~10 fetch-type lands), so it's diminishing returns; the bigger wins
+(untapped fixing → Hearthhull on curve, fetches as recurring landfall+sac fuel) are real
+but under-counted by the colour-blind goldfish. It's also simply correct deckbuilding.
+
+**The ceiling, stated honestly:** the anti-pod (race) axis stays *low* (~18-20) — it's a
+grind deck and won't race the T6-7 combo without artifact fast mana + tutors, which the
+build rejects on identity. Premium lands nudge it a little; they don't turn it into a
+racer. So the two working levers — **interaction** (D→C, the big one) and **manabase**
+(a few anti-pod points + real consistency) — **stack to a firm low Tier C, level with the
+Earthbend seat**, and that is the honest ceiling without changing what the deck *is*.
+**Next step to bank it:** build the interaction-leaned, maxed-manabase variant and get it
+delay_lab-measured (so the 0.35 axis is real, not injected) — offer standing.
 
 ## Recommendation
 
