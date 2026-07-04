@@ -276,11 +276,15 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=["assembly", "smoothness", "all"], default="all")
     ap.add_argument("--trials", type=int, default=40000)
+    ap.add_argument("--deck", default=None,
+                    help="override the pinned merged list (path; same convention as "
+                         "speed_lab_core.run_cli — added for the tuned variant 2026-07-04)")
     args = ap.parse_args()
     index = ds.load_oracle_index()
     aliases = ds.load_reskin_aliases()
-    library, commander = slc.load_parsed(DECK, index, aliases)
-    print(f"library {len(library)} + commander {commander}   [{DECK.name}]\n")
+    deck = Path(args.deck) if args.deck else DECK
+    library, commander = slc.load_parsed(deck, index, aliases)
+    print(f"library {len(library)} + commander {commander}   [{deck.name}]\n")
     if args.mode in ("assembly", "all"):
         mode_assembly(library, args.trials)
     if args.mode in ("smoothness", "all"):

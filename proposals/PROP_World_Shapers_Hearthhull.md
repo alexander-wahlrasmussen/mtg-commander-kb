@@ -567,6 +567,77 @@ one tier below the Earthbend seat it would replace. The D→C path is unchanged 
 quantified: ~4 composite points must come from the interaction-leaned build (+ fetch
 manabase), and the measured baseline to beat is inter 22.
 
+## The TUNED build — Levers 2+3 applied, measured to Tier C (2026-07-04)
+
+User approved incorporating both levers **without touching the core plan**, and asked to
+pull **all available premium lands**. List: `decks/considering/world-shapers-tuned-20260704.txt`
+(12-for-12 vs the merged list; engine, combo pieces, tutors, GC trio all untouched;
+`deck_doctor`: 100 cards, singleton/banlist/names clean, **GCs 3/3 unchanged** — every add
+GC-grep-checked clear).
+
+**Availability correction first (Lever 2's list was wrong).** The strict
+`availability_check` pass (CSV 2026-06-25, Earthbend excluded as donor) shows the section
+above's named package was **not** free: Deadly Rollick (6 copies, 7 deployed slots),
+Assassin's Trophy (3/3), Chaos Warp (5/6), Go for the Throat (2/3) are fully consumed —
+some with *phantom* slots (more list slots than tracked copies) — and Force of Vigor is
+locked. "All free or Earthbend-proxy" was written without running the check; another
+narrated-availability miss. What IS free: **Abrade (own 7, 5 free), Bitter Triumph (4
+free), Murderous Rider (3 free)**, plus — per the user's 2026-07-04 carve-out that
+**Diminishing Returns is a donor** (bar anything Zero-Sum-earmarked; nothing in the
+Zero-Sum eval names a DR card) — **The Meathook Massacre, Prismatic Vista, Verdant
+Catacombs, Takenuma** as DR pulls. Toxic Deluge exists only as a proxy-spare and was
+skipped: Meathook covers the sweeper slot *on-plan* (its death-drain is a fifth Mazirek
+converter — infinite Spawn deaths = table kill — and it drains on every Titania/Scute
+token sac in fair games).
+
+**The swaps** (every add card_lookup-verified, CI-legal, non-GC):
+
+| Out | In | Note |
+|---|---|---|
+| Escape to the Wilds | Abrade | R/P 2 — hits Abolisher, Kinnan, dorks, artifacts |
+| Augur of Autumn | Bitter Triumph | R/P 2 — any creature/PW, life not mana |
+| Tireless Tracker | Murderous Rider | R/P 3 — Swift End + a 2/3 lifelink station body |
+| Springbloom Druid | The Meathook Massacre | P wipe + **on-plan loop converter** (DR pull) |
+| Evolving Wilds | Prismatic Vista | strict upgrade, untapped (DR pull) |
+| Terramorphic Expanse | Verdant Catacombs | fetches Swamp/Forest *cards* incl. duals (DR pull) |
+| Forest, Forest | Woodland Cemetery, Myriad Landscape | check land; sac-fetch-2 = ramp + sac trigger |
+| Swamp, Swamp | Tainted Wood, Takenuma | cond-untapped BG; channel recursion (DR pull) |
+| Mountain, Mountain | Raging Ravine, Command Beacon | manland flood-insurance; commander rebuy whose sac IS a land-sac trigger |
+
+Basics 11 → **5** (2F/1M/2S). Stopped there deliberately: four more proxy fetch spares
+exist (Bloodstained Mire ×2, Misty Rainforest, Marsh Flats, Polluted Delta via DR) but the
+list already carries ~10 basic-search effects (Fabled, 3 NCC sac-lands, Vista, Myriad,
+Cultivate/Harrow/Roiling/Entish) against 5 basics — the colour-blind sim cannot see the
+whiffs, so going lower on judgment, not measurement. Kessig Wolf Run (Earthbend) available
+but off-plan; flagged only. **Meathook flag:** Zero-Sum is its natural alternative home
+(Croak holds the other copy) — reassign if preferred.
+
+**Measured deltas (all same model/seed/trials as the base):**
+
+- **Clock (ws_clock_lab @40k):** decap front edge −2pp (T8 23→21, T9 51→49; median label
+  T9→**T10** at the 49% boundary), **table T11 holds** (T12 78→74). The draw cuts also thin
+  Natural Order's sac fodder: combo share 25→22%. This is the price of the swap and it is
+  real — the tier bet is that disruption buys more than the goldfish loses.
+- **Flow (ws_combo_lab):** **better where it hurt** — T2 dead-starved 22→17% (the premium
+  manabase), mean dead turns 1.48→1.42 (greedy); late hellbent 51→54% by T8 (the draw
+  cuts). Keepable 99.3%, Hearthhull-on-curve unchanged (T4 73%).
+- **delay_lab (9 R + 2 P, still 0 counters/statics):** live answer on their T6 **59%** /
+  T7 **62%** (drawn, a=0) — up from 44/48, now *above* Earthbend's 48/52; preempt chain
+  7→17% at T7; a=1 collapse improves only to 5-7% (no statics — that gap needs a
+  Cursed Totem-class buy, unowned).
+- **Placement (ws_place --tuned --measure-inter):** anti-pod **24** (gauntlet P(win)
+  16→**20%**, #15 of 17, back above Diminishing Returns) · inter **23** · self **20** →
+  **composite 29.5 → TIER C (#13 of 17)**, crossing the 28 cut. Head-to-head 18-deck
+  field: tuned 30.3 (C, #14) vs Earthbend 35.2 (C, #12).
+
+**Honest mechanism note:** the D→C crossing came mostly through the **anti-pod axis**
+(measured disruption of the pod's combo turn), not the mirror-overlay inter axis the
+sensitivity ladder pointed at (22→23 only — that oracle is dominated by clock/protect,
+and the table clock softened slightly). Right destination, different door. Net: the tuned
+build lands **level with the Earthbend seat as a tier (C), ~5 composite points below it**,
+with the grind profile (self-meta 20-21 vs 12, Abolisher-immune close, 11-answer suite)
+the composite still undercounts.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
@@ -575,4 +646,6 @@ Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is r
 **not** buy it expecting the free pool to make it race Genome/Radiation/Replication
 or the pod's T6–7 combo seat — it measurably cannot. If it is bought, next steps:
 pod ruling on Planetary Annihilation (kept in the box pile only), physical build from
-`world-shapers-upgraded-20260704.txt`, first-games audit, then the buy-path lab.
+**`world-shapers-tuned-20260704.txt`** (the measured-Tier-C Levers-2+3 build; supersedes
+the upgraded and base-merged lists as the build target), first-games audit, then the
+buy-path lab.

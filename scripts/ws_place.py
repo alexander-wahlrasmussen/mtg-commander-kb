@@ -40,6 +40,7 @@ the conservative "warn" bucket; PROTECT replaces the 0.0 default).
 Run:  python scripts/ws_place.py            # gauntlet + tier (merged replaces Earthbend)
       python scripts/ws_place.py --keep-earthbend
       python scripts/ws_place.py --measure-inter
+      python scripts/ws_place.py --tuned --measure-inter   # the Lever-2+3 tuned variant
 """
 import argparse
 import importlib.util
@@ -101,17 +102,76 @@ WS_PROTECT = 0.30
 
 MERGED_LIST = ROOT / "decks" / "considering" / "world-shapers-merged-20260704.txt"
 
+# --- the TUNED variant (--tuned, 2026-07-04): Lever 2 + Lever 3 applied to the merged
+# list, core plan untouched. 12-for-12: −Escape to the Wilds −Augur of Autumn −Tireless
+# Tracker −Springbloom Druid −Evolving Wilds −Terramorphic Expanse −6 basics (11→5) →
+# +Abrade +Bitter Triumph +Murderous Rider +The Meathook Massacre (interaction; the PROP's
+# Rollick/Trophy/Warp/GftT package measured NOT free — availability_check 2026-07-04) and
+# +Prismatic Vista +Verdant Catacombs +Woodland Cemetery +Tainted Wood +Raging Ravine
+# +Myriad Landscape +Takenuma +Command Beacon (premium lands; Vista/Catacombs/Takenuma/
+# Meathook are Diminishing Returns donor pulls per the user's carve-out). Clock re-labbed:
+# decap slips ~2pp on the front edge (draw cuts), table median T11 holds.
+TUNED = dict(
+    name="World Shapers (tuned)", score="17", disrupt_class="warn",
+    lab=None, sel=("decap", "table"),
+    grid=[5, 6, 7, 8, 9, 10, 12, 14],
+    decap=[0, 1, 5, 21, 49, 71, 92, 97],
+    table=[0, 1, 2, 6, 16, 33, 74, 92],
+    med=("T10", "T11"), never=(1, 3),
+    src="ws_clock_lab --mode external @40k on world-shapers-tuned 2026-07-04")
+
+TUNED_LIST = ROOT / "decks" / "considering" / "world-shapers-tuned-20260704.txt"
+# adds card_lookup-verified 2026-07-04: Murderous Rider costed at the Swift End half
+# ({1}{B}{B} instant); The Meathook Massacre at X=2 (a {4} preempt wipe — enchantment,
+# so no ios tag; P-only, same class logic as Toxic Deluge in the canonical lab).
+TUNED_ANSWERS = {
+    "answers": dict(WS_ANSWERS["answers"]) | {
+        "Abrade":                ({"R", "P"}, 2, {"ios"}),
+        "Bitter Triumph":        ({"R", "P"}, 2, {"ios"}),
+        "Murderous Rider":       ({"R", "P"}, 3, {"ios"}),
+        "The Meathook Massacre": ({"P"}, 4, set()),
+    },
+    "tutors": {},
+}
+
+VARIANTS = {
+    "merged": dict(slug="world_shapers_merged", entry=MERGED, deck=MERGED_LIST,
+                   spec=WS_ANSWERS),
+    "tuned":  dict(slug="world_shapers_tuned", entry=TUNED, deck=TUNED_LIST,
+                   spec=TUNED_ANSWERS),
+}
+
+
+def _defense_spec(spec):
+    """Dummy-name defense spec for dl.ROSTER with the variant's real R/P counts
+    (sm.defense_counts only counts classes; names/costs are never simulated)."""
+    n_r = sum(1 for cls, _c, _t in spec["answers"].values() if "R" in cls)
+    n_p = sum(1 for cls, _c, _t in spec["answers"].values() if cls == {"P"})
+    return {"answers": {f"r{i}": ({"R"}, 2, set()) for i in range(n_r)}
+                     | {f"sweep{i}": ({"P"}, 8, set()) for i in range(n_p)},
+            "tutors": {}}
+
+
+# active variant (rebound by select_variant in main; default = the base merged build)
+ACTIVE = VARIANTS["merged"]
+
+
+def select_variant(name):
+    global ACTIVE, SLUG
+    ACTIVE = VARIANTS[name]
+    SLUG = ACTIVE["slug"]
+
 
 def measure_inter(trials):
-    """Run the canonical delay_lab engine on the merged list and inject the measurement
-    into pg.MEASURED + pg.PROTECT (the promoted-deck harvest path). Must run BEFORE
-    gauntlet()/tiers() so both synthesis oracles read it."""
+    """Run the canonical delay_lab engine on the active variant's list and inject the
+    measurement into pg.MEASURED + pg.PROTECT (the promoted-deck harvest path). Must run
+    BEFORE gauntlet()/tiers() so both synthesis oracles read it."""
     dlab = _load("delay_lab")
     index = dlab.ds.load_oracle_index()
     aliases = dlab.ds.load_reskin_aliases()
-    lib, _ = dlab.slc.load_parsed(MERGED_LIST, index, aliases, warn=False)
-    dlab.check_names(SLUG, lib, WS_ANSWERS)
-    comp = dlab.simulate(SLUG, lib, WS_ANSWERS, trials, random.Random(dlab.SEED), 0.5)
+    lib, _ = dlab.slc.load_parsed(ACTIVE["deck"], index, aliases, warn=False)
+    dlab.check_names(SLUG, lib, ACTIVE["spec"])
+    comp = dlab.simulate(SLUG, lib, ACTIVE["spec"], trials, random.Random(dlab.SEED), 0.5)
     rows = {k: [round(100.0 * comp[k][a][0] / trials, 1) for a in dlab.A_SWEEP]
             for k in (6, 7)}
     pg.MEASURED[SLUG] = rows
@@ -128,12 +188,11 @@ def measure_inter(trials):
 
 
 def inject(keep_earthbend):
-    """Add the merged entry to pg.CLOCKS + a defense spec to dl.ROSTER. Optionally drop
-    earthbend (the retired seat). Returns nothing — mutates the imported modules."""
-    pg.CLOCKS[SLUG] = MERGED
-    dl.ROSTER[SLUG] = ("world-shapers-merged-20260704.txt",
-                       {"answers": {f"r{i}": ({"R"}, 2, set()) for i in range(6)}
-                                  | {"sweep": ({"P"}, 8, set())}})   # 7 R/P answers
+    """Add the active variant's entry to pg.CLOCKS + a defense spec to dl.ROSTER.
+    Optionally drop earthbend (the retired seat). Returns nothing — mutates the
+    imported modules."""
+    pg.CLOCKS[SLUG] = ACTIVE["entry"]
+    dl.ROSTER[SLUG] = (ACTIVE["deck"].name, _defense_spec(ACTIVE["spec"]))
     if not keep_earthbend:
         pg.CLOCKS.pop("earthbend_the_meta", None)
         dl.ROSTER.pop("earthbend_the_meta", None)
@@ -210,7 +269,11 @@ def main():
     ap.add_argument("--measure-inter", action="store_true",
                     help="MEASURE the merged deck's interaction via the delay_lab engine "
                          "(injects pg.MEASURED + pg.PROTECT; supersedes --inter)")
+    ap.add_argument("--tuned", action="store_true",
+                    help="place the interaction+manabase TUNED variant "
+                         "(world-shapers-tuned-20260704) instead of the base merged list")
     args = ap.parse_args()
+    select_variant("tuned" if args.tuned else "merged")
     inject(args.keep_earthbend)
     if args.measure_inter:
         measure_inter(args.trials)
