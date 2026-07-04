@@ -390,6 +390,72 @@ that Earthbend would have coasted through. If that trade (more skill expression,
 "untap-swing-pass") is the appeal, it's a feature; if you want some easy games, it's
 the cost.
 
+## Where it places — pod gauntlet & tier list (`ws_place.py`, 2026-07-04)
+
+`scripts/ws_place.py` injects the merged deck's measured clock (decap T9 / table T11,
+ws_clock_lab 40k) into the two synthesis oracles by reusing their own functions — the
+same harvest a promoted deck would get. CC scored **17 (5/4/4/4)**, disruption bucketed
+**"warn"** (conservative — see caveats). Baseline integrity confirmed: every non-swapped
+deck matches canonical `tier_list.py` byte-for-byte.
+
+**Pod gauntlet (P beat the T6-7 combo pod, decap clock, Abolisher P=0.30):**
+
+| rank | deck | pure race | P(win) |
+|---|---|---|---|
+| 1 | Genome | 63% | 67% |
+| … | (racers) | | |
+| 14 | Dark Lord's Army | 15% | 24% |
+| **15** | **World Shapers (merged)** | **8%** | **19%** |
+| 16 | Diminishing Returns | 13% | 19% |
+| 17 | Crystal Sickness | 7% | 9% |
+
+**#15 of 17.** It cannot race the pod's combo — pure race 8% (needs a T≤7 decap; merged
+hits T7 only 6% of the time). It sits with the other grind decks that don't race
+(Diminishing, Dark Lord).
+
+**Tier list v2 (composite: anti-pod 0.45 · interaction 0.35 · self-meta 0.20):**
+
+Merged lands **Tier D** (composite ~20), and — the load-bearing finding — **it rates
+BELOW the Earthbend deck it replaces** (Earthbend: Tier C, composite 36):
+
+| | anti-pod | interaction | self-meta | composite | tier |
+|---|---|---|---|---|---|
+| Earthbend (retiring) | 42% | 12% | 12% | 36 | **C** |
+| World Shapers (merged) | 18% | — (unmeasured) | **22%** | 20 | **D** |
+
+**Read this honestly.** The composite is weighted 0.45 toward *racing the T6-7 combo
+pod*, and the merged deck is a **grind/inevitability deck, not a racer** — so it scores
+low on the axis that dominates the ranking, exactly like the other high-CC decks the
+tier list parks in C/D (Dark Lord's Army **19/20** → C; Grand Design **18/20** → D).
+By these metrics it is a **bottom-third deck**, and a **downgrade from Earthbend** on
+the pod-race axis specifically.
+
+Three things keep that from being the whole story, and all three are real:
+
+1. **Its self-meta (mirror) score is HIGHER than Earthbend's (22 vs 12).** Racing your
+   *own* roster over full games, the merged deck's inevitability wins more than
+   Earthbend's go-wide — the grind signal the anti-pod axis can't see. Over long pod
+   games it overperforms its tier; if the pod races out T6-7, it underperforms.
+2. **Its anti-pod is conservatively bucketed.** "warn" models reactive answers dying to
+   Grand Abolisher, but the merged deck's anti-combo removal is *proactive* (kill the
+   piece on our own turn) and its drain kill is Abolisher-immune — so the true anti-pod
+   number is somewhat higher than 18%. (Separately, the pod's *fair* Ur-Dragon build
+   inverts the gauntlet — grind wins that one; the gauntlet only models his combo decks.)
+3. **It has no interaction-oracle datapoint.** The 0.35 interaction axis only covers
+   delay_lab-MEASURED decks; a candidate scores `—` there, which redistributes weight
+   onto its weak anti-pod and drags the composite down. Promoted + delay_lab-measured,
+   its 7-piece instant-removal suite would post a real interaction score and likely lift
+   it into **Tier C** — i.e. roughly where Earthbend sits, not below it.
+
+**Net placement verdict:** by the roster's own synthesis metrics it is a lower-third,
+Tier-D deck today and does not out-rank the Earthbend seat it retires. It is a *grind
+deck in a race-weighted ranking*; its honest home once measured is Tier C (grindy,
+durable, can't-race — the Dark Lord / Curse band), and its appeal is the mirror/long-game
+axis and the Abolisher-proof kill, none of which the headline tier captures. If the goal
+is to climb the roster's tier list, this swap does not do it; if the goal is a distinct,
+resilient, fun-to-pilot grind seat that beats the fair-Dragon matchup, it delivers that
+at 350 DKK.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
