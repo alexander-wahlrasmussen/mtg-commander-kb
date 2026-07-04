@@ -306,11 +306,228 @@ fog-locks (social-flag cards anyway), Lumra/Traveling Chocobo/Horn of Greed valu
 What it costs the roster: the Earthbend seat (17/20, decap T8) retires — accepted
 by design since the two decks are the same archetype seat; the merged deck is
 faster to table (T11 vs T12), spell-led rather than combat-led, and runs three
-kill axes instead of one. **Retirement dividend:** Earthbend's off-Jund staples
-return to the free pool — Smothering Tithe (GC), Esper Sentinel, Doubling Season,
-Path to Exile, Swords to Plowshares, Cathars' Crusade, The Ozolith, Triumph of the
-Hordes, Lightning Greaves, Swiftfoot Boots, Bootleggers' Stash — available to the
-rest of the roster or a future white deck.
+kill axes instead of one. **Retirement dividend:** Earthbend's *off-Jund* staples
+return to the free pool — Smothering Tithe (GC), Esper Sentinel, Path to Exile,
+Swords to Plowshares, Cathars' Crusade, Lightning Greaves, Swiftfoot Boots,
+Terra Eternal-class white cards — available to the rest of the roster or a future
+white deck. (Correction 2026-07-04: **Doubling Season, The Ozolith, Triumph of the
+Hordes, Bootleggers' Stash, Hardened Scales are all Jund-legal green** and were
+mis-listed as off-Jund — they're *candidates for the merged deck*, not dividend.
+Doubling Season in particular doubles Scute/Titania tokens, the Mazirek counters,
+and Hearthhull's **charge** counters (faster station-8) — a real flex slot to test.)
+
+## Merged build — combo power & playability study (`ws_combo_lab.py`, 40k, 2026-07-04)
+
+Every combo piece card_lookup-verified; loops cross-checked against CSB via
+find_combos. `scripts/ws_combo_lab.py` reuses the canonical deck_sim engine
+(simulate / simulate_flow / draw_map) — deck_sim's own `--combos`/`--flow` can't
+see `decks/considering/`, which is the only reason the driver exists.
+
+### The combos — what actually wins, and how redundant it is
+
+find_combos reports **9 CSB-complete lines**, which collapse into **three engines +
+one non-win engine**:
+
+| Engine | Pieces (verified) | Per-iteration output | In-deck win payoff |
+|---|---|---|---|
+| **A. Mazirek loop** | Mazirek + Basking Broodscale | infinite {C} + infinite +1/+1 counters + infinite sac/death | All Will Be One (counter→dmg), Mayhem Devil (sac→ping), Exsanguinate, Jarad — **table** |
+| **B. Springheart landfall** | Springheart + {Lotus Cobra \| Tireless Provisioner \| Nissa Resurgent} + {Ashaya \| Badgermole} | infinite landfall + tapped land tokens | Tannuk / Sabotender / Ob Nixilis (drain per landfall), Scute (bodies), Cobra mana→Exsanguinate |
+| **C. Ashaya + Badgermole + outlet** | Ashaya + Badgermole + {Sylvan Safekeeper \| Zuran Orb \| Woe Strider} | infinite landfall / sac / death | same drain payoffs as B |
+| D. Gitrog + Dakmor Salvage | Gitrog + Dakmor | infinite self-mill + draw + yard-fill | **none — not a standalone win** (no Thassa's Oracle); feeds Splendid Reclamation |
+
+**The structural read:** the win engines are A, B, C. **B and C share Ashaya**, and
+Badgermole enables B and is a piece of C — so *Ashaya is the linchpin*: it arms two
+of the three engines at once, and removing it (or a well-timed answer on it) drops
+the deck back to Mazirek + the fair Plan-A drain. The free sac outlets that engine C
+uses (Zuran / Safekeeper / Woe Strider) are the **same cards the non-combo Plan-A
+mass-sac drain uses** — the "every combo piece is also a good fair card" property the
+primer sells is real and measurable here.
+
+**Assembly probability** (P engine online ≤ T; drawn-only, and +tutors = Natural
+Order / Green Sun's Zenith / Gamble as a *free* ceiling):
+
+| | T6 | T8 | T10 | T12 |
+|---|---|---|---|---|
+| ≥1 WIN engine — drawn only | 2% | 3% | 4% | 6% |
+| ≥1 WIN engine — +tutors (ceiling) | 8% | 12% | 16% | **20%** |
+
+So even at the optimistic tutor ceiling the deck has a combo *assembled* in only
+~1-in-5 games by T12 — which **confirms the primer's central claim**: this is a fair
+grind/drain deck that *can* combo, not a combo deck. The combo is a reward for the
+games that go long, not the plan. (Caveats: Natural Order/GSZ fetch green creatures
+only — they can't get devoid Broodscale; the ceiling ignores their mana/sac cost and
+Gamble's random discard. Engine D assembles far more often, ~18% +tutors by T12, but
+doesn't win — it's the draw/yard-fill engine.)
+
+### Playability — is it smooth to pilot?
+
+The primer warns "you shuffle a lot / mana is a volatile number / needs acceleration
+in the opening hand." Measured (`simulate_flow`, greedy = emptying upper bound):
+
+| Metric | Merged | Earthbend (retiring) | Genome (smooth ref) | Croak (grind ref) |
+|---|---|---|---|---|
+| keepable hand | 99.4% | 98.6% | 99.2% | 99.5% |
+| mean dead turns (greedy / one) | **1.48 / 1.30** | 1.26 / 1.10 | 1.37 / 1.10 | 1.81 / 1.57 |
+
+- **It sits mid-pack — between Genome and Croak, ~0.2 dead-turns clunkier than the
+  Earthbend deck it replaces.** Not a smooth deck, not a slog; a grind deck that asks
+  for attention.
+- **The clunk is front-loaded and real:** dead-**starved** (a spell stuck under too
+  few lands — the "volatile mana" tax) is **22% on T2, 7% on T3**, then clears. Late
+  dead turns are the opposite — **flooded** (11% by T10) as the hand empties
+  (hellbent 51% by T8, greedy). It's a deck that can stumble early on a slow draw and
+  run out of gas late if it doesn't find its card-draw engines — exactly the two
+  feel-bads the primer names.
+- **Hearthhull on curve:** ≥4 mana by **T3 only 14%, T4 74%, T5 83%**. The primer's
+  "get the boss down T3" needs a real accelerant (Sol Ring / Orcish Lumberjack / a
+  2-mana rock) in hand — T4 is the honest median. This validates its mulligan advice:
+  **keep for acceleration, ship durdly land-heavy sevens.**
+
+**Verdict on feel:** engaging and decision-dense (lots of small meaningful actions,
+mana as a live resource), noticeably higher piloting load than Earthbend, and it
+punishes autopilot — you will occasionally lose a game to your own clumsy sequencing
+that Earthbend would have coasted through. If that trade (more skill expression, less
+"untap-swing-pass") is the appeal, it's a feature; if you want some easy games, it's
+the cost.
+
+## Where it places — pod gauntlet & tier list (`ws_place.py`, 2026-07-04)
+
+`scripts/ws_place.py` injects the merged deck's measured clock (decap T9 / table T11,
+ws_clock_lab 40k) into the two synthesis oracles by reusing their own functions — the
+same harvest a promoted deck would get. CC scored **17 (5/4/4/4)**, disruption bucketed
+**"warn"** (conservative — see caveats). Baseline integrity confirmed: every non-swapped
+deck matches canonical `tier_list.py` byte-for-byte.
+
+**Pod gauntlet (P beat the T6-7 combo pod, decap clock, Abolisher P=0.30):**
+
+| rank | deck | pure race | P(win) |
+|---|---|---|---|
+| 1 | Genome | 63% | 67% |
+| … | (racers) | | |
+| 14 | Dark Lord's Army | 15% | 24% |
+| **15** | **World Shapers (merged)** | **8%** | **19%** |
+| 16 | Diminishing Returns | 13% | 19% |
+| 17 | Crystal Sickness | 7% | 9% |
+
+**#15 of 17.** It cannot race the pod's combo — pure race 8% (needs a T≤7 decap; merged
+hits T7 only 6% of the time). It sits with the other grind decks that don't race
+(Diminishing, Dark Lord).
+
+**Tier list v2 (composite: anti-pod 0.45 · interaction 0.35 · self-meta 0.20):**
+
+Merged lands **Tier D** (composite ~20), and — the load-bearing finding — **it rates
+BELOW the Earthbend deck it replaces** (Earthbend: Tier C, composite 36):
+
+| | anti-pod | interaction | self-meta | composite | tier |
+|---|---|---|---|---|---|
+| Earthbend (retiring) | 42% | 12% | 12% | 36 | **C** |
+| World Shapers (merged) | 18% | — (unmeasured) | **22%** | 20 | **D** |
+
+**Read this honestly.** The composite is weighted 0.45 toward *racing the T6-7 combo
+pod*, and the merged deck is a **grind/inevitability deck, not a racer** — so it scores
+low on the axis that dominates the ranking, exactly like the other high-CC decks the
+tier list parks in C/D (Dark Lord's Army **19/20** → C; Grand Design **18/20** → D).
+By these metrics it is a **bottom-third deck**, and a **downgrade from Earthbend** on
+the pod-race axis specifically.
+
+Three things keep that from being the whole story, and all three are real:
+
+1. **Its self-meta (mirror) score is HIGHER than Earthbend's (22 vs 12).** Racing your
+   *own* roster over full games, the merged deck's inevitability wins more than
+   Earthbend's go-wide — the grind signal the anti-pod axis can't see. Over long pod
+   games it overperforms its tier; if the pod races out T6-7, it underperforms.
+2. **Its anti-pod is conservatively bucketed.** "warn" models reactive answers dying to
+   Grand Abolisher, but the merged deck's anti-combo removal is *proactive* (kill the
+   piece on our own turn) and its drain kill is Abolisher-immune — so the true anti-pod
+   number is somewhat higher than 18%. (Separately, the pod's *fair* Ur-Dragon build
+   inverts the gauntlet — grind wins that one; the gauntlet only models his combo decks.)
+3. **It has no interaction-oracle datapoint.** The 0.35 interaction axis only covers
+   delay_lab-MEASURED decks; a candidate scores `—` there, which redistributes weight
+   onto its weak anti-pod and drags the composite down. Promoted + delay_lab-measured,
+   its 7-piece instant-removal suite would post a real interaction score and likely lift
+   it into **Tier C** — i.e. roughly where Earthbend sits, not below it.
+
+**Net placement verdict:** by the roster's own synthesis metrics it is a lower-third,
+Tier-D deck today and does not out-rank the Earthbend seat it retires. It is a *grind
+deck in a race-weighted ranking*; its honest home once measured is Tier C (grindy,
+durable, can't-race — the Dark Lord / Curse band), and its appeal is the mirror/long-game
+axis and the Abolisher-proof kill, none of which the headline tier captures. If the goal
+is to climb the roster's tier list, this swap does not do it; if the goal is a distinct,
+resilient, fun-to-pilot grind seat that beats the fair-Dragon matchup, it delivers that
+at 350 DKK.
+
+## Moving it up without tutors (2026-07-04)
+
+The tier composite is 0.45 anti-pod (decap race) · 0.35 interaction · 0.20 self-meta.
+Two levers were tested; one is flat, one works.
+
+**Lever 1 — lean into the counters → All Will Be One → single-target-decap axis
+(FLAT, dropped).** AWBO deals its counter-count to *one* opponent, so feeding it
+counter-generators from the retirement pool (Bristly Bill landfall counters, Doubling
+Season / The Earth Crystal doubling, Impact Tremors) is the on-theme, Abolisher-proof,
+tutor-free way to try to speed the decap. `ws_clock_lab --mode mergedlevers` (40k):
+
+| variant | decap med | T7 | T8 |
+|---|---|---|---|
+| merged base | T9 | 6% | 23% |
+| + Bristly Bill | T9 | 6% | 23% |
+| + counter pkg (3) | T9 | 6% | 23% |
+| + counter pkg (4, −Roiling) | **T10** | 5% | 22% |
+
+Flat on the front edge, and the 4-card version is *slower* (cut too much mana). AWBO's
+counter-damage only comes online once you're already stationed or in the Mazirek loop —
+same T8+ timing as the drain it supplements. It thickens the mid-game grind but **does
+not race**, so it does not move the tier. (Per the lab-first rule: measured, flat,
+dropped — keep these only if wanted as grind/redundancy, not for placement.)
+
+**Lever 2 — the interaction axis (0.35), which is *unmeasured*, not weak (THE lever).**
+`ws_place.py --inter` sensitivity (injecting a manual interaction score for the merged
+deck):
+
+| injected interaction | composite | tier |
+|---|---|---|
+| — (unmeasured, today) | 20 | D (#14) |
+| 15 | 20 | D (#14) |
+| 25 | 26 | D (#13) |
+| **35** | **31** | **C (#12)** |
+
+At an interaction score ~35 it crosses into **Tier C — level with the Earthbend seat it
+replaces.** The deck already has a real 7-piece instant suite; the free/retirement pool
+holds plenty of premium Jund interaction to push it there without a single tutor or buy:
+**Toxic Deluge, Deadly Rollick, Assassin's Trophy, Chaos Warp, Go for the Throat,
+Vandalblast, Force of Vigor, Heroic Intervention** (all Jund-legal, all free or
+Earthbend-proxy, **none a Game Changer** — 3/3 holds). Concrete on-brand swap: cut
+low-decap value slots (Escape to the Wilds, Augur of Autumn, Tireless Tracker,
+Springbloom Druid) for ~4 of those. This is exactly what a *grind* deck wants — great
+answers, not a faster combo — so it fits the identity instead of fighting it.
+
+**Lever 3 — a maxed premium manabase (a REAL, on-theme lever — corrected 2026-07-04).**
+An earlier draft lumped "premium lands" in with rejected fast mana; that was wrong. For a
+landfall aristocrat deck a fetch is *not* ramp — it's two landfall triggers + a sacrifice
+trigger + deck-thinning + colour-fixing, and it's recurring fuel under Crucible / Ramunap /
+Life from the Loam / Hearthhull. The user rejects **artifact fast mana** (Sol Ring / Mana
+Vault / Ancient Tomb) and **tutors** and **racing** — not good lands. Tested (+6 real
+fetches replacing basics, `ws_clock_lab`, 30k):
+
+| | T7 | T8 | T9 | table T10 |
+|---|---|---|---|---|
+| merged base | 6% | 23% | 51% | 37% |
+| + 6 fetches | 7% | 25% | 54% | 41% |
+
+A couple of front-edge points, and — unlike the flat counters package — it lands on the
+**anti-pod axis**: gauntlet pure race 8%→10%, P(win) 19%→20%. Modest, because the list is
+*already* fetch-dense (~10 fetch-type lands), so it's diminishing returns; the bigger wins
+(untapped fixing → Hearthhull on curve, fetches as recurring landfall+sac fuel) are real
+but under-counted by the colour-blind goldfish. It's also simply correct deckbuilding.
+
+**The ceiling, stated honestly:** the anti-pod (race) axis stays *low* (~18-20) — it's a
+grind deck and won't race the T6-7 combo without artifact fast mana + tutors, which the
+build rejects on identity. Premium lands nudge it a little; they don't turn it into a
+racer. So the two working levers — **interaction** (D→C, the big one) and **manabase**
+(a few anti-pod points + real consistency) — **stack to a firm low Tier C, level with the
+Earthbend seat**, and that is the honest ceiling without changing what the deck *is*.
+**Next step to bank it:** build the interaction-leaned, maxed-manabase variant and get it
+delay_lab-measured (so the 0.35 axis is real, not injected) — offer standing.
 
 ## Recommendation
 

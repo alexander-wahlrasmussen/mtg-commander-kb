@@ -119,6 +119,7 @@ CAST_OTHER = {  # noncreature engine permanents worth deploying
     "Horn of Greed": 3, "Retreat to Hagra": 3, "Crucible of Worlds": 3,
     "Conduit of Worlds": 4, "Walk-In Closet/Forgotten Cellar": 3,
     "All Will Be One": 5, "Purphoros, God of the Forge": 4,
+    "Doubling Season": 5, "The Earth Crystal": 4, "Impact Tremors": 2,
 }
 
 
@@ -167,12 +168,36 @@ class Trial:
         if self.tbl.done and self.kill_src is None:
             self.kill_src = src
 
+    def dfactor(self):
+        """Counter/token multiplier from Doubling Season + The Earth Crystal (each
+        doubles +1/+1 counters; Doubling Season also doubles tokens). Stacks."""
+        f = 1
+        if self.bd("Doubling Season"):
+            f *= 2
+        if self.bd("The Earth Crystal"):
+            f *= 2
+        return f
+
+    def awbo(self, n):
+        """All Will Be One: n counters placed -> n damage to ONE opponent (decap).
+        This is the non-tutor, non-combat, Abolisher-proof decap lever."""
+        if self.bd("All Will Be One") and n > 0:
+            self.tbl.hit_focus(n, self.T)
+            self.tag("All Will Be One (counters)")
+
     def make_body(self, name, power, ready=False):
-        """All token/creature arrivals route here so Purphoros sees them."""
-        self.board.append([name, power, ready])
-        if self.bd("Purphoros, God of the Forge"):
-            self.tbl.hit_all(2, self.T)
-            self.tag("Purphoros slug")
+        """All token/creature arrivals route here so Purphoros / Impact Tremors see
+        them; Doubling Season doubles TOKEN arrivals (named tokens, not hardcast)."""
+        copies = 2 if (self.bd("Doubling Season") and name in
+                       ("Elemental", "Beast", "Insect", "Zombie", "Bear")) else 1
+        for _ in range(copies):
+            self.board.append([name, power, ready])
+            if self.bd("Purphoros, God of the Forge"):
+                self.tbl.hit_all(2, self.T)
+                self.tag("Purphoros slug")
+            if self.bd("Impact Tremors"):
+                self.tbl.hit_all(1, self.T)
+                self.tag("Impact Tremors slug")
 
     # -- events ------------------------------------------------------------------
     def land_to_yard(self):
@@ -195,8 +220,7 @@ class Trial:
         if self.bd("Korvold, Fae-Cursed King"):
             self.g.draw(1)
         if self.bd("All Will Be One") and self.bd("Mazirek, Kraul Death Priest"):
-            self.tbl.hit_focus(max(1, len(self.board)), self.T)   # a counter per creature
-            self.tag("AWBO counters")
+            self.awbo(max(1, len(self.board)) * self.dfactor())   # a counter per creature
         if is_land:
             if self.bd("Titania, Protector of Argoth"):
                 self.make_body("Elemental", 5)
@@ -214,10 +238,13 @@ class Trial:
         self.lands_in += n
         for _ in range(n):
             if self.bd("Evolution Sage") and self.charge2 and not self.charge8:
-                self.sage_charge += 1                 # proliferate: +1 charge counter
+                self.sage_charge += 1 * (2 if self.bd("Doubling Season") else 1)
+                self.awbo(1 * self.dfactor())         # proliferate ticks a +1/+1 too
                 if self.sage_charge >= 6:             # 2 -> 8 without tapping a board
                     self.charge8 = True
                     self.station8_turn = self.T
+            if self.bd("Bristly Bill, Spine Sower"):
+                self.awbo(1 * self.dfactor())         # landfall -> +1/+1 counter -> AWBO
             if self.bd("Omnath, Locus of Rage"):
                 self.make_body("Elemental", 5)
             if self.bd("Rampaging Baloths"):
@@ -445,7 +472,7 @@ class Trial:
             for nm in ("Lotus Cobra", "Tireless Provisioner", "Nissa, Resurgent Animist",
                        "Tannuk, Memorial Ensign", "Sabotender", "Iridescent Vinelasher",
                        "Scute Swarm", "Traveling Chocobo", "The Earth King",
-                       "Evolution Sage", "Orcish Lumberjack"):
+                       "Evolution Sage", "Orcish Lumberjack", "Bristly Bill, Spine Sower"):
                 if not self.bd(nm) and g.has(nm):
                     rec = g.hand[g.in_hand(nm)][1]
                     if g.avail >= rec["cmc"] and self.cast_creature(nm, rec["cmc"]):
@@ -689,6 +716,55 @@ def mode_drain(index, aliases, trials, deck=None):
     print("\n  Read: the always-on arm is the UPPER BOUND of what un-gating could buy.")
 
 
+def mode_mergedlevers(index, aliases, trials, deck=None):
+    """Can the merged build move UP the tier without tutors? Tests the non-combat,
+    Abolisher-proof 'counters -> All Will Be One -> single-target DECAP' axis, fed by
+    counter-generators from the Earthbend retirement pool (all Jund-legal, free):
+      Bristly Bill (landfall -> +1/+1 -> AWBO ping an opponent each land drop),
+      Doubling Season (2x charge = faster station-8, 2x tokens, 2x every AWBO ping),
+      The Earth Crystal (2x counters + green cost cut), Impact Tremors (2nd Purphoros).
+    Cuts fair-value slots that don't drive decap. Watch the DECAP front edge (T6-8)."""
+    base, _ = slc.load_parsed(DECK_MG, index, aliases)
+    powers = slc.load_powers(sorted({nm for nm, r in base
+                                     if "Creature" in r.get("type_line", "")}
+                                    | {"Bristly Bill, Spine Sower"}))
+    CUTS = ["Escape to the Wilds", "Augur of Autumn", "Tireless Tracker"]
+    ADD3 = ["Bristly Bill, Spine Sower", "Doubling Season", "Impact Tremors"]
+    VARIANTS = {
+        "merged base": base,
+        "+ Bristly Bill only": slc.build_lib(base, index, ["Escape to the Wilds"],
+                                             ["Bristly Bill, Spine Sower"]),
+        "+ counter pkg (3)": slc.build_lib(base, index, CUTS, ADD3),
+        "+ counter pkg (4, -Roiling)":
+            slc.build_lib(base, index, CUTS + ["Roiling Regrowth"],
+                          ADD3 + ["The Earth Crystal"]),
+    }
+    print("=" * 72)
+    print(f"MERGED LEVERS — non-tutor 'counters->AWBO->decap' axis   trials={trials}")
+    print("=" * 72)
+    print("  P(kill <= T) %".ljust(46) + "".join(f"{t:6d}" for t in SHOW))
+    for name, lib in VARIANTS.items():
+        rng = random.Random(SEED)
+        res, mix = [], {}
+        for _ in range(trials):
+            tr = Trial(lib, rng, powers)
+            for T in range(1, TURNS + 1):
+                tr.turn(T)
+                if tr.tbl.done:
+                    break
+            res.append((tr.tbl.decap, tr.tbl.table))
+            src = tr.kill_src or "combat"
+            mix[src] = mix.get(src, 0) + 1
+        print(slc.row(name + " — decap", slc.cum(res, 0, SHOW), SHOW, width=44)
+              + f"  med {slc.median(res, 0)}")
+        print(slc.row("    ... table", slc.cum(res, 1, SHOW), SHOW, width=44)
+              + f"  med {slc.median(res, 1)}")
+        awbo = 100.0 * mix.get("All Will Be One (counters)", 0) / trials
+        print(f"      AWBO-decap share {awbo:.0f}%")
+    print("\n  Read: the tier axis is the DECAP front edge (T6-8). A flat delta = the")
+    print("  counters axis doesn't race either -> keep it a resilience/self-meta case.")
+
+
 def mode_levers(index, aliases, trials, deck=None):
     """Decomposition: which slice of the 19 swaps buys the speed?"""
     print("=" * 72)
@@ -725,4 +801,5 @@ def mode_levers(index, aliases, trials, deck=None):
 if __name__ == "__main__":
     slc.run_cli(__doc__, {"clock": mode_clock, "external": mode_external,
                           "comboclock": mode_comboclock, "stock": mode_stock,
-                          "levers": mode_levers, "drain": mode_drain})
+                          "levers": mode_levers, "drain": mode_drain,
+                          "mergedlevers": mode_mergedlevers})
