@@ -32,12 +32,26 @@ Reskin cards are mechanically identical to an existing MTG card but printed unde
 | Reskin name | Original MTG card |
 |---|---|
 | Paradise Chocobo | Birds of Paradise |
+| Newfound Adventure | Farseek |
 
 ### Lord of the Rings
 
 | Reskin name | Original MTG card |
 |---|---|
 | Morgul-Knife | Shadowspear |
+| Fangorn Forest | Yavimaya, Cradle of Growth |
+
+### Secret Lair alternate-name printings
+
+| Reskin name | Original MTG card |
+|---|---|
+| Master Emerald Shrine | Command Tower |
+| La abuela, siempre generosa | Tireless Provisioner |
+
+> The four 2026-07-04 additions (Newfound Adventure, Fangorn Forest, Master Emerald
+> Shrine, La abuela siempre generosa) are *official* alternate-name printings indexed
+> by Scryfall itself (`fca` / `ltc` / `sld` sets) — not user-applied custom names.
+> Confirmed via Scryfall API 2026-07-04 (Hearthhull external list evaluation).
 
 > ⚠️ **Name collision:** a *real, different* card is named **Morgul-Knife Wound** (`{1}{B}`
 > Enchantment — Aura, color identity **B**). A `card_lookup.py` search for "Morgul-Knife"
