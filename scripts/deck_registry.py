@@ -293,6 +293,12 @@ EXTRA_COMMANDERS = {
     "bdd-azula-budget": "Fire Lord Azula",
     # 2026-07-01 external budget YouTube deck under evaluation (decks/considering/) — Boros Cass recursion COMBO
     "cass-budget-combo": "Cass, Hand of Vengeance",
+    # 2026-07-04 World Shapers precon (EOC, Hearthhull) evaluation (decks/considering/) —
+    # stock box vs the owned-only 19-swap upgrade vs the external $1400 primer build
+    "world-shapers-precon": "Hearthhull, the Worldseed",
+    "world-shapers-upgraded": "Hearthhull, the Worldseed",
+    "world-shapers-external": "Hearthhull, the Worldseed",
+    "world-shapers-merged": "Hearthhull, the Worldseed",
 }
 
 # Display names for non-roster decks that deck_sim labels (the rest fall back to the stem).
