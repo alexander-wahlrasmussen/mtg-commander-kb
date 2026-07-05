@@ -101,6 +101,25 @@ Three decks are board-independent damage that beat **both** his archetypes:
 bottom tier vs his combo (Glarb #14, Dark Lord #12). Commit them only when you're confident
 he's on Ur-Dragon; they're the *worst* read if he sits down with a combo deck.
 
+## Addendum 2026-07-05 — classifier fix, pin refresh, candidate injection
+
+- **Oracle-index bug fixed**: textless "X // X" printings (art-series-style entries)
+  could shadow the real card via the face-name index path — `otext("Infernal Grasp")`
+  returned whitespace, silently deflating spot counts roster-wide (this, not reskins,
+  was the main reason the counts ran low). `SPOT_RE` also widened to catch
+  "destroy target permanent" / "destroy target artifact or creature" (Beast Within,
+  Putrefy — both hit a dragon). Regression tests: `tests/test_vs_dragon_toolkit.py`.
+- **Stale decklist pins fixed in `lock_lab.py`** (this lab imports its DECKS map):
+  Replication Crisis → 20260630, Dark Lord's Army → 20260630, Croak → 20260701.
+- `analysis/vs_dragon_roster.json` re-baked @40k. **The ranking and the over/combat
+  split are unchanged.** Notable drift vs the table above (updated decklists, not the
+  model): Lightning War 83→73% (and 56→47% under dragon-lifegain), Exile 37→42%,
+  Bumbleflower 38→39%, Curse 34→32%, GD 14→20%, Earthbend 34→33%.
+- **Candidate injection**: `ws_place.py --dragon` ranks the merged World Shapers
+  build in this model using its COMBAT-OFF clock (axis=over) — it lands **58%, #7,
+  between Zero-Sum and Crystal Sickness**, vs 33% for the Earthbend seat it retires;
+  the gap holds across the full sweep. See PROP_World_Shapers_Hearthhull.md.
+
 ## Audit caveats (load-bearing)
 
 - Toolkit counts are oracle-classified and **printed by the lab** — verify the matches.

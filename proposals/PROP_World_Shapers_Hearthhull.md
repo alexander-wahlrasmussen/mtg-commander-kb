@@ -529,6 +529,83 @@ Earthbend seat**, and that is the honest ceiling without changing what the deck 
 **Next step to bank it:** build the interaction-leaned, maxed-manabase variant and get it
 delay_lab-measured (so the 0.35 axis is real, not injected) — offer standing.
 
+## Vs the Ur-Dragon — the seat's defining matchup, now measured (2026-07-05)
+
+The Earthbend seat exists to fight the pod's fair Ur-Dragon deck, and the standing
+worry — "neither deck has flying or reach, he can outrun us" — was tested directly.
+`ws_place.py --dragon` injects the merged build into `vs_dragon_roster_lab` (the
+model that ranked all 16 decks) using its **combat-off clock**: what the deck does
+when plain combat is *fully answered* — a flying wall included.
+
+**Combat-off clock (ws_clock_lab --mode comboclock --deck merged, 40k, 2026-07-05):
+decap T11 med / table T12 med, 96% of games still kill by T16.** Mixture shifts to
+land-sac drain 39% / Mazirek combo 18% / slug+AWBO+Purphoros 28%. Blockers are
+irrelevant to all of it — the deck does not need to connect in combat to win.
+
+| | P(win vs Ur-Dragon) | axis | sweep range |
+|---|---|---|---|
+| **World Shapers (merged)** | **58% — #7 of 17** | over | 45–71%, above Earthbend in ALL 7 scenarios |
+| Earthbend the Meta (retiring) | 33% — #13 | combat (walled) | 20–51% |
+
+The flying/reach worry is answered by *kill shape*, not blockers: Earthbend must
+connect with ground land-creatures (walled → 33%); the merged deck's drain, loop
+converters and slug statics go **over** the wall. It slots into the "over" cluster
+(between Zero-Sum 70% and Crystal Sickness 57%). This is the one axis where the
+merged deck **decisively out-classes the seat it retires** — the pod-race tier
+(D→C ceiling, unchanged) never was its case; the Dragon matchup is.
+
+*Caveat:* the injected clock already excludes the walled combat share; ~11% of its
+combat-off kills are pumped-Spawn swings that survive only via the tapped-attacker
+crackback window — flagged, small. protect=0.0 (Veil/Swat not modelled) is
+conservative. Model fixes shipped the same day (oracle-index poisoning + spot-regex
+under-catch; ranking unchanged — see the addendum in
+`analysis/VsDragon_Roster_2026-06-15.md`).
+
+### "Hearthhull is busted" (online) vs what we measure
+
+Both are true, about different questions. The hype discourse evaluates the deck in
+precon-upgrade / mid-power metas, where a resilient T9–T11 engine deck with an
+Abolisher-immune close and a 32-combo ceiling *is* oppressive — and note our own
+model scores the $1400 primer build only T9/T11 **as a floor** (its infinites are
+unmodelled). Our roster's bar is different: the pod's combo seat goldfishes T6–7
+behind Grand Abolisher, and *nothing* outside Genome/Radiation/Replication races
+that. "Busted" online ≈ "dominates fair tables" — which is exactly the profile
+measured here (58% vs the fair archenemy deck, top-half self-meta), not "races a
+T6–7 combo pod". The two claims never disagreed.
+
+## Tag-tool gap-fill pass (`collection_by_tag`, 2026-07-05)
+
+The new narrowing cuts (`--color BRG --exclude-deck world-shapers-merged --max-cmc
+--permanents --no-lands`) were swept over the deck's three measured gaps (T2 mana
+stumble 22%, hellbent 51% by T8, 1-wrath toolkit). Shortlist → `card_lookup` →
+strict `availability_check` → lab. Results, per the lab-first rule:
+
+- **"Gas & wraths" package (7 swaps: +Greater Good/Sylvan Library/Phyrexian Arena/
+  Meathook Massacre/Toxic Deluge/Birds/Phyrexian Tower) — FLAT, rejected.** List:
+  `world-shapers-merged-gas-20260705.txt`. Flow: mean dead turns 1.47 vs 1.48,
+  starved-T2 22→19%, hellbent slightly *worse* (55% T8); clock ~½ turn slower
+  (goldfish-dead removal slots + cut immediate gas). The deck's draw was already
+  adequate — the engines don't earn slots the cuts vacate.
+- **Birds of Paradise micro-swap (for Roiling Regrowth) — neutral, free, optional.**
+  List: `world-shapers-merged-birds-20260705.txt`. Clock identical (T9/T11), flow
+  marginal. Real value (colour-fixing, a T1 body that taps to station) is invisible
+  to the colour-blind goldfish. "Correct deckbuilding" tier, like the fetch lever.
+- **Card-text find:** The Meathook Massacre's death trigger drains OPPONENTS when
+  *our* creatures die — wrath + lifegain + a 4th Mazirek-loop converter. Worth
+  remembering if a copy frees up; both owned copies are deployed (Croak, DR).
+- **Contention findings (the strict check caught what name-grep missed — alias
+  printings):** Sylvan Library (2/2 deployed), Meathook (2/2), Toxic Deluge
+  (9 deployed vs 7 owned), Greater Good (1/1, Eldrazi Stampede), Phyrexian Tower
+  (deficit), Skullclamp (5 deployed vs 4 owned). Phyrexian Arena is genuinely free
+  but measured flat here. **Always resolve availability with
+  `availability_check.py`, not a name grep over decks/*.txt.**
+- **Net:** the free pool holds no measurable ramp/draw upgrade for this list. The
+  standing levers remain the proposal's Lever 2 (interaction lean from the
+  free/retirement pool → delay_lab measurement, the D→C move) and Lever 3 (fetch
+  manabase). The tag tool's contribution is the *process* (gap-fill shortlists +
+  contention audit), and it closed the ramp/draw question with a measurement
+  instead of a hunch.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real

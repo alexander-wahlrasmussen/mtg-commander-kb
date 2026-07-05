@@ -168,8 +168,9 @@ TAX_RE = re.compile(
 TAX_INCLUDE = {"propaganda", "ghostly prison", "sphere of safety", "norn's annex",
                "windborn muse", "archangel of tithes", "baird, steward of argive"}
 SPOT_RE = re.compile(
-    r"(destroy|exile) target creature|destroy target (creature or planeswalker|nonland permanent)|"
-    r"exile target (creature or planeswalker|nonland permanent)|"
+    r"(destroy|exile) target creature|"
+    r"destroy target (creature or planeswalker|nonland permanent|permanent|artifact or creature)|"
+    r"exile target (creature or planeswalker|nonland permanent|permanent)|"
     r"target creature you don't control|deals? \d+ damage to (any target|target creature)")
 SPOT_EXCLUDE = set()
 LIFE_RE = re.compile(r"gain \d+ life|gain life|gain that much life|whenever .*gain \d+ life")
@@ -183,16 +184,23 @@ def load_oracle():
     data = json.loads((ROOT / "collection" / "oracle-cards.json").read_text(encoding="utf-8"))
     for c in data:
         nm = c.get("name", "").lower()
-        if nm in ORACLE:
-            continue
         txt = c.get("oracle_text", "") or ""
         for f in c.get("card_faces", []) or []:
             txt += " " + (f.get("oracle_text", "") or "")
-        ORACLE[nm] = txt.lower()
+        txt = txt.lower()
+        # textless printings (art-series-style "X // X" entries) must not poison the
+        # index — they otherwise land via the face-name path below and blank out the
+        # real card (caught 2026-07-05: otext("Infernal Grasp") == "  ")
+        if not txt.strip():
+            continue
+        if not ORACLE.get(nm, "").strip():
+            ORACLE[nm] = txt
         # also index each face name (adventures / MDFCs are listed as "A // B")
         if " // " in nm:
             for part in nm.split(" // "):
-                ORACLE.setdefault(part.strip(), txt.lower())
+                p = part.strip()
+                if not ORACLE.get(p, "").strip():
+                    ORACLE[p] = txt
 
 
 def otext(name):

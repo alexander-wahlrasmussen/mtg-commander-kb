@@ -276,11 +276,14 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=["assembly", "smoothness", "all"], default="all")
     ap.add_argument("--trials", type=int, default=40000)
+    ap.add_argument("--deck", type=Path, default=DECK,
+                    help="decklist to study (default: the merged 2026-07-04 list) — "
+                         "for A/B-ing swap-package variants")
     args = ap.parse_args()
     index = ds.load_oracle_index()
     aliases = ds.load_reskin_aliases()
-    library, commander = slc.load_parsed(DECK, index, aliases)
-    print(f"library {len(library)} + commander {commander}   [{DECK.name}]\n")
+    library, commander = slc.load_parsed(args.deck, index, aliases)
+    print(f"library {len(library)} + commander {commander}   [{args.deck.name}]\n")
     if args.mode in ("assembly", "all"):
         mode_assembly(library, args.trials)
     if args.mode in ("smoothness", "all"):
