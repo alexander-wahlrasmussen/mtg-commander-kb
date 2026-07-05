@@ -808,7 +808,9 @@ strict `availability_check` → lab. Results, per the lab-first rule:
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
 (a legal infinite, +1 turn on the table clock, dramatically better recursion, exactly
-3 GCs, zero additional spend) and it produces an honest **mid-roster B3 deck**. Do
+3 GCs, zero additional spend) and it produces an honest **mid-roster B3 deck** that
+**more than doubles the retiring seat's number in the matchup the seat exists for
+(69% vs 33% against the Ur-Dragon deck — measured 2026-07-05)**. Do
 **not** buy it expecting the free pool to make it race Genome/Radiation/Replication
 or the pod's T6–7 combo seat — it measurably cannot. If it is bought, next steps:
 pod ruling on Planetary Annihilation (kept in the box pile only), physical build from
