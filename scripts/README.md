@@ -46,7 +46,7 @@ The per-deck tables below give the full mapping.
 | `find_combos.py` | Check a full decklist for combos via Commander Spellbook. |
 | `availability_check.py` | Check a candidate decklist against ownership + deployed decks. |
 | `unlock_optimizer.py` | Rank cross-deck card contention and one-purchase unlocks. |
-| `collection_by_tag.py` | Group the owned collection by Scryfall function-tag → `collection/collection_by_tag.md` (deck-building shortlist: "what ramp/draw do I own?"). Derived, deterministic; `--tags ramp,draw` for a filtered stdout view. |
+| `collection_by_tag.py` | Group the owned collection by Scryfall function-tag → `collection/collection_by_tag.md` (deck-building shortlist: "what ramp/draw do I own?"). Derived, deterministic; `--tags ramp,draw` filtered stdout; gap-fill cuts `--color`, `--exclude-deck`, `--max-cmc`, `--permanents`, `--no-lands`. |
 | `sync_to_project.py` | Flatten the KB into `_sync_drop/` for Claude Project upload. |
 | `build-collection.ps1` | Build the DeckSafe collection from the latest Moxfield export. |
 | `validate.py` | Read-only linter for the KB hard rules (100 cards, GC cap…). |

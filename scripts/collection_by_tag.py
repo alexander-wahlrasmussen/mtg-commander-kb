@@ -24,6 +24,9 @@ Usage:
     python scripts/collection_by_tag.py --out somewhere.md
     # deck-building fill — owned ramp in a deck's colours that it doesn't already run:
     python scripts/collection_by_tag.py --tags ramp --color BRU --exclude-deck dark-lord
+    # narrow a broad tag in a wide identity to a shortlist of cheap engine pieces:
+    python scripts/collection_by_tag.py --tags draw --color BGUW --exclude-deck grand-design \
+                                        --max-cmc 4 --permanents --no-lands
 
 Data: collection/moxfield_haves_*.csv (ownership) x collection/oracle-tags.json
 (tags) x collection/oracle-cards.json (name -> oracle_id join). Refresh tags with
@@ -32,7 +35,7 @@ update_tag_index.py, cards with update_scryfall_data.py.
 import argparse
 import json
 import sys
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -45,26 +48,38 @@ import card_lookup                                          # noqa: E402
 TAGS_FILE = ROOT / "collection" / "oracle-tags.json"
 DEFAULT_OUT = ROOT / "collection" / "collection_by_tag.md"
 
+# One resolved card: identity for the colour filter, cmc/perm/land for the narrowing cuts.
+CardInfo = namedtuple("CardInfo", "oid disp ci cmc perm land")
+
 
 def build_oid_index(cards):
-    """name.lower() -> (oracle_id, display_name, color_identity: frozenset).
+    """name.lower() -> CardInfo(oracle_id, display_name, color_identity, cmc, perm).
 
     Mirrors deck_sim.load_oracle_index precedence: a real card's name never gets
     overwritten by a junk layout (token / art series) that shares it. color_identity
     is the whole-card identity (Scryfall keeps it at top level for DFCs) — the value
-    the --color filter tests for commander-legality in a deck's colors.
+    the --color filter tests for commander-legality in a deck's colors. perm is False
+    only for cards that are purely instant/sorcery (front face), so --permanents keeps
+    the persistent "engine" pieces and drops one-shot spells.
     """
     idx = {}
     for c in cards:
         oid = c.get("oracle_id")
         if not oid:
             continue
-        disp = c.get("name", "")
-        ci = frozenset(c.get("color_identity", []))
+        front = c.get("type_line", "").split("//")[0].lower()   # front face for DFC/adventure/split
+        info = CardInfo(
+            oid=oid,
+            disp=c.get("name", ""),
+            ci=frozenset(c.get("color_identity", [])),
+            cmc=c.get("cmc", 0.0),
+            perm=not ("instant" in front or "sorcery" in front),
+            land="land" in front,
+        )
         junk = c.get("layout", "normal") in card_lookup.JUNK_LAYOUTS
         for nm in card_lookup.face_names(c):   # already lowercased, full name + faces
             if nm and (nm not in idx or not junk):
-                idx[nm] = (oid, disp, ci)
+                idx[nm] = info
     return idx
 
 
@@ -91,7 +106,7 @@ def resolve_deck_exclusions(fuzzy, oid_index, aliases):
     for name in read_decklist(path):            # keys already normalised (lowercased front-face)
         entry = oid_index.get(aliases.get(name, name).lower())
         if entry:
-            oids.add(entry[0])
+            oids.add(entry.oid)
     return path.stem, oids
 
 
@@ -104,7 +119,8 @@ def load_tag_data():
     return data.get("by_oracle_id", {}), data.get("fetched_at", "unknown")
 
 
-def collect(owned, proxy, oid_index, by_oracle_id, allowed=None, excluded=None):
+def collect(owned, proxy, oid_index, by_oracle_id,
+            allowed=None, excluded=None, max_cmc=None, permanents=False, no_lands=False):
     """Return (tag -> sorted [(display, own, prox)], stats).
 
     owned/proxy are canonical-name -> count (reskin-resolved by load_owned). We
@@ -114,12 +130,19 @@ def collect(owned, proxy, oid_index, by_oracle_id, allowed=None, excluded=None):
     with multiple tags then lands in every one of its sections: the point of the
     grouped view, and the reason it is larger than a flat list.
 
-    allowed:  frozenset of colours (WUBRG); keep only cards whose colour identity is
-              a subset (colourless always passes) — a deck's in-identity candidates.
-    excluded: set of oracle_ids to drop (e.g. cards a deck already runs).
+    allowed:    frozenset of colours (WUBRG); keep only cards whose colour identity is
+                a subset (colourless always passes) — a deck's in-identity candidates.
+    excluded:   set of oracle_ids to drop (e.g. cards a deck already runs).
+    max_cmc:    keep only cards with mana value <= this.
+    permanents: keep only permanents (drop instants/sorceries).
+    no_lands:   drop lands (a land tagged 'draw' is manabase, not a draw spell).
+
+    These cuts narrow a broad tag in a wide identity (e.g. 'draw' in a 4-colour deck)
+    toward an actionable shortlist of cheap, persistent engine pieces — though a tag
+    that broad still needs the reader's engine-vs-one-shot judgment at the end.
     """
     excluded = excluded or set()
-    agg = {}                                   # oid -> [display, own, prox, color_identity]
+    agg = {}                                   # oid -> [display, own, prox, ci, cmc, perm, land]
     unresolved = 0
     for key in set(owned) | set(proxy):
         own, prox = owned.get(key, 0), proxy.get(key, 0)
@@ -129,16 +152,22 @@ def collect(owned, proxy, oid_index, by_oracle_id, allowed=None, excluded=None):
         if entry is None:
             unresolved += 1                    # name unmatched to oracle data (tokens/odd exports)
             continue
-        oid, disp, ci = entry
-        slot = agg.setdefault(oid, [disp, 0, 0, ci])
+        slot = agg.setdefault(entry.oid,
+                              [entry.disp, 0, 0, entry.ci, entry.cmc, entry.perm, entry.land])
         slot[1] += own
         slot[2] += prox
 
     kept = {}
-    for oid, (disp, own, prox, ci) in agg.items():
+    for oid, (disp, own, prox, ci, cmc, perm, land) in agg.items():
         if oid in excluded:
             continue
         if allowed is not None and not ci <= allowed:
+            continue
+        if max_cmc is not None and cmc > max_cmc:
+            continue
+        if permanents and not perm:
+            continue
+        if no_lands and land:
             continue
         kept[oid] = (disp, own, prox)
 
@@ -154,7 +183,8 @@ def collect(owned, proxy, oid_index, by_oracle_id, allowed=None, excluded=None):
     # Sort by name, then oid — a total order, so ties never depend on run-time hashing.
     ordered = {t: [(d, o, p) for d, o, p, _ in sorted(v, key=lambda r: (r[0].lower(), r[3]))]
                for t, v in tag_cards.items()}
-    filtering = allowed is not None or bool(excluded)
+    filtering = (allowed is not None or bool(excluded) or max_cmc is not None
+                 or permanents or no_lands)
     stats = {
         "owned_uniques": len(kept) if filtering else len(agg) + unresolved,
         "tagged_uniques": tagged,
@@ -217,6 +247,11 @@ def main():
                                     "colourless always included")
     ap.add_argument("--exclude-deck", help="drop cards a deck already runs (fuzzy decks/*.txt name) — "
                                            "the gap-fill view: what could I ADD")
+    ap.add_argument("--max-cmc", type=float, metavar="N", help="keep only cards with mana value <= N")
+    ap.add_argument("--permanents", action="store_true",
+                    help="keep only permanents (drop instants/sorceries) — persistent 'engine' pieces")
+    ap.add_argument("--no-lands", action="store_true",
+                    help="drop lands (a land tagged e.g. 'draw'/'ramp' is manabase, not a spell)")
     args = ap.parse_args()
 
     aliases = load_reskin_aliases()
@@ -235,15 +270,23 @@ def main():
     excluded, deck_stem = set(), None
     if args.exclude_deck:
         deck_stem, excluded = resolve_deck_exclusions(args.exclude_deck, oid_index, aliases)
-    if allowed is not None or excluded:
+    if allowed is not None or excluded or args.max_cmc is not None or args.permanents or args.no_lands:
         scope = []
         if allowed is not None:
             scope.append(f"colour identity ⊆ {{{''.join(sorted(allowed)) or 'C'}}}")
         if excluded:
             scope.append(f"excluding {len(excluded)} cards already in {deck_stem}")
+        if args.max_cmc is not None:
+            scope.append(f"mana value ≤ {args.max_cmc:g}")
+        if args.permanents:
+            scope.append("permanents only")
+        if args.no_lands:
+            scope.append("no lands")
         print("Filtered view: " + "; ".join(scope), file=sys.stderr)
 
-    tag_cards, stats = collect(owned, proxy, oid_index, by_oracle_id, allowed=allowed, excluded=excluded)
+    tag_cards, stats = collect(owned, proxy, oid_index, by_oracle_id, allowed=allowed,
+                               excluded=excluded, max_cmc=args.max_cmc,
+                               permanents=args.permanents, no_lands=args.no_lands)
     if not tag_cards:
         sys.exit("ERROR: no owned card resolved to a function tag — check the CSV and oracle-tags.json.")
 
