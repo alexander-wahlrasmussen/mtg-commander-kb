@@ -299,6 +299,10 @@ EXTRA_COMMANDERS = {
     "world-shapers-upgraded": "Hearthhull, the Worldseed",
     "world-shapers-external": "Hearthhull, the Worldseed",
     "world-shapers-merged": "Hearthhull, the Worldseed",
+    # 2026-07-05: tuned was MISSING here — its 2026-07-04 clock harvest parsed with
+    # commander None (Hearthhull shuffled into the library). Curves re-harvested after
+    # the fix; see PROP correction note.
+    "world-shapers-tuned": "Hearthhull, the Worldseed",
 }
 
 # Display names for non-roster decks that deck_sim labels (the rest fall back to the stem).

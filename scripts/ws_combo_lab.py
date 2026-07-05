@@ -118,6 +118,39 @@ ENGINES = {
 }
 WIN_ENGINES = [k for k in ENGINES if "WIN" in k]
 
+# --- EXTERNAL-list engine taxonomy (--engines external, 2026-07-04): the primer build's
+# CSB-complete lines, same modelling conventions as ENGINES (find_combos-verified in the
+# PROP; every piece card_lookup-read). Its tutors differ: GSZ / Nature's Rhythm /
+# Formidable Speaker reach green creatures, Crop Rotation reaches Shifting Woodland.
+# Urza's Saga (reaches Zuran Orb over 3 turns) is NOT credited — same convention as the
+# merged taxonomy, present in both lists, symmetric omission. Chasm/Mists locks are
+# defense, not win engines — excluded.
+GREEN_X = {"green sun's zenith", "nature's rhythm", "formidable speaker"}
+LAND_X = {"crop rotation"}
+EXTERNAL_ENGINES = {
+    "B. Springheart landfall (WIN)": [
+        slot(["Springheart Nantuko"], GREEN_X),
+        slot(["Lotus Cobra", "Tireless Provisioner", "Nissa, Resurgent Animist"], GREEN_X),
+        slot(["Ashaya, Soul of the Wild", "Badgermole Cub"], GREEN_X),
+    ],
+    "C. Ashaya+Badgermole+outlet (WIN)": [
+        slot(["Ashaya, Soul of the Wild"], GREEN_X),
+        slot(["Badgermole Cub"], GREEN_X),
+        slot(["Sylvan Safekeeper", "Zuran Orb", "Squandered Resources"], GREEN_X),
+    ],
+    "Q. Quirion Ranger + Ashaya (WIN)": [
+        slot(["Quirion Ranger"], GREEN_X),
+        slot(["Ashaya, Soul of the Wild"], GREEN_X),
+        slot(["Lotus Cobra", "Tireless Provisioner", "Nissa, Resurgent Animist"], GREEN_X),
+    ],
+    "W. Shifting Woodland + Analyst + outlet (WIN)": [
+        slot(["Shifting Woodland"], LAND_X),
+        slot(["Aftermath Analyst"], GREEN_X),
+        slot(["Sylvan Safekeeper", "Zuran Orb", "Squandered Resources"], GREEN_X),
+    ],
+}
+TAXONOMIES = {"merged": ENGINES, "external": EXTERNAL_ENGINES}
+
 
 def engine_online(slots, seen, tutors_seen):
     """True if every slot is covered by a seen member, or (with tutors) by an exact
@@ -136,11 +169,13 @@ def engine_online(slots, seen, tutors_seen):
     return False, ok
 
 
-def mode_assembly(library, trials):
+def mode_assembly(library, trials, engines=None, label="merged World Shapers"):
+    engines = engines or ENGINES
+    win_engines = [k for k in engines if "WIN" in k]
     n = len(library)
-    all_tutors = set().union(*[t for slots in ENGINES.values() for _, t in slots])
-    drawn = {k: [0] * (TURNS + 1) for k in ENGINES}
-    tut = {k: [0] * (TURNS + 1) for k in ENGINES}
+    all_tutors = set().union(*[t for slots in engines.values() for _, t in slots])
+    drawn = {k: [0] * (TURNS + 1) for k in engines}
+    tut = {k: [0] * (TURNS + 1) for k in engines}
     any_win_drawn = [0] * (TURNS + 1)
     any_win_tut = [0] * (TURNS + 1)
     rng = random.Random(SEED)
@@ -155,13 +190,13 @@ def mode_assembly(library, trials):
                 ptr += 1
             tutors_seen = seen & all_tutors
             win_d = win_t = False
-            for k, slots in ENGINES.items():
+            for k, slots in engines.items():
                 d, tt = engine_online(slots, seen, tutors_seen)
                 if d:
                     drawn[k][t] += 1
                 if tt:
                     tut[k][t] += 1
-                if k in WIN_ENGINES:
+                if k in win_engines:
                     win_d = win_d or d
                     win_t = win_t or tt
             if win_d:
@@ -173,11 +208,11 @@ def mode_assembly(library, trials):
         return {t: 100.0 * a[t] / trials for t in SHOW}
 
     print("=" * 78)
-    print(f"COMBO ASSEMBLY — merged World Shapers   trials={trials} seed={SEED}")
+    print(f"COMBO ASSEMBLY — {label}   trials={trials} seed={SEED}")
     print("=" * 78)
-    print("  P(engine online <= turn T) %        drawn-only / +tutors (NO,GSZ,Gamble)")
+    print("  P(engine online <= turn T) %        drawn-only / +tutors (ceiling)")
     print("  turn:".ljust(40) + "".join(f"{t:>6}" for t in SHOW))
-    for k in ENGINES:
+    for k in engines:
         print(slc.row(k + "  drawn", pct(drawn[k]), SHOW, width=38))
         print(slc.row("      +tutors", pct(tut[k]), SHOW, width=38))
     print("  " + "-" * 74)
@@ -276,16 +311,21 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=["assembly", "smoothness", "all"], default="all")
     ap.add_argument("--trials", type=int, default=40000)
-    ap.add_argument("--deck", type=Path, default=DECK,
-                    help="decklist to study (default: the merged 2026-07-04 list) — "
-                         "for A/B-ing swap-package variants")
+    ap.add_argument("--deck", default=None,
+                    help="override the pinned merged list (path; same convention as "
+                         "speed_lab_core.run_cli — added for the tuned variant 2026-07-04)")
+    ap.add_argument("--engines", choices=list(TAXONOMIES), default="merged",
+                    help="engine taxonomy for --mode assembly (external = the primer "
+                         "list's CSB lines; pair with --deck .../world-shapers-external)")
     args = ap.parse_args()
     index = ds.load_oracle_index()
     aliases = ds.load_reskin_aliases()
-    library, commander = slc.load_parsed(args.deck, index, aliases)
-    print(f"library {len(library)} + commander {commander}   [{args.deck.name}]\n")
+    deck = Path(args.deck) if args.deck else DECK
+    library, commander = slc.load_parsed(deck, index, aliases)
+    print(f"library {len(library)} + commander {commander}   [{deck.name}]\n")
     if args.mode in ("assembly", "all"):
-        mode_assembly(library, args.trials)
+        mode_assembly(library, args.trials, engines=TAXONOMIES[args.engines],
+                      label=f"{deck.stem} [{args.engines} taxonomy]")
     if args.mode in ("smoothness", "all"):
         mode_smoothness(library, args.trials)
         bench_smoothness(args.trials)
