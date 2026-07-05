@@ -17,6 +17,8 @@ standing upgrade swap, with sourcing for each card.*
 > replaced by the **"Glarb Inevitable" topdeck-combo** (Sensei's Top → Aetherflux, T9, counter-immune):
 > `decks/croak-and-dagger-20260701.txt`. Clock T13→T9, P(beat pod) ~7–8%→~30%. 8 buys ≈ €32 (+ a 2nd
 > Aetherflux; Sensei's Top was owned/free). See `proposals/Glarb_Inevitable_Topdeck_Combo_2026-06-30.md`.
+> **2026-07-05 — second build queued: Creative Destruction** (Hearthhull, World Shapers precon +
+> Earthbend retirement) — named + approved, **held as a proposal until the precon arrives**. See §1c.
 > Everything below tagged "Hashaton" / "Thassa's Oracle" / "Thoracle decision" is **superseded** — kept for record only.
 
 This is a **working dashboard**, not a reference doc — it will go stale as cards are bought and
@@ -86,6 +88,13 @@ out of the roster**; Croak and Dagger went grind (§5), Hashaton was dropped.
 - **Scarce shared singleton:** **Sheoldred, the Apocalypse** (own 1, in The Dark Lord's Army) — buy a copy for Kefka or pull from Sauron.
 - **Estimate:** ~€140–190 (bake-off) / ~$85–140 (proposal) — both **unverified**, both pre-date the availability sweep. The wheels (Wheel of Fortune / Echo of Eons / Time Spiral / Memory Jar) are the bulk of the spend.
 - **Gate:** none. This is the deck you can build without asking the pod.
+
+### 1c. Hearthhull, the Worldseed — *Creative Destruction* (Jund land-sac) 🟢 — **QUEUED (named + approved 2026-07-05; awaiting precon arrival)**
+- **List:** `decks/considering/world-shapers-tuned-20260704.txt` (build target; supersedes upgraded/merged) · **Clock:** decap T10 / table T11 (`ws_clock_lab` @40k 2026-07-05, post commander-registry fix) · **GCs:** 3/3 (Crop Rotation, Gamble, Natural Order) · **Vs Ur-Dragon: 69% (#7)** — 2× the Earthbend seat it retires (33%) · **Tier C #12** (composite 30.7, `ws_place --tuned --measure-inter`).
+- **Wincon:** stationed land-sac drain + Mazirek/Broodscale loop (Abolisher-immune) + landfall slug; Meathook/Jarad/Exsanguinate/AWBO converters.
+- **Sourcing:** the precon (350 DKK, **on order**) + free pool + **Earthbend the Meta retirement** (same archetype seat) + **DR donor pulls per user carve-out** (The Meathook Massacre, Prismatic Vista, Verdant Catacombs, Takenuma — **bump DR's `.txt` when pulled**). Zero further card buys.
+- **Gate:** none (2-card infinite covered by the 2026-06-19 pod combo OK; Planetary Annihilation stays in the box pile pending any ruling).
+- **On arrival:** sleeve-day checklist in `proposals/PROP_World_Shapers_Hearthhull.md` (status block) — DR pulls, Earthbend archive, promote as `decks/creative-destruction-YYYYMMDD.txt`, register the stem in `deck_registry.EXTRA_COMMANDERS`, DeckSafe re-run, first-games audit.
 
 ---
 
@@ -239,6 +248,7 @@ rather than tracking per-deck. Worth doing in the same pod conversation.
 4. **One pod conversation (still pending):** ask for the **standard 2-card infinites** (Exile's Return Kiki, DR), and propose codifying the blanket exception. *(The high-stigma Thoracle approval is no longer needed — Thoracle is out. Replication Crisis's Recruiter add needs no approval — tutor, not a new combo.)*
 5. **After approval, free:** apply **Diminishing Returns Stage 1** ($0). **Small buys:** Kiki ×1 → Exile's Return; Imperial Recruiter ×1 → Replication Crisis (no approval).
 6. **On physical arrival of the owed copies:** re-run DeckSafe with the updated Moxfield export, then refresh `Collection_Master_Status.md` from the real ownership numbers (the 2026-06-30 "as-if-bought" status here is a planning marker, not a DeckSafe result). Forced Liquidation is already promoted to `decks/`; Zero-Sum/Lightning War `.txt` builds already carry their cards.
+7. **On the World Shapers precon's arrival:** run the Creative Destruction sleeve-day checklist (§1c / PROP status block) — DR donor pulls (+ DR `.txt` bump), Earthbend retirement, promote the tuned list as `decks/creative-destruction-YYYYMMDD.txt`, register the stem, DeckSafe re-run, first-games audit.
 
 ---
 

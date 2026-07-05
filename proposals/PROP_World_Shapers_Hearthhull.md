@@ -1,6 +1,22 @@
-# Proposal: World Shapers precon (Hearthhull, the Worldseed) — owned-only upgrade
+# Proposal: Creative Destruction — World Shapers precon (Hearthhull, the Worldseed)
 
-Status: **evaluation — precon not yet purchased.** Drafted 2026-07-04.
+Status: **APPROVED — named "Creative Destruction" 2026-07-05; held as a proposal until
+the precon arrives.** Build target: `decks/considering/world-shapers-tuned-20260704.txt`.
+Drafted 2026-07-04.
+
+*The name:* Schumpeter's creative destruction — tearing down your own structures to
+build more productive ones — which is the deck's literal game plan (sacrifice lands
+for value/drain, Splendid-Reclamation them back bigger). Sits in the roster's econ
+register beside Diminishing Returns / Zero-Sum Game / Forced Liquidation.
+
+*On arrival (sleeve-day checklist):* pull the DR donor cards (The Meathook Massacre,
+Prismatic Vista, Verdant Catacombs, Takenuma) and **bump Diminishing Returns' dated
+`.txt`**; retire Earthbend the Meta (archive its list; off-Jund staples return to the
+free pool); sleeve from the tuned list and promote it as
+`decks/creative-destruction-YYYYMMDD.txt`; add the `creative-destruction` stem to
+`deck_registry.EXTRA_COMMANDERS` (commander detection is stem-prefix based — the
+2026-07-05 correction below is the cautionary tale); re-run DeckSafe with a fresh
+Moxfield export; first-games audit.
 
 The question asked: *if I buy the World Shapers precon (Edge of Eternities Commander,
 EOC), can it be made competitive with the rest of the roster using only collection
