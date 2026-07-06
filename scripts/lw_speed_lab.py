@@ -35,7 +35,7 @@ _spec = importlib.util.spec_from_file_location("deck_sim", Path(__file__).parent
 ds = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ds)
 
 OLD = ROOT / "archive" / "old_decklists" / "lightning-war-20260413-153124.txt"   # pre-pivot
-NEW = ROOT / "decks" / "lightning-war-20260621.txt"                              # current build
+NEW = ROOT / "decks" / "lightning-war-20260706.txt"                              # current build
 SEED = 12345
 
 # ---- shared card sets (decklist names) -----------------------------------

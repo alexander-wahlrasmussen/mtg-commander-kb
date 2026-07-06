@@ -151,7 +151,7 @@ DECKS = {
     "eldrazi_stampede":   "decks/eldrazi-stampede-chaos-20260306-133311.txt",
     "dark_lords_army":    "decks/the-dark-lords-army-20260417-211206.txt",
     "diminishing_returns": "decks/diminishing-returns-20260505.txt",
-    "lightning_war":      "decks/lightning-war-20260621.txt",
+    "lightning_war":      "decks/lightning-war-20260706.txt",
     "grand_design":       "decks/the-grand-design-20260623.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
     "croak_and_dagger":       "decks/croak-and-dagger-20260623-215731.txt",

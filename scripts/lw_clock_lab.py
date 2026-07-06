@@ -51,7 +51,7 @@ ds = slc.ds
 _cspec = importlib.util.spec_from_file_location("lw_combo_lab", Path(__file__).parent / "lw_combo_lab.py")
 lcl = importlib.util.module_from_spec(_cspec); _cspec.loader.exec_module(lcl)
 
-DECK = ROOT / "decks" / "lightning-war-20260621.txt"         # current list (repointed 2026-06-28)
+DECK = ROOT / "decks" / "lightning-war-20260706.txt"         # current list (repointed 2026-06-28)
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]

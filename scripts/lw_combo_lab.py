@@ -41,7 +41,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-OURS = ROOT / "decks" / "lightning-war-20260621.txt"                          # current list
+OURS = ROOT / "decks" / "lightning-war-20260706.txt"                          # current list
 PRIOR = ROOT / "archive" / "old_decklists" / "lightning-war-20260614.txt"     # pre-upgrade
 BENCH = {
     "Lightning War (pre-upgrade 20260614)": PRIOR,
