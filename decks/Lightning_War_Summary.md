@@ -11,7 +11,7 @@
 | **Game Changers** | Fierce Guardianship, Gifts Ungiven, Mystical Tutor (3 of 3) |
 | **Conversion Check** | **19/20 (A)** · audited 2026-06-28 |
 | **Kill Window** | Clock: **T8 decap / T9 table** best-line goldfish · burn race ∪ Reiterate/Seething Song combo raced on ONE game (lw_clock_lab.py --mode bestline, 2026-06-28). Race-only was T10/>T14; the combo (CAST ~T9) is the fast table kill. Per-line clocks in Kill Window below. |
-| **Status** | built — `lightning-war-20260621.txt` (ground truth) |
+| **Status** | built — `lightning-war-20260706.txt` (ground truth) |
 
 -----
 
@@ -37,7 +37,7 @@ Lightning War exploits **cast-and-copy volume in Azula's combat**: with Azula at
 
 **Line 1 — Azula infinite combo (primary, combo):** Assemble a loop — Narset's Reversal + (Frantic Search *or* Turnabout) = draw the deck; Narset's Reversal + Storm-Kiln Artist = infinite mana/Treasure; **Reiterate + Seething Song** (standalone *or* the Blazing Firesinger // Seething Song prepare half) = infinite red mana — then dump into **Torment of Hailfire** / multikicked Comet Storm / Crackle for a table kill. 14 catalogued lines (`find_combos.py`, CSB 2026-06-21); Bonus Round and Turnabout each enable several. Tutor-gated: needs to *find* one loop piece + a sink.
 
-**Line 2 — Copy-amplified X-spell (backup race, 2 cards):** Azula attacking + a finisher, doubled by Twinning Staff / Galvanic Iteration / Increasing Vengeance / Bonus Round. Crackle X=3 with Twinning Staff = 3 × 15 = 45 to each opponent (11 mana); Comet Storm forks at instant speed. No combo required.
+**Line 2 — Copy-amplified X-spell (backup race, 2 cards):** Azula attacking + a finisher, doubled by Twinning Staff / Galvanic Iteration / Bonus Round — or tripled by a **second** copy engine (Irma copying Azula, both attacking). Crackle X=3 with Twinning Staff = 3 × 15 = 45 to each opponent (11 mana); Comet Storm forks at instant speed. No combo required.
 
 **Line 3 — Banefire through the wall (single-target):** X≥5 Banefire is **uncounterable** and can't be prevented — a one-player delete that ignores countermagic. The button for the player behind a counter wall; doubled by Azula + a flash enabler for overkill.
 
@@ -116,7 +116,7 @@ Verified via `card_lookup.py` (read the card + rulings).
 - Twinning Staff
 - Bonus Round
 - Galvanic Iteration
-- Increasing Vengeance
+- Irma, Part-Time Mutant  *(2nd Azula copy engine)*
 - Narset's Reversal
 - Reiterate
 - Turnabout
@@ -125,7 +125,7 @@ Verified via `card_lookup.py` (read the card + rulings).
 ### Flash Enablers (3)
 - Leyline of Anticipation
 - Borne Upon a Wind
-- Cunning Nightbonder
+- Vedalken Orrery
 
 ### X-Spell Finishers (5)
 - Banefire
@@ -257,6 +257,7 @@ Verified via `card_lookup.py` (read the card + rulings).
 
 ## Changelog
 
+- **2026-07-06 (forced swap — Increasing Vengeance unavailable; clock-flat, resilience-motivated):** Increasing Vengeance couldn't be secured (unowned), so it left the list. Applied a 2-card swap: **−Increasing Vengeance +Irma, Part-Time Mutant** (a 2nd Azula copy-engine — Irma copies Azula at beginning of combat but keeps her own name, so no legend-rule conflict; with both attacking, each combat spell is copied twice, tripled with Twinning Staff) and **−Cunning Nightbonder +Vedalken Orrery**. The second swap also fixes a card-text error in this doc: **Cunning Nightbonder is not a flash enabler** (it only makes *already-flash* spells cost {1} less and uncounterable) — it had been miscounted as the 3rd enabler. Real enablers are now genuinely 3 (Leyline, Borne, and the *permanent* Vedalken Orrery). **Lab-measured clock-flat** (`lw_swap_lab`, 40k, burn goldfish + bestline): every clock identical within noise — best-line **decap T8 / table T9 unchanged** — because the harvested table clock is carried by the combo (untouched), and dropping 1 of 4 copy-amps / adding a 3rd enabler are both in saturated regions. Justification is **resilience, not speed**: engine redundancy vs Azula removal (structurally invisible to the goldfish, which models no opposing interaction) + a permanent enabler replacing reliance on one-shot Borne. Stays **100 / 3-of-3 GC**; both adds owned + free (Irma is a proxy copy), non-GC. Labs repointed `20260621 → 20260706`; golden clock snapshot regenerated.
 - **2026-06-28 (all-finishers MVP, Backlog #11):** The harvested clock `pod_gauntlet` races is now the **best-line** curve (`lw_clock_lab.py --mode bestline`): the burn race and the Reiterate/Seething Song combo run on the *same* simulated game and the earliest decap/table by either line is reported (correlated draws, not independent CDFs). Headline clock moved **T10/>T14 → T8/T9**; LW rose from a race-axis bottom-feeder to ~4th in the gauntlet (P(win) ~51% @a=0.3). The burn lab gained a `bestline` mode that injects a shared opening hand into both `goldfish_kill` and `lw_combo_lab.assembly_turn`; the combo lab's tutor picks were made hash-seed-deterministic so the golden snapshot is reproducible. Tournament/dashboard code unchanged — they still consume one curve; the curve just stopped hiding the combo.
 - **2026-06-28:** Repointed `lw_clock_lab.py` to the current `lightning-war-20260621` list (was the archived 20260614); strict-goldfish clock is now decap T10 / table >T14 (the deck leaned combo, so the race-only clock slowed). Corrected the framing: the infinite-mana combo (~T9) is the **fastest table-wide kill**, not the race table sweep (~T11). Removed a wrong-card ("Ozai") ruling. Rebuilt the Summary onto the canonical template schema.
 - **2026-06-21:** Combo-consistency pass — added a standalone Seething Song + tutor/selection density (combo assembly: never-in-horizon → median T9) and combo glue (Bonus Round / Turnabout / Expansion); swapped two weak slots + board-answer cards for payoff/combo within the 3-GC cap.

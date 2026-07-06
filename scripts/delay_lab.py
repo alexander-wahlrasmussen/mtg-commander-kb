@@ -245,7 +245,7 @@ FORCED_LIQUIDATION = {
 }
 
 
-LIGHTNING_WAR = {   # reconciled to lightning-war-20260621 (2026-06-28)
+LIGHTNING_WAR = {   # reconciled 2026-06-28; repointed to -20260706 (2026-07-06 swap leaves interaction/tutors unchanged)
     "answers": {
         "Fierce Guardianship":      ({"C"}, 0, {"ios", "inst"}),   # Azula (4) out by their T6
         "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),   # 1-card pitch on their turn
@@ -468,7 +468,7 @@ ROSTER = {
     "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
     "diminishing_returns": ("diminishing-returns-20260505.txt", DIMINISHING),
     "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
-    "lightning_war": ("lightning-war-20260621.txt", LIGHTNING_WAR),
+    "lightning_war": ("lightning-war-20260706.txt", LIGHTNING_WAR),
     "croak_and_dagger": ("croak-and-dagger-20260623-215731.txt", CROAK),
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260625.txt", FORCED_LIQUIDATION),
@@ -645,7 +645,7 @@ def main():
     burn_port = {"answers": {n: v for n, v in KEFKA_BURN["answers"].items()
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
-    lw = L(dks / "lightning-war-20260621.txt")
+    lw = L(dks / "lightning-war-20260706.txt")
     croak = L(dks / "croak-and-dagger-20260623-215731.txt")
     gd = L(dks / "the-grand-design-20260623.txt")
 
