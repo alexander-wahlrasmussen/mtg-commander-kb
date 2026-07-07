@@ -121,95 +121,95 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 - Woodland Cemetery x
 
 ## Forced Liquidation
-*Kefka (Grixis forced-draw / punisher)* — 80 unique / 100 cards. **Buy 26 · DR 1 · Loam 4 · Collection 69**
+*Kefka (Grixis forced-draw / punisher)* — 80 unique / 100 cards. **Buy 25 · DR 1 · Loam 4 · Collection 70**
 
-### Buy — already in hand (26 cards / 26 copies)
-- Bloodchief's Thirst
-- Bloodletter of Aclazotz
-- Chaos Warp
-- Cursed Totem
-- Dark Deal
-- Drown in the Loch
-- Echo of Eons
-- Fate Unraveler
-- Glint-Horn Buccaneer
-- Go for the Throat
-- Jace's Archivist
-- Kederekt Parasite
-- Liliana's Caress
-- Megrim
-- Negate
-- Niv-Mizzet, Parun
-- Ob Nixilis, the Hate-Twisted
-- Past in Flames
-- Peer into the Abyss
-- Ponder
-- Preordain
-- Rakdos Charm
-- Reforge the Soul
-- Seething Song
-- Underworld Dreams
-- Waste Not
+### Buy — already in hand (25 cards / 25 copies)
+- Bloodchief's Thirst x
+- Bloodletter of Aclazotz x
+- Chaos Warp x
+- Cursed Totem x
+- Dark Deal x
+- Echo of Eons x
+- Fate Unraveler x
+- Glint-Horn Buccaneer x
+- Go for the Throat x
+- Jace's Archivist x
+- Kederekt Parasite x
+- Liliana's Caress x
+- Megrim x
+- Negate x
+- Niv-Mizzet, Parun x
+- Ob Nixilis, the Hate-Twisted x
+- Past in Flames x
+- Peer into the Abyss x
+- Ponder x
+- Preordain x
+- Rakdos Charm x
+- Reforge the Soul x
+- Seething Song x
+- Underworld Dreams x
+- Waste Not x
 
 ### From Diminishing Returns (pull during teardown) (1 cards / 1 copies)
 - Lightning Greaves x
 
 ### From the Loam pile (4 cards / 4 copies)
-- Counterspell
-- Final Parting
-- Otawara, Soaring City
-- Swan Song
+- Counterspell x
+- Final Parting x
+- Otawara, Soaring City x
+- Swan Song x
 
-### From the collection / pool (49 cards / 69 copies)
-- Aether Channeler
+### From the collection / pool (50 cards / 70 copies)
+- Abrade
+- Aether Channeler x
 - An Offer You Can't Refuse x
-- Arcane Denial
-- Arcane Signet
-- Blasphemous Act
+- Arcane Denial x
+- Arcane Signet x
 - Blood Crypt
 - Command Tower
 - Commander's Sphere
-- Deflecting Swat
-- Demonic Tutor
-- Dimir Signet
-- Dismember
-- Displacer Kitten
+- Deadly Tempest
+- Demonic Tutor x
+- Dimir Signet x
+- Dismember x
+- Displacer Kitten x
 - Drowned Catacomb
 - Exotic Orchard
-- Faithless Looting
+- Faithless Looting x
 - Frantic Search x
-- Grim Tutor
-- Heartless Act
+- Grim Tutor x
+- Heartless Act x
 - 8× Island
-- Izzet Signet
-- Kefka, Court Mage
+- Izzet Signet x
+- Kefka, Court Mage x
 - Magus of the Wheel
-- Mana Vault
-- Mind Stone
-- Molten Psyche
+- Mana Vault x
+- Mind Stone x
+- Molten Psyche x
 - 7× Mountain
-- Nicol Bolas, the Ravager
-- Notion Thief
+- Nicol Bolas, the Ravager x
+- Notion Thief x
 - Psychosis Crawler
-- Rakdos Signet
+- Rakdos Signet x
 - Reliquary Tower
-- Ruby Medallion
-- Sheoldred, the Apocalypse
+- Ruby Medallion x
+- Sheoldred, the Apocalypse x
 - Shivan Reef
-- Sol Ring
-- Soul Shatter
+- Sol Ring x
+- Soul Shatter x
+- Spell Pierce
 - Steam Vents
 - Sulfur Falls
 - 8× Swamp
-- Swiftfoot Boots
-- Talisman of Dominance
+- Swiftfoot Boots x
+- Talisman of Dominance x
 - Temple of Deceit
 - Temple of Epiphany
-- Thought Vessel
-- Thrill of Possibility
+- Thought Vessel x
+- Thrill of Possibility x
 - Underground River
 - Watery Grave x
-- Windfall
+- Windfall x
 
 ## The one teardown step — what leaves Diminishing Returns
 

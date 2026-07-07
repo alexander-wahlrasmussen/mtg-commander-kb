@@ -53,7 +53,7 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes 
 | **Core Loop** | **5/5** | ~7 wheels × ~13 punisher/payoff cards + 3 tutors = 20+ pieces serving one recognizable machine (force draws/discards → static punishers convert to damage). The loop is the deck; highly redundant. |
 | **Kill Reliability** | **4/5** | Multiple independent lines — Notion Thief + Psychosis (marquee), multi-punisher wheel, Peer, Kitten+Channeler backup combo. Held off 5 by *lethal-or-bust* (a mistimed wheel refuels opponents) and a sorcery-speed median T8/T9 kill. |
 | **Durability** | **3/5** | The cap. Grixis (no green/white), punishers are wrath-fragile creatures/enchantments, Past in Flames recurs only the wheels (not the enchantment punishers). Redundant but recovers slowly for a racing deck with no inevitability. |
-| **Interaction** | **4/5** | ~14 pieces — 8 removal (survive an Abolisher lock) + 6 counters + Deflecting Swat, instant-heavy and diverse. Off 5 because a racing, lethal-or-bust deck can't freely spend interaction without derailing its own clock. |
+| **Interaction** | **4/5** | ~15 pieces — 9 removal (survive an Abolisher lock) + 6 counters, instant-heavy and diverse. Off 5 because a racing, lethal-or-bust deck can't freely spend interaction without derailing its own clock. |
 
 **Reading:** Solid (13–16), top of band. Lowest axis is **Durability** — the deck races and is wrath-vulnerable; it wins by assembling the Abolisher-proof burn before the pod combos, not by grinding. Same total as Zero-Sum Game (16) but the opposite shape (ZSG is Interaction-floored, FL is Durability-capped).
 
@@ -76,11 +76,11 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. The four axes 
 
 **~15 pieces total.**
 
-- **Removal:** 8 — Soul Shatter, Heartless Act, Go for the Throat, Bloodchief's Thirst, Dismember, Chaos Warp, Rakdos Charm, Blasphemous Act (board wipe). Cheap instant-speed answers to kill Grand Abolisher / combo pieces on sight.
-- **Counters:** 6 — Counterspell, Negate, Swan Song, An Offer You Can't Refuse, Arcane Denial, Drown in the Loch. (Blank on the opponent's Abolisher turn — hence the kill is built to dodge that, and the counters cover non-Abolisher windows.)
-- **Protection / redirect:** Deflecting Swat + Lightning Greaves + Swiftfoot Boots — protect Kefka and the wheel turn.
+- **Removal:** 9 — Soul Shatter, Heartless Act, Go for the Throat, Bloodchief's Thirst, Dismember, Chaos Warp, Rakdos Charm, Abrade (creature or artifact), Deadly Tempest (board wipe — its life-loss rider feeds the kill). Cheap answers to kill Grand Abolisher / combo pieces on sight.
+- **Counters:** 6 — Counterspell, Negate, Swan Song, An Offer You Can't Refuse, Arcane Denial, Spell Pierce. (Blank on the opponent's Abolisher turn — hence the kill is built to dodge that, and the counters cover non-Abolisher windows.)
+- **Protection / redirect:** Lightning Greaves + Swiftfoot Boots (hexproof/haste for Kefka) + Spell Pierce as a cheap soft-counter — protect Kefka and the wheel turn. (Traded the free redirect Deflecting Swat out to contention; protection is now equipment-led.)
 
-Instant speed: ~90% (nearly all removal + every counter, incl. Blasphemous Act). Sorcery speed: Bloodchief's Thirst.
+Instant speed: ~85% (nearly all removal + every counter). Sorcery speed: Bloodchief's Thirst + Deadly Tempest.
 
 ---
 
@@ -158,7 +158,7 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 1 Preordain
 1 Past in Flames
 
-### Removal (8)
+### Removal (9)
 1 Soul Shatter
 1 Heartless Act
 1 Go for the Throat
@@ -166,7 +166,8 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 1 Chaos Warp
 1 Dismember
 1 Rakdos Charm
-1 Blasphemous Act
+1 Deadly Tempest
+1 Abrade
 
 ### Counters (6)
 1 Counterspell
@@ -174,12 +175,11 @@ No reskins. *Verified against `REF_Game_Changers_List.md` on 2026-06-27.*
 1 Swan Song
 1 An Offer You Can't Refuse
 1 Arcane Denial
-1 Drown in the Loch
+1 Spell Pierce
 
-### Protection & Static (4)
+### Protection & Static (3)
 1 Lightning Greaves
 1 Swiftfoot Boots
-1 Deflecting Swat
 1 Cursed Totem
 
 ### Mana Rocks & Rituals (12)

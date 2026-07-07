@@ -138,16 +138,16 @@ Time Spiral (~€80, the deck's priciest remaining buy) replaced by **Molten Psy
 
 ### Lightning War / Azula (8)
 
-| Card | Notes |
-|---|---|
-| Banefire | |
-| Comet Storm | |
-| Galvanic Iteration | |
-| Increasing Vengeance | |
-| Reiterate | |
-| Turnabout | |
-| Gifts Ungiven | |
-| Emeritus of Woe | |
+| Card                 | Notes |
+| -------------------- | ----- |
+| Banefire             | x     |
+| Comet Storm          | x     |
+| Galvanic Iteration   | x     |
+| Increasing Vengeance | -     |
+| Reiterate            | x     |
+| Turnabout            | x     |
+| Gifts Ungiven        | x     |
+| Emeritus of Woe      | x     |
 
 ---
 
