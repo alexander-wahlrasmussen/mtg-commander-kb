@@ -24,7 +24,7 @@ CSV = r"collection/moxfield_haves_2026-06-25-0748Z.csv"
 DECKS_DIR = r"decks"
 
 TARGETS = [
-    "decks/zero-sum-game-20260619.txt",
+    "decks/zero-sum-game-20260707.txt",
     "decks/lightning-war-20260706.txt",
     "decks/forced-liquidation-20260625.txt",   # promoted from considering/ 2026-06-28
 ]

@@ -140,12 +140,12 @@ CATALOG = {
 # gauntlet but is the deck this model most illuminates).
 DECKS = {
     "genome_project":     "decks/the-genome-project-20260510.txt",
-    "radiation_sickness": "decks/radiation-sickness-20260622.txt",
+    "radiation_sickness": "decks/radiation-sickness-20260707.txt",
     "replication_crisis": "decks/the-replication-crisis-20260622.txt",
     "lorehold_spirits":   "decks/lorehold-spirit-20260503-154449.txt",
     "earthbend_the_meta": "decks/earthbend-the-meta-20260404-075423.txt",
     "exiles_return":      "decks/the-exiles-return-20260417-194010.txt",
-    "zero_sum_game":      "decks/zero-sum-game-20260619.txt",
+    "zero_sum_game":      "decks/zero-sum-game-20260707.txt",
     "curse_of_the_scarab": "decks/curse-of-the-scarab-20260510-215526.txt",
     "bumbleflower":       "decks/this-bunny-goes-to-market-20260404-080311.txt",
     "eldrazi_stampede":   "decks/eldrazi-stampede-chaos-20260306-133311.txt",

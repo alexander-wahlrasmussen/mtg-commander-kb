@@ -30,7 +30,7 @@ Example — regenerate the 2026-07-06 Zero-Sum + Forced Liquidation sourcing doc
  `git show <rev>:collection/moxfield_haves_2026-06-25-0748Z.csv`):
 
   python scripts/build_sourcing.py \
-      decks/zero-sum-game-20260619.txt decks/forced-liquidation-20260625.txt \
+      decks/zero-sum-game-20260707.txt decks/forced-liquidation-20260625.txt \
       --csv collection/moxfield_haves_2026-07-06-1850Z.csv \
       --baseline-csv old_prepurchase.csv \
       --dismantle "diminishing returns" \

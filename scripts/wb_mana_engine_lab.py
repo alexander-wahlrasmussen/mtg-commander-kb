@@ -61,7 +61,7 @@ _spec = importlib.util.spec_from_file_location(
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "zero-sum-game-20260619.txt"
+DECK = ROOT / "decks" / "zero-sum-game-20260707.txt"
 SEED = 20260630
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]

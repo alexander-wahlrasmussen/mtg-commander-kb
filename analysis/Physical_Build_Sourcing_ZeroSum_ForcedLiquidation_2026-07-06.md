@@ -18,6 +18,8 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 ## Zero-Sum Game
 *Witherbloom, the Balancer (BG aristocrats)* — 93 unique / 100 cards. **Buy 43 · DR 10 · Loam 3 · Collection 44**
 
+> **Update 2026-07-07 (sleeving substitutions):** two planned pulls changed. **Nurturing Peatland** (2nd copy missing) → swapped for a **basic Swamp** in the list (`zero-sum-game-20260707.txt`, mana base unaffected). **Birds of Paradise** → pulled from **Radiation Sickness** (backfilled there with **Nightshade Dryad**, owned ×3) instead of the loose pool.
+
 ### Buy — already in hand (43 cards / 43 copies)
 - Abrupt Decay
 - Arbor Elf
@@ -64,60 +66,59 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 - Yavimaya, Cradle of Growth
 
 ### From Diminishing Returns (pull during teardown) (10 cards / 10 copies)
-- Ashnod's Altar
-- Bojuka Bog
-- Dark Ritual
-- Gemstone Caverns
-- Phyrexian Altar
-- Phyrexian Tower
-- Razaketh, the Foulblooded
-- Skullclamp
-- Viscera Seer
-- Zulaport Cutthroat
+- Ashnod's Altar x
+- Bojuka Bog x
+- Dark Ritual x
+- Gemstone Caverns x
+- Phyrexian Altar x
+- Phyrexian Tower x
+- Razaketh, the Foulblooded x
+- Skullclamp x
+- Viscera Seer x
+- Zulaport Cutthroat x
 
 ### From the Loam pile (3 cards / 3 copies)
-- Assassin's Trophy
-- Boseiju, Who Endures
-- Undergrowth Stadium
+- Assassin's Trophy x
+- Boseiju, Who Endures x
+- Undergrowth Stadium x
 
 ### From the collection / pool (37 cards / 44 copies)
-- Arcane Signet
-- Birds of Paradise
-- Bitterblossom
-- Black Market Connections
-- Bloodstained Mire
-- Bloodthirsty Conqueror
-- Chord of Calling
-- Command Tower
-- Deathcap Glade
-- Demonic Tutor
-- Elvish Mystic
-- Finale of Devastation
-- 4× Forest
-- Gilded Goose
-- Jet Medallion
-- Khalni Garden
-- Llanowar Wastes
+- Arcane Signet x
+- ~~Birds of Paradise~~ → pull from **Radiation Sickness** (2026-07-07; that deck backfilled with Nightshade Dryad)
+- Bitterblossom x
+- Black Market Connections x
+- Bloodstained Mire x
+- Bloodthirsty Conqueror x
+- Chord of Calling x
+- Command Tower x
+- Deathcap Glade x
+- Demonic Tutor x
+- Elvish Mystic x
+- Finale of Devastation x
+- 4× Forest x
+- Gilded Goose xS
+- Jet Medallion x
+- Khalni Garden x
+- Llanowar Wastes x
 - Marionette Apprentice
-- Marsh Flats
-- Mirkwood Bats
-- Misty Rainforest
+- Marsh Flats x
+- Mirkwood Bats x
+- Misty Rainforest x
 - Night's Whisper
-- Nurturing Peatland
-- Overgrown Tomb
-- Polluted Delta
-- Professor Dellian Fel
-- Sol Ring
-- 5× Swamp
-- Tainted Wood
-- Toxic Deluge
-- Twilight Mire
-- Veil of Summer
-- Verdant Catacombs
-- Windswept Heath
-- Witherbloom, the Balancer
-- Wooded Foothills
-- Woodland Cemetery
+- Overgrown Tomb x
+- Polluted Delta x
+- Professor Dellian Fel x
+- Sol Ring x
+- 6× Swamp x
+- Tainted Wood x
+- Toxic Deluge x
+- Twilight Mire x
+- Veil of Summer x
+- Verdant Catacombs x
+- Windswept Heath x
+- Witherbloom, the Balancer x
+- Wooded Foothills x
+- Woodland Cemetery x
 
 ## Forced Liquidation
 *Kefka (Grixis forced-draw / punisher)* — 80 unique / 100 cards. **Buy 26 · DR 1 · Loam 4 · Collection 69**
@@ -151,7 +152,7 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 - Waste Not
 
 ### From Diminishing Returns (pull during teardown) (1 cards / 1 copies)
-- Lightning Greaves
+- Lightning Greaves x
 
 ### From the Loam pile (4 cards / 4 copies)
 - Counterspell
@@ -161,7 +162,7 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 
 ### From the collection / pool (49 cards / 69 copies)
 - Aether Channeler
-- An Offer You Can't Refuse
+- An Offer You Can't Refuse x
 - Arcane Denial
 - Arcane Signet
 - Blasphemous Act
@@ -176,7 +177,7 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 - Drowned Catacomb
 - Exotic Orchard
 - Faithless Looting
-- Frantic Search
+- Frantic Search x
 - Grim Tutor
 - Heartless Act
 - 8× Island
@@ -207,7 +208,7 @@ _Generated 2026-07-06. Where to physically pull each card when you sleeve these 
 - Thought Vessel
 - Thrill of Possibility
 - Underground River
-- Watery Grave
+- Watery Grave x
 - Windfall
 
 ## The one teardown step — what leaves Diminishing Returns

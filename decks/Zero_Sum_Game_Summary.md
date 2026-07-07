@@ -12,7 +12,7 @@
 | **Conversion Check** | **16/20 (5 / 5 / 4 / 2)** · audited 2026-06-27 from the list (pre-pod; re-audit after first games). Lowest axis = **Interaction** (only 6 dedicated pieces). See the Conversion Check section below. The proposal's 18–19 ceiling was optimistic — the interaction count is the real cap. |
 | **Kill Window** | Clock: **T9 decap = T9 table** **(spell, instant)** (median; 12% T5 / 25% T6 / 37% T7 / 48% T8; lab 2026-06-11, `wb_clock_lab.py`). Decap and table converge by construction — the loop kills the whole table the turn it closes. Blocked-out boards (no combat ignition): median T11. Through interaction: unmodeled *(unverified)*. |
 | **Ramp** | 19 sources (4 burst / 14 repeatable) · 54 mana sources, 36 land · over band, 5 payoffs cmc>=6 (`ramp_audit.py` 2026-06-21) |
-| **Status** | **CARDS ON ORDER** — built 2026-06-11 from the v2b proposal list; 51 cards on the DeckSafe Shopping List (`deck_safe_collection.xlsx`, Zero Sum Game rows). **Rev 2026-06-19:** swap −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (`zero-sum-game-20260619.txt`); the new 2-card infinite is pod-accepted under the 2026-06-19 house-rule revision (infinites accepted). The `.txt` is the target state until the order lands. |
+| **Status** | **BUILT** — cards treated as acquired 2026-06-30; physically sleeved 2026-07-07 (current list `zero-sum-game-20260707.txt`). Built 2026-06-11 from the v2b proposal list. **Rev 2026-06-19:** −Beast Within −Heroic Intervention → +Chain of Smog +Professor Onyx (new 2-card infinite, pod-accepted under the 2026-06-19 house-rule revision). **Rev 2026-07-07:** −Nurturing Peatland → +Swamp (missing 2nd physical copy; mana base unaffected, still 36 lands). Audit pending first pod games. |
 
 -----
 
@@ -217,12 +217,11 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 1 Bojuka Bog
 1 Boseiju, Who Endures
 1 Castle Locthwain
-1 Nurturing Peatland
 1 Underground Mortuary
 1 Khalni Garden
 1 Dryad Arbor
 1 Gemstone Caverns
-5 Swamp
+6 Swamp
 4 Forest
 
 ## Kill Window (wb_clock_lab.py, 40k trials, seed 20260611, 2026-06-11)
@@ -251,7 +250,7 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 
 ## Provenance & Files
 
-- Decklist: `decks/zero-sum-game-20260619.txt` (100 cards: 99 + commander; rev 2026-06-19, prior `zero-sum-game-20260611.txt` archived to `archive/old_decklists/`)
+- Decklist: `decks/zero-sum-game-20260707.txt` (100 cards: 99 + commander; rev 2026-07-07 −Nurturing Peatland +Swamp; priors `zero-sum-game-20260619.txt` and `zero-sum-game-20260611.txt` archived to `archive/old_decklists/`)
 - Proposal: `proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07)
 - Build readiness / donor analysis: `archive/proposals/Witherbloom_Build_Readiness_2026-06-11.md` (archived 2026-06-13 — deck is built)
 - Source list: `archive/old_decklists/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
