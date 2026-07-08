@@ -4,15 +4,21 @@
 For each card in a target decklist, classify where its physical copy comes from
 when you sleeve the deck up:
 
+  <box>       - supplied physically by a purchased box / precon (--box Label=path)
+                REGARDLESS of Moxfield ownership. Checked first: a precon ships the
+                card in the box, so it is never a Buy even when owned 0. Use for a
+                sealed product whose cards are not (yet) in the collection CSV.
   Buy         - not owned, OR owned but every copy is locked in a deck that stays
                 built (so a copy had to be acquired). With --baseline-csv, buys
                 already made (owned went 0 -> N, or a contention duplicate was
-                bought) are still detected AFTER the purchase landed.
+                bought) are still detected AFTER the purchase landed. With --pending
+                the Buy bucket reads as "not owned yet" (unbuilt proposal) instead
+                of "already in hand".
   <source>    - freed by dismantling a named deck (--dismantle) or taken from an
                 already-dismantled pile (--source Label=path). Attributed only
                 when no independent pool spare exists (your other copies are
                 committed to kept decks, so the freed copy is the one you use).
-  Collection  - owned with a spare loose in the general pool.
+  Collection  - owned with a spare loose in the general pool (basics always here).
 
 Model: the --dismantle decks are torn down (their cards become sources and are
 NOT counted as committed); every other active deck in --deck-dir stays built and
@@ -74,6 +80,11 @@ def main():
                     help="clean name of an ACTIVE deck being torn down (repeatable)")
     ap.add_argument("--source", action="append", default=[],
                     help="Label=path of an already-dismantled source pile (repeatable)")
+    ap.add_argument("--box", action="append", default=[],
+                    help="Label=path of a purchased box/precon that supplies its cards "
+                         "physically even when owned 0; checked before Buy (repeatable)")
+    ap.add_argument("--pending", action="store_true",
+                    help="targets are not yet built: Buy reads as 'not owned yet', not 'in hand'")
     ap.add_argument("--deck-dir", default="decks")
     ap.add_argument("--md", help="write a markdown report to this path")
     ap.add_argument("--title", default="Physical Build Sourcing")
@@ -84,6 +95,15 @@ def main():
     base = parse_collection(args.baseline_csv)[1] if args.baseline_csv else cur
 
     dismantle = {d.lower() for d in args.dismantle}
+
+    # boxes: purchased products that supply their cards physically (owned or not)
+    boxes = []   # (label, cardset)
+    for s in args.box:
+        if "=" not in s:
+            sys.exit(f"--box needs Label=path, got {s!r}")
+        label, path = s.split("=", 1)
+        boxes.append((label, set(deck_counts(path))))
+    box_labels = [l for l, _ in boxes]
 
     active = {}
     for f in os.listdir(args.deck_dir):
@@ -114,6 +134,11 @@ def main():
         return kc
 
     def classify(c, need, kc):
+        if c in BASICS:
+            return "Collection", "basic land — from your basics pile"
+        for lbl, cs in boxes:
+            if c in cs:
+                return lbl, "shipped in the box"
         owned_now = resolve_owned(c, cur)
         owned_base = resolve_owned(c, base)
         committed = kc.get(c, 0)
@@ -131,7 +156,9 @@ def main():
             return in_sources[0], f"owned {owned_base}; freed copy"
         return "Collection", f"owned {owned_base}"
 
-    bucket_order = ["Buy"] + dismantle_labels + [l for l, _ in sources if l not in dismantle_labels] + ["Collection"]
+    bucket_order = (box_labels + dismantle_labels
+                    + [l for l, _ in sources if l not in dismantle_labels]
+                    + ["Collection", "Buy"])
     seen = set()
     bucket_order = [b for b in bucket_order if not (b in seen or seen.add(b))]
 
@@ -163,24 +190,34 @@ def main():
         L.append(f"_Generated {args.date}. Where to physically pull each card when you sleeve these up._")
         L.append("")
     dm = ", ".join(f"**{l}**" for l in dismantle_labels) or "(none)"
-    L.append(f"**Model:** dismantle {dm}; external source piles are already loose; "
-             f"every other deck stays built. All *Buy* cards are already acquired.")
+    bx = ", ".join(f"**{l}**" for l in box_labels)
+    buy_model = ("*Buy* = not owned from any source above — buy or proxy needed."
+                 if args.pending else "All *Buy* cards are already acquired.")
+    L.append(f"**Model:** {('open ' + bx + '; ') if bx else ''}dismantle {dm}; external "
+             f"source piles are already loose; every other deck stays built. {buy_model}")
     L.append("")
     L.append("| Tag | Where to grab it |")
     L.append("|---|---|")
-    L.append("| **Buy** | Already purchased — in the new-cards pile (incl. contention duplicates). |")
+    for lbl in box_labels:
+        L.append(f"| **{lbl}** | Ships in the box — pull it straight from the opened precon. |")
     for lbl in dismantle_labels:
         L.append(f"| **{lbl}** | Pull from the **{lbl}** deck as you take it apart. |")
     for lbl, _ in sources:
         if lbl not in dismantle_labels:
             L.append(f"| **{lbl}** | From the already-dismantled **{lbl}** pile (loose). |")
-    L.append("| **Collection** | Loose in the binder / general pool. |")
+    L.append("| **Collection** | Loose in the binder / general pool (basics from your basics pile). |")
+    buy_desc = ("Not owned from any source above — **buy or proxy**."
+                if args.pending else "Already purchased — in the new-cards pile (incl. contention duplicates).")
+    L.append(f"| **Buy** | {buy_desc} |")
     L.append("")
     L.append("> A card two targets share, where you bought a duplicate, shows as **Buy** for "
              "the deck using the fresh copy — practically correct (use the copy you bought).")
     L.append("")
 
-    head = {"Buy": "Buy — already in hand", "Collection": "From the collection / pool"}
+    buy_title = "Buy / proxy — not yet owned" if args.pending else "Buy — already in hand"
+    head = {"Buy": buy_title, "Collection": "From the collection / pool"}
+    for lbl in box_labels:
+        head[lbl] = f"From {lbl} (in the box)"
     for path, (counts, buckets) in results.items():
         name = clean_deck_name(os.path.basename(path))
         total = sum(counts.values())
