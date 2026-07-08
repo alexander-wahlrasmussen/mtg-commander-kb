@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-07 22:32",
+  "generated": "2026-07-08 21:34",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -97,13 +97,19 @@
       "earthbend_the_meta",
       "exiles_return",
       "curse_of_the_scarab",
-      "diminishing_returns",
       "crystal_sickness",
+      "zero_sum_game",
       "forced_liquidation",
       "genome_project",
       "bumbleflower",
-      "eldrazi_stampede",
-      "zero_sum_game"
+      "eldrazi_stampede"
     ]
+  },
+  "matchup": {
+    "strict": [
+      0,
+      1
+    ],
+    "trials": 20000
   }
 }
