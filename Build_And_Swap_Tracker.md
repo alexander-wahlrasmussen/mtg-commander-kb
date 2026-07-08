@@ -3,6 +3,16 @@
 *Created 2026-06-14. One place to track the active build order and every
 standing upgrade swap, with sourcing for each card.*
 
+> **✅ STATUS UPDATE 2026-07-08 — the Kefka/Witherbloom build order is settled physically.**
+> **Forced Liquidation (Kefka)** and **Zero-Sum Game (Witherbloom)** are now **physically assembled**
+> (sleeved `forced-liquidation-20260707.txt` / `zero-sum-game-20260707.txt`). The 2026-06-30
+> "treated as bought" marker is now real: the final cards were sourced by **dismantling Diminishing
+> Returns** (10 cards → Zero-Sum, Lightning Greaves → Forced Liquidation; the rest of DR returned to the
+> pool). **Diminishing Returns is retired** — so every "Diminishing Returns" swap/stage row below
+> (§2, §6) is **VOID** (there is no DR to swap). The 2026-07-06 physical-build-sourcing doc that mapped
+> the pulls has been deleted (its job is done). Still owed elsewhere: the Replication Crisis 2nd Imperial
+> Recruiter. Next housekeeping: re-run DeckSafe against a fresh Moxfield export to refresh the snapshot.
+
 > **⚠️ STATUS UPDATE 2026-06-27 — read before using §1/§3/§4/§5/§6.**
 > The build order changed. **Thassa's Oracle is out of the roster entirely** — the user is
 > building **neither Hashaton nor a Calamity-Thoracle hybrid.** The single build proceeding is
@@ -46,7 +56,7 @@ Ranked from free-and-now to expensive:
 
 1. ✅ **Radiation Sickness GC-fix — DONE 2026-06-15.** Was *mandatory* (illegal at 4 GCs), **$0, no approval.** Cut Survival of the Fittest; added Sylvan Library + Hedron Crab + Sidisi. Now `decks/radiation-sickness-20260622.txt`, **3/3 legal** (validate.py: 0 errors). *(Later swap 2026-06-22: −Vorinclex, Monstrous Raider +Timeless Witness — Durability/post-wrath recovery, $0 owned; the deck's last unowned card is gone, now 100% owned/proxy.)*
 2. ✅ **Grand Design upgrade — DONE 2026-06-25.** 7-for-7 sleeved (owned spares + Wood Elves/Rune-Scarred bought). No approval needed. Now `decks/the-grand-design-20260623.txt`.
-3. 🟢🔒 **Diminishing Returns Stage 1** — **$0** (Nim Deathmantle + Grave Titan + Grim Tutor + Jet Medallion all owned, undeployed) but **needs pod approval** for the combo.
+3. ~~**Diminishing Returns Stage 1**~~ — **VOID (deck dismantled 2026-07-08).**
 4. 🟡🔒 **Exile's Return** (Drannith owned + 1× Kiki ~€10–15) — small buy, needs approval. **Replication Crisis Kiki swap DECLINED 2026-06-30** (rc_speed_lab: a 3rd infinite assembles only ~6%/T12); replaced by **−Strionic Resonator +Imperial Recruiter** — **✅ APPLIED 2026-06-30** (as-if-bought) to `the-replication-crisis-20260630.txt`; a tutor that doubles the *existing* Satya+LR line (11→22% T6 / 18→32% T12), no pod approval needed (not a new combo). **2nd Recruiter copy still owed** (owned one is in Exile's Return). See `decks/The_Replication_Crisis_Swaps_2026-06-30.md`.
 5. ✅ **Croak and Dagger grind-fortress upgrade — DONE 2026-06-25.** $0, all owned, no approval (it dropped the Thoracle/combo direction — §5). Final build −Lier +Aesi; now `decks/croak-and-dagger-20260623-215731.txt`.
 6. 🟢 **Forced Liquidation (Kefka)** — the one build proceeding (Hashaton dropped 2026-06-27). ~57 true buys across this + Zero-Sum + Lightning War; **treated as bought/built 2026-06-30** (physical settlement owed on contention buys). No pod approval (statics kill). See §1b + buy list.
@@ -95,15 +105,14 @@ out of the roster**; Croak and Dagger went grind (§5), Hashaton was dropped.
 |---|---|---|---|---|---|
 | **Radiation Sickness** ✅ | −Survival of the Fittest (GC) **+**Sylvan Library; −Generous Patron +Hedron Crab; −Guardian Project +Sidisi, Brood Tyrant | Sylvan Library (own ×2 real) · Hedron Crab (own ×2 real) · Sidisi (**proxy-only** — play proxy or buy ~€2) — all ex-Loam | 🟢 **$0** | none | **✅ APPLIED 2026-06-15** → `radiation-sickness-20260622.txt`, 3/3 legal; **+2026-06-22 −Vorinclex +Timeless Witness** (Durability, $0); **+2026-07-07 −Birds of Paradise +Nightshade Dryad** (fixing-neutral; Birds → Zero-Sum) → `radiation-sickness-20260707.txt` |
 | **The Grand Design** ✅ | 7-for-7. Adds: Solemn Simulacrum, Sakura-Tribe Elder, Wood Elves, Faeburrow Elder, Coalition Relic, **Craterhoof Behemoth**, Rune-Scarred Demon | Solemn/Sakura/Coalition/Craterhoof = owned spares (real); Faeburrow = ex-Peace Offering (own 1); Wood Elves + Rune-Scarred bought | 🟢 **done** | none | **✅ APPLIED 2026-06-25** → `the-grand-design-20260623.txt`. Proposal archived. |
-| **Diminishing Returns** | Staged toward B4. **Stage 1:** +Nim Deathmantle +Grave Titan +Grim Tutor (+Jet Medallion) −Mother of Runes −Skrelv −Giver of Runes | All Stage-1 adds owned + undeployed (Deathmantle ×1, Grave Titan ×3, Grim Tutor ×1, Jet Medallion ×1) | 🟢 **$0** (Stage 1) | 🔒 yes | Proposal only. Later stages cost money (see below). |
 | **The Exile's Return** | +Kiki-Jiki +Drannith Magistrate −Night's Whisper −Light Up the Stage | Drannith (own 1, undeployed) free; **Kiki-Jiki = buy** | 🟡 **~€10–15** | 🔒 yes | Proposal only. (Avatar's Wrath is NOT a cut — re-verified.) |
 | **Replication Crisis** ✅ | ~~+Kiki-Jiki −Bident~~ **DECLINED.** Applied: **+Imperial Recruiter −Strionic Resonator** | **Imperial Recruiter = owe a 2nd copy** (owned one is in Exile's Return); price unverified, budget-reprinted | 🟢 **APPLIED 2026-06-30** (as-if-bought) | none (tutor, not a new combo) | **✅ → `the-replication-crisis-20260630.txt`** (old archived; deck_doctor 100/3-GC). Lab `rc_speed_lab.py`: tutors the *existing* Satya+LR infinite → 11→22% T6 / 18→32% T12; ANY line 24→33% / 36→48%. Doc: `decks/The_Replication_Crisis_Swaps_2026-06-30.md`. |
 | **Croak and Dagger** ✅ | **"Inevitable" topdeck-combo rebuild** (2026-07-01, supersedes the grind fortress): −13 (Demonic Tutor, Gray Merchant, Kokusho, Rite, Submerge, V.A.T.S., Crucible, Loam, Splendid, Ramunap, Titania's Command, Spore Frog, Blossoming Tortoise) +13 (Bolas's Citadel, Sensei's Top, Aetherflux, Ancient Cellarspawn, One with the Multiverse, Fortune Teller's Talent, Reality Chip, Savvy Trader, Emergent Ultimatum, Insidious Dreams, Tidal Barracuda, Tatyova, Scheming Symmetry) | **8 buys ≈ €32** + a 2nd Aetherflux; Sensei's Top owned/free | 🟢 **PROMOTED** | none (B4-in-spirit combo; pod OK'd combos 06-19) | **✅ APPLIED 2026-07-01** → `croak-and-dagger-20260701.txt`. Only GC change Demonic Tutor→Bolas's Citadel (3/3). Clock T13→**T9** (lab `glarb_inevitable_lab.py`); P(beat pod) ~7–8%→~30%. |
 
-**Diminishing Returns later stages** (all need the same pod approval as Stage 1):
-- Stage 2 — 🟡 +Leonin Relic-Warder (buy ~€1–5, the most efficient combo card) +Wishclaw Talisman (optional, buy).
-- Stage 3 — 🔴 +Exquisite Blood (€20–23, Cardmarket 2026-06-10) +Vito (~€9–13). Defensible to skip.
-- ~~Stage 4 — GC reallocation (+Demonic Tutor +Vampiric Tutor)~~ — **dropped 2026-06-14 (user: not worth it).** Bonus: removes DR from the Demonic/Vampiric Tutor contention in §4.
+~~**Diminishing Returns later stages**~~ — **VOID 2026-07-08: Diminishing Returns is dismantled.** The B4 staging plan (Stages 2–4 below) is dead; kept struck for the record only.
+- ~~Stage 2 — 🟡 +Leonin Relic-Warder (buy ~€1–5, the most efficient combo card) +Wishclaw Talisman (optional, buy).~~
+- ~~Stage 3 — 🔴 +Exquisite Blood (€20–23, Cardmarket 2026-06-10) +Vito (~€9–13). Defensible to skip.~~
+- ~~Stage 4 — GC reallocation (+Demonic Tutor +Vampiric Tutor)~~ — **dropped 2026-06-14 (user: not worth it).**
 
 ---
 
@@ -113,7 +122,6 @@ Grouped by what they unlock. Quantities matter where a card is wanted by more th
 
 **Cheap, high-value, unlock free swaps:**
 - ~~Wood Elves ×1, Rune-Scarred Demon ×1 → Grand Design~~ — **bought, applied 2026-06-25.**
-- Leonin Relic-Warder ×1 → Diminishing Returns Stage 2 (~€1–5)
 - Kiki-Jiki, Mirror Breaker **×1** → Exile's Return (~€10–15) *(Replication Crisis dropped its Kiki — DECLINED 2026-06-30)*
 - Imperial Recruiter **×1** → Replication Crisis (2nd copy; owned one is in Exile's Return) — price unverified, budget-reprinted
 - *(optional)* Sidisi, Brood Tyrant ×1 if you want a real copy for Radiation Sickness (~€2) — else play the proxy
@@ -212,7 +220,7 @@ wincon, no doubled combo buys, no shared approval.
 Everything combo-flavoured needs Rule-0 sign-off. There are two *classes*:
 
 - ~~**Thassa's Oracle / Consultation (high stigma):** Hashaton, Calamity-hybrid.~~ **No longer needed (2026-06-27) — Thoracle is out of the roster.**
-- **Standard 2-card infinites:** Exile's Return (Kiki+Felidar), Diminishing Returns (Deathmantle+Titan, LRW+aura). *(Replication Crisis dropped its proposed Kiki line 2026-06-30; its in-deck Satya+Lightning Runner infinite predates this and the Imperial Recruiter add is just a tutor for it — no new approval.)*
+- **Standard 2-card infinites:** Exile's Return (Kiki+Felidar). *(~~Diminishing Returns (Deathmantle+Titan, LRW+aura)~~ — VOID, DR dismantled 2026-07-08.)* *(Replication Crisis dropped its proposed Kiki line 2026-06-30; its in-deck Satya+Lightning Runner infinite predates this and the Imperial Recruiter add is just a tutor for it — no new approval.)*
 
 Kefka needs **none** — that's its whole pitch.
 
@@ -237,7 +245,7 @@ rather than tracking per-deck. Worth doing in the same pod conversation.
 2. ✅ **Resolved 2026-06-27 — §5 + Thoracle decision both closed.** No Thoracle deck is being built (Hashaton dropped; Croak went grind). The build proceeding is **Forced Liquidation (Kefka)**.
 3. ✅ **Treated as bought/built 2026-06-30 (per user direction):** Forced Liquidation + Zero-Sum + the Lightning War upgrade — consolidated buy list fulfilled-as-if-bought (physical settlement owed on contention buys). **Kefka needs no pod approval** (statics kill).
 4. **One pod conversation (still pending):** ask for the **standard 2-card infinites** (Exile's Return Kiki, DR), and propose codifying the blanket exception. *(The high-stigma Thoracle approval is no longer needed — Thoracle is out. Replication Crisis's Recruiter add needs no approval — tutor, not a new combo.)*
-5. **After approval, free:** apply **Diminishing Returns Stage 1** ($0). **Small buys:** Kiki ×1 → Exile's Return; Imperial Recruiter ×1 → Replication Crisis (no approval).
+5. **Small buys:** Kiki ×1 → Exile's Return; Imperial Recruiter ×1 → Replication Crisis (no approval). *(The Diminishing Returns Stage-1 step is void — deck dismantled 2026-07-08.)*
 6. **On physical arrival of the owed copies:** re-run DeckSafe with the updated Moxfield export, then refresh `Collection_Master_Status.md` from the real ownership numbers (the 2026-06-30 "as-if-bought" status here is a planning marker, not a DeckSafe result). Forced Liquidation is already promoted to `decks/`; Zero-Sum/Lightning War `.txt` builds already carry their cards.
 
 ---

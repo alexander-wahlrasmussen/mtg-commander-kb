@@ -74,7 +74,7 @@ OPP_FED = {"dark_lords_army": 1.0}   # Sauron shell; others minor, omitted (docu
 JUDGMENT = {
     "dark_lords_army": 1, "radiation_sickness": 2, "genome_project": 3, "lightning_war": 4,
     "zero_sum_game": 5, "grand_design": 6, "croak_and_dagger": 7, "lorehold_spirits": 8,
-    "diminishing_returns": 9, "curse_of_the_scarab": 10, "exiles_return": 11,
+    "curse_of_the_scarab": 10, "exiles_return": 11,   # rank 9 (Diminishing Returns) retired 2026-07-08
     "earthbend_the_meta": 12, "replication_crisis": 13, "eldrazi_stampede": 14,
     "bumbleflower": 15, "crystal_sickness": 16,
 }

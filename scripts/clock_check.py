@@ -61,7 +61,6 @@ SUMMARY = {
     "bumbleflower": "Ms_Bumbleflower_Summary.md",
     "eldrazi_stampede": "Eldrazi_Stampede_Chaos_Summary.md",
     "dark_lords_army": "The_Dark_Lord_s_Army_Summary.md",
-    "diminishing_returns": "Diminishing_Returns_Summary.md",
     "lightning_war": "Lightning_War_Summary.md",
     "grand_design": "The_Grand_Design_Summary.md",
     "crystal_sickness": "Crystal_Sickness_Summary.md",

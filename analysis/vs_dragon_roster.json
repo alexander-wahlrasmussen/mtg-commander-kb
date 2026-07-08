@@ -236,24 +236,6 @@
     "race": false,
     "note": "'Combat / Annihilator' (Summary win-condition row)"
   },
-  "diminishing_returns": {
-    "name": "Diminishing Returns",
-    "axis": "over",
-    "p_win": 0.2334,
-    "wraths": [
-      "Farewell",
-      "The Meathook Massacre",
-      "Toxic Deluge"
-    ],
-    "fogs": [],
-    "taxes": [],
-    "spot": 2,
-    "maze": [],
-    "lifegain": 7,
-    "protect": 0.1,
-    "race": false,
-    "note": "decap is a COMBAT board-swing (walled); the board-independent line is the DRAIN = the table clock (slow)"
-  },
   "grand_design": {
     "name": "The Grand Design",
     "axis": "combat",

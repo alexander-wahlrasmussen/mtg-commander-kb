@@ -458,48 +458,6 @@
     ],
     "src": "lab dla_clock_lab @8k (MID pod tempo \u2014 engine is opponent-driven)"
   },
-  "diminishing_returns": {
-    "name": "Diminishing Returns",
-    "grid": [
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      12
-    ],
-    "decap": [
-      0,
-      0,
-      1,
-      11,
-      37,
-      66,
-      83,
-      96
-    ],
-    "table": [
-      0,
-      0,
-      0,
-      0,
-      1,
-      4,
-      10,
-      30
-    ],
-    "med": [
-      "T9",
-      ">T14"
-    ],
-    "never": [
-      4,
-      70
-    ],
-    "src": "lab dr_clock_lab @8k"
-  },
   "lightning_war": {
     "name": "Lightning War",
     "grid": [

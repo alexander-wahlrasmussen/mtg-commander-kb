@@ -2,8 +2,8 @@
 """kfk_clock_lab.py — Forced Liquidation (Kefka, Court Mage — Grixis forced-draw
 BURN) KILL-TURN goldfish, with the 2026-06-25 combo axis.
 
-Deck: decks/considering/forced-liquidation-20260625.txt (codename Forced
-Liquidation). Built on speed_lab_core.py. Re-pointed + rebuilt 2026-06-25 — the
+Deck: decks/forced-liquidation-20260707.txt (codename Forced
+Liquidation; repointed 2026-07-08 from the archived -20260625). Built on speed_lab_core.py. Re-pointed + rebuilt 2026-06-25 — the
 prior version pointed at the stale 06-12 list and predated the Displacer Kitten /
 Aether Channeler / Jace's Archivist / Molten Psyche changes.
 
@@ -58,7 +58,7 @@ _spec = importlib.util.spec_from_file_location(
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "forced-liquidation-20260625.txt"   # promoted from considering/ 2026-06-28
+DECK = ROOT / "decks" / "forced-liquidation-20260707.txt"   # repointed 2026-07-08 (−20260625 archived; 3-card interaction swap, kill lines unchanged)
 SEED = 20260625
 TURNS = 12
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]

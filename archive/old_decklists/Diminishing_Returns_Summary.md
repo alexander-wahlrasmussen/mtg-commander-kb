@@ -1,5 +1,7 @@
 # Diminishing Returns — Teysa Karlov
 
+> **⛔ DISMANTLED 2026-07-08.** This deck was torn down to physically source **Zero-Sum Game** (10 cards) and **Forced Liquidation** (1 card — Lightning Greaves); the remaining cards returned to the collection pool. It is **retired from the active roster** — this summary and its decklist are kept in `archive/old_decklists/` for the record only. See `Deck_Index.md` (Retired) and `Collection_Master_Status.md`. Teysa Karlov, 17/20, was the donor per the (now-deleted) 2026-07-06 physical build sourcing plan.
+
 ## Quick Reference
 
 | Field | Value |

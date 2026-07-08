@@ -203,7 +203,6 @@ PROTECT = {
     "zero_sum_game":       0.30,  # board-independent, Abolisher-proof lifeloop kill + Veil
     "bumbleflower":        0.15,  # 1 counter, combat-steal kill
     "eldrazi_stampede":    0.10,  # combat kill (counter-immune) but no counters
-    "diminishing_returns": 0.10,  # death-combo, no counters
     "genome_project":      0.05,  # BR burn/storm: kill is counterable spells, ~no counters
     # lorehold_spirits omitted = 0.0 (no counters; RW combat/spirits)
     # --- pending build candidates (priors; --pending) ---
@@ -334,12 +333,6 @@ CLOCKS = {
         decap=[4, 16, 37, 57, 69, 84, 93, 97], table=[0, 0, 1, 6, 19, 58, 78, 90],
         med=("T9", "T12"), never=(3, 10),
         src="lab dla_clock_lab @8k (MID pod tempo — engine is opponent-driven)"),
-    "diminishing_returns": dict(
-        name="Diminishing Returns", score="17", disrupt_class="warn",
-        lab=("dr_clock_lab", "clock"), sel=("decap", "table"),
-        grid=[4, 5, 6, 7, 8, 9, 10, 12],
-        decap=[0, 0, 1, 11, 38, 66, 84, 96], table=[0, 0, 0, 0, 1, 4, 10, 30],
-        med=("T9", ">T14"), never=(4, 70), src="lab dr_clock_lab @8k"),
     "lightning_war": dict(
         name="Lightning War", score="19", disrupt_class="warn",
         lab=("lw_clock_lab", "bestline"), sel=("decap (one opponent", "table (all three)"),
@@ -417,9 +410,6 @@ SWAPS = {
     "replication_crisis": dict(
         gate="approval", src="rc pending-Kiki (−Bident)",
         note="+Kiki Satya-free Abolisher-proof line (rare ~5% in goldfish); clock ~same, resilience ↑"),
-    "diminishing_returns": dict(
-        gate="approval", src="dr Stage-1 (Build_And_Swap §2)",
-        note="+Nim Deathmantle + Grave Titan combo; decap ~T9 same, table ↑ slightly"),
 }
 
 

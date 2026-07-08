@@ -14,7 +14,6 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
 | Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite (Clock T8 decap / T12 table, lab 2026-06-13)              |
-| Diminishing Returns    | Teysa Karlov                | Orzhov |     17/20 | Aristocrats                 | Elite (audited 2026-05-13)                                        |
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite (rescored 2026-05-13)                                       |
 | Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite (Clock T8 decap / T11 table, lab 2026-06-13)              |
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite (Clock T11 decap / T13 table, lab 2026-06-13)              |
@@ -23,13 +22,14 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Ms. Bumbleflower       | Ms. Bumbleflower            | Bant   |     15/20 | Spellslinger / tempo-control | Solid (audited 2026-05-30; Clock T8 decap ceiling / T11 table, lab 2026-06-13) |
 | Eldrazi Stampede Chaos | Maelstrom Wanderer          | Temur  |     14/20 | Ramp / cascade / huge stuff | Solid (audited 2026-05-08; Clock T8 decap / T12 table, lab 2026-06-13) |
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
-| Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Built** (cards treated acquired 2026-06-30; built 2026-06-11; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |
-| Forced Liquidation     | Kefka, Court Mage           | Grixis  |     16/20 | Wheel-burn / punisher static | **Built** (cards treated acquired 2026-06-30; audited 2026-06-27 = 5/4/3/4, Durability-capped; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
+| Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Built & physically assembled 2026-07-08** (final cards sourced by dismantling Diminishing Returns; sleeved `zero-sum-game-20260707.txt`; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |
+| Forced Liquidation     | Kefka, Court Mage           | Grixis  |     16/20 | Wheel-burn / punisher static | **Built & physically assembled 2026-07-08** (final cards sourced by dismantling Diminishing Returns; sleeved `forced-liquidation-20260707.txt`; audited 2026-06-27 = 5/4/3/4, Durability-capped; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
 
 ### Retired
 
 | Deck | Commander | Note |
 | --- | --- | --- |
+| Diminishing Returns | Teysa Karlov | Dismantled 2026-07-08 (was 17/20 Elite); torn down to physically source Zero-Sum Game (10 cards) + Forced Liquidation (Lightning Greaves); decklist + summary archived to `archive/old_decklists/`, remaining cards returned to pool |
 | The Loam Cycle | Teval, the Balanced Scale | Dismantled 2026-06-08; decklist archived 2026-06-11; cards returned to pool |
 | Peace Offering | Ms. Bumbleflower | Dismantled 2026-06-13; redundant 2nd Ms. Bumbleflower build (This Bunny Goes to Market is the active one); decklist archived to `archive/old_decklists/`, cards returned to pool |
 
@@ -37,10 +37,11 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 ## Tier summary
 
-- **Elite (17+):** 13 decks.
-- **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both **built** as of 2026-06-30 (cards treated acquired); re-audit after first pod games).
+- **Elite (17+):** 11 decks (Diminishing Returns 17 left the roster — dismantled 2026-07-08).
+- **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both **built & physically assembled 2026-07-08** (final cards pulled from the Diminishing Returns teardown); re-audit after first pod games).
 - **Developing (9–12):** 0.
 - **Unscored:** 0.
+- **Active roster:** 16 decks.
 
 ---
 

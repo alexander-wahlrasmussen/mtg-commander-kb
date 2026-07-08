@@ -5,7 +5,9 @@
 **Bracket:** 3 (3 GC; B4-in-spirit per house rules)
 **Score:** 16/20 (5 / 4 / 3 / 4) · Clock: T8 decap / T9 table (spell, sorcery) (lab `kfk_clock_lab.py` 2026-06-25). Audited 2026-06-27 from the list (pre-pod; re-audit after first games).
 
-> Build ground truth: `decks/forced-liquidation-20260625.txt` (promoted from `considering/` to the active roster 2026-06-28). Proposal: `proposals/PROP_Kefka_Court_Mage.md`. Buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
+> Build ground truth: `decks/forced-liquidation-20260707.txt` (promoted from `considering/` to the active roster 2026-06-28; interaction swap 2026-07-07 −Blasphemous Act/Deflecting Swat/Drown in the Loch +Abrade/Deadly Tempest/Spell Pierce, `-20260625` archived). Proposal: `proposals/PROP_Kefka_Court_Mage.md`. Buy list: `analysis/Buy_List_ZeroSum_LightningWar_ForcedLiquidation_2026-06-25.md`.
+>
+> **Status: BUILT & PHYSICALLY ASSEMBLED 2026-07-08** — the final card was sourced by dismantling **Diminishing Returns** (Lightning Greaves); the deck is sleeved and in the active roster.
 
 ---
 

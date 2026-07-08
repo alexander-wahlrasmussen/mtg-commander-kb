@@ -107,8 +107,6 @@ KILL = {
         note="drain + Mirrodin Besieged Phyrexian alt-win; 'win conditions (drain, mill) don't rely on creatures'"),
     "dark_lords_army":    dict(axis="over", cdf="decap", race=False,
         note="Gray Merchant drain + opponent-FED amass-drain (+ Cover of Darkness fear = army largely unblockable by dragons)"),
-    "diminishing_returns": dict(axis="over", cdf="table", race=False,
-        note="decap is a COMBAT board-swing (walled); the board-independent line is the DRAIN = the table clock (slow)"),
     "grand_design":       dict(axis="combat", cdf="decap", race=False,
         note="Summary: '96% of kills are incremental COMBAT, almost no trample' -> WALLED by the flying board"),
     "curse_of_the_scarab": dict(axis="combat", cdf="decap", race=False,

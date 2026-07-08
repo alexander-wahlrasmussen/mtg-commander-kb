@@ -120,7 +120,7 @@ DECKS = {
     "zero_sum_game": {
         "name": "Zero-Sum Game", "stem": "zero-sum-game",
         "commander": "Witherbloom, the Balancer", "lab": ("wb_clock_lab", "clock"),
-        "cc": None, "cc_axes": None,
+        "cc": 16, "cc_axes": (5, 5, 4, 2),   # audited 2026-06-27 (Interaction-floored); see Zero_Sum_Game_Summary.md
         "win_line": {"pieces": ["Exquisite Blood", "Sanguine Bond"], "needs_cmdr": False,
                      "line": "Exquisite Blood + Sanguine Bond loop + any life event (cmdr-indep.)"},
         "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False, "mixed": None,
@@ -162,16 +162,11 @@ DECKS = {
                      "line": "Sheoldred/Underworld Dreams/Wound Reflection drain + Gary close"},
         "bottleneck": "BOARD", "min_lands": 2, "max_lands": 5, "hi_curve": False, "mixed": None,
     },
-    "diminishing_returns": {
-        "name": "Diminishing Returns", "stem": "diminishing-returns",
-        "commander": "Teysa Karlov", "lab": ("dr_clock_lab", "clock"),
-        "cc": 17, "cc_axes": (5, 4, 4, 4),
-        "win_line": {"pieces": ["Gravecrawler", "Phyrexian Altar"],
-                     "line": "Gravecrawler + Phyrexian Altar + sac/drain loop (Teysa doubles)"},
-        "bottleneck": "FINDING", "min_lands": 2, "max_lands": 4, "hi_curve": False,
-        "mixed": "aristocrats board fallback (death volume) not in predicate — watch",
-        "also": ["BOARD"],   # FINDING primary (Gravecrawler combo) + aristocrats death-volume board
-    },
+    # Diminishing Returns (Teysa Karlov) DISMANTLED 2026-07-08 — retired to physically
+    # source Zero-Sum Game + Forced Liquidation; decklist archived. Moved to
+    # EXTRA_COMMANDERS below (Loam/Peace precedent). Was: cc 17 (5/4/4/4), FINDING,
+    # lab dr_clock_lab. Its KILL_TREES entry was removed (kill_tree renders active decks
+    # only); dr_clock_lab.py is kept as a historical artifact (now points at the archived list).
     "lightning_war": {
         "name": "Lightning War", "stem": "lightning-war",
         "commander": "Fire Lord Azula", "lab": ("lw_clock_lab", "bestline"),
@@ -258,6 +253,7 @@ DECKS = {
 EXTRA_COMMANDERS = {
     "peace-offering": None,
     "the-loam-cycle": "Teval, the Balanced Scale",
+    "diminishing-returns": "Teysa Karlov",   # dismantled 2026-07-08 (was a DECKS row)
     # 2026-06-12 bake-off candidates (decks/considering/) + the two externals
     "insider-trading": "Yuriko, the Tiger's Shadow",
     "hostile-takeover": "Godo, Bandit Warlord",
@@ -305,6 +301,7 @@ EXTRA_COMMANDERS = {
 EXTRA_DISPLAY = {
     "peace-offering": "Peace Offering",
     "the-loam-cycle": "The Loam Cycle",
+    "diminishing-returns": "Diminishing Returns",
 }
 
 
@@ -331,28 +328,6 @@ KILL_TREES = {
         ],
         "stall": "keep ticking rad + stacking counters —<br/>the passive drain closes ~T10",
         "src": "rs_clock_lab.py + Radiation_Sickness_Summary.md",
-    },
-    "diminishing-returns": {
-        "reg_slug": "diminishing_returns",
-        "title": "Diminishing Returns — Teysa Karlov",
-        "root": "Teysa Karlov online<br/>every death trigger fires TWICE",
-        "background": None,
-        "lines": [
-            ("loop", "Gravecrawler + Phyrexian Altar<br/>+ a sac outlet",
-             "infinite deaths → drain (deterministic)", "table T9+", "combo"),
-            ("gary", "Gray Merchant of Asphodel<br/>+ heavy black devotion",
-             "ETB drain ×2", "table", "table"),
-            ("kokusho", "Kokusho, the Evening Star<br/>+ a sac outlet",
-             "5-drain ×2 each death cycle", "table", "table"),
-            ("living", "Living Death<br/>(mass reanimation)",
-             "refill board → re-fire every death", "reset → table", "table"),
-            ("razaketh", "Razaketh, the Foulblooded<br/>+ fodder to sacrifice",
-             "tutor the missing piece of any line", "enabler", "enabler"),
-            ("combat", "wide token board swings<br/>(fallback)",
-             "focus one opponent", "decap T9", "combat"),
-        ],
-        "stall": "grind deaths — the table drain is slow (T12+);<br/>this deck disrupts, it doesn't race",
-        "src": "dr_clock_lab.py + Diminishing_Returns_Summary.md",
     },
     "genome-project": {
         "reg_slug": "genome_project",

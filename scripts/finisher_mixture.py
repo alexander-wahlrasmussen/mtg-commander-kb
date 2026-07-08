@@ -91,7 +91,7 @@ UNSPLIT_KIND = {
     "genome_project": "storm", "radiation_sickness": "combat", "replication_crisis": "combo",
     "lorehold_spirits": "combat", "earthbend_the_meta": "combat", "exiles_return": "finisher",
     "zero_sum_game": "combo", "curse_of_the_scarab": "combat", "bumbleflower": "finisher",
-    "eldrazi_stampede": "combat", "dark_lords_army": "chip", "diminishing_returns": "combo",
+    "eldrazi_stampede": "combat", "dark_lords_army": "chip",
     "grand_design": "finisher", "crystal_sickness": "chip", "croak_and_dagger": "finisher",
     "forced_liquidation": "finisher",
 }

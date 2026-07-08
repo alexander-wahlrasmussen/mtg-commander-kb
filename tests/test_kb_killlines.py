@@ -167,11 +167,12 @@ def test_kill_tree_shape_for_an_encoded_deck():
 
 def test_kill_tree_every_encoded_deck_resolves():
     """Every reg_slug in KILL_TREES round-trips through _kill_tree with valid line kinds,
-    a title/root/stall/src, and (if present) a valid background kind. All 17 active decks
-    are encoded as of 2026-06-28; assert the registry and the resolver agree."""
+    a title/root/stall/src, and (if present) a valid background kind. All 16 active decks
+    are encoded (was 17; Diminishing Returns retired 2026-07-08); assert the registry and
+    the resolver agree."""
     specs = kb.deck_registry.KILL_TREES
     encoded = [sp["reg_slug"] for sp in specs.values()]
-    assert len(encoded) == len(specs) == 17
+    assert len(encoded) == len(specs) == 16
     assert len(set(encoded)) == len(encoded)        # no duplicate reg_slugs
     for slug in encoded:
         kt = kb._kill_tree(slug)

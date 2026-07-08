@@ -150,12 +150,11 @@ DECKS = {
     "bumbleflower":       "decks/this-bunny-goes-to-market-20260404-080311.txt",
     "eldrazi_stampede":   "decks/eldrazi-stampede-chaos-20260306-133311.txt",
     "dark_lords_army":    "decks/the-dark-lords-army-20260417-211206.txt",
-    "diminishing_returns": "decks/diminishing-returns-20260505.txt",
     "lightning_war":      "decks/lightning-war-20260706.txt",
     "grand_design":       "decks/the-grand-design-20260623.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
     "croak_and_dagger":       "decks/croak-and-dagger-20260623-215731.txt",
-    "kefka":              "decks/forced-liquidation-20260625.txt",
+    "kefka":              "decks/forced-liquidation-20260707.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)
     "genome_project": "The Genome Project", "radiation_sickness": "Radiation Sickness",
@@ -163,7 +162,7 @@ NAMES = {  # display names (match the gauntlet where they overlap)
     "earthbend_the_meta": "Earthbend the Meta", "exiles_return": "The Exile's Return",
     "zero_sum_game": "Zero-Sum Game", "curse_of_the_scarab": "Curse of the Scarab",
     "bumbleflower": "Ms. Bumbleflower", "eldrazi_stampede": "Eldrazi Stampede Chaos",
-    "dark_lords_army": "The Dark Lord's Army", "diminishing_returns": "Diminishing Returns",
+    "dark_lords_army": "The Dark Lord's Army",
     "lightning_war": "Lightning War", "grand_design": "The Grand Design",
     "crystal_sickness": "Crystal Sickness", "croak_and_dagger": "Croak and Dagger",
     "kefka": "Kefka (Forced Liquidation, build)",
@@ -309,7 +308,7 @@ def mode_roster(index, aliases, trials):
 def mode_whatif(index, aliases, trials):
     """What would adding each catalog hard-lock buy a lock-LESS deck? Availability here;
     the P(win) lift is pod_gauntlet.py --lock --add <slug>=<piece> (imports lock_lab)."""
-    targets = ["croak_and_dagger", "diminishing_returns", "grand_design", "dark_lords_army"]
+    targets = ["croak_and_dagger", "grand_design", "dark_lords_army"]
     adds = ["Cursed Totem", "Drannith Magistrate", "Rule of Law", "Sphere of Resistance",
             "Trinisphere", "Linvala, Keeper of Silence"]
     print(f"\n{'='*100}\nLOCK LAB — WHAT-IF: add one static to a lock-less deck   trials={trials}")

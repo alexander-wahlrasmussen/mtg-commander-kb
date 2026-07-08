@@ -582,55 +582,6 @@
     "mixed": null,
     "key_missing": []
   },
-  "diminishing-returns": {
-    "deck_key": "diminishing-returns",
-    "name": "Diminishing Returns",
-    "bottleneck": "FINDING",
-    "also": [
-      "BOARD"
-    ],
-    "min_lands": 2,
-    "max_lands": 4,
-    "hi_curve": false,
-    "cmdr": "teysa karlov",
-    "cmdr_cmc": 4.0,
-    "key_cards": [
-      "gravecrawler",
-      "phyrexian altar"
-    ],
-    "key_extra": [],
-    "n_key_needed": 1,
-    "tutors": [
-      "razaketh, the foulblooded",
-      "recruiter of the guard"
-    ],
-    "tutors_unbridged": [],
-    "ramp": [
-      "arcane signet",
-      "ashnod's altar",
-      "dark ritual",
-      "fellwar stone",
-      "mind stone",
-      "phyrexian altar",
-      "priest of forgotten gods",
-      "smothering tithe",
-      "sol ring",
-      "thought vessel",
-      "wayfarer's bauble"
-    ],
-    "selection": [
-      "esper sentinel",
-      "midnight reaper",
-      "mind stone",
-      "morbid opportunist",
-      "priest of forgotten gods",
-      "sephiroth, fabled soldier",
-      "skullclamp"
-    ],
-    "n_selection_needed": 2,
-    "mixed": "aristocrats board fallback (death volume) not in predicate \u2014 watch",
-    "key_missing": []
-  },
   "lightning-war": {
     "deck_key": "lightning-war",
     "name": "Lightning War",

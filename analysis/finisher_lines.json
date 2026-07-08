@@ -557,56 +557,6 @@
       }
     ]
   },
-  "diminishing_returns": {
-    "name": "Diminishing Returns",
-    "grid": [
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      12
-    ],
-    "split": false,
-    "lines": [
-      {
-        "line_id": "harvested",
-        "kind": "combo",
-        "decap": [
-          0,
-          0,
-          1,
-          11,
-          37,
-          66,
-          83,
-          96
-        ],
-        "table": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          4,
-          10,
-          30
-        ],
-        "med": [
-          "T9",
-          ">T14"
-        ],
-        "never": [
-          4,
-          70
-        ],
-        "disablers": [],
-        "note": "single harvested pod_gauntlet line (lab dr_clock_lab @8k); not yet split into per-line CDFs"
-      }
-    ]
-  },
   "lightning_war": {
     "name": "Lightning War",
     "grid": [

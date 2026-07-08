@@ -216,7 +216,7 @@ KEFKA_EXT = {
     },
 }
 
-# Active-roster suite (forced-liquidation-20260625.txt, promoted 2026-06-28). The 06-25
+# Active-roster suite (forced-liquidation-20260707.txt; repointed 2026-07-08). The 06-25
 # build differs from the historical KEFKA_BURN calibrator above (06-12 list): Bedevil ->
 # Soul Shatter, Terminate -> Heartless Act, Infernal Grasp -> Dismember, Diabolic ->
 # Grim Tutor, Mastermind's -> Final Parting. Card text re-verified via card_lookup 2026-06-28.
@@ -437,13 +437,7 @@ DARKLORD = _A(  # Sauron 6 -> FG/Rollick full cost; Grixis control, deep suite
     ("Blasphemous Act", ({"P"}, 5, {"ios"})),
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
-DIMINISHING = _A(  # Teysa 4 (Orzhov aristocrats) — removal + edicts + sweepers
-    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
-    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
-    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
-    ("Plaguecrafter", ({"P"}, 3, {"crea"})),            # edict, dodgeable
-    ("The Meathook Massacre", ({"P"}, 4, {"ios"})),     # X=2 wrath
-    ("Toxic Deluge", ({"P"}, 3, {"ios"})))
+# DIMINISHING (Teysa) removed 2026-07-08 — deck dismantled, dropped from the roster.
 
 CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
     ("Mana Drain", ({"C"}, 2, {"ios", "ublue"})),
@@ -452,8 +446,9 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
     ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
-# gauntlet slug -> (decklist filename under decks/, config). All 16 active decks:
-# the 13 above + the three delay_lab already measured (reuse their configs/paths).
+# gauntlet slug -> (decklist filename under decks/, config). All 15 active decks
+# (Diminishing Returns dismantled 2026-07-08): the 12 above + the three delay_lab
+# already measured (reuse their configs/paths).
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260707.txt", RADIATION),
@@ -466,12 +461,11 @@ ROSTER = {
     "bumbleflower": ("this-bunny-goes-to-market-20260404-080311.txt", BUMBLE),
     "eldrazi_stampede": ("eldrazi-stampede-chaos-20260306-133311.txt", ELDRAZI),
     "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
-    "diminishing_returns": ("diminishing-returns-20260505.txt", DIMINISHING),
     "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
     "lightning_war": ("lightning-war-20260706.txt", LIGHTNING_WAR),
     "croak_and_dagger": ("croak-and-dagger-20260623-215731.txt", CROAK),
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
-    "forced_liquidation": ("forced-liquidation-20260625.txt", FORCED_LIQUIDATION),
+    "forced_liquidation": ("forced-liquidation-20260707.txt", FORCED_LIQUIDATION),
 }
 
 
