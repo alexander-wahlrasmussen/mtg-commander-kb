@@ -101,6 +101,17 @@ CARRION = "Carrion Feeder"
 PAYOFF2 = {"Zulaport Cutthroat", "Bastion of Remembrance", "Blood Artist"}
 COMBO_TRACK = LOOP_PIECES | {CARRION, ROOFTOP} | PAYOFF2
 
+# --- surveil selection (variant lever, 2026-07-03) ---------------------------
+# Diagnosis: the deck has abundant DRAW (14) but 64% is board/death-gated, ZERO
+# surveil, and thin repeatable yard-fill — so it can flood-or-stall early/post-wipe
+# and the recursion is gated on a stocked yard. These model cheap Dimir surveil as
+# unconditional draw + yard-fuel. Data-driven (only fires if the card is in the
+# library) so the committed deck — which runs neither — is byte-identical (golden).
+# GENEROUS: counts each binned card as a reanimatable zombie (an upper bound on the
+# yard-fill; the smoothness/"found the right card" benefit stays goldfish-blind).
+SURVEIL_DRAW = {"Consider"}             # {U}: surveil 1 + draw 1
+SURVEIL_FILL = {"Otherworldly Gaze"}    # {U}: surveil 3 (+ flashback)
+
 
 def combo_ready(t):
     """Extended predicate: an ENGINE (mana-neutral sac loop) + a PAYOFF
@@ -353,6 +364,19 @@ def goldfish_kill(library, index, pips, rng, combo_extended=False, wipe=None):
             elif zcre:
                 t.cast_zombie_spell(rec, colossus_active=colossus_active)
 
+        # cheap surveil selection (variant lever): unconditional draw + yard-fill.
+        # Data-driven -> committed deck (no surveil) runs identically. Generous.
+        for i, (nm, _r) in list(enumerate(g.hand)):
+            if nm in SURVEIL_DRAW and g.avail >= 1:
+                g.hand.pop(i); g.avail -= 1
+                t.gdraw(1); t.yard_z += 1          # surveil 1 -> ~1 zombie binned + draw
+                break
+        for i, (nm, _r) in list(enumerate(g.hand)):
+            if nm in SURVEIL_FILL and g.avail >= 1:
+                g.hand.pop(i); g.avail -= 1
+                t.yard_z += 2                       # surveil 3 -> ~2 zombies binned
+                break
+
         # steady token engines (count next upkeep / attack next turn)
         if t.titan_bf:
             t.zombie_etb(2)                           # Grave Titan attack tokens
@@ -433,19 +457,22 @@ def _mednum(res, idx, cap=99):
     return vals[(len(vals) - 1) // 2]
 
 
-def mode_recover(index, aliases, trials):
+def mode_recover(index, aliases, trials, deck=None):
     """Post-wipe INEVITABILITY: how much does a creature board wipe actually set
     this grinder back, and how fast does it rebuild? Injects a one-shot wipe at
     turn W (see apply_wipe) on the SAME shuffles as the no-wipe baseline (paired),
     and reports the wipe TAX (table-clock delta) + the recovery clock. This is the
     grind/recursion resilience the goldfish 'clock' mode can't see — measured, not
-    narrated. Coarse heuristic; trust the shape."""
+    narrated. Point at a variant with --deck to compare a swap (the no-wipe baseline
+    line doubles as the front-edge clock). Coarse heuristic; trust the shape."""
+    path = deck or DECK
     print(f"\n### RECOVER — Curse of the Scarab post-wipe inevitability   trials={trials} seed={SEED}")
+    print(f"    deck: {Path(path).name}")
     print("    One-shot creature wipe at turn W: tokens vanish; nontoken zombies -> yard")
     print("    (reanim fuel) OR survive via Mikaeus undying; enchantment/PW engines + mana")
     print("    persist; Scarab -> hand. Same shuffles as baseline (paired). 'recovered' =")
     print(f"    board draining >= {RECOVER_THREAT} next upkeep again.\n")
-    library, commander = slc.load_parsed(DECK, index, aliases)
+    library, commander = slc.load_parsed(path, index, aliases)
     pips = load_black_pips([nm for nm, _ in library] + [commander])
 
     rng = random.Random(SEED)
