@@ -99,8 +99,8 @@ RAMP = {  # name -> (cost, lands_gained, untapped_mana_now, sacs_a_land_first)
     "Entish Restoration": (3, 2, 0, True),
     "Sakura-Tribe Elder": (2, 1, 0, False), # body ignored: it chumps IRL anyway
 }
-EXTRA_DROP = {"The Gitrog Monster", "Oracle of Mul Daya", "Icetill Explorer",
-              "Exploration"}
+EXTRA_DROP = {"The Gitrog Monster": 1, "Oracle of Mul Daya": 1, "Icetill Explorer": 1,
+              "Exploration": 1, "Azusa, Lost but Seeking": 2}
 GY_LAND_ENGINE = {"Crucible of Worlds", "Ramunap Excavator", "Conduit of Worlds",
                   "Icetill Explorer", "Walk-In Closet/Forgotten Cellar"}
 COMBO = {"Mazirek, Kraul Death Priest": 5, "Basking Broodscale": 2}
@@ -472,7 +472,8 @@ class Trial:
             for nm in ("Lotus Cobra", "Tireless Provisioner", "Nissa, Resurgent Animist",
                        "Tannuk, Memorial Ensign", "Sabotender", "Iridescent Vinelasher",
                        "Scute Swarm", "Traveling Chocobo", "The Earth King",
-                       "Evolution Sage", "Orcish Lumberjack", "Bristly Bill, Spine Sower"):
+                       "Evolution Sage", "Orcish Lumberjack", "Bristly Bill, Spine Sower",
+                       "Azusa, Lost but Seeking"):
                 if not self.bd(nm) and g.has(nm):
                     rec = g.hand[g.in_hand(nm)][1]
                     if g.avail >= rec["cmc"] and self.cast_creature(nm, rec["cmc"]):
@@ -563,9 +564,11 @@ class Trial:
                     and self.yard_lands() >= 3):
                 if self.cast_creature("Lumra, Bellow of the Woods", 6):
                     progress = True
-            # 11. extra land drops from static permits (one per permit per turn)
+            # 11. extra land drops from static permits (per-permit allowance per turn;
+            # Azusa grants two)
             if (self.lands_in >= 1
-                    and self.extra_drops_used < len(self.flags & EXTRA_DROP)
+                    and self.extra_drops_used < sum(w for nm, w in EXTRA_DROP.items()
+                                                    if nm in self.flags)
                     and self.extra_land_drop()):
                 self.extra_drops_used += 1
                 progress = True

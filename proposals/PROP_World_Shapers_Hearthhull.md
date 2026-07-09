@@ -820,6 +820,58 @@ strict `availability_check` → lab. Results, per the lab-first rule:
   shortlists + reading candidates before wanting them), and it closed the ramp/draw
   question with a measurement instead of a hunch.
 
+## Extra land drops (Exploration / Azusa) & the land count (2026-07-09)
+
+User question: would Exploration / Azusa, Lost but Seeking improve the build, and
+does a landfall deck want more than the tuned list's **38 lands**?
+
+**Method.** `ws_clock_lab` extended: `EXTRA_DROP` is now a weighted permit dict and
+models **Azusa (2 extra drops, cast on curve with the engine creatures)**; Exploration
+(1 drop, {G}) was already in the vocabulary. Six probe lists (built, measured 40k
+seed 20260704, then deleted — swaps recorded here; probes cut clock-model-INERT
+removal so the delta isolates the add): +Exploration −Abrade · +Azusa −Abrade ·
++both −Abrade/−Putrefy · 40 lands (+Forest/+Swamp −Abrade/−Putrefy) · 36 lands
+(−Forest/−Swamp +2 inert stand-ins) · 40 lands+both drops.
+
+**Clock (P kill ≤T, %; decap | table):**
+
+| variant | T8 | T9 | T10 | table T10 | table T12 |
+|---|---|---|---|---|---|
+| tuned base (38 lands) | 22 | 50 | 73 | 35 | 76 |
+| + Exploration | 23 | 50 | 73 | 36 | 76 |
+| + Azusa | 22 | 50 | 73 | 35 | 76 |
+| + both permits | 23 | 50 | 73 | 35 | 76 |
+| **40 lands** | 24 | **53** | 75 | **38** | **79** |
+| 36 lands | 20 | 47 | 70 | 32 | 72 |
+| 40 lands + both permits | 25 | 54 | 76 | 39 | 79 |
+
+**Extra-drop permits are FLAT** — even given best-case framing (each replaced a
+goldfish-blank) and stacked on 40 lands they add ≤1pp. The arithmetic: Hearthhull's
+draw-2 refills ≈0.76 lands/turn (38% land density), below what even ONE extra
+drop/turn consumes — the permits idle for want of spare lands in hand; the binding
+constraint is fuel, not permission. Model caveats, stated honestly: Loam is
+single-shot in-model (no dredge lock), Oracle's top-of-library play and
+Crucible-replay-on-spare-drops aren't modelled — the Azusa+Crucible/Loam perpetual
+line is undercounted. But the same direction was measured independently by the
+2026-07-05 gas-package test (draw/ramp FLAT), and neither card adds resilience
+(1/2 body / dead late topdeck in a deck 51% hellbent by T8), so per the lab-first
+rule they are **dropped, not bought and not pulled**. Availability anyway:
+`availability_check` 2026-07-09 — **both owned ×1 and DEPLOYED in Croak & Dagger**
+(donor pull, not free); Wrenn and Six is the only free card in the class and was
+already evaluated out of the tuned list.
+
+**Land count: 38 is right.** The response curve is real and monotone (36→38→40 gains
+2–3pp per step on the decap/table front edge), but flow (`ws_combo_lab smoothness`,
+20k) prices the other side: at 40 lands mean dead turns 1.47→**1.57** greedy, hellbent
+by T10 70→**73%**, flood 13→15%, while the **T2 starve does NOT improve** (16→18%) —
+the early stumble is colour/curve volatility, not count — and Hearthhull-on-curve
+gains only +3pp at T4 (74→77). In a real build the two slots would also come out of
+interaction, the measured D→C tier axis. Net: keep 38; the superior manabase lever
+remains land QUALITY (Lever 3 fetches, already measured on the anti-pod axis), not
+count, and the superior slot use remains answers (Lever 2).
+
+`Clock: T9–10 decap / T11 table — unchanged by land-drop permits (ws_clock_lab 40k 2026-07-09)`
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
