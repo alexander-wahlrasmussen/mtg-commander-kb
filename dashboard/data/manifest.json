@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-08 21:34",
+  "generated": "2026-07-09 23:19",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -99,9 +99,9 @@
       "curse_of_the_scarab",
       "crystal_sickness",
       "zero_sum_game",
+      "bumbleflower",
       "forced_liquidation",
       "genome_project",
-      "bumbleflower",
       "eldrazi_stampede"
     ]
   },
