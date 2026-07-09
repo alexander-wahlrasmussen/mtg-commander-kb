@@ -1,6 +1,22 @@
-# Proposal: World Shapers precon (Hearthhull, the Worldseed) — owned-only upgrade
+# Proposal: Creative Destruction — World Shapers precon (Hearthhull, the Worldseed)
 
-Status: **evaluation — precon not yet purchased.** Drafted 2026-07-04.
+Status: **APPROVED — named "Creative Destruction" 2026-07-05; held as a proposal until
+the precon arrives.** Build target: `decks/considering/world-shapers-tuned-20260704.txt`.
+Drafted 2026-07-04.
+
+*The name:* Schumpeter's creative destruction — tearing down your own structures to
+build more productive ones — which is the deck's literal game plan (sacrifice lands
+for value/drain, Splendid-Reclamation them back bigger). Sits in the roster's econ
+register beside Diminishing Returns / Zero-Sum Game / Forced Liquidation.
+
+*On arrival (sleeve-day checklist):* pull the DR donor cards (The Meathook Massacre,
+Prismatic Vista, Verdant Catacombs, Takenuma) and **bump Diminishing Returns' dated
+`.txt`**; retire Earthbend the Meta (archive its list; off-Jund staples return to the
+free pool); sleeve from the tuned list and promote it as
+`decks/creative-destruction-YYYYMMDD.txt`; add the `creative-destruction` stem to
+`deck_registry.EXTRA_COMMANDERS` (commander detection is stem-prefix based — the
+2026-07-05 correction below is the cautionary tale); re-run DeckSafe with a fresh
+Moxfield export; first-games audit.
 
 The question asked: *if I buy the World Shapers precon (Edge of Eternities Commander,
 EOC), can it be made competitive with the rest of the roster using only collection
@@ -233,7 +249,9 @@ roughly a turn faster on paper and much better than a turn better in practice �
 kills are non-combat (wrath/fog/blocker-proof), its manabase is untapped duals +
 11 fetches, and it holds real defensive locks. Roster placement: the Croak /
 Zero-Sum band on the floor model, plausibly upper-middle piloted with the combo
-lines. Still not a Genome/Kefka-speed racer.
+lines. Still not a Genome/Kefka-speed racer. *(Measured 2026-07-04: on the synthesis
+oracles it actually places Tier D, composite 11.6 — the band call above was clock-only
+and ignored its thin interaction/durability. See § Tuned vs the external list.)*
 
 **Ownership reality (strict own−deployed, CSV 2026-06-25):** of 91 nonbasics —
 **24 free · 35 locked in active decks · 10 proxy-only · 22 unowned (≈ €182 + 3
@@ -446,6 +464,8 @@ Three things keep that from being the whole story, and all three are real:
    onto its weak anti-pod and drags the composite down. Promoted + delay_lab-measured,
    its 7-piece instant-removal suite would post a real interaction score and likely lift
    it into **Tier C** — i.e. roughly where Earthbend sits, not below it.
+   *(Measured same-day — it doesn't: inter = 22 lifts the composite 20 → 24, still
+   Tier D. See § Interaction axis — MEASURED.)*
 
 **Net placement verdict:** by the roster's own synthesis metrics it is a lower-third,
 Tier-D deck today and does not out-rank the Earthbend seat it retires. It is a *grind
@@ -529,12 +549,287 @@ Earthbend seat**, and that is the honest ceiling without changing what the deck 
 **Next step to bank it:** build the interaction-leaned, maxed-manabase variant and get it
 delay_lab-measured (so the 0.35 axis is real, not injected) — offer standing.
 
+## Interaction axis — MEASURED (2026-07-04 follow-up)
+
+User asked what the axis is *today*, so the current merged list was put through the
+canonical delay_lab engine via `ws_place.py --measure-inter` (answer spec oracle-verified
+in the script; Tear Asunder costed kicked at 4, Deflecting Swat / Veil / Pest Infestation
+excluded per lab rules; PROTECT prior 0.30, mirroring Zero-Sum's "Abolisher-proof kill +
+Veil, no counters" rationale). Injected as `pg.MEASURED` + `pg.PROTECT` — the promoted-deck
+harvest path — so both synthesis oracles read it. 20k trials, seed 20260612/12345.
+
+**Raw availability (delay_lab, drawn, a=0):** suite = 6 instant removal + 1 preempt-only,
+**0 counters, 0 statics**. Live answer on their T6 **44%** / T7 **48%** — ~4pp *below*
+the Earthbend deck's measured 48/52. Under Abolisher it collapses to 2% at a=1 (the
+preempt→reactive chain is thin: 3-6%), same cliff as every counters-light roster deck.
+
+**Tier axis (interaction-overlay mirror):** **inter = 22** (post-retirement roster) /
+**24** (17-deck head-to-head field) — **~2× Earthbend's 11-12** despite the slightly
+lower raw availability, because the overlay rewards what the suite protects: the T11
+table clock, the counter-immune close (PROTECT 0.30) and 7-answer durability lose less
+to the tax than Earthbend's board kill. Composite moves **20 → 24.0 (#13 of 17)** —
+**still Tier D**, ~4 points short of the C cut (28). Earthbend head-to-head: 35.1 (C).
+The earlier sensitivity ladder holds up (measured 22 sits between the injected-15 and
+-25 rows): reaching C needs inter ≈ 35, i.e. the **Lever-2 interaction-leaned swap**,
+not just measuring the current suite.
+
+**Anti-pod correction (caveat inverted):** with measured disruption + PROTECT replacing
+the "warn" bucket, gauntlet P(win) reads **16% (#16 of 17, below Diminishing Returns
+18%)**, not 19%. The § placement caveat that the bucket was "conservative" was wrong in
+direction — the bucket was slightly generous (measured D at a=0.30 ≈ 0.35 vs bucket
+0.39, and PROTECT doesn't offset it). Another datapoint for the framework-clock-gap
+lesson: measure, don't extrapolate caveats.
+
+**Net today:** anti-pod 18 · inter 22 (measured) · self-meta 20 → composite 24, Tier D,
+one tier below the Earthbend seat it would replace. The D→C path is unchanged but now
+quantified: ~4 composite points must come from the interaction-leaned build (+ fetch
+manabase), and the measured baseline to beat is inter 22.
+
+## The TUNED build — Levers 2+3 applied, measured to Tier C (2026-07-04)
+
+User approved incorporating both levers **without touching the core plan**, and asked to
+pull **all available premium lands**. List: `decks/considering/world-shapers-tuned-20260704.txt`
+(12-for-12 vs the merged list; engine, combo pieces, tutors, GC trio all untouched;
+`deck_doctor`: 100 cards, singleton/banlist/names clean, **GCs 3/3 unchanged** — every add
+GC-grep-checked clear).
+
+**Availability correction first (Lever 2's list was wrong).** The strict
+`availability_check` pass (CSV 2026-06-25, Earthbend excluded as donor) shows the section
+above's named package was **not** free: Deadly Rollick (6 copies, 7 deployed slots),
+Assassin's Trophy (3/3), Chaos Warp (5/6), Go for the Throat (2/3) are fully consumed —
+some with *phantom* slots (more list slots than tracked copies) — and Force of Vigor is
+locked. "All free or Earthbend-proxy" was written without running the check; another
+narrated-availability miss. What IS free: **Abrade (own 7, 5 free), Bitter Triumph (4
+free), Murderous Rider (3 free)**, plus — per the user's 2026-07-04 carve-out that
+**Diminishing Returns is a donor** (bar anything Zero-Sum-earmarked; nothing in the
+Zero-Sum eval names a DR card) — **The Meathook Massacre, Prismatic Vista, Verdant
+Catacombs, Takenuma** as DR pulls. Toxic Deluge exists only as a proxy-spare and was
+skipped: Meathook covers the sweeper slot *on-plan* (its death-drain is a fifth Mazirek
+converter — infinite Spawn deaths = table kill — and it drains on every Titania/Scute
+token sac in fair games).
+
+**The swaps** (every add card_lookup-verified, CI-legal, non-GC):
+
+| Out | In | Note |
+|---|---|---|
+| Escape to the Wilds | Abrade | R/P 2 — hits Abolisher, Kinnan, dorks, artifacts |
+| Augur of Autumn | Bitter Triumph | R/P 2 — any creature/PW, life not mana |
+| Tireless Tracker | Murderous Rider | R/P 3 — Swift End + a 2/3 lifelink station body |
+| Springbloom Druid | The Meathook Massacre | P wipe + **on-plan loop converter** (DR pull) |
+| Evolving Wilds | Prismatic Vista | strict upgrade, untapped (DR pull) |
+| Terramorphic Expanse | Verdant Catacombs | fetches Swamp/Forest *cards* incl. duals (DR pull) |
+| Forest, Forest | Woodland Cemetery, Myriad Landscape | check land; sac-fetch-2 = ramp + sac trigger |
+| Swamp, Swamp | Tainted Wood, Takenuma | cond-untapped BG; channel recursion (DR pull) |
+| Mountain, Mountain | Raging Ravine, Command Beacon | manland flood-insurance; commander rebuy whose sac IS a land-sac trigger |
+
+Basics 11 → **5** (2F/1M/2S). Stopped there deliberately: four more proxy fetch spares
+exist (Bloodstained Mire ×2, Misty Rainforest, Marsh Flats, Polluted Delta via DR) but the
+list already carries ~10 basic-search effects (Fabled, 3 NCC sac-lands, Vista, Myriad,
+Cultivate/Harrow/Roiling/Entish) against 5 basics — the colour-blind sim cannot see the
+whiffs, so going lower on judgment, not measurement. Kessig Wolf Run (Earthbend) available
+but off-plan; flagged only. **Meathook flag:** Zero-Sum is its natural alternative home
+(Croak holds the other copy) — reassign if preferred.
+
+**Measured deltas (all same model/seed/trials as the base):**
+
+- **Clock (ws_clock_lab @40k):** decap front edge −2pp (T8 23→21, T9 51→49; median label
+  T9→**T10** at the 49% boundary), **table T11 holds** (T12 78→74). The draw cuts also thin
+  Natural Order's sac fodder: combo share 25→22%. This is the price of the swap and it is
+  real — the tier bet is that disruption buys more than the goldfish loses.
+- **Flow (ws_combo_lab):** **better where it hurt** — T2 dead-starved 22→17% (the premium
+  manabase), mean dead turns 1.48→1.42 (greedy); late hellbent 51→54% by T8 (the draw
+  cuts). Keepable 99.3%, Hearthhull-on-curve unchanged (T4 73%).
+- **delay_lab (9 R + 2 P, still 0 counters/statics):** live answer on their T6 **59%** /
+  T7 **62%** (drawn, a=0) — up from 44/48, now *above* Earthbend's 48/52; preempt chain
+  7→17% at T7; a=1 collapse improves only to 5-7% (no statics — that gap needs a
+  Cursed Totem-class buy, unowned).
+- **Placement (ws_place --tuned --measure-inter):** anti-pod **24** (gauntlet P(win)
+  16→**20%**, #15 of 17, back above Diminishing Returns) · inter **23** · self **20** →
+  **composite 29.5 → TIER C (#13 of 17)**, crossing the 28 cut. Head-to-head 18-deck
+  field: tuned 30.3 (C, #14) vs Earthbend 35.2 (C, #12).
+
+**Honest mechanism note:** the D→C crossing came mostly through the **anti-pod axis**
+(measured disruption of the pod's combo turn), not the mirror-overlay inter axis the
+sensitivity ladder pointed at (22→23 only — that oracle is dominated by clock/protect,
+and the table clock softened slightly). Right destination, different door. Net: the tuned
+build lands **level with the Earthbend seat as a tier (C), ~5 composite points below it**,
+with the grind profile (self-meta 20-21 vs 12, Abolisher-immune close, 11-answer suite)
+the composite still undercounts.
+
+## Tuned vs the external list — placed head-to-head (2026-07-04)
+
+User asked how the tuned build stacks up against the $1400 primer list, so the external
+list got the same treatment (`ws_place --variant external --measure-inter`; clock
+re-harvested @40k from the true external list; answer suite verified — only **four**
+pod-relevant instants: Abrupt Decay, Assassin's Trophy, Beast Within, Tear Asunder;
+Chasm/Mists/Safekeeper are protect-own and excluded per lab rules; no CC judgment exists,
+weights redistribute as for Zero-Sum). Same replace-Earthbend 17-deck field:
+
+| | **Tuned (owned, 350 DKK)** | **External (~$1400 / €182+locked as written)** |
+|---|---|---|
+| Clock | decap T10 / table T11 | decap **T9** / table T11 |
+| Kill mixture | drain 31 / combat 28 / Mazirek ~22 / slug+AWBO+Purph 18 | drain **51** / combat 33 / slug 14 |
+| delay_lab live answer T6/T7 (a=0) | **59% / 62%** (9R+2P) | 35% / 38% (4R) |
+| Gauntlet P(win) | **20%** (#15) | 13% (#16) |
+| Tier axes (anti · inter · self) | **24 · 23 · 20** | 13 · 12 · 12 |
+| Composite → tier | **29.5 → C (#13)** | 11.6 → **D (#15)** |
+
+**At the modelled floor, the owned tuned build beats the $1400 list by a full tier band**
+— but see the asymmetry audit below before quoting that: the floor is NOT equally tight
+for the two lists, and the honest verdict is a bracket, not a band. What separates them at
+the floor is interaction and durability — the primer spent its budget on manabase, combo
+density and value, and runs almost no answers, which is exactly what the anti-pod, inter
+and self-meta axes all price. That part is not model bias: the deck really runs 4 answers.
+
+### Asymmetry audit (2026-07-04 — user challenge: "is it apples to apples?")
+
+It wasn't, fully. Inventory of what each clock models: the tuned clock **includes its
+primary combo** (Mazirek loop + tutors ≈ 22% of kills) and omits the Springheart/Ashaya
+engines, Meathook-as-converter and Takenuma/Beacon utility; the external clock omits
+**all** of its combo lines. The Springheart/Ashaya engines are in *both* lists and
+omitted from *both* clocks (symmetric); the net bias favours the tuned number.
+
+**Quantified with the same instrument** (`ws_combo_lab --mode assembly`, external
+taxonomy added — B/C/Quirion+Ashaya/Shifting Woodland lines, its own tutors GSZ/Nature's
+Rhythm/Formidable Speaker/Crop Rotation, 40k):
+
+| P(≥1 win engine online ≤T) | T6 | T8 | T10 | T12 |
+|---|---|---|---|---|
+| Tuned — drawn / +tutor ceiling | 2 / 8 | 3 / 12 | 4 / 15 | 5 / 20 |
+| External — drawn / +tutor ceiling | 1 / 9 | 2 / 14 | 3 / 20 | 5 / **26** |
+
+Drawn-only the lists are **identical**; external's free-tutor ceiling runs ~6pp ahead by
+T12. So the unmodelled mass is an *option in at most a quarter of long games* (ceiling —
+free tutors, no mana/discard/fodder costs), heavily overlapping games the fair plan was
+already winning by T9–T11.
+
+**Bracketing run** (`--variant externalfast`): shifting external's ENTIRE clock one turn
+earlier — deliberately over-generous, it credits 100% of games with what the ceiling says
+is a ≤26% option — lands it at **composite 32.0, Tier C, #12 — two points ABOVE the tuned
+build (29.5, #13)**. The gauntlet is that clock-sensitive at the T8/T9 margin.
+
+**Revised verdict, honestly stated:** external-as-modelled **11.6 (D)** · external at the
+over-generous +1-turn bound **32.0 (C)** · tuned as measured **29.5 (C)**. The
+proportionate combo credit sits well below the bound, so the tuned build likely still
+edges it — but "beats it by a full tier band" was too strong; the defensible claim is
+**rough parity at best for the external list, at ~€182 + two decks' worth of locked
+staples vs zero additional spend**. Unpriced on each side after this audit: external's
+Chasm/Mists locks and untapped-dual consistency (needs a `--vs-lock` overlay / colour-aware
+sim); tuned's Springheart lines (≤8pp ceiling), Meathook converter, and 11-vs-4 answer
+suite in real games where the pod *answers back* — none of the goldfish oracles model
+opposing interaction against a 4-answer deck. The cost-adjusted recommendation is
+unchanged: build the tuned list; treat the primer's mass-sac burst and fog-locks as
+buy-path candidates.
+
+## Correction 2026-07-05 — the tuned clock was harvested without its commander
+
+`world-shapers-tuned` was missing from `deck_registry.EXTRA_COMMANDERS`, so every
+2026-07-04 tuned lab run parsed with **commander None** — Hearthhull sat in the
+library instead of the command zone (the parse prints `library 100 + commander None`;
+none of us read that line). Registry fixed (+ a comment), clocks re-harvested @40k:
+decap **[0,1,6,22,50,73,92,97]** on the [5..14] grid (T8 21→22, T9 49→50), table
+**[0,1,3,7,17,35,76,93]** — ~1–2pp *faster* than the broken harvest, medians
+**T10 decap / T11 table** hold. Placement re-run post-fix (`ws_place --tuned
+--measure-inter`): gauntlet P(win) **21%** (#15), delay_lab live-answer T6 **59** /
+T7 **63**, tier axes anti **24** · inter **24** · self **20** → **composite 30.7,
+TIER C, #12 of 17** (was 29.5/#13). Every 2026-07-04 tuned conclusion survives the
+fix, slightly stronger. The external-list comparison is unaffected (its stem was
+registered).
+
+## Vs the Ur-Dragon — the seat's defining matchup, now measured (2026-07-05)
+
+The Earthbend seat exists to fight the pod's fair Ur-Dragon deck, and the standing
+worry — "neither deck has flying or reach, he can simply outrun us" — was tested
+directly. `ws_place.py --dragon [--variant tuned]` injects a World Shapers list into
+`vs_dragon_roster_lab` (the model that ranked all 16 decks) using its **combat-off
+clock**: what the deck does when plain combat is *fully answered* — a flying wall
+included. (ws_clock_lab --mode comboclock @40k: merged decap T11 med, tuned T11,
+~95% of games still kill by T16; mixture shifts to land-sac drain ~40% / Mazirek
+combo ~18% / slug+AWBO+Purphoros ~27%.)
+
+| | P(win vs Ur-Dragon) | axis | sweep range |
+|---|---|---|---|
+| **World Shapers (tuned)** | **69% — #7 of 17** | over | 59–82%, above Earthbend in ALL scenarios |
+| World Shapers (merged, base) | 58% — #7 | over | 45–71% |
+| Earthbend the Meta (retiring) | 33% — #13 | combat (walled) | 20–51% |
+
+The flying/reach worry is answered by *kill shape*, not blockers: Earthbend must
+connect with ground land-creatures (walled → 33%); the World Shapers kill — drain,
+loop converters, slug statics — goes **over** the wall, and the tuned list's Meathook
+(2nd wrath) + 9-instant suite + lifegain push it to 69%, wedged between Zero-Sum
+(70%) and Crystal Sickness (57%) in the "over" cluster. **This is the axis where the
+new deck decisively out-classes the seat it retires** — it more than doubles the
+Earthbend matchup number the seat exists for. The pod-race tier (low C ceiling) never
+was its case; the Dragon matchup is.
+
+*Caveats:* the injected clock already excludes the walled combat share; ~11% of its
+combat-off kills are pumped-Spawn swings that survive only via the tapped-attacker
+crackback window — flagged, small. protect=0.0 (Veil/Swat not modelled as
+counter-war) is conservative. Model fixes shipped the same day (oracle-index
+poisoning + spot-regex under-catch; roster ranking unchanged — see the addendum in
+`analysis/VsDragon_Roster_2026-06-15.md`).
+
+### "Hearthhull is busted" (online) vs what we measure
+
+Both are true, about different questions. The hype discourse evaluates the deck in
+precon-upgrade / mid-power metas, where a resilient T9–T11 engine deck with an
+Abolisher-immune close and a 32-combo ceiling *is* oppressive — and note our own
+model scores the $1400 primer build only T9/T11 **as a floor** (its infinites are
+unmodelled), statistically identical to our zero-buy lists. Our roster's bar is
+different: the pod's combo seat goldfishes T6–7 behind Grand Abolisher, and
+*nothing* outside Genome/Radiation/Replication races that. "Busted" online ≈
+"dominates fair tables" — which is exactly the profile measured here (69% vs the
+fair archenemy deck, 2× the seat it replaces; top-half self-meta), not "races a
+T6–7 combo pod". The two claims never disagreed — they answer different metas.
+
+## Tag-tool gap-fill pass (`collection_by_tag`, 2026-07-05)
+
+The new narrowing cuts (`--color BRG --exclude-deck world-shapers-merged --max-cmc
+--permanents --no-lands`) were swept over the merged list's three measured gaps (T2
+mana stumble 22%, hellbent 51% by T8, 1-wrath toolkit). Shortlist → `card_lookup` →
+strict `availability_check` → lab. Results, per the lab-first rule:
+
+- **"Gas & wraths" package (7 swaps: +Greater Good/Sylvan Library/Phyrexian Arena/
+  Meathook Massacre/Toxic Deluge/Birds/Phyrexian Tower) — FLAT on flow, rejected as
+  a package.** List: `world-shapers-merged-gas-20260705.txt`. Flow: mean dead turns
+  1.47 vs 1.48, starved-T2 22→19%, hellbent slightly *worse* (55% T8); clock ~½ turn
+  slower (goldfish-dead removal slots + cut immediate gas). The deck's draw was
+  already adequate — draw engines don't earn the slots the cuts vacate. (The tuned
+  build had independently reached the same conclusion from the interaction side: its
+  package spends those slots on answers, which the tier oracles *do* price.)
+- **Birds of Paradise micro-swap (for Roiling Regrowth) — neutral, free, optional.**
+  List: `world-shapers-merged-birds-20260705.txt`. Clock identical (T9/T11), flow
+  marginal. Real value (colour-fixing, a T1 body that taps to station) is invisible
+  to the colour-blind goldfish. "Correct deckbuilding" tier, like the fetch lever;
+  compatible with the tuned list (same cut exists there — judgment call).
+- **Card-text find (independently re-derived):** The Meathook Massacre's death
+  trigger drains OPPONENTS when *our* creatures die — wrath + lifegain + another
+  Mazirek-loop converter. The tuned build had already pulled it from Diminishing
+  Returns under the user's donor carve-out; the tag sweep confirms it's the best
+  wrath-slot card in the pool. Its +11pp on the vs-Dragon number (58→69 with the
+  rest of the tuned interaction) is measured above.
+- **Contention findings (the strict check caught what name-grep missed — alias
+  printings):** Sylvan Library (2/2 deployed), Meathook (2/2 — one now allocated to
+  tuned via the DR carve-out), Toxic Deluge (9 deployed vs 7 owned), Greater Good
+  (1/1, Eldrazi Stampede), Phyrexian Tower (deficit), Skullclamp (5 deployed vs 4
+  owned). Phyrexian Arena is genuinely free but measured flat here. **Always resolve
+  availability with `availability_check.py`, never a name grep over decks/*.txt** —
+  second narrated-availability miss in two days.
+- **Net:** the free pool holds no measurable ramp/draw upgrade beyond what the tuned
+  list already banked. The tag tool's contribution is the *process* (gap-fill
+  shortlists + reading candidates before wanting them), and it closed the ramp/draw
+  question with a measurement instead of a hunch.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
 (a legal infinite, +1 turn on the table clock, dramatically better recursion, exactly
-3 GCs, zero additional spend) and it produces an honest **mid-roster B3 deck**. Do
+3 GCs, zero additional spend) and it produces an honest **mid-roster B3 deck** that
+**more than doubles the retiring seat's number in the matchup the seat exists for
+(69% vs 33% against the Ur-Dragon deck — measured 2026-07-05)**. Do
 **not** buy it expecting the free pool to make it race Genome/Radiation/Replication
 or the pod's T6–7 combo seat — it measurably cannot. If it is bought, next steps:
 pod ruling on Planetary Annihilation (kept in the box pile only), physical build from
-`world-shapers-upgraded-20260704.txt`, first-games audit, then the buy-path lab.
+**`world-shapers-tuned-20260704.txt`** (the measured-Tier-C Levers-2+3 build; supersedes
+the upgraded and base-merged lists as the build target), first-games audit, then the
+buy-path lab.

@@ -98,9 +98,11 @@ def resolve_deck_exclusions(fuzzy, oid_index, aliases):
     dated .txt wins when a prefix matches several versions.
     """
     from availability_check import read_decklist                # noqa: E402 (repo cross-module idiom)
-    matches = sorted(p for p in (ROOT / "decks").glob("*.txt") if fuzzy.lower() in p.stem.lower())
+    candidates = list((ROOT / "decks").glob("*.txt")) + list((ROOT / "decks" / "considering").glob("*.txt"))
+    matches = sorted((p for p in candidates if fuzzy.lower() in p.stem.lower()),
+                     key=lambda p: p.stem)
     if not matches:
-        sys.exit(f"ERROR: --exclude-deck '{fuzzy}' matched no decks/*.txt")
+        sys.exit(f"ERROR: --exclude-deck '{fuzzy}' matched no decks/*.txt or decks/considering/*.txt")
     path = matches[-1]
     oids = set()
     for name in read_decklist(path):            # keys already normalised (lowercased front-face)
