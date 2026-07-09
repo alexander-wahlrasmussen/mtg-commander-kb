@@ -889,6 +889,21 @@ colour-blind, tapped-blind goldfish can't price; the swap is carried on sourcing
 necessity + deckbuilding correctness (the Lever-3 direction). `deck_doctor` clean:
 100 cards, GC 3/3, {BGR} CI, banlist OK. Lands stay 38, basics stay 5.
 
+**Earthbend package screened (2026-07-09, user question) — no adds.** 31 Jund-legal
+earthbend cards exist (oracle sweep); 13 sit in the Earthbend teardown beyond the two
+already taken (Ba Sing Se — repeatable earthbend on a LAND slot; Badgermole Cub — B/C
+combo engine piece). Every candidate routes into an axis a prior measurement already
+closed: station accelerants (Avatar Kyoshi 8CMC, Bumi Unleashed, Toph Greatest, Bitter
+Work, Earthbending Student) are bounded by the `--mode drain` counterfactual — even
+ALWAYS-ON drain buys ≤1 median turn, and the rate cap (~1 sac/turn) is the real limit;
+counters-matter (Solid Ground, Bumi Eclectic, Toph Blind Bandit) = Lever-1 counter
+package, measured FLAT and dropped; combat-leaning (Bumi's extra land-creature combat,
+Toph Master snowball, Badgermole trample) pushes the blockable 27% axis the Ur-Dragon
+walls and the tier de-weights; draw (The Legend of Kyoshi saga) = the 07-05 gas
+package, measured flat-to-worse; removal (Earth Rumble sorcery fight) downgrades the
+premium-instant suite that IS the tier lever. The deck already runs the right two
+earthbend cards: the one that costs no spell slot and the one that wins the game.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
