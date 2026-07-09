@@ -99,48 +99,12 @@ Alongside the precon, Loam pile, DR pile and the collection, **Earthbend the Met
 - The Meathook Massacre x
 
 ### From the collection / pool (42 cards / 44 copies)
-- Abrade x
-- All Will Be One x
-- Arid Mesa x
-- Ashaya, Soul of the Wild x
-- Badgermole Cub x
-- Badlands x
 - Basking Broodscale
-- Bitter Triumph
-- Blood Crypt
-- Bloodstained Mire
-- Crucible of Worlds
-- Deflecting Swat x
-- Entish Restoration x
-- 2× Forest x
-- Gamble x
-- Icetill Explorer x
-- Jarad, Golgari Lich Lord x
-- Life from the Loam
-- Mountain x
 - Murderous Rider
-- Natural Order x
 - Ob Nixilis, the Fallen
 - Orcish Lumberjack
-- Overgrown Tomb
-- Ramunap Excavator
 - Sabotender
-- Scalding Tarn x
-- Scute Swarm x
-- Stomping Ground x
-- 2× Swamp x
-- Sylvan Safekeeper x
-- Taiga x
-- Urza's Saga x
-- Valakut Exploration
-- Veil of Summer
-- Verdant Catacombs x
-- Victimize x
-- Windswept Heath x
 - Woe Strider
-- Wooded Foothills x
-- Woodland Cemetery x
-- Zuran Orb x
 
 ## Teardown pulls — what leaves each dismantled deck
 
