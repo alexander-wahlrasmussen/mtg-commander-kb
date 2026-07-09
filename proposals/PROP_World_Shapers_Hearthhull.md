@@ -872,6 +872,23 @@ count, and the superior slot use remains answers (Lever 2).
 
 `Clock: T9–10 decap / T11 table — unchanged by land-drop permits (ws_clock_lab 40k 2026-07-09)`
 
+**Same-day sourcing correction → `world-shapers-tuned-20260709.txt` (the new build
+target).** The CSV's loose Tainted Wood was a miscount — the only physical copy is
+sleeved in Zero-Sum Game. User holds loose spares of Blood Crypt / Overgrown Tomb /
+Bloodstained Mire (verified not Earthbend copies), so a 3-for-3 land-quality swap
+replaces the probe question "more lands?" with the measured-better lever "better
+lands": **out** Tainted Wood (unavailable; Swamp-conditional colours anyway),
+Viridescent Bog (the list's worst land — {1},{T} filter, produces nothing alone),
+Raging Ravine (ETB tapped; its manland/station-fodder body is the one real loss);
+**in** Overgrown Tomb, Blood Crypt, Bloodstained Mire. Both shocks are typed
+(Swamp Forest / Swamp Mountain → Nature's Lore, Skyshroud Claim, Farseek and Mire
+itself can fetch them), Mire is a modelled fetch (2 landfall + sac + thinning +
+Crucible/Loam fuel). Measured (40k / 20k, same seeds): decap +1pp T8, table +1pp
+T10, flow unchanged — flat-to-positive, as expected for tempo/fixing the
+colour-blind, tapped-blind goldfish can't price; the swap is carried on sourcing
+necessity + deckbuilding correctness (the Lever-3 direction). `deck_doctor` clean:
+100 cards, GC 3/3, {BGR} CI, banlist OK. Lands stay 38, basics stay 5.
+
 ## Recommendation
 
 Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is real
@@ -882,6 +899,6 @@ Buy the precon if a Jund lands deck is wanted *as a deck*: the free upgrade is r
 **not** buy it expecting the free pool to make it race Genome/Radiation/Replication
 or the pod's T6–7 combo seat — it measurably cannot. If it is bought, next steps:
 pod ruling on Planetary Annihilation (kept in the box pile only), physical build from
-**`world-shapers-tuned-20260704.txt`** (the measured-Tier-C Levers-2+3 build; supersedes
-the upgraded and base-merged lists as the build target), first-games audit, then the
-buy-path lab.
+**`world-shapers-tuned-20260709.txt`** (the measured-Tier-C Levers-2+3 build with the
+2026-07-09 Tainted Wood sourcing correction; supersedes the 20260704 tuned, upgraded
+and base-merged lists as the build target), first-games audit, then the buy-path lab.
