@@ -274,7 +274,8 @@ LIGHTNING_WAR = {   # reconciled 2026-06-28; repointed to -20260706 (2026-07-06 
     },
 }
 
-CROAK = {   # Croak and Dagger (croak-and-dagger-20260623-215731) — the Calamity Tax rebuild
+CROAK = {   # Croak and Dagger (croak-and-dagger-20260701) — the Glarb Inevitable rebuild
+    # 2026-07-09: Submerge + V.A.T.S. removed — cut in the 07-01 rebuild (−13 batch)
     "answers": {
         "Pact of Negation":         ({"C"}, 0, {"ios", "inst"}),
         "Force of Negation":        ({"C"}, 0, {"ios", "inst"}),
@@ -284,8 +285,6 @@ CROAK = {   # Croak and Dagger (croak-and-dagger-20260623-215731) — the Calami
         "Venser, Shaper Savant":    ({"C", "R", "P"}, 4, {"crea"}),  # flash; bounce spell OR permanent
         "Deadly Rollick":           ({"R", "P"}, 0, {"ios", "inst"}),
         "Beast Within":             ({"R", "P"}, 3, {"ios", "inst"}),
-        "Submerge":                 ({"R", "P"}, 5, {"ios", "inst"}),  # free mode (their Forest) not credited
-        "V.A.T.S.":                 ({"R", "P"}, 4, {"ios", "inst"}),
         "Toxic Deluge":             ({"P"}, 3, {"ios"}),
         "Culling Ritual":           ({"P"}, 4, {"ios"}),           # sweeps MV<=2 setups
         "Massacre Wurm":            ({"P"}, 6, {"crea"}),
@@ -452,18 +451,18 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260707.txt", RADIATION),
-    "replication_crisis": ("the-replication-crisis-20260622.txt", REPLICATION),
+    "replication_crisis": ("the-replication-crisis-20260630.txt", REPLICATION),
     "lorehold_spirits": ("lorehold-spirit-20260503-154449.txt", LOREHOLD),
     "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
     "exiles_return": ("the-exiles-return-20260417-194010.txt", EXILES),
     "zero_sum_game": ("zero-sum-game-20260707.txt", ZEROSUM),
     "curse_of_the_scarab": ("curse-of-the-scarab-20260510-215526.txt", CURSE),
-    "bumbleflower": ("this-bunny-goes-to-market-20260404-080311.txt", BUMBLE),
+    "bumbleflower": ("this-bunny-goes-to-market-20260703.txt", BUMBLE),
     "eldrazi_stampede": ("eldrazi-stampede-chaos-20260306-133311.txt", ELDRAZI),
-    "dark_lords_army": ("the-dark-lords-army-20260417-211206.txt", DARKLORD),
+    "dark_lords_army": ("the-dark-lords-army-20260630.txt", DARKLORD),
     "crystal_sickness": ("crystal-sickness-20260322-152311.txt", CRYSTAL),
     "lightning_war": ("lightning-war-20260706.txt", LIGHTNING_WAR),
-    "croak_and_dagger": ("croak-and-dagger-20260623-215731.txt", CROAK),
+    "croak_and_dagger": ("croak-and-dagger-20260701.txt", CROAK),
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260707.txt", FORCED_LIQUIDATION),
 }
@@ -640,7 +639,7 @@ def main():
                              if n not in PORT_REMOVES} | PORT_ADDS,
                  "tutors": KEFKA_BURN["tutors"]}
     lw = L(dks / "lightning-war-20260706.txt")
-    croak = L(dks / "croak-and-dagger-20260623-215731.txt")
+    croak = L(dks / "croak-and-dagger-20260701.txt")
     gd = L(dks / "the-grand-design-20260623.txt")
 
     raw_configs = [

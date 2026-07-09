@@ -147,7 +147,7 @@ DECKS = {
     "exiles_return":      "decks/the-exiles-return-20260417-194010.txt",
     "zero_sum_game":      "decks/zero-sum-game-20260707.txt",
     "curse_of_the_scarab": "decks/curse-of-the-scarab-20260510-215526.txt",
-    "bumbleflower":       "decks/this-bunny-goes-to-market-20260404-080311.txt",
+    "bumbleflower":       "decks/this-bunny-goes-to-market-20260703.txt",
     "eldrazi_stampede":   "decks/eldrazi-stampede-chaos-20260306-133311.txt",
     "dark_lords_army":    "decks/the-dark-lords-army-20260630.txt",
     "lightning_war":      "decks/lightning-war-20260706.txt",
