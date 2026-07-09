@@ -300,7 +300,7 @@ flowchart TD
 
 ## Ms. Bumbleflower — Ms. Bumbleflower
 
-A slow, combat-only kill: the Jolrael full-hand alpha (decap T8), Willbreaker theft, and evasive counter-beats — no infinite, no drain.
+Plural quiet exits (2026-07-03 package): the Intruder Alarm loop (table on assembly), a Reprieve-shortcut Approach of the Second Sun (table T9–10), the Jolrael full-hand alpha (decap T8), and Willbreaker theft — close-mixture 60% combat / 32% Approach / 8% Alarm.
 
 ```mermaid
 flowchart TD
@@ -314,13 +314,19 @@ flowchart TD
     classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
 
     S(["Ms. Bumbleflower online (~T3–4)<br/>each spell you cast: an opp draws, +1/+1 counter (+flying) on a creature;<br/>the 2nd cast each turn → you draw two"]):::root
-    S --> A1{"Jolrael, Mwonvuli Recluse + a full hand + a board<br/>(Cats / payoff creatures / stolen bodies)"}:::ask
-    A1 -- assembled --> K1["<b>Jolrael's 4GG pump sets your team to X/X (X = cards in hand) → 8–12-power alpha</b><br/>⏱ decap T8"]:::combat
-    A1 --> A2{"Willbreaker + aim Bumbleflower's counter at an opp's creature each cast"}:::ask
-    A2 -- assembled --> K2["<b>steal a creature every spell (it flies in that turn) → swing with their own board</b><br/>⏱ decap (grindy)"]:::combat
-    A2 --> A3{"pile +1/+1 counters & flying on one carrier each cast<br/>(optionally vacuum them into Sin, Unending Cataclysm) (fallback)"}:::ask
-    A3 -- assembled --> K3["<b>a single evasive counter-grown threat flies over</b><br/>⏱ decap T8+ (slowest)"]:::combat
-    A3 -- not yet --> STALL["out-value the table — chain cantrips for the 2nd-cast draw-two, deploy draw payoffs,<br/>hold up the deep counter/removal suite; the kill is slow & combat-only, so close from dominance"]:::stall
+    S --> A1{"Intruder Alarm + Shrieking Drake / Whitemane Lion + any repeatable dork<br/>+ the commander"}:::ask
+    A1 -- assembled --> K1["<b>each self-bounce recast = a Bumbleflower trigger (mana-neutral) → "target opponent<br/>draws" iterated: the table draws out on the spot (Lion = instant speed)</b><br/>⏱ table on assembly (8% of closes)"]:::combo
+    A1 --> A2{"Approach of the Second Sun — 2nd cast from HAND = win<br/>(Reprieve bounces your own 1st cast back to hand: win checks CAST, not resolved)"}:::ask
+    A2 -- assembled --> K2["<b>cast #1 at 7 mana → redraw it (7th from top; the engine draws 2–4/turn)<br/>or Reprieve-split (9 mana, then 7) — protected by the counter suite</b><br/>⏱ table T9–10 (32% of closes)"]:::combo
+    A2 --> A3{"Jolrael, Mwonvuli Recluse + a full hand + a board<br/>(Cats / payoff creatures / stolen bodies)"}:::ask
+    A3 -- assembled --> K3["<b>Jolrael's 4GG pump sets your team to X/X (X = cards in hand) → 8–12-power alpha</b><br/>⏱ decap T8"]:::combat
+    A3 --> A4{"Willbreaker + aim Bumbleflower's counter at an opp's creature each cast"}:::ask
+    A4 -- assembled --> K4["<b>steal a creature every spell (it flies in that turn) → swing with their own board</b><br/>⏱ decap (grindy)"]:::combat
+    A4 --> A5{"Wizard Class lvl 3 + Fathom Mage"}:::ask
+    A5 -- assembled --> K5["<b>every draw → counter on Fathom → may draw → draw the library at will<br/>(find an exit; Jolrael X = huge)</b><br/>⏱ enabler"]:::enabler
+    A5 --> A6{"pile +1/+1 counters & flying on one carrier each cast (fallback)"}:::ask
+    A6 -- assembled --> K6["<b>a single evasive counter-grown threat flies over</b><br/>⏱ decap T8+ (slowest)"]:::combat
+    A6 -- not yet --> STALL["out-value the table — chain cantrips for the 2nd-cast draw-two, deploy draw payoffs,<br/>hold up the deep counter/removal suite; close from dominance via whichever quiet exit assembles<br/>(mixture 60% combat / 32% Approach / 8% Alarm — lab 2026-07-03)"]:::stall
 ```
 
 ## Eldrazi Stampede Chaos — Maelstrom Wanderer
@@ -468,7 +474,7 @@ flowchart TD
 
 ## Croak and Dagger — Glarb, Calamity's Augur
 
-Glarb grind-fortress: Torment of Hailfire X=12+ (table T10) and a kicked Rite of Replication copy kill, backed by the Seedborn value engine.
+The inevitable topdeck combo (promoted 2026-07-01): Sensei's Top loop + a top-caster into Aetherflux Reservoir — a counter-immune table kill (T9), with Torment of Hailfire as the grind backup.
 
 ```mermaid
 flowchart TD
@@ -481,18 +487,18 @@ flowchart TD
     classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
     classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
 
-    S(["Glarb online (cast MV4+ spells & play lands off the top, tap to surveil 2)<br/>+ a massive land count; Seedborn Muse untaps him + lands on EVERY opponent's turn"]):::root
-    S --> A1{"Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>just the spell + a big Coffers tap"}:::ask
-    A1 -- assembled --> K1["<b>each opponent: 12× lose-3 / sac / discard → lethal table drain (board-independent)</b><br/>⏱ table T10"]:::table
-    A1 --> A2{"kicked Rite of Replication (9 mana) on a drainer<br/>— Gray Merchant (~60/opp) or Kokusho (25/opp)"}:::ask
-    A2 -- assembled --> K2["<b>5 token copies' ETBs / legend-rule deaths drain the whole table at once</b><br/>⏱ table T10"]:::combo
-    A2 --> A3{"Glarb surveil bins Gray Merchant → Reanimate (1 mana) returns him<br/>→ kicked Rite (9)"}:::ask
-    A3 -- assembled --> K3["<b>feeds the Rite copy kill from the graveyard (~10 mana, 2 cards)</b><br/>⏱ enabler → table T10"]:::enabler
-    A3 --> A4{"Seedborn engine — Glarb untapped every opponent's turn<br/>+ flash enabler → Archon of Cruelty / Massacre Wurm value"}:::ask
-    A4 -- assembled --> K4["<b>grind the table out through accumulated drain / removal (no single combo)</b><br/>⏱ table (grind)"]:::table
-    A4 --> A5{"drainers + creatures attack (Archon attack trigger)<br/>(fallback)"}:::ask
-    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap T10"]:::combat
-    A5 -- not yet --> STALL["ramp toward 10+ lands + Coffers/Urborg and surveil for Torment —<br/>can't out-race the T6–7 pod, so grind + hold the counter suite; don't announce the kill"]:::stall
+    S(["Glarb + Sensei's Divining Top online ({T}: draw a card, put Top back on top)<br/>a no-MV-restriction top-caster lets you RECAST Top off the library each loop → chain the deck"]):::root
+    S --> A1{"Sensei's Top + a top-caster (Bolas's Citadel / One with the Multiverse /<br/>Fortune Teller's L2 / Reality Chip) + Aetherflux Reservoir"}:::ask
+    A1 -- assembled --> K1["<b>loop Top casts → bank 50+ life → Pay 50: deal 50 to each opponent (a counter-immune ability)</b><br/>⏱ table T9"]:::combo
+    A1 --> A2{"same loop, Ancient Cellarspawn as the payoff<br/>(drain on each under-costed cast)"}:::ask
+    A2 -- assembled --> K2["<b>every free / discounted Top recast drains an opponent → table (redundant 2nd payoff)</b><br/>⏱ table T9"]:::combo
+    A2 --> A3{"topdeck tutors (Insidious Dreams / Emergent Ultimatum / Scheming Symmetry)<br/>stack the missing category on top for Glarb / Citadel"}:::ask
+    A3 -- assembled --> K3["<b>assemble the 3-category loop a turn or two sooner (GSZ / Chord / Finale fetch the creature pieces)</b><br/>⏱ enabler → table T9"]:::enabler
+    A3 --> A4{"Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>— the board-independent grind backup when the combo bricks (~10%)"}:::ask
+    A4 -- assembled --> K4["<b>each opponent: 12× lose-3 / sac / discard → lethal table drain</b><br/>⏱ table (backup)"]:::table
+    A4 --> A5{"Archon of Cruelty / Massacre Wurm value + Glarb beats<br/>(fallback)"}:::ask
+    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap (grind)"]:::combat
+    A5 -- not yet --> STALL["dig with Glarb surveil 2 + Top + Sylvan toward Top + any enabler + any payoff;<br/>combo on YOUR turn behind the counter suite + Tidal Barracuda (opponents can't cast on your turn)"]:::stall
 ```
 
 ## Forced Liquidation — Kefka, Court Mage

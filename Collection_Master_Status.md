@@ -13,6 +13,13 @@ Source: `collection/moxfield_haves_2026-07-06-1850Z.csv` — DeckSafe run agains
 > the only gap is **Croak and Dagger (92%)** — the 8 "Glarb Inevitable" combo buys still predate this CSV — plus four
 > shared cards owed a 2nd copy (Aetherflux Reservoir, Triumph of the Hordes, Willowrush Verge, Imperial Recruiter).
 
+> **2026-07-03 DeckSafe re-run (xlsx only):** rebuilt `collection/deck_safe_collection.xlsx`
+> against the 2026-06-25 CSV after the Bumbleflower **quiet-exits swap**
+> (`this-bunny-goes-to-market-20260703.txt`: −Misleading Signpost −Sin −Rewind → +Intruder Alarm
+> +Approach of the Second Sun +Wizard Class). New unowned demand: **Intruder Alarm** (≈ €2.84) +
+> **Approach of the Second Sun** (≈ €2.79) — 2-card buy ≈ €6 *(indicative, Scryfall 2026-07-03)*;
+> Wizard Class owned. The prose tables below are otherwise unchanged from the last full pass.
+
 ---
 
 ## Collection snapshot
@@ -73,7 +80,7 @@ These appear in `Deck_Index.md` but have no `.txt` in `decks/`. Not tracked by D
 
 ## Shopping list
 
-The 12 cards short across the full demand pool (2026-07-08 run). The bulk is Croak and Dagger's combo package; the rest are 2nd copies of cards shared between two decks (zero-surplus — you own one, two decks want it).
+The 14 cards short across the full demand pool (2026-07-08 run + the quiet-exits buys restored 2026-07-09 — the 07-08 run predated the stranded `this-bunny-goes-to-market-20260703.txt` landing). The bulk is Croak and Dagger's combo package; the rest are 2nd copies of cards shared between two decks (zero-surplus — you own one, two decks want it).
 
 | Card                    | Need | Have | Decks                                          |
 | ----------------------- | ---- | ---- | ---------------------------------------------- |
@@ -85,6 +92,8 @@ The 12 cards short across the full demand pool (2026-07-08 run). The bulk is Cro
 | Scheming Symmetry       | 1    | 0    | Croak and Dagger                               |
 | The Reality Chip        | 1    | 0    | Croak and Dagger                               |
 | Tidal Barracuda         | 1    | 0    | Croak and Dagger                               |
+| Intruder Alarm          | 1    | 0    | This Bunny Goes To Market (quiet-exits 07-03)  |
+| Approach of the Second Sun | 1 | 0    | This Bunny Goes To Market (quiet-exits 07-03)  |
 | Aetherflux Reservoir    | 2    | 1    | Croak and Dagger, The Genome Project           |
 | Triumph of the Hordes   | 2    | 1    | Earthbend the Meta, Radiation Sickness         |
 | Willowrush Verge        | 2    | 1    | Eldrazi Stampede Chaos, Radiation Sickness     |

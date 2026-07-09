@@ -8,15 +8,15 @@ flowchart TD
     classDef bg fill:#cbe8b8,color:#1d2021,stroke:#689d6e,stroke-width:1.5px,stroke-dasharray:5 4;
     classDef stall fill:#d5c4a1,color:#3c3836,stroke:#928374,stroke-width:1.5px;
 
-    S(["Glarb online (cast MV4+ spells & play lands off the top, tap to surveil 2)<br/>+ a massive land count; Seedborn Muse untaps him + lands on EVERY opponent's turn"]):::root
-    S --> A1{"Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>just the spell + a big Coffers tap"}:::ask
-    A1 -- assembled --> K1["<b>each opponent: 12× lose-3 / sac / discard → lethal table drain (board-independent)</b><br/>⏱ table T10"]:::table
-    A1 --> A2{"kicked Rite of Replication (9 mana) on a drainer<br/>— Gray Merchant (~60/opp) or Kokusho (25/opp)"}:::ask
-    A2 -- assembled --> K2["<b>5 token copies' ETBs / legend-rule deaths drain the whole table at once</b><br/>⏱ table T10"]:::combo
-    A2 --> A3{"Glarb surveil bins Gray Merchant → Reanimate (1 mana) returns him<br/>→ kicked Rite (9)"}:::ask
-    A3 -- assembled --> K3["<b>feeds the Rite copy kill from the graveyard (~10 mana, 2 cards)</b><br/>⏱ enabler → table T10"]:::enabler
-    A3 --> A4{"Seedborn engine — Glarb untapped every opponent's turn<br/>+ flash enabler → Archon of Cruelty / Massacre Wurm value"}:::ask
-    A4 -- assembled --> K4["<b>grind the table out through accumulated drain / removal (no single combo)</b><br/>⏱ table (grind)"]:::table
-    A4 --> A5{"drainers + creatures attack (Archon attack trigger)<br/>(fallback)"}:::ask
-    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap T10"]:::combat
-    A5 -- not yet --> STALL["ramp toward 10+ lands + Coffers/Urborg and surveil for Torment —<br/>can't out-race the T6–7 pod, so grind + hold the counter suite; don't announce the kill"]:::stall
+    S(["Glarb + Sensei's Divining Top online ({T}: draw a card, put Top back on top)<br/>a no-MV-restriction top-caster lets you RECAST Top off the library each loop → chain the deck"]):::root
+    S --> A1{"Sensei's Top + a top-caster (Bolas's Citadel / One with the Multiverse /<br/>Fortune Teller's L2 / Reality Chip) + Aetherflux Reservoir"}:::ask
+    A1 -- assembled --> K1["<b>loop Top casts → bank 50+ life → Pay 50: deal 50 to each opponent (a counter-immune ability)</b><br/>⏱ table T9"]:::combo
+    A1 --> A2{"same loop, Ancient Cellarspawn as the payoff<br/>(drain on each under-costed cast)"}:::ask
+    A2 -- assembled --> K2["<b>every free / discounted Top recast drains an opponent → table (redundant 2nd payoff)</b><br/>⏱ table T9"]:::combo
+    A2 --> A3{"topdeck tutors (Insidious Dreams / Emergent Ultimatum / Scheming Symmetry)<br/>stack the missing category on top for Glarb / Citadel"}:::ask
+    A3 -- assembled --> K3["<b>assemble the 3-category loop a turn or two sooner (GSZ / Chord / Finale fetch the creature pieces)</b><br/>⏱ enabler → table T9"]:::enabler
+    A3 --> A4{"Torment of Hailfire X=12+ (~14 mana via Cabal Coffers + Urborg)<br/>— the board-independent grind backup when the combo bricks (~10%)"}:::ask
+    A4 -- assembled --> K4["<b>each opponent: 12× lose-3 / sac / discard → lethal table drain</b><br/>⏱ table (backup)"]:::table
+    A4 --> A5{"Archon of Cruelty / Massacre Wurm value + Glarb beats<br/>(fallback)"}:::ask
+    A5 -- assembled --> K5["<b>focus one opponent</b><br/>⏱ decap (grind)"]:::combat
+    A5 -- not yet --> STALL["dig with Glarb surveil 2 + Top + Sylvan toward Top + any enabler + any payoff;<br/>combo on YOUR turn behind the counter suite + Tidal Barracuda (opponents can't cast on your turn)"]:::stall

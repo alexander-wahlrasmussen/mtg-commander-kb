@@ -10,6 +10,13 @@ its harvested clock and **lifts Lightning War from D to S (#2 overall)**. The mo
 had LW in D on a **race-only** clock that the combo's table kill was invisible to; #11 fixed the
 **instrument**, not the deck — see "the one finding" below for why that matters.*
 
+> **Refreshed 2026-07-03 (Bumbleflower quiet-exits package).** One deck move from a committed
+> change: **Ms. Bumbleflower C→B** (COMP 36→41) — the 2026-07-03 close package (+Approach /
+> +Intruder Alarm / +Wizard Class, `analysis/Ms_Bumbleflower_FeelsGreat_Rebuild_2026-07-03.md`)
+> doubles its table front edge (T10 17→35%), which lifts the mirror axes; anti-pod is ~flat
+> (decap-raced). Radiation COMP 67→66 is renormalisation noise (tier holds). Baked dashboard
+> tierlist matches live.
+>
 > **Refreshed 2026-07-02 (Backlog #13 Phase 3).** Table re-run to live `tier_list.py`. Two deck
 > moves since the 2026-06-29 cut, both from committed changes (not sim fixes): **Croak and Dagger
 > D→A** — promoted 2026-07-01 to the inevitable Sensei's-Top→Aetherflux topdeck COMBO (decap=table

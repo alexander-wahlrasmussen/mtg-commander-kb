@@ -429,6 +429,7 @@
     "cmdr": "ms. bumbleflower",
     "cmdr_cmc": 4.0,
     "key_cards": [
+      "approach of the second sun",
       "jolrael, mwonvuli recluse"
     ],
     "key_extra": [],
@@ -441,7 +442,6 @@
       "farseek",
       "hardbristle bandit",
       "incubation druid",
-      "misleading signpost",
       "nature's lore",
       "paradise chocobo",
       "smuggler's share",
@@ -466,7 +466,8 @@
       "opt",
       "reprieve",
       "smuggler's share",
-      "tataru taru"
+      "tataru taru",
+      "wizard class"
     ],
     "n_selection_needed": 2,
     "mixed": null,
