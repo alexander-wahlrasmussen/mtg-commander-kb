@@ -251,7 +251,7 @@ Marginal near-misses (NOT recommended — redundant with existing axes): Academy
 ## Provenance & Files
 
 - Decklist: `decks/zero-sum-game-20260707.txt` (100 cards: 99 + commander; rev 2026-07-07 −Nurturing Peatland +Swamp; priors `zero-sum-game-20260619.txt` and `zero-sum-game-20260611.txt` archived to `archive/old_decklists/`)
-- Proposal: `proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07)
+- Proposal: `archive/proposals/PROP_Witherbloom_the_Balancer.md` (2026-06-01, consistency scale-up 2026-06-07; archived 2026-07-10 — deck built & assembled)
 - Build readiness / donor analysis: `archive/proposals/Witherbloom_Build_Readiness_2026-06-11.md` (archived 2026-06-13 — deck is built)
 - Source list: `archive/old_decklists/witherbloom-balancer-v2b-20260607.txt` minus Bayou / Cabal Coffers / Urborg (locked in protected decks, not strategy-critical) plus 2 Swamp 1 Forest
 - Clock labs: `scripts/wb_clock_lab.py` (loop clock / gcswap / avail) + `scripts/wb_storm_lab.py` (Line-B affinity-infinite clock, 2026-06-19)
