@@ -76,6 +76,7 @@ DECK_UP = ROOT / "decks" / "considering" / "world-shapers-upgraded-20260704.txt"
 DECK_ST = ROOT / "decks" / "considering" / "world-shapers-precon-20260704.txt"
 DECK_EX = ROOT / "decks" / "considering" / "world-shapers-external-20260704.txt"
 DECK_MG = ROOT / "decks" / "considering" / "world-shapers-merged-20260704.txt"
+DECK_TUNED = ROOT / "decks" / "considering" / "world-shapers-tuned-20260709.txt"
 SEED = 20260704
 TURNS = 16
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14, 16]
@@ -124,13 +125,22 @@ CAST_OTHER = {  # noncreature engine permanents worth deploying
 
 
 class Trial:
-    def __init__(self, library, rng, powers, no_combat=False, free_drain=False):
+    def __init__(self, library, rng, powers, no_combat=False, free_drain=False,
+                 braids_deny=False):
         self.g = slc.Goldfish(library, rng, rocks=ROCKS)
         self.rng = rng
         self.tbl = slc.Table()
         self.powers = powers
         self.no_combat = no_combat
         self.free_drain = free_drain  # COUNTERFACTUAL: drain live from cast
+        # Braids, Arisen Nightmare (slot test). deny = opponents always sac a land to
+        # answer the trigger (its FLOOR: pure land-sac outlet); False = they never do
+        # (its CEILING: 2 drain + a card per opponent). Counters track uptime.
+        self.braids_deny = braids_deny
+        self.braids_sacs = 0
+        self.braids_drains = 0
+        self.braids_draws = 0
+        self._braids_done_T = 0
         self.station8_turn = None
         self.drain_events = 0
         self.board = []            # [name, power, ready]
@@ -368,6 +378,28 @@ class Trial:
         self.g.lands += n
         self.landfall(n)
 
+    # -- Braids, Arisen Nightmare end step (slot test) ---------------------------------
+    def braids_end_step(self):
+        """Once per end step: sacrifice a land (keep a base of >=2 so we still function),
+        firing every land-sac payoff via self.sacrifice(); then, unless opponents answer
+        by saccing a land themselves (braids_deny), drain 2 and draw a card per opponent."""
+        if self._braids_done_T == self.T or self.tbl.done:
+            return
+        if not self.bd("Braids, Arisen Nightmare") or self.g.lands < 3:
+            return
+        self._braids_done_T = self.T
+        self.g.lands -= 1
+        self.land_to_yard()
+        self.braids_sacs += 1
+        self.sacrifice(is_land=True)            # Mayhem Devil / Titania / stationed drain / combo
+        if self.tbl.done or self.braids_deny:
+            return
+        self.tbl.hit_all(2, self.T)             # 3 opponents each lose 2 ...
+        self.g.draw(3)                          # ... and you draw a card for each
+        self.braids_drains += 1
+        self.braids_draws += 3
+        self.tag("Braids punisher drain")
+
     # -- one turn -------------------------------------------------------------------
     def turn(self, T):
         self.T = T
@@ -473,7 +505,7 @@ class Trial:
                        "Tannuk, Memorial Ensign", "Sabotender", "Iridescent Vinelasher",
                        "Scute Swarm", "Traveling Chocobo", "The Earth King",
                        "Evolution Sage", "Orcish Lumberjack", "Bristly Bill, Spine Sower",
-                       "Azusa, Lost but Seeking"):
+                       "Braids, Arisen Nightmare", "Azusa, Lost but Seeking"):
                 if not self.bd(nm) and g.has(nm):
                     rec = g.hand[g.in_hand(nm)][1]
                     if g.avail >= rec["cmc"] and self.cast_creature(nm, rec["cmc"]):
@@ -616,6 +648,7 @@ class Trial:
         if self.hearthhull and not self.charge8 and 8 <= ready < 25:
             self.charge8 = True
             self.station8_turn = self.T
+            self.braids_end_step()
             return
         if ready and not self.no_combat:
             if self.bd("Korvold, Fae-Cursed King"):
@@ -624,6 +657,7 @@ class Trial:
             for _ in range(combats):
                 self.tbl.hit_focus(ready, self.T)
             self.tag("combat")
+        self.braids_end_step()
 
 
 def _run(deck, index, aliases, trials, no_combat=False):
@@ -768,6 +802,66 @@ def mode_mergedlevers(index, aliases, trials, deck=None):
     print("  counters axis doesn't race either -> keep it a resilience/self-meta case.")
 
 
+def mode_braids(index, aliases, trials, deck=None):
+    """Does Braids, Arisen Nightmare earn a slot in the tuned build? (2026-07-10, user
+    question after physical assembly.) Braids' end step sacs a land — firing every
+    land-sac payoff already in the deck (Mayhem Devil, Titania, a stationed Hearthhull
+    drain, the Mazirek loop) — and, for each opponent who DOESN'T sac a land in
+    response, drains 2 and draws a card. A real pod CHOOSES, so bracket it:
+      CEILING  opponents never sac -> +2 to each + draw 3 per end step (printed max)
+      FLOOR    opponents always sac -> Braids is a once-per-turn land-sac OUTLET only
+    Swapped for a flex 3-drop two ways (Cultivate = ramp; Night's Whisper = draw) so the
+    delta isn't an artifact of the specific cut. Watch the DECAP/TABLE front edge and the
+    drain-share vs the no-Braids baseline."""
+    base_deck = deck or DECK_TUNED
+    base, cmdr = slc.load_parsed(base_deck, index, aliases)
+    lib_c = slc.build_lib(base, index, ["Cultivate"], ["Braids, Arisen Nightmare"])
+    lib_w = slc.build_lib(base, index, ["Night's Whisper"], ["Braids, Arisen Nightmare"])
+    powers = slc.load_powers(sorted({nm for nm, r in base + lib_c
+                                     if "Creature" in r.get("type_line", "")}))
+    print("=" * 72)
+    print(f"BRAIDS SLOT TEST — tuned build   trials={trials} seed={SEED}")
+    print(f"  base [{base_deck.name}]  commander {cmdr}")
+    print("=" * 72)
+    print("  P(kill <= T) %".ljust(46) + "".join(f"{t:6d}" for t in SHOW))
+    configs = [
+        ("baseline (no Braids)", base, False),
+        ("-Cultivate +Braids  [CEILING opps never sac]", lib_c, False),
+        ("-Cultivate +Braids  [FLOOR opps always sac]", lib_c, True),
+        ("-Night's Whisper +Braids  [CEILING]", lib_w, False),
+        ("-Night's Whisper +Braids  [FLOOR]", lib_w, True),
+    ]
+    for label, lib, deny in configs:
+        rng = random.Random(SEED)
+        res, mix, bsac, bdw = [], {}, 0, 0
+        for _ in range(trials):
+            tr = Trial(lib, rng, powers, braids_deny=deny)
+            for T in range(1, TURNS + 1):
+                tr.turn(T)
+                if tr.tbl.done:
+                    break
+            res.append((tr.tbl.decap, tr.tbl.table))
+            src = tr.kill_src or ("combat" if tr.tbl.decap else "none in horizon")
+            mix[src] = mix.get(src, 0) + 1
+            bsac += tr.braids_sacs
+            bdw += tr.braids_draws
+        ann = ""
+        if "Braids" in label:
+            ann = f"   braids {bsac / trials:.1f} sacs/game"
+            if not deny:
+                ann += f", {bdw / trials:.1f} cards"
+        print(slc.row(label + " — decap", slc.cum(res, 0, SHOW), SHOW, width=44)
+              + f"  med {slc.median(res, 0)}")
+        print(slc.row("    ... table", slc.cum(res, 1, SHOW), SHOW, width=44)
+              + f"  med {slc.median(res, 1)}" + ann)
+        top = ", ".join(f"{k} {100.0 * v / trials:.0f}%"
+                        for k, v in sorted(mix.items(), key=lambda x: -x[1])[:4])
+        print("      mix: " + top)
+    print("\n  Read: compare the DECAP/TABLE front edge (T8-10). Flat vs baseline at the")
+    print("  FLOOR = Braids only helps as much as the pod lets it; any real drain-share")
+    print("  ('Braids punisher drain' in the mix) appears only in the CEILING arm.")
+
+
 def mode_levers(index, aliases, trials, deck=None):
     """Decomposition: which slice of the 19 swaps buys the speed?"""
     print("=" * 72)
@@ -805,4 +899,4 @@ if __name__ == "__main__":
     slc.run_cli(__doc__, {"clock": mode_clock, "external": mode_external,
                           "comboclock": mode_comboclock, "stock": mode_stock,
                           "levers": mode_levers, "drain": mode_drain,
-                          "mergedlevers": mode_mergedlevers})
+                          "mergedlevers": mode_mergedlevers, "braids": mode_braids})
