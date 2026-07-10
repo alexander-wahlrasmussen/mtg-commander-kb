@@ -86,7 +86,7 @@ ROOT = Path(__file__).parent.parent
 _spec = importlib.util.spec_from_file_location("deck_sim", Path(__file__).parent / "deck_sim.py")
 ds = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ds)
 
-DECK = ROOT / "decks" / "the-exiles-return-20260417-194010.txt"
+DECK = ROOT / "decks" / "the-exiles-return-20260710.txt"
 SEED = 12345
 TURNS = 12
 SHOW = [4, 5, 6, 7, 8, 10, 12]

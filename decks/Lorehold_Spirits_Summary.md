@@ -12,9 +12,9 @@
 | **Bracket**          | 3 (3 Game Changers used; 3-card combo line under house-rules exception; no MLD; no extra turns)            |
 | **Game Changers**    | Gamble, Smothering Tithe, Teferi's Protection — verified against `REF_Game_Changers_List.md` on 2026-05-03 |
 | **Conversion Check** | **18/20** (5/5/4/4) — Goblin Bombardment acquired 2026-05-30, combo line live                              |
-| **Kill Window**      | **Clock: T8 decap** (median; T7 ≈ 46%) **/ T10 table** (lab 2026-06-13, `lor_clock_lab.py`) · Through interaction: slower *(unverified — goldfish only; no graveyard-hate/Cyclonic Rift model)*. The old "T7–9" was the decap window; table is ~2 turns later. See `analysis/Lorehold_Spirits_Clock_Lab_2026-06-13.md`. |
-| **Ramp** | 13 sources (2 burst / 10 repeatable) · 49 mana sources, 37 land · in band (`ramp_audit.py` 2026-06-21) |
-| **Decklist file**    | `decks/lorehold-spirit-20260503-154449.txt`                                                                |
+| **Kill Window**      | **Clock: T8 decap** (median; T7 ≈ 44%) **/ T10 table** (lab 2026-06-13, `lor_clock_lab.py`; **re-run 2026-07-10 on the -20260710 list @40k — clock-neutral**) · Through interaction: slower *(unverified — goldfish only; no graveyard-hate/Cyclonic Rift model)*. The old "T7–9" was the decap window; table is ~2 turns later. See `analysis/Lorehold_Spirits_Clock_Lab_2026-06-13.md`. |
+| **Ramp** | 11 sources (2 burst) · 47 mana sources, 37 land · in band, no flags (`ramp_audit.py` 2026-07-10; Bitterthorn + Relic Retriever cut in the teardown-swap pass) |
+| **Decklist file**    | `decks/lorehold-spirit-20260710.txt`                                                                |
 
 The 18/20 supersedes both the inherited 17/20 entry in `Deck_Index.md` (which was undocumented) and the audited pre-upgrade 12/20. The score is now grounded in a written assessment of the post-upgrade list.
 
@@ -199,14 +199,15 @@ Doesn't reach 5 because the deck still folds to graveyard hate (Rest in Peace, L
 
 ### Interaction: 4/5
 
-12 interaction pieces:
+14 interaction pieces (2026-07-10: +Cathar Commando, +Grand Abolisher from the teardown-swap pass):
 
 - **Targeted removal (5):** Path to Exile, Swords to Plowshares, Skyclave Apparition (ETB exile), Rip Apart (modal creature/artifact), Generous Gift (instant catch-all)
 - **Land hate (1):** White Orchid Phantom (basic land destruction)
-- **Enchantment removal (1):** Kami of Ancient Law
+- **Artifact/enchantment removal (2):** Kami of Ancient Law, Cathar Commando (flash; {1} + sac: destroy artifact or enchantment — the instant-speed answer to resolved graveyard hate)
 - **Graveyard hate (1):** Remorseful Cleric
 - **Board wipes (3):** Tragic Arrogance (asymmetric), Fateful Tempest, Wave of Reckoning (combat damage)
 - **Protection / save (1):** Teferi's Protection (GC, instant team phase-out)
+- **Proactive lock (1):** Grand Abolisher — opponents can't cast spells or activate artifact/creature/enchantment abilities during your turn; protects the −4 + Akroma's Will alpha turn and the Reveillark/GB combo turn from instant-speed answers
 
 Generous Gift and Teferi's Protection are the new-quality interaction pieces. Generous Gift answers any permanent at instant speed for {2}{W} — it's the closest thing to a counterspell this deck has. Teferi's Protection saves the team from a pod-killer turn.
 
@@ -274,8 +275,8 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 ## Known Weaknesses
 
-- **Graveyard hate.** Rest in Peace / Leyline of the Void / Grafdigger's Cage shut off the recursion shell. Two answers in the 99 (Kami of Ancient Law, Generous Gift) is below where this deck wants to be — consider tutoring with Gamble specifically when graveyard hate is on the table.
-- **Stack interaction is still zero.** Boros constraint. A counterspell on the kill turn can't be stopped. Mitigated by Akroma's Will protection + Teferi's Protection, both of which dodge interaction differently.
+- **Graveyard hate.** Rest in Peace / Leyline of the Void / Grafdigger's Cage shut off the recursion shell. Three answers in the 99 (Kami of Ancient Law, Generous Gift, Cathar Commando at flash speed — added 2026-07-10) — better, still worth a Gamble tutor when graveyard hate is on the table.
+- **Stack interaction is still zero.** Boros constraint. A counterspell on the kill turn can't be stopped *at instant speed* — but Grand Abolisher (added 2026-07-10) pre-empts the problem on your own turn: opponents can't cast spells during it, so a resolved Abolisher makes the alpha/combo turn counterspell-proof. Also mitigated by Akroma's Will protection + Teferi's Protection.
 - **Combo line is a single-enchantment dependency.** The Reveillark/Karmic Guide loop runs through Goblin Bombardment as its sac outlet. GB is now in the deck (acquired 2026-05-30), but it's an enchantment with no in-deck protection — enchantment removal or graveyard hate on the loop pieces takes the line offline. The five non-combo lines still close without it.
 - **Hofri / Reveillark interaction is awkward.** Hofri exiles dying creatures, which interferes with the Reveillark loop's need for the actual cards in graveyard. Real-table play will require sequencing — typically removing Hofri before assembling the combo, or using Hofri Spirit tokens as the sac fuel.
 - **Mana base is now adequate, not strong.** Sacred Foundry adds one true Boros dual, but the deck still has no fetchlands. Tapped lands punish the curve at T3–T5.
@@ -286,19 +287,21 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 - **Heliod's Intervention** or similar — Boros enchantment removal, if found. Closes the graveyard-hate gap.
 - **Replenish** — re-deploys multiple destroyed enchantments at once (Hardened Scales / Anointed Procession recovery).
-- **Cathars' Crusade** — every creature entering puts +1/+1 on all your creatures. Massive Spirit-token amplifier, would push Core Loop and Kill Reliability density further.
+- ~~**Cathars' Crusade**~~ — **ADDED 2026-07-10** (freed by the Earthbend the Meta dismantle). Every creature entering puts +1/+1 on all your creatures.
+- **Mother of Runes** — freed 2nd copy exists (Diminishing Returns teardown); targeted protection for Hofri. Bench — needs a cut to justify.
 
 -----
 
 ## Changelog
 
+- **2026-07-10 (teardown-swap pass, 4 swaps, $0):** Cards freed by the Earthbend the Meta + Diminishing Returns dismantles. **Adds:** Cathars' Crusade (named Future Upgrade Target — every Spirit ETB pumps the whole board; 3 copies owned, no cross-deck conflict), Cathar Commando (flash sac → destroy artifact/enchantment — 3rd answer to the #1 weakness, resolved graveyard-hate enchantments), Impact Tremors (2nd per-ETB damage payoff beside Purphoros), Grand Abolisher (spare copy, 4 owned — proactive lock protecting the −4 + Akroma's Will alpha turn and the Reveillark/GB combo turn; first answer to the zero-stack-interaction gap). **Cuts (dominant-text reasoning):** Kirol, History Buff (prepared payoff is a minor pump per yard-cycle), Bitterthorn (attack-triggered basic fetch — no engine interaction), Guardian Scalelord (5-mana 9th recursion piece, combat-gated), Relic Retriever (a Treasure per turn cycle on a 2/1). All adds verified non-GC (unanchored grep vs `REF_Game_Changers_List.md`) — GC stays 3/3. `deck_doctor` PASS (100 cards, identity, banlist, singleton). `ramp_audit` 2026-07-10: 11 ramp / 37 land / 47 sources, no flags. **Clock re-verified:** `lor_clock_lab.py` retargeted to `-20260710` and re-run @40k — decap T8 / table T10, clock-neutral (T7 decap 44% vs 46% prior, within noise; adds are payoff/protection-axis and largely unmodeled, so the number is a floor). CC held at 18/20 — Interaction gained real pieces (12 → 14) but re-grade after pod games. List `lorehold-spirit-20260710.txt`; old list archived.
 - **2026-05-30 (Goblin Bombardment acquired):** GB physically purchased — placeholder status removed. Combo line (Line 6) now live. Kill Reliability 4 → 5; total **17/20 → 18/20** (5/5/4/4). No decklist change — GB was already in the `.txt` and the deck remains at 100 cards.
 - **2026-05-03 (upgrade pass):** 12 swaps. **Adds:** Anointed Procession, Gamble (GC), Purphoros, Reveillark, Sacred Foundry, Smothering Tithe (GC), Akroma's Will, Boros Charm, Generous Gift, Mox Amber, Teferi's Protection (GC), Goblin Bombardment (placeholder pending purchase). **Cuts:** Currency Converter, Drumbellower, Millikin, Secret Rendezvous, Naktamun Lorespinner, Lorehold Charm, Primary Research, Ceaseless Conflict, Monologue Tax, Claim Jumper, Lorehold Archivist, 1 Plains. **Score:** 12/20 (3/3/3/3) → 17/20 (5/4/4/4), 18/20 once GB arrives. **GC slots:** 0/3 → 3/3.
 - **2026-05-03 (baseline audit):** Summary created. Pre-upgrade baseline: 12/20 (3/3/3/3). Supersedes the inherited 17/20 entry in `Deck_Index.md`.
 
 -----
 
-## Decklist (100 cards) — current state, file `lorehold-spirit-20260503-154449.txt`
+## Decklist (100 cards) — current state, file `lorehold-spirit-20260710.txt`
 
 ### Commander (1)
 
@@ -320,15 +323,17 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 1 Spirit of Resilience
 1 Anointed Procession
 
-### Token Payoffs (5)
+### Token Payoffs (7)
 
 1 Patchwork Banner
 1 Tocasia's Welcome
 1 Staff of the Storyteller
 1 Balefire Liege
 1 Purphoros, God of the Forge
+1 Impact Tremors
+1 Cathars' Crusade
 
-### Recursion Engines (8)
+### Recursion Engines (7)
 
 1 Sun Titan
 1 Karmic Guide
@@ -337,7 +342,6 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 1 Serra Paragon
 1 Teshar, Ancestor's Apostle
 1 Angel of Indemnity
-1 Relic Retriever
 
 ### Big ETB / Death Trigger Targets (5)
 
@@ -363,24 +367,23 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 
 1 Perpetual Timepiece
 
-### Lorehold / Quintorius Support (2)
+### Lorehold / Quintorius Support (1)
 
 1 Quintorius, Loremaster
-1 Kirol, History Buff
 
-### Counter / Equipment Synergy (3)
+### Counter / Equipment Synergy (2)
 
-1 Bitterthorn, Nissa's Animus
 1 Excava, the Risen Past
 1 Laelia, the Blade Reforged
 
-### Removal — Targeted (5)
+### Removal — Targeted (6)
 
 1 Path to Exile
 1 Swords to Plowshares
 1 Rip Apart
 1 Generous Gift
 1 Kami of Ancient Law
+1 Cathar Commando
 
 ### Graveyard Hate (1)
 
@@ -392,21 +395,21 @@ Both reanimator-adjacent, different resources (yard + tokens vs. artifact count 
 1 Fateful Tempest
 1 Wave of Reckoning
 
-### Protection / Combat Tricks (4)
+### Protection / Combat Tricks (5)
 
 1 Selfless Spirit
 1 Guardian of Faith
 1 Akroma's Will
 1 Boros Charm
+1 Grand Abolisher
 
 ### Card Advantage (1)
 
 1 Advanced Reconstruction
 
-### Yard Utility / Misc (2)
+### Yard Utility / Misc (1)
 
 1 Anger
-1 Guardian Scalelord
 
 ### Ramp / Rocks (6)
 
