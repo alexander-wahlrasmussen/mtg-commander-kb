@@ -57,9 +57,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # The known, intentional broken *path* links — dated-history references
-      # whose targets were removed on purpose (e.g. moxfield_haves_2026-06-07
-      # snapshot citations). Raise this only when you add/retire such history.
-      BROKEN_PATH_BASELINE: "2"
+      # whose targets were removed on purpose (dated analysis/proposal docs that
+      # cite the exact, now-superseded Moxfield snapshot they were computed
+      # against: two moxfield_haves_2026-06-07 citations + the 2026-06-25 buy-list
+      # provenance line, whose CSV was retired in the 2026-07-07 Forced
+      # Liquidation push when only the latest export is kept). Raise this only
+      # when you add/retire such history.
+      BROKEN_PATH_BASELINE: "3"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
