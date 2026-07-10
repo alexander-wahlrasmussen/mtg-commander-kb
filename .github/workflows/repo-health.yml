@@ -65,8 +65,8 @@ jobs:
       # when you add/retire such history.
       BROKEN_PATH_BASELINE: "3"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Run lint_links
@@ -92,8 +92,8 @@ jobs:
     name: Deck Doctor (roster)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           # Pinned to match the golden snapshot's interpreter (tests/golden/
           # clock_snapshot.json _meta.python) so the EXACT clock tier runs here
@@ -128,8 +128,8 @@ jobs:
     name: Unit tests (sim/lab cores)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Install test deps
