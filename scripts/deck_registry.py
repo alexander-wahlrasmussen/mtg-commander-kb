@@ -247,6 +247,20 @@ DECKS = {
         "mixed": "ramp-gated land-sac value; combo (Mazirek+Broodscale) a FINDING side line (~23% of kills)",
         "also": ["FINDING"],
     },
+    "mass_production": {
+        "name": "Mass Production", "stem": "mass-production-owned",
+        "commander": "Baylen, the Haymaker", "lab": ("mp_clock_lab", "clock"),
+        "cc": 15, "cc_axes": (5, 4, 3, 3),   # self-assessed 2026-07-11 (Summary); promoted 2026-07-11
+        "win_line": {"pieces": ["Jazal Goldmane", "Blossoming Bogbeast", "Legion Loyalty",
+                                "Salvation Colossus"], "needs_cmdr": False, "fuzzy": True,
+                     "line": "go-wide token swarm (doublers + Ojer Taq) -> any Overrun-class pump "
+                             "alphas the table (redundant pieces, one mechanism: combat)"},
+        # Naya token swarm: the clock is BOARD development (22 makers x 4 multipliers), not a
+        # named card — any of the 4 pump finishers converts the width. 99% combat first-kills
+        # (mp_clock_lab 2026-07-11); zero-contention owned build, premium draft archived.
+        "bottleneck": "BOARD", "min_lands": 2, "max_lands": 5, "hi_curve": False,
+        "mixed": "swarm-gated: keep wants land + an early token maker; finishers are redundant, any one keeps",
+    },
 }
 
 
@@ -259,6 +273,9 @@ DECKS = {
 # versa), so the merge preserves every prefix match.
 EXTRA_COMMANDERS = {
     "peace-offering": None,
+    # mass-production PROMOTED to the active roster 2026-07-11 (now a DECKS row, stem
+    # mass-production-owned) — an EXTRA "mass-production" key would be a prefix of the
+    # active stem and break the prefix invariant, so it moved out on promotion.
     "the-loam-cycle": "Teval, the Balanced Scale",
     "diminishing-returns": "Teysa Karlov",   # dismantled 2026-07-08 (was a DECKS row)
     "earthbend-the-meta": "Toph, the First Metalbender",   # retired 2026-07-11 (was a DECKS row)
@@ -637,6 +654,23 @@ KILL_TREES = {
         ],
         "stall": "ramp + develop lands, station Hearthhull toward 8, and dig with the land engine —<br/>the combo is the fast Abolisher-proof close; the fair drain / combat plan is the floor",
         "src": "ws_clock_lab.py + Creative_Destruction_Summary.md",
+    },
+    "mass-production": {
+        "reg_slug": "mass_production",
+        "title": "Mass Production — Baylen, the Haymaker",
+        "root": "Naya go-wide tokens — 22 makers feed 3 token doublers + Ojer Taq's tripler (multiplicative)<br/>Baylen converts the wide board into mana (tap 2) and cards (tap 3)",
+        "background": ("a wide token board (doubler online)<br/>+ Baylen tapping surplus tokens for mana/cards",
+                       "swarm width -> mana, cards, and a lethal alpha", "decap T7 / table T10", "combat"),
+        "lines": [
+            ("overrun", "any of 4 redundant pumps: Jazal Goldmane / Blossoming Bogbeast<br/>/ Salvation Colossus / Elesh Norn",
+             "team +X/+X (Jazal quadratic) -> one-turn alpha over the swarm", "decap T7", "combat"),
+            ("myriad", "Legion Loyalty (all creatures have myriad)",
+             "every attacker replicates at each opponent -> the alpha hits the whole table at once", "table T10", "combat"),
+            ("chip", "Colossus of the Blood Age ETB x Twinflame Tyrant<br/>(3 -> 6 to each opponent; Twinflame also doubles combat)",
+             "the only board-independent damage — chip, not a standalone kill", "support", "enabler"),
+        ],
+        "stall": "develop the swarm and tap tokens with Baylen for gas; hold Heroic Intervention / Flawless Maneuver<br/>once presenting lethal (wrath costs a measured +2-3 turns); race walls early — never grind into a flying board",
+        "src": "mp_clock_lab.py + Mass_Production_Summary.md",
     },
 }
 

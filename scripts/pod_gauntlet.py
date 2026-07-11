@@ -190,6 +190,7 @@ ANSWER_DECAY = 0.5     # interaction is finite: each answer they spend halves th
 # Set roster-wide 2026-06-15 from a grep-VERIFIED counter count (Path/Swords are removal=disruption,
 # not protect) + a judgment bump for counter-immune kills. PRIOR; tune freely. answer_eff *= (1-p).
 PROTECT = {
+    "mass_production":     0.15,  # combat kill + Heroic Intervention/Flawless Maneuver board protection; no counters
     "lightning_war":       0.65,  # 8 counters (3 free) + Banefire X>=5 UNCOUNTERABLE finisher
     "radiation_sickness":  0.55,  # 5 counters + kill is a go-wide +1/+1 COMBAT board (re-audit 06-23: ~76% of closes) = counter-immune (NOT blocker-immune)
     "replication_crisis":  0.55,  # 7 counters + combat/Kiki BOARD kill (counters don't stop it)
@@ -261,6 +262,13 @@ BUCKET = {"warn": (0.50, 0.14), "none": (0.20, 0.02)}
 # --- clock data: cum P(decap <= turn T) and P(table <= T) over each lab's grid.
 # Harvested 2026-06-14. grid/decap/table are %; medians/never echo the lab.
 CLOCKS = {
+    "mass_production": dict(
+        name="Mass Production", score="15", disrupt_class="none",
+        lab=("mp_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
+        grid=[5, 6, 7, 8, 9, 10, 12, 14],
+        decap=[7, 28, 60, 81, 91, 95, 99, 100], table=[0, 1, 7, 23, 47, 68, 90, 97],
+        med=("T7", "T10"), never=(0, 3),
+        src="lab mp_clock_lab @20k on mass-production-owned-20260711.txt (go-wide swarm; promoted 2026-07-11)"),
     "genome_project": dict(
         name="The Genome Project", score="15", disrupt_class="warn",
         lab=("gp_clock_lab", "clock"), sel=("decap", "table"),

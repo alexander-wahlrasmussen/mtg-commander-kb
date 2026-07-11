@@ -94,6 +94,7 @@ UNSPLIT_KIND = {
     "eldrazi_stampede": "combat", "dark_lords_army": "chip",
     "grand_design": "finisher", "crystal_sickness": "chip", "croak_and_dagger": "finisher",
     "forced_liquidation": "finisher", "creative_destruction": "chip",   # land-sac drain plurality
+    "mass_production": "combat",   # 99% combat first-kills (mp_clock_lab 2026-07-11)
 }
 
 

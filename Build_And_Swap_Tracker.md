@@ -30,6 +30,11 @@ standing upgrade swap, with sourcing for each card.*
 > **2026-07-11 — Creative Destruction BUILT** (Hearthhull, World Shapers precon + Earthbend retirement
 > pool) — the precon arrived; promoted to the active roster (`creative-destruction-20260711.txt`, 100% owned,
 > 16-deck roster). See §1c. *(Was: queued as a proposal 2026-07-05 pending the precon.)*
+> **2026-07-11 (later) — Mass Production BUILT & PROMOTED** (Baylen, the Haymaker, Naya go-wide tokens) —
+> same-day build from the free pool: **100% owned, ZERO contention, zero buys** (`mass-production-owned-20260711.txt`;
+> the premium draft double-booking Craterhoof/Purphoros/Broodscale is archived). A NEW 17th seat — no retirement.
+> Clock T7 decap / T10 table (`mp_clock_lab.py`); pod-gauntlet P(win) 57% (#4/17); vs Ur-Dragon 51% (best of the
+> combat-axis decks). Evidence: `analysis/Mass_Production_Clock_Lab_2026-07-11.md`.
 > Everything below tagged "Hashaton" / "Thassa's Oracle" / "Thoracle decision" is **superseded** — kept for record only.
 
 This is a **working dashboard**, not a reference doc — it will go stale as cards are bought and

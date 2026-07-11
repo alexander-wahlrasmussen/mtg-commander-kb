@@ -2,9 +2,20 @@
 
 Cross-deck collection rollup — what's owned, deployed, and shared across decks (DeckSafe snapshot). Deck *contents* are ground-truthed by each `.txt`; this is the collection-wide view.
 
-Last updated: **2026-07-11 (real DeckSafe run).**
-Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 16 active digitized decks.
+Last updated: **2026-07-11 (real DeckSafe run, 17 decks).**
+Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 17 active digitized decks.
 
+> **2026-07-11 (later) — Mass Production (Baylen) built + promoted: a NEW 17th seat, no retirement.**
+> **Mass Production** (Baylen, the Haymaker, Naya go-wide tokens, 15/20) is **built and promoted to the roster** —
+> `decks/mass-production-owned-20260711.txt`, **DeckSafe-verified 100% owned with ZERO contention** (built
+> exclusively from free copies — `owned − deployed ≥ 1` for every card at build time; the premium draft that
+> double-booked ~25 deployed cards is archived to `archive/old_decklists/mass-production-20260711.txt`).
+> Rebuilt `collection/deck_safe_collection.xlsx`: **17 decks, 15 at 100%** — gaps unchanged (**Croak and Dagger
+> 92%**, the 8 Glarb-Inevitable combo buys predating this CSV; **This Bunny 98%**, Intruder Alarm + Approach).
+> Shared copies owed unchanged: **Purphoros, Aetherflux Reservoir, Willowrush Verge, Imperial Recruiter** (−1
+> each). Zero-surplus shared cards now **136** (up from 119 — the swarm shell re-tightens ramp/land staples;
+> moving Mass Production's cards to another deck now requires the tracker).
+>
 > **2026-07-11 — Creative Destruction built + Earthbend the Meta retired + fresh Moxfield export.**
 > **Creative Destruction** (Hearthhull, the Worldseed, Jund, 15/20) is **built and promoted to the roster** —
 > `decks/creative-destruction-20260711.txt`, **DeckSafe-verified 100% owned** (precon + free pool + the Earthbend

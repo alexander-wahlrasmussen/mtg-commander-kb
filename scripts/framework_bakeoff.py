@@ -102,6 +102,7 @@ RICHER_ORACLE = {                       # slug: (pod_gauntlet P(win), self_meta 
     "forced_liquidation":  (49, 46),
     "croak_and_dagger":    (7, 8),
     "creative_destruction": (23, 18),   # harvested 2026-07-11 (promotion): decap T10 racer, leans on disruption/grind
+    "mass_production":     (57, 31),   # harvested 2026-07-11 (promotion): T7 swarm races the pod; #5/17 self-meta
 }
 
 # Backlog #6 — the INTERACTION/durability overlay oracle (interaction_meta_lab.py): self_meta's
@@ -127,6 +128,7 @@ INTERACTION_ORACLE = {                  # slug: interaction_meta_lab INTERACTIVE
     "forced_liquidation":  46,
     "croak_and_dagger":     8,
     "creative_destruction": 21,   # harvested 2026-07-11 (--tax 0.6): interaction lifts it +4 over self-meta
+    "mass_production":      29,   # harvested 2026-07-11 (--tax 0.6): near-flat delta -2 — interaction-robust swarm
 }
 
 # Recurrence guard (2026-06-29 audit): the SIM oracles are computable for EVERY active deck, so

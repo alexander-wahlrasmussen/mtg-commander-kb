@@ -255,5 +255,21 @@
     "protect": 0.25,
     "race": false,
     "note": "land-sac drain + Mazirek loop are board-independent \u2192 grinds the fair Ur-Dragon seat (PROP ~69%)"
+  },
+  "mass_production": {
+    "name": "Mass Production",
+    "axis": "combat",
+    "p_win": 0.5086,
+    "wraths": [
+      "Elesh Norn, Grand Cenobite"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 6,
+    "maze": [],
+    "lifegain": 4,
+    "protect": 0.15,
+    "race": false,
+    "note": "ground token swarm + Overrun-class pumps; Legion Loyalty myriad copies still blockable, only Angel/Herald fly -> WALLED"
   }
 }

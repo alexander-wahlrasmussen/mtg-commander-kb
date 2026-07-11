@@ -66,6 +66,7 @@ SUMMARY = {
     "croak_and_dagger": "Croak_And_Dagger_Summary.md",      # was calamity_tax (renamed)
     "forced_liquidation": "Forced_Liquidation_Summary.md",  # 17th deck, was missing
     "creative_destruction": "Creative_Destruction_Summary.md",  # promoted 2026-07-11
+    "mass_production": "Mass_Production_Summary.md",  # promoted 2026-07-11
 }
 
 # Guard against the stale-slug drift the 2026-06-29 audit found (calamity_tax pointed at a

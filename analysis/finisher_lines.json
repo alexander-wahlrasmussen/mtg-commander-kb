@@ -907,5 +907,55 @@
         "note": "single harvested pod_gauntlet line (lab ws_clock_lab @40k on creative-destruction-20260711.txt (Mazirek combo + land-sac drain; promoted 2026-07-11)); not yet split into per-line CDFs"
       }
     ]
+  },
+  "mass_production": {
+    "name": "Mass Production",
+    "grid": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      14
+    ],
+    "split": false,
+    "lines": [
+      {
+        "line_id": "harvested",
+        "kind": "combat",
+        "decap": [
+          7,
+          28,
+          60,
+          81,
+          91,
+          95,
+          99,
+          100
+        ],
+        "table": [
+          0,
+          1,
+          7,
+          23,
+          47,
+          68,
+          90,
+          97
+        ],
+        "med": [
+          "T7",
+          "T10"
+        ],
+        "never": [
+          0,
+          3
+        ],
+        "disablers": [],
+        "note": "single harvested pod_gauntlet line (lab mp_clock_lab @20k on mass-production-owned-20260711.txt (go-wide swarm; promoted 2026-07-11)); not yet split into per-line CDFs"
+      }
+    ]
   }
 }

@@ -139,6 +139,7 @@ CATALOG = {
 # candidate (its whole pitch is the one anti-Abolisher lock-kill; it is not in the active
 # gauntlet but is the deck this model most illuminates).
 DECKS = {
+    "mass_production":     "decks/mass-production-owned-20260711.txt",
     "genome_project":     "decks/the-genome-project-20260510.txt",
     "radiation_sickness": "decks/radiation-sickness-20260707.txt",
     "replication_crisis": "decks/the-replication-crisis-20260630.txt",
@@ -157,6 +158,7 @@ DECKS = {
     "kefka":              "decks/forced-liquidation-20260707.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)
+    "mass_production": "Mass Production",
     "genome_project": "The Genome Project", "radiation_sickness": "Radiation Sickness",
     "replication_crisis": "The Replication Crisis", "lorehold_spirits": "Lorehold Spirits",
     "exiles_return": "The Exile's Return",

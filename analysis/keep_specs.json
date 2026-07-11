@@ -76,13 +76,13 @@
     "ramp": [
       "arcane signet",
       "basking broodscale",
-      "birds of paradise",
       "bloom tender",
       "farseek",
       "incubation druid",
       "kami of whispered hopes",
       "kodama of the west tree",
       "nature's lore",
+      "nightshade dryad",
       "rishkar, peema renegade",
       "sol ring",
       "three visits"
@@ -179,12 +179,10 @@
       "arcane signet",
       "archaeomancer's map",
       "atsushi, the blazing sky",
-      "bitterthorn, nissa's animus",
       "fellwar stone",
       "mind stone",
       "mox amber",
       "patchwork banner",
-      "relic retriever",
       "seize the spoils",
       "smothering tithe",
       "sol ring"
@@ -889,6 +887,55 @@
     ],
     "n_selection_needed": 2,
     "mixed": "ramp-gated land-sac value; combo (Mazirek+Broodscale) a FINDING side line (~23% of kills)",
+    "key_missing": []
+  },
+  "mass-production-owned": {
+    "deck_key": "mass-production-owned",
+    "name": "Mass Production",
+    "bottleneck": "BOARD",
+    "also": [],
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": false,
+    "cmdr": "baylen, the haymaker",
+    "cmdr_cmc": 3.0,
+    "key_cards": [
+      "blossoming bogbeast",
+      "jazal goldmane",
+      "legion loyalty",
+      "salvation colossus"
+    ],
+    "key_extra": [],
+    "n_key_needed": 1,
+    "tutors": [
+      "survival of the fittest"
+    ],
+    "tutors_unbridged": [],
+    "ramp": [
+      "arcane signet",
+      "birds of paradise",
+      "cultivate",
+      "elvish mystic",
+      "farseek",
+      "fellwar stone",
+      "kodama's reach",
+      "nature's lore",
+      "rampant growth",
+      "smothering tithe",
+      "sol ring",
+      "three visits"
+    ],
+    "selection": [
+      "colossus of the blood age",
+      "decree of justice",
+      "guardian project",
+      "harmonize",
+      "tempt with bunnies",
+      "welcoming vampire",
+      "zuko's exile"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "swarm-gated: keep wants land + an early token maker; finishers are redundant, any one keeps",
     "key_missing": []
   }
 }

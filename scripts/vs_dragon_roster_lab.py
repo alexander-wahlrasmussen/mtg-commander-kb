@@ -93,6 +93,8 @@ GRIND_FORTRESS_CDF = ([6, 7, 8, 9, 10, 12, 14], [3, 16, 38, 63, 80, 96, 99])
 # lab clock is the board-RELEVANT kill. race = burn/ping that chases ONE life total (dragon
 # lifegain slows it; swept). note = the verified justification.
 KILL = {
+    "mass_production":    dict(axis="combat", cdf="decap", race=False,
+        note="ground token swarm + Overrun-class pumps; Legion Loyalty myriad copies still blockable, only Angel/Herald fly -> WALLED"),
     "radiation_sickness": dict(axis="over", cdf="decap", race=False,
         note="Exsanguinate / Jarad+Lord drain / Mindcrank mill / Toxrill / Simic Asc — multiple board-independent lines"),
     "croak_and_dagger":   dict(axis="over", cdf="grind", race=False,

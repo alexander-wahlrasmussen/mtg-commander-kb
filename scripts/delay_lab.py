@@ -456,6 +456,15 @@ CREATIVE = _A(  # Hearthhull (Jund land-sac) — deep targeted removal + a sweep
 # (Creative Destruction promoted 2026-07-11; Earthbend the Meta retired 2026-07-11;
 # Diminishing Returns dismantled 2026-07-08): the 12 above + the three delay_lab
 # already measured (reuse their configs/paths).
+MASS_PRODUCTION = _A(  # Baylen (Naya go-wide, promoted 2026-07-11) — targeted removal only, NO counters/statics
+    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
+    ("Path to Exile",        ({"R", "P"}, 1, {"ios"})),
+    ("Generous Gift",        ({"R", "P"}, 3, {"ios"})),
+    ("Beast Within",         ({"R", "P"}, 3, {"ios"})),
+    ("Battle Menu",          ({"R", "P"}, 2, {"ios"})),   # modal: destroy power-4+ creature (conditional)
+    ("Zuko's Exile",         ({"R", "P"}, 5, {"ios"})),   # instant exile art/crea/ench
+    ("Skyclave Apparition",  ({"P"}, 3, {"crea"})))       # ETB exile MV<=4, sorcery-speed (preempt only)
+
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260707.txt", RADIATION),
@@ -473,6 +482,7 @@ ROSTER = {
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260707.txt", FORCED_LIQUIDATION),
     "creative_destruction": ("creative-destruction-20260711.txt", CREATIVE),
+    "mass_production": ("mass-production-owned-20260711.txt", MASS_PRODUCTION),
 }
 
 
