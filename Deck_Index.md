@@ -23,6 +23,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Radiation Sickness     | Wise Mothman                | Sultai |     18/20 | Rad / toxic                 | Elite (audited 2026-05-13; Clock T10 table-win / T7 decap, lab 2026-06-13) |
 | Zero-Sum Game          | Witherbloom, the Balancer   | Golgari |     16/20 | Lifeloop combo / spellslinger-drain | **Built & physically assembled 2026-07-08** (final cards sourced by dismantling Diminishing Returns; sleeved `zero-sum-game-20260707.txt`; audited 2026-06-27 = 5/5/4/2, Interaction-floored; Clock T9 decap=table, lab 2026-06-11) |
 | Forced Liquidation     | Kefka, Court Mage           | Grixis  |     16/20 | Wheel-burn / punisher static | **Built & physically assembled 2026-07-08** (final cards sourced by dismantling Diminishing Returns; sleeved `forced-liquidation-20260707.txt`; audited 2026-06-27 = 5/4/3/4, Durability-capped; Clock decap T8 / table T9, lab 2026-06-25; 3/3 GC; no pod approval — kills through statics) |
+| Creative Destruction   | Hearthhull, the Worldseed   | Jund   |     15/20 | Land-sac ramp / value + combo | **Built & physically assembled 2026-07-11** (took the retired Earthbend seat; precon + free pool + Earthbend pool, 100% owned; sleeved `creative-destruction-20260711.txt`; 3/3 GC Crop Rotation/Gamble/Natural Order; Clock decap T10 / table T11, lab 2026-07-11; Mazirek+Broodscale 2-card infinite, pod-OK'd combo) |
 
 ### Retired
 
@@ -38,10 +39,10 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 ## Tier summary
 
 - **Elite (17+):** 10 decks (Earthbend the Meta 17 left the roster — retired 2026-07-11; Diminishing Returns 17 dismantled 2026-07-08).
-- **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both **built & physically assembled 2026-07-08** (final cards pulled from the Diminishing Returns teardown); re-audit after first pod games).
+- **Solid (13–16):** 6 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, built 2026-07-08, and **Creative Destruction 15**, built 2026-07-11 into the retired Earthbend seat; re-audit after first pod games).
 - **Developing (9–12):** 0.
 - **Unscored:** 0.
-- **Active roster:** 15 decks.
+- **Active roster:** 16 decks.
 
 ---
 

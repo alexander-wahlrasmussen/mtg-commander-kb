@@ -153,6 +153,7 @@ DECKS = {
     "grand_design":       "decks/the-grand-design-20260623.txt",
     "crystal_sickness":   "decks/crystal-sickness-20260322-152311.txt",
     "croak_and_dagger":       "decks/croak-and-dagger-20260701.txt",
+    "creative_destruction": "decks/creative-destruction-20260711.txt",
     "kefka":              "decks/forced-liquidation-20260707.txt",
 }
 NAMES = {  # display names (match the gauntlet where they overlap)
@@ -164,6 +165,7 @@ NAMES = {  # display names (match the gauntlet where they overlap)
     "dark_lords_army": "The Dark Lord's Army",
     "lightning_war": "Lightning War", "grand_design": "The Grand Design",
     "crystal_sickness": "Crystal Sickness", "croak_and_dagger": "Croak and Dagger",
+    "creative_destruction": "Creative Destruction",
     "kefka": "Kefka (Forced Liquidation, build)",
 }
 

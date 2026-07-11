@@ -439,9 +439,23 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
     ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
-# gauntlet slug -> (decklist filename under decks/, config). All 14 active decks
-# (Earthbend the Meta retired 2026-07-11; Diminishing Returns dismantled 2026-07-08):
-# the 11 above + the three delay_lab already measured (reuse their configs/paths).
+CREATIVE = _A(  # Hearthhull (Jund land-sac) — deep targeted removal + a sweeper, no counters
+    ("Abrade", ({"R", "P"}, 2, {"ios"})),
+    ("Infernal Grasp", ({"R", "P"}, 2, {"ios"})),
+    ("Bitter Triumph", ({"R", "P"}, 2, {"ios"})),
+    ("Putrefy", ({"R", "P"}, 3, {"ios"})),
+    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
+    ("Tear Asunder", ({"R", "P"}, 2, {"ios"})),
+    ("Murderous Rider", ({"R", "P"}, 3, {"ios", "inst"})),      # Swift End, instant removal
+    ("Rakdos Charm", ({"R", "P"}, 2, {"ios", "inst"})),
+    ("Windgrace's Judgment", ({"R", "P"}, 5, {"ios"})),
+    ("Deflecting Swat", ({"R", "P"}, 3, {"ios", "inst"})),      # redirect an opponent's targeted kill
+    ("Blasphemous Act", ({"P"}, 5, {"ios"})))                   # sweeper
+
+# gauntlet slug -> (decklist filename under decks/, config). All 15 active decks
+# (Creative Destruction promoted 2026-07-11; Earthbend the Meta retired 2026-07-11;
+# Diminishing Returns dismantled 2026-07-08): the 12 above + the three delay_lab
+# already measured (reuse their configs/paths).
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260707.txt", RADIATION),
@@ -458,6 +472,7 @@ ROSTER = {
     "croak_and_dagger": ("croak-and-dagger-20260701.txt", CROAK),
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260707.txt", FORCED_LIQUIDATION),
+    "creative_destruction": ("creative-destruction-20260711.txt", CREATIVE),
 }
 
 

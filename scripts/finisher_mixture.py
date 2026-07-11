@@ -93,7 +93,7 @@ UNSPLIT_KIND = {
     "zero_sum_game": "combo", "curse_of_the_scarab": "combat", "bumbleflower": "finisher",
     "eldrazi_stampede": "combat", "dark_lords_army": "chip",
     "grand_design": "finisher", "crystal_sickness": "chip", "croak_and_dagger": "finisher",
-    "forced_liquidation": "finisher",
+    "forced_liquidation": "finisher", "creative_destruction": "chip",   # land-sac drain plurality
 }
 
 

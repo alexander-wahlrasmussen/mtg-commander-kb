@@ -121,6 +121,8 @@ KILL = {
         note="'Combat / Annihilator' (Summary win-condition row)"),
     "bumbleflower":       dict(axis="combat", cdf="decap", race=False,
         note="Willbreaker theft + combat steal"),
+    "creative_destruction": dict(axis="over", cdf="table", race=False,
+        note="land-sac drain + Mazirek loop are board-independent → grinds the fair Ur-Dragon seat (PROP ~69%)"),
 }
 
 # load-time invariant: every modelled deck needs a KILL axis/clock and vice versa.

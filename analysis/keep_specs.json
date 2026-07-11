@@ -840,5 +840,55 @@
     "n_selection_needed": 2,
     "mixed": "lethal-or-bust: keep needs 2 key pieces / a tutor / board development \u2014 never a naked wheel",
     "key_missing": []
+  },
+  "creative-destruction": {
+    "deck_key": "creative-destruction",
+    "name": "Creative Destruction",
+    "bottleneck": "MANA",
+    "also": [
+      "FINDING"
+    ],
+    "min_lands": 2,
+    "max_lands": 5,
+    "hi_curve": true,
+    "cmdr": "hearthhull, the worldseed",
+    "cmdr_cmc": 4.0,
+    "key_cards": [
+      "basking broodscale",
+      "mazirek, kraul death priest"
+    ],
+    "key_extra": [],
+    "n_key_needed": 1,
+    "tutors": [
+      "gamble",
+      "natural order"
+    ],
+    "tutors_unbridged": [],
+    "ramp": [
+      "arcane signet",
+      "basking broodscale",
+      "crop rotation",
+      "cultivate",
+      "entish restoration",
+      "farseek",
+      "harrow",
+      "lotus cobra",
+      "nature's lore",
+      "orcish lumberjack",
+      "roiling regrowth",
+      "skyshroud claim",
+      "sol ring",
+      "tireless provisioner"
+    ],
+    "selection": [
+      "korvold, fae-cursed king",
+      "night's whisper",
+      "tannuk, memorial ensign",
+      "the gitrog monster",
+      "veil of summer"
+    ],
+    "n_selection_needed": 2,
+    "mixed": "ramp-gated land-sac value; combo (Mazirek+Broodscale) a FINDING side line (~23% of kills)",
+    "key_missing": []
   }
 }

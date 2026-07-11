@@ -238,5 +238,22 @@
     "protect": 0.45,
     "race": false,
     "note": "Summary: '96% of kills are incremental COMBAT, almost no trample' -> WALLED by the flying board"
+  },
+  "creative_destruction": {
+    "name": "Creative Destruction",
+    "axis": "over",
+    "p_win": 0.7404,
+    "wraths": [
+      "Blasphemous Act",
+      "The Meathook Massacre"
+    ],
+    "fogs": [],
+    "taxes": [],
+    "spot": 9,
+    "maze": [],
+    "lifegain": 8,
+    "protect": 0.25,
+    "race": false,
+    "note": "land-sac drain + Mazirek loop are board-independent \u2192 grinds the fair Ur-Dragon seat (PROP ~69%)"
   }
 }

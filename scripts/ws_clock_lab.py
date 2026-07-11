@@ -77,6 +77,9 @@ DECK_ST = ROOT / "decks" / "considering" / "world-shapers-precon-20260704.txt"
 DECK_EX = ROOT / "decks" / "considering" / "world-shapers-external-20260704.txt"
 DECK_MG = ROOT / "decks" / "considering" / "world-shapers-merged-20260704.txt"
 DECK_TUNED = ROOT / "decks" / "considering" / "world-shapers-tuned-20260709.txt"
+# Promoted to the active roster 2026-07-11 as "Creative Destruction" (built from the tuned
+# list). The `creative` mode is the harvested active-deck clock (deck_registry lab pointer).
+DECK_CD = ROOT / "decks" / "creative-destruction-20260711.txt"
 SEED = 20260704
 TURNS = 16
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14, 16]
@@ -692,6 +695,17 @@ def mode_clock(index, aliases, trials, deck=None):
     print("  is two creatures — pod resilience is NOT measured here.")
 
 
+def mode_creative(index, aliases, trials, deck=None):
+    """The active-roster deck (Creative Destruction, promoted 2026-07-11). This is the
+    clock deck_registry harvests — pod_gauntlet --refresh + the golden snapshot run it."""
+    print("=" * 72)
+    print(f"CLOCK — Creative Destruction (Hearthhull, the Worldseed)   trials={trials} seed={SEED}")
+    print("=" * 72)
+    _run(deck or DECK_CD, index, aliases, trials)
+    print("\n  Jund land-sac ramp/value: primary land-sac drain + battlecruiser combat;")
+    print("  Mazirek+Broodscale infinite the upside (~23% of kills). CEILING: no interaction.")
+
+
 def mode_external(index, aliases, trials, deck=None):
     print("=" * 72)
     print(f"CLOCK — World Shapers EXTERNAL primer build   trials={trials} seed={SEED}")
@@ -896,7 +910,8 @@ def mode_levers(index, aliases, trials, deck=None):
 
 
 if __name__ == "__main__":
-    slc.run_cli(__doc__, {"clock": mode_clock, "external": mode_external,
+    slc.run_cli(__doc__, {"clock": mode_clock, "creative": mode_creative,
+                          "external": mode_external,
                           "comboclock": mode_comboclock, "stock": mode_stock,
                           "levers": mode_levers, "drain": mode_drain,
                           "mergedlevers": mode_mergedlevers, "braids": mode_braids})

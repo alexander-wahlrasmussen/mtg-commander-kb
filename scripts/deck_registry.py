@@ -233,6 +233,20 @@ DECKS = {
         "mixed": "lethal-or-bust: keep needs 2 key pieces / a tutor / board development — never a naked wheel",
         "also": ["BOARD"],
     },
+    "creative_destruction": {
+        "name": "Creative Destruction", "stem": "creative-destruction",
+        "commander": "Hearthhull, the Worldseed", "lab": ("ws_clock_lab", "creative"),
+        "cc": 15, "cc_axes": (4, 3, 4, 4),   # judged 2026-07-04 (PROP_World_Shapers_Hearthhull); built + promoted 2026-07-11
+        "win_line": {"pieces": ["Mazirek, Kraul Death Priest", "Basking Broodscale"], "needs_cmdr": False,
+                     "line": "Mazirek + Basking Broodscale infinite sac loop -> Exsanguinate / Jarad / "
+                             "Mayhem Devil table (converters), or a pumped Spawn alpha next combat"},
+        # Jund land-sac ramp/value: the fast, reliable clock is land-sac drain + battlecruiser combat
+        # (MANA-gated ramp; stationed Hearthhull drains 2/opp per land sac). The Mazirek+Broodscale
+        # 2-card infinite is the Abolisher-proof FINDING upside (~23% of kills, lab ws_clock_lab 2026-07-11).
+        "bottleneck": "MANA", "min_lands": 2, "max_lands": 5, "hi_curve": True,
+        "mixed": "ramp-gated land-sac value; combo (Mazirek+Broodscale) a FINDING side line (~23% of kills)",
+        "also": ["FINDING"],
+    },
 }
 
 
@@ -602,6 +616,27 @@ KILL_TREES = {
         ],
         "stall": "assemble + protect ~2 punishers to the wheel turn (lethal-or-bust — a half-loaded wheel refuels the pod);<br/>kill Grand Abolisher / draw-deniers on sight, and don't stack Notion Thief with the opponent-draw punishers",
         "src": "kfk_clock_lab.py + Forced_Liquidation_Summary.md",
+    },
+    "creative-destruction": {
+        "reg_slug": "creative_destruction",
+        "title": "Creative Destruction — Hearthhull, the Worldseed",
+        "root": "Jund land-sac value — sacrifice your OWN lands for draw / ramp / drain, then rebuy them bigger<br/>Hearthhull stationed to 8+ → every land you sacrifice makes each opponent lose 2",
+        "background": ("stationed Hearthhull (8+) + a land-sac engine<br/>(Splendid Reclamation / Crucible / Ramunap rebuys)",
+                       "2 to each opponent per land sacrifice", "table ~T11", "table"),
+        "lines": [
+            ("combo", "Mazirek, Kraul Death Priest + Basking Broodscale<br/>(any sac ignites; Natural Order / Gamble / Victimize tutor a half)",
+             "infinite {C} + infinite sac/death + infinite +1/+1 → Exsanguinate / Jarad / Mayhem Devil drains the table", "table T9–11", "combo"),
+            ("drain", "stationed Hearthhull + repeated land sacs<br/>+ landfall slugs (Tannuk / Sabotender / Ob Nixilis)",
+             "2/opp per land sac + 1/opp per landfall → passive all-table drain", "table T11", "table"),
+            ("springheart", "Springheart Nantuko + Lotus Cobra / Tireless Provisioner<br/>+ Ashaya / Badgermole (lands are creatures)",
+             "infinite landfall → infinite tokens / mana / drain triggers", "table (later)", "combo"),
+            ("combat", "Titania / Scute Swarm / land-token board + Purphoros / All Will Be One<br/>(counters → damage) (fallback)",
+             "wide land-creature board + ETB / counter pings → focus one opponent", "decap T9–10", "combat"),
+            ("gitrog", "The Gitrog Monster + Dakmor Salvage<br/>(discard-loop self-mill) (enabler)",
+             "bottomless card advantage + yard-fill → fuels Splendid Reclamation mass returns", "enabler", "enabler"),
+        ],
+        "stall": "ramp + develop lands, station Hearthhull toward 8, and dig with the land engine —<br/>the combo is the fast Abolisher-proof close; the fair drain / combat plan is the floor",
+        "src": "ws_clock_lab.py + Creative_Destruction_Summary.md",
     },
 }
 

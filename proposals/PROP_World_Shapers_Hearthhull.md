@@ -1,8 +1,10 @@
 # Proposal: Creative Destruction — World Shapers precon (Hearthhull, the Worldseed)
 
-Status: **APPROVED — named "Creative Destruction" 2026-07-05; held as a proposal until
-the precon arrives.** Build target: `decks/considering/world-shapers-tuned-20260704.txt`.
-Drafted 2026-07-04.
+Status: **BUILT & PROMOTED 2026-07-11** — the precon arrived; sleeved from
+`decks/considering/world-shapers-tuned-20260709.txt` → active `decks/creative-destruction-20260711.txt`
+(100% owned, 16-deck roster; wired into the sim/lab stack + `Creative_Destruction_Summary.md`).
+Named "Creative Destruction" 2026-07-05; drafted 2026-07-04. *(This proposal is now the historical
+record; the live deck is its Summary.)*
 
 *The name:* Schumpeter's creative destruction — tearing down your own structures to
 build more productive ones — which is the deck's literal game plan (sacrifice lands

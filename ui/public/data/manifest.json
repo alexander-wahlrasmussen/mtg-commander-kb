@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-11 11:17",
+  "generated": "2026-07-11 13:40",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -101,6 +101,7 @@
       "bumbleflower",
       "forced_liquidation",
       "genome_project",
+      "creative_destruction",
       "eldrazi_stampede"
     ]
   },

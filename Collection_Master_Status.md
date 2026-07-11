@@ -3,18 +3,19 @@
 Cross-deck collection rollup — what's owned, deployed, and shared across decks (DeckSafe snapshot). Deck *contents* are ground-truthed by each `.txt`; this is the collection-wide view.
 
 Last updated: **2026-07-11 (real DeckSafe run).**
-Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 15 active digitized decks.
+Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 16 active digitized decks.
 
-> **2026-07-11 — Earthbend the Meta retired + fresh Moxfield export.**
-> **Earthbend the Meta** (Toph, the First Metalbender, Naya, 17/20) is **retired from the roster** — its `.txt`+summary
-> are archived to `archive/old_decklists/` and it is out of the DeckSafe tracked set (16 → **15 decks**). Its card pool
-> was redistributed in the 2026-07-11 teardown-swap pass (Lorehold +4, Exile's Return +2), with the lands-matter core
-> reserved for the queued **Creative Destruction** (Hearthhull) seat. Rebuilt `collection/deck_safe_collection.xlsx`
-> against the fresh **2026-07-11** Moxfield export: **15 decks, 13 at 100%** — the gaps are **Croak and Dagger (92%)**
-> (the 8 Glarb-Inevitable combo buys still predate this CSV) and **This Bunny Goes to Market (98%)** (the 2 quiet-exits
-> cards — Intruder Alarm, Approach of the Second Sun). Shared 2nd copies still owed: Aetherflux Reservoir, Willowrush
-> Verge, Imperial Recruiter. *(Triumph of the Hordes dropped off the shopping list — with Earthbend gone only Radiation
-> needs it, and the owned copy covers it.)*
+> **2026-07-11 — Creative Destruction built + Earthbend the Meta retired + fresh Moxfield export.**
+> **Creative Destruction** (Hearthhull, the Worldseed, Jund, 15/20) is **built and promoted to the roster** —
+> `decks/creative-destruction-20260711.txt`, **DeckSafe-verified 100% owned** (precon + free pool + the Earthbend
+> retirement pool; zero further buys). **Earthbend the Meta** (Toph, Naya, 17/20) is **retired** into that seat — its
+> `.txt`+summary are archived to `archive/old_decklists/`, its pool redistributed in the teardown-swap pass (Lorehold +4,
+> Exile's Return +2). **Net roster: 16 decks** (Earthbend's Naya seat → the Jund Creative Destruction). Rebuilt
+> `collection/deck_safe_collection.xlsx`: **16 decks, 14 at 100%** — the gaps are **Croak and Dagger (92%)** (the 8
+> Glarb-Inevitable combo buys still predate this CSV) and **This Bunny Goes to Market (98%)** (Intruder Alarm, Approach
+> of the Second Sun). Shared 2nd copies still owed: **Purphoros** (new — Creative Destruction / Lorehold / Exile's all
+> want it, own 2), Aetherflux Reservoir, Willowrush Verge, Imperial Recruiter. *(Triumph of the Hordes stays off the
+> list — with Earthbend gone only Radiation needs it.)*
 >
 > **2026-07-08 — DeckSafe re-run (this replaces the 06-30/07-08 "as-if-bought" planning markers).**
 > **Zero-Sum Game** and **Forced Liquidation** are now **physically assembled and DeckSafe-verified 100% owned**
@@ -39,10 +40,10 @@ Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run agains
 |---|---|
 | Unique cards owned | 3,128 |
 | Total copies owned | 6,851 |
-| Digitized decks tracked | 15 |
-| Decks at 100% owned | 13 of 15 (Croak and Dagger 92%, This Bunny Goes to Market 98%) |
-| Cards with insufficient copies | 13 unique / 13 copies |
-| Shared cards (2+ decks) | 217 |
+| Digitized decks tracked | 16 |
+| Decks at 100% owned | 14 of 16 (Croak and Dagger 92%, This Bunny Goes to Market 98%) |
+| Cards with insufficient copies | 14 unique / 14 copies |
+| Shared cards (2+ decks) | 237 |
 
 ---
 
@@ -52,6 +53,7 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 
 | Deck                      | Commander                   | % Complete | Notes                              |
 | ------------------------- | --------------------------- | ---------- | ---------------------------------- |
+| Creative Destruction      | Hearthhull, the Worldseed   | 100%       | **Built & physically assembled 2026-07-11** (precon + free pool + Earthbend retirement pool); DeckSafe-verified. Purphoros is a zero-surplus share (own 2; Lorehold + Exile's also want it) |
 | Croak and Dagger          | Glarb, Calamity's Augur     | 92%        | 8 short — the Glarb Inevitable topdeck-combo buys (Ancient Cellarspawn, Emergent Ultimatum, Fortune Teller's Talent, Insidious Dreams, One with the Multiverse, Scheming Symmetry, The Reality Chip, Tidal Barracuda) predate this CSV |
 | Crystal Sickness          | Golbez, Crystal Collector   | 100%       | —                                  |
 | Curse of the Scarab       | The Scarab God              | 100%       | —                                  |
@@ -91,10 +93,11 @@ These appear in `Deck_Index.md` but have no `.txt` in `decks/`. Not tracked by D
 
 ## Shopping list
 
-The 13 cards short across the full demand pool (2026-07-11 run). The bulk is Croak and Dagger's combo package; the rest are the two This Bunny quiet-exits cards plus 2nd copies of cards shared between two decks (zero-surplus — you own one, two decks want it). *(Triumph of the Hordes left the list when Earthbend retired — only Radiation now demands it, covered by the owned copy.)*
+The 14 cards short across the full demand pool (2026-07-11 run, 16 decks). The bulk is Croak and Dagger's combo package; the rest are the two This Bunny quiet-exits cards plus zero-surplus 2nd/3rd copies of cards shared across decks (you own one/two, more decks want it). *(Triumph of the Hordes stays off the list — with Earthbend retired only Radiation demands it, covered by the owned copy.)*
 
 | Card                    | Need | Have | Decks                                          |
 | ----------------------- | ---- | ---- | ---------------------------------------------- |
+| Purphoros, God of the Forge | 1 | 2   | Creative Destruction, Lorehold Spirits, The Exile's Return (own 2, 3 want it) |
 | Ancient Cellarspawn     | 1    | 0    | Croak and Dagger                               |
 | Emergent Ultimatum      | 1    | 0    | Croak and Dagger                               |
 | Fortune Teller's Talent | 1    | 0    | Croak and Dagger                               |
@@ -115,7 +118,7 @@ See full Shopping List tab in `collection/deck_safe_collection.xlsx` or the [Goo
 
 ## Zero-surplus shared cards (physical swap required to play both decks)
 
-Cards where owned copies exactly equal demand across multiple decks — physically moving them between decks to play simultaneously. Not a collection gap, but a logistics note. **95** cards sit at zero surplus (2026-07-11 run — down from 112: Earthbend's retirement freed a copy of every card it shared); top instances by deck count:
+Cards where owned copies exactly equal demand across multiple decks — physically moving them between decks to play simultaneously. Not a collection gap, but a logistics note. **119** cards sit at zero surplus (2026-07-11 run, 16 decks — up from 95: Creative Destruction shares many lands/ramp staples with the roster, re-tightening copies Earthbend's retirement had freed); top instances by deck count:
 
 | Card                       | Copies | # Decks |
 | -------------------------- | ------ | ------- |

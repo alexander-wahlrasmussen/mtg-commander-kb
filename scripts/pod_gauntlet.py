@@ -200,6 +200,7 @@ PROTECT = {
     "crystal_sickness":    0.30,  # 4 counters
     "exiles_return":       0.30,  # 1 counter + its OWN Grand Abolisher (protect-own) + Kiki/combat kill
     "zero_sum_game":       0.30,  # board-independent, Abolisher-proof lifeloop kill + Veil
+    "creative_destruction": 0.25,  # Veil of Summer + Deflecting Swat protect the Mazirek combo; land-sac drain (ability) is counter-immune
     "bumbleflower":        0.15,  # 1 counter, combat-steal kill
     "eldrazi_stampede":    0.10,  # combat kill (counter-immune) but no counters
     "genome_project":      0.05,  # BR burn/storm: kill is counterable spells, ~no counters
@@ -368,6 +369,13 @@ CLOCKS = {
         med=("T9", "T10"), never=(8, 18),
         src="lab kfk_clock_lab @40k · lethal-or-bust >=2-punisher gate + Kefka "
             "summoning-sickness fix 2026-07-02 (was T8/T9)"),
+    "creative_destruction": dict(
+        name="Creative Destruction", score="15", disrupt_class="warn",
+        lab=("ws_clock_lab", "creative"), sel=("decap (one opponent", "table (all three)"),
+        grid=[5, 6, 7, 8, 9, 10, 12, 14, 16],
+        decap=[0, 1, 6, 23, 50, 73, 93, 97, 99], table=[0, 1, 3, 7, 17, 36, 76, 93, 98],
+        med=("T10", "T11"), never=(1, 2),
+        src="lab ws_clock_lab @40k on creative-destruction-20260711.txt (Mazirek combo + land-sac drain; promoted 2026-07-11)"),
 }
 
 # Guard: the display name + lab pointer in each harvest entry must match the registry (the
