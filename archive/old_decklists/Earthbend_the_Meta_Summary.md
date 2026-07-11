@@ -1,5 +1,7 @@
 # Earthbend the Meta — Toph, the First Metalbender
 
+> **⛔ RETIRED 2026-07-11.** This deck (Toph, the First Metalbender, Naya, 17/20) was torn down and **retired from the active roster**. Its card pool was redistributed in the 2026-07-11 teardown-swap pass (**Lorehold Spirits +4**, **The Exile's Return +2**); the remaining lands-matter / earthbend core is reserved for the queued **Creative Destruction** (Hearthhull, the Worldseed) build — the same archetype seat it retires — with the rest returned to the collection pool. This summary and its decklist are kept in `archive/old_decklists/` for the record only. See `Deck_Index.md` (Retired), `Collection_Master_Status.md`, and `Build_And_Swap_Tracker.md` §1c.
+
 ## Quick Reference
 
 | Field | Value |

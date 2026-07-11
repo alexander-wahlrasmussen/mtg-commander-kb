@@ -2,9 +2,20 @@
 
 Cross-deck collection rollup — what's owned, deployed, and shared across decks (DeckSafe snapshot). Deck *contents* are ground-truthed by each `.txt`; this is the collection-wide view.
 
-Last updated: **2026-07-08 (real DeckSafe run).**
-Source: `collection/moxfield_haves_2026-07-06-1850Z.csv` — DeckSafe run against the 16 active digitized decks.
+Last updated: **2026-07-11 (real DeckSafe run).**
+Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 15 active digitized decks.
 
+> **2026-07-11 — Earthbend the Meta retired + fresh Moxfield export.**
+> **Earthbend the Meta** (Toph, the First Metalbender, Naya, 17/20) is **retired from the roster** — its `.txt`+summary
+> are archived to `archive/old_decklists/` and it is out of the DeckSafe tracked set (16 → **15 decks**). Its card pool
+> was redistributed in the 2026-07-11 teardown-swap pass (Lorehold +4, Exile's Return +2), with the lands-matter core
+> reserved for the queued **Creative Destruction** (Hearthhull) seat. Rebuilt `collection/deck_safe_collection.xlsx`
+> against the fresh **2026-07-11** Moxfield export: **15 decks, 13 at 100%** — the gaps are **Croak and Dagger (92%)**
+> (the 8 Glarb-Inevitable combo buys still predate this CSV) and **This Bunny Goes to Market (98%)** (the 2 quiet-exits
+> cards — Intruder Alarm, Approach of the Second Sun). Shared 2nd copies still owed: Aetherflux Reservoir, Willowrush
+> Verge, Imperial Recruiter. *(Triumph of the Hordes dropped off the shopping list — with Earthbend gone only Radiation
+> needs it, and the owned copy covers it.)*
+>
 > **2026-07-08 — DeckSafe re-run (this replaces the 06-30/07-08 "as-if-bought" planning markers).**
 > **Zero-Sum Game** and **Forced Liquidation** are now **physically assembled and DeckSafe-verified 100% owned**
 > (their final cards were sourced by **dismantling Diminishing Returns** — 10 cards → Zero-Sum, Lightning Greaves →
@@ -26,25 +37,24 @@ Source: `collection/moxfield_haves_2026-07-06-1850Z.csv` — DeckSafe run agains
 
 | Stat | Value |
 |---|---|
-| Unique cards owned | 3,088 |
-| Total copies owned | 6,754 |
-| Digitized decks tracked | 16 |
-| Decks at 100% owned | 15 of 16 (Croak and Dagger at 92%) |
-| Cards with insufficient copies | 12 unique / 12 copies |
-| Shared cards (2+ decks) | 232 |
+| Unique cards owned | 3,128 |
+| Total copies owned | 6,851 |
+| Digitized decks tracked | 15 |
+| Decks at 100% owned | 13 of 15 (Croak and Dagger 92%, This Bunny Goes to Market 98%) |
+| Cards with insufficient copies | 13 unique / 13 copies |
+| Shared cards (2+ decks) | 217 |
 
 ---
 
 ## Per-deck completion
 
-Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physical ownership — a shared card counts for whichever deck holds it. Percentages are the 2026-07-08 DeckSafe run.
+Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physical ownership — a shared card counts for whichever deck holds it. Percentages are the 2026-07-11 DeckSafe run.
 
 | Deck                      | Commander                   | % Complete | Notes                              |
 | ------------------------- | --------------------------- | ---------- | ---------------------------------- |
 | Croak and Dagger          | Glarb, Calamity's Augur     | 92%        | 8 short — the Glarb Inevitable topdeck-combo buys (Ancient Cellarspawn, Emergent Ultimatum, Fortune Teller's Talent, Insidious Dreams, One with the Multiverse, Scheming Symmetry, The Reality Chip, Tidal Barracuda) predate this CSV |
 | Crystal Sickness          | Golbez, Crystal Collector   | 100%       | —                                  |
 | Curse of the Scarab       | The Scarab God              | 100%       | —                                  |
-| Earthbend the Meta        | Toph, the First Metalbender | 100%       | —                                  |
 | Eldrazi Stampede Chaos    | Maelstrom Wanderer          | 100%       | —                                  |
 | Forced Liquidation        | Kefka, Court Mage           | 100%       | **Physically assembled 2026-07-08** (final card — Lightning Greaves — from the DR teardown); DeckSafe-verified |
 | Lightning War             | Fire Lord Azula             | 100%       | —                                  |
@@ -55,13 +65,14 @@ Decks with `.txt` files in `decks/` and tracked by DeckSafe. Completion is physi
 | The Genome Project        | Kuja, Genome Sorcerer       | 100%       | Aetherflux Reservoir is a zero-surplus share with Croak and Dagger |
 | The Grand Design          | Atraxa, Grand Unifier       | 100%       | —                                  |
 | The Replication Crisis    | Satya, Aetherflux Genius    | 100%       | −Strionic +Imperial Recruiter (`-20260630.txt`); 2nd Recruiter copy owed (shared with Exile's Return) |
-| This Bunny Goes To Market | Ms. Bumbleflower            | 100%       | —                                  |
+| This Bunny Goes To Market | Ms. Bumbleflower            | 98%        | 2 short — the quiet-exits buys (Intruder Alarm, Approach of the Second Sun) still predate this CSV |
 | Zero-Sum Game             | Witherbloom, the Balancer   | 100%       | **Physically assembled 2026-07-08** (10 cards from the DR teardown); DeckSafe-verified |
 
 ### Retired / dismantled (not tracked by DeckSafe)
 
 | Deck                | Commander                 | Note |
 | ------------------- | ------------------------- | ---- |
+| Earthbend the Meta  | Toph, the First Metalbender | **Retired 2026-07-11** — torn down; card pool redistributed in the teardown-swap pass (Lorehold +4, Exile's Return +2), lands-matter core reserved for the queued Creative Destruction (Hearthhull) seat, remainder returned to pool; `.txt`+summary archived |
 | Diminishing Returns | Teysa Karlov              | **Dismantled 2026-07-08** — donor for Zero-Sum Game (10 cards) + Forced Liquidation (Lightning Greaves); cards returned to pool, `.txt`+summary archived |
 | Peace Offering      | Ms. Bumbleflower          | **Dismantled 2026-06-13** — redundant 2nd Bumbleflower (This Bunny is active); cards returned to pool |
 | The Loam Cycle      | Teval, the Balanced Scale | **Dismantled 2026-06-08** — decklist archived 2026-06-11; cards returned to pool |
@@ -80,7 +91,7 @@ These appear in `Deck_Index.md` but have no `.txt` in `decks/`. Not tracked by D
 
 ## Shopping list
 
-The 14 cards short across the full demand pool (2026-07-08 run + the quiet-exits buys restored 2026-07-09 — the 07-08 run predated the stranded `this-bunny-goes-to-market-20260703.txt` landing). The bulk is Croak and Dagger's combo package; the rest are 2nd copies of cards shared between two decks (zero-surplus — you own one, two decks want it).
+The 13 cards short across the full demand pool (2026-07-11 run). The bulk is Croak and Dagger's combo package; the rest are the two This Bunny quiet-exits cards plus 2nd copies of cards shared between two decks (zero-surplus — you own one, two decks want it). *(Triumph of the Hordes left the list when Earthbend retired — only Radiation now demands it, covered by the owned copy.)*
 
 | Card                    | Need | Have | Decks                                          |
 | ----------------------- | ---- | ---- | ---------------------------------------------- |
@@ -95,7 +106,6 @@ The 14 cards short across the full demand pool (2026-07-08 run + the quiet-exits
 | Intruder Alarm          | 1    | 0    | This Bunny Goes To Market (quiet-exits 07-03)  |
 | Approach of the Second Sun | 1 | 0    | This Bunny Goes To Market (quiet-exits 07-03)  |
 | Aetherflux Reservoir    | 2    | 1    | Croak and Dagger, The Genome Project           |
-| Triumph of the Hordes   | 2    | 1    | Earthbend the Meta, Radiation Sickness         |
 | Willowrush Verge        | 2    | 1    | Eldrazi Stampede Chaos, Radiation Sickness     |
 | Imperial Recruiter      | 2    | 1    | The Exile's Return, The Replication Crisis     |
 
@@ -105,23 +115,23 @@ See full Shopping List tab in `collection/deck_safe_collection.xlsx` or the [Goo
 
 ## Zero-surplus shared cards (physical swap required to play both decks)
 
-Cards where owned copies exactly equal demand across multiple decks — physically moving them between decks to play simultaneously. Not a collection gap, but a logistics note. **112** cards sit at zero surplus (2026-07-08 run); top instances by deck count:
+Cards where owned copies exactly equal demand across multiple decks — physically moving them between decks to play simultaneously. Not a collection gap, but a logistics note. **95** cards sit at zero surplus (2026-07-11 run — down from 112: Earthbend's retirement freed a copy of every card it shared); top instances by deck count:
 
 | Card                       | Copies | # Decks |
 | -------------------------- | ------ | ------- |
-| Swan Song                  | 7      | 7       |
-| Deadly Rollick             | 7      | 7       |
 | Counterspell               | 7      | 7       |
-| Yavimaya, Cradle of Growth | 6      | 6       |
-| Otawara, Soaring City      | 6      | 6       |
-| Nature's Lore              | 6      | 6       |
-| Force of Negation          | 6      | 6       |
+| Deadly Rollick             | 7      | 7       |
+| Swan Song                  | 7      | 7       |
 | Chaos Warp                 | 6      | 6       |
-| Dark Ritual                | 5      | 5       |
-| Cyclonic Rift              | 5      | 5       |
-| Boseiju, Who Endures       | 5      | 5       |
+| Force of Negation          | 6      | 6       |
+| Otawara, Soaring City      | 6      | 6       |
 | Black Market Connections   | 5      | 5       |
-| Beast Within               | 5      | 5       |
+| Cyclonic Rift              | 5      | 5       |
+| Dark Ritual                | 5      | 5       |
+| Agadeem's Awakening        | 4      | 4       |
+| Demonic Tutor              | 4      | 4       |
+| Haunted Ridge              | 4      | 4       |
+| Luxury Suite               | 4      | 4       |
 
 Full zero-surplus list is in the Shared Cards tab of the spreadsheet.
 

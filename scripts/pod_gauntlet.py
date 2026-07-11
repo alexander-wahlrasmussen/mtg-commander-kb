@@ -198,7 +198,6 @@ PROTECT = {
     "curse_of_the_scarab": 0.40,  # 5 counters + zombie-army board kill
     "croak_and_dagger":        0.50,  # 5 counters + Tidal Barracuda; Aetherflux kill is an ABILITY (counter-immune). 2026-07-01: was 0.35 for the counterable-Torment grind
     "crystal_sickness":    0.30,  # 4 counters
-    "earthbend_the_meta":  0.30,  # 3 counters incl. REB/Pyroblast (anti-blue: extra bite vs H&K)
     "exiles_return":       0.30,  # 1 counter + its OWN Grand Abolisher (protect-own) + Kiki/combat kill
     "zero_sum_game":       0.30,  # board-independent, Abolisher-proof lifeloop kill + Veil
     "bumbleflower":        0.15,  # 1 counter, combat-steal kill
@@ -288,12 +287,6 @@ CLOCKS = {
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
         decap=[4, 18, 47, 69, 82, 89, 96, 99], table=[0, 0, 4, 16, 40, 61, 85, 95],
         med=("T8", "T10"), never=(1, 5), src="lab lor_clock_lab @8k"),
-    "earthbend_the_meta": dict(
-        name="Earthbend the Meta", score="17", disrupt_class="none",
-        lab=("ebm_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
-        grid=[5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[2, 11, 36, 66, 83, 90, 96, 99], table=[0, 0, 1, 5, 15, 31, 71, 93],
-        med=("T8", "T11"), never=(1, 7), src="lab ebm_clock_lab @8k"),
     "exiles_return": dict(
         name="The Exile's Return", score="18", disrupt_class="warn",
         lab=("er_speed_lab", "clock"),

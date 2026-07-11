@@ -13,7 +13,6 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 | Lightning War          | Fire Lord Azula             | Grixis |     19/20 | Spellslinger / burn         | Elite (Clock decap T8 / table T9 best-line — lab 2026-06-28; built + fully owned, `lightning-war-20260706` — Increasing Vengeance→Irma + Vedalken Orrery swap 2026-07-06) |
 | The Dark Lord's Army   | Sauron, the Dark Lord       | Grixis |     19/20 | Tokens / The Ring           | Elite (audited 2026-05-08; Clock decap T9 / table T12 typical pod, tempo-dependent, lab 2026-06-13) |
 | The Exile's Return     | Fire Lord Zuko              | Mardu  |     17/20 | Exile-matters / firebending | Elite                                                             |
-| Earthbend the Meta     | Toph, the First Metalbender | Naya   |     17/20 | Artifact stompy             | Elite (Clock T8 decap / T12 table, lab 2026-06-13)              |
 | The Replication Crisis | Satya, Aetherflux Genius    | Jeskai |     17/20 | Copy / clone                | Elite (rescored 2026-05-13)                                       |
 | Curse of the Scarab    | The Scarab God              | Dimir  |     17/20 | Zombie tribal               | Elite (Clock T8 decap / T11 table, lab 2026-06-13)              |
 | Crystal Sickness       | Golbez, Crystal Collector   | Dimir  |     17/20 | Reanimator                  | Elite (Clock T11 decap / T13 table, lab 2026-06-13)              |
@@ -29,6 +28,7 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 | Deck | Commander | Note |
 | --- | --- | --- |
+| Earthbend the Meta | Toph, the First Metalbender | Retired 2026-07-11 (was 17/20 Elite, Naya artifact stompy); torn down, card pool redistributed in the teardown-swap pass (Lorehold +4, Exile's Return +2), lands-matter core reserved for the queued Creative Destruction (Hearthhull) seat, remainder returned to pool; decklist + summary archived to `archive/old_decklists/` |
 | Diminishing Returns | Teysa Karlov | Dismantled 2026-07-08 (was 17/20 Elite); torn down to physically source Zero-Sum Game (10 cards) + Forced Liquidation (Lightning Greaves); decklist + summary archived to `archive/old_decklists/`, remaining cards returned to pool |
 | The Loam Cycle | Teval, the Balanced Scale | Dismantled 2026-06-08; decklist archived 2026-06-11; cards returned to pool |
 | Peace Offering | Ms. Bumbleflower | Dismantled 2026-06-13; redundant 2nd Ms. Bumbleflower build (This Bunny Goes to Market is the active one); decklist archived to `archive/old_decklists/`, cards returned to pool |
@@ -37,11 +37,11 @@ One-page view of the active roster. Scores reflect the most recent audit. Ground
 
 ## Tier summary
 
-- **Elite (17+):** 11 decks (Diminishing Returns 17 left the roster — dismantled 2026-07-08).
+- **Elite (17+):** 10 decks (Earthbend the Meta 17 left the roster — retired 2026-07-11; Diminishing Returns 17 dismantled 2026-07-08).
 - **Solid (13–16):** 5 decks (incl. Zero-Sum Game 16 + Forced Liquidation 16, audited 2026-06-27 from the list — both **built & physically assembled 2026-07-08** (final cards pulled from the Diminishing Returns teardown); re-audit after first pod games).
 - **Developing (9–12):** 0.
 - **Unscored:** 0.
-- **Active roster:** 16 decks.
+- **Active roster:** 15 decks.
 
 ---
 

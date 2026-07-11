@@ -64,7 +64,7 @@ _spec = importlib.util.spec_from_file_location("speed_lab_core", Path(__file__).
 slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
-DECK = ROOT / "decks" / "earthbend-the-meta-20260404-075423.txt"
+DECK = ROOT / "archive" / "old_decklists" / "earthbend-the-meta-20260404-075423.txt"   # deck retired 2026-07-11; lab kept as a historical artifact
 SEED = 20260613
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]

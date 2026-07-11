@@ -167,48 +167,6 @@
     ],
     "src": "lab lor_clock_lab @8k"
   },
-  "earthbend_the_meta": {
-    "name": "Earthbend the Meta",
-    "grid": [
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      12,
-      14
-    ],
-    "decap": [
-      2,
-      11,
-      34,
-      65,
-      82,
-      90,
-      96,
-      99
-    ],
-    "table": [
-      0,
-      0,
-      1,
-      4,
-      14,
-      30,
-      70,
-      92
-    ],
-    "med": [
-      "T8",
-      "T11"
-    ],
-    "never": [
-      1,
-      7
-    ],
-    "src": "lab ebm_clock_lab @8k"
-  },
   "exiles_return": {
     "name": "The Exile's Return",
     "grid": [

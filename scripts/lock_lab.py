@@ -143,7 +143,6 @@ DECKS = {
     "radiation_sickness": "decks/radiation-sickness-20260707.txt",
     "replication_crisis": "decks/the-replication-crisis-20260630.txt",
     "lorehold_spirits":   "decks/lorehold-spirit-20260710.txt",
-    "earthbend_the_meta": "decks/earthbend-the-meta-20260404-075423.txt",
     "exiles_return":      "decks/the-exiles-return-20260710.txt",
     "zero_sum_game":      "decks/zero-sum-game-20260707.txt",
     "curse_of_the_scarab": "decks/curse-of-the-scarab-20260510-215526.txt",
@@ -159,7 +158,7 @@ DECKS = {
 NAMES = {  # display names (match the gauntlet where they overlap)
     "genome_project": "The Genome Project", "radiation_sickness": "Radiation Sickness",
     "replication_crisis": "The Replication Crisis", "lorehold_spirits": "Lorehold Spirits",
-    "earthbend_the_meta": "Earthbend the Meta", "exiles_return": "The Exile's Return",
+    "exiles_return": "The Exile's Return",
     "zero_sum_game": "Zero-Sum Game", "curse_of_the_scarab": "Curse of the Scarab",
     "bumbleflower": "Ms. Bumbleflower", "eldrazi_stampede": "Eldrazi Stampede Chaos",
     "dark_lords_army": "The Dark Lord's Army",

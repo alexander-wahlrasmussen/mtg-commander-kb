@@ -27,7 +27,7 @@ def test_v2_payload_contract():
     assert p["tiers"] == ["S", "A", "B", "C", "D"]
     assert set(p["weights"]) == {"antipod", "inter", "self"}
     rows = p["rows"]
-    assert len(rows) >= 16                                   # whole active roster
+    assert len(rows) >= 15                                   # whole active roster (15 after Earthbend retired 2026-07-11)
     # every row carries the dashboard's required fields
     for r in rows:
         assert set(r) >= {"slug", "name", "tier", "comp", "anti", "inter", "self", "cc",

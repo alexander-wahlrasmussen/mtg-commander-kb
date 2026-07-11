@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-09 23:19",
+  "generated": "2026-07-11 11:17",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -94,7 +94,6 @@
       "grand_design",
       "croak_and_dagger",
       "replication_crisis",
-      "earthbend_the_meta",
       "exiles_return",
       "curse_of_the_scarab",
       "crystal_sickness",

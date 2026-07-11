@@ -96,19 +96,12 @@ DECKS = {
         "mixed": "3-card loop is a side line; fast clock = spirits/Quintorius (was FINDING, -4pp front7)",
         "also": ["FINDING"],   # BOARD primary (spirits/Quintorius) + 3-card Reveillark loop upside
     },
-    "earthbend_the_meta": {
-        "name": "Earthbend the Meta", "stem": "earthbend-the-meta",
-        "commander": "Toph, the First Metalbender", "lab": ("ebm_clock_lab", "clock"),
-        "cc": 17, "cc_axes": (5, 4, 4, 4),
-        "win_line": {"pieces": ["Triumph of the Hordes"], "fuzzy": True,
-                     "line": "Triumph of the Hordes one-card closer from an earthbent board"},
-        # also BOARD (2026-07-03 re-tune): the ramp-only MANA keep shipped on-curve Toph+payoff
-        # hands with no ramp spell (lands alone cast the CMC-4 commander) — 24% of games started
-        # "stuck". The union keeps those; ramp hands still keep via MANA.
-        "bottleneck": "MANA", "min_lands": 2, "max_lands": 4, "hi_curve": False,
-        "mixed": "lands-matter board also a payoff axis; BOARD union keeps on-curve no-ramp-spell hands",
-        "also": ["BOARD"],
-    },
+    # Earthbend the Meta (Toph, the First Metalbender) RETIRED 2026-07-11 — deck torn down;
+    # card pool redistributed (Lorehold +4, Exile's Return +2) with the lands-matter core
+    # reserved for the queued Creative Destruction (Hearthhull) seat. Moved to EXTRA_COMMANDERS
+    # below (Loam/Peace/DR precedent). Was: cc 17 (5/4/4/4), MANA (+BOARD), lab ebm_clock_lab.
+    # Its KILL_TREES entry was removed (kill_tree renders active decks only); ebm_clock_lab.py is
+    # kept as a historical artifact (now points at the archived list).
     "exiles_return": {
         "name": "The Exile's Return", "stem": "the-exiles-return",
         "commander": "Fire Lord Zuko", "lab": ("er_speed_lab", "clock"),
@@ -254,6 +247,7 @@ EXTRA_COMMANDERS = {
     "peace-offering": None,
     "the-loam-cycle": "Teval, the Balanced Scale",
     "diminishing-returns": "Teysa Karlov",   # dismantled 2026-07-08 (was a DECKS row)
+    "earthbend-the-meta": "Toph, the First Metalbender",   # retired 2026-07-11 (was a DECKS row)
     # 2026-06-12 bake-off candidates (decks/considering/) + the two externals
     "insider-trading": "Yuriko, the Tiger's Shadow",
     "hostile-takeover": "Godo, Bandit Warlord",
@@ -306,6 +300,7 @@ EXTRA_DISPLAY = {
     "peace-offering": "Peace Offering",
     "the-loam-cycle": "The Loam Cycle",
     "diminishing-returns": "Diminishing Returns",
+    "earthbend-the-meta": "Earthbend the Meta",
 }
 
 
@@ -392,26 +387,6 @@ KILL_TREES = {
         ],
         "stall": "run Quintorius +1 to fill the yard + dig; deploy recursion + a multiplier —<br/>every recursion event is a Spirit, so build toward the −4 alpha",
         "src": "lor_clock_lab.py + Lorehold_Spirits_Summary.md",
-    },
-    "earthbend-the-meta": {
-        "reg_slug": "earthbend_the_meta",
-        "title": "Earthbend the Meta — Toph, the First Metalbender",
-        "root": "Toph resolved — your nontoken artifacts are LANDS (each artifact ETB is a landfall)<br/>end step earthbends a land into a 0/0+counters creature",
-        "background": None,
-        "lines": [
-            ("scute", "Scute Swarm at 6+ lands + Purphoros<br/>(+ Impact Tremors / Cathars' Crusade)",
-             "each landfall copies Scute → 2 dmg to EACH opp per body → 20+ to each opp", "table T7–9", "table"),
-            ("triumph", "Triumph of the Hordes<br/>+ 3 earthbent lands at 4+ counters",
-             "+1/+1, trample & INFECT → 10 poison kills regardless of life", "table T7–9", "table"),
-            ("awbo", "All Will Be One + amplifier suite<br/>(Hardened Scales / Earth Crystal / Doubling Season)",
-             "each +1/+1 counter placed → that much to ONE opp; earthbend 2 = 12+", "decap T7–9", "combat"),
-            ("kyoshi", "Toph, Greatest Earthbender (double strike)<br/>+ 3–4 earthbent lands (8–24 each)",
-             "land-creatures swing for lethal double-strike damage on one opp", "decap T7–9", "combat"),
-            ("moraug", "Moraug + multiple land drops<br/>+ double-strike land-creatures (fallback)",
-             "3–5 extra combat phases → lethal through accumulated steps on one opp", "decap T7–9", "combat"),
-        ],
-        "stall": "ramp + animate lands each end step, stacking counters under the amplifier suite —<br/>the deck doesn't tutor, so dig for a finisher while Scute snowballs",
-        "src": "ebm_clock_lab.py + Earthbend_the_Meta_Summary.md",
     },
     "exiles-return": {
         "reg_slug": "exiles_return",

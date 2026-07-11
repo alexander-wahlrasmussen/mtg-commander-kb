@@ -100,6 +100,7 @@ out of the roster**; Croak and Dagger went grind (§5), Hashaton was dropped.
 - **Gate:** none. This is the deck you can build without asking the pod.
 
 ### 1c. Hearthhull, the Worldseed — *Creative Destruction* (Jund land-sac) 🟢 — **QUEUED (named + approved 2026-07-05; awaiting precon arrival)**
+> **2026-07-11 — Earthbend the Meta is now RETIRED early, ahead of the precon.** Its archetype seat is freed: the deck's `.txt`+summary are archived to `archive/old_decklists/`, it is out of the sim/lab stack and DeckSafe (roster 16 → 15), and its pool was redistributed (Lorehold +4, Exile's Return +2) with the lands-matter core held for this build. So the "Earthbend archive" sleeve-day step below is **done**; when the precon lands, only the DR pulls + promotion/registration/DeckSafe steps remain.
 - **List:** `decks/considering/world-shapers-tuned-20260704.txt` (build target; supersedes upgraded/merged) · **Clock:** decap T10 / table T11 (`ws_clock_lab` @40k 2026-07-05, post commander-registry fix) · **GCs:** 3/3 (Crop Rotation, Gamble, Natural Order) · **Vs Ur-Dragon: 69% (#7)** — 2× the Earthbend seat it retires (33%) · **Tier C #12** (composite 30.7, `ws_place --tuned --measure-inter`).
 - **Wincon:** stationed land-sac drain + Mazirek/Broodscale loop (Abolisher-immune) + landfall slug; Meathook/Jarad/Exsanguinate/AWBO converters.
 - **Sourcing:** the precon (350 DKK, **on order**) + free pool + **Earthbend the Meta retirement** (same archetype seat) + **DR donor pulls per user carve-out** (The Meathook Massacre, Prismatic Vista, Verdant Catacombs, Takenuma — **bump DR's `.txt` when pulled**). Zero further card buys.
@@ -156,7 +157,7 @@ Grouped by what they unlock. Quantities matter where a card is wanted by more th
 These cards are wanted by **more than one** plan. Owning one copy ≠ enough.
 
 > Regenerate this from raw data with `python scripts/unlock_optimizer.py` (backlog #3):
-> it counts demand across the 16 active decklists + the live builds, nets out
+> it counts demand across the 15 active decklists + the live builds, nets out
 > owned+proxy copies, and ranks the over-committed cards + the shared one-purchase
 > unlocks. Pending per-deck swaps not yet written to a `.txt` (e.g. the Kiki-Jiki
 > Exile's/Replication swap) aren't seen — the table below adds those by hand.

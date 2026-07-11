@@ -208,20 +208,6 @@
     "race": false,
     "note": "zombie alpha strike; even the Cyc-Rift line is 'a lethal alpha strike into empty defenses' = combat"
   },
-  "earthbend_the_meta": {
-    "name": "Earthbend the Meta",
-    "axis": "combat",
-    "p_win": 0.3352,
-    "wraths": [],
-    "fogs": [],
-    "taxes": [],
-    "spot": 1,
-    "maze": [],
-    "lifegain": 3,
-    "protect": 0.3,
-    "race": false,
-    "note": "Toph lands-as-creatures combat swing"
-  },
   "eldrazi_stampede": {
     "name": "Eldrazi Stampede Chaos",
     "axis": "combat",

@@ -75,7 +75,7 @@ JUDGMENT = {
     "dark_lords_army": 1, "radiation_sickness": 2, "genome_project": 3, "lightning_war": 4,
     "zero_sum_game": 5, "grand_design": 6, "croak_and_dagger": 7, "lorehold_spirits": 8,
     "curse_of_the_scarab": 10, "exiles_return": 11,   # rank 9 (Diminishing Returns) retired 2026-07-08
-    "earthbend_the_meta": 12, "replication_crisis": 13, "eldrazi_stampede": 14,
+    "replication_crisis": 13, "eldrazi_stampede": 14,   # rank 12 (Earthbend the Meta) retired 2026-07-11
     "bumbleflower": 15, "crystal_sickness": 16,
 }
 # Guard (2026-06-29 audit): a JUDGMENT key that isn't in the live roster is a dead anchor — the

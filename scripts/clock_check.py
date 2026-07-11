@@ -54,7 +54,6 @@ SUMMARY = {
     "radiation_sickness": "Radiation_Sickness_Summary.md",
     "replication_crisis": "The_Replication_Crisis_Summary.md",
     "lorehold_spirits": "Lorehold_Spirits_Summary.md",
-    "earthbend_the_meta": "Earthbend_the_Meta_Summary.md",
     "exiles_return": "The_Exiles_Return_Summary.md",
     "zero_sum_game": "Zero_Sum_Game_Summary.md",
     "curse_of_the_scarab": "Curse_of_the_Scarab_Summary.md",

@@ -376,13 +376,7 @@ LOREHOLD = _A(  # Quintorius (RW) — white removal only, no counters
     ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
     ("Generous Gift", ({"R", "P"}, 3, {"ios"})))
 
-EARTHBEND = _A(  # Toph (Naya-ish) — removal + blue-conditional REB/Pyroblast
-    ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
-    ("Swords to Plowshares", ({"R", "P"}, 1, {"ios"})),
-    ("Generous Gift", ({"R", "P"}, 3, {"ios"})),
-    ("Beast Within", ({"R", "P"}, 3, {"ios"})),
-    ("Pyroblast", ({"C", "R", "P"}, 1, {"ios"})),       # blue-only (pod is partly blue)
-    ("Red Elemental Blast", ({"C", "R", "P"}, 1, {"ios"})))
+# EARTHBEND (Toph) removed 2026-07-11 — deck retired, dropped from the roster.
 
 EXILES = _A(  # Zuko 3 -> Rollick free; Mardu removal/sweepers, no hard counters
     ("Path to Exile", ({"R", "P"}, 1, {"ios"})),
@@ -445,15 +439,14 @@ CRYSTAL = _A(  # Golbez 2 -> FG free; Dimir, lean counter + sweeper
     ("Fierce Guardianship", ({"C"}, 0, {"ios", "ublue", "inst"})),
     ("Toxic Deluge", ({"P"}, 3, {"ios"})))
 
-# gauntlet slug -> (decklist filename under decks/, config). All 15 active decks
-# (Diminishing Returns dismantled 2026-07-08): the 12 above + the three delay_lab
-# already measured (reuse their configs/paths).
+# gauntlet slug -> (decklist filename under decks/, config). All 14 active decks
+# (Earthbend the Meta retired 2026-07-11; Diminishing Returns dismantled 2026-07-08):
+# the 11 above + the three delay_lab already measured (reuse their configs/paths).
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
     "radiation_sickness": ("radiation-sickness-20260707.txt", RADIATION),
     "replication_crisis": ("the-replication-crisis-20260630.txt", REPLICATION),
     "lorehold_spirits": ("lorehold-spirit-20260710.txt", LOREHOLD),
-    "earthbend_the_meta": ("earthbend-the-meta-20260404-075423.txt", EARTHBEND),
     "exiles_return": ("the-exiles-return-20260710.txt", EXILES),
     "zero_sum_game": ("zero-sum-game-20260707.txt", ZEROSUM),
     "curse_of_the_scarab": ("curse-of-the-scarab-20260510-215526.txt", CURSE),

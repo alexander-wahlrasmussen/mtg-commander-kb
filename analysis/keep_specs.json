@@ -201,54 +201,6 @@
     "mixed": "3-card loop is a side line; fast clock = spirits/Quintorius (was FINDING, -4pp front7)",
     "key_missing": []
   },
-  "earthbend-the-meta": {
-    "deck_key": "earthbend-the-meta",
-    "name": "Earthbend the Meta",
-    "bottleneck": "MANA",
-    "also": [
-      "BOARD"
-    ],
-    "min_lands": 2,
-    "max_lands": 4,
-    "hi_curve": false,
-    "cmdr": "toph, the first metalbender",
-    "cmdr_cmc": 4.0,
-    "key_cards": [
-      "triumph of the hordes"
-    ],
-    "key_extra": [],
-    "n_key_needed": 1,
-    "tutors": [],
-    "tutors_unbridged": [
-      "brightglass gearhulk"
-    ],
-    "ramp": [
-      "arcane signet",
-      "bootleggers' stash",
-      "crop rotation",
-      "earthbender ascension",
-      "entish restoration",
-      "farseek",
-      "liquimetal torque",
-      "lotus cobra",
-      "nature's lore",
-      "smothering tithe",
-      "sol ring",
-      "the legend of kyoshi",
-      "tireless provisioner",
-      "wrenn and realmbreaker"
-    ],
-    "selection": [
-      "bitter work",
-      "esper sentinel",
-      "tannuk, memorial ensign",
-      "terrasymbiosis",
-      "the legend of kyoshi"
-    ],
-    "n_selection_needed": 2,
-    "mixed": "lands-matter board also a payoff axis; BOARD union keeps on-curve no-ramp-spell hands",
-    "key_missing": []
-  },
   "the-exiles-return": {
     "deck_key": "the-exiles-return",
     "name": "The Exile's Return",

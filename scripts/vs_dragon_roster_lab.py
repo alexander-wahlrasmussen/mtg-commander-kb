@@ -117,8 +117,6 @@ KILL = {
         note="combat-loop / token swarm; flying blockers wall it"),
     "lorehold_spirits":   dict(axis="combat", cdf="decap", race=False,
         note="spirit combat (only a niche Boros Charm burn goes over)"),
-    "earthbend_the_meta": dict(axis="combat", cdf="decap", race=False,
-        note="Toph lands-as-creatures combat swing"),
     "eldrazi_stampede":   dict(axis="combat", cdf="decap", race=False,
         note="'Combat / Annihilator' (Summary win-condition row)"),
     "bumbleflower":       dict(axis="combat", cdf="decap", race=False,
