@@ -10,7 +10,7 @@
 | **Bracket** | 3 (3 Game Changers used; no early two-card infinites; no MLD; no extra turns) |
 | **Game Changers** | Aang's Shelter (= Teferi's Protection), Enlightened Tutor, Jeska's Will (3 of 3 slots used). *Deflecting Swat is in the deck but no longer a GC after the Oct 2025 delisting.* |
 | **Conversion Check** | **17/20** (5/4/4/4) |
-| **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) **(board)** · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). See `analysis/Exiles_Return_Speed_Curve_Analysis.md` |
+| **Kill Window** | Goldfish: T7–8 (one player) / T10 (table) **(board)** · Through interaction: T8–11 — corrected 2026-06-09 by `scripts/er_speed_lab.py`; the old "T6–8" was ~1 turn optimistic at the front edge (T6 ≈ 9% even unblocked). **Re-run 2026-07-10 on the -20260710 list @40k — clock-neutral** (decap T8, 78% by T8; table T10). See `analysis/Exiles_Return_Speed_Curve_Analysis.md` |
 | **Ramp** | 13 sources (2 burst / 11 repeatable) · 50 mana sources, 37 land · in band (`ramp_audit.py` 2026-06-21) |
 
 -----
@@ -37,9 +37,9 @@ The deck converts exile-zone interactions into a board-wide +1/+1 counter engine
 
 **Layer 2 — Airbend (4) — fires both triggers:** Airbend = exile a permanent; while exiled, owner may cast it for {2} instead of its mana cost. The recast fires trigger #1 (cast from exile) and the new ETB fires trigger #2 (permanent enters from exile). Airbend payers in this deck: Avatar's Wrath (mass airbend opponents' creatures + lock on non-hand casting), Monk Gyatso (airbend your creature when it's targeted — protection), The Legend of Yangchen II/III into Avatar Yangchen (airbend on second-spell-each-turn), Appa, Steadfast Guardian (airbend your nonland permanents on ETB + 1/1 token whenever you cast from exile). Airbending a 6-mana bomb to recast for {2} is mana-efficient; airbending an opponent's creature with Avatar's Wrath only fires Zuko if the opponent chooses to recast it (rare).
 
-**Layer 3 — Flicker / Blink (12) — fires trigger #2:** Permanents leave to exile and return = ETB from exile.
+**Layer 3 — Flicker / Blink (11) — fires trigger #2:** Permanents leave to exile and return = ETB from exile.
 - *Universal blink:* Felidar Guardian (any permanent), Flickerwisp (any permanent until next end step), Eldrazi Displacer ({2}{C}: any creature, repeatable), Charming Prince mode 3 (exile a creature you own — works on opponent-controlled creatures of your own).
-- *Creature blink:* Restoration Angel (non-Angel), Cloudshift, Ephemerate (with Rebound = two triggers), Eerie Interlude (any number, EOT return), Semester's End (any number + extra +1/+1 counter on each), Teleportation Circle (one artifact/creature each end step, recurring).
+- *Creature blink:* Restoration Angel (non-Angel), Ephemerate (with Rebound = two triggers), Eerie Interlude (any number, EOT return), Semester's End (any number + extra +1/+1 counter on each), Teleportation Circle (one artifact/creature each end step, recurring). *(Cloudshift cut 2026-07-10 — the 12th blink piece, one-shot with no rebound, traded for a payoff.)*
 - *Doubler:* Panharmonicon — when the entering permanent is a creature or artifact, Zuko's trigger #2 fires twice. Norin returning under Panharmonicon = +2/+2 to each creature per cycle.
 - *Enchantment engine:* Airbender Ascension (exile target creature on ETB; counts quest counters from creatures ETBing; at 4 counters, exile-and-return your own creature each end step).
 - *Self-blink:* Norin the Wary (exiles itself when ANY player casts a spell or attacks — returns next end step; under Panharmonicon, doubles).
@@ -64,9 +64,12 @@ Cycle blink + cast-from-exile triggers to pile +1/+1 counters on Zuko. Zuko at 7
 The Legend of Roku reaches III (turn 3 of the saga), exile-and-transforms into Avatar Roku (4/4 firebending 4). Avatar Roku attacks for 4R per attack, easily funding the {8}: create 4/4 firebending-4 dragon token activation. Slow, but a backup plan when the blink engine is down. Engine-online → kill: 4–5 turns.
 
 **Line 4 — Sun Titan Loop**
-Sun Titan attacks → return a CMC≤3 permanent from graveyard. The deck has many CMC≤3 engine targets (Norin, Charming Prince, Cloudshift if cast and rebound-exiled, Skyclave Apparition, Laelia, Reconnaissance, Airbender Ascension). Each return rebuilds the engine post-wipe. Combined with a blink piece, Sun Titan flickers itself for repeat triggers (e.g., Felidar Guardian blinks Sun Titan, which on re-ETB returns a permanent from graveyard). Slower kill, but very durable.
+Sun Titan attacks → return a CMC≤3 permanent from graveyard. The deck has many CMC≤3 engine targets (Norin, Charming Prince, Plaguecrafter, Skyclave Apparition, Laelia, Reconnaissance, Airbender Ascension). Each return rebuilds the engine post-wipe. Combined with a blink piece, Sun Titan flickers itself for repeat triggers (e.g., Felidar Guardian blinks Sun Titan, which on re-ETB returns a permanent from graveyard). Slower kill, but very durable.
 
 *Note: Sun Titan and Karmic Guide return permanents from **graveyard**, not exile, so those returns do not trigger Zuko's #2 — they're resilience tools, not engine pieces.*
+
+**Line 5 — Purphoros Passive Burn (added 2026-07-10)**
+Purphoros, God of the Forge: whenever **another** creature you control enters, 2 damage to each opponent. Every blink cycle (Felidar, Restoration Angel, Teleportation Circle each end step), every Appa 1/1 token from a cast-from-exile, and every Norin return pings the table — and Panharmonicon doubles the Purphoros trigger on creature ETBs, so a Norin cycle under both is 4 damage to each opponent per spell anyone casts. Indestructible at low devotion (this deck's red devotion rarely reaches 5, so he's usually a non-creature enchantment — wipe-proof). This is the deck's first **non-combat reach axis**: it converts the engine's normal churn into table damage without attacking, and finishes low-life opponents the combat lines leave behind.
 
 -----
 
@@ -93,9 +96,9 @@ The deck *is* commander-dependent in that Zuko is the +1/+1 source — without h
 
 ## Interaction Package
 
-**~20 pieces total.**
+**~21 pieces total.**
 
-- **Targeted removal (9):** Path to Exile, Swords to Plowshares, Skyclave Apparition (4-or-less nonland nontoken), Solitude (free with evoke), Generous Gift, Feed the Swarm, Chaos Warp, Abrade, Deadly Rollick (free with commander out).
+- **Targeted removal (10):** Path to Exile, Swords to Plowshares, Skyclave Apparition (4-or-less nonland nontoken), Solitude (free with evoke), Generous Gift, Feed the Swarm, Chaos Warp, Abrade, Deadly Rollick (free with commander out), Plaguecrafter (ETB edict — creature *or planeswalker*; blinked = repeatable, answers hexproof/shroud threats; added 2026-07-10).
 - **Mass removal (3):** Toxic Deluge, Blasphemous Act, Avatar's Wrath (mass airbend on opponents' creatures + non-hand cast lock until next turn).
 - **Stack redirection (3):** Imp's Mischief, Deflecting Swat (free), Redirect Lightning. *No counterspells — Mardu can't access them. Redirect partially substitutes by changing single-target spell/ability targets.*
 - **Protection (4):** Aang's Shelter (= Teferi's Protection — phase out everything), Flawless Maneuver (free indestructible-team), Eerie Interlude (exile-and-return team), Semester's End (same with +1/+1 bonuses).
@@ -240,9 +243,8 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 1 Karmic Guide
 1 Sun Titan
 
-### Flicker Spells / Enchantments (5)
+### Flicker Spells / Enchantments (4)
 
-1 Cloudshift
 1 Ephemerate
 1 Eerie Interlude
 1 Semester's End
@@ -260,7 +262,7 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 1 Recruiter of the Guard
 1 Diabolic Intent
 
-### Removal — Spot (8)
+### Removal — Spot (9)
 
 1 Path to Exile
 1 Swords to Plowshares
@@ -270,6 +272,7 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 1 Feed the Swarm
 1 Chaos Warp
 1 Abrade
+1 Plaguecrafter
 
 ### Removal — Mass (2)
 
@@ -293,7 +296,7 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 1 Hellkite Charger
 1 Reconnaissance
-1 Dualcaster Mage
+1 Purphoros, God of the Forge
 
 ### Equipment (1)
 
@@ -365,6 +368,7 @@ Doesn't reach 5 because Mardu has zero counterspells. Combo decks that win on th
 
 ## Changelog
 
+- **2026-07-10 (teardown-swap pass, 2 swaps, $0):** Cards freed by the Earthbend the Meta + Diminishing Returns dismantles. **Adds:** Purphoros, God of the Forge (2 owned; Earthbend copy freed, Lorehold keeps its own — non-combat reach axis, doubled by Panharmonicon on creature ETBs; new Kill Line 5), Plaguecrafter (freed from DR — blinkable edict, creature or planeswalker, answers hexproof; Appa tokens are the sac fodder). **Cuts (dominant-text reasoning):** Dualcaster Mage (ETB spell-copy — pure value, no combo partner in the 99), Cloudshift (the 12th blink piece, one-shot, strictly behind Ephemerate). Both adds verified non-GC — GC stays 3/3 (Aang's Shelter, Enlightened Tutor, Jeska's Will). `deck_doctor` PASS (100 cards, {BRW} identity, banlist, singleton). **Clock re-verified:** `er_speed_lab.py` retargeted to `-20260710` and re-run @40k — decap median T8 (78% by T8) / table T10, clock-neutral vs the 2026-06-09/06-29 baseline (adds are payoff-axis and unmodeled, so this is a floor). Bench (freed, no clean 3rd cut): Kokusho ×2, Solemn Simulacrum ×2 free copies, Giver of Runes — Redirect Lightning fills the scarce stack-interaction role, everything else is engine. CC held at 17/20. List `the-exiles-return-20260710.txt`; old list archived.
 - **2026-06-09:** Kill-window verification + lever test (speed-curve analysis, **no card swaps**). `scripts/er_speed_lab.py` (40k trials): goldfish window corrected T6–8 → **T7–8 one player (med T8) / T10 table**; ten 1-card speed levers all within noise (no median moves) — the clock is broad counter compounding, gated by pre-T5 engine assembly, and no single add fixes that. Text fixes: Enlightened Tutor **cannot** find Sozin's Comet (sorcery — two listings corrected); Sozin foretell costs were inverted (pay {2} face-down, cast {2}{R}); Aggravated-Assault-style effects can never go infinite here (sorcery-speed activation vs firebending mana dying at end of combat) while Hellkite's in-combat trigger can. Pending Kiki swap measured: it *slows* the goldfish slightly (cuts Night's Whisper/Light Up the Stage velocity) — its case is resilience + Drannith disruption, not speed. Full analysis: `analysis/Exiles_Return_Speed_Curve_Analysis.md`.
 - **2026-05-08:** Summary file created from scratch during deck audit. Decklist verified 100 cards (99 + commander); GC count 3/3 (Aang's Shelter = Teferi's Protection, Enlightened Tutor, Jeska's Will). Commander text verified against local Scryfall data; all UB cards verified except Aang's Shelter (missing from local data file — alias resolves to Teferi's Protection per `REF_Reskin_Aliases.md`). Conversion Check score 17/20 (5/4/4/4) confirms `Deck_Index.md` entry. No card swaps recommended at this time.
 
