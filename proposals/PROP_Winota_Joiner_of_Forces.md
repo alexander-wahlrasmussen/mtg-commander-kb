@@ -185,8 +185,9 @@ Mangara the Diplomat (Human draw engine, Winota-findable).
 | Clock (lab 2026-07-12, 40k, `winota_clock_lab.py` — Scurry ETB modelled via ENCH_TOKEN_ETB) | **decap T7/T6 (floor/ceil), table T11/T10** — identical to the 07-01 nonew numbers; the MP-forced swaps cost nothing measurable |
 
 **Standing:** buildability is now a non-issue — zero contention with all 17 active decks,
-one €4 buy. The **strategic objection from 07-01 is unchanged and now doubled**: Winota is
-still a peer (not an upgrade) of the T6-7 racers, AND Mass Production has since taken the
-go-wide-combat seat (overlap check vs `REF_Bracket_3_House_Rules.md` mechanical
-distinctiveness required). Decision is the user's; this section records that the *build
-cost* side of the ledger is now ~zero.
+one €4 buy. The overlap facts, stated as information (the mechanical-distinctiveness hard
+filter was dropped 2026-07-12 — overlap informs, never vetoes): Winota is a peer of the
+T6-7 racers (Genome / Radiation / Replication) on the clock axis, and shares the
+go-wide-combat plan with Mass Production — those are the decks she'd compete with for
+table time. Decision is the user's; this section records that the *build cost* side of
+the ledger is now ~zero.

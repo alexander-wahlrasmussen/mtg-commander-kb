@@ -66,7 +66,7 @@ Flagged for consideration, not yet built:
 - Hinata
 - Krark + Sakashima (pairs / partner shell)
 
-Before building: verify no mechanical overlap with existing roster (see `REF_Bracket_3_House_Rules.md` — Mechanical distinctiveness is a hard filter).
+Before building: cross-reference the roster for mechanical overlap (see `REF_Bracket_3_House_Rules.md`) — overlap informs the decision (name which decks compete for table time), it no longer vetoes it (hard filter dropped 2026-07-12).
 
 ---
 

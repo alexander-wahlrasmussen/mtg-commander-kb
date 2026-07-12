@@ -55,9 +55,8 @@ From the Conversion Check framework:
 
 ## Mechanical distinctiveness
 
-- Every deck in the roster should play *mechanically differently* from every other deck.
-- Archetype overlap is grounds for rejection regardless of flavor or individual card quality.
-- When evaluating a candidate new deck, cross-reference the existing roster (`Deck_Index.md`) for archetype conflicts.
+- Mechanical variety across the roster is a *preference*, not a gate. Overlap with an existing deck is never by itself grounds for rejection. (Revised 2026-07-12 — was a hard filter.)
+- When evaluating a candidate new deck, still cross-reference the existing roster (`Deck_Index.md`) for overlaps — not to reject, but to name which existing deck(s) the candidate competes with for table time, so the build decision is made with eyes open.
 
 ---
 
@@ -67,5 +66,6 @@ Rules can be revised. When a rule is revised, update this file with the revision
 
 **Revisions:**
 
+- **2026-07-12 — Mechanical distinctiveness downgraded from hard filter to preference.** Was "archetype overlap is grounds for rejection." At a 17-deck roster, meaningful overlap is unavoidable and the filter no longer earns its keep; overlap is now surfaced as information (which decks compete for table time), never as a veto.
 - **2026-06-19 — Infinite combos now pod-accepted.** Was "no early two-card infinite combos without pod approval; assume disallowed." The pod has signed off on infinites, so combo lines are evaluated on merit within the 3-GC cap. MLD and extra-turn-chain exclusions unchanged.
 - **2026-06-19 — Owned-card preference downgraded to a tiebreaker.** Collection cards were the working default; now prefer owned only when options are comparable, and buy for measurable improvement. Never constrain a deck's recursion / combo lines / engine for lack of cards.

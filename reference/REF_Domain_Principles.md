@@ -17,7 +17,7 @@ Hard-won lessons from prior analysis. Each entry exists because a mistake was ma
 
 ## Evaluation discipline
 
-- **Mechanical distinctiveness is a hard filter.** Two decks that play the same way are one deck too many, regardless of flavor or individual card quality.
+- **Mechanical distinctiveness is a preference, not a filter.** (Revised 2026-07-12; was a hard filter — unreasonable at a 17-deck roster.) Overlap never vetoes a build; instead, name which existing deck(s) the candidate competes with for table time and let the user weigh it. See `REF_Bracket_3_House_Rules.md` revisions.
 - **Honest scoring over optimistic scoring.** Inflated scores will be caught. Score the deck as it actually plays, not as it flatters the builder.
 - **Power-first, collection-constrained second.** Build the strongest legal list first, then resolve against collection/budget.
 - **Count token producers before recommending token doublers.** A doubler with only 2–3 token generators is a dead card most games. For Teysa aristocrats: Desecrated Tomb, Woe Strider, Endrek Sahr are the real producers. Sephiroth is *not*.
