@@ -32,10 +32,13 @@ OPTIMISTIC (shared goldfish priors + this deck's):
   * Mana = lands + rocks + Myr-dork floor (rock activation costs ignored, as every lab).
   * Haste (Goldspan/Ragavan/Hanweir Battlements/Rising of the Day) ignored => the few
     same-turn attacks are NOT counted (conservative on speed).
-OMITTED: Monastery Mentor / Hanweir Garrison / Nesting Dragon token trickles; Théoden /
-  Lossarnach / Beregond / Odric / Iroas combat buffs (so the real board is a touch
-  stronger than modelled — the headline number is if anything conservative on payoff,
-  optimistic on durability).
+OMITTED: Monastery Mentor / Mirrex / Kavaron Harrier token trickles; Théoden /
+  Lossarnach / Beregond / Odric / Iroas / Pianna / Flowering combat buffs; Mangara
+  draw (so the real board is a touch stronger than modelled — the headline number is
+  if anything conservative on payoff, optimistic on durability).
+2026-07-12 list (-20260712): the 6 Mass-Production/Skullclamp-contended slots swapped
+  for free-pool cards (Scurry/Kavaron/Pianna/Flowering/Mirrex/Mangara). Scurry's ETB
+  gremlins modelled via ENCH_TOKEN_ETB; the rest land in the OMITTED bucket above.
 
 Data: collection/oracle-cards.json (refresh via update_scryfall_data.py)
 Run:  python scripts/winota_clock_lab.py --trials 40000
@@ -51,7 +54,7 @@ slc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(slc)
 ds = slc.ds
 
 # --- spec ------------------------------------------------------------------
-DECK = ROOT / "decks" / "considering" / "winota-joiner-of-forces-20260618.txt"
+DECK = ROOT / "decks" / "considering" / "winota-joiner-of-forces-20260712.txt"
 SEED = 20260618
 TURNS = 14
 SHOW = [4, 5, 6, 7, 8, 9, 10, 12]
@@ -64,7 +67,11 @@ ROCKS = {"Sol Ring": (1, 2), "Boros Signet": (2, 1), "Arcane Signet": (2, 1),
 DORKS = {"Plague Myr": 1, "Palladium Myr": 2, "Hedron Crawler": 1}
 # non-human bodies created on cast/ETB: name -> (count, power) [become attackers next turn]
 TOKEN_ETB = {"Siege-Gang Commander": (3, 1), "Spawn-Gang Commander": (3, 0),
-             "Blade Splicer": (1, 3)}
+             "Blade Splicer": (1, 3), "Angel of Invention": (2, 1)}
+# noncreature spells that ETB non-human bodies (cast loop below is creatures-only):
+#   Scurry of Gremlins — "When this enchantment enters, create two 1/1 red Gremlin
+#   creature tokens." (card_lookup verified 2026-07-12; energy haste-pump NOT modelled)
+ENCH_TOKEN_ETB = {"Scurry of Gremlins": (2, 1)}
 OKETRA = "God-Eternal Oketra"            # +1 non-human 4/4 per creature cast
 ERKENBRAND = "Erkenbrand, Lord of Westfold"   # +1/+0 team per Human ETB
 ADELINE = "Adeline, Resplendent Cathar"
@@ -129,15 +136,21 @@ class Trial:
             # library, so she's not part of the flood pool _p_hit() draws from.
 
         # --- deploy creatures, cheapest first (maximise body/trigger count) ---
+        #     (+ the token-ETB enchantments — bodies are bodies)
         while True:
             cands = sorted(
                 ((i, nm, r) for i, (nm, r) in enumerate(g.hand)
-                 if is_creature(r) and (r.get("cmc", 0) or 0) <= g.avail),
+                 if (is_creature(r) or nm in ENCH_TOKEN_ETB)
+                 and (r.get("cmc", 0) or 0) <= g.avail),
                 key=lambda x: x[2].get("cmc", 0) or 0)
             if not cands:
                 break
             i, nm, r = cands[0]
             g.cast(nm)                      # pays cmc from avail
+            if nm in ENCH_TOKEN_ETB:
+                cnt, pw = ENCH_TOKEN_ETB[nm]
+                self.pending += [(pw, False)] * cnt
+                continue                    # enchantment: tokens only, no body/Human ETB
             if nm in DORKS:
                 self.dork_out += DORKS[nm]
                 g.add_mana(DORKS[nm])       # taps same turn

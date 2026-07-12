@@ -153,3 +153,40 @@ duplicates a plan the roster already covers, when the standing goal is to **dive
 racing**, not deepen it. The go-wide caveats (folds to a single wrath, no combo backup, blockers)
 are the same ones that keep it a peer rather than a leader. **Decision: don't build.** Kept for
 record; the lab (`winota_clock_lab.py`) + its regression test stay as a tool.
+
+## Re-look (2026-07-12) — post DR + Earthbend dismantle
+
+User re-opened the question now that Diminishing Returns (2026-07-08) and Earthbend
+(2026-07-11) are dismantled. The landscape moved in both directions: their remainders
+returned to the pool (+), but **Mass Production and Creative Destruction were built in
+between and consume cards** (−) — MP being Naya go-wide, exactly Winota's neighborhood.
+
+Strict re-check (`availability_check.py`, all 17 active decks protected, CSV 2026-07-11;
+proxy copies count as owned — real-vs-proxy is NOT a distinction, per user, and the
+07-01 "proxy-cost ladder" framing is retracted):
+
+- `-20260618` free-pool list: 24 locked — dead.
+- `-owned-20260701`: 13 locked (the RC-deployed singles + new MP locks) — dead.
+- `-nonew-20260701`: only **6 locked**, 5 of them Mass Production (Angel of Invention,
+  Hanweir Garrison, Jazal Goldmane, Nesting Dragon, War Room) + Skullclamp (4 copies,
+  all deployed). Side-finding: Purphoros is over-committed (2 tagged copies, 3 deck slots).
+
+**New list: `decks/considering/winota-joiner-of-forces-20260712.txt`** — nonew base with
+6 free-pool swaps (oracle-verified, availability-checked): Nesting Dragon→Scurry of
+Gremlins, Hanweir Garrison→Kavaron Harrier, Jazal Goldmane→Pianna Nomad Captain (a Human
+— Winota hit), Angel of Invention→Flowering of the White Tree (wipe-proof anthem, list is
+legend-dense), War Room→Mirrex (non-Human Mite attackers from the land slot), Skullclamp→
+Mangara the Diplomat (Human draw engine, Winota-findable).
+
+| Check | Result |
+|---|---|
+| deck_doctor | PASS 0/0 — 100 cards, 3/3 GC (Drannith / Tithe / Teferi's), all legal |
+| availability | **79/80 FREE**; only Winota herself UNOWNED (€4.03, Scryfall 2026-07-12) |
+| Clock (lab 2026-07-12, 40k, `winota_clock_lab.py` — Scurry ETB modelled via ENCH_TOKEN_ETB) | **decap T7/T6 (floor/ceil), table T11/T10** — identical to the 07-01 nonew numbers; the MP-forced swaps cost nothing measurable |
+
+**Standing:** buildability is now a non-issue — zero contention with all 17 active decks,
+one €4 buy. The **strategic objection from 07-01 is unchanged and now doubled**: Winota is
+still a peer (not an upgrade) of the T6-7 racers, AND Mass Production has since taken the
+go-wide-combat seat (overlap check vs `REF_Bracket_3_House_Rules.md` mechanical
+distinctiveness required). Decision is the user's; this section records that the *build
+cost* side of the ledger is now ~zero.

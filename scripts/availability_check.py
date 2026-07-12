@@ -1,7 +1,8 @@
 """Check a candidate decklist against collection ownership and deployed decks.
 
 For each card in the candidate list, reports:
-  - owned count (Moxfield haves CSV; proxy copies counted separately)
+  - owned count (Moxfield haves CSV; proxy copies count as owned — real-vs-proxy
+    is display-only, never an availability distinction)
   - which active deck .txt files currently run it
   - whether every owned copy is locked inside a protected deck
 
@@ -81,18 +82,19 @@ def main():
     rows = []
     for card in candidate:
         own, prox = owned[card], proxy[card]
+        # Proxy copies tagged in the collection ARE owned copies (user rule,
+        # confirmed 2026-07-12) — one pool, no real-vs-proxy status distinction.
+        total = own + prox
         deps = deployments.get(card, [])
         prot_used = sum(n for d, n in deps if is_protected(d))
         free_deps = [(d, n) for d, n in deps if not is_protected(d)]
         if card in reserved:
             prot_used += 1
-        available = own - prot_used  # copies not locked in protected decks
-        if own + prox == 0:
+        available = total - prot_used  # copies not locked in protected decks
+        if total == 0:
             status = "UNOWNED"
-        elif available <= 0 and own > 0:
+        elif available <= 0:
             status = "LOCKED (protected)"
-        elif own <= 0 < prox:
-            status = "PROXY ONLY"
         elif free_deps:
             status = "DONOR PULL"
         else:
@@ -101,7 +103,7 @@ def main():
                      "; ".join(f"{d} x{n}" for d, n in deps) or "-",
                      "RESERVED" if card in reserved else ""))
 
-    order = {"UNOWNED": 0, "LOCKED (protected)": 1, "PROXY ONLY": 2, "DONOR PULL": 3, "FREE": 4}
+    order = {"UNOWNED": 0, "LOCKED (protected)": 1, "DONOR PULL": 2, "FREE": 3}
     rows.sort(key=lambda r: (order[r[0]], r[1]))
     counts = defaultdict(int)
     for r in rows:
