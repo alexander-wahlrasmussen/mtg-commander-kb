@@ -52,10 +52,16 @@ def fetch_variants(card):
         url = d.get("next")
     return out
 
+def _front(name):
+    """Front face of a DFC/split name, lowercased — CSB stores full 'A // B' names,
+    so a query for the front face must still match (Sephiroth bug, 2026-07-12)."""
+    return name.split(" // ")[0].strip().lower()
+
+
 def main():
     owned = load_owned()
     for cmd in sys.argv[1:]:
-        cl = cmd.lower()
+        cl = _front(cmd)
         try:
             variants = fetch_variants(cmd)
         except Exception as e:
@@ -64,9 +70,9 @@ def main():
         rows = []
         for v in variants:
             uses = [u["card"]["name"] for u in v.get("uses", [])]
-            if not any(u.lower() == cl for u in uses):
+            if not any(_front(u) == cl for u in uses):
                 continue
-            others = [u for u in uses if u.lower() != cl]
+            others = [u for u in uses if _front(u) != cl]
             missing = [u for u in others if u.lower() not in owned]
             if len(missing) <= 1 and v.get("legalities", {}).get("commander") is not False:
                 rows.append((len(missing), -(v.get("popularity") or 0), others, missing,
