@@ -314,6 +314,9 @@ EXTRA_COMMANDERS = {
     "bdd-azula-budget": "Fire Lord Azula",
     # 2026-07-01 external budget YouTube deck under evaluation (decks/considering/) — Boros Cass recursion COMBO
     "cass-budget-combo": "Cass, Hand of Vengeance",
+    # 2026-07-12 mono-B K'rrik life-as-mana aristocrats candidate (decks/considering/) —
+    # Sephiroth/Yawgmoth/Soultrader engine core; PROP_Krrik_Deficit_Spending.md; name provisional
+    "deficit-spending": "K'rrik, Son of Yawgmoth",
     # 2026-07-04 World Shapers precon (EOC, Hearthhull) evaluation (decks/considering/) —
     # stock box vs the owned-only 19-swap upgrade vs the external $1400 primer build
     "world-shapers-precon": "Hearthhull, the Worldseed",

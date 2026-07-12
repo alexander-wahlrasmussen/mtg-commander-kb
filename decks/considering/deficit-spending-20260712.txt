@@ -1,0 +1,101 @@
+1 Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel
+1 Warren Soultrader
+1 Yawgmoth, Thran Physician
+1 Mikaeus, the Unhallowed
+1 Chainer, Dementia Master
+1 Gravecrawler
+1 Carrion Feeder
+1 Reassembling Skeleton
+1 Stitcher's Supplier
+1 Cryptbreaker
+1 Gray Merchant of Asphodel
+1 Kokusho, the Evening Star
+1 Vilis, Broker of Blood
+1 Yahenni, Undying Partisan
+1 Soldevi Adnate
+1 Priest of Forgotten Gods
+1 Whisper, Blood Liturgist
+1 Shirei, Shizo's Caretaker
+1 Blood Artist
+1 Zulaport Cutthroat
+1 Viscera Seer
+1 Nadier's Nightblade
+1 Mirkwood Bats
+1 Dark Confidant
+1 Midnight Reaper
+1 Undead Augur
+1 Disciple of Bolas
+1 Doomsday Excruciator
+1 Crypt Rats
+1 Grave Titan
+1 Fleshbag Marauder
+1 Emeritus of Woe // Demonic Tutor
+1 Grim Servant
+1 Sol Ring
+1 Arcane Signet
+1 Mana Vault
+1 Dark Ritual
+1 Cabal Ritual
+1 Culling the Weak
+1 Bubbling Muck
+1 Bontu's Monument
+1 Phyrexian Arena
+1 Read the Bones
+1 Eviscerator's Insight
+1 Ad Nauseam
+1 Bolas's Citadel
+1 Aetherflux Reservoir
+1 Nest of Scarabs
+1 Grave Pact
+1 Phyrexian Reclamation
+1 Witch's Cauldron
+1 Unmarked Grave
+1 Victimize
+1 Dread Return
+1 Increasing Ambition
+1 Imp's Mischief
+1 Fight On!
+1 Pull from the Grave
+1 Sheoldred's Edict
+1 Bitter Triumph
+1 Feed the Swarm
+1 Heartless Act
+1 Innocent Blood
+1 Murderous Rider // Swift End
+1 Blasphemous Edict
+1 Feast of Succession
+1 Agadeem's Awakening // Agadeem, the Undercrypt
+1 Malakir Rebirth // Malakir Mire
+1 Crypt of Agadeem
+1 Unholy Grotto
+1 Ifnir Deadlands
+1 Mortuary Mire
+1 Memorial to Folly
+1 Haunted Fengraf
+1 Rogue's Passage
+1 Reliquary Tower
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+1 Swamp
+
+1 K'rrik, Son of Yawgmoth
