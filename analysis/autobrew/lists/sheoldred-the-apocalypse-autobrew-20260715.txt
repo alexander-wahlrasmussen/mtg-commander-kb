@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Sheoldred, the Apocalypse  [B]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Sheoldred, the Apocalypse
+1 Bloodchief Ascension
+1 Campfire
+1 Cauldron Familiar
+1 Currency Converter
+1 Dissection Practice
+1 Northern Air Temple
+1 Sensei's Divining Top
+1 The Underworld Cookbook
+1 Witch's Cauldron
+1 Aang's Journey
+1 Blood Artist
+1 Consuming Corruption
+1 Deadly Dispute
+1 Dreadhorde Invasion
+1 Instant Ramen
+1 Malakir Blood-Priest
+1 Melancholic Poet
+1 Obsessive Pursuit
+1 Postmortem Professor
+1 Priest of Forgotten Gods
+1 Scheming Silvertongue // Sign in Blood
+1 Send in the Pest
+1 Stensian Sanguinist // Exsanguinate
+1 The Meathook Massacre
+1 Tithing Blade // Consuming Sepulcher
+1 Zulaport Cutthroat
+1 Al Bhed Salvagers
+1 Arnyn, Deathbloom Botanist
+1 Black Market Connections
+1 Bontu's Monument
+1 Breathe Your Last
+1 Circuit Mender
+1 Gate to the Afterlife
+1 Kami of Jealous Thirst
+1 Liliana, Heretical Healer // Liliana, Defiant Necromancer
+1 Mask of Griselbrand
+1 Monument to Endurance
+1 Moseo, Vein's New Dean
+1 Murderous Rider // Swift End
+1 Nadier's Nightblade
+1 Necropotence
+1 Phial of Galadriel
+1 Potioner's Trove
+1 Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel
+1 Transpose
+1 Azula, On the Hunt
+1 Circle of Power
+1 Disciple of Bolas
+1 Elegy Acolyte
+1 Survey Mechan
+1 Forsaken Monument
+1 Gray Merchant of Asphodel
+1 Sneering Shadewriter
+1 Bolas's Citadel
+1 Lord of the Forsaken
+1 Professor Onyx
+1 K'rrik, Son of Yawgmoth
+1 Peer into the Abyss
+1 Ugin, Eye of the Storms
+1 Archon of Cruelty
+1 Ugin, the Spirit Dragon
+1 Vilis, Broker of Blood
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Fabled Passage
+1 Flooded Strand
+29 Swamp

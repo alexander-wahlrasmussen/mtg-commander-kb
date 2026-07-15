@@ -1,0 +1,82 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Vivi Ornitier  [RU]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Vivi Ornitier
+1 Ancestral Anger
+1 Arcum's Astrolabe
+1 Boomerang Basics
+1 Brainstorm
+1 Consider
+1 Gitaxian Probe
+1 Impulsive Pilferer
+1 Opt
+1 Overmaster
+1 Ponder
+1 Shattering Spree
+1 Choreographed Sparks
+1 Firebender Ascension
+1 Galvanic Iteration
+1 Kitsa, Otterball Elite
+1 Kozilek's Command
+1 Krark, the Thumbless
+1 Marvin, Murderous Mimic
+1 Molten-Core Maestro
+1 Muddle the Mixture
+1 Narset's Reversal
+1 Nim Deathmantle
+1 Price of Freedom
+1 Proft's Eidetic Memory
+1 Return the Favor
+1 Sanar, Unfinished Genius // Wild Idea
+1 Adaptive Training Post
+1 Ashnod's Altar
+1 Bonus Round
+1 Colorstorm Stallion
+1 Cursed Mirror
+1 Dualcaster Mage
+1 Flare of Duplication
+1 Irma, Part-Time Mutant
+1 Jeong Jeong, the Deserter
+1 Prosperous Bandit
+1 Reiterate
+1 Skyclave Relic
+1 Spirit of Resilience
+1 Stella Lee, Wild Card
+1 Twinning Staff
+1 Ashling, Flame Dancer
+1 Copycrook
+1 Ether
+1 Flash Photography
+1 Lithoform Engine
+1 Mizzix's Mastery
+1 Primal Amulet // Primal Wellspring
+1 Radstorm
+1 Relm's Sketching
+1 Spectacular Skywhale
+1 Stormsplitter
+1 Summon: G.F. Cerberus
+1 Tackle Artist
+1 Urabrask // The Great Work
+1 Zada, Hedron Grinder
+1 Caldera Pyremaw
+1 Gandalf the Grey
+1 Pigment Wrangler // Striking Palette
+1 Ran and Shaw
+1 Deadeye Navigator
+1 Expansion // Explosion
+1 Aether Hub
+1 Airship Engine Room
+1 Baron, Airship Kingdom
+1 Capital City
+1 Cascade Bluffs
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Exotic Orchard
+1 Ferrous Lake
+1 Fiery Islet
+1 Frostboil Snarl
+1 Gemstone Caverns
+9 Island
+14 Mountain

@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Nissa, Resurgent Animist  [G]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Nissa, Resurgent Animist
+1 Zuran Orb
+1 Arbor Elf
+1 Birds of Paradise
+1 Boreal Druid
+1 Currency Converter
+1 Elvish Mystic
+1 Exploration Broodship
+1 Fyndhorn Elves
+1 Gilded Goose
+1 Llanowar Elves
+1 Sami's Curiosity
+1 Aftermath Analyst
+1 Bloom Tender
+1 Bristly Bill, Spine Sower
+1 Explore
+1 Fanatic of Rhonas
+1 Fauna Shaman
+1 Herd Heirloom
+1 Incubation Druid
+1 Kozilek's Command
+1 Llanowar Loamspeaker
+1 Lotus Cobra
+1 Malevolent Rumble
+1 Millikin
+1 Mind Stone
+1 Priest of Titania
+1 Ride the Shoopuf
+1 Sidequest: Raise a Chocobo // Black Chocobo
+1 Springheart Nantuko
+1 Warping Wail
+1 Deepwood Denizen
+1 Earthbender Ascension
+1 Emeritus of Abundance // Regrowth
+1 Emil, Vastlands Roamer
+1 Evolution Sage
+1 Evolution Witness
+1 Floral Evoker
+1 Generous Patron
+1 Oblivion Stone
+1 Reclamation Sage
+1 Rishkar, Peema Renegade
+1 Scute Swarm
+1 Selvala, Heart of the Wilds
+1 Springbloom Druid
+1 Tato Farmer
+1 Thornfist Striker
+1 Tireless Provisioner
+1 Tireless Tracker
+1 Topiary Lecturer
+1 Unstable Obelisk
+1 Armorcraft Judge
+1 Icecave Crasher
+1 Icetill Explorer
+1 Mightform Harmonizer
+1 Oracle of Mul Daya
+1 Pir's Whim
+1 Toph, Earthbending Master
+1 Territory Culler
+1 Disciple of Freyalise // Garden of Freyalise
+1 Lumra, Bellow of the Woods
+1 Primeval Bounty
+1 Ugin, the Spirit Dragon
+1 Fabled Passage
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Flooded Strand
+29 Forest

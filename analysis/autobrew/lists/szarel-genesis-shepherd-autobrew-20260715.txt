@@ -1,0 +1,87 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Szarel, Genesis Shepherd  [BGR]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Szarel, Genesis Shepherd
+1 Lotus Petal
+1 Mishra's Bauble
+1 Urza's Bauble
+1 Blood Fountain
+1 Carrion Feeder
+1 Cauldron Familiar
+1 Codex Shredder
+1 Exploration Broodship
+1 Quest for the Necropolis
+1 Retrofitted Transmogrant
+1 The Underworld Cookbook
+1 Viscera Seer
+1 Aftermath Analyst
+1 Altar of Dementia
+1 Goblin Bombardment
+1 Goblin Engineer
+1 Legion Vanguard
+1 Lively Dirge
+1 Restore
+1 Rydia, Summoner of Mist
+1 Shigeki, Jukai Visionary
+1 Trailtracker Scout
+1 True Ancestry
+1 Wight of the Reliquary
+1 Worldsoul's Rage
+1 Agadeem's Awakening // Agadeem, the Undercrypt
+1 Alesha, Who Laughs at Fate
+1 Ashnod's Altar
+1 Cauldron of Essence
+1 Emeritus of Abundance // Regrowth
+1 Erinis, Gloom Stalker
+1 Evolution Witness
+1 Floral Evoker
+1 Journey to Eternity // Atzal, Cave of Eternity
+1 Liliana, Heretical Healer // Liliana, Defiant Necromancer
+1 Phyrexian Altar
+1 Tablet of Discovery
+1 Tato Farmer
+1 Tireless Tracker
+1 Undergrowth Recon
+1 Woe Strider
+1 Yahenni, Undying Partisan
+1 Blossoming Tortoise
+1 Centaur Vinecrasher
+1 Eumidian Wastewaker
+1 Icetill Explorer
+1 Interceptor Mechan
+1 Rise of the Witch-king
+1 Soul of Windgrace
+1 Splendid Reclamation
+1 Toph, Hardheaded Teacher
+1 Urabrask // The Great Work
+1 World Shaper
+1 Summon: Titan
+1 Tergrid, God of Fright // Tergrid's Lantern
+1 Titania, Protector of Argoth
+1 Will of the Sultai
+1 Lord of the Forsaken
+1 Lumra, Bellow of the Woods
+1 Multani, Yavimaya's Avatar
+1 The Rise of Sozin // Fire Lord Sozin
+1 Spawnbed Protector
+1 Aether Hub
+1 Capital City
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Exotic Orchard
+1 Gemstone Caverns
+1 Great Hall of the Biblioplex
+1 Great Hall of the Citadel
+1 Horizon of Progress
+1 Jasmine Dragon Tea Shop
+1 Lotus Field
+1 Mirrex
+1 Nykthos, Shrine to Nyx
+1 Opal Palace
+1 Path of Ancestry
+1 Planar Nexus
+9 Forest
+3 Mountain
+7 Swamp

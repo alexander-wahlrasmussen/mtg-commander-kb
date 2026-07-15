@@ -1,0 +1,82 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Mazirek, Kraul Death Priest  [BG]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Mazirek, Kraul Death Priest
+1 Lotus Petal
+1 Mishra's Bauble
+1 Urza's Bauble
+1 Walking Ballista
+1 Carrion Feeder
+1 Retrofitted Transmogrant
+1 Viscera Seer
+1 Altar of Dementia
+1 Azula Always Lies
+1 Basking Broodscale
+1 Bristly Bill, Spine Sower
+1 Cathedral Acolyte
+1 Contagion Clasp
+1 Demon Wall
+1 Dreamdrinker Vampire
+1 Fowl Strike
+1 Incubation Druid
+1 Leaves from the Vine
+1 Legion Vanguard
+1 Obsessive Pursuit
+1 Orcish Medicine
+1 Ordeal of Nylea
+1 Origin of Metalbending
+1 Propagator Drone
+1 Ride the Shoopuf
+1 Torgal, A Fine Hound
+1 Wither and Bloom
+1 Ashnod's Altar
+1 Cost of Brilliance
+1 Deepwood Denizen
+1 Dreadmobile
+1 Earthbender Ascension
+1 Evolution Sage
+1 Evolution Witness
+1 Feral Ghoul
+1 Floral Evoker
+1 Generous Patron
+1 Inspiring Call
+1 Kami of Whispered Hopes
+1 Ostrich-Horse
+1 Phyrexian Altar
+1 Prishe's Wanderings
+1 Rampaging Yao Guai
+1 Rishkar, Peema Renegade
+1 Strength Bobblehead
+1 Summon: Fenrir
+1 Terrasymbiosis
+1 Tireless Tracker
+1 Topiary Lecturer
+1 Woe Strider
+1 Arcbound Condor
+1 Armorcraft Judge
+1 Atomize
+1 Bloatfly Swarm
+1 Lethal Scheme
+1 Merchant of Venom
+1 Scurrilous Sentry
+1 The Darkness Crystal
+1 Yawgmoth, Thran Physician
+1 Herd Baloth
+1 Contagion Engine
+1 Season of Gathering
+1 Aether Hub
+1 Bayou
+1 Capital City
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Darkbore Pathway // Slitherbore Pathway
+1 Darkmoss Bridge
+1 Deathcap Glade
+1 Exotic Orchard
+1 Festering Thicket
+1 Foggy Bottom Swamp
+1 Gemstone Caverns
+13 Forest
+10 Swamp

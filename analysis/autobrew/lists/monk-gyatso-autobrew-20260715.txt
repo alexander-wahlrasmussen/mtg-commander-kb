@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Monk Gyatso  [W]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Monk Gyatso
+1 Walking Ballista
+1 Arcum's Astrolabe
+1 Campfire
+1 Codex Shredder
+1 Curious Farm Animals
+1 Currency Converter
+1 Curse of Silence
+1 Elite Interceptor // Rejoinder
+1 Erode
+1 Esper Sentinel
+1 Gryff's Boon
+1 Jolted Awake
+1 Lunatic Pandora
+1 Momo, Playful Pet
+1 Null Elemental Blast
+1 Path to Exile
+1 Phoenix Down
+1 Ransom Note
+1 Retrofitter Foundry
+1 Soul-Guide Lantern
+1 Swords to Plowshares
+1 The Underworld Cookbook
+1 Vexing Bauble
+1 Airbender Ascension
+1 Airbender's Reversal
+1 Ambrosia Whiteheart
+1 Archivist of Oghma
+1 Argent Dais
+1 Battle Menu
+1 Cartographer's Hawk
+1 Charitable Levy
+1 Charming Prince
+1 Darksteel Mutation
+1 Dawn Charm
+1 Dawn of a New Age
+1 Dawnbringer Cleric
+1 Diary of Dreams
+1 Distinguished Conjurer
+1 Energybending
+1 Expel the Unworthy
+1 Feather of Flight
+1 Harsh Annotation
+1 Helpful Hunter
+1 Ichor Wellspring
+1 Instant Ramen
+1 Joined Researchers // Secret Rendezvous
+1 Kozilek's Command
+1 Lightning Greaves
+1 Millikin
+1 Mind Stone
+1 Oath of Lieges
+1 Ornithopter of Paradise
+1 Page, Loose Leaf
+1 Parting Gust
+1 Prophetic Prism
+1 Puresteel Paladin
+1 Rapier Wit
+1 Razor Rings
+1 Winds of Abandon
+1 Dismantling Wave
+1 Palladium Myr
+1 Urza's Incubator
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Fabled Passage
+1 Flooded Strand
+29 Plains

@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Endrek Sahr, Master Breeder  [B]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Endrek Sahr, Master Breeder
+1 Blood Fountain
+1 Callous Inspector
+1 Cauldron Familiar
+1 Codex Shredder
+1 Deadly Precision
+1 Lethal Throwdown
+1 Phyrexian Reclamation
+1 Quest for the Necropolis
+1 Retrofitter Foundry
+1 The Underworld Cookbook
+1 Witch's Cauldron
+1 Witch's Oven
+1 Beamsaw Prospector
+1 Deadly Dispute
+1 Diabolic Intent
+1 Eviscerator's Insight
+1 Gravedig
+1 Joo Dee, One of Many
+1 June, Bounty Hunter
+1 Kozilek's Command
+1 Obsessive Pursuit
+1 Priest of Forgotten Gods
+1 Reno and Rude
+1 Soldevi Adnate
+1 Vayne's Treachery
+1 Warping Wail
+1 Ahriman
+1 Ashnod's Altar
+1 Braids, Arisen Nightmare
+1 Foggy Swamp Visions
+1 Liliana, Heretical Healer // Liliana, Defiant Necromancer
+1 Liliana, the Last Hope
+1 Moseo, Vein's New Dean
+1 Phyrexian Altar
+1 Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel
+1 Unshakable Tail
+1 Victimize
+1 Warren Soultrader
+1 Woe Strider
+1 Assault Suit
+1 Azula, On the Hunt
+1 Buzzard-Wasp Colony
+1 Disciple of Bolas
+1 Dread Return
+1 Espers to Magicite
+1 Eumidian Wastewaker
+1 Flare of Malice
+1 Grim Hireling
+1 Krark-Clan Ironworks
+1 Namazu Trader
+1 Pitiless Plunderer
+1 Sold Out
+1 Thornplate Intimidator
+1 Ghoulcaller Gisa
+1 Gray Merchant of Asphodel
+1 Liliana, Death's Majesty
+1 Nyla, Shirshu Sleuth
+1 Sidequest: Hunt the Mark // Yiazmat, Ultimate Mark
+1 Sidisi, Undead Vizier
+1 Liliana, Dreadhorde General
+1 Mycosynth Lattice
+1 Spawnbed Protector
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Fabled Passage
+1 Flooded Strand
+29 Swamp

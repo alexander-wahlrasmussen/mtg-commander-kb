@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Yahenni, Undying Partisan  [B]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Yahenni, Undying Partisan
+1 Living End
+1 Blood Fountain
+1 Carrion Feeder
+1 Cauldron Familiar
+1 Codex Shredder
+1 Deadly Precision
+1 Gravecrawler
+1 Lethal Throwdown
+1 Quest for the Necropolis
+1 Retrofitted Transmogrant
+1 Retrofitter Foundry
+1 The Underworld Cookbook
+1 Tortured Existence
+1 Witch's Cauldron
+1 Deadly Dispute
+1 Diabolic Intent
+1 Eviscerator's Insight
+1 Joo Dee, One of Many
+1 June, Bounty Hunter
+1 Legion Vanguard
+1 Lively Dirge
+1 Obsessive Pursuit
+1 Priest of Forgotten Gods
+1 Reassembling Skeleton
+1 Reno and Rude
+1 Soldevi Adnate
+1 Vayne's Treachery
+1 Ahriman
+1 Ashnod's Altar
+1 Braids, Arisen Nightmare
+1 Desecrated Tomb
+1 Dreadmobile
+1 Foggy Swamp Visions
+1 Liliana, Heretical Healer // Liliana, Defiant Necromancer
+1 Phyrexian Altar
+1 Plague Belcher
+1 Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel
+1 Stridehangar Automaton
+1 Unshakable Tail
+1 Victimize
+1 Warren Soultrader
+1 Woe Strider
+1 Buzzard-Wasp Colony
+1 Disciple of Bolas
+1 Dread Return
+1 Eumidian Wastewaker
+1 Flare of Malice
+1 Krark-Clan Ironworks
+1 Pitiless Plunderer
+1 Roaming Throne
+1 The Darkness Crystal
+1 Whisper, Blood Liturgist
+1 Yawgmoth, Thran Physician
+1 Beetle-Headed Merchants
+1 Evil Reawakened
+1 Liliana, Death's Majesty
+1 Sidequest: Hunt the Mark // Yiazmat, Ultimate Mark
+1 Sidisi, Undead Vizier
+1 Tergrid, God of Fright // Tergrid's Lantern
+1 Lord of the Forsaken
+1 Mikaeus, the Unhallowed
+1 Spawnbed Protector
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Fabled Passage
+1 Flooded Strand
+29 Swamp

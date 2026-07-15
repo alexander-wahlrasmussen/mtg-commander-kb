@@ -641,3 +641,31 @@ measured profile; default path byte-identical (null-reduction test, the finisher
      are STALE vs HEAD (Croak promotion, FL A→B, RS fixes) — one rebake after (5).
   Standing refinement: log his actual kill/attempt turns at the next meetup (pocket
   scorecard next to `game_log.py quick`) — real observations grade all four PROXY clocks.
+
+---
+
+## ~~14. Auto-Brewer — machine proposes, human vets~~ ✅ SHIPPED 2026-07-15
+
+Every deck to date was human-proposed, machine-verified; this flips the pipeline.
+Built: `scripts/auto_brewer.py` (census / brew / score / sweep) + 24 hermetic tests +
+`analysis/Auto_Brewer_2026-07-15.md`. Enumerates every owned commander candidate (420:
+Legendary-Creature front face or "can be your commander" text, banlist-filtered), seeds
+each with its **fully-owned** CSB combos (variants endpoint, front-face matched, reskin-
+resolved, request-paced + Retry-After after a 310/391 429-burn — responses cached in
+`analysis/autobrew/csb_variants_cache.json`, the repo's first CSB cache), brews a
+template 99 (combo package → otag quotas ramp12/draw8/removal5/wipes2/tutors3 → theme
+fill scored from the commander's own text → pip-weighted manabase; GC cap, MLD ban, and
+the extra-turn allowance enforced IN the brew), and screens with deck_sim (keepable /
+flow / need) + `simulate_groups` assembly ("pieces SEEN by T10" — a 50%-median cutoff
+was dead for the whole field, so the axis is continuous). Output stays under
+`analysis/autobrew/` (NEVER `decks/` — deck_doctor --all and resolve_deck_arg both sweep
+it). **Findings (391 NEW swept @2k trials):** 102 anchor ≥1 fully-owned combo (55 anchor
+≥5); top = Nissa Animist 93.5 / Endrek Sahr 93.3 (best assembly, 42.6% @T10) / Sheoldred
+92.3; leanest kill shape = Vito (+Exquisite Blood, Bloodthirsty Conqueror as true
+redundancy = commander+1-card loop, both owned); five of the top 15 are the SAME owned
+altar cluster wearing different commanders — independently corroborates the hand-picked
+Deficit Spending space AND warns those seats are mutually exclusive (contention:
+`availability_check.py` at graduation, hard rule). All numbers SCREEN-grade — winners
+graduate via proposal + clock lab, never straight to a build. Open refinements (only if
+the screen earns trust at first graduation): otag-vs-fb-tagger quota alignment, partner/
+background pairing, `--free-pool` (net out deployed cards).

@@ -1,0 +1,82 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Alania, Divergent Storm  [RU]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Alania, Divergent Storm
+1 Ancestral Anger
+1 Arcum's Astrolabe
+1 Boomerang Basics
+1 Brainstorm
+1 Consider
+1 Currency Converter
+1 Gitaxian Probe
+1 Opt
+1 Overmaster
+1 Ponder
+1 Preordain
+1 Three Steps Ahead
+1 Tune the Narrative
+1 Borne Upon a Wind
+1 Coruscation Mage
+1 Cryogen Relic
+1 Deduce
+1 Diary of Dreams
+1 Dreams of Laguna
+1 Dress Down
+1 Energybending
+1 Fists of Flame
+1 Ichor Wellspring
+1 Instant Ramen
+1 Kitsa, Otterball Elite
+1 Kozilek's Command
+1 Mind Stone
+1 Muse Seeker
+1 Omen of the Sea
+1 Price of Freedom
+1 Prismari Charm
+1 Professor Zei, Anthropologist
+1 Proft's Eidetic Memory
+1 Prophetic Prism
+1 Return the Favor
+1 Sorcerer Class
+1 Starstorm
+1 Think Twice
+1 Thundertrap Trainer
+1 Aether Channeler
+1 Blitzball
+1 Bonder's Ornament
+1 Champion of Wits
+1 Commander's Sphere
+1 Exclude
+1 Flare of Duplication
+1 Gate to the Afterlife
+1 Kozilek's Unsealing
+1 Letter of Acceptance
+1 Monument to Endurance
+1 Phial of Galadriel
+1 Reiterate
+1 Serum Visionary
+1 Archmage Emeritus
+1 Ashling, Flame Dancer
+1 Copycrook
+1 Solemn Simulacrum
+1 Stormsplitter
+1 Sokka's Haiku
+1 Expansion // Explosion
+1 Niv-Mizzet, Parun
+1 Sublime Epiphany
+1 Aether Hub
+1 Airship Engine Room
+1 Baron, Airship Kingdom
+1 Capital City
+1 Cascade Bluffs
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Exotic Orchard
+1 Ferrous Lake
+1 Fiery Islet
+1 Frostboil Snarl
+1 Gemstone Caverns
+14 Island
+9 Mountain
