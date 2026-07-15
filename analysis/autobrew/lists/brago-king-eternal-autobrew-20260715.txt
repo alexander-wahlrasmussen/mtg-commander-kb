@@ -1,0 +1,82 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Brago, King Eternal  [UW]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Brago, King Eternal
+1 Explorer's Scope
+1 Momo, Playful Pet
+1 Retrofitter Foundry
+1 Shrieking Drake
+1 Sol Ring
+1 Cargo Ship
+1 Cartographer's Hawk
+1 Cloud of Faeries
+1 Desculpting Blast
+1 Emrakul's Messenger
+1 Faerie Mastermind
+1 Harsh Annotation
+1 Il Mheg Pixie
+1 Ledger Shredder
+1 Ornithopter of Paradise
+1 PuPu UFO
+1 Rhet-Tomb Mystic
+1 Riddle Gate Gargoyle
+1 Shoreline Looter
+1 Staff of the Storyteller
+1 Strionic Resonator
+1 Volatile Stormdrake
+1 Wan Shi Tong, Librarian
+1 White Orchid Phantom
+1 Aang, Swift Savior // Aang and La, Ocean's Fury
+1 Abuelo, Ancestral Echo
+1 Adventurer's Airship
+1 Aether Channeler
+1 Augusta, Order Returned
+1 Bitterthorn, Nissa's Animus
+1 Brazen Borrower // Petty Theft
+1 Encouraging Aviator // Jump
+1 Ghost of Ramirez DePietro
+1 Inspiring Overseer
+1 Junk Diver
+1 Loyal Drake
+1 Matterbending Mage
+1 Misleading Signpost
+1 Skycoach Conductor // All Aboard
+1 Uthros Research Craft
+1 Vanguard of the Restless
+1 Welcoming Vampire
+1 Windrider Wizard
+1 Aetherstorm Roc
+1 Cat-Owl
+1 Illusionist's Gambit
+1 Lithoform Engine
+1 Odric, Master Tactician
+1 Recon Craft Theta
+1 Teo, Spirited Glider
+1 The Regalia
+1 Coveted Peacock
+1 Diviner of Mist
+1 Emeritus of Ideation // Ancestral Recall
+1 Guardian Scalelord
+1 Herald of the Host
+1 Landroval, Horizon Witness
+1 Promise of Loyalty
+1 Ultima, Origin of Oblivion
+1 Angel of Indemnity
+1 Specimen Freighter
+1 Aethersquall Ancient
+1 Adarkar Wastes
+1 Aether Hub
+1 Azorius Chancery
+1 Capital City
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Deserted Beach
+1 Exotic Orchard
+1 Floodfarm Verge
+1 Gemstone Caverns
+1 Glacial Fortress
+1 Great Hall of the Biblioplex
+16 Island
+7 Plains

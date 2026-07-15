@@ -5,73 +5,13 @@
  "note": "SCREEN-grade consistency/availability metrics. assembly_median = pieces SEEN by turn, not a kill window. Winners graduate via proposal + clock lab.",
  "results": [
   {
-   "commander": "Nissa, Resurgent Animist",
-   "ci": "G",
-   "status": "NEW",
-   "pool": 814,
-   "combos_owned": 14,
-   "combos_one_away": 75,
-   "themes": [
-    "landfall"
-   ],
-   "tribes": [
-    "Elf"
-   ],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Springheart Nantuko",
-    "Lumra, Bellow of the Woods",
-    "Zuran Orb"
-   ],
-   "gc_hits": [],
-   "screen_score": 93.5,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 9.9,
-    "colors": 9.9,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 23.7,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.2,
-   "mean_dead_turns": 0.95,
-   "colors_t4": 99.5,
-   "ramp_n": 27,
-   "draw_n": 10,
-   "assembly_median": null,
-   "assembly_t10": 28.4,
-   "assembly_never": 65.5,
-   "combos_seeded": 3
-  },
-  {
    "commander": "Endrek Sahr, Master Breeder",
    "ci": "B",
    "status": "NEW",
    "pool": 842,
    "combos_owned": 4,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens"
@@ -136,6 +76,7 @@
    "pool": 842,
    "combos_owned": 7,
    "combos_one_away": 46,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters",
@@ -198,152 +139,13 @@
    "combos_seeded": 5
   },
   {
-   "commander": "Szarel, Genesis Shepherd",
-   "ci": "BGR",
-   "status": "NEW",
-   "pool": 1798,
-   "combos_owned": 12,
-   "combos_one_away": 48,
-   "themes": [
-    "aristocrats",
-    "graveyard",
-    "counters",
-    "landfall"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Ashnod's Altar",
-    "Viscera Seer",
-    "Goblin Bombardment",
-    "Phyrexian Altar",
-    "Altar of Dementia",
-    "Carrion Feeder",
-    "Woe Strider",
-    "Yahenni, Undying Partisan",
-    "Evolution Witness",
-    "Lotus Petal",
-    "Mishra's Bauble",
-    "Urza's Bauble"
-   ],
-   "gc_hits": [
-    "Tergrid, God of Fright // Tergrid's Lantern"
-   ],
-   "screen_score": 92.2,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 9.5,
-    "colors": 9.4,
-    "ramp": 8.3,
-    "draw": 10.0,
-    "assembly": 25.0,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.7,
-   "mean_dead_turns": 1.03,
-   "colors_t4": 94.2,
-   "ramp_n": 10,
-   "draw_n": 8,
-   "assembly_median": null,
-   "assembly_t10": 41.5,
-   "assembly_never": 52.2,
-   "combos_seeded": 11
-  },
-  {
-   "commander": "Gev, Scaled Scorch",
-   "ci": "BR",
-   "status": "NEW",
-   "pool": 1234,
-   "combos_owned": 8,
-   "combos_one_away": 19,
-   "themes": [
-    "counters",
-    "wide"
-   ],
-   "tribes": [
-    "Lizard"
-   ],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Goblin Bombardment",
-    "Viscera Seer",
-    "Ashnod's Altar",
-    "Carrion Feeder",
-    "Yahenni, Undying Partisan",
-    "Phyrexian Altar",
-    "Altar of Dementia",
-    "Woe Strider"
-   ],
-   "gc_hits": [],
-   "screen_score": 91.3,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 8.4,
-    "colors": 9.6,
-    "ramp": 9.2,
-    "draw": 10.0,
-    "assembly": 24.1,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.1,
-   "mean_dead_turns": 1.23,
-   "colors_t4": 96.0,
-   "ramp_n": 11,
-   "draw_n": 10,
-   "assembly_median": null,
-   "assembly_t10": 28.9,
-   "assembly_never": 66.0,
-   "combos_seeded": 8
-  },
-  {
    "commander": "Vivi Ornitier",
    "ci": "RU",
    "status": "NEW",
    "pool": 1235,
    "combos_owned": 3,
    "combos_one_away": 17,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "counters"
@@ -403,8 +205,9 @@
    "ci": "BG",
    "status": "NEW",
    "pool": 1348,
-   "combos_owned": 19,
-   "combos_one_away": 55,
+   "combos_owned": 11,
+   "combos_one_away": 40,
+   "combos_template_gated": 8,
    "themes": [
     "graveyard",
     "counters"
@@ -434,16 +237,16 @@
    },
    "combo_package": [
     "Basking Broodscale",
-    "Ashnod's Altar",
     "Viscera Seer",
+    "Herd Baloth",
     "Carrion Feeder",
+    "Ashnod's Altar",
+    "Evolution Witness",
+    "Walking Ballista",
     "Phyrexian Altar",
     "Altar of Dementia",
     "Woe Strider",
     "Yahenni, Undying Partisan",
-    "Herd Baloth",
-    "Evolution Witness",
-    "Walking Ballista",
     "Endless One"
    ],
    "gc_hits": [],
@@ -465,7 +268,7 @@
    "assembly_median": null,
    "assembly_t10": 29.1,
    "assembly_never": 65.7,
-   "combos_seeded": 17
+   "combos_seeded": 10
   },
   {
    "commander": "Vito, Thorn of the Dusk Rose",
@@ -474,6 +277,7 @@
    "pool": 842,
    "combos_owned": 2,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "wide"
@@ -533,6 +337,7 @@
    "pool": 3112,
    "combos_owned": 2,
    "combos_one_away": 13,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "lifegain",
@@ -589,70 +394,13 @@
    "combos_seeded": 2
   },
   {
-   "commander": "Monk Gyatso",
-   "ci": "W",
-   "status": "NEW",
-   "pool": 846,
-   "combos_owned": 19,
-   "combos_one_away": 114,
-   "themes": [],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     5,
-     3
-    ]
-   },
-   "combo_package": [
-    "Lightning Greaves",
-    "Puresteel Paladin",
-    "Urza's Incubator",
-    "Palladium Myr"
-   ],
-   "gc_hits": [],
-   "screen_score": 84.8,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 12.4,
-    "colors": 10.0,
-    "ramp": 9.2,
-    "draw": 10.0,
-    "assembly": 13.2,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.3,
-   "mean_dead_turns": 0.48,
-   "colors_t4": 99.8,
-   "ramp_n": 11,
-   "draw_n": 24,
-   "assembly_median": null,
-   "assembly_t10": 15.9,
-   "assembly_never": 80.8,
-   "combos_seeded": 5
-  },
-  {
    "commander": "Alania, Divergent Storm",
    "ci": "RU",
    "status": "NEW",
    "pool": 1235,
    "combos_owned": 4,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters"
@@ -716,6 +464,7 @@
    "pool": 1235,
    "combos_owned": 3,
    "combos_one_away": 24,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters"
@@ -774,6 +523,7 @@
    "pool": 1348,
    "combos_owned": 9,
    "combos_one_away": 27,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -839,8 +589,9 @@
    "ci": "B",
    "status": "NEW",
    "pool": 842,
-   "combos_owned": 90,
-   "combos_one_away": 445,
+   "combos_owned": 79,
+   "combos_one_away": 403,
+   "combos_template_gated": 11,
    "themes": [
     "aristocrats",
     "counters"
@@ -909,6 +660,7 @@
    "pool": 756,
    "combos_owned": 1,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "drain"
    ],
@@ -962,12 +714,88 @@
    "combos_seeded": 1
   },
   {
+   "commander": "Mikaeus, the Unhallowed",
+   "ci": "B",
+   "status": "NEW",
+   "pool": 842,
+   "combos_owned": 35,
+   "combos_one_away": 526,
+   "combos_template_gated": 5,
+   "themes": [
+    "counters",
+    "artifacts",
+    "wide"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [
+    "Walking Ballista",
+    "Yawgmoth, Thran Physician",
+    "Gray Merchant of Asphodel",
+    "Carrion Feeder",
+    "Plague Belcher",
+    "Phyrexian Altar",
+    "Ashnod's Altar",
+    "Kokusho, the Evening Star",
+    "Altar of Dementia",
+    "Viscera Seer",
+    "Woe Strider",
+    "Yahenni, Undying Partisan"
+   ],
+   "gc_hits": [
+    "Chrome Mox",
+    "Grim Monolith",
+    "Mana Vault"
+   ],
+   "screen_score": 81.4,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 7.8,
+    "colors": 10.0,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 13.7,
+    "combo_depth": 10.0
+   },
+   "keepable_pct": 99.2,
+   "mean_dead_turns": 1.35,
+   "colors_t4": 99.6,
+   "ramp_n": 38,
+   "draw_n": 13,
+   "assembly_median": null,
+   "assembly_t10": 16.4,
+   "assembly_never": 81.0,
+   "combos_seeded": 10
+  },
+  {
    "commander": "The Necrobloom",
    "ci": "BGW",
    "status": "NEW",
    "pool": 1881,
-   "combos_owned": 20,
-   "combos_one_away": 43,
+   "combos_owned": 19,
+   "combos_one_away": 41,
+   "combos_template_gated": 1,
    "themes": [
     "graveyard",
     "tokens",
@@ -1001,7 +829,6 @@
    },
    "combo_package": [
     "The Gitrog Monster",
-    "Bone Miser",
     "Beifong's Bounty Hunters",
     "Ashnod's Altar",
     "Viscera Seer",
@@ -1016,156 +843,24 @@
    "gc_hits": [
     "Tergrid, God of Fright // Tergrid's Lantern"
    ],
-   "screen_score": 80.9,
+   "screen_score": 80.3,
    "axes": {
     "keepable": 20.0,
-    "flow": 9.1,
+    "flow": 9.3,
     "colors": 9.2,
-    "ramp": 10.0,
+    "ramp": 9.2,
     "draw": 10.0,
     "assembly": 12.6,
     "combo_depth": 10.0
    },
    "keepable_pct": 99.6,
-   "mean_dead_turns": 1.11,
+   "mean_dead_turns": 1.07,
    "colors_t4": 92.4,
-   "ramp_n": 12,
+   "ramp_n": 11,
    "draw_n": 8,
    "assembly_median": null,
    "assembly_t10": 15.1,
    "assembly_never": 81.3,
-   "combos_seeded": 10
-  },
-  {
-   "commander": "Grumgully, the Generous",
-   "ci": "GR",
-   "status": "NEW",
-   "pool": 1223,
-   "combos_owned": 8,
-   "combos_one_away": 31,
-   "themes": [
-    "counters"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Goblin Bombardment",
-    "Ashnod's Altar",
-    "Phyrexian Altar",
-    "Altar of Dementia"
-   ],
-   "gc_hits": [],
-   "screen_score": 80.7,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 8.9,
-    "colors": 9.2,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 12.6,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.2,
-   "mean_dead_turns": 1.13,
-   "colors_t4": 91.7,
-   "ramp_n": 18,
-   "draw_n": 10,
-   "assembly_median": null,
-   "assembly_t10": 15.1,
-   "assembly_never": 81.3,
-   "combos_seeded": 4
-  },
-  {
-   "commander": "Cayth, Famed Mechanist",
-   "ci": "RUW",
-   "status": "NEW",
-   "pool": 1809,
-   "combos_owned": 13,
-   "combos_one_away": 37,
-   "themes": [
-    "tokens",
-    "counters",
-    "artifacts",
-    "etb",
-    "wide"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Ashnod's Altar",
-    "Goblin Bombardment",
-    "Phyrexian Altar",
-    "Altar of Dementia",
-    "Aethergeode Miner",
-    "Decoction Module",
-    "Gonti's Aether Heart",
-    "Aetherstorm Roc",
-    "Nim Deathmantle",
-    "Krark-Clan Ironworks"
-   ],
-   "gc_hits": [
-    "Chrome Mox"
-   ],
-   "screen_score": 80.5,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 8.1,
-    "colors": 9.2,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 13.2,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.1,
-   "mean_dead_turns": 1.29,
-   "colors_t4": 91.8,
-   "ramp_n": 19,
-   "draw_n": 9,
-   "assembly_median": null,
-   "assembly_t10": 15.9,
-   "assembly_never": 80.1,
    "combos_seeded": 9
   },
   {
@@ -1175,6 +870,7 @@
    "pool": 1307,
    "combos_owned": 9,
    "combos_one_away": 28,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -1234,6 +930,7 @@
    "pool": 814,
    "combos_owned": 24,
    "combos_one_away": 97,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -1296,6 +993,7 @@
    "pool": 1235,
    "combos_owned": 17,
    "combos_one_away": 46,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -1372,6 +1070,7 @@
    "pool": 1234,
    "combos_owned": 4,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -1428,7 +1127,8 @@
    "status": "NEW",
    "pool": 1809,
    "combos_owned": 13,
-   "combos_one_away": 66,
+   "combos_one_away": 54,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -1504,6 +1204,7 @@
    "pool": 1294,
    "combos_owned": 1,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [
     "Bear"
@@ -1561,6 +1262,7 @@
    "pool": 1223,
    "combos_owned": 5,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "etb"
@@ -1618,7 +1320,8 @@
    "status": "NEW",
    "pool": 756,
    "combos_owned": 22,
-   "combos_one_away": 109,
+   "combos_one_away": 97,
+   "combos_template_gated": 0,
    "themes": [
     "discard",
     "wide"
@@ -1684,7 +1387,8 @@
    "status": "NEW",
    "pool": 813,
    "combos_owned": 5,
-   "combos_one_away": 34,
+   "combos_one_away": 22,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -1750,8 +1454,9 @@
    "ci": "BGU",
    "status": "NEW",
    "pool": 1889,
-   "combos_owned": 15,
-   "combos_one_away": 174,
+   "combos_owned": 14,
+   "combos_one_away": 54,
+   "combos_template_gated": 1,
    "themes": [
     "graveyard",
     "landfall"
@@ -1786,8 +1491,8 @@
     "Kaya's Ghostform",
     "Mishra's Bauble",
     "Urza's Bauble",
-    "Krark-Clan Ironworks",
     "The One Ring",
+    "Krark-Clan Ironworks",
     "Altar of Dementia",
     "Pitiless Plunderer"
    ],
@@ -1813,15 +1518,16 @@
    "assembly_median": null,
    "assembly_t10": 6.4,
    "assembly_never": 91.5,
-   "combos_seeded": 8
+   "combos_seeded": 7
   },
   {
    "commander": "Elesh Norn, Mother of Machines",
    "ci": "W",
    "status": "NEW",
    "pool": 846,
-   "combos_owned": 12,
+   "combos_owned": 10,
    "combos_one_away": 58,
+   "combos_template_gated": 2,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -1873,12 +1579,72 @@
    "combos_seeded": 2
   },
   {
+   "commander": "Monk Gyatso",
+   "ci": "W",
+   "status": "NEW",
+   "pool": 846,
+   "combos_owned": 15,
+   "combos_one_away": 97,
+   "combos_template_gated": 4,
+   "themes": [],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     5,
+     3
+    ]
+   },
+   "combo_package": [
+    "Lightning Greaves",
+    "Urza's Incubator",
+    "Palladium Myr",
+    "Puresteel Paladin"
+   ],
+   "gc_hits": [],
+   "screen_score": 73.3,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 12.4,
+    "colors": 10.0,
+    "ramp": 9.2,
+    "draw": 10.0,
+    "assembly": 1.8,
+    "combo_depth": 10.0
+   },
+   "keepable_pct": 99.3,
+   "mean_dead_turns": 0.48,
+   "colors_t4": 99.8,
+   "ramp_n": 11,
+   "draw_n": 24,
+   "assembly_median": null,
+   "assembly_t10": 2.1,
+   "assembly_never": 96.7,
+   "combos_seeded": 3
+  },
+  {
    "commander": "Electro, Assaulting Battery",
    "ci": "R",
    "status": "NEW",
    "pool": 756,
    "combos_owned": 4,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -1938,6 +1704,7 @@
    "pool": 813,
    "combos_owned": 7,
    "combos_one_away": 18,
+   "combos_template_gated": 0,
    "themes": [
     "etb"
    ],
@@ -2000,12 +1767,79 @@
    "combos_seeded": 6
   },
   {
+   "commander": "Szarel, Genesis Shepherd",
+   "ci": "BGR",
+   "status": "NEW",
+   "pool": 1798,
+   "combos_owned": 4,
+   "combos_one_away": 41,
+   "combos_template_gated": 8,
+   "themes": [
+    "aristocrats",
+    "graveyard",
+    "counters",
+    "landfall"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [
+    "Evolution Witness",
+    "Lotus Petal",
+    "Mishra's Bauble",
+    "Urza's Bauble"
+   ],
+   "gc_hits": [
+    "Tergrid, God of Fright // Tergrid's Lantern"
+   ],
+   "screen_score": 72.4,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 8.5,
+    "colors": 9.4,
+    "ramp": 6.7,
+    "draw": 10.0,
+    "assembly": 9.9,
+    "combo_depth": 8.0
+   },
+   "keepable_pct": 99.6,
+   "mean_dead_turns": 1.22,
+   "colors_t4": 93.5,
+   "ramp_n": 8,
+   "draw_n": 10,
+   "assembly_median": null,
+   "assembly_t10": 11.9,
+   "assembly_never": 84.4,
+   "combos_seeded": 3
+  },
+  {
    "commander": "Vilis, Broker of Blood",
    "ci": "B",
    "status": "NEW",
    "pool": 842,
    "combos_owned": 8,
    "combos_one_away": 39,
+   "combos_template_gated": 0,
    "themes": [
     "drain"
    ],
@@ -2074,6 +1908,7 @@
    "pool": 756,
    "combos_owned": 4,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters",
@@ -2135,6 +1970,7 @@
    "pool": 814,
    "combos_owned": 10,
    "combos_one_away": 14,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb"
@@ -2195,77 +2031,13 @@
    "combos_seeded": 5
   },
   {
-   "commander": "Teshar, Ancestor's Apostle",
-   "ci": "W",
-   "status": "NEW",
-   "pool": 846,
-   "combos_owned": 25,
-   "combos_one_away": 101,
-   "themes": [
-    "graveyard",
-    "artifacts"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Ashnod's Altar",
-    "Ambrosia Whiteheart",
-    "Altar of Dementia",
-    "Phyrexian Altar"
-   ],
-   "gc_hits": [
-    "Chrome Mox",
-    "Grim Monolith",
-    "Mana Vault"
-   ],
-   "screen_score": 71.4,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 9.6,
-    "colors": 10.0,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 1.8,
-    "combo_depth": 10.0
-   },
-   "keepable_pct": 99.2,
-   "mean_dead_turns": 1.01,
-   "colors_t4": 99.9,
-   "ramp_n": 39,
-   "draw_n": 13,
-   "assembly_median": null,
-   "assembly_t10": 2.2,
-   "assembly_never": 97.0,
-   "combos_seeded": 3
-  },
-  {
    "commander": "Prosper, Tome-Bound",
    "ci": "BR",
    "status": "NEW",
    "pool": 1234,
    "combos_owned": 5,
    "combos_one_away": 29,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -2318,12 +2090,75 @@
    "combos_seeded": 1
   },
   {
+   "commander": "Nissa, Resurgent Animist",
+   "ci": "G",
+   "status": "NEW",
+   "pool": 814,
+   "combos_owned": 12,
+   "combos_one_away": 75,
+   "combos_template_gated": 2,
+   "themes": [
+    "landfall"
+   ],
+   "tribes": [
+    "Elf"
+   ],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [
+    "Lumra, Bellow of the Woods",
+    "Springheart Nantuko",
+    "Zuran Orb"
+   ],
+   "gc_hits": [],
+   "screen_score": 70.9,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 9.9,
+    "colors": 9.9,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 1.1,
+    "combo_depth": 10.0
+   },
+   "keepable_pct": 99.2,
+   "mean_dead_turns": 0.95,
+   "colors_t4": 99.5,
+   "ramp_n": 27,
+   "draw_n": 10,
+   "assembly_median": null,
+   "assembly_t10": 1.3,
+   "assembly_never": 97.3,
+   "combos_seeded": 1
+  },
+  {
    "commander": "Preston, the Vanisher",
    "ci": "W",
    "status": "NEW",
    "pool": 846,
    "combos_owned": 33,
    "combos_one_away": 152,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens"
@@ -2386,15 +2221,19 @@
    "combos_seeded": 10
   },
   {
-   "commander": "Ambrosia Whiteheart",
-   "ci": "W",
+   "commander": "Cayth, Famed Mechanist",
+   "ci": "RUW",
    "status": "NEW",
-   "pool": 846,
-   "combos_owned": 8,
-   "combos_one_away": 7,
+   "pool": 1809,
+   "combos_owned": 5,
+   "combos_one_away": 19,
+   "combos_template_gated": 8,
    "themes": [
-    "landfall",
-    "etb"
+    "tokens",
+    "counters",
+    "artifacts",
+    "etb",
+    "wide"
    ],
    "tribes": [],
    "quotas": {
@@ -2415,38 +2254,41 @@
      2
     ],
     "tutors": [
-     6,
+     3,
      3
     ]
    },
    "combo_package": [
-    "Teshar, Ancestor's Apostle",
+    "Aethergeode Miner",
+    "Decoction Module",
+    "Gonti's Aether Heart",
+    "Aetherstorm Roc",
+    "Nim Deathmantle",
     "Ashnod's Altar",
-    "Altar of Dementia",
-    "Phyrexian Altar"
+    "Krark-Clan Ironworks"
    ],
    "gc_hits": [
     "Chrome Mox"
    ],
-   "screen_score": 70.4,
+   "screen_score": 70.2,
    "axes": {
     "keepable": 20.0,
-    "flow": 8.7,
-    "colors": 10.0,
+    "flow": 9.1,
+    "colors": 9.2,
     "ramp": 10.0,
     "draw": 10.0,
-    "assembly": 1.7,
+    "assembly": 2.0,
     "combo_depth": 10.0
    },
-   "keepable_pct": 99.3,
-   "mean_dead_turns": 1.17,
-   "colors_t4": 100.0,
-   "ramp_n": 41,
-   "draw_n": 14,
+   "keepable_pct": 99.1,
+   "mean_dead_turns": 1.11,
+   "colors_t4": 91.8,
+   "ramp_n": 20,
+   "draw_n": 12,
    "assembly_median": null,
-   "assembly_t10": 2.0,
+   "assembly_t10": 2.4,
    "assembly_never": 96.9,
-   "combos_seeded": 3
+   "combos_seeded": 5
   },
   {
    "commander": "Slimefoot, the Stowaway",
@@ -2455,6 +2297,7 @@
    "pool": 1348,
    "combos_owned": 6,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -2511,18 +2354,20 @@
    "combos_seeded": 3
   },
   {
-   "commander": "Syr Konrad, the Grim",
-   "ci": "B",
+   "commander": "Appa, Steadfast Guardian",
+   "ci": "W",
    "status": "NEW",
-   "pool": 842,
-   "combos_owned": 1,
-   "combos_one_away": 12,
+   "pool": 846,
+   "combos_owned": 9,
+   "combos_one_away": 128,
+   "combos_template_gated": 0,
    "themes": [
-    "aristocrats",
-    "graveyard",
-    "mill"
+    "tokens",
+    "etb"
    ],
-   "tribes": [],
+   "tribes": [
+    "Ally"
+   ],
    "quotas": {
     "ramp": [
      12,
@@ -2546,31 +2391,34 @@
     ]
    },
    "combo_package": [
-    "K'rrik, Son of Yawgmoth",
-    "Tortured Existence"
+    "Aang, Airbending Master",
+    "Urza's Incubator",
+    "Aang, the Last Airbender",
+    "Cloud Key",
+    "Pearl Medallion",
+    "Restoration Angel",
+    "Felidar Guardian"
    ],
-   "gc_hits": [
-    "Tergrid, God of Fright // Tergrid's Lantern"
-   ],
-   "screen_score": 69.9,
+   "gc_hits": [],
+   "screen_score": 69.4,
    "axes": {
     "keepable": 20.0,
-    "flow": 9.2,
+    "flow": 9.6,
     "colors": 10.0,
     "ramp": 9.2,
-    "draw": 10.0,
-    "assembly": 9.5,
-    "combo_depth": 2.0
+    "draw": 8.8,
+    "assembly": 1.8,
+    "combo_depth": 10.0
    },
-   "keepable_pct": 99.5,
-   "mean_dead_turns": 1.08,
-   "colors_t4": 99.8,
+   "keepable_pct": 99.0,
+   "mean_dead_turns": 1.0,
+   "colors_t4": 100.0,
    "ramp_n": 11,
-   "draw_n": 8,
+   "draw_n": 7,
    "assembly_median": null,
-   "assembly_t10": 11.4,
-   "assembly_never": 83.8,
-   "combos_seeded": 1
+   "assembly_t10": 2.2,
+   "assembly_never": 96.8,
+   "combos_seeded": 4
   },
   {
    "commander": "Bumi, Eclectic Earthbender",
@@ -2579,6 +2427,7 @@
    "pool": 814,
    "combos_owned": 10,
    "combos_one_away": 14,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat",
@@ -2643,6 +2492,7 @@
    "pool": 814,
    "combos_owned": 14,
    "combos_one_away": 44,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill",
@@ -2706,6 +2556,7 @@
    "pool": 846,
    "combos_owned": 3,
    "combos_one_away": 33,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "etb"
@@ -2768,6 +2619,7 @@
    "pool": 756,
    "combos_owned": 1,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat"
@@ -2826,6 +2678,7 @@
    "pool": 1223,
    "combos_owned": 11,
    "combos_one_away": 32,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -2889,6 +2742,7 @@
    "pool": 842,
    "combos_owned": 2,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -2950,6 +2804,7 @@
    "pool": 1235,
    "combos_owned": 12,
    "combos_one_away": 19,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger"
@@ -3009,7 +2864,8 @@
    "status": "NEW",
    "pool": 814,
    "combos_owned": 94,
-   "combos_one_away": 257,
+   "combos_one_away": 246,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -3081,8 +2937,9 @@
    "ci": "GUW",
    "status": "NEW",
    "pool": 1821,
-   "combos_owned": 19,
-   "combos_one_away": 66,
+   "combos_owned": 13,
+   "combos_one_away": 58,
+   "combos_template_gated": 6,
    "themes": [
     "combat",
     "etb"
@@ -3114,19 +2971,18 @@
     "Deadeye Navigator",
     "Bloom Tender",
     "Faeburrow Elder",
-    "Elesh Norn, Mother of Machines",
     "Preston, the Vanisher",
-    "Panharmonicon",
+    "Elesh Norn, Mother of Machines",
     "Gilded Lotus",
     "Phyrexian Altar",
     "Ashnod's Altar",
-    "Roaming Throne"
+    "Panharmonicon"
    ],
    "gc_hits": [],
-   "screen_score": 67.0,
+   "screen_score": 67.2,
    "axes": {
     "keepable": 20.0,
-    "flow": 6.6,
+    "flow": 6.9,
     "colors": 9.2,
     "ramp": 9.2,
     "draw": 10.0,
@@ -3134,14 +2990,14 @@
     "combo_depth": 10.0
    },
    "keepable_pct": 99.4,
-   "mean_dead_turns": 1.56,
+   "mean_dead_turns": 1.52,
    "colors_t4": 92.1,
    "ramp_n": 11,
    "draw_n": 8,
    "assembly_median": null,
    "assembly_t10": 2.4,
    "assembly_never": 96.5,
-   "combos_seeded": 16
+   "combos_seeded": 10
   },
   {
    "commander": "Elas il-Kor, Sadistic Pilgrim",
@@ -3149,7 +3005,8 @@
    "status": "NEW",
    "pool": 1339,
    "combos_owned": 3,
-   "combos_one_away": 20,
+   "combos_one_away": 18,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "lifegain",
@@ -3213,6 +3070,7 @@
    "pool": 1235,
    "combos_owned": 3,
    "combos_one_away": 22,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "artifacts"
@@ -3280,6 +3138,7 @@
    "pool": 3112,
    "combos_owned": 12,
    "combos_one_away": 70,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "wide"
@@ -3339,6 +3198,7 @@
    "pool": 1235,
    "combos_owned": 6,
    "combos_one_away": 28,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat"
@@ -3401,6 +3261,7 @@
    "pool": 846,
    "combos_owned": 3,
    "combos_one_away": 30,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "etb",
@@ -3464,6 +3325,7 @@
    "pool": 2385,
    "combos_owned": 3,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -3521,72 +3383,13 @@
    "combos_seeded": 3
   },
   {
-   "commander": "Noctis, Prince of Lucis",
-   "ci": "BUW",
-   "status": "NEW",
-   "pool": 1865,
-   "combos_owned": 1,
-   "combos_one_away": 9,
-   "themes": [
-    "graveyard",
-    "lifegain",
-    "artifacts"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     9,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [
-    "Aetherflux Reservoir",
-    "Vexing Bauble"
-   ],
-   "gc_hits": [],
-   "screen_score": 63.8,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 11.7,
-    "colors": 9.1,
-    "ramp": 9.2,
-    "draw": 10.0,
-    "assembly": 1.8,
-    "combo_depth": 2.0
-   },
-   "keepable_pct": 99.3,
-   "mean_dead_turns": 0.61,
-   "colors_t4": 90.5,
-   "ramp_n": 11,
-   "draw_n": 20,
-   "assembly_median": null,
-   "assembly_t10": 2.2,
-   "assembly_never": 96.8,
-   "combos_seeded": 1
-  },
-  {
    "commander": "Kwain, Itinerant Meddler",
    "ci": "UW",
    "status": "NEW",
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters"
@@ -3643,6 +3446,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters"
    ],
@@ -3698,6 +3502,7 @@
    "pool": 842,
    "combos_owned": 1,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "drain"
@@ -3759,6 +3564,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters"
    ],
@@ -3814,6 +3620,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -3863,67 +3670,13 @@
    "combos_seeded": 0
   },
   {
-   "commander": "Stella Lee, Wild Card",
-   "ci": "RU",
-   "status": "NEW",
-   "pool": 1235,
-   "combos_owned": 1,
-   "combos_one_away": 1,
-   "themes": [
-    "spellslinger"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [],
-   "gc_hits": [],
-   "screen_score": 63.3,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 11.7,
-    "colors": 9.7,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 0.0,
-    "combo_depth": 2.0
-   },
-   "keepable_pct": 99.7,
-   "mean_dead_turns": 0.62,
-   "colors_t4": 96.5,
-   "ramp_n": 12,
-   "draw_n": 25,
-   "assembly_median": null,
-   "assembly_t10": null,
-   "assembly_never": null,
-   "combos_seeded": 1
-  },
-  {
    "commander": "Tromokratis",
    "ci": "U",
    "status": "NEW",
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -3979,6 +3732,7 @@
    "pool": 813,
    "combos_owned": 6,
    "combos_one_away": 15,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -4034,6 +3788,7 @@
    "pool": 846,
    "combos_owned": 1,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -4097,6 +3852,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -4151,7 +3907,8 @@
    "status": "NEW",
    "pool": 813,
    "combos_owned": 26,
-   "combos_one_away": 68,
+   "combos_one_away": 67,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -4207,6 +3964,7 @@
    "pool": 813,
    "combos_owned": 7,
    "combos_one_away": 27,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -4262,6 +4020,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters"
    ],
@@ -4317,6 +4076,7 @@
    "pool": 1235,
    "combos_owned": 2,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -4379,6 +4139,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters"
@@ -4435,6 +4196,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters"
    ],
@@ -4492,6 +4254,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "etb"
@@ -4550,6 +4313,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "etb"
@@ -4608,6 +4372,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters"
@@ -4662,8 +4427,9 @@
    "ci": "G",
    "status": "NEW",
    "pool": 814,
-   "combos_owned": 0,
-   "combos_one_away": 0,
+   "combos_owned": 67,
+   "combos_one_away": 107,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "lifegain",
@@ -4722,6 +4488,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -4779,6 +4546,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "lifegain",
@@ -4837,6 +4605,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -4896,6 +4665,7 @@
    "pool": 756,
    "combos_owned": 1,
    "combos_one_away": 8,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -4954,6 +4724,7 @@
    "pool": 1285,
    "combos_owned": 7,
    "combos_one_away": 11,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "landfall"
@@ -5010,6 +4781,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters",
@@ -5067,6 +4839,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts",
@@ -5126,7 +4899,8 @@
    "status": "NEW",
    "pool": 813,
    "combos_owned": 0,
-   "combos_one_away": 11,
+   "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -5185,6 +4959,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts"
@@ -5244,7 +5019,8 @@
    "status": "NEW",
    "pool": 813,
    "combos_owned": 0,
-   "combos_one_away": 9,
+   "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters",
@@ -5305,6 +5081,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "etb",
@@ -5364,6 +5141,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts"
@@ -5420,6 +5198,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts"
@@ -5476,6 +5255,7 @@
    "pool": 1809,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters"
@@ -5531,7 +5311,8 @@
    "status": "NEW",
    "pool": 814,
    "combos_owned": 20,
-   "combos_one_away": 203,
+   "combos_one_away": 201,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "wide"
@@ -5590,6 +5371,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts"
@@ -5646,6 +5428,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "draw-matters",
@@ -5705,6 +5488,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger",
@@ -5765,6 +5549,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -5822,6 +5607,7 @@
    "pool": 813,
    "combos_owned": 12,
    "combos_one_away": 37,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters",
@@ -5879,6 +5665,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "draw-matters",
@@ -5936,6 +5723,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -5989,6 +5777,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6042,6 +5831,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "combat"
@@ -6098,6 +5888,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts",
@@ -6159,6 +5950,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts",
@@ -6217,6 +6009,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "draw-matters",
@@ -6276,6 +6069,7 @@
    "pool": 846,
    "combos_owned": 1,
    "combos_one_away": 7,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6329,6 +6123,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "etb"
@@ -6388,6 +6183,7 @@
    "pool": 1307,
    "combos_owned": 2,
    "combos_one_away": 20,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat",
@@ -6448,6 +6244,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters"
    ],
@@ -6503,6 +6300,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 12,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "artifacts",
@@ -6561,6 +6359,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6614,6 +6413,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6667,6 +6467,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [
     "Lemur"
@@ -6722,6 +6523,7 @@
    "pool": 814,
    "combos_owned": 87,
    "combos_one_away": 391,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6775,6 +6577,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "counters"
@@ -6833,6 +6636,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "wide"
@@ -6889,6 +6693,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "combat"
@@ -6945,6 +6750,7 @@
    "pool": 846,
    "combos_owned": 21,
    "combos_one_away": 140,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -6998,6 +6804,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [
     "Treefolk"
@@ -7053,6 +6860,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "discard",
@@ -7110,6 +6918,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -7159,12 +6968,69 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Stella Lee, Wild Card",
+   "ci": "RU",
+   "status": "NEW",
+   "pool": 1235,
+   "combos_owned": 0,
+   "combos_one_away": 0,
+   "combos_template_gated": 1,
+   "themes": [
+    "spellslinger"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [],
+   "screen_score": 61.3,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 11.7,
+    "colors": 9.7,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.7,
+   "mean_dead_turns": 0.62,
+   "colors_t4": 96.5,
+   "ramp_n": 12,
+   "draw_n": 25,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Veyran, Voice of Duality",
    "ci": "RU",
    "status": "NEW",
    "pool": 1235,
    "combos_owned": 1,
    "combos_one_away": 11,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -7220,6 +7086,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -7279,6 +7146,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -7334,6 +7202,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -7389,6 +7258,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "landfall"
@@ -7445,6 +7315,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -7505,6 +7376,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -7566,6 +7438,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -7625,6 +7498,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -7684,6 +7558,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "draw-matters",
@@ -7744,6 +7619,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "enchantments",
     "etb"
@@ -7804,6 +7680,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -7865,6 +7742,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "counters"
@@ -7924,6 +7802,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters",
@@ -7981,6 +7860,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -8040,6 +7920,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "etb"
    ],
@@ -8097,6 +7978,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -8153,6 +8035,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "combat",
@@ -8210,6 +8093,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -8269,6 +8153,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -8326,6 +8211,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger"
@@ -8382,6 +8268,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 5,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens"
@@ -8438,6 +8325,7 @@
    "pool": 842,
    "combos_owned": 1,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -8502,6 +8390,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -8561,6 +8450,7 @@
    "pool": 846,
    "combos_owned": 2,
    "combos_one_away": 14,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -8623,6 +8513,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -8681,6 +8572,7 @@
    "pool": 842,
    "combos_owned": 2,
    "combos_one_away": 8,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "etb"
@@ -8739,6 +8631,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "draw-matters",
@@ -8796,6 +8689,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "artifacts",
@@ -8858,6 +8752,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "draw-matters",
@@ -8918,6 +8813,7 @@
    "pool": 756,
    "combos_owned": 3,
    "combos_one_away": 13,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -8973,6 +8869,7 @@
    "pool": 842,
    "combos_owned": 1,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "etb"
@@ -9033,6 +8930,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "artifacts"
@@ -9093,6 +8991,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -9148,6 +9047,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "draw-matters"
@@ -9207,6 +9107,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters",
@@ -9264,6 +9165,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -9327,6 +9229,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -9387,6 +9290,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb"
@@ -9446,6 +9350,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "artifacts",
@@ -9507,6 +9412,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -9565,6 +9471,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb"
@@ -9624,6 +9531,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -9681,6 +9589,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "etb"
    ],
@@ -9740,6 +9649,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats"
    ],
@@ -9797,6 +9707,7 @@
    "pool": 756,
    "combos_owned": 1,
    "combos_one_away": 12,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -9850,12 +9761,71 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Noctis, Prince of Lucis",
+   "ci": "BUW",
+   "status": "NEW",
+   "pool": 1865,
+   "combos_owned": 0,
+   "combos_one_away": 6,
+   "combos_template_gated": 1,
+   "themes": [
+    "graveyard",
+    "lifegain",
+    "artifacts"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [],
+   "screen_score": 59.6,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 11.4,
+    "colors": 9.1,
+    "ramp": 9.2,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.3,
+   "mean_dead_turns": 0.67,
+   "colors_t4": 90.5,
+   "ramp_n": 11,
+   "draw_n": 19,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Legolas, Counter of Kills",
    "ci": "GU",
    "status": "NEW",
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -9915,6 +9885,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "draw-matters",
@@ -9975,6 +9946,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "etb"
@@ -10033,6 +10005,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -10088,6 +10061,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -10143,6 +10117,7 @@
    "pool": 1285,
    "combos_owned": 2,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "draw-matters",
@@ -10194,12 +10169,74 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Teshar, Ancestor's Apostle",
+   "ci": "W",
+   "status": "NEW",
+   "pool": 846,
+   "combos_owned": 5,
+   "combos_one_away": 44,
+   "combos_template_gated": 20,
+   "themes": [
+    "graveyard",
+    "artifacts"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [
+    "Chrome Mox",
+    "Grim Monolith",
+    "Mana Vault"
+   ],
+   "screen_score": 59.5,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 9.5,
+    "colors": 10.0,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.2,
+   "mean_dead_turns": 1.02,
+   "colors_t4": 99.9,
+   "ramp_n": 39,
+   "draw_n": 14,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Yue, the Moon Spirit",
    "ci": "U",
    "status": "NEW",
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "artifacts"
@@ -10260,6 +10297,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -10315,6 +10353,7 @@
    "pool": 1348,
    "combos_owned": 22,
    "combos_one_away": 123,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -10375,6 +10414,7 @@
    "pool": 846,
    "combos_owned": 2,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -10435,6 +10475,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -10491,6 +10532,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "artifacts",
@@ -10550,6 +10592,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "etb",
     "theft"
@@ -10609,6 +10652,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "discard",
@@ -10668,6 +10712,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "etb"
    ],
@@ -10727,6 +10772,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "etb"
    ],
@@ -10786,6 +10832,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 8,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -10844,6 +10891,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "lifegain"
@@ -10900,6 +10948,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts"
    ],
@@ -10959,6 +11008,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -11014,6 +11064,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts",
     "etb",
@@ -11075,6 +11126,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "lifegain",
@@ -11133,6 +11185,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger"
    ],
@@ -11188,6 +11241,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -11247,6 +11301,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 15,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "landfall"
@@ -11303,6 +11358,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "combat"
@@ -11359,6 +11415,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 12,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -11419,6 +11476,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens"
@@ -11479,6 +11537,7 @@
    "pool": 814,
    "combos_owned": 4,
    "combos_one_away": 13,
+   "combos_template_gated": 0,
    "themes": [
     "landfall"
    ],
@@ -11534,6 +11593,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts"
    ],
@@ -11593,6 +11653,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "artifacts"
@@ -11653,6 +11714,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 43,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "artifacts",
@@ -11714,6 +11776,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "wide"
@@ -11770,6 +11833,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -11833,6 +11897,7 @@
    "pool": 814,
    "combos_owned": 7,
    "combos_one_away": 35,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens"
@@ -11892,6 +11957,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 6,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts"
    ],
@@ -11951,6 +12017,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -12010,6 +12077,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -12067,6 +12135,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -12124,6 +12193,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts"
    ],
@@ -12177,12 +12247,72 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Ambrosia Whiteheart",
+   "ci": "W",
+   "status": "NEW",
+   "pool": 846,
+   "combos_owned": 0,
+   "combos_one_away": 0,
+   "combos_template_gated": 8,
+   "themes": [
+    "landfall",
+    "etb"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     6,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [
+    "Chrome Mox"
+   ],
+   "screen_score": 58.7,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 8.7,
+    "colors": 10.0,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.3,
+   "mean_dead_turns": 1.18,
+   "colors_t4": 100.0,
+   "ramp_n": 42,
+   "draw_n": 14,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Lo and Li, Twin Tutors",
    "ci": "B",
    "status": "NEW",
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "wide"
@@ -12239,6 +12369,7 @@
    "pool": 756,
    "combos_owned": 14,
    "combos_one_away": 36,
+   "combos_template_gated": 0,
    "themes": [
     "tokens"
    ],
@@ -12294,6 +12425,7 @@
    "pool": 1782,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -12354,6 +12486,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "tokens",
@@ -12412,6 +12545,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -12473,6 +12607,7 @@
    "pool": 1223,
    "combos_owned": 2,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "etb",
     "wide"
@@ -12532,6 +12667,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "counters",
@@ -12589,6 +12725,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -12646,6 +12783,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -12701,6 +12839,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "mill",
     "etb"
@@ -12751,12 +12890,73 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Syr Konrad, the Grim",
+   "ci": "B",
+   "status": "NEW",
+   "pool": 842,
+   "combos_owned": 0,
+   "combos_one_away": 0,
+   "combos_template_gated": 0,
+   "themes": [
+    "aristocrats",
+    "graveyard",
+    "mill"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [
+    "Tergrid, God of Fright // Tergrid's Lantern"
+   ],
+   "screen_score": 58.5,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 9.4,
+    "colors": 10.0,
+    "ramp": 9.2,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.5,
+   "mean_dead_turns": 1.05,
+   "colors_t4": 99.8,
+   "ramp_n": 11,
+   "draw_n": 8,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Tergrid, God of Fright // Tergrid's Lantern",
    "ci": "B",
    "status": "NEW",
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -12815,6 +13015,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard"
@@ -12873,6 +13074,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "lifegain",
@@ -12930,6 +13132,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "landfall",
@@ -12987,6 +13190,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -13042,6 +13246,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 7,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "draw-matters",
@@ -13100,6 +13305,7 @@
    "pool": 1782,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "draw-matters",
@@ -13160,6 +13366,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -13218,6 +13425,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "artifacts",
@@ -13280,6 +13488,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "counters"
@@ -13336,6 +13545,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill"
@@ -13394,6 +13604,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -13454,6 +13665,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -13510,7 +13722,8 @@
    "status": "NEW",
    "pool": 814,
    "combos_owned": 30,
-   "combos_one_away": 177,
+   "combos_one_away": 176,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -13568,6 +13781,7 @@
    "pool": 1782,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts"
    ],
@@ -13629,6 +13843,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -13688,6 +13903,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "combat"
@@ -13748,6 +13964,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [
     "Human"
@@ -13797,12 +14014,69 @@
    "combos_seeded": 0
   },
   {
+   "commander": "Grumgully, the Generous",
+   "ci": "GR",
+   "status": "NEW",
+   "pool": 1223,
+   "combos_owned": 0,
+   "combos_one_away": 24,
+   "combos_template_gated": 8,
+   "themes": [
+    "counters"
+   ],
+   "tribes": [],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [],
+   "screen_score": 57.9,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 8.7,
+    "colors": 9.2,
+    "ramp": 10.0,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.2,
+   "mean_dead_turns": 1.17,
+   "colors_t4": 91.7,
+   "ramp_n": 16,
+   "draw_n": 10,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "Ao, the Dawn Sky",
    "ci": "W",
    "status": "NEW",
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -13858,6 +14132,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -13917,6 +14192,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "drain",
@@ -13977,6 +14253,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -14036,6 +14313,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "etb",
     "wide"
@@ -14094,6 +14372,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "artifacts",
@@ -14155,6 +14434,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -14214,6 +14494,7 @@
    "pool": 814,
    "combos_owned": 1,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -14273,6 +14554,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -14327,70 +14609,13 @@
    "combos_seeded": 0
   },
   {
-   "commander": "Appa, Steadfast Guardian",
-   "ci": "W",
-   "status": "NEW",
-   "pool": 846,
-   "combos_owned": 0,
-   "combos_one_away": 0,
-   "themes": [
-    "tokens",
-    "etb"
-   ],
-   "tribes": [
-    "Ally"
-   ],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [],
-   "gc_hits": [],
-   "screen_score": 57.6,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 9.7,
-    "colors": 10.0,
-    "ramp": 9.2,
-    "draw": 8.8,
-    "assembly": 0.0,
-    "combo_depth": 0.0
-   },
-   "keepable_pct": 99.0,
-   "mean_dead_turns": 0.99,
-   "colors_t4": 100.0,
-   "ramp_n": 11,
-   "draw_n": 7,
-   "assembly_median": null,
-   "assembly_t10": null,
-   "assembly_never": null,
-   "combos_seeded": 0
-  },
-  {
    "commander": "Ashe, Princess of Dalmasca",
    "ci": "W",
    "status": "NEW",
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "artifacts",
     "combat"
@@ -14451,6 +14676,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "enchantments"
    ],
@@ -14506,6 +14732,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -14562,6 +14789,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -14623,6 +14851,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "landfall",
@@ -14676,73 +14905,13 @@
    "combos_seeded": 0
   },
   {
-   "commander": "Mikaeus, the Unhallowed",
-   "ci": "B",
-   "status": "NEW",
-   "pool": 842,
-   "combos_owned": 0,
-   "combos_one_away": 0,
-   "themes": [
-    "counters",
-    "artifacts",
-    "wide"
-   ],
-   "tribes": [],
-   "quotas": {
-    "ramp": [
-     12,
-     12
-    ],
-    "draw": [
-     8,
-     8
-    ],
-    "removal": [
-     5,
-     5
-    ],
-    "wipes": [
-     2,
-     2
-    ],
-    "tutors": [
-     3,
-     3
-    ]
-   },
-   "combo_package": [],
-   "gc_hits": [
-    "Chrome Mox",
-    "Grim Monolith",
-    "Mana Vault"
-   ],
-   "screen_score": 57.4,
-   "axes": {
-    "keepable": 20.0,
-    "flow": 7.4,
-    "colors": 10.0,
-    "ramp": 10.0,
-    "draw": 10.0,
-    "assembly": 0.0,
-    "combo_depth": 0.0
-   },
-   "keepable_pct": 99.2,
-   "mean_dead_turns": 1.42,
-   "colors_t4": 99.6,
-   "ramp_n": 44,
-   "draw_n": 14,
-   "assembly_median": null,
-   "assembly_t10": null,
-   "assembly_never": null,
-   "combos_seeded": 0
-  },
-  {
    "commander": "Laelia, the Blade Reforged",
    "ci": "R",
    "status": "NEW",
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "counters",
@@ -14802,6 +14971,7 @@
    "pool": 1809,
    "combos_owned": 0,
    "combos_one_away": 5,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger",
@@ -14861,6 +15031,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "landfall",
     "etb"
@@ -14919,6 +15090,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "wide"
@@ -14977,6 +15149,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "landfall"
    ],
@@ -15035,6 +15208,7 @@
    "pool": 1821,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "combat"
@@ -15091,6 +15265,7 @@
    "pool": 1798,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill",
@@ -15151,6 +15326,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "wide"
@@ -15207,6 +15383,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "drain"
@@ -15265,6 +15442,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -15322,6 +15500,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -15379,6 +15558,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -15434,6 +15614,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -15492,6 +15673,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -15549,6 +15731,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -15606,6 +15789,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -15662,6 +15846,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "lifegain",
@@ -15720,6 +15905,7 @@
    "pool": 1235,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -15778,6 +15964,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -15834,6 +16021,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "landfall",
     "wide"
@@ -15892,6 +16080,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -15951,6 +16140,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain"
    ],
@@ -16006,6 +16196,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -16065,6 +16256,7 @@
    "pool": 842,
    "combos_owned": 32,
    "combos_one_away": 149,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "discard",
@@ -16126,6 +16318,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "drain"
@@ -16184,6 +16377,7 @@
    "pool": 1307,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "combat"
@@ -16242,6 +16436,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -16301,6 +16496,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb"
@@ -16359,6 +16555,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain"
    ],
@@ -16414,6 +16611,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "spellslinger"
@@ -16469,7 +16667,8 @@
    "status": "NEW",
    "pool": 1271,
    "combos_owned": 0,
-   "combos_one_away": 2,
+   "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -16528,6 +16727,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "counters",
@@ -16587,6 +16787,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "lifegain"
@@ -16643,6 +16844,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -16700,6 +16902,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb"
@@ -16756,6 +16959,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 7,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat",
@@ -16815,6 +17019,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "wide"
@@ -16871,6 +17076,7 @@
    "pool": 842,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat"
@@ -16929,6 +17135,7 @@
    "pool": 813,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -16984,6 +17191,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens"
@@ -17044,6 +17252,7 @@
    "pool": 1821,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [
     "Ally"
@@ -17101,6 +17310,7 @@
    "pool": 1271,
    "combos_owned": 25,
    "combos_one_away": 57,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens"
@@ -17159,6 +17369,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "combat"
@@ -17215,6 +17426,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "enchantments"
    ],
@@ -17272,6 +17484,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters"
    ],
@@ -17329,6 +17542,7 @@
    "pool": 1865,
    "combos_owned": 1,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -17389,12 +17603,72 @@
    "combos_seeded": 1
   },
   {
+   "commander": "Gev, Scaled Scorch",
+   "ci": "BR",
+   "status": "NEW",
+   "pool": 1234,
+   "combos_owned": 0,
+   "combos_one_away": 12,
+   "combos_template_gated": 8,
+   "themes": [
+    "counters",
+    "wide"
+   ],
+   "tribes": [
+    "Lizard"
+   ],
+   "quotas": {
+    "ramp": [
+     12,
+     12
+    ],
+    "draw": [
+     8,
+     8
+    ],
+    "removal": [
+     5,
+     5
+    ],
+    "wipes": [
+     2,
+     2
+    ],
+    "tutors": [
+     3,
+     3
+    ]
+   },
+   "combo_package": [],
+   "gc_hits": [],
+   "screen_score": 55.9,
+   "axes": {
+    "keepable": 20.0,
+    "flow": 7.9,
+    "colors": 9.7,
+    "ramp": 8.3,
+    "draw": 10.0,
+    "assembly": 0.0,
+    "combo_depth": 0.0
+   },
+   "keepable_pct": 99.1,
+   "mean_dead_turns": 1.32,
+   "colors_t4": 96.7,
+   "ramp_n": 10,
+   "draw_n": 11,
+   "assembly_median": null,
+   "assembly_t10": null,
+   "assembly_never": null,
+   "combos_seeded": 0
+  },
+  {
    "commander": "The Earth King",
    "ci": "G",
    "status": "NEW",
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat",
@@ -17453,6 +17727,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -17508,6 +17783,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "draw-matters",
@@ -17566,6 +17842,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "etb"
@@ -17622,6 +17899,7 @@
    "pool": 846,
    "combos_owned": 1,
    "combos_one_away": 14,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -17677,6 +17955,7 @@
    "pool": 1348,
    "combos_owned": 1,
    "combos_one_away": 10,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -17738,6 +18017,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat",
@@ -17797,6 +18077,7 @@
    "pool": 842,
    "combos_owned": 1,
    "combos_one_away": 8,
+   "combos_template_gated": 0,
    "themes": [
     "discard",
     "combat"
@@ -17855,6 +18136,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat",
@@ -17912,6 +18194,7 @@
    "pool": 1798,
    "combos_owned": 1,
    "combos_one_away": 6,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "lifegain",
@@ -17973,6 +18256,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb",
@@ -18032,6 +18316,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -18087,6 +18372,7 @@
    "pool": 1865,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "draw-matters",
     "discard",
@@ -18148,6 +18434,7 @@
    "pool": 1234,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "combat",
@@ -18207,6 +18494,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "combat"
@@ -18264,7 +18552,8 @@
    "status": "NEW",
    "pool": 814,
    "combos_owned": 0,
-   "combos_one_away": 37,
+   "combos_one_away": 34,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill",
@@ -18320,8 +18609,9 @@
    "ci": "BW",
    "status": "NEW",
    "pool": 1339,
-   "combos_owned": 8,
-   "combos_one_away": 17,
+   "combos_owned": 0,
+   "combos_one_away": 3,
+   "combos_template_gated": 8,
    "themes": [
     "graveyard",
     "combat"
@@ -18380,6 +18670,7 @@
    "pool": 1809,
    "combos_owned": 8,
    "combos_one_away": 27,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger"
@@ -18438,6 +18729,7 @@
    "pool": 1782,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "spellslinger",
@@ -18495,6 +18787,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -18550,6 +18843,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat"
@@ -18608,6 +18902,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "wide"
@@ -18668,6 +18963,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "lifegain",
@@ -18725,6 +19021,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "etb",
@@ -18782,6 +19079,7 @@
    "pool": 1339,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "lifegain",
     "combat"
@@ -18840,6 +19138,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "lifegain",
@@ -18898,6 +19197,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -18957,6 +19257,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -19012,6 +19313,7 @@
    "pool": 1865,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -19069,6 +19371,7 @@
    "pool": 1821,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "etb",
@@ -19126,6 +19429,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat"
@@ -19182,6 +19486,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat"
@@ -19238,6 +19543,7 @@
    "pool": 1313,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "spellslinger",
@@ -19297,6 +19603,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "combat",
@@ -19356,6 +19663,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -19411,6 +19719,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -19466,6 +19775,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "tokens",
     "counters",
@@ -19525,6 +19835,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat"
@@ -19581,6 +19892,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat",
@@ -19638,6 +19950,7 @@
    "pool": 756,
    "combos_owned": 7,
    "combos_one_away": 5,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -19693,6 +20006,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -19748,6 +20062,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat"
@@ -19804,6 +20119,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -19860,6 +20176,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -19916,6 +20233,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -19971,6 +20289,7 @@
    "pool": 1865,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "discard",
@@ -20030,6 +20349,7 @@
    "pool": 1762,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -20087,6 +20407,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "discard"
@@ -20143,6 +20464,7 @@
    "pool": 756,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20198,6 +20520,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "lifegain",
@@ -20255,6 +20578,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 7,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -20314,6 +20638,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -20370,6 +20695,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20425,6 +20751,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20480,6 +20807,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -20536,6 +20864,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -20592,6 +20921,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20647,6 +20977,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20702,6 +21033,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20757,6 +21089,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "counters",
@@ -20814,6 +21147,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat",
     "wide"
@@ -20870,6 +21204,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20925,6 +21260,7 @@
    "pool": 1223,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -20980,6 +21316,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -21037,6 +21374,7 @@
    "pool": 1803,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -21095,6 +21433,7 @@
    "pool": 814,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "counters",
@@ -21152,6 +21491,7 @@
    "pool": 1889,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "tokens",
@@ -21211,7 +21551,8 @@
    "status": "NEW",
    "pool": 1348,
    "combos_owned": 0,
-   "combos_one_away": 1,
+   "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill",
@@ -21269,6 +21610,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "counters"
@@ -21323,8 +21665,9 @@
    "ci": "BGU",
    "status": "NEW",
    "pool": 1889,
-   "combos_owned": 6,
-   "combos_one_away": 13,
+   "combos_owned": 0,
+   "combos_one_away": 0,
+   "combos_template_gated": 6,
    "themes": [
     "graveyard",
     "counters",
@@ -21382,6 +21725,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "theft",
@@ -21439,6 +21783,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "etb"
@@ -21494,7 +21839,8 @@
    "status": "NEW",
    "pool": 1348,
    "combos_owned": 0,
-   "combos_one_away": 12,
+   "combos_one_away": 4,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard"
    ],
@@ -21552,6 +21898,7 @@
    "pool": 1271,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard",
@@ -21613,6 +21960,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [],
    "tribes": [],
    "quotas": {
@@ -21669,6 +22017,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -21724,6 +22073,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "discard"
    ],
@@ -21781,6 +22131,7 @@
    "pool": 1348,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "aristocrats",
     "graveyard"
@@ -21839,6 +22190,7 @@
    "pool": 1285,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "lifegain",
@@ -21899,6 +22251,7 @@
    "pool": 399,
    "combos_owned": 1,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "theft"
@@ -21955,6 +22308,7 @@
    "pool": 1889,
    "combos_owned": 1,
    "combos_one_away": 9,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "mill"
@@ -22011,6 +22365,7 @@
    "pool": 846,
    "combos_owned": 1,
    "combos_one_away": 18,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22066,6 +22421,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22121,6 +22477,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22176,6 +22533,7 @@
    "pool": 846,
    "combos_owned": 0,
    "combos_one_away": 1,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22231,6 +22589,7 @@
    "pool": 399,
    "combos_owned": 10,
    "combos_one_away": 81,
+   "combos_template_gated": 0,
    "themes": [
     "wide"
    ],
@@ -22286,6 +22645,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "spellslinger",
     "discard"
@@ -22342,6 +22702,7 @@
    "pool": 1777,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "combat",
@@ -22399,6 +22760,7 @@
    "pool": 1809,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat",
@@ -22456,6 +22818,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22511,6 +22874,7 @@
    "pool": 1889,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "etb"
@@ -22569,6 +22933,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22624,6 +22989,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 2,
+   "combos_template_gated": 0,
    "themes": [
     "counters",
     "artifacts"
@@ -22684,6 +23050,7 @@
    "pool": 1294,
    "combos_owned": 0,
    "combos_one_away": 0,
+   "combos_template_gated": 0,
    "themes": [
     "combat"
    ],
@@ -22739,6 +23106,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 3,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"
@@ -22795,6 +23163,7 @@
    "pool": 399,
    "combos_owned": 0,
    "combos_one_away": 5,
+   "combos_template_gated": 0,
    "themes": [
     "graveyard",
     "combat"

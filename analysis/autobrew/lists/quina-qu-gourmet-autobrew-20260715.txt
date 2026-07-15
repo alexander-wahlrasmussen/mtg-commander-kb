@@ -1,0 +1,75 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: Quina, Qu Gourmet  [G]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 Quina, Qu Gourmet
+1 Walking Ballista
+1 Zuran Orb
+1 Campfire
+1 Codex Shredder
+1 Crop Rotation
+1 Exploration Broodship
+1 Gilded Goose
+1 Glimmer Bairn
+1 Haywire Mite
+1 Long List of the Ents
+1 Lunatic Pandora
+1 Myr Scrapling
+1 Phyrexian Dreadnought
+1 Retrofitter Foundry
+1 Sylvan Safekeeper
+1 The Underworld Cookbook
+1 Witch's Oven
+1 Aftermath Analyst
+1 Altar of Dementia
+1 Basking Broodscale
+1 Birthing Ritual
+1 Finale of Devastation
+1 Fungal Plots
+1 Grapple with the Past
+1 Invasion of Ikoria // Zilortha, Apex of Ikoria
+1 Leaves from the Vine
+1 Life from the Loam
+1 Ordeal of Nylea
+1 Peerless Recycling
+1 Propagator Drone
+1 Restore
+1 Rot Shambler
+1 Sprout Swarm
+1 True Ancestry
+1 Ashnod's Altar
+1 Cycle of Renewal
+1 Entish Restoration
+1 Evolution Witness
+1 Flare of Cultivation
+1 Floral Evoker
+1 Harrow
+1 Oblivion Stone
+1 Peregrin Took
+1 Phyrexian Altar
+1 Roiling Regrowth
+1 Springbloom Druid
+1 Summon: Fenrir
+1 The Hunger Tide Rises
+1 Tireless Tracker
+1 Baloth Prime
+1 Birthing Pod
+1 Centaur Vinecrasher
+1 Greater Good
+1 Krark-Clan Ironworks
+1 Natural Order
+1 Planar Engineering
+1 Summon: Titan
+1 Will of the Sultai
+1 Disciple of Freyalise // Garden of Freyalise
+1 Eldrazi Ravager
+1 Season of Gathering
+1 World Breaker
+1 Arid Mesa
+1 Bloodstained Mire
+1 Cabaretti Courtyard
+1 Escape Tunnel
+1 Evolving Wilds
+1 Eye of Ugin
+1 Fabled Passage
+1 Flooded Strand
+29 Forest

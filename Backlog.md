@@ -669,3 +669,16 @@ Deficit Spending space AND warns those seats are mutually exclusive (contention:
 graduate via proposal + clock lab, never straight to a build. Open refinements (only if
 the screen earns trust at first graduation): otag-vs-fb-tagger quota alignment, partner/
 background pairing, `--free-pool` (net out deployed cards).
+
+**Same-day correction (the vet worked):** the first leaderboard read CSB variants with
+**template requirements** as complete; the user's first vet question falsified row #5 —
+Gev's "8 owned 2-card combos" are all Gev + outlet + *any persist creature* (a `requires`
+template the cache trim dropped) and we own ZERO BR persist creatures → rank 295. Fixed
+strict (`requires` recorded; gated variants in their own bucket, never complete;
+REGRESSION test), full re-fetch + re-sweep. 19/391 commanders had gated variants but they
+clustered at the TOP (2-piece "commander+outlet+template" is exactly what wins the
+assembly screen): Nissa 93.5 #1 → 70.9 #33, Szarel #4 → #28. Requires-free shells held to
+the decimal → corrected top 5: Endrek Sahr / Sheoldred / Vivi Ornitier / Long Feng / Vito.
+Mikaeus the Unhallowed surfaced (#12, 35 genuine owned combos). Gev = a one-cheap-card
+unlock (Murderous Redcap = persist body + payoff). LESSON for every CSB consumer: a
+variant's `uses` list is not its full cost — check `requires`.

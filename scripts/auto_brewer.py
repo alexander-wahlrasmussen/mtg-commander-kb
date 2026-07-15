@@ -606,6 +606,13 @@ def fetch_variants(card_name):
             out.append({
                 "uses": [u.get("card", {}).get("name", "")
                          for u in v.get("uses", [])],
+                # Template requirements ("Persist Creature", "Free Sacrifice
+                # Outlet"...) — a variant with these is NOT complete from its
+                # named cards alone. Dropping this field made Gev's 8
+                # persist-gated variants read as owned 2-card combos
+                # (2026-07-15 correction).
+                "requires": [t.get("template", {}).get("name", "")
+                             for t in v.get("requires", [])],
                 "produces": [p.get("feature", {}).get("name", "")
                              for p in v.get("produces", [])],
                 "popularity": v.get("popularity") or 0,
@@ -629,17 +636,19 @@ def combos_for(ctx, cmdr, cache, refresh=False, network=True):
     Pieces are checked against ownership only here -- brew_deck later enforces
     CI by resolving pieces against the CI-filtered pool."""
     key = front(cmdr.disp)
+    empty = {"complete": [], "one_away": [], "template_gated": [],
+             "fetched": False}
     if refresh or key not in cache:
         if not network:
-            return {"complete": [], "one_away": [], "fetched": False}
+            return empty
         try:
             cache[key] = fetch_variants(cmdr.disp)
         except Exception as e:  # noqa: BLE001 -- a dead API must not kill a sweep
             print(f"  [csb] {key}: fetch failed ({e}) -- skipping combos",
                   file=sys.stderr)
-            return {"complete": [], "one_away": [], "fetched": False}
+            return empty
     fronts = _the_variants(cmdr.disp)
-    complete, one_away = [], []
+    complete, one_away, template_gated = [], [], []
     for v in cache[key]:
         if v.get("legal") is False:
             continue
@@ -648,13 +657,21 @@ def combos_for(ctx, cmdr, cache, refresh=False, network=True):
             continue
         others = [u for u in uses if front(u).lower() not in fronts]
         missing = [u for u in others if not _owned_has(ctx.owned_keys, u)]
-        row = {"pieces": others, "missing": missing,
+        requires = [t for t in v.get("requires", []) if t]
+        row = {"pieces": others, "missing": missing, "requires": requires,
                "produces": v["produces"], "popularity": v["popularity"]}
-        if not missing:
+        if requires:
+            # A template slot may or may not be fillable from the pool —
+            # resolving that honestly needs a template->cards engine, so the
+            # screen treats these as NOT complete (strict; never optimistic).
+            if not missing:
+                template_gated.append(row)
+        elif not missing:
             complete.append(row)
         elif len(missing) == 1:
             one_away.append(row)
-    return {"complete": complete, "one_away": one_away, "fetched": True}
+    return {"complete": complete, "one_away": one_away,
+            "template_gated": template_gated, "fetched": True}
 
 
 # ---------------------------------------------------------------------------
@@ -815,7 +832,8 @@ def cmd_brew(args):
     ctx = load_context()
     pc = _find_commander(ctx, args.commander)
     cache = load_cache()
-    rows = ({"complete": [], "one_away": [], "fetched": False}
+    rows = ({"complete": [], "one_away": [], "template_gated": [],
+             "fetched": False}
             if args.no_combos else
             combos_for(ctx, pc, cache, refresh=args.refresh_combos))
     if rows.get("fetched"):
@@ -823,6 +841,14 @@ def cmd_brew(args):
     brew = brew_deck(pc, ci_pool(ctx, pc), rows["complete"])
     metrics = screen_score(brew, rows["complete"], trials=args.trials)
     print_brew(brew, metrics)
+    if rows["template_gated"]:
+        tg = sorted(rows["template_gated"],
+                    key=lambda r: -r.get("popularity", 0))[:5]
+        print(f"  template-gated ({len(rows['template_gated'])} -- pieces "
+              "owned but a generic slot is unverified):")
+        for r in tg:
+            print(f"    needs [{' & '.join(r['requires'])}] with "
+                  + (" + ".join(r["pieces"]) or "the commander alone"))
     if rows["one_away"]:
         best = sorted(rows["one_away"],
                       key=lambda r: -r.get("popularity", 0))[:5]
@@ -849,7 +875,8 @@ def cmd_sweep(args):
           f"combos {'off' if args.no_combos else 'on'})", flush=True)
     results = []
     for i, (pc, st, n) in enumerate(todo, 1):
-        rows_c = ({"complete": [], "one_away": [], "fetched": False}
+        rows_c = ({"complete": [], "one_away": [], "template_gated": [],
+                   "fetched": False}
                   if args.no_combos else
                   combos_for(ctx, pc, cache, refresh=args.refresh_combos))
         brew = brew_deck(pc, ci_pool(ctx, pc), rows_c["complete"])
@@ -858,6 +885,7 @@ def cmd_sweep(args):
             "commander": pc.disp, "ci": brew.ci, "status": st, "pool": n,
             "combos_owned": len(rows_c["complete"]),
             "combos_one_away": len(rows_c["one_away"]),
+            "combos_template_gated": len(rows_c["template_gated"]),
             "themes": brew.themes, "tribes": brew.tribes,
             "quotas": {k: list(v) for k, v in brew.quota_report.items()},
             "combo_package": brew.combo_package, "gc_hits": brew.gc_hits,

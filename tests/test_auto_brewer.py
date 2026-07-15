@@ -275,6 +275,33 @@ def test_curve_median():
     assert curve_median({1: 0.0, 2: 1.0}) is None
 
 
+def test_template_gated_variants_are_not_complete_REGRESSION():
+    """2026-07-15: CSB variants with template requirements ('Persist
+    Creature') were read as owned 2-card combos -- Gev showed 8 complete
+    while the pool holds zero BR persist creatures. Templates must land in
+    their own bucket, never in complete."""
+    import types
+
+    from auto_brewer import combos_for
+
+    ctx = types.SimpleNamespace(
+        owned_keys={"goblin bombardment", "viscera seer"})
+    cmdr = types.SimpleNamespace(disp="Gev, Scaled Scorch")
+    cache = {"Gev, Scaled Scorch": [
+        {"uses": ["Gev, Scaled Scorch", "Goblin Bombardment"],
+         "requires": ["Persist Creature"],
+         "produces": ["Infinite damage"], "popularity": 8330, "legal": True},
+        {"uses": ["Gev, Scaled Scorch", "Viscera Seer"],
+         "requires": [], "produces": ["Infinite scry 1"],
+         "popularity": 10, "legal": True},
+    ]}
+    rows = combos_for(ctx, cmdr, cache, network=False)
+    assert [r["pieces"] for r in rows["complete"]] == [["Viscera Seer"]]
+    assert [r["requires"] for r in rows["template_gated"]] == \
+        [["Persist Creature"]]
+    assert rows["one_away"] == []
+
+
 def test_owned_has_the_normalisation():
     owned = {"wise mothman"}
     assert _owned_has(owned, "The Wise Mothman")

@@ -1,0 +1,86 @@
+# AUTO-BREWER SCREEN CANDIDATE -- not a deck. Generated 20260715.
+# Commander: The Necrobloom  [BGW]
+# Screen-grade only: graduate via proposal + clock lab before building.
+1 The Necrobloom
+1 Blood Fountain
+1 Carrion Feeder
+1 Codex Shredder
+1 Currency Converter
+1 Darkblast
+1 Quest for the Necropolis
+1 Sami's Curiosity
+1 Viscera Seer
+1 Aftermath Analyst
+1 Altar of Dementia
+1 Dread Summons
+1 Golgari Thug
+1 Grapple with the Past
+1 Leaves from the Vine
+1 Life from the Loam
+1 Malevolent Rumble
+1 Millikin
+1 Nim Deathmantle
+1 Nuclear Fallout
+1 Perpetual Timepiece
+1 Shigeki, Jukai Visionary
+1 Sidequest: Raise a Chocobo // Black Chocobo
+1 Skull Prophet
+1 True Ancestry
+1 Ashnod's Altar
+1 Crawling Sensation
+1 Floral Evoker
+1 Harold and Bob, First Numens
+1 Liliana, the Last Hope
+1 Nyx Weaver
+1 Palantír of Orthanc
+1 Phyrexian Altar
+1 Six
+1 Sméagol, Helpful Guide
+1 Stinkweed Imp
+1 Tato Farmer
+1 Twilight Diviner
+1 Tyvar, Jubilant Brawler
+1 Unshakable Tail
+1 Woe Strider
+1 Wrenn and Realmbreaker
+1 Yahenni, Undying Partisan
+1 Beifong's Bounty Hunters
+1 Blossoming Tortoise
+1 Eumidian Wastewaker
+1 Hedge Shredder
+1 Icetill Explorer
+1 Lost Monarch of Ifnir
+1 Rise of the Witch-king
+1 Vanille, Cheerful l'Cie
+1 World Shaper
+1 Ashaya, Soul of the Wild
+1 Liliana, Death's Majesty
+1 Summon: Titan
+1 Tergrid, God of Fright // Tergrid's Lantern
+1 Territory Culler
+1 The Gitrog Monster
+1 Titania, Protector of Argoth
+1 Will of the Sultai
+1 Lord of the Forsaken
+1 Lumra, Bellow of the Woods
+1 Malboro
+1 Aether Hub
+1 Capital City
+1 Cavern of Souls
+1 City of Brass
+1 Command Tower
+1 Crossroads Village
+1 Exotic Orchard
+1 Gemstone Caverns
+1 Great Hall of the Biblioplex
+1 Great Hall of the Citadel
+1 Horizon of Progress
+1 Indatha Triome
+1 Jasmine Dragon Tea Shop
+1 Lotus Field
+1 Mirrex
+1 Nykthos, Shrine to Nyx
+1 Opal Palace
+1 Path of Ancestry
+10 Forest
+9 Swamp
