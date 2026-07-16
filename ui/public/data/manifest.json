@@ -104,7 +104,8 @@
       "creative_destruction",
       "mass_production",
       "eldrazi_stampede"
-    ]
+    ],
+    "autobrew": true
   },
   "matchup": {
     "strict": [

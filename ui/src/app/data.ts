@@ -295,3 +295,31 @@ export async function getCollection(): Promise<CollectionData> {
 export async function getDeck(slug: string): Promise<DeckPage> {
   return mode.static ? bundle<DeckPage>(`decks/${slug}`) : getJSON<DeckPage>(`/api/deck?slug=${encodeURIComponent(slug)}`);
 }
+
+/* Auto-Brewer — the owned-pool commander leaderboard (auto_brewer sweep,
+ * reshaped). Every number is SCREEN-grade; `assemblyT10` is P(combo pieces
+ * SEEN by turn 10), NOT a kill turn. Combo type is Commander Spellbook's own
+ * produced-features; playstyle is the brew's oracle-text themes. */
+export interface AutobrewCombo {
+  type: string; pieces: string[]; produces: string[]; popularity: number;
+}
+export interface AutobrewRow {
+  rank: number; commander: string; ci: string; colors: string[];
+  status: string; pool: number; score: number | null;
+  axes: Record<string, number>;
+  keepable: number | null; deadTurns: number | null; colorsT4: number | null;
+  ramp: number | null; draw: number | null;
+  assemblyT10: number | null; assemblyMedian: number | null;
+  combosOwned: number; combosOneAway: number; combosGated: number;
+  themes: string[]; tribes: string[];
+  playstyle: string; playstyleGloss: string; gc: string[];
+  comboType: string | null; combo: AutobrewCombo | null; package: string[];
+}
+export interface AutobrewData {
+  date: string; generated: string; trials: number | null; minPool: number | null;
+  candidates: number; note: string; rows: AutobrewRow[];
+}
+
+export async function getAutobrew(): Promise<AutobrewData> {
+  return mode.static ? bundle<AutobrewData>("autobrew") : getJSON<AutobrewData>("/api/autobrew");
+}

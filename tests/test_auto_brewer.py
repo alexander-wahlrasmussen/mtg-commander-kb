@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from auto_brewer import (  # noqa: E402
     Brew, PoolCard, brew_deck, can_be_commander, composite, curve_median,
     front, theme_profile, _owned_has, _the_variants,
+    _combo_category, _combo_summary, shape_leaderboard,
 )
 
 
@@ -313,3 +314,86 @@ def test_front_and_variants():
     assert front("Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel") \
         == "Sephiroth, Fabled SOLDIER"
     assert "the wise mothman" in _the_variants("Wise Mothman")
+
+
+# ---------------------------------------------------------------------------
+# leaderboard page shaping (pure -- reads a synthetic sweep + cache)
+# ---------------------------------------------------------------------------
+
+def test_combo_category_buckets_by_lethality():
+    # win beats everything; "draw the game" is ignored, not a category
+    assert _combo_category(["Target opponent loses the game",
+                            "Infinite mana"]) == "Instant win"
+    assert _combo_category(["Infinite mana"]) == "Infinite mana"
+    assert _combo_category(["Draw the game"]) == "Combo engine"
+    assert _combo_category(["Infinite blinking"]) == "Infinite loop"
+
+
+def _cache_row(uses, produces, pop=100, requires=(), legal=True):
+    return {"uses": uses, "produces": list(produces),
+            "requires": list(requires), "popularity": pop, "legal": legal}
+
+
+def test_combo_summary_prefers_lethal_over_defensive():
+    cmdr = "Vito, Thorn of the Dusk Rose"
+    cache = {"Vito, Thorn of the Dusk Rose": [
+        # a fringe defensive 'combo' -- must NOT headline
+        _cache_row([cmdr, "Assault Suit"], ["Draw the game"], pop=9999),
+        # the real kill
+        _cache_row([cmdr, "Exquisite Blood"],
+                   ["Infinite lifegain", "Infinite lifeloss"], pop=500),
+    ]}
+    summ = _combo_summary(cmdr, ["Assault Suit", "Exquisite Blood"], cache)
+    assert summ["type"] == "Infinite drain"
+    assert summ["pieces"] == [cmdr, "Exquisite Blood"]
+    assert summ["produces"][0] == "Infinite lifeloss"   # drain feature first
+
+
+def test_combo_summary_ignores_template_gated_and_offpackage():
+    cmdr = "Gev, Scaled Scorch"
+    cache = {"Gev, Scaled Scorch": [
+        _cache_row([cmdr, "Goblin Bombardment"], ["Infinite damage"],
+                   requires=["Persist Creature"]),          # gated -> skip
+        _cache_row([cmdr, "Murderous Redcap"], ["Infinite damage"]),  # unowned
+    ]}
+    # package holds neither piece -> nothing reconstructs
+    assert _combo_summary(cmdr, ["Some Ramp"], cache) is None
+
+
+def test_shape_leaderboard_enriches_rows():
+    lb = {"date": "20260715", "trials": 2000, "min_pool": 150,
+          "note": "SCREEN-grade.", "results": [{
+              "commander": "Vito, Thorn of the Dusk Rose", "ci": "B",
+              "status": "NEW", "pool": 800, "screen_score": 87.3,
+              "axes": {"assembly": 25.0}, "keepable_pct": 99.5,
+              "mean_dead_turns": 0.9, "colors_t4": 98.0, "ramp_n": 12,
+              "draw_n": 8, "assembly_t10": 40.8, "assembly_median": None,
+              "combos_owned": 2, "combos_one_away": 9,
+              "combos_template_gated": 0, "themes": ["lifegain", "drain"],
+              "tribes": [], "combo_package": ["Exquisite Blood"],
+              "gc_hits": []}]}
+    cache = {"Vito, Thorn of the Dusk Rose": [
+        _cache_row(["Vito, Thorn of the Dusk Rose", "Exquisite Blood"],
+                   ["Infinite lifeloss"])]}
+    page = shape_leaderboard(lb, cache)
+    assert page["generated"] == "2026-07-15"
+    assert page["candidates"] == 1
+    row = page["rows"][0]
+    assert row["rank"] == 1
+    assert row["colors"] == ["B"]
+    assert row["comboType"] == "Infinite drain"
+    assert row["combo"]["pieces"] == ["Vito, Thorn of the Dusk Rose",
+                                      "Exquisite Blood"]
+    assert "Lifegain" in row["playstyle"] and "Drain" in row["playstyle"]
+    assert row["playstyleGloss"][0].isupper()
+
+
+def test_shape_leaderboard_multicolor_and_no_combo():
+    lb = {"date": "20260715", "results": [{
+        "commander": "Aang", "ci": "BGRUW", "combo_package": [],
+        "themes": [], "tribes": [], "screen_score": 50.0}]}
+    page = shape_leaderboard(lb, {})
+    row = page["rows"][0]
+    assert row["colors"] == ["W", "U", "B", "R", "G"]   # WUBRG order
+    assert row["comboType"] is None and row["combo"] is None
+    assert row["playstyle"] == "Midrange / goodstuff"

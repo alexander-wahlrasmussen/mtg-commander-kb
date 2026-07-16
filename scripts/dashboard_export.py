@@ -177,6 +177,14 @@ def main():
         # payload is public, no ownership data.
         (OUT / "doctor.json").write_text(json.dumps(ds.compute_doctor(vitals=True)),
                                          encoding="utf-8")
+        # Auto-Brewer leaderboard — a pure reshape of the already-baked
+        # analysis/autobrew/ sweep (no bulk, no network). Skip (don't abort the
+        # whole content bake) if the sweep was never run.
+        try:
+            (OUT / "autobrew.json").write_text(json.dumps(ds.compute_autobrew()),
+                                               encoding="utf-8")
+        except FileNotFoundError as e:
+            print(f"\n  autobrew ... SKIPPED — {e}")
         decks_dir.mkdir(exist_ok=True)
         slugs = [d["slug"] for d in roster["decks"]]
         for slug in slugs:
@@ -217,6 +225,7 @@ def main():
     if do_content:
         manifest["content"] = dict(roster=True, home=True, wishlist=True,
                                    collection=True, tierlist=True, doctor=True,
+                                   autobrew=(OUT / "autobrew.json").is_file(),
                                    decks=slugs)
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 

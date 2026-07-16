@@ -790,6 +790,219 @@ def print_brew(brew, metrics=None):
 
 
 # ---------------------------------------------------------------------------
+# dashboard leaderboard page (pure shaping over the two baked artifacts)
+# ---------------------------------------------------------------------------
+
+# GENERIC archetype names/glosses keyed by the THEMES labels above. The theme
+# itself is already derived from the commander's OWN oracle text by
+# theme_profile(); this only puts the pattern into prose, it never asserts what
+# any single card does -- so it stays inside the CLAUDE.md "don't describe cards
+# from name/memory" rule.
+THEME_LABEL = {
+    "aristocrats": "Aristocrats", "graveyard": "Graveyard", "tokens": "Tokens",
+    "spellslinger": "Spellslinger", "counters": "+1/+1 Counters",
+    "lifegain": "Lifegain", "draw-matters": "Draw-Matters", "discard": "Discard",
+    "mill": "Mill", "landfall": "Landfall", "artifacts": "Artifacts",
+    "enchantments": "Enchantments", "drain": "Drain", "combat": "Combat",
+    "etb": "Blink / ETB", "theft": "Theft", "wide": "Go-Wide",
+}
+THEME_GLOSS = {
+    "aristocrats": "sacrifices its own creatures for value and drain",
+    "graveyard": "recurs and reanimates out of the graveyard",
+    "tokens": "floods the board with tokens and pumps them",
+    "spellslinger": "chains and copies instants and sorceries",
+    "counters": "grows +1/+1 counters and proliferates",
+    "lifegain": "turns lifegain into an engine",
+    "draw-matters": "rewards every extra card drawn",
+    "discard": "weaponises discard and wheels",
+    "mill": "mills libraries as a resource",
+    "landfall": "ramps extra lands for landfall payoffs",
+    "artifacts": "assembles an artifact engine",
+    "enchantments": "builds out an enchantment web",
+    "drain": "drains each opponent's life total",
+    "combat": "wins through repeated and extra combats",
+    "etb": "loops enters-the-battlefield triggers with blink",
+    "theft": "steals opponents' permanents",
+    "wide": "goes wide and anthems the team",
+}
+
+# produced-features that must NOT headline a combo (a stalemate is not a win).
+# Exact match, case-folded.
+_COMBO_IGNORE = {"draw the game"}
+
+# combo-type buckets, most-lethal first; the FIRST bucket whose needles hit a
+# feature wins. CSB's `produces` strings are its own classification -- we only
+# bucket them, never invent them.
+_COMBO_CATS = [
+    ("Instant win",     ("loses the game", "lose the game", "wins the game")),
+    ("Infinite damage", ("damage", "burn")),
+    ("Infinite drain",  ("lifeloss", "life loss", "loses life", "drain")),
+    ("Infinite mill",   ("mill",)),
+    ("Infinite tokens", ("creature token", "tokens", "creature")),
+    ("Infinite mana",   ("mana",)),
+    ("Infinite draw",   ("card draw",)),
+]
+_COMBO_PRIORITY = {label: i for i, (label, _) in enumerate(_COMBO_CATS)}
+_COMBO_PRIORITY["Infinite loop"] = len(_COMBO_CATS)
+_COMBO_PRIORITY["Combo engine"] = len(_COMBO_CATS) + 1
+_WIN_NEEDLES = ("loses the game", "lose the game", "wins the game")
+
+
+def _combo_category(features):
+    """Bucket a list of CSB produced-features into a short kill-type label."""
+    low = [f.lower() for f in features if f.lower() not in _COMBO_IGNORE]
+    for label, needles in _COMBO_CATS:
+        if any(any(n in f for n in needles) for f in low):
+            return label
+    if any("infinite" in f for f in low):
+        return "Infinite loop"
+    return "Combo engine"
+
+
+def _seeded_combos(commander, package, cache):
+    """The owned complete combos the brew actually seeded, reconstructed from
+    the commander's CSB cache rows + the brewed combo package. A cache variant
+    counts iff it uses the commander, has NO template requirement, and every
+    other named piece is in the package -- exactly the seed rule brew_deck used.
+    Returns [(other_pieces, produces, popularity)]."""
+    fronts = _the_variants(commander)
+    pkg = set(package)
+    out = []
+    for v in cache.get(front(commander), []):
+        if v.get("legal") is False:
+            continue
+        if [t for t in v.get("requires", []) if t]:
+            continue
+        uses = [u for u in v.get("uses", []) if u]
+        if not any(front(u).lower() in fronts for u in uses):
+            continue
+        others = [u for u in uses if front(u).lower() not in fronts]
+        if not others or any(o not in pkg for o in others):
+            continue
+        produces = [p for p in v.get("produces", []) if p]
+        out.append((others, produces, v.get("popularity", 0) or 0))
+    return out
+
+
+def _combo_summary(commander, package, cache):
+    """The headline combo for a commander: the most-lethal seeded owned combo
+    (Instant-win > damage > drain > ...), popularity then piece-count breaking
+    ties. None when nothing reconstructs (e.g. the owned combo's piece was
+    off-colour and never entered the package)."""
+    seeded = _seeded_combos(commander, package, cache)
+    if not seeded:
+        return None
+
+    def rank(item):
+        others, produces, pop = item
+        return (_COMBO_PRIORITY.get(_combo_category(produces), 99), -pop,
+                len(others))
+
+    others, produces, pop = min(seeded, key=rank)
+    cat = _combo_category(produces)
+    cat_needles = dict(_COMBO_CATS).get(cat, ())
+    seen, feats = set(), []
+    for f in produces:
+        if f.lower() not in _COMBO_IGNORE and f not in seen:
+            seen.add(f)
+            feats.append(f)
+
+    def relevance(f):
+        fl = f.lower()
+        if any(n in fl for n in _WIN_NEEDLES):
+            return 0                       # the actual win, first
+        if any(n in fl for n in cat_needles):
+            return 1                       # the feature that named the type
+        return 2
+    feats.sort(key=relevance)
+    return {"type": cat, "pieces": [commander] + others,
+            "produces": feats[:6], "popularity": pop}
+
+
+_COLOR_ORDER = "WUBRG"
+
+
+def _color_pips(ci):
+    """CI string ('BGRUW', 'RU', 'C') -> WUBRG-ordered pip letters for the UI."""
+    if not ci or ci == "C":
+        return ["C"]
+    return [c for c in _COLOR_ORDER if c in ci]
+
+
+def shape_leaderboard(lb, cache):
+    """Pure transform: (leaderboard dict, CSB cache dict) -> the dashboard
+    Auto-Brewer page payload. Each row gains a playstyle gloss (from the brew's
+    themes) and a combo-type summary (from CSB produced-features). No I/O, no
+    network -- hermetically testable. Every metric stays SCREEN-grade; assembly
+    is P(pieces SEEN), never a kill turn (the note field carries the caveat)."""
+    rows = []
+    for i, r in enumerate(lb.get("results", []), 1):
+        themes = r.get("themes", [])
+        tribes = r.get("tribes", [])
+        labels = ([f"{tribes[0]} tribal"] if tribes else []) + \
+            [THEME_LABEL.get(t, t.title()) for t in themes]
+        gloss = "; ".join(THEME_GLOSS[t] for t in themes[:2] if t in THEME_GLOSS)
+        gloss = gloss[:1].upper() + gloss[1:] if gloss else ""
+        combo = _combo_summary(r["commander"], r.get("combo_package", []), cache)
+        rows.append({
+            "rank": i,
+            "commander": r["commander"],
+            "ci": r.get("ci", "C"),
+            "colors": _color_pips(r.get("ci", "C")),
+            "status": r.get("status", ""),
+            "pool": r.get("pool", 0),
+            "score": r.get("screen_score"),
+            "axes": r.get("axes", {}),
+            "keepable": r.get("keepable_pct"),
+            "deadTurns": r.get("mean_dead_turns"),
+            "colorsT4": r.get("colors_t4"),
+            "ramp": r.get("ramp_n"),
+            "draw": r.get("draw_n"),
+            "assemblyT10": r.get("assembly_t10"),
+            "assemblyMedian": r.get("assembly_median"),
+            "combosOwned": r.get("combos_owned", 0),
+            "combosOneAway": r.get("combos_one_away", 0),
+            "combosGated": r.get("combos_template_gated", 0),
+            "themes": themes,
+            "tribes": tribes,
+            "playstyle": " · ".join(labels) if labels else "Midrange / goodstuff",
+            "playstyleGloss": gloss,
+            "gc": r.get("gc_hits", []),
+            "comboType": combo["type"] if combo else None,
+            "combo": combo,
+            "package": r.get("combo_package", []),
+        })
+
+    def fdate(d):
+        return f"{d[:4]}-{d[4:6]}-{d[6:]}" if d and len(d) == 8 else (d or "")
+
+    return {
+        "date": lb.get("date", ""),
+        "generated": fdate(lb.get("date", "")),
+        "trials": lb.get("trials"),
+        "minPool": lb.get("min_pool"),
+        "candidates": len(rows),
+        "note": lb.get("note", ""),
+        "rows": rows,
+    }
+
+
+def leaderboard_page(lb_path=LEADERBOARD, cache_path=CACHE_FILE):
+    """Load the baked sweep + CSB cache and shape the Auto-Brewer page payload.
+    Read-only over analysis/autobrew/ -- it NEVER re-runs a sweep (that needs
+    the bulk + network). Raises FileNotFoundError with a hint if the sweep has
+    not been run."""
+    lb_path, cache_path = Path(lb_path), Path(cache_path)
+    if not lb_path.exists():
+        raise FileNotFoundError(
+            f"{lb_path} not found -- run `python scripts/auto_brewer.py sweep`")
+    lb = json.loads(lb_path.read_text(encoding="utf-8"))
+    cache = (json.loads(cache_path.read_text(encoding="utf-8"))
+             if cache_path.exists() else {})
+    return shape_leaderboard(lb, cache)
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 

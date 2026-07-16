@@ -9,6 +9,7 @@ import { Locks } from "./panels/Locks";
 import { Matchups } from "./panels/Matchups";
 import { Championship } from "./panels/Championship";
 import { TierList } from "./panels/TierList";
+import { AutoBrewer } from "./panels/AutoBrewer";
 import { Decks } from "./panels/Decks";
 import { Doctor } from "./panels/Doctor";
 import { Collection } from "./panels/Collection";
@@ -24,6 +25,7 @@ const TABS = [
   { id: "matchups", label: "Matchups" },
   { id: "championship", label: "Championship" },
   { id: "tiers", label: "Tier List" },
+  { id: "autobrew", label: "Auto-Brewer" },
   { id: "decks", label: "Decks" },
   { id: "doctor", label: "Doctor" },
   { id: "collection", label: "Collection" },
@@ -38,6 +40,7 @@ const SUBTITLES: Record<string, string> = {
   matchups: "deck × his measured stable — read the spread, not the blend",
   championship: "the 16-deck bracket",
   tiers: "the v2 power ranking — three outcome oracles, score ⊥ winning",
+  autobrew: "the owned-pool commander sweep — SCREEN-grade, machine proposes / human vets",
   decks: "the active roster — Conversion Check + measured clock",
   doctor: "the roster pre-flight — red means fix it before it hits a table",
   collection: "the card browser",
@@ -97,6 +100,7 @@ export function App() {
             {tab === "matchups" && <Matchups />}
             {tab === "championship" && <Championship />}
             {tab === "tiers" && <TierList />}
+            {tab === "autobrew" && <AutoBrewer />}
             {tab === "decks" && <Decks onOpenDeck={openDeck} />}
             {tab === "doctor" && <Doctor />}
             {tab === "collection" && <Collection />}

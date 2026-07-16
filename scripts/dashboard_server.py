@@ -21,6 +21,7 @@ Content endpoints (kb_content — KB markdown / CSV / Scryfall, not the sim):
   GET /api/wishlist         -> Build & Swap Tracker (builds / swaps / cheap unlocks)
   GET /api/collection       -> owned cards (Moxfield CSV ⋈ Scryfall) + facet counts
   GET /api/deck?slug=       -> one deck's Tale-of-the-Tape page payload
+  GET /api/autobrew         -> Auto-Brewer owned-pool leaderboard (SCREEN-grade)
 
 Knobs map 1:1 to the CLI flags:
   gauntlet:     a (Abolisher P-out), pod (fast|base|slow), strict (decap|table), trials
@@ -72,6 +73,7 @@ pg = pc.pg                                   # pod_gauntlet  (clocks, build_cdf,
 kb = _load("kb_content")                     # KB content (roster / decks / collection / wishlist)
 tl = _load("tier_list")                       # the v2 tier-list composite (reuses pg/sm/im)
 dd = _load("deck_doctor")                    # the per-deck pre-flight (Doctor board)
+ab = _load("auto_brewer")                    # Auto-Brewer leaderboard (reads the baked sweep)
 
 CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -227,6 +229,15 @@ def compute_collection():
 def compute_wishlist():
     """Build & Swap Tracker — builds, recommended swaps, cheap unlocks."""
     return kb.wishlist()
+
+
+def compute_autobrew():
+    """The Auto-Brewer owned-pool leaderboard, shaped for the browse page.
+    A 4th-consumer wrapper: reads the baked analysis/autobrew/ artifacts (the
+    sweep JSON + CSB cache) — it NEVER re-runs a sweep (that needs the bulk +
+    network). Every number is SCREEN-grade; assembly is P(pieces SEEN), not a
+    kill turn (auto_brewer owns that discipline)."""
+    return ab.leaderboard_page()
 
 
 def compute_tierlist(trials, t_grind, tax, seed, legacy):
@@ -410,6 +421,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(compute_collection())
             if path == "/api/deck":
                 return self._json(compute_deck(qs.get("slug", [""])[0]))
+            if path == "/api/autobrew":
+                return self._json(compute_autobrew())
         except Exception as e:                # surface engine errors to the UI, don't 500 silently
             import traceback
             traceback.print_exc()
