@@ -93,6 +93,22 @@ from validate import load_game_changers, MAX_GC, DECK_SIZE  # noqa: E402
 from availability_check import norm                          # noqa: E402 (front-face normaliser)
 from unlock_optimizer import load_owned                       # noqa: E402 (ownership, alias-resolved)
 
+
+def match_game_changers(names, gc_names, aliases=None):
+    """GC hits in ``names`` -> ``{canon: display}``, resolving reskin aliases AND
+    DFC front faces. A double-faced Game Changer (e.g. "Tergrid, God of Fright //
+    Tergrid's Lantern") is on the GC list under its front-face name only, so the
+    full printed name never matches without the split — an un-split DFC GC would
+    silently evade the hard 3-GC cap."""
+    aliases = aliases or {}
+    hits = {}
+    for n in names:
+        for face in {n.strip().lower(), norm(n)}:   # full printed name + DFC front face
+            canon = aliases.get(face, face).lower()
+            if canon in gc_names:
+                hits[canon] = gc_names[canon]
+    return hits
+
 # Windows consoles default to cp1252; card names + en-dashes in echoed lab output
 # would crash the report. Force UTF-8.
 for _s in (sys.stdout, sys.stderr):
@@ -659,11 +675,7 @@ def doctor(arg, run_lab=False, lab_override=None, trials=LAB_TRIALS,
     # --- 5. Game Changers ------------------------------------------------
     rpt.section("Game Changers")
     gc_names = load_game_changers()
-    gc_hits = {}
-    for n in pool:
-        canon = aliases.get(n.lower(), n).lower()
-        if canon in gc_names:
-            gc_hits[canon] = gc_names[canon]
+    gc_hits = match_game_changers(pool, gc_names, aliases)
     rpt.facts["gc"] = len(gc_hits)
     if len(gc_hits) > MAX_GC:
         rpt.line(ERROR, f"{len(gc_hits)} Game Changers (max {MAX_GC}): "
@@ -1284,7 +1296,7 @@ def diff(old_arg, new_arg, csv_path=None):
         """Why this added card might matter: GC, off-colour, or banned."""
         rec = lookup(full, aliases, c)
         tags = []
-        if c in gc_names:
+        if match_game_changers([c], gc_names, aliases):
             tags.append("GC")
         if rec and cmd_ci is not None:
             extra = set(rec.get("color_identity", [])) - cmd_ci

@@ -54,6 +54,30 @@ def test_mdfc_judged_on_both_faces():
     assert dd.fragility_rank(r) == 1
 
 
+def test_gc_match_splits_dfc_front_face():
+    # REGRESSION: a double-faced Game Changer is on the GC list under its FRONT
+    # face only. The full printed name "Tergrid, God of Fright // Tergrid's
+    # Lantern" must still register as a GC, or a DFC GC silently evades the hard
+    # 3-cap (found 2026-07-17 building the owned Yahenni list).
+    gc = {"tergrid, god of fright": "Tergrid, God of Fright",
+          "demonic tutor": "Demonic Tutor"}
+    hits = dd.match_game_changers(
+        ["Tergrid, God of Fright // Tergrid's Lantern", "Sol Ring"], gc)
+    assert hits == {"tergrid, god of fright": "Tergrid, God of Fright"}
+    # plain front-face name and a non-GC both behave
+    assert dd.match_game_changers(["Demonic Tutor"], gc)
+    assert dd.match_game_changers(["Reassembling Skeleton"], gc) == {}
+
+
+def test_gc_match_resolves_reskin_alias():
+    # a reskin of a GC is still a GC (REF_Reskin_Aliases); alias maps printed
+    # name -> canonical GC name (both lowercased keys).
+    gc = {"jeska's will": "Jeska's Will"}
+    aliases = {"storm's will": "jeska's will"}
+    assert dd.match_game_changers(["Storm's Will"], gc, aliases) == {
+        "jeska's will": "Jeska's Will"}
+
+
 def test_all_text_none_safe():
     # REGRESSION: parse_deck KEEPS unresolved cards in the library, so the
     # footprint/interaction scans can hand _all_text a None record. It must return
