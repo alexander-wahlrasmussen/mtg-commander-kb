@@ -43,9 +43,11 @@ def owned_from_csv(csv_path: Path):
     return total
 
 
-def deployed_from_decks(deck_dir: Path):
+def deployed_from_decks(deck_dir: Path, exclude: Path | None = None):
     dep = defaultdict(int)
     for df in sorted(deck_dir.glob("*.txt")):        # non-recursive: skips considering/
+        if exclude is not None and df.resolve() == exclude:
+            continue
         for line in df.read_text(encoding="utf-8").splitlines():
             m = LINE_RE.match(line)
             if m:
@@ -79,7 +81,8 @@ def main():
 
     csv_path = Path(args.csv) if args.csv else max((ROOT / "collection").glob("moxfield_haves_*.csv"))
     owned = owned_from_csv(csv_path)
-    deployed = deployed_from_decks(Path(args.deck_dir))
+    deployed = deployed_from_decks(Path(args.deck_dir),
+                                   exclude=Path(args.check).resolve() if args.check else None)
     oracle = load_oracle(Path(args.oracle))
 
     if args.check:
