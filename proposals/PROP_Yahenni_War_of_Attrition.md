@@ -23,9 +23,24 @@ User brief: *"the best deck we can build with my currently owned **free** cards.
 - `free_pool.py --check` → **ALL FREE** (surplus-aware; basics exempt; doesn't touch any existing deck).
 - `deck_doctor` → 100 cards, singleton-clean, **all 100 legal**, own 100/100.
 - **GC = 1 (Tergrid), verified against `REF_Game_Changers_List.md`.** deck_doctor *originally under-reported 0* — a DFC Game Changer listed under its full name (`Tergrid, God of Fright // Tergrid's Lantern`) evaded its matcher. **Fixed** this session: extracted `deck_doctor.match_game_changers()` (front-face + reskin aware) + 2 regression tests; fast gate green.
-- **Clock UNVERIFIED** — no lab; no turn claim made.
+- **Clock (labbed):** `Clock: T6–7 decap (voltron ceiling) / T11 table (woa_clock_lab 2026-07-17)` — see below.
 
-**Open question specific to this build:** buy the single **Ashnod's Altar** (~€5) to convert the Nim Deathmantle line into a real infinite? It's the highest-leverage upgrade by far.
+### Clock — `scripts/woa_clock_lab.py` (40k trials, seed 20260717)
+
+Kill shape confirmed first (find_combos + card_lookup): grind aristocrats with a voltron axis (Yahenni **21 commander damage**, not 40) + a drain chip, and an *optional* bought combo. Three compared options:
+
+| build | decap (one opp) | table (all three) | note |
+|---|---|---|---|
+| base free (no buy) | median **T6** | median **T11** | voltron+drain grind |
+| + Ashnod's Altar | median **T6** | median **T11** | *no change* |
+
+**The headline: adding Ashnod's Altar does NOT speed the deck.** The `Nim Deathmantle + Dread Drone + Ashnod's Altar` infinite is real, but it's **3 singletons with almost no tutors → assembles <3% of games by T16** (combo-availability mode). So the €5/donor piece is a *win-more*, not a clock upgrade — to make it matter you'd need combo *consistency* (tutors / a 2nd altar / Buried Alive-style setup), which is a bigger rebuild.
+
+**Caveats (this is a ceiling, per the verification rule):** the **decap** clock is optimistic — goldfish combat is unblocked and it assumes opponents feed Yahenni ~1.5 creature-deaths/turn via our removal (the counter-accrual rate is the dominant assumption; the `sweep` mode shows decap median T6 @1.5 → T7 @1.0). **Table T11 is the more honest "win the game" number** (sequential voltron + a flat drain chip; the drain axis isn't fully modelled, so real grind may differ). No opponent interaction/removal-on-Yahenni modelled.
+
+**Ashnod's Altar is owned but LOCKED in `zero-sum-game`** (own 1, deployed 1 → not free). The combo variant `decks/considering/war-of-attrition-owned-ashnod-20260717.txt` therefore needs a Zero-Sum pull *or* a 2nd copy (~€5, price unverified).
+
+**Recommendation from the lab:** run the **base free build** — it's the same clock without spending or cannibalising. Only chase the combo if you're willing to add real tutor density (a separate build).
 
 ---
 
