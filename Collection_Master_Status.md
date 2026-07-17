@@ -5,6 +5,11 @@ Cross-deck collection rollup — what's owned, deployed, and shared across decks
 Last updated: **2026-07-11 (real DeckSafe run, 17 decks).**
 Source: `collection/moxfield_haves_2026-07-11-0716Z.csv` — DeckSafe run against the 17 active digitized decks.
 
+> **2026-07-17 — Mass Production physical assembly caught 4 PHANTOM CSV copies.** Angel of Invention,
+> Avenger of Zendikar, Birds of Paradise, Skyclave Apparition: the CSV claims a free spare, the physical pull
+> found none (all real copies sleeved in other decks). **Moxfield counts need correcting.** Swapped for
+> Akroma's Will, Akroma's Memorial, Ilysian Caryatid, Stroke of Midnight (all free-verified); new ground truth
+> `decks/mass-production-owned-20260717.txt`; clock medians held T7/T10 (re-labbed).
 > **2026-07-11 (later) — Mass Production (Baylen) built + promoted: a NEW 17th seat, no retirement.**
 > **Mass Production** (Baylen, the Haymaker, Naya go-wide tokens, 15/20) is **built and promoted to the roster** —
 > `decks/mass-production-owned-20260711.txt`, **DeckSafe-verified 100% owned with ZERO contention** (built

@@ -10,10 +10,10 @@
 | **Bracket** | 3 by GC count (2/3). No infinites in this build (the Broodscale combo lives in the archived premium draft). |
 | **Game Changers** | Smothering Tithe, Survival of the Fittest (2 of 3) |
 | **Conversion Check** | **15/20 (B)** · self-assessed 2026-07-11 (not yet framework-audited) |
-| **Kill Window** | Clock: **T7 decap / T10 table (board)** (lab 2026-07-11, `mp_clock_lab.py`) · through interaction slower *(unverified)* |
-| **Status** | **ACTIVE ROSTER — promoted 2026-07-11** (17th seat, no retirement) — ground truth `decks/mass-production-owned-20260711.txt` |
+| **Kill Window** | Clock: **T7 decap / T10 table (board)** (lab 2026-07-17, `mp_clock_lab.py`) · through interaction slower *(unverified)* |
+| **Status** | **ACTIVE ROSTER — promoted 2026-07-11** (17th seat, no retirement) — ground truth `decks/mass-production-owned-20260717.txt` |
 
-**Every card is owned and free** — zero contention with the 16 active decks (verified vs the 2026-07-11 Moxfield CSV + all deployed lists). The premium draft (Craterhoof/Purphoros/Broodscale, ~25 contended cards) is archived at `archive/old_decklists/mass-production-20260711.txt`; it measured **identical** on clock and wipe-recovery, so the owned list is the keeper.
+**Every card is owned and free** — zero contention with the 16 active decks (verified vs the 2026-07-11 Moxfield CSV + all deployed lists). The premium draft (Craterhoof/Purphoros/Broodscale, ~25 contended cards) is archived at `archive/old_decklists/mass-production-20260711.txt`; it measured **identical** on clock and wipe-recovery, so the owned list is the keeper. **2026-07-17:** physical assembly caught 4 phantom CSV copies (Angel of Invention, Avenger of Zendikar, Birds of Paradise, Skyclave Apparition — every real copy sleeved elsewhere); swapped for Akroma's Will, Akroma's Memorial, Ilysian Caryatid, Stroke of Midnight. Clock medians held.
 
 -----
 
@@ -30,13 +30,13 @@ Baylen is a **value/mana engine, not a combo linchpin** — the kills run throug
 
 ## What the Deck Does
 
-The deck exploits **creature tokens as a fungible resource** and multiplies it. Twenty-two token producers — mass spells (Hop to It, Battle Screech, Awaken the Woods, Decree of Justice, Forth Eorlingas!, The Crystal's Chosen, Gather the White Lotus) and per-turn engines (Scute Swarm, Avenger of Zendikar, Rampaging Baloths, Felidar Retreat, God-Eternal Oketra, Hanweir Garrison, Tendershoot-class drips) — feed three token **doublers** (Doubling Season, Parallel Lives, Elspeth Storm Slayer) and the **Ojer Taq tripler**, which stack multiplicatively. Baylen converts the wide board into mana and cards; Cathars' Crusade, Rosie Cotton, Elesh Norn and the counter-doublers convert it into stats; a redundant Overrun cluster (Blossoming Bogbeast, Legion Loyalty, Jazal Goldmane, Salvation Colossus) converts it into a one-turn table swing. It is a fast, smooth, rebuildable swarm — measured, not hoped: decap T7 / table T10, 1.88 mean dead turns, +2 turns to recover from a wrath.
+The deck exploits **creature tokens as a fungible resource** and multiplies it. Twenty token producers — mass spells (Hop to It, Battle Screech, Awaken the Woods, Decree of Justice, Forth Eorlingas!, The Crystal's Chosen, Gather the White Lotus) and per-turn engines (Scute Swarm, Rampaging Baloths, Felidar Retreat, God-Eternal Oketra, Hanweir Garrison, Tendershoot-class drips) — feed three token **doublers** (Doubling Season, Parallel Lives, Elspeth Storm Slayer) and the **Ojer Taq tripler**, which stack multiplicatively. Baylen converts the wide board into mana and cards; Cathars' Crusade, Rosie Cotton, Elesh Norn and the counter-doublers convert it into stats; a redundant Overrun cluster (Blossoming Bogbeast, Legion Loyalty, Jazal Goldmane, Salvation Colossus) converts it into a one-turn table swing. It is a fast, smooth, rebuildable swarm — measured, not hoped: decap T7 / table T10, 1.88 mean dead turns, +2 turns to recover from a wrath.
 
 -----
 
 ## Kill Lines
 
-**Line 1 — Overrun alpha (primary, board):** Go wide, then swing with a pump: **Jazal Goldmane** ({3}{W}{W}: attackers +X/+X where X = attacker count — quadratic), **Blossoming Bogbeast** (attack trigger: team trample +X/+X), **Salvation Colossus** (+2/+2 + indestructible on attack), or **Elesh Norn** (+2/+2 / opponents −2/−2, strips their token blockers). Redundant pieces, same mechanism: sorcery-speed combat, fog/wrath-answerable.
+**Line 1 — Overrun alpha (primary, board):** Go wide, then swing with a pump: **Jazal Goldmane** ({3}{W}{W}: attackers +X/+X where X = attacker count — quadratic), **Blossoming Bogbeast** (attack trigger: team trample +X/+X), **Salvation Colossus** (+2/+2 + indestructible on attack), or **Elesh Norn** (+2/+2 / opponents −2/−2, strips their token blockers). **Akroma's Will** (both modes with Baylen out) turns the alpha lethal-plus-protected — flying + double strike + indestructible; **Akroma's Memorial** makes every later token batch haste in flying. Redundant pieces, same mechanism: combat, fog/wrath-answerable.
 
 **Line 2 — Myriad table-wide (Legion Loyalty):** All creatures gain myriad — each attacker replicates at *every* opponent, so one alpha hits the whole table at once instead of focus-firing. Converges the table clock; the copies are still blockable ground tokens.
 
@@ -48,7 +48,7 @@ The deck exploits **creature tokens as a fungible resource** and multiplies it. 
 
 ## Kill Window
 
-- **Goldfish:** Clock **T7 decap / T10 table (board)** (lab 2026-07-11, `scripts/mp_clock_lab.py`, 20k trials; evidence `analysis/Mass_Production_Clock_Lab_2026-07-11.md`). Identical to the archived premium draft — the doubler+swarm engine drives the clock, not the premium finishers.
+- **Goldfish:** Clock **T7 decap / T10 table (board)** (lab 2026-07-17 post-Akroma-swap, `scripts/mp_clock_lab.py`, 20k trials; evidence `analysis/Mass_Production_Clock_Lab_2026-07-11.md` + addendum). Medians identical to both prior lists; the 07-17 swap thins the tails slightly (P(decap≤T7) 62→56%, P(table≤T10) 71→63%) — the doubler+swarm engine drives the clock, not any single producer.
 - **Through interaction:** slower *(unverified — goldfish has no blockers/wipes)*. Measured proxies: a T6 wrath slips the table clock to T12 (+2); vs the Ur-Dragon *blocking* board, P(win) ≈ **50%** (vs-dragon roster lab, 2026-07-11 — best of the roster's nine combat-axis decks, but well behind the drain decks' 57–99%).
 - **Wipe recovery (measured):** +2 turns @ T6 wrath, +3 @ T8, +4 after a double wrath (`--mode wipe`).
 
@@ -62,8 +62,8 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 |---|---|---|
 | **Core Loop** | **5/5** | 22 token makers + 4 doublers/tripler + 2 counter-doublers serve one machine; immediately recognizable, highly redundant. |
 | **Kill Reliability** | **4/5** | Fast (decap T7 measured) with redundant, card-independent finishers — but they share ONE mechanism (combat), so the redundancy is in pieces, not axes. |
-| **Durability** | **3/5** | Measured: +2/+3 turn recovery from a wrath; cheap redundant rebuilds + surviving enchantment doublers; but no protection = a timely sweeper still costs the race. |
-| **Interaction** | **3/5** | 9 pieces (7 removal + 2 team protection), ~85% instant-speed, mechanism-diverse removal — but zero stack interaction and zero proactive statics (delay_lab: 48% answer T7 → 5% under Abolisher). |
+| **Durability** | **3/5** | Measured: +2/+3 turn recovery from a wrath; cheap redundant rebuilds + surviving enchantment doublers; three protection instants (Akroma's Will added 07-17) blunt the sweeper tax the lab can't model. |
+| **Interaction** | **3/5** | 10 pieces (7 removal + 3 team protection), all instant-speed after the 07-17 swap — but zero stack interaction and zero proactive statics (delay_lab: 48% answer T7 → 5% under Abolisher, pre-swap; Stroke-for-Skyclave is strictly faster, not re-run). |
 
 **Reading:** Solid B. The limiting structure is **axis-monotony** (everything is combat) — priced at 50% vs a blocking wall and 5% disruption under Abolisher, both measured.
 
@@ -71,20 +71,20 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 
 ## Durability
 
-**Measured** (`mp_clock_lab.py --mode wipe`): a creature wrath slips the table clock **+2 turns @ T6, +3 @ T8** (T10 → T12/T13); a double wrath +4 with ~45% never-table-in-14. The token base is cheap and redundant (Hop to It, Battle Screech flashback, Awaken, Decree cycling, Rally, Group-Project-class refills), the doublers are enchantments/artifacts that **survive the wrath**, and Baylen refills cards off whatever rebuilds. God-Eternal Oketra re-buries itself; Ojer Taq returns as a land; Survival of the Fittest finds the right body. Hold **Heroic Intervention / Flawless Maneuver** against a known sweeper. Pod-overlay read (temporary 17th-seat wiring, 2026-07-11): **#5 of 17** on both `self_meta_lab` (durability 0.79, never-table 3%) and `interaction_meta_lab` (Δ only −2 under the interaction tax) — measured as durable and interaction-robust, not a glass cannon.
+**Measured** (`mp_clock_lab.py --mode wipe`): a creature wrath slips the table clock **+2 turns @ T6, +3 @ T8** (T10 → T12/T13); a double wrath +4 with ~45% never-table-in-14. The token base is cheap and redundant (Hop to It, Battle Screech flashback, Awaken, Decree cycling, Rally, Group-Project-class refills), the doublers are enchantments/artifacts that **survive the wrath**, and Baylen refills cards off whatever rebuilds. God-Eternal Oketra re-buries itself; Ojer Taq returns as a land; Survival of the Fittest finds the right body. Hold **Heroic Intervention / Flawless Maneuver / Akroma's Will** against a known sweeper (Will's second mode is a full wrath-blank the wipe lab cannot credit — its modelled wraths always resolve). Pod-overlay read (temporary 17th-seat wiring, 2026-07-11): **#5 of 17** on both `self_meta_lab` (durability 0.79, never-table 3%) and `interaction_meta_lab` (Δ only −2 under the interaction tax) — measured as durable and interaction-robust, not a glass cannon.
 
 -----
 
 ## Interaction Package
 
-**9 pieces total.** Removal: 7 — Swords to Plowshares, Path to Exile, Generous Gift, Beast Within, Skyclave Apparition, Zuko's Exile, Battle Menu (modal). Counters: 0 (off-color). Protection: Heroic Intervention, Flawless Maneuver (free). Instant speed: ~85%. Measured availability (delay_lab): 48% hold-an-answer on the pod's T7 — **collapsing to 5% under Grand Abolisher** (no statics, no own-turn locks).
+**10 pieces total.** Removal: 7 — Swords to Plowshares, Path to Exile, Generous Gift, Beast Within, Stroke of Midnight, Zuko's Exile, Battle Menu (modal). Counters: 0 (off-color). Protection: Heroic Intervention, Flawless Maneuver (free), Akroma's Will. Instant speed: 100%. Measured availability (delay_lab, pre-swap spec): 48% hold-an-answer on the pod's T7 — **collapsing to 5% under Grand Abolisher** (no statics, no own-turn locks). The 07-17 Stroke-for-Skyclave swap makes the suite strictly faster (instant vs ETB body); not re-run.
 
 -----
 
 ## Known Weaknesses
 
 - **Single kill axis (combat).** 99% of first-kills are combat (lab mixture). Fogs, chump walls, and flying blockers all tax it: vs the Ur-Dragon fair board it is a **50% matchup** (best of the combat decks, but the drain decks sit 57–99%). The archived premium draft's burn/combo axes are the known fix if this ever needs to change.
-- **Wipe-sensitive (measured, not fatal).** +2–3 turns per wrath; two wraths ≈ half the games never table in 14.
+- **Wipe-sensitive (measured, not fatal).** +2–3 turns per wrath; two wraths ≈ half the games never table in 14. Akroma's Will (07-17) is the counterplay the model can't see — held with 4 mana up, one wrath per game simply doesn't resolve profitably.
 - **Nothing under Abolisher.** All answers are spells; a resolved Grand Abolisher on the combo player's turn blanks the whole suite (5% measured). We race instead — decap T7 is the plan.
 - **Hellbent late.** Flow model: 30% hellbent by T8 (deploy-all upper bound; Baylen's tap-3 draw isn't in that model, so reality is a bit better — but the deck does dump its hand).
 
@@ -98,7 +98,10 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - **Blossoming Bogbeast** — X = life gained **this turn**; its own attack trigger banks 2 first, so the floor is team +2/+2 + trample every attack.
 - **Elesh Norn** — only *opponents'* creatures get −2/−2; she erases their 2-toughness blockers (and opposing token swarms) while pumping ours.
 - **The Crystal's Chosen / Cathars' Crusade counters** — doubled by Branching Evolution / The Earth Crystal / Doubling Season; counters put on entering creatures count as "put" for the doublers.
-- **Skyclave Apparition** — exiles a nonland, *nontoken* permanent MV ≤ 4; their Illusion comes back sized to the exiled card's MV.
+- **Akroma's Will** — controlling **any** commander as you cast it lets you choose **both** modes; once announced, opponents cannot respond before modes are locked. Indestructible + protection from each color blanks nearly every wrath; flying + double strike is usually lethal math on an already-wide board.
+- **Akroma's Memorial** — protection from red **prevents** red damage sources: Blasphemous Act does nothing to your team. Haste means Ojer-multiplied token batches attack the turn they enter. It grants no stats — it converts width to speed, not size.
+- **Ilysian Caryatid** — taps for **two** of any one color while you control a power-4 creature; Baylen (4/3) turns it on by himself.
+- **Stroke of Midnight** — any *nonland* permanent, instant speed; their 1/1 Human consolation token is irrelevant here.
 
 -----
 
@@ -117,10 +120,9 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - Branching Evolution
 - The Earth Crystal
 
-### Token makers — engines & mass (22)
+### Token makers — engines & mass (20)
 - Esika's Chariot
 - Scute Swarm
-- Avenger of Zendikar
 - Rampaging Baloths
 - Nesting Dragon
 - Felidar Retreat
@@ -129,7 +131,6 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - Hanweir Garrison
 - Oviya Pashiri, Sage Lifecrafter
 - Suki, Kyoshi Warrior
-- Angel of Invention
 - Herald of the Host
 - Hop to It
 - Awaken the Woods
@@ -149,11 +150,12 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - Elesh Norn, Grand Cenobite
 - Colossus of the Blood Age
 
-### Finishers — overrun & myriad (4)
+### Finishers — overrun & myriad (5)
 - Blossoming Bogbeast
 - Legion Loyalty
 - Salvation Colossus
 - Jazal Goldmane
+- Akroma's Memorial
 
 ### Card draw (4)
 - Guardian Project
@@ -161,22 +163,23 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - Tempt with Bunnies
 - Harmonize
 
-### Removal & protection (9)
+### Removal & protection (10)
 - Swords to Plowshares
 - Path to Exile
 - Generous Gift
 - Beast Within
-- Skyclave Apparition
+- Stroke of Midnight
 - Zuko's Exile
 - Battle Menu
 - Heroic Intervention
 - Flawless Maneuver
+- Akroma's Will
 
 ### Ramp (11)
 - Sol Ring
 - Arcane Signet
 - Fellwar Stone
-- Birds of Paradise
+- Ilysian Caryatid
 - Elvish Mystic
 - Cultivate
 - Kodama's Reach
@@ -234,3 +237,4 @@ Scored from the list per `reference/REF_The_Conversion_Check.md`. Four judged ax
 - **2026-07-11:** Walking Ballista lever test **FLAT** (clock/wipe unchanged, ping 1%, no new combos) — dropped; Battle Menu keeps the slot.
 - **2026-07-11:** **Owned list promoted to keeper.** Premium draft archived (`archive/old_decklists/mass-production-20260711.txt`); lab repointed; `mass-production` added to `EXTRA_COMMANDERS`. New measurements: **vs Ur-Dragon blocking board 50%** (best of 9 combat-axis decks; sweep-stable 34–67%); **flow 1.88 mean dead turns, 99.2% keepable** (deck_sim --flow). Summary rewritten to the owned list as ground truth.
 - **2026-07-11:** **PROMOTED to the active roster** (17th seat, no retirement) per `WF_New_Deck` Stages 3–7: registry `DECKS` row + `KILL_TREES`; pod_gauntlet CLOCKS + PROTECT 0.15; delay_lab suite (48% T7 → 5% under Abolisher); framework_bakeoff oracles (pod 57 / self-meta 31 / interaction 29); clock_check + golden snapshot; keep_specs. Harvested: **pod gauntlet P(win) 57% — #4/17**; **vs Ur-Dragon 51%** (@40k, PROTECT credited).
+- **2026-07-17:** **Akroma swap** — physical assembly caught 4 phantom Moxfield copies (every real Angel of Invention / Avenger of Zendikar / Birds of Paradise / Skyclave Apparition already sleeved in other decks; CSV counts to be corrected). Out: those 4. In: **Akroma's Will** (3rd protection instant + double-strike finisher mode), **Akroma's Memorial** (team haste/flying; pro-red blanks Blasphemous Act), **Ilysian Caryatid** (2-mana any-color, taps for 2 with Baylen), **Stroke of Midnight** (instant, any nonland permanent). Re-labbed @20k: **medians hold T7/T10**; tails −6pp @T7 decap; modelled wipe never-table worsens 12→17% *but the model's wraths always resolve — Will exists to prevent exactly that (unmodelled)*. Ground truth `mass-production-owned-20260717.txt`; prior list archived. Pod-overlay oracles (P(win) 57%, self-meta, delay_lab) NOT re-harvested — carry small unquantified drift.

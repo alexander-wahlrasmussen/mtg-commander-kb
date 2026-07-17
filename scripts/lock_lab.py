@@ -139,7 +139,7 @@ CATALOG = {
 # candidate (its whole pitch is the one anti-Abolisher lock-kill; it is not in the active
 # gauntlet but is the deck this model most illuminates).
 DECKS = {
-    "mass_production":     "decks/mass-production-owned-20260711.txt",
+    "mass_production":     "decks/mass-production-owned-20260717.txt",
     "genome_project":     "decks/the-genome-project-20260510.txt",
     "radiation_sickness": "decks/radiation-sickness-20260707.txt",
     "replication_crisis": "decks/the-replication-crisis-20260630.txt",

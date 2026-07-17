@@ -926,24 +926,24 @@
         "line_id": "harvested",
         "kind": "combat",
         "decap": [
-          7,
-          28,
-          60,
-          81,
-          91,
-          95,
+          6,
+          25,
+          56,
+          78,
+          89,
+          94,
           99,
           100
         ],
         "table": [
           0,
           1,
-          7,
-          23,
-          47,
-          68,
-          90,
-          97
+          6,
+          20,
+          42,
+          63,
+          87,
+          96
         ],
         "med": [
           "T7",
@@ -951,10 +951,10 @@
         ],
         "never": [
           0,
-          3
+          4
         ],
         "disablers": [],
-        "note": "single harvested pod_gauntlet line (lab mp_clock_lab @20k on mass-production-owned-20260711.txt (go-wide swarm; promoted 2026-07-11)); not yet split into per-line CDFs"
+        "note": "single harvested pod_gauntlet line (lab mp_clock_lab @20k on mass-production-owned-20260717.txt (go-wide swarm; Akroma swap 2026-07-17)); not yet split into per-line CDFs"
       }
     ]
   }

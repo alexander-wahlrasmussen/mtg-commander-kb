@@ -261,3 +261,30 @@ Read: a smooth deck — near-universal keeps, a play in ≥96% of turns from T3,
 closer to the roster's smooth end than its clunky end. The one flow risk is late-game hand
 exhaustion, which is exactly what Baylen's tap-3-tokens draw (unmodelled by deck_sim's
 generic flow pass) exists to patch — treat the 30–41% hellbent numbers as a worst case.
+
+-----
+
+## ADDENDUM 2026-07-17 — Akroma swap re-run (`mass-production-owned-20260717.txt`)
+
+Physical assembly caught **4 phantom Moxfield copies** — Angel of Invention, Avenger of
+Zendikar, Birds of Paradise, Skyclave Apparition all read "1 free" in the CSV while every
+real copy is sleeved in another deck. Swapped for **Akroma's Will** (Angel's slot),
+**Akroma's Memorial** (Avenger's 7-cmc slot), **Ilysian Caryatid** (Birds' slot),
+**Stroke of Midnight** (Skyclave's slot). All four free-verified (`free_pool.py --check`,
+self-exclusion bug fixed same day); GC stays 2/3.
+
+Re-run @20k, seed 20260711, same grid:
+
+| list | decap CDF T5–14 | table CDF T5–14 | med | never-table |
+|---|---|---|---|---|
+| 20260711 (pre-swap) | 8 / 30 / 62 / 83 / 92 / 96 / 99 / 100 | 0 / 1 / 8 / 24 / 49 / 71 / 91 / 97 | T7 / T10 | 3% |
+| **20260717 (Akroma)** | 6 / 25 / 56 / 78 / 89 / 94 / 99 / 100 | 0 / 1 / 6 / 20 / 42 / 63 / 87 / 96 | **T7 / T10** | 4% |
+
+**Medians HOLD.** Tails thin ~4–8pp (two token producers left the engine). Wipe mode:
+never-table worsens (12→17% @T6, 21→29% @T8, 44→52% double-wrath) — **but the model's
+wraths always resolve; it cannot hold Akroma's Will**, whose indestructible+protection
+mode blanks a creature wrath outright. The lab also credits nothing for Memorial's team
+haste (tokens attack the turn they enter) or Will's double-strike alpha. Treat the modelled
+wipe worsening as the floor and the protection upside as real but unmodelled — the swap is
+clock-neutral on medians with a qualitative resilience trade (engine tails ↓, wrath
+counterplay ↑). Pod-overlay oracles (gauntlet 57%, self-meta, delay_lab) NOT re-harvested.

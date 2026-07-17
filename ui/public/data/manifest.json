@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-11 18:58",
+  "generated": "2026-07-18 00:02",
   "clocks": true,
   "gauntlet": {
     "pod": [
@@ -86,6 +86,7 @@
     "collection": true,
     "tierlist": true,
     "doctor": true,
+    "autobrew": true,
     "decks": [
       "dark_lords_army",
       "lightning_war",
@@ -104,8 +105,7 @@
       "creative_destruction",
       "mass_production",
       "eldrazi_stampede"
-    ],
-    "autobrew": true
+    ]
   },
   "matchup": {
     "strict": [

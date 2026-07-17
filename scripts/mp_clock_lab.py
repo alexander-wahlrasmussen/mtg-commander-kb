@@ -67,7 +67,10 @@ ds = slc.ds
 
 # The OWNED zero-contention list is the keeper (2026-07-11); the premium draft lives in
 # archive/old_decklists/mass-production-20260711.txt and stays runnable via --deck <path>.
-DECK = ROOT / "decks" / "mass-production-owned-20260711.txt"
+# 2026-07-17 Akroma swap (4 phantom-CSV cards: -Angel of Invention -Avenger of Zendikar
+# -Birds of Paradise -Skyclave Apparition, +Akroma's Will +Akroma's Memorial +Ilysian
+# Caryatid +Stroke of Midnight): medians held T7/T10 @20k; prior list archived.
+DECK = ROOT / "decks" / "mass-production-owned-20260717.txt"
 SEED = 20260711
 TURNS = 14
 SHOW = [5, 6, 7, 8, 9, 10, 12, 14]
@@ -493,7 +496,7 @@ def _run(index, aliases, trials, use_combo, title, deck=None):
 
 def mode_clock(index, aliases, trials, deck=None):
     _run(index, aliases, trials, use_combo=True, title="kill-turn goldfish (all lines)", deck=deck)
-    print("\n  Primary claim '~T8/~T10'; owned variant: run --deck mass-production-owned-20260711.")
+    print("\n  Primary claim 'T7/T10'; prior lists stay runnable via --deck archive/old_decklists/....")
 
 
 def mode_nocombo(index, aliases, trials, deck=None):

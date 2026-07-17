@@ -266,9 +266,9 @@ CLOCKS = {
         name="Mass Production", score="15", disrupt_class="none",
         lab=("mp_clock_lab", "clock"), sel=("decap (one opponent", "table (all three)"),
         grid=[5, 6, 7, 8, 9, 10, 12, 14],
-        decap=[7, 28, 60, 81, 91, 95, 99, 100], table=[0, 1, 7, 23, 47, 68, 90, 97],
-        med=("T7", "T10"), never=(0, 3),
-        src="lab mp_clock_lab @20k on mass-production-owned-20260711.txt (go-wide swarm; promoted 2026-07-11)"),
+        decap=[6, 25, 56, 78, 89, 94, 99, 100], table=[0, 1, 6, 20, 42, 63, 87, 96],
+        med=("T7", "T10"), never=(0, 4),
+        src="lab mp_clock_lab @20k on mass-production-owned-20260717.txt (go-wide swarm; Akroma swap 2026-07-17)"),
     "genome_project": dict(
         name="The Genome Project", score="15", disrupt_class="warn",
         lab=("gp_clock_lab", "clock"), sel=("decap", "table"),

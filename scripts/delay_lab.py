@@ -463,7 +463,7 @@ MASS_PRODUCTION = _A(  # Baylen (Naya go-wide, promoted 2026-07-11) — targeted
     ("Beast Within",         ({"R", "P"}, 3, {"ios"})),
     ("Battle Menu",          ({"R", "P"}, 2, {"ios"})),   # modal: destroy power-4+ creature (conditional)
     ("Zuko's Exile",         ({"R", "P"}, 5, {"ios"})),   # instant exile art/crea/ench
-    ("Skyclave Apparition",  ({"P"}, 3, {"crea"})))       # ETB exile MV<=4, sorcery-speed (preempt only)
+    ("Stroke of Midnight",   ({"R", "P"}, 3, {"ios"})))   # instant destroy nonland (2026-07-17 swap; was Skyclave Apparition {"P"},3,{"crea"})
 
 ROSTER = {
     "genome_project": ("the-genome-project-20260510.txt", GENOME),
@@ -482,7 +482,7 @@ ROSTER = {
     "grand_design": ("the-grand-design-20260623.txt", GRAND_DESIGN),
     "forced_liquidation": ("forced-liquidation-20260707.txt", FORCED_LIQUIDATION),
     "creative_destruction": ("creative-destruction-20260711.txt", CREATIVE),
-    "mass_production": ("mass-production-owned-20260711.txt", MASS_PRODUCTION),
+    "mass_production": ("mass-production-owned-20260717.txt", MASS_PRODUCTION),
 }
 
 

@@ -35,6 +35,10 @@ standing upgrade swap, with sourcing for each card.*
 > the premium draft double-booking Craterhoof/Purphoros/Broodscale is archived). A NEW 17th seat — no retirement.
 > Clock T7 decap / T10 table (`mp_clock_lab.py`); pod-gauntlet P(win) 57% (#4/17); vs Ur-Dragon 51% (best of the
 > combat-axis decks). Evidence: `analysis/Mass_Production_Clock_Lab_2026-07-11.md`.
+> **2026-07-17 — Mass Production Akroma swap** — assembly caught 4 phantom CSV copies (Angel of Invention /
+> Avenger / Birds / Skyclave all sleeved elsewhere; Moxfield counts to fix). In: Akroma's Will + Akroma's
+> Memorial (user-found), Ilysian Caryatid, Stroke of Midnight. Re-labbed: medians hold T7/T10. New ground
+> truth `mass-production-owned-20260717.txt`.
 > Everything below tagged "Hashaton" / "Thassa's Oracle" / "Thoracle decision" is **superseded** — kept for record only.
 
 This is a **working dashboard**, not a reference doc — it will go stale as cards are bought and
